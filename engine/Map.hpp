@@ -63,6 +63,15 @@ class Map : public QObject
         
         
         
+        /**
+         * @brief Register a processable element on the map.
+         * 
+         * @param processable The processable element to register.
+         */
+        void registerProcessable(Processable* processable);
+        
+        
+        
     protected:
         /**
          * @brief Process a single time-cycle.

@@ -16,8 +16,27 @@ class MaintenanceBuilding : public AbstractBuilding
 {
         Q_OBJECT
         
+        
+    private:
+        const int maxWalkers;
+        const int timeCycleBetweenProduction;
+        
+        int currentNumberOfWalker;
+        int timeCycleNeededBeforeProduction;
+        
+        
+        
     public:
         MaintenanceBuilding(const MapCoordinates& leftCoordinates);
+        
+        
+        
+        virtual void process();
+        
+        
+        
+    protected:
+        void generateWalker();
 };
 
 #endif // MAINTENANCEOFFICE_HPP

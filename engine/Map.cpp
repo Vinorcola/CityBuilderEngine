@@ -49,6 +49,15 @@ void Map::setSpeedRatio(const float ratio)
 
 
 
+void Map::registerProcessable(Processable* processable)
+{
+    processableList.append(processable);
+}
+
+
+
+
+
 void Map::timerEvent(QTimerEvent* /*event*/)
 {
     qDebug() << "Process a time-cycle";
