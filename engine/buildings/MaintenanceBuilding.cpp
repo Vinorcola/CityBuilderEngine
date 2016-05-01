@@ -8,10 +8,9 @@
 
 
 
-MaintenanceBuilding::MaintenanceBuilding(const MapCoordinates& leftCoordinates) :
-    AbstractBuilding(MapArea(leftCoordinates, MapSize(2)), 5, 2),
+MaintenanceBuilding::MaintenanceBuilding(Map* map, const MapCoordinates& leftCoordinates) :
+    AbstractBuilding(map, MapArea(leftCoordinates, MapSize(2)), 5, 2),
     timeCycleBetweenWalkerProductions(5),
-    currentNumberOfWalker(getCurrentNumberOfWalkers()),
     timeCycleNeededBeforeProduction(-1)
 {
     
@@ -37,7 +36,7 @@ void MaintenanceBuilding::process()
     else
     {
         // No walker are in generation process, let's check if we can generate one.
-        if (currentNumberOfWalker < getMaxNumberOfWalkers())
+        if (getCurrentNumberOfWalkers() < getMaxNumberOfWalkers())
         {
             timeCycleNeededBeforeProduction = timeCycleBetweenWalkerProductions;
         }
@@ -50,6 +49,6 @@ void MaintenanceBuilding::process()
 
 void MaintenanceBuilding::generateWalker()
 {
-    qDebug() << "Generate a walker.";
-    currentNumberOfWalker = registerWalker(new RandomlyWalker);
+    qDebug() << "  - Generate a walker.";
+    registerWalker(new RandomlyWalker(map, 10));
 }

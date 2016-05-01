@@ -19,13 +19,12 @@ class MaintenanceBuilding : public AbstractBuilding
     private:
         const int timeCycleBetweenWalkerProductions;
         
-        int currentNumberOfWalker;
         int timeCycleNeededBeforeProduction;
         
         
         
     public:
-        MaintenanceBuilding(const MapCoordinates& leftCoordinates);
+        MaintenanceBuilding(Map* map, const MapCoordinates& leftCoordinates);
         
         
         

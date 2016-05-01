@@ -14,6 +14,7 @@ SOURCES += \
     engine/characters/AbstractCharacter.cpp \
     engine/characters/RandomlyWalker.cpp \
     engine/Map.cpp \
+    engine/Processable.cpp \
     exceptions/EngineException.cpp \
     exceptions/OutOfRangeException.cpp \
     global/MapElement.cpp \

@@ -2,17 +2,23 @@
 
 #include <QDebug>
 
+#include "engine/buildings/AbstractBuilding.hpp"
+#include "engine/characters/AbstractCharacter.hpp"
+
 
 
 
 
 Map::Map(const QSize size) :
     QObject(),
+    cyclePerSecondBase(1), // 75,
+    numberOfCycleBetweenCleans(cyclePerSecondBase * 3),
     size(size),
     processableList(),
-    cyclePerSecondBase(1), // 75
+    buildingList(),
     cycleRatio(1),
-    cycleClock()
+    cycleClock(),
+    numberOfCyclesElapsed(0)
 {
     cycleClock.start(MSEC_PER_SEC / (cyclePerSecondBase * cycleRatio), this);
 }
@@ -49,9 +55,35 @@ void Map::setSpeedRatio(const float ratio)
 
 
 
-void Map::registerProcessable(Processable* processable)
+void Map::registerBuilding(AbstractBuilding* building)
 {
-    processableList.append(processable);
+    // TODO: Check if building area is valid.
+    processableList.append(building);
+    buildingList.append(building);
+}
+
+
+
+
+
+void Map::registerCharacter(AbstractCharacter* character)
+{
+    processableList.append(character);
+}
+
+
+
+
+
+void Map::removeProcessable(Processable* processable)
+{
+    processableList.removeAt(processableList.indexOf(processable));
+    
+    AbstractBuilding* building(dynamic_cast<AbstractBuilding*>(processable));
+    if (building != nullptr)
+    {
+        buildingList.removeAt(buildingList.indexOf(building));
+    }
 }
 
 
@@ -60,10 +92,20 @@ void Map::registerProcessable(Processable* processable)
 
 void Map::timerEvent(QTimerEvent* /*event*/)
 {
-    qDebug() << "Process a time-cycle";
+    qDebug() << "Process time-cycle" << numberOfCyclesElapsed;
+    
+    if (numberOfCyclesElapsed % numberOfCycleBetweenCleans == 0)
+    {
+        qDebug() << "  - Cleaning";
+        for (auto building : buildingList)
+        {
+            building->clean();
+        }
+    }
     
     for (auto processable : processableList)
     {
         processable->process();
     }
+    ++numberOfCyclesElapsed;
 }

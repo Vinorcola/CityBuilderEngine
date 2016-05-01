@@ -13,8 +13,7 @@ int main(int argc, char* argv[])
     
     Map map({ 30, 30 });
     
-    MaintenanceBuilding* building1(new MaintenanceBuilding({ 10, 10 }));
-    map.registerProcessable(building1);
+    new MaintenanceBuilding(&map, { 10, 10 });
     
     return a.exec();
 }

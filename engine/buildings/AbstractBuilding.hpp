@@ -25,7 +25,7 @@ class AbstractBuilding : public Processable
         const MapArea location;
         
         int currentNumberOfWorkers;
-        QList<AbstractCharacter*> currentWalkers;
+        QList<AbstractCharacter*> walkerList;
         
         
         
@@ -36,7 +36,7 @@ class AbstractBuilding : public Processable
          * @param location The area covered by the building.
          * @param maxNumberOfWorkers The max number of people the building can employ.
          */
-        AbstractBuilding(const MapArea& location, const int maxNumberOfWorkers, const int maxNumberOfWalkers);
+        AbstractBuilding(Map* map, const MapArea& location, const int maxNumberOfWorkers, const int maxNumberOfWalkers);
         
         
         
@@ -78,16 +78,24 @@ class AbstractBuilding : public Processable
         
         
         
+        /**
+         * @brief Clean the building.
+         * 
+         * Mainly clear any dead walker associated to the building.
+         */
+        void clean();
+        
+        
+        
     protected:
         /**
          * @brief Register a walker created by the building.
          * 
          * This method must be used by children classes when they generate a new walker.
          * 
-         * @param walker
-         * @return The new number of walkers.
+         * @param walker The walker to register.
          */
-        int registerWalker(AbstractCharacter* walker);
+        void registerWalker(AbstractCharacter* walker);
 };
 
 #endif // BUILDING_HPP

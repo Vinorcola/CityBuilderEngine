@@ -11,8 +11,27 @@ class AbstractCharacter : public Processable
 {
         Q_OBJECT
         
+    private:
+        bool alive;
+        
+        
+        
     public:
-        AbstractCharacter();
+        AbstractCharacter(Map* map);
+        
+        
+        
+        /**
+         * @brief Indicate if the character is alive or not.
+         */
+        bool isAlive() const;
+        
+        
+        
+        /**
+         * @brief Kill the character.
+         */
+        void kill();
 };
 
 #endif // CHARACTER_HPP

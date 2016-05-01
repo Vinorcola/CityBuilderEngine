@@ -11,8 +11,13 @@ class RandomlyWalker : public AbstractCharacter
 {
         Q_OBJECT
         
+    private:
+        int lifePoints;
+        
+        
+        
     public:
-        RandomlyWalker();
+        RandomlyWalker(Map* map, const int lifeTime);
         
         
         

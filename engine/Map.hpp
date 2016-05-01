@@ -1,12 +1,16 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include <QVector>
-#include <QSize>
 #include <QBasicTimer>
+#include <QObject>
+#include <QSize>
+#include <QVector>
 
-#include "engine/Processable.hpp"
 #include "global/MapElement.hpp"
+
+class AbstractBuilding;
+class AbstractCharacter;
+class Processable;
 
 const float MSEC_PER_SEC(1000);
 
@@ -31,12 +35,15 @@ class Map : public QObject
         Q_OBJECT
         
     private:
+        const float cyclePerSecondBase;
+        const int numberOfCycleBetweenCleans;
+        
         QSize size;
         QVector<Processable*> processableList;
-        
-        const float cyclePerSecondBase;
+        QVector<AbstractBuilding*> buildingList;
         float cycleRatio;
         QBasicTimer cycleClock;
+        int numberOfCyclesElapsed;
         
         
         
@@ -64,11 +71,31 @@ class Map : public QObject
         
         
         /**
-         * @brief Register a processable element on the map.
+         * @brief Register a building on the map.
          * 
-         * @param processable The processable element to register.
+         * @param building The building to register.
          */
-        void registerProcessable(Processable* processable);
+        void registerBuilding(AbstractBuilding* building);
+        
+        
+        
+        /**
+         * @brief Register a character on the map.
+         * 
+         * @param character The character to register.
+         */
+        void registerCharacter(AbstractCharacter* character);
+        
+        
+        
+        /**
+         * @brief Remove the processable from the map.
+         * 
+         * @note The element is removed from the map, but not deleted. Please take care to delete it.
+         * 
+         * @param processable The processable element to remove.
+         */
+        void removeProcessable(Processable* processable);
         
         
         

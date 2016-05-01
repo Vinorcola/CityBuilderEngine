@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "engine/Map.hpp"
+
 
 
 
@@ -20,11 +22,14 @@ class Processable : public QObject
 {
         Q_OBJECT
         
+    protected:
+        Map* const map;
+        
+        
+        
     public:
-        /**
-         * @brief Destruct the processable element.
-         */
-        virtual ~Processable() {}
+        Processable(Map* map);
+        virtual ~Processable();
         
         
         
