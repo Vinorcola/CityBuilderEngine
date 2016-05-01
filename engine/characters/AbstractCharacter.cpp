@@ -4,9 +4,10 @@
 
 
 
-AbstractCharacter::AbstractCharacter(Map* map) :
+AbstractCharacter::AbstractCharacter(Map* map, const int speed, const int lifePoints) :
     Processable(map),
-    alive(true)
+    speed(speed),
+    lifePoints(lifePoints)
 {
     map->registerCharacter(this);
 }
@@ -17,7 +18,7 @@ AbstractCharacter::AbstractCharacter(Map* map) :
 
 bool AbstractCharacter::isAlive() const
 {
-    return alive;
+    return lifePoints > 0;
 }
 
 
@@ -26,5 +27,5 @@ bool AbstractCharacter::isAlive() const
 
 void AbstractCharacter::kill()
 {
-    alive = false;
+    lifePoints = 0;
 }

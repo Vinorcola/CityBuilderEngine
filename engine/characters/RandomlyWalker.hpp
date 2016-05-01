@@ -12,12 +12,12 @@ class RandomlyWalker : public AbstractCharacter
         Q_OBJECT
         
     private:
-        int lifePoints;
+        int walkPoints;
         
         
         
     public:
-        RandomlyWalker(Map* map, const int lifeTime);
+        RandomlyWalker(Map* map, const int walkPoints);
         
         
         

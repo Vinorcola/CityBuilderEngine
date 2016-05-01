@@ -11,13 +11,18 @@ class AbstractCharacter : public Processable
 {
         Q_OBJECT
         
+    protected:
+        const int speed;
+        
+        
+        
     private:
-        bool alive;
+        int lifePoints;
         
         
         
     public:
-        AbstractCharacter(Map* map);
+        AbstractCharacter(Map* map, const int speed, const int lifePoints);
         
         
         

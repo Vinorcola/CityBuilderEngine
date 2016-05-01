@@ -6,9 +6,9 @@
 
 
 
-RandomlyWalker::RandomlyWalker(Map* map, const int lifeTime) :
-    AbstractCharacter(map),
-    lifePoints(lifeTime)
+RandomlyWalker::RandomlyWalker(Map* map, const int walkPoints) :
+    AbstractCharacter(map, 1, 5),
+    walkPoints(walkPoints)
 {
     
 }
@@ -19,9 +19,9 @@ RandomlyWalker::RandomlyWalker(Map* map, const int lifeTime) :
 
 void RandomlyWalker::process()
 {
-    if (--lifePoints == 0)
+    if (--walkPoints == 0)
     {
-        qDebug() << "  - Walker killed!";
+        qDebug() << "  - Walk terminate, let's go back!";
         kill();
     }
 }
