@@ -2,15 +2,16 @@
 
 #include <QDebug>
 
+#include "engine/characters/RandomlyWalker.hpp"
+
 
 
 
 
 MaintenanceBuilding::MaintenanceBuilding(const MapCoordinates& leftCoordinates) :
-    AbstractBuilding(MapArea(leftCoordinates, MapSize(2)), 5),
-    maxWalkers(1),
-    timeCycleBetweenProduction(5),
-    currentNumberOfWalker(0),
+    AbstractBuilding(MapArea(leftCoordinates, MapSize(2)), 5, 2),
+    timeCycleBetweenWalkerProductions(5),
+    currentNumberOfWalker(getCurrentNumberOfWalkers()),
     timeCycleNeededBeforeProduction(-1)
 {
     
@@ -36,9 +37,9 @@ void MaintenanceBuilding::process()
     else
     {
         // No walker are in generation process, let's check if we can generate one.
-        if (currentNumberOfWalker < maxWalkers)
+        if (currentNumberOfWalker < getMaxNumberOfWalkers())
         {
-            timeCycleNeededBeforeProduction = timeCycleBetweenProduction;
+            timeCycleNeededBeforeProduction = timeCycleBetweenWalkerProductions;
         }
     }
 }
@@ -50,5 +51,5 @@ void MaintenanceBuilding::process()
 void MaintenanceBuilding::generateWalker()
 {
     qDebug() << "Generate a walker.";
-    ++currentNumberOfWalker;
+    currentNumberOfWalker = registerWalker(new RandomlyWalker);
 }

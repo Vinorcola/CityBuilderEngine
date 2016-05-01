@@ -12,6 +12,7 @@ SOURCES += \
     engine/buildings/AbstractBuilding.cpp \
     engine/buildings/MaintenanceBuilding.cpp \
     engine/characters/AbstractCharacter.cpp \
+    engine/characters/RandomlyWalker.cpp \
     engine/Map.cpp \
     exceptions/EngineException.cpp \
     exceptions/OutOfRangeException.cpp \
@@ -22,6 +23,7 @@ HEADERS += \
     engine/buildings/AbstractBuilding.hpp \
     engine/buildings/MaintenanceBuilding.hpp \
     engine/characters/AbstractCharacter.hpp \
+    engine/characters/RandomlyWalker.hpp \
     engine/Map.hpp \
     engine/Processable.hpp \
     exceptions/EngineException.hpp \

@@ -9,6 +9,8 @@
 
 class AbstractCharacter : public Processable
 {
+        Q_OBJECT
+        
     public:
         AbstractCharacter();
 };

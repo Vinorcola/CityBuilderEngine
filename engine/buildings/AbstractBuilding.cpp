@@ -4,11 +4,13 @@
 
 
 
-AbstractBuilding::AbstractBuilding(const MapArea& location, const int maxWorkers) :
+AbstractBuilding::AbstractBuilding(const MapArea& location, const int maxNumberOfWorkers, const int maxNumberOfWalkers) :
     Processable(),
-    maxWorkers(maxWorkers),
-    currentWorkers(0),
-    location(location)
+    maxNumberOfWorkers(maxNumberOfWorkers),
+    maxNumberOfWalkers(maxNumberOfWalkers),
+    location(location),
+    currentNumberOfWorkers(0),
+    currentWalkers()
 {
     
 }
@@ -17,28 +19,57 @@ AbstractBuilding::AbstractBuilding(const MapArea& location, const int maxWorkers
 
 
 
-int AbstractBuilding::getMaxWorkers() const
+int AbstractBuilding::getMaxNumberOfWorkers() const
 {
-    return maxWorkers;
+    return maxNumberOfWorkers;
 }
 
 
 
 
 
-int AbstractBuilding::getCurrentWorkers() const
+int AbstractBuilding::getMaxNumberOfWalkers() const
 {
-    return currentWorkers;
+    return maxNumberOfWalkers;
 }
 
 
 
 
 
-void AbstractBuilding::setCurrentWorkers(const int workers) throw(OutOfRangeException)
+int AbstractBuilding::getCurrentNumberOfWorkers() const
 {
-    if (workers < 0 || workers > maxWorkers)
+    return currentNumberOfWorkers;
+}
+
+
+
+
+
+int AbstractBuilding::getCurrentNumberOfWalkers() const
+{
+    return currentWalkers.size();
+}
+
+
+
+
+
+void AbstractBuilding::setCurrentNumberOfWorkers(const int numberOfWorkers) throw(OutOfRangeException)
+{
+    if (numberOfWorkers < 0 || numberOfWorkers > maxNumberOfWorkers)
     {
-        throw OutOfRangeException("Trying to set number of workers (" + QString::number(workers) + ") higher than max accepted workers (" + QString::number(maxWorkers) + ")");
+        throw OutOfRangeException("Trying to set number of workers (" + QString::number(numberOfWorkers) + ") higher than max accepted workers (" + QString::number(maxNumberOfWorkers) + ")");
     }
+    this->currentNumberOfWorkers = numberOfWorkers;
+}
+
+
+
+
+
+int AbstractBuilding::registerWalker(AbstractCharacter* walker)
+{
+    currentWalkers.append(walker);
+    return currentWalkers.size();
 }

@@ -1,6 +1,7 @@
 #ifndef BUILDING_HPP
 #define BUILDING_HPP
 
+#include "engine/characters/AbstractCharacter.hpp"
 #include "engine/Processable.hpp"
 #include "exceptions/OutOfRangeException.hpp"
 #include "global/MapElement.hpp"
@@ -19,10 +20,12 @@ class AbstractBuilding : public Processable
         Q_OBJECT
         
     private:
-        const int maxWorkers;
-        int currentWorkers;
-        
+        const int maxNumberOfWorkers;
+        const int maxNumberOfWalkers;
         const MapArea location;
+        
+        int currentNumberOfWorkers;
+        QList<AbstractCharacter*> currentWalkers;
         
         
         
@@ -31,33 +34,60 @@ class AbstractBuilding : public Processable
          * @brief Construct a new building.
          * 
          * @param location The area covered by the building.
-         * @param maxEmployees The max number of people the building can employ.
+         * @param maxNumberOfWorkers The max number of people the building can employ.
          */
-        AbstractBuilding(const MapArea& location, const int maxWorkers);
+        AbstractBuilding(const MapArea& location, const int maxNumberOfWorkers, const int maxNumberOfWalkers);
         
         
         
         /**
          * @brief Return the maximum number of employees that can work in the building.
          */
-        int getMaxWorkers() const;
+        int getMaxNumberOfWorkers() const;
+        
+        
+        
+        /**
+         * @brief Return the maximum number of walkers on the map that belongs to the building.
+         */
+        int getMaxNumberOfWalkers() const;
         
         
         
         /**
          * @brief Return the number of employees currently working in the building.
          */
-        int getCurrentWorkers() const;
+        int getCurrentNumberOfWorkers() const;
+        
+        
+        
+        /**
+         * @brief Return the number of walkers on the map that belongs to the building.
+         */
+        int getCurrentNumberOfWalkers() const;
         
         
         
         /**
          * @brief Update the current number of employees working in the building.
          * 
-         * @param workers The number of employees working.
+         * @param numberOfWorkers The number of employees working.
          * @throw OutOfRangeException The number of employees is negative or is higher than the maximum number of employees accepted in the building.
          */
-        void setCurrentWorkers(const int workers) throw(OutOfRangeException);
+        void setCurrentNumberOfWorkers(const int numberOfWorkers) throw(OutOfRangeException);
+        
+        
+        
+    protected:
+        /**
+         * @brief Register a walker created by the building.
+         * 
+         * This method must be used by children classes when they generate a new walker.
+         * 
+         * @param walker
+         * @return The new number of walkers.
+         */
+        int registerWalker(AbstractCharacter* walker);
 };
 
 #endif // BUILDING_HPP

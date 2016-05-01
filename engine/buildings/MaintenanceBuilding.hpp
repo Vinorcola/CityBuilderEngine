@@ -16,10 +16,8 @@ class MaintenanceBuilding : public AbstractBuilding
 {
         Q_OBJECT
         
-        
     private:
-        const int maxWalkers;
-        const int timeCycleBetweenProduction;
+        const int timeCycleBetweenWalkerProductions;
         
         int currentNumberOfWalker;
         int timeCycleNeededBeforeProduction;
