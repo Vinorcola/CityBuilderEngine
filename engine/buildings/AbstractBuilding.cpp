@@ -13,7 +13,8 @@ AbstractBuilding::AbstractBuilding(Map* map, const MapArea& location, const int 
     maxNumberOfWalkers(maxNumberOfWalkers),
     location(location),
     currentNumberOfWorkers(0),
-    walkerList()
+    walkerList(),
+    entryPoint(nullptr)
 {
     map->registerBuilding(this);
 }
@@ -34,6 +35,15 @@ int AbstractBuilding::getMaxNumberOfWorkers() const
 int AbstractBuilding::getMaxNumberOfWalkers() const
 {
     return maxNumberOfWalkers;
+}
+
+
+
+
+
+const MapArea& AbstractBuilding::getArea() const
+{
+    return location;
 }
 
 
@@ -85,6 +95,15 @@ void AbstractBuilding::clean()
             delete character;
         }
     }
+}
+
+
+
+
+
+void AbstractBuilding::setEntryPoint(const RoadGraphNode* roadGraphNode)
+{
+    entryPoint = roadGraphNode;
 }
 
 

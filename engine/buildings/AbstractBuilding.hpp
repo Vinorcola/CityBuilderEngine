@@ -3,6 +3,7 @@
 
 #include "engine/characters/AbstractCharacter.hpp"
 #include "engine/Processable.hpp"
+#include "engine/RoadGraphNode.hpp"
 #include "exceptions/OutOfRangeException.hpp"
 #include "global/MapElement.hpp"
 
@@ -26,6 +27,8 @@ class AbstractBuilding : public Processable
         
         int currentNumberOfWorkers;
         QList<AbstractCharacter*> walkerList;
+        const RoadGraphNode* entryPoint;
+        
         
         
         
@@ -51,6 +54,13 @@ class AbstractBuilding : public Processable
          * @brief Return the maximum number of walkers on the map that belongs to the building.
          */
         int getMaxNumberOfWalkers() const;
+        
+        
+        
+        /**
+         * @brief Return the area covered by the building on the map.
+         */
+        const MapArea& getArea() const;
         
         
         
@@ -84,6 +94,15 @@ class AbstractBuilding : public Processable
          * Mainly clear any dead walker associated to the building.
          */
         void clean();
+        
+        
+        
+        /**
+         * @brief Change the current entry point.
+         * 
+         * @param roadGraphNode The new entry point.
+         */
+        void setEntryPoint(const RoadGraphNode* roadGraphNode);
         
         
         

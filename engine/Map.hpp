@@ -6,11 +6,13 @@
 #include <QSize>
 #include <QVector>
 
+#include "exceptions/InvalidMapElementException.hpp"
 #include "global/MapElement.hpp"
 
 class AbstractBuilding;
 class AbstractCharacter;
 class Processable;
+class RoadGraphNode;
 
 const float MSEC_PER_SEC(1000);
 
@@ -44,6 +46,7 @@ class Map : public QObject
         float cycleRatio;
         QBasicTimer cycleClock;
         int numberOfCyclesElapsed;
+        QList<RoadGraphNode*> roadGraphNodeList;
         
         
         
@@ -62,6 +65,15 @@ class Map : public QObject
         
         
         /**
+         * @brief Indicate if the given area is valid.
+         * 
+         * The area is valid if it fits on the map.
+         */
+        bool isValidArea(const MapArea& area) const;
+        
+        
+        
+        /**
          * @brief Change the speed ratio of the time-cycle loop.
          * 
          * @param ratio A ratio between 0.1 and 1.
@@ -75,7 +87,7 @@ class Map : public QObject
          * 
          * @param building The building to register.
          */
-        void registerBuilding(AbstractBuilding* building);
+        void registerBuilding(AbstractBuilding* building) throw (InvalidMapElementException);
         
         
         
@@ -99,6 +111,13 @@ class Map : public QObject
         
         
         
+        /**
+         * @brief Fetch the road graph node located and the given coordinate, or nullptr if no road exists at those coordinates.
+         */
+        RoadGraphNode* fetchRoadGraphNodeAt(const MapCoordinates& coordinates);
+        
+        
+        
     protected:
         /**
          * @brief Process a single time-cycle.
@@ -106,6 +125,14 @@ class Map : public QObject
          * Process a single time-cycle for every processable element on the map.
          */
         virtual void timerEvent(QTimerEvent* event);
+        
+        
+        
+    private:
+        /**
+         * @brief Fetch the first road graph node find arroung the building or nullptr if not was found.
+         */
+        RoadGraphNode* fetchRoadGraphNodeArround(const MapArea& area);
 };
 
 #endif // MAP_HPP

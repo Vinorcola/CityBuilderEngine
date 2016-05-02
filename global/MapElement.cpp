@@ -40,6 +40,60 @@ int MapCoordinates::getY() const
 
 
 
+void MapCoordinates::setX(const int x)
+{
+    coordinates.setX(x);
+}
+
+
+
+
+
+void MapCoordinates::setY(const int y)
+{
+    coordinates.setY(y);
+}
+
+
+
+
+
+MapCoordinates MapCoordinates::getNorth() const
+{
+    return { coordinates.x(), coordinates.y() - 1 };
+}
+
+
+
+
+
+MapCoordinates MapCoordinates::getSouth() const
+{
+    return { coordinates.x(), coordinates.y() + 1 };
+}
+
+
+
+
+
+MapCoordinates MapCoordinates::getEast() const
+{
+    return { coordinates.x() + 1, coordinates.y() };
+}
+
+
+
+
+
+MapCoordinates MapCoordinates::getWest() const
+{
+    return { coordinates.x() - 1, coordinates.y() };
+}
+
+
+
+
+
 MapArea::MapArea() :
     size(),
     left()
@@ -75,6 +129,36 @@ const MapSize MapArea::getSize() const
 const MapCoordinates& MapArea::getLeft() const
 {
     return left;
+}
+
+
+
+
+
+MapCoordinates MapArea::getRight() const
+{
+    int deltaSize(size.getSize() - 1);
+    return { left.getX() + deltaSize, left.getY() + deltaSize };
+}
+
+
+
+
+
+MapCoordinates MapArea::getTop() const
+{
+    int deltaSize(size.getSize() - 1);
+    return { left.getX() + deltaSize, left.getY() };
+}
+
+
+
+
+
+MapCoordinates MapArea::getBottom() const
+{
+    int deltaSize(size.getSize() - 1);
+    return { left.getX(), left.getY() + deltaSize };
 }
 
 

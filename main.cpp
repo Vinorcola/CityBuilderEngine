@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     
     Map map({ 30, 30 });
     
-    new MaintenanceBuilding(&map, { 10, 10 });
+    new MaintenanceBuilding(&map, { 0, 10 });
     
     return a.exec();
 }

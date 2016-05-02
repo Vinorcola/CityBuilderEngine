@@ -15,7 +15,9 @@ SOURCES += \
     engine/characters/RandomlyWalker.cpp \
     engine/Map.cpp \
     engine/Processable.cpp \
+    engine/RoadGraphNode.cpp \
     exceptions/EngineException.cpp \
+    exceptions/InvalidMapElementException.cpp \
     exceptions/OutOfRangeException.cpp \
     global/MapElement.cpp \
     main.cpp
@@ -27,7 +29,9 @@ HEADERS += \
     engine/characters/RandomlyWalker.hpp \
     engine/Map.hpp \
     engine/Processable.hpp \
+    engine/RoadGraphNode.hpp \
     exceptions/EngineException.hpp \
+    exceptions/InvalidMapElementException.hpp \
     exceptions/OutOfRangeException.hpp \
     global/MapElement.hpp
 

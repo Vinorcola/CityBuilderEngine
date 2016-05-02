@@ -42,6 +42,14 @@ class MapCoordinates
         
         int getX() const;
         int getY() const;
+        
+        void setX(const int x);
+        void setY(const int y);
+        
+        MapCoordinates getNorth() const;
+        MapCoordinates getSouth() const;
+        MapCoordinates getEast() const;
+        MapCoordinates getWest() const;
 };
 
 
@@ -63,6 +71,9 @@ class MapArea
         
         const MapSize getSize() const;
         const MapCoordinates& getLeft() const;
+        MapCoordinates getRight() const;
+        MapCoordinates getTop() const;
+        MapCoordinates getBottom() const;
         bool isInside(const MapCoordinates& coordinates) const;
 };
 
