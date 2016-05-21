@@ -2,14 +2,17 @@
 
 #include <QDebug>
 
+#include "engine/random.hpp"
 
 
 
 
-RandomWalker::RandomWalker(const MapCoordinates& initialLocation) :
-    AbstractCharacter(initialLocation)
+
+RandomWalker::RandomWalker(const RoadGraph& roadGraph, const MapCoordinates& initialLocation) :
+    AbstractCharacter(initialLocation),
+    roadGraph(roadGraph)
 {
-    qDebug() << "Create random walker at" << initialLocation.toString();
+    qDebug() << "  - Create random walker at" << initialLocation.toString();
 }
 
 
@@ -18,5 +21,21 @@ RandomWalker::RandomWalker(const MapCoordinates& initialLocation) :
 
 MapCoordinates RandomWalker::getNextTargetLocation()
 {
-    return MapCoordinates(1, 5);
+    auto list(roadGraph.getNextNodeList(getPreviousLocation(), getCurrentLocation()));
+
+    if (list.size() == 0)
+    {
+        // No solutions, return invalid coordinates.
+        return MapCoordinates();
+    }
+
+    if (list.size() == 1)
+    {
+        // Only one solution, return its coordinates.
+        return list.first()->getCoordinates();
+    }
+
+    // Choose random.
+    int randomNum(randomInt(0, list.size() - 1));
+    return list.at(randomNum)->getCoordinates();
 }

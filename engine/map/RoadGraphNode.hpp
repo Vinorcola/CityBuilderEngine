@@ -27,6 +27,7 @@ class RoadGraphNode
         
         
         const MapCoordinates& getCoordinates() const;
+        QList<const RoadGraphNode*> getNeighbourNodeList() const;
 };
 
 #endif // ROADGRAPHNODE_HPP

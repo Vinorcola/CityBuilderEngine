@@ -26,6 +26,7 @@ SOURCES += \
     engine/processing/AbstractProcessable.cpp \
     engine/processing/CycleDate.cpp \
     engine/processing/TimeCycleProcessor.cpp \
+    engine/random.cpp \
     exceptions/EngineException.cpp \
     exceptions/InvalidMapElementException.cpp \
     exceptions/OutOfRangeException.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     engine/processing/AbstractProcessable.hpp \
     engine/processing/CycleDate.hpp \
     engine/processing/TimeCycleProcessor.hpp \
+    engine/random.hpp \
     exceptions/EngineException.hpp \
     exceptions/InvalidMapElementException.hpp \
     exceptions/OutOfRangeException.hpp \

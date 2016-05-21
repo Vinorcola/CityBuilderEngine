@@ -12,19 +12,19 @@ RoadGraphNode::RoadGraphNode(RoadGraph& graph, const MapCoordinates& coordinates
     eastNode(graph.fetchNodeAt(coordinates.getEast())),
     westNode(graph.fetchNodeAt(coordinates.getWest()))
 {
-    if (northNode != nullptr)
+    if (northNode)
     {
         northNode->southNode = this;
     }
-    if (southNode != nullptr)
+    if (southNode)
     {
         southNode->northNode = this;
     }
-    if (eastNode != nullptr)
+    if (eastNode)
     {
         eastNode->westNode = this;
     }
-    if (westNode != nullptr)
+    if (westNode)
     {
         westNode->eastNode = this;
     }
@@ -40,28 +40,28 @@ RoadGraphNode::~RoadGraphNode()
     
     // North
     RoadGraphNode* node(graph.fetchNodeAt(coordinates.getNorth()));
-    if (node != nullptr)
+    if (node)
     {
         node->southNode = nullptr;
     }
     
     // South
     node = graph.fetchNodeAt(coordinates.getSouth());
-    if (node != nullptr)
+    if (node)
     {
         node->northNode = nullptr;
     }
     
     // East
     node = graph.fetchNodeAt(coordinates.getEast());
-    if (node != nullptr)
+    if (node)
     {
         node->westNode = nullptr;
     }
     
     // West
     node = graph.fetchNodeAt(coordinates.getWest());
-    if (node != nullptr)
+    if (node)
     {
         node->eastNode = nullptr;
     }
@@ -74,4 +74,31 @@ RoadGraphNode::~RoadGraphNode()
 const MapCoordinates& RoadGraphNode::getCoordinates() const
 {
     return coordinates;
+}
+
+
+
+
+
+QList<const RoadGraphNode*> RoadGraphNode::getNeighbourNodeList() const
+{
+    QList<const RoadGraphNode*> list;
+    if (northNode)
+    {
+        list.append(northNode);
+    }
+    if (southNode)
+    {
+        list.append(southNode);
+    }
+    if (eastNode)
+    {
+        list.append(eastNode);
+    }
+    if (westNode)
+    {
+        list.append(westNode);
+    }
+
+    return list;
 }

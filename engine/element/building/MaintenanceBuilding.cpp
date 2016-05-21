@@ -21,7 +21,7 @@ MaintenanceBuilding::MaintenanceBuilding(Map& map, const MapArea& area, const Ma
 {
     nextWalkerGenerationDate.add(WALKER_GENERATION_DATE_GAP);
 
-    qDebug() << "Created maintenance building at" << area.toString();
+    qDebug() << "  - Created maintenance building at" << area.toString();
 }
 
 

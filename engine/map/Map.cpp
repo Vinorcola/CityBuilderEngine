@@ -116,7 +116,7 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
     }
 
     AbstractStaticMapElement* element;
-    RoadGraphNode* entryPointNode;
+    const RoadGraphNode* entryPointNode;
     switch (type)
     {
         case StaticElementType::Maintenance:
@@ -147,7 +147,7 @@ void Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinate
     switch (type)
     {
         case DynamicElementType::RandomWalker:
-            element = new RandomWalker(initialLocation);
+            element = new RandomWalker(roadGraph, initialLocation);
             break;
     }
 

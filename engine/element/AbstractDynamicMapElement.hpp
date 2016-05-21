@@ -11,6 +11,7 @@
 class AbstractDynamicMapElement : public AbstractProcessable
 {
     private:
+        MapCoordinates previousLocation;
         MapCoordinates currentLocation;
         MapCoordinates targetLocation;
 
@@ -18,6 +19,10 @@ class AbstractDynamicMapElement : public AbstractProcessable
 
     public:
         AbstractDynamicMapElement(const MapCoordinates& initialLocation);
+
+
+
+        const MapCoordinates& getPreviousLocation() const;
 
 
 
@@ -33,6 +38,7 @@ class AbstractDynamicMapElement : public AbstractProcessable
 
 
 
+    protected:
         virtual MapCoordinates getNextTargetLocation() = 0;
 
 

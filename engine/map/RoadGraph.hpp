@@ -40,8 +40,24 @@ class RoadGraph
 
         /**
          * @brief Fetch the first road graph node arroung the area (or nullptr if none was found).
+         *
+         * This method is used to find an entry point for a building.
          */
-        RoadGraphNode* fetchNodeArround(const MapArea& area);
+        const RoadGraphNode* fetchNodeArround(const MapArea& area) const;
+
+
+
+        /**
+         * @brief Get a list of node where a walker can go to continue its walk.
+         *
+         * The list will contains all the node adjacents to the node at current location. The node at previous location
+         * is remove from this list (except if it is the only one in the list).
+         *
+         * @param previousLocation The preivous location of the walker.
+         * @param currentLocation The current location of the walker.
+         * @return A list of node.
+         */
+        QList<const RoadGraphNode*> getNextNodeList(const MapCoordinates& previousLocation, const MapCoordinates& currentLocation) const;
 
 
 
@@ -50,7 +66,7 @@ class RoadGraph
          *
          * @throw UnexpectedException A node already exists at those coordinates.
          */
-        RoadGraphNode* createNode(const MapCoordinates& coordinates);
+        const RoadGraphNode* createNode(const MapCoordinates& coordinates);
 
 
 

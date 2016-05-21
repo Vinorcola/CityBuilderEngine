@@ -10,11 +10,17 @@
 
 class RandomWalker : public AbstractCharacter
 {
+    private:
+        const RoadGraph& roadGraph;
+
+
+
     public:
-        RandomWalker(const MapCoordinates& initialLocation);
+        RandomWalker(const RoadGraph& roadGraph, const MapCoordinates& initialLocation);
 
 
 
+    protected:
         virtual MapCoordinates getNextTargetLocation();
 };
 

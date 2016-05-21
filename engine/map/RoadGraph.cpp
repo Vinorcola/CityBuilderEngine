@@ -33,7 +33,7 @@ RoadGraphNode* RoadGraph::fetchNodeAt(const MapCoordinates& coordinates) const
 
 
 
-RoadGraphNode* RoadGraph::fetchNodeArround(const MapArea& area)
+const RoadGraphNode* RoadGraph::fetchNodeArround(const MapArea& area) const
 {
     // Fetch a road node arround the building starting at the coordinates at north of left point of the area covered by
     // the building. The algorithm turn arround the area following clockwise.
@@ -44,7 +44,7 @@ RoadGraphNode* RoadGraph::fetchNodeArround(const MapArea& area)
     int moveY(0);
 
     MapCoordinates coordinates(left.getNorth());
-    RoadGraphNode* node(fetchNodeAt(coordinates));
+    auto node(fetchNodeAt(coordinates));
     while (!node)
     {
         coordinates.setX(coordinates.getX() + moveX);
@@ -86,7 +86,37 @@ RoadGraphNode* RoadGraph::fetchNodeArround(const MapArea& area)
 
 
 
-RoadGraphNode* RoadGraph::createNode(const MapCoordinates& coordinates)
+QList<const RoadGraphNode*> RoadGraph::getNextNodeList(const MapCoordinates& previousLocation, const MapCoordinates& currentLocation) const
+{
+    auto node(fetchNodeAt(currentLocation));
+    if (!node)
+    {
+        throw UnexpectedException("Tried to get next nodes from a non existing node.");
+    }
+
+    auto list(node->getNeighbourNodeList());
+    if (list.size() > 1)
+    {
+        // If there is more than one node arround, we delete the node at the previous location so the walker do not turn
+        // arround in the middle of the road.
+        foreach (auto element, list)
+        {
+            if (element->getCoordinates() == previousLocation)
+            {
+                list.removeOne(element);
+                break;
+            }
+        }
+    }
+
+    return list;
+}
+
+
+
+
+
+const RoadGraphNode* RoadGraph::createNode(const MapCoordinates& coordinates)
 {
     auto node(fetchNodeAt(coordinates));
     if (node)
@@ -94,10 +124,9 @@ RoadGraphNode* RoadGraph::createNode(const MapCoordinates& coordinates)
         throw UnexpectedException("A node already exists at the coordinates " + coordinates.toString());
     }
 
-    node = new RoadGraphNode(*this, coordinates);
-    nodeList.append(node);
+    nodeList.append(new RoadGraphNode(*this, coordinates));
 
-    return node;
+    return nodeList.last();
 }
 
 

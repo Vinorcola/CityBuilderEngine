@@ -11,12 +11,12 @@
 class Road : public AbstractBuilding
 {
     private:
-        RoadGraphNode* graphNode;
+        const RoadGraphNode* graphNode;
 
 
 
     public:
-        Road(RoadGraphNode* graphNode);
+        Road(const RoadGraphNode* graphNode);
 };
 
 #endif // ROAD_HPP
