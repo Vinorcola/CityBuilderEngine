@@ -65,7 +65,7 @@ void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
 
     for (auto processable : processableList)
     {
-        processable->process();
+        processable->process(currentCycleDate);
     }
 
     ++currentCycleDate;

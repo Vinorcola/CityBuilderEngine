@@ -23,6 +23,24 @@ void CycleDate::operator++()
 
 
 
+bool CycleDate::operator==(const CycleDate& other) const
+{
+    return cycles == other.cycles;
+}
+
+
+
+
+
+void CycleDate::add(const int numberOfCycles)
+{
+    cycles += numberOfCycles;
+}
+
+
+
+
+
 QString CycleDate::toString() const
 {
     return QString::number(cycles);

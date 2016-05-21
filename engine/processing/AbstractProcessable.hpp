@@ -26,7 +26,7 @@ class AbstractProcessable
         /**
          * @brief Process a single time-cycle.
          */
-        virtual void process() = 0;
+        virtual void process(const CycleDate& date) = 0;
 };
 
 #endif // ABSTRACTPROCESSABLE

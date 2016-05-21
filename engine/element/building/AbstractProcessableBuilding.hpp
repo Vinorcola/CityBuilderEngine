@@ -10,8 +10,17 @@
 
 class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProcessable
 {
+    private:
+        MapCoordinates entryPoint;
+
+
+
     public:
-        AbstractProcessableBuilding(const MapArea& area);
+        AbstractProcessableBuilding(const MapArea& area, const MapCoordinates& entryPoint);
+
+
+
+        const MapCoordinates& getEntryPoint() const;
 };
 
 #endif // ABSTRACTPROCESSABLEBUILDING_HPP

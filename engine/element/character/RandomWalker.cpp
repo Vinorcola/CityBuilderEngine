@@ -1,5 +1,7 @@
 #include "RandomWalker.hpp"
 
+#include <QDebug>
+
 
 
 
@@ -7,7 +9,7 @@
 RandomWalker::RandomWalker(const MapCoordinates& initialLocation) :
     AbstractCharacter(initialLocation)
 {
-
+    qDebug() << "Create random walker at" << initialLocation.toString();
 }
 
 
@@ -16,5 +18,5 @@ RandomWalker::RandomWalker(const MapCoordinates& initialLocation) :
 
 MapCoordinates RandomWalker::getNextTargetLocation()
 {
-    return MapCoordinates();
+    return MapCoordinates(1, 5);
 }

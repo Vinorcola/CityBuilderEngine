@@ -16,7 +16,6 @@ class AbstractDynamicMapElement : public AbstractProcessable
 
 
 
-
     public:
         AbstractDynamicMapElement(const MapCoordinates& initialLocation);
 
@@ -30,11 +29,16 @@ class AbstractDynamicMapElement : public AbstractProcessable
 
 
 
-        virtual void process();
+        virtual void process(const CycleDate& date);
 
 
 
         virtual MapCoordinates getNextTargetLocation() = 0;
+
+
+
+    private:
+        void moveToTarget();
 };
 
 #endif // ABSTRACTDYNAMICMAPELEMENT_HPP

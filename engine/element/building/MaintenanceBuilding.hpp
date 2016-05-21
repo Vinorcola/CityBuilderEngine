@@ -3,17 +3,26 @@
 
 #include "engine/element/building/AbstractProcessableBuilding.hpp"
 
+class Map;
+
 
 
 
 class MaintenanceBuilding : public AbstractProcessableBuilding
 {
+    private:
+        Map& map;
+        CycleDate nextWalkerGenerationDate;
+        int numberOfWalkerOut;
+
+
+
     public:
-        MaintenanceBuilding(const MapArea& area);
+        MaintenanceBuilding(Map& map, const MapArea& area, const MapCoordinates& entryPoint);
 
 
 
-        virtual void process();
+        virtual void process(const CycleDate& date);
 };
 
 #endif // MAINTENANCEBUILDING_HPP

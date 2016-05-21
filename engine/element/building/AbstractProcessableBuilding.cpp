@@ -4,9 +4,19 @@
 
 
 
-AbstractProcessableBuilding::AbstractProcessableBuilding(const MapArea& area) :
+AbstractProcessableBuilding::AbstractProcessableBuilding(const MapArea& area, const MapCoordinates& entryPoint) :
     AbstractBuilding(area),
-    AbstractProcessable()
+    AbstractProcessable(),
+    entryPoint(entryPoint)
 {
 
+}
+
+
+
+
+
+const MapCoordinates& AbstractProcessableBuilding::getEntryPoint() const
+{
+    return entryPoint;
 }

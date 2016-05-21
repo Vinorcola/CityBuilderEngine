@@ -63,7 +63,7 @@ bool MapCoordinates::isValid() const
 
 
 
-int MapCoordinates::getX() const
+qreal MapCoordinates::getX() const
 {
     return coordinates.x();
 }
@@ -72,7 +72,7 @@ int MapCoordinates::getX() const
 
 
 
-int MapCoordinates::getY() const
+qreal MapCoordinates::getY() const
 {
     return coordinates.y();
 }
@@ -90,7 +90,7 @@ QString MapCoordinates::toString() const
 
 
 
-void MapCoordinates::setX(const int x)
+void MapCoordinates::setX(const qreal x)
 {
     coordinates.setX(x);
 }
@@ -99,7 +99,7 @@ void MapCoordinates::setX(const int x)
 
 
 
-void MapCoordinates::setY(const int y)
+void MapCoordinates::setY(const qreal y)
 {
     coordinates.setY(y);
 }

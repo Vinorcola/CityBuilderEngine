@@ -23,12 +23,13 @@ class MapCoordinates
         bool operator!=(const MapCoordinates& other) const;
 
         bool isValid() const;
-        int getX() const;
-        int getY() const;
+        qreal getX() const;
+        qreal getY() const;
         QString toString() const;
 
-        void setX(const int x);
-        void setY(const int y);
+        void setX(const qreal x);
+        void
+        setY(const qreal y);
 
         MapCoordinates getNorth() const;
         MapCoordinates getSouth() const;

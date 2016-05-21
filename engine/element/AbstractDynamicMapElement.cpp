@@ -1,5 +1,10 @@
 #include "AbstractDynamicMapElement.hpp"
 
+#include <QDebug>
+
+
+
+const qreal WALKER_SPEED(0.25);
 
 
 
@@ -8,8 +13,7 @@
 AbstractDynamicMapElement::AbstractDynamicMapElement(const MapCoordinates& initialLocation) :
     AbstractProcessable(),
     currentLocation(initialLocation),
-    targetLocation(),
-    speed(0.25)
+    targetLocation(initialLocation)
 {
 
 }
@@ -36,10 +40,46 @@ void AbstractDynamicMapElement::setNextTargetLocation(const MapCoordinates& next
 
 
 
-void AbstractDynamicMapElement::process()
+void AbstractDynamicMapElement::process(const CycleDate& /*date*/)
 {
-    if (!targetLocation.isValid() || targetLocation == currentLocation)
+    if (targetLocation.isValid())
     {
-        targetLocation = getNextTargetLocation();
+        if (targetLocation == currentLocation)
+        {
+            targetLocation = getNextTargetLocation();
+            if (!targetLocation.isValid())
+            {
+                return;
+            }
+        }
+
+        moveToTarget();
     }
+}
+
+
+
+
+
+void AbstractDynamicMapElement::moveToTarget()
+{
+    if (targetLocation.getX() > currentLocation.getX())
+    {
+        currentLocation.setX(currentLocation.getX() + WALKER_SPEED);
+    }
+    else if (targetLocation.getX() < currentLocation.getX())
+    {
+        currentLocation.setX(currentLocation.getX() + WALKER_SPEED);
+    }
+
+    if (targetLocation.getY() > currentLocation.getY())
+    {
+        currentLocation.setY(currentLocation.getY() + WALKER_SPEED);
+    }
+    else if (targetLocation.getY() < currentLocation.getY())
+    {
+        currentLocation.setY(currentLocation.getY() + WALKER_SPEED);
+    }
+
+    qDebug() << "Moved walker to" << currentLocation.toString();
 }

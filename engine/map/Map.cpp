@@ -116,10 +116,12 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
     }
 
     AbstractStaticMapElement* element;
+    RoadGraphNode* entryPointNode;
     switch (type)
     {
         case StaticElementType::Maintenance:
-            element = new MaintenanceBuilding(area);
+            entryPointNode = roadGraph.fetchNodeArround(area);
+            element = new MaintenanceBuilding(*this, area, entryPointNode ? entryPointNode->getCoordinates() : MapCoordinates());
             processor.registerProcessable(static_cast<AbstractProcessableBuilding*>(element));
             break;
 

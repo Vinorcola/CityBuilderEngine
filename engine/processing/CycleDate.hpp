@@ -20,6 +20,8 @@ class CycleDate
 
 
         void operator++();
+        bool operator==(const CycleDate& other) const;
+        void add(const int numberOfCycles);
         QString toString() const;
 };
 

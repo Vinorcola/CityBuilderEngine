@@ -100,5 +100,5 @@ bool MapArea::isInside(const MapCoordinates& coordinates) const
 
 QString MapArea::toString() const
 {
-    return '{' + left.toString() + ';' + QString::number(size.getValue()) + ')';
+    return '{' + left.toString() + ';' + QString::number(size.getValue()) + '}';
 }
