@@ -1,9 +1,7 @@
-#ifndef PROCESSABLE
-#define PROCESSABLE
+#ifndef ABSTRACTPROCESSABLE
+#define ABSTRACTPROCESSABLE
 
-#include <QObject>
-
-#include "engine/Map.hpp"
+#include "engine/processing/TimeCycleProcessor.hpp"
 
 
 
@@ -18,18 +16,16 @@
  * The process() method is called to process on single time-cycle. Each processbla can do want it wants during this
  * time-cycle. For example, a character can moves whil a builing can generate a character.
  */
-class Processable : public QObject
+class AbstractProcessable
 {
-        Q_OBJECT
-        
     protected:
-        Map* const map;
+        TimeCycleProcessor& processor;
         
         
         
     public:
-        Processable(Map* map);
-        virtual ~Processable();
+        AbstractProcessable(TimeCycleProcessor& processor);
+        virtual ~AbstractProcessable();
         
         
         
@@ -39,4 +35,4 @@ class Processable : public QObject
         virtual void process() = 0;
 };
 
-#endif // PROCESSABLE
+#endif // ABSTRACTPROCESSABLE

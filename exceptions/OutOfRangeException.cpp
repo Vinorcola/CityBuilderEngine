@@ -7,5 +7,5 @@
 OutOfRangeException::OutOfRangeException(const QString& message) :
     EngineException(message)
 {
-    
+
 }

@@ -5,9 +5,9 @@
 
 
 InvalidMapElementException::InvalidMapElementException(const MapCoordinates& coordinates) :
-    EngineException("Invalid coordinates (" + QString::number(coordinates.getX()) + ";" + QString::number(coordinates.getY()) + ")")
+    EngineException("Invalid coordinates " + coordinates.toString())
 {
-    
+
 }
 
 
@@ -15,7 +15,7 @@ InvalidMapElementException::InvalidMapElementException(const MapCoordinates& coo
 
 
 InvalidMapElementException::InvalidMapElementException(const MapArea& area) :
-    EngineException("Invalid area (" + QString::number(area.getLeft().getX()) + ";" + QString::number(area.getLeft().getY()) + ") of size " + QString::number(area.getSize().getSize()))
+    EngineException("Invalid area " + area.toString())
 {
-    
+
 }

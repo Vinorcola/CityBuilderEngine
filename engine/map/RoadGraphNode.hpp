@@ -1,18 +1,17 @@
 #ifndef ROADGRAPHNODE_HPP
 #define ROADGRAPHNODE_HPP
 
-#include "engine/Map.hpp"
+#include "engine/map/MapCoordinates.hpp"
+#include "engine/map/RoadGraph.hpp"
 
 
 
 
 
-class RoadGraphNode : public QObject
+class RoadGraphNode
 {
-        Q_OBJECT
-        
     private:
-        Map* map;
+        RoadGraph& graph;
         MapCoordinates coordinates;
         RoadGraphNode* northNode;
         RoadGraphNode* southNode;
@@ -22,7 +21,7 @@ class RoadGraphNode : public QObject
         
         
     public:
-        RoadGraphNode(Map* map, const MapCoordinates& coordinates);
+        RoadGraphNode(RoadGraph& graph, const MapCoordinates& coordinates);
         ~RoadGraphNode();
         
         

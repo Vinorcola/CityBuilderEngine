@@ -2,7 +2,7 @@
 #define INVALIDMAPELEMENTEXCEPTION_HPP
 
 #include "exceptions/EngineException.hpp"
-#include "global/MapElement.hpp"
+#include "engine/map/MapArea.hpp"
 
 
 
