@@ -11,7 +11,7 @@
 class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProcessable
 {
     public:
-        AbstractProcessableBuilding(Map& map, const MapArea& area);
+        AbstractProcessableBuilding(const MapArea& area);
 };
 
 #endif // ABSTRACTPROCESSABLEBUILDING_HPP

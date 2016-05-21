@@ -1,16 +1,16 @@
 #ifndef ABSTRACTCHARACTER_HPP
 #define ABSTRACTCHARACTER_HPP
 
-#include "engine/element/AbstractMovableElement.hpp"
+#include "engine/element/AbstractDynamicMapElement.hpp"
 
 
 
 
 
-class AbstractCharacter : public AbstractMovableElement
+class AbstractCharacter : public AbstractDynamicMapElement
 {
     public:
-        AbstractCharacter(Map& map, const MapCoordinates& initialLocation);
+        AbstractCharacter(const MapCoordinates& initialLocation);
 };
 
 #endif // ABSTRACTCHARACTER_HPP

@@ -1,16 +1,16 @@
 #ifndef ABSTRACTBUILDING_HPP
 #define ABSTRACTBUILDING_HPP
 
-#include "engine/element/AbstractMotionlessElement.hpp"
+#include "engine/element/AbstractStaticMapElement.hpp"
 
 
 
 
 
-class AbstractBuilding : public AbstractMotionlessElement
+class AbstractBuilding : public AbstractStaticMapElement
 {
     public:
-        AbstractBuilding(Map& map, const MapArea& area);
+        AbstractBuilding(const MapArea& area);
 };
 
 #endif // ABSTRACTBUILDING_HPP

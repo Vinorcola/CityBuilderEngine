@@ -1,14 +1,14 @@
-#ifndef ABSTRACTMOVABLEELEMENT_HPP
-#define ABSTRACTMOVABLEELEMENT_HPP
+#ifndef ABSTRACTDYNAMICMAPELEMENT_HPP
+#define ABSTRACTDYNAMICMAPELEMENT_HPP
 
-#include "engine/element/AbstractMapElement.hpp"
+#include "engine/map/MapCoordinates.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 
 
 
 
 
-class AbstractMovableElement : public AbstractMapElement, public AbstractProcessable
+class AbstractDynamicMapElement : public AbstractProcessable
 {
     private:
         MapCoordinates currentLocation;
@@ -16,8 +16,9 @@ class AbstractMovableElement : public AbstractMapElement, public AbstractProcess
 
 
 
+
     public:
-        AbstractMovableElement(Map& map, const MapCoordinates& initialLocation);
+        AbstractDynamicMapElement(const MapCoordinates& initialLocation);
 
 
 
@@ -36,4 +37,4 @@ class AbstractMovableElement : public AbstractMapElement, public AbstractProcess
         virtual MapCoordinates getNextTargetLocation() = 0;
 };
 
-#endif // ABSTRACTMOVABLEELEMENT_HPP
+#endif // ABSTRACTDYNAMICMAPELEMENT_HPP

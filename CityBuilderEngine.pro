@@ -15,9 +15,8 @@ SOURCES += \
     engine/element/building/Road.cpp \
     engine/element/character/AbstractCharacter.cpp \
     engine/element/character/RandomWalker.cpp \
-    engine/element/AbstractMapElement.cpp \
-    engine/element/AbstractMotionlessElement.cpp \
-    engine/element/AbstractMovableElement.cpp \
+    engine/element/AbstractDynamicMapElement.cpp \
+    engine/element/AbstractStaticMapElement.cpp \
     engine/map/Map.cpp \
     engine/map/MapArea.cpp \
     engine/map/MapCoordinates.cpp \
@@ -40,9 +39,8 @@ HEADERS += \
     engine/element/building/Road.hpp \
     engine/element/character/AbstractCharacter.hpp \
     engine/element/character/RandomWalker.hpp \
-    engine/element/AbstractMapElement.hpp \
-    engine/element/AbstractMotionlessElement.hpp \
-    engine/element/AbstractMovableElement.hpp \
+    engine/element/AbstractDynamicMapElement.hpp \
+    engine/element/AbstractStaticMapElement.hpp \
     engine/map/Map.hpp \
     engine/map/MapArea.hpp \
     engine/map/MapCoordinates.hpp \

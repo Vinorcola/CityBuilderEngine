@@ -18,17 +18,11 @@
  */
 class AbstractProcessable
 {
-    protected:
-        TimeCycleProcessor& processor;
-        
-        
-        
     public:
-        AbstractProcessable(TimeCycleProcessor& processor);
-        virtual ~AbstractProcessable();
-        
-        
-        
+        AbstractProcessable();
+
+
+
         /**
          * @brief Process a single time-cycle.
          */

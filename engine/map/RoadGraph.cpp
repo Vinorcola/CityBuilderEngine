@@ -91,7 +91,7 @@ RoadGraphNode* RoadGraph::createNode(const MapCoordinates& coordinates)
     auto node(fetchNodeAt(coordinates));
     if (node)
     {
-        throw new UnexpectedException("A node already exists at the coordinates " + coordinates.toString());
+        throw UnexpectedException("A node already exists at the coordinates " + coordinates.toString());
     }
 
     node = new RoadGraphNode(*this, coordinates);

@@ -4,8 +4,8 @@
 
 
 
-AbstractBuilding::AbstractBuilding(Map& map, const MapArea& area) :
-    AbstractMotionlessElement(map, area)
+AbstractBuilding::AbstractBuilding(const MapArea& area) :
+    AbstractStaticMapElement(area)
 {
 
 }

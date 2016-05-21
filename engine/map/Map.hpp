@@ -4,11 +4,11 @@
 #include <QList>
 #include <QSize>
 
+#include "engine/element/AbstractDynamicMapElement.hpp"
+#include "engine/element/AbstractStaticMapElement.hpp"
 #include "engine/map/MapSize.hpp"
 #include "engine/map/RoadGraph.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
-
-class AbstractMapElement;
 
 
 
@@ -16,11 +16,26 @@ class AbstractMapElement;
 
 class Map
 {
+    public:
+        enum class StaticElementType
+        {
+            Maintenance,
+            Road,
+        };
+
+        enum class DynamicElementType
+        {
+            RandomWalker,
+        };
+
+
+
     private:
         QSize size;
         RoadGraph roadGraph;
         TimeCycleProcessor processor;
-        QList<AbstractMapElement*> elementList;
+        QList<AbstractStaticMapElement*> staticElementList;
+        QList<AbstractDynamicMapElement*> dynamicElementList;
 
 
 
@@ -48,35 +63,16 @@ class Map
 
 
         /**
-         * @brief Indicate if the given coordinates are free of any king of element occupying an area on the map (tipically, motionless elements).
+         * @brief Indicate if the given coordinates are free of any king of static element.
          */
         bool isFreeCoordinates(const MapCoordinates& coordinates) const;
 
 
 
         /**
-         * @brief Indicate if the given area is free of any kind of element occupying an area on the map (tipically, motionless elements).
+         * @brief Indicate if the given area is free of any kind of static element.
          */
         bool isFreeArea(const MapArea& area) const;
-
-
-
-        /**
-         * @brief register an element on the map.
-         *
-         * @param element The element to register
-         * @throw UnexpectedException If the element is a motionless element and it's area is not free.
-         */
-        void registerElement(AbstractMapElement* element);
-
-
-
-        /**
-         * @brief Unregister an element that exists on the map.
-         *
-         * @param element The element to unregister.
-         */
-        void unregisterElement(AbstractMapElement* element);
 
 
 
@@ -85,6 +81,27 @@ class Map
 
 
         TimeCycleProcessor& getProcessor();
+
+
+
+        /**
+         * @brief Create a statis element on the map.
+         *
+         * @param type The type of static element to create.
+         * @param area The location of the element on the map.
+         * @throw UnexpectedException A static element already exists on the area.
+         */
+        void createStaticElement(StaticElementType type, const MapArea& area);
+
+
+
+        /**
+         * @brief Create a dynamic element on the map.
+         *
+         * @param type The type of dynamic element to create.
+         * @param initialLocation The location of the element on the map.
+         */
+        void createDynamicElement(DynamicElementType type, const MapCoordinates& initialLocation);
 };
 
 #endif // MAP_HPP

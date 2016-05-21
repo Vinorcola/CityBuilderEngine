@@ -4,8 +4,8 @@
 
 
 
-AbstractCharacter::AbstractCharacter(Map& map, const MapCoordinates& initialLocation) :
-    AbstractMovableElement(map, initialLocation)
+AbstractCharacter::AbstractCharacter(const MapCoordinates& initialLocation) :
+    AbstractDynamicMapElement(initialLocation)
 {
 
 }

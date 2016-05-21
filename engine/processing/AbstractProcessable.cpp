@@ -4,17 +4,7 @@
 
 
 
-AbstractProcessable::AbstractProcessable(TimeCycleProcessor& processor) :
-    processor(processor)
+AbstractProcessable::AbstractProcessable()
 {
-    processor.registerProcessable(this);
-}
 
-
-
-
-
-AbstractProcessable::~AbstractProcessable()
-{
-    processor.unregisterProcessable(this);
 }

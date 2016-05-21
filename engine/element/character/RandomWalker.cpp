@@ -4,8 +4,17 @@
 
 
 
-RandomWalker::RandomWalker(Map& map, const MapCoordinates& initialLocation) :
-    AbstractCharacter(map, initialLocation)
+RandomWalker::RandomWalker(const MapCoordinates& initialLocation) :
+    AbstractCharacter(initialLocation)
 {
 
+}
+
+
+
+
+
+MapCoordinates RandomWalker::getNextTargetLocation()
+{
+    return MapCoordinates();
 }

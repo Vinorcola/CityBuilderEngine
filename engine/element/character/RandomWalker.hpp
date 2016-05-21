@@ -11,7 +11,11 @@
 class RandomWalker : public AbstractCharacter
 {
     public:
-        RandomWalker(Map& map, const MapCoordinates& initialLocation);
+        RandomWalker(const MapCoordinates& initialLocation);
+
+
+
+        virtual MapCoordinates getNextTargetLocation();
 };
 
 #endif // RANDOMWALKER_HPP

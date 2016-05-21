@@ -9,7 +9,7 @@
 class MaintenanceBuilding : public AbstractProcessableBuilding
 {
     public:
-        MaintenanceBuilding(Map& map, const MapArea& area);
+        MaintenanceBuilding(const MapArea& area);
 
 
 

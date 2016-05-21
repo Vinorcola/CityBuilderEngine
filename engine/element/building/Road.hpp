@@ -16,7 +16,7 @@ class Road : public AbstractBuilding
 
 
     public:
-        Road(Map& map, const MapCoordinates& coordinates);
+        Road(RoadGraphNode* graphNode);
 };
 
 #endif // ROAD_HPP

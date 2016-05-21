@@ -4,9 +4,9 @@
 
 
 
-AbstractProcessableBuilding::AbstractProcessableBuilding(Map& map, const MapArea& area) :
-    AbstractBuilding(map, area),
-    AbstractProcessable(map.getProcessor())
+AbstractProcessableBuilding::AbstractProcessableBuilding(const MapArea& area) :
+    AbstractBuilding(area),
+    AbstractProcessable()
 {
 
 }

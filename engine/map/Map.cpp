@@ -1,6 +1,9 @@
 #include "Map.hpp"
 
-#include "engine/element/AbstractMotionlessElement.hpp"
+#include "engine/element/building/MaintenanceBuilding.hpp"
+#include "engine/element/building/Road.hpp"
+#include "engine/element/character/RandomWalker.hpp"
+#include "engine/element/AbstractStaticMapElement.hpp"
 
 
 
@@ -10,7 +13,8 @@ Map::Map(const QSize& size) :
     size(size),
     roadGraph(),
     processor(),
-    elementList()
+    staticElementList(),
+    dynamicElementList()
 {
 
 }
@@ -45,15 +49,11 @@ bool Map::isValidArea(const MapArea& area) const
 
 bool Map::isFreeCoordinates(const MapCoordinates& coordinates) const
 {
-    for (auto element : elementList)
+    for (auto element : staticElementList)
     {
-        AbstractMotionlessElement* motionlessElement(dynamic_cast<AbstractMotionlessElement*>(element));
-        if (motionlessElement)
+        if (element->getArea().isInside(coordinates))
         {
-            if (motionlessElement->getArea().isInside(coordinates))
-            {
-                return false;
-            }
+            return false;
         }
     }
 
@@ -70,9 +70,9 @@ bool Map::isFreeArea(const MapArea& area) const
     auto right(area.getRight());
 
     MapCoordinates coordinates(left);
-    while (coordinates.getX() <= right.getX())
+    while (coordinates.getY() <= right.getY())
     {
-        while (coordinates.getY() <= right.getY())
+        while (coordinates.getX() <= right.getX())
         {
             if (!isFreeCoordinates(coordinates))
             {
@@ -80,34 +80,10 @@ bool Map::isFreeArea(const MapArea& area) const
             }
             coordinates = coordinates.getEast();
         }
-        coordinates = MapCoordinates(coordinates.getX() + 1, left.getY());
+        coordinates = MapCoordinates(left.getX(), coordinates.getY() + 1);
     }
 
     return true;
-}
-
-
-
-
-
-void Map::registerElement(AbstractMapElement* element)
-{
-    AbstractMotionlessElement* motionlessElement(dynamic_cast<AbstractMotionlessElement*>(element));
-    if (motionlessElement != nullptr)
-    {
-        if (!isFreeArea(motionlessElement->getArea()))
-        throw new UnexpectedException("Try to create a motionless element on an occupyed area " + motionlessElement->getArea().toString());
-    }
-    elementList.append(element);
-}
-
-
-
-
-
-void Map::unregisterElement(AbstractMapElement* element)
-{
-    elementList.removeOne(element);
 }
 
 
@@ -126,4 +102,53 @@ RoadGraph& Map::getRoadGraph()
 TimeCycleProcessor& Map::getProcessor()
 {
     return processor;
+}
+
+
+
+
+
+void Map::createStaticElement(StaticElementType type, const MapArea& area)
+{
+    if (!isFreeArea(area))
+    {
+        throw UnexpectedException("Try to create a motionless element on an occupyed area " + area.toString());
+    }
+
+    AbstractStaticMapElement* element;
+    switch (type)
+    {
+        case StaticElementType::Maintenance:
+            element = new MaintenanceBuilding(area);
+            processor.registerProcessable(static_cast<AbstractProcessableBuilding*>(element));
+            break;
+
+        case StaticElementType::Road:
+            if (area.getSize().getValue() > 1)
+            {
+                throw UnexpectedException("Try to create a road on an area bigger than 1: " + area.toString());
+            }
+            element = new Road(roadGraph.createNode(area.getLeft()));
+            break;
+    }
+
+    staticElementList.append(element);
+}
+
+
+
+
+
+void Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinates& initialLocation)
+{
+    AbstractDynamicMapElement* element;
+    switch (type)
+    {
+        case DynamicElementType::RandomWalker:
+            element = new RandomWalker(initialLocation);
+            break;
+    }
+
+    processor.registerProcessable(element);
+    dynamicElementList.append(element);
 }

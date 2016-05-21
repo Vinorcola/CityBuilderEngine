@@ -4,8 +4,8 @@
 
 
 
-MaintenanceBuilding::MaintenanceBuilding(Map& map, const MapArea& area) :
-    AbstractProcessableBuilding(map, area)
+MaintenanceBuilding::MaintenanceBuilding(const MapArea& area) :
+    AbstractProcessableBuilding(area)
 {
 
 }
