@@ -14,8 +14,11 @@
 
 
 
-class Map
+class Map : public QObject
 {
+        Q_OBJECT
+
+
     public:
         enum class StaticElementType
         {
@@ -35,7 +38,7 @@ class Map
         RoadGraph roadGraph;
         TimeCycleProcessor processor;
         QList<AbstractStaticMapElement*> staticElementList;
-        QList<AbstractDynamicMapElement*> dynamicElementList;
+        QList<QSharedPointer<AbstractDynamicMapElement>> dynamicElementList;
 
 
 
@@ -94,7 +97,7 @@ class Map
 
 
 
-        TimeCycleProcessor& getProcessor();
+        const TimeCycleProcessor& getProcessor() const;
 
 
 
@@ -116,6 +119,11 @@ class Map
          * @param initialLocation The location of the element on the map.
          */
         void createDynamicElement(DynamicElementType type, const MapCoordinates& initialLocation);
+
+
+
+    signals:
+        void dynamicElementCreated(const QWeakPointer<AbstractDynamicMapElement>& elementCreated);
 };
 
 #endif // MAP_HPP

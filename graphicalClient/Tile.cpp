@@ -7,7 +7,8 @@
 Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize) :
     QGraphicsItem(),
     location(location),
-    graphicsItemList()
+    staticElementList(),
+    dynamicElementList()
 {
     setPos(
         (location.getY() + location.getX()) * baseTileSize.width() / 2.0,
@@ -28,35 +29,55 @@ const MapCoordinates& Tile::getCoordinates() const
 
 
 
-void Tile::pushGraphicsItem(StaticElementGraphicsItem* graphicsItem)
+void Tile::pushStaticElement(StaticElement* element)
 {
-    if (graphicsItemList.size() > 0)
+    if (staticElementList.size() > 0)
     {
         // Hide previous graphics item.
-        graphicsItemList.last()->setVisible(false);
+        staticElementList.last()->setVisible(false);
     }
 
-    graphicsItem->setParentItem(this);
-    graphicsItem->setVisible(true);
-    graphicsItemList.push(graphicsItem);
+    element->setParentItem(this);
+    element->setVisible(true);
+    staticElementList.push(element);
 }
 
 
 
 
 
-StaticElementGraphicsItem* Tile::popGraphicsItem()
+StaticElement* Tile::popStaticElement()
 {
-    auto last(graphicsItemList.pop());
-    last->setParentItem(nullptr);
+    auto element(staticElementList.pop());
+    element->setParentItem(nullptr);
 
-    if (graphicsItemList.size() > 0)
+    if (staticElementList.size() > 0)
     {
         // Show last item.
-        graphicsItemList.last()->setVisible(true);
+        staticElementList.last()->setVisible(true);
     }
 
-    return last;
+    return element;
+}
+
+
+
+
+
+void Tile::registerDynamicElement(DynamicElement* element)
+{
+    element->setParentItem(this);
+    element->setVisible(true);
+    dynamicElementList.append(element);
+}
+
+
+
+
+
+void Tile::unregisterDynamicElement(DynamicElement* element)
+{
+    dynamicElementList.removeOne(element);
 }
 
 
@@ -65,9 +86,9 @@ StaticElementGraphicsItem* Tile::popGraphicsItem()
 
 QRectF Tile::boundingRect() const
 {
-    if (graphicsItemList.size() > 0)
+    if (staticElementList.size() > 0)
     {
-        return graphicsItemList.last()->boundingRect();
+        return staticElementList.last()->boundingRect();
     }
 
     return QRectF();

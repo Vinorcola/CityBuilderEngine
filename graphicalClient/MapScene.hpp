@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 
 #include "engine/map/Map.hpp"
+#include "graphicalClient/DynamicElement.hpp"
 #include "graphicalClient/Tile.hpp"
 
 
@@ -17,11 +18,21 @@ class MapScene : public QGraphicsScene
 
     private:
         QList<Tile*> tileList;
+        QList<DynamicElement*> dynamicElementList;
 
 
 
     public:
         MapScene(const Map& map);
+
+
+
+    public slots:
+        void registerNewDynamicElement(const QWeakPointer<AbstractDynamicMapElement>& element);
+
+
+
+        void refresh();
 
 
 

@@ -1,10 +1,10 @@
-#include "StaticElementGraphicsItem.hpp"
+#include "StaticElement.hpp"
 
 
 
 
 
-StaticElementGraphicsItem::StaticElementGraphicsItem(const QSizeF& baseTileSize, const MapSize& elementSize, const QPixmap& elementImage) :
+StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, const QPixmap& elementImage) :
     QGraphicsPixmapItem(elementImage),
     shapePath()
 {
@@ -34,7 +34,7 @@ StaticElementGraphicsItem::StaticElementGraphicsItem(const QSizeF& baseTileSize,
 
 
 
-QPainterPath StaticElementGraphicsItem::shape() const
+QPainterPath StaticElement::shape() const
 {
     return shapePath;
 }

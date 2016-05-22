@@ -28,13 +28,14 @@ class MapCoordinates
         QString toString() const;
 
         void setX(const qreal x);
-        void
-        setY(const qreal y);
+        void setY(const qreal y);
 
         MapCoordinates getNorth() const;
         MapCoordinates getSouth() const;
         MapCoordinates getEast() const;
         MapCoordinates getWest() const;
+
+        MapCoordinates getRounded() const;
 };
 
 #endif // MAPCOORDINATES_HPP

@@ -1,6 +1,6 @@
 #include "random.hpp"
 
-#include <qglobal.h>
+#include <QtGlobal>
 
 
 

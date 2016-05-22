@@ -37,7 +37,7 @@ class TimeCycleProcessor : public QObject
 
 
     public:
-        TimeCycleProcessor(const float speedRatio = 1.0);
+        TimeCycleProcessor(QObject* parent, const float speedRatio = 1.0);
 
 
 
@@ -49,6 +49,11 @@ class TimeCycleProcessor : public QObject
         void setSpeedRatio(const float ratio);
         void registerProcessable(AbstractProcessable* processable);
         void unregisterProcessable(AbstractProcessable* processable);
+
+
+
+    signals:
+        void processFinished();
 
 
 

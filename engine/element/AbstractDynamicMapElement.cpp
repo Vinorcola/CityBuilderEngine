@@ -4,7 +4,7 @@
 
 
 
-const qreal WALKER_SPEED(0.25);
+const qreal WALKER_SPEED(0.25); // 0.06
 
 
 
@@ -76,20 +76,20 @@ void AbstractDynamicMapElement::moveToTarget()
 {
     if (targetLocation.getX() > currentLocation.getX())
     {
-        currentLocation.setX(currentLocation.getX() + WALKER_SPEED);
+        currentLocation.setX(qMin(currentLocation.getX() + WALKER_SPEED, targetLocation.getX()));
     }
     else if (targetLocation.getX() < currentLocation.getX())
     {
-        currentLocation.setX(currentLocation.getX() - WALKER_SPEED);
+        currentLocation.setX(qMax(currentLocation.getX() - WALKER_SPEED, targetLocation.getX()));
     }
 
     if (targetLocation.getY() > currentLocation.getY())
     {
-        currentLocation.setY(currentLocation.getY() + WALKER_SPEED);
+        currentLocation.setY(qMin(currentLocation.getY() + WALKER_SPEED, targetLocation.getY()));
     }
     else if (targetLocation.getY() < currentLocation.getY())
     {
-        currentLocation.setY(currentLocation.getY() - WALKER_SPEED);
+        currentLocation.setY(qMax(currentLocation.getY() - WALKER_SPEED, targetLocation.getY()));
     }
 
     qDebug() << "  - Moved walker to" << currentLocation.toString();

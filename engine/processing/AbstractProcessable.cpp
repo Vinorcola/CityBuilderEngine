@@ -8,3 +8,12 @@ AbstractProcessable::AbstractProcessable()
 {
 
 }
+
+
+
+
+
+AbstractProcessable::~AbstractProcessable()
+{
+
+}

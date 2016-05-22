@@ -1,5 +1,7 @@
 #include "Map.hpp"
 
+#include <QSharedPointer>
+
 #include "engine/element/building/MaintenanceBuilding.hpp"
 #include "engine/element/building/Road.hpp"
 #include "engine/element/character/RandomWalker.hpp"
@@ -10,9 +12,10 @@
 
 
 Map::Map(const QSize& size) :
+    QObject(),
     size(size),
     roadGraph(),
-    processor(),
+    processor(this),
     staticElementList(),
     dynamicElementList()
 {
@@ -117,7 +120,7 @@ RoadGraph& Map::getRoadGraph()
 
 
 
-TimeCycleProcessor& Map::getProcessor()
+const TimeCycleProcessor& Map::getProcessor() const
 {
     return processor;
 }
@@ -170,5 +173,8 @@ void Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinate
     }
 
     processor.registerProcessable(element);
-    dynamicElementList.append(element);
+    QSharedPointer<AbstractDynamicMapElement> elementAccess(element);
+    dynamicElementList.append(elementAccess);
+
+    emit dynamicElementCreated(elementAccess.toWeakRef());
 }

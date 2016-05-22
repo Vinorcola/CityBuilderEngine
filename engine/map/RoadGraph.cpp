@@ -99,7 +99,7 @@ QList<const RoadGraphNode*> RoadGraph::getNextNodeList(const MapCoordinates& pre
     {
         // If there is more than one node arround, we delete the node at the previous location so the walker do not turn
         // arround in the middle of the road.
-        foreach (auto element, list)
+        for (auto element : list)
         {
             if (element->getCoordinates() == previousLocation)
             {

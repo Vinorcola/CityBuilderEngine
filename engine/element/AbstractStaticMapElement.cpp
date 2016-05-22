@@ -14,6 +14,15 @@ AbstractStaticMapElement::AbstractStaticMapElement(const MapArea& area) :
 
 
 
+AbstractStaticMapElement::~AbstractStaticMapElement()
+{
+
+}
+
+
+
+
+
 const MapArea& AbstractStaticMapElement::getArea() const
 {
     return area;

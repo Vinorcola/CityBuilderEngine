@@ -29,9 +29,10 @@ SOURCES += \
     exceptions/InvalidMapElementException.cpp \
     exceptions/OutOfRangeException.cpp \
     exceptions/UnexpectedException.cpp \
+    graphicalClient/DynamicElement.cpp \
     graphicalClient/MapScene.cpp \
     graphicalClient/MapViewer.cpp \
-    graphicalClient/StaticElementGraphicsItem.cpp \
+    graphicalClient/StaticElement.cpp \
     graphicalClient/Tile.cpp \
     main.cpp
 
@@ -58,8 +59,9 @@ HEADERS += \
     exceptions/InvalidMapElementException.hpp \
     exceptions/OutOfRangeException.hpp \
     exceptions/UnexpectedException.hpp \
+    graphicalClient/DynamicElement.hpp \
     graphicalClient/MapScene.hpp \
     graphicalClient/MapViewer.hpp \
-    graphicalClient/StaticElementGraphicsItem.hpp \
+    graphicalClient/StaticElement.hpp \
     graphicalClient/Tile.hpp
 

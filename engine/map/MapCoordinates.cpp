@@ -139,3 +139,12 @@ MapCoordinates MapCoordinates::getWest() const
 {
     return { coordinates.x() - 1, coordinates.y() };
 }
+
+
+
+
+
+MapCoordinates MapCoordinates::getRounded() const
+{
+    return { qRound(coordinates.x()), qRound(coordinates.y()) };
+}

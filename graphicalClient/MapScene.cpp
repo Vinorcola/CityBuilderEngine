@@ -15,7 +15,8 @@ const QSizeF BASE_TILE_SIZE(58, 30);
 
 MapScene::MapScene(const Map& map) :
     QGraphicsScene(),
-    tileList()
+    tileList(),
+    dynamicElementList()
 {
     setBackgroundBrush(QBrush(Qt::black));
 
@@ -37,7 +38,7 @@ MapScene::MapScene(const Map& map) :
         while (column < (mapSize.width() - line + adjust) / 2)
         {
             Tile* tile(new Tile(MapCoordinates(column, line + column), BASE_TILE_SIZE));
-            tile->pushGraphicsItem(new StaticElementGraphicsItem(BASE_TILE_SIZE, MapSize(1), grassImage));
+            tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, MapSize(1), grassImage));
 
             addItem(tile);
             tileList.append(tile);
@@ -62,6 +63,49 @@ MapScene::MapScene(const Map& map) :
         {
             addStaticElementBuilding(tile, MapSize(2), buildingImage);
         }
+    }
+
+    connect(&map, &Map::dynamicElementCreated, this, &MapScene::registerNewDynamicElement);
+    connect(&map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
+}
+
+
+
+
+
+void MapScene::registerNewDynamicElement(const QWeakPointer<AbstractDynamicMapElement>& element)
+{
+    // Load the test images.
+    QPixmap characterImage("assets/img/character.png");
+
+    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, characterImage));
+    dynamicElementList.append(graphicsItem);
+
+    auto elementAccess(element.toStrongRef());
+    if (elementAccess)
+    {
+        Tile* tile(getTileAt(elementAccess->getCurrentLocation().getRounded()));
+        tile->registerDynamicElement(graphicsItem);
+    }
+}
+
+
+
+
+
+void MapScene::refresh()
+{
+    for (auto element : dynamicElementList)
+    {
+        const MapCoordinates& previousTileLocation(static_cast<Tile*>(element->parentItem())->getCoordinates());
+        MapCoordinates newTileLocation(element->getCoordinates().getRounded());
+        if (newTileLocation != previousTileLocation)
+        {
+            getTileAt(previousTileLocation)->unregisterDynamicElement(element);
+            getTileAt(newTileLocation)->registerDynamicElement(element);
+        }
+
+        element->refresh();
     }
 }
 
@@ -88,7 +132,7 @@ Tile* MapScene::getTileAt(const MapCoordinates& location)
 
 void MapScene::addStaticElementBuilding(Tile* tile, const MapSize& elementSize, const QPixmap& elementImage)
 {
-    tile->pushGraphicsItem(new StaticElementGraphicsItem(BASE_TILE_SIZE, elementSize, elementImage));
+    tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, elementSize, elementImage));
 
     if (elementSize.getValue() > 1)
     {

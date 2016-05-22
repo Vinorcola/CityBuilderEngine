@@ -20,6 +20,7 @@ class AbstractProcessable
 {
     public:
         AbstractProcessable();
+        virtual ~AbstractProcessable();
 
 
 

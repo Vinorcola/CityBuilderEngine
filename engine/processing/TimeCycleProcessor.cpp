@@ -12,8 +12,9 @@ const float MSEC_PER_SEC(1000);
 
 
 
-TimeCycleProcessor::TimeCycleProcessor(const float speedRatio) :
-    cyclePerSecondBase(2), // 75
+TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const float speedRatio) :
+    QObject(parent),
+    cyclePerSecondBase(2), // 30
     speedRatio(speedRatio),
     clock(),
     processableList(),
@@ -69,4 +70,5 @@ void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
     }
 
     ++currentCycleDate;
+    emit processFinished();
 }

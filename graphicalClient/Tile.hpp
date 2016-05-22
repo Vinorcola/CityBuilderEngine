@@ -4,7 +4,8 @@
 #include <QStack>
 
 #include "engine/map/MapCoordinates.hpp"
-#include "graphicalClient/StaticElementGraphicsItem.hpp"
+#include "graphicalClient/DynamicElement.hpp"
+#include "graphicalClient/StaticElement.hpp"
 
 
 
@@ -14,7 +15,8 @@ class Tile : public QGraphicsItem
 {
     private:
         MapCoordinates location;
-        QStack<StaticElementGraphicsItem*> graphicsItemList;
+        QStack<StaticElement*> staticElementList;
+        QList<DynamicElement*> dynamicElementList;
 
 
 
@@ -27,16 +29,24 @@ class Tile : public QGraphicsItem
 
 
 
-        void pushGraphicsItem(StaticElementGraphicsItem* graphicsItem);
+        void pushStaticElement(StaticElement* element);
 
 
 
         /**
-         * @brief Pop the last graphics item displayed the tile.
+         * @brief Pop the last graphics item displayed on the tile.
          *
          * The graphics item's parent is reset so make sure you delete the object if you don't use it anymore.
          */
-        StaticElementGraphicsItem* popGraphicsItem();
+        StaticElement* popStaticElement();
+
+
+
+        void registerDynamicElement(DynamicElement* element);
+
+
+
+        void unregisterDynamicElement(DynamicElement* element);
 
 
 
