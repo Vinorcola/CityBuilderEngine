@@ -1,9 +1,10 @@
-#include <QCoreApplication>
+#include <QApplication>
 #include <QDateTime>
 
 #include "engine/element/building/MaintenanceBuilding.hpp"
 #include "engine/element/building/Road.hpp"
 #include "engine/map/Map.hpp"
+#include "graphicalClient/MapViewer.hpp"
 
 
 
@@ -11,11 +12,11 @@
 
 int main(int argc, char* argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
 
     qsrand(QDateTime::currentDateTime().toTime_t());
     
-    Map map({ 30, 30 });
+    Map map({ 23, 33 });
 
     // Roads
     map.createStaticElement(Map::StaticElementType::Road, MapArea(MapCoordinates(3, 4), MapSize(1)));
@@ -32,6 +33,9 @@ int main(int argc, char* argv[])
 
     // Buildings
     map.createStaticElement(Map::StaticElementType::Maintenance, MapArea(MapCoordinates(1, 5), MapSize(2)));
+
+    MapViewer* window(new MapViewer(map));
+    window->show();
     
     return a.exec();
 }

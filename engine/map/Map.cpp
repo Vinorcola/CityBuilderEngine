@@ -23,12 +23,21 @@ Map::Map(const QSize& size) :
 
 
 
+const QSize& Map::getSize() const
+{
+    return size;
+}
+
+
+
+
+
 bool Map::isValidCoordinates(const MapCoordinates& coordinates) const
 {
     int sum(coordinates.getY() + coordinates.getX());
     int diff(coordinates.getY() - coordinates.getX());
     return diff >= 0 && diff < size.height()
-            && sum >= 0 && sum < size.width();
+        && sum >= 0 && sum < size.width();
 }
 
 
@@ -40,7 +49,7 @@ bool Map::isValidArea(const MapArea& area) const
     return isValidCoordinates(area.getLeft())
         && isValidCoordinates(area.getRight())
         && isValidCoordinates(area.getTop())
-            && isValidCoordinates(area.getBottom());
+        && isValidCoordinates(area.getBottom());
 }
 
 

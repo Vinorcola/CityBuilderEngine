@@ -45,6 +45,13 @@ class Map
 
 
         /**
+         * @brief Return the size of the map in terms on tiles.
+         */
+        const QSize& getSize() const;
+
+
+
+        /**
          * @brief Indicate if the given coordinates are valid
          *
          * The coordinates are valid if they point to an existing cell in the map.

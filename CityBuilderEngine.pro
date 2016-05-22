@@ -1,10 +1,8 @@
-QT += core
-QT -= gui
+
+QT += core gui widgets
 
 TARGET = CityBuilderEngine
-CONFIG += console
 CONFIG += c++14
-CONFIG -= app_bundle
 
 TEMPLATE = app
 
@@ -31,6 +29,10 @@ SOURCES += \
     exceptions/InvalidMapElementException.cpp \
     exceptions/OutOfRangeException.cpp \
     exceptions/UnexpectedException.cpp \
+    graphicalClient/MapScene.cpp \
+    graphicalClient/MapViewer.cpp \
+    graphicalClient/StaticElementGraphicsItem.cpp \
+    graphicalClient/Tile.cpp \
     main.cpp
 
 HEADERS += \
@@ -55,5 +57,9 @@ HEADERS += \
     exceptions/EngineException.hpp \
     exceptions/InvalidMapElementException.hpp \
     exceptions/OutOfRangeException.hpp \
-    exceptions/UnexpectedException.hpp
+    exceptions/UnexpectedException.hpp \
+    graphicalClient/MapScene.hpp \
+    graphicalClient/MapViewer.hpp \
+    graphicalClient/StaticElementGraphicsItem.hpp \
+    graphicalClient/Tile.hpp
 
