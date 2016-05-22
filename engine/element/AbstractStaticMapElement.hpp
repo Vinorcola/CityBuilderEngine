@@ -16,6 +16,8 @@ class AbstractStaticMapElement
 
     public:
         AbstractStaticMapElement(const MapArea& area);
+        virtual ~AbstractStaticMapElement() {} // Temporary virtual empty destructor in order to get polymorphism work
+                                               // with dynamic_cast.
 
 
 

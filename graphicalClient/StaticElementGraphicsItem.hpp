@@ -9,11 +9,10 @@
 
 
 
-class StaticElementGraphicsItem : public QGraphicsItem
+class StaticElementGraphicsItem : public QGraphicsPixmapItem
 {
     private:
         QPainterPath shapePath;
-        QGraphicsPixmapItem* imageGraphicsItem;
 
 
 
@@ -22,8 +21,6 @@ class StaticElementGraphicsItem : public QGraphicsItem
 
 
 
-        virtual QRectF boundingRect() const;
-        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
         virtual QPainterPath shape() const;
 };
 

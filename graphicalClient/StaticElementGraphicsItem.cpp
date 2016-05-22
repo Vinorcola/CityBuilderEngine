@@ -5,9 +5,8 @@
 
 
 StaticElementGraphicsItem::StaticElementGraphicsItem(const QSizeF& baseTileSize, const MapSize& elementSize, const QPixmap& elementImage) :
-    QGraphicsItem(),
-    shapePath(),
-    imageGraphicsItem(new QGraphicsPixmapItem(elementImage, this))
+    QGraphicsPixmapItem(elementImage),
+    shapePath()
 {
     qreal elementSizeValue(elementSize.getValue());
     qreal baseTileSizeHeight(baseTileSize.height());
@@ -15,45 +14,20 @@ StaticElementGraphicsItem::StaticElementGraphicsItem(const QSizeF& baseTileSize,
     qreal halfBaseTileSizeHeight(baseTileSizeHeight / 2.0);
     qreal halfBaseTileSizeWidth(baseTileSizeWidth / 2.0);
 
-    // Move the graphics item horizontally according to the element size.
-    // NOTE: The position needs to be set according to the left tile coordinates.
-    setPos(
-        0,
-        -(elementSizeValue - 1) * halfBaseTileSizeHeight
-    );
-
     // Move the image at the right place.
     qreal zoneHeight(elementSizeValue * baseTileSizeHeight);
     qreal zoneWidth(elementSizeValue * baseTileSizeWidth);
     qreal extraImageHeight(qMax(0.0, elementImage.height() - zoneHeight));
     qreal extraImageWidth(qMax(0.0, elementImage.width() - zoneWidth));
-    imageGraphicsItem->setPos(-extraImageWidth / 2.0, -extraImageHeight);
+    setPos(-extraImageWidth / 2.0, -(elementSizeValue - 1) * halfBaseTileSizeHeight - extraImageHeight);
 
     // Create shape path.
-    // NOTE: The shape path must turn arround the element size on the map.
+    // NOTE: The shape path must represent the element base on the map. It must not take the element extra height.
     shapePath.moveTo( elementSizeValue * halfBaseTileSizeWidth, 0                                         );
     shapePath.lineTo( elementSizeValue * baseTileSizeWidth    , elementSizeValue * halfBaseTileSizeHeight );
     shapePath.lineTo( elementSizeValue * halfBaseTileSizeWidth, elementSizeValue * baseTileSizeHeight     );
     shapePath.lineTo( 0                                       , elementSizeValue * halfBaseTileSizeHeight );
     shapePath.closeSubpath();
-}
-
-
-
-
-
-QRectF StaticElementGraphicsItem::boundingRect() const
-{
-    return imageGraphicsItem->boundingRect();
-}
-
-
-
-
-
-void StaticElementGraphicsItem::paint(QPainter* /*painter*/, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/)
-{
-    // Nothing to paint here. It is the children elements that will be painted (the imageGraphicsItem particularly).
 }
 
 

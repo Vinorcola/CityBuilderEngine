@@ -52,6 +52,13 @@ class Map
 
 
         /**
+         * @brief getStaticElementList
+         */
+        const QList<AbstractStaticMapElement*>& getStaticElementList() const;
+
+
+
+        /**
          * @brief Indicate if the given coordinates are valid
          *
          * The coordinates are valid if they point to an existing cell in the map.

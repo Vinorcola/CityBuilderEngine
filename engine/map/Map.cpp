@@ -32,6 +32,15 @@ const QSize& Map::getSize() const
 
 
 
+const QList<AbstractStaticMapElement*>& Map::getStaticElementList() const
+{
+    return staticElementList;
+}
+
+
+
+
+
 bool Map::isValidCoordinates(const MapCoordinates& coordinates) const
 {
     int sum(coordinates.getY() + coordinates.getX());

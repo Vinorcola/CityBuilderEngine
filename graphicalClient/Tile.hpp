@@ -10,20 +10,20 @@
 
 
 
-class Tile : public QObject
+class Tile : public QGraphicsItem
 {
-        Q_OBJECT
-
-
     private:
         MapCoordinates location;
-        QPointF graphicalAttachPoint;
-        QStack<StaticElementGraphicsItem*> graphicsItemlist;
+        QStack<StaticElementGraphicsItem*> graphicsItemList;
 
 
 
     public:
-        Tile(const MapCoordinates& location, const QSizeF& baseTileSize, QObject* parent);
+        Tile(const MapCoordinates& location, const QSizeF& baseTileSize);
+
+
+
+        const MapCoordinates& getCoordinates() const;
 
 
 
@@ -31,7 +31,17 @@ class Tile : public QObject
 
 
 
+        /**
+         * @brief Pop the last graphics item displayed the tile.
+         *
+         * The graphics item's parent is reset so make sure you delete the object if you don't use it anymore.
+         */
         StaticElementGraphicsItem* popGraphicsItem();
+
+
+
+        virtual QRectF boundingRect() const;
+        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
 };
 
 #endif // TILE_HPP

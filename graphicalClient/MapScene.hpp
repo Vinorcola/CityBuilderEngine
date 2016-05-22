@@ -22,6 +22,15 @@ class MapScene : public QGraphicsScene
 
     public:
         MapScene(const Map& map);
+
+
+
+    private:
+        Tile* getTileAt(const MapCoordinates& location);
+
+
+
+        void addStaticElementBuilding(Tile* tile, const MapSize& elementSize, const QPixmap& elementImage);
 };
 
 #endif // MAPSCENE_HPP
