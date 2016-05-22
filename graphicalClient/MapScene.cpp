@@ -30,7 +30,11 @@ MapScene::MapScene(const Map& map) :
     const QSize& mapSize(map.getSize());
     while (line < mapSize.height())
     {
-        while (column < (mapSize.width() - line + 1) / 2)
+        // NOTE: Because we divide by 2 and casting as integer, we deliberately remove floating precision. However, the
+        // adjustment needs to be 1 higher when "mapSize.width() - line" become negative. This is because -0.5 is cast
+        // to 0 insted of 1.
+        int adjust(line > mapSize.width() ? 1 : 2);
+        while (column < (mapSize.width() - line + adjust) / 2)
         {
             Tile* tile(new Tile(MapCoordinates(column, line + column), BASE_TILE_SIZE));
             tile->pushGraphicsItem(new StaticElementGraphicsItem(BASE_TILE_SIZE, MapSize(1), grassImage));
