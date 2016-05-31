@@ -18,6 +18,9 @@ int main(int argc, char* argv[])
     
     Map map({ 23, 33 });
 
+    MapViewer* window(new MapViewer(map));
+    window->show();
+
     // Roads
     map.createStaticElement(Map::StaticElementType::Road, MapArea(MapCoordinates(3, 4), MapSize(1)));
     map.createStaticElement(Map::StaticElementType::Road, MapArea(MapCoordinates(2, 4), MapSize(1)));
@@ -42,9 +45,6 @@ int main(int argc, char* argv[])
 
     // Buildings
     map.createStaticElement(Map::StaticElementType::Maintenance, MapArea(MapCoordinates(1, 5), MapSize(2)));
-
-    MapViewer* window(new MapViewer(map));
-    window->show();
     
     return a.exec();
 }

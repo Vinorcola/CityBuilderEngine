@@ -20,9 +20,7 @@ MapScene::MapScene(const Map& map) :
 {
     setBackgroundBrush(QBrush(Qt::black));
 
-    // Load the test images.
-    QPixmap buildingImage("assets/img/building.png");
-    QPixmap roadImage("assets/img/road");
+    // Load the grass image.
     QPixmap grassImage("assets/img/grass.png");
 
     // Create the tiles and their graphics item.
@@ -49,22 +47,7 @@ MapScene::MapScene(const Map& map) :
         column = -line / 2;
     }
 
-    // Add the existing buildings.
-    auto buildingList(map.getStaticElementList());
-    for (auto building : buildingList)
-    {
-        Tile* tile(getTileAt(building->getArea().getLeft()));
-
-        if (dynamic_cast<Road*>(building))
-        {
-            addStaticElementBuilding(tile, MapSize(1), roadImage);
-        }
-        else if (dynamic_cast<MaintenanceBuilding*>(building))
-        {
-            addStaticElementBuilding(tile, MapSize(2), buildingImage);
-        }
-    }
-
+    connect(&map, &Map::staticElementCreated, this, &MapScene::registerNewStaticElement);
     connect(&map, &Map::dynamicElementCreated, this, &MapScene::registerNewDynamicElement);
     connect(&map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
 }
@@ -73,17 +56,40 @@ MapScene::MapScene(const Map& map) :
 
 
 
-void MapScene::registerNewDynamicElement(const QWeakPointer<AbstractDynamicMapElement>& element)
+void MapScene::registerNewStaticElement(const QWeakPointer<AbstractStaticMapElement>& element)
 {
-    // Load the test images.
-    QPixmap characterImage("assets/img/character.png");
-
-    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, characterImage));
-    dynamicElementList.append(graphicsItem);
-
     auto elementAccess(element.toStrongRef());
     if (elementAccess)
     {
+        auto staticElement(elementAccess.data());
+        Tile* tile(getTileAt(staticElement->getArea().getLeft()));
+
+        if (dynamic_cast<Road*>(staticElement))
+        {
+            addStaticElementBuilding(tile, MapSize(1), QPixmap("assets/img/road"));
+        }
+        else if (dynamic_cast<MaintenanceBuilding*>(staticElement))
+        {
+            addStaticElementBuilding(tile, MapSize(2), QPixmap("assets/img/building.png"));
+        }
+    }
+}
+
+
+
+
+
+void MapScene::registerNewDynamicElement(const QWeakPointer<AbstractDynamicMapElement>& element)
+{
+    auto elementAccess(element.toStrongRef());
+    if (elementAccess)
+    {
+        // Load the test images.
+        QPixmap characterImage("assets/img/character.png");
+
+        DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, characterImage));
+        dynamicElementList.append(graphicsItem);
+
         Tile* tile(getTileAt(elementAccess->getCurrentLocation().getRounded()));
         tile->registerDynamicElement(graphicsItem);
     }

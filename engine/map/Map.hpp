@@ -37,7 +37,7 @@ class Map : public QObject
         QSize size;
         RoadGraph roadGraph;
         TimeCycleProcessor processor;
-        QList<AbstractStaticMapElement*> staticElementList;
+        QList<QSharedPointer<AbstractStaticMapElement>> staticElementList;
         QList<QSharedPointer<AbstractDynamicMapElement>> dynamicElementList;
 
 
@@ -51,13 +51,6 @@ class Map : public QObject
          * @brief Return the size of the map in terms on tiles.
          */
         const QSize& getSize() const;
-
-
-
-        /**
-         * @brief getStaticElementList
-         */
-        const QList<AbstractStaticMapElement*>& getStaticElementList() const;
 
 
 
@@ -123,6 +116,7 @@ class Map : public QObject
 
 
     signals:
+        void staticElementCreated(const QWeakPointer<AbstractStaticMapElement>& elementCreated);
         void dynamicElementCreated(const QWeakPointer<AbstractDynamicMapElement>& elementCreated);
 };
 

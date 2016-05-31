@@ -35,15 +35,6 @@ const QSize& Map::getSize() const
 
 
 
-const QList<AbstractStaticMapElement*>& Map::getStaticElementList() const
-{
-    return staticElementList;
-}
-
-
-
-
-
 bool Map::isValidCoordinates(const MapCoordinates& coordinates) const
 {
     int sum(coordinates.getY() + coordinates.getX());
@@ -155,7 +146,10 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
             break;
     }
 
-    staticElementList.append(element);
+    QSharedPointer<AbstractStaticMapElement> elementAccess(element);
+    staticElementList.append(elementAccess);
+
+    emit staticElementCreated(elementAccess.toWeakRef());
 }
 
 

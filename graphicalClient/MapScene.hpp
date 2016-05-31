@@ -28,6 +28,10 @@ class MapScene : public QGraphicsScene
 
 
     public slots:
+        void registerNewStaticElement(const QWeakPointer<AbstractStaticMapElement>& element);
+
+
+
         void registerNewDynamicElement(const QWeakPointer<AbstractDynamicMapElement>& element);
 
 
