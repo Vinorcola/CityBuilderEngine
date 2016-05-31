@@ -34,6 +34,7 @@ SOURCES += \
     graphicalClient/MapViewer.cpp \
     graphicalClient/StaticElement.cpp \
     graphicalClient/Tile.cpp \
+    ui/MainWindow.cpp \
     main.cpp
 
 HEADERS += \
@@ -63,5 +64,6 @@ HEADERS += \
     graphicalClient/MapScene.hpp \
     graphicalClient/MapViewer.hpp \
     graphicalClient/StaticElement.hpp \
-    graphicalClient/Tile.hpp
+    graphicalClient/Tile.hpp \
+    ui/MainWindow.hpp
 
