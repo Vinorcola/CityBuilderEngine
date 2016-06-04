@@ -29,16 +29,16 @@ SOURCES += \
     exceptions/InvalidMapElementException.cpp \
     exceptions/OutOfRangeException.cpp \
     exceptions/UnexpectedException.cpp \
-    graphicalClient/DynamicElement.cpp \
-    graphicalClient/MapScene.cpp \
-    graphicalClient/MapViewer.cpp \
-    graphicalClient/SelectionElement.cpp \
-    graphicalClient/StaticElement.cpp \
-    graphicalClient/Tile.cpp \
     ui/controlPanel/BuildingButton.cpp \
     ui/controlPanel/BuildingPage.cpp \
     ui/controlPanel/ControlPanel.cpp \
     ui/MainWindow.cpp \
+    viewer/DynamicElement.cpp \
+    viewer/MapScene.cpp \
+    viewer/MapViewer.cpp \
+    viewer/SelectionElement.cpp \
+    viewer/StaticElement.cpp \
+    viewer/Tile.cpp \
     main.cpp
 
 HEADERS += \
@@ -64,14 +64,17 @@ HEADERS += \
     exceptions/InvalidMapElementException.hpp \
     exceptions/OutOfRangeException.hpp \
     exceptions/UnexpectedException.hpp \
-    graphicalClient/DynamicElement.hpp \
-    graphicalClient/MapScene.hpp \
-    graphicalClient/MapViewer.hpp \
-    graphicalClient/SelectionElement.hpp \
-    graphicalClient/StaticElement.hpp \
-    graphicalClient/Tile.hpp \
     ui/controlPanel/BuildingButton.hpp \
     ui/controlPanel/BuildingPage.hpp \
     ui/controlPanel/ControlPanel.hpp \
-    ui/MainWindow.hpp
+    ui/MainWindow.hpp \
+    viewer/DynamicElement.hpp \
+    viewer/MapScene.hpp \
+    viewer/MapViewer.hpp \
+    viewer/SelectionElement.hpp \
+    viewer/StaticElement.hpp \
+    viewer/Tile.hpp
+
+DISTFILES += \
+    README.md
 
