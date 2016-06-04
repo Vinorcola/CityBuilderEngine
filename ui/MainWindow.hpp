@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "engine/map/Map.hpp"
+#include "ui/controlPanel/ControlPanel.hpp"
 
 
 
@@ -15,6 +16,7 @@ class MainWindow : public QMainWindow
 
 
     private:
+        ControlPanel* controlPanel;
         Map* currentMap;
 
 

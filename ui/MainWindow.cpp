@@ -3,6 +3,7 @@
 #include <QMenuBar>
 
 #include "graphicalClient/MapViewer.hpp"
+#include "ui/controlPanel/ControlPanel.hpp"
 
 
 
@@ -10,6 +11,7 @@
 
 MainWindow::MainWindow() :
     QMainWindow(),
+    controlPanel(new ControlPanel),
     currentMap(nullptr)
 {
     // Menus.
@@ -20,6 +22,9 @@ MainWindow::MainWindow() :
     gameMenu->addAction(quitAction);
 
     connect(quitAction, &QAction::triggered, this, &MainWindow::close);
+
+    // Control panel.
+    addDockWidget(Qt::RightDockWidgetArea, controlPanel);
 }
 
 
@@ -46,7 +51,10 @@ void MainWindow::createMap(const QSize& size)
     }
     currentMap = new Map(size);
 
-    setCentralWidget(new MapViewer(*currentMap));
+    MapViewer* viewer(new MapViewer(*currentMap));
+    setCentralWidget(viewer);
+    connect(controlPanel, &ControlPanel::buildingRequested, viewer, &MapViewer::buildingRequest);
+    connect(controlPanel, &ControlPanel::cancelBuildingRequest, viewer, &MapViewer::cancelBuildingRequest);
 
     // Roads
     currentMap->createStaticElement(Map::StaticElementType::Road, MapArea(MapCoordinates(3, 4), MapSize(1)));

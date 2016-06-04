@@ -95,7 +95,7 @@ class Map : public QObject
 
 
         /**
-         * @brief Create a statis element on the map.
+         * @brief Create a static element on the map.
          *
          * @param type The type of static element to create.
          * @param area The location of the element on the map.

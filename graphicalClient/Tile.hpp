@@ -11,8 +11,11 @@
 
 
 
-class Tile : public QGraphicsItem
+class Tile : public QGraphicsObject
 {
+        Q_OBJECT
+
+
     private:
         MapCoordinates location;
         QStack<StaticElement*> staticElementList;
@@ -52,6 +55,17 @@ class Tile : public QGraphicsItem
 
         virtual QRectF boundingRect() const;
         virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
+        virtual QPainterPath shape() const;
+
+
+
+    signals:
+        void isCurrentTile(Tile* tile);
+
+
+
+    protected:
+        virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
 };
 
 #endif // TILE_HPP

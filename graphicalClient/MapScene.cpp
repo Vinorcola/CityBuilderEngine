@@ -16,7 +16,8 @@ const QSizeF BASE_TILE_SIZE(58, 30);
 MapScene::MapScene(const Map& map) :
     QGraphicsScene(),
     tileList(),
-    dynamicElementList()
+    dynamicElementList(),
+    selectionElement(new SelectionElement(BASE_TILE_SIZE))
 {
     setBackgroundBrush(QBrush(Qt::black));
 
@@ -40,6 +41,7 @@ MapScene::MapScene(const Map& map) :
 
             addItem(tile);
             tileList.append(tile);
+            connect(tile, &Tile::isCurrentTile, this, &MapScene::currentTileChanged);
 
             ++column;
         }
@@ -47,9 +49,42 @@ MapScene::MapScene(const Map& map) :
         column = -line / 2;
     }
 
+    // Attach the selection element.
+    selectionElement->setVisible(false);
+    addItem(selectionElement);
+
     connect(&map, &Map::staticElementCreated, this, &MapScene::registerNewStaticElement);
     connect(&map, &Map::dynamicElementCreated, this, &MapScene::registerNewDynamicElement);
     connect(&map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
+}
+
+
+
+
+
+void MapScene::requestBuilding(Map::StaticElementType type)
+{
+    switch (type)
+    {
+        case Map::StaticElementType::Maintenance:
+            selectionElement->setSize(MapSize(2));
+            selectionElement->setVisible(true);
+            break;
+
+        case Map::StaticElementType::Road:
+            selectionElement->setSize(MapSize(1));
+            selectionElement->setVisible(true);
+            break;
+    }
+}
+
+
+
+
+
+void MapScene::cancelBuildingRequest()
+{
+    selectionElement->setVisible(false);
 }
 
 
@@ -157,5 +192,17 @@ void MapScene::addStaticElementBuilding(Tile* tile, const MapSize& elementSize, 
             current.setX(left.getX());
             current = current.getSouth();
         }
+    }
+}
+
+
+
+
+
+void MapScene::currentTileChanged(Tile* currentTile)
+{
+    if (selectionElement->isVisible())
+    {
+        selectionElement->setPos(currentTile->pos());
     }
 }

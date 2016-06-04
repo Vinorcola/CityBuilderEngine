@@ -14,6 +14,7 @@ DynamicElement::DynamicElement(const QSizeF& baseTileSize, const QWeakPointer<Ab
     element(element)
 {
     refresh();
+    setZValue(1.0);
 }
 
 

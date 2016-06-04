@@ -32,8 +32,12 @@ SOURCES += \
     graphicalClient/DynamicElement.cpp \
     graphicalClient/MapScene.cpp \
     graphicalClient/MapViewer.cpp \
+    graphicalClient/SelectionElement.cpp \
     graphicalClient/StaticElement.cpp \
     graphicalClient/Tile.cpp \
+    ui/controlPanel/BuildingButton.cpp \
+    ui/controlPanel/BuildingPage.cpp \
+    ui/controlPanel/ControlPanel.cpp \
     ui/MainWindow.cpp \
     main.cpp
 
@@ -63,7 +67,11 @@ HEADERS += \
     graphicalClient/DynamicElement.hpp \
     graphicalClient/MapScene.hpp \
     graphicalClient/MapViewer.hpp \
+    graphicalClient/SelectionElement.hpp \
     graphicalClient/StaticElement.hpp \
     graphicalClient/Tile.hpp \
+    ui/controlPanel/BuildingButton.hpp \
+    ui/controlPanel/BuildingPage.hpp \
+    ui/controlPanel/ControlPanel.hpp \
     ui/MainWindow.hpp
 

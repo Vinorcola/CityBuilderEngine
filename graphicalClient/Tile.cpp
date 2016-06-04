@@ -5,11 +5,12 @@
 
 
 Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize) :
-    QGraphicsItem(),
+    QGraphicsObject(),
     location(location),
     staticElementList(),
     dynamicElementList()
 {
+    setAcceptHoverEvents(true);
     setPos(
         (location.getY() + location.getX()) * baseTileSize.width() / 2.0,
         (location.getY() - location.getX()) * baseTileSize.height() / 2.0
@@ -101,4 +102,27 @@ QRectF Tile::boundingRect() const
 void Tile::paint(QPainter* /*painter*/, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/)
 {
     // Nothing to paint here. It is the last child element of the stack that will be painted.
+}
+
+
+
+
+
+QPainterPath Tile::shape() const
+{
+    if (staticElementList.size() > 0)
+    {
+        return staticElementList.last()->shape();
+    }
+
+    return QGraphicsObject::shape();
+}
+
+
+
+
+
+void Tile::hoverEnterEvent(QGraphicsSceneHoverEvent* /*event*/)
+{
+    emit isCurrentTile(this);
 }
