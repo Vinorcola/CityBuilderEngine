@@ -1,6 +1,6 @@
 #include "MapViewer.hpp"
 
-#include "graphicalClient/MapScene.hpp"
+#include "viewer/MapScene.hpp"
 
 
 

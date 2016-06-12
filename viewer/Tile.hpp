@@ -4,8 +4,8 @@
 #include <QStack>
 
 #include "engine/map/MapCoordinates.hpp"
-#include "graphicalClient/DynamicElement.hpp"
-#include "graphicalClient/StaticElement.hpp"
+#include "viewer/DynamicElement.hpp"
+#include "viewer/StaticElement.hpp"
 
 
 

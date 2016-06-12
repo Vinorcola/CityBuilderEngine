@@ -4,9 +4,9 @@
 #include <QGraphicsScene>
 
 #include "engine/map/Map.hpp"
-#include "graphicalClient/DynamicElement.hpp"
-#include "graphicalClient/SelectionElement.hpp"
-#include "graphicalClient/Tile.hpp"
+#include "viewer/DynamicElement.hpp"
+#include "viewer/SelectionElement.hpp"
+#include "viewer/Tile.hpp"
 
 
 

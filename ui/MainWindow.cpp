@@ -2,7 +2,7 @@
 
 #include <QMenuBar>
 
-#include "graphicalClient/MapViewer.hpp"
+#include "viewer/MapViewer.hpp"
 #include "ui/controlPanel/ControlPanel.hpp"
 
 
