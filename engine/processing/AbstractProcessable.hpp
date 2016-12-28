@@ -11,10 +11,11 @@
  * @brief Represent a processable element on the map.
  * 
  * A processable element is an element that exists on the map, and that its state will evolve during time. There are 2
- * main kind of processable elements: buildings and characters.
+ * main kinds of processable elements: buildings and characters.
  * 
- * The process() method is called to process on single time-cycle. Each processbla can do want it wants during this
- * time-cycle. For example, a character can moves whil a builing can generate a character.
+ * The init() method is called when registering the element in the time-cycle processor. The process() method is called
+ * to process on single time-cycle. Each processable can do what it wants during this time-cycle. For example, a
+ * character can moves while a builing can generate a character.
  */
 class AbstractProcessable
 {
@@ -22,7 +23,10 @@ class AbstractProcessable
         AbstractProcessable();
         virtual ~AbstractProcessable();
 
-
+        /**
+         * @brief Init the processable element with the current date.
+         */
+        virtual void init(const CycleDate& /*date*/) {}
 
         /**
          * @brief Process a single time-cycle.

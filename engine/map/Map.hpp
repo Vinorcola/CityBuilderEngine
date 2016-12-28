@@ -86,14 +86,14 @@ class Map : public QObject
 
 
 
-        RoadGraph& getRoadGraph();
-
-
-
+        /**
+         * @brief Return a const reference to the time cycle processor.
+         */
         const TimeCycleProcessor& getProcessor() const;
 
 
 
+    public slots:
         /**
          * @brief Create a static element on the map.
          *

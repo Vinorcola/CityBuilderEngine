@@ -102,15 +102,6 @@ bool Map::isFreeArea(const MapArea& area) const
 
 
 
-RoadGraph& Map::getRoadGraph()
-{
-    return roadGraph;
-}
-
-
-
-
-
 const TimeCycleProcessor& Map::getProcessor() const
 {
     return processor;

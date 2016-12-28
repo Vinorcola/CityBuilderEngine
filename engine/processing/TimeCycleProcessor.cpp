@@ -18,6 +18,8 @@ TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const float speedRatio) 
     speedRatio(speedRatio),
     clock(),
     processableList(),
+    waitingForRegistrationList(),
+    waitingForUnregistrationList(),
     currentCycleDate()
 {
     clock.start(MSEC_PER_SEC / (cyclePerSecondBase * speedRatio), this);
@@ -45,7 +47,8 @@ void TimeCycleProcessor::setSpeedRatio(const float ratio)
 
 void TimeCycleProcessor::registerProcessable(AbstractProcessable* processable)
 {
-    processableList.append(processable);
+    waitingForRegistrationList.append(processable);
+    processable->init(currentCycleDate);
 }
 
 
@@ -54,7 +57,7 @@ void TimeCycleProcessor::registerProcessable(AbstractProcessable* processable)
 
 void TimeCycleProcessor::unregisterProcessable(AbstractProcessable* processable)
 {
-    processableList.removeOne(processable);
+    waitingForUnregistrationList.append(processable);
 }
 
 
@@ -64,11 +67,24 @@ void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
 {
     qDebug() << "Process time-cycle" << currentCycleDate.toString();
 
+    // Process current processable list.
     for (auto processable : processableList)
     {
         processable->process(currentCycleDate);
     }
 
+    // Process unregistration.
+    for (auto processable : waitingForUnregistrationList)
+    {
+        processableList.removeOne(processable);
+    }
+    waitingForUnregistrationList.clear();
+
+    // Process registration.
+    processableList.append(waitingForRegistrationList);
+    waitingForRegistrationList.clear();
+
+    // Increment to cycle date.
     ++currentCycleDate;
     emit processFinished();
 }

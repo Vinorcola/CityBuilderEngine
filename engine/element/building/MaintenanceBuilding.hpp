@@ -20,8 +20,7 @@ class MaintenanceBuilding : public AbstractProcessableBuilding
     public:
         MaintenanceBuilding(Map& map, const MapArea& area, const MapCoordinates& entryPoint);
 
-
-
+        virtual void init(const CycleDate& date);
         virtual void process(const CycleDate& date);
 };
 
