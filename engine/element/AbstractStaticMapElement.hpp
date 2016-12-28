@@ -7,6 +7,11 @@
 
 
 
+/**
+ * @brief Represent a static element on the map.
+ *
+ * A static element is an element that can't move. It covers an area of the map.
+ */
 class AbstractStaticMapElement
 {
     protected:

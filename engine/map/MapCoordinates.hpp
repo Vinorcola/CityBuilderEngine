@@ -7,6 +7,13 @@
 
 
 
+/**
+ * @brief Represent the coordinates of a point on a map.
+ *
+ * The coordinates are counted in number of tiles. Those coordinates are not necessary integers. There can be some
+ * float coordinates that represent an element moving between 2 tiles. The tile pointed by the coordinates is the one
+ * under the coordinate returned by the getRounded() method.
+ */
 class MapCoordinates
 {
     private:
@@ -16,8 +23,8 @@ class MapCoordinates
 
     public:
         MapCoordinates();
-        MapCoordinates(int x, int y);
-        MapCoordinates(qreal x, qreal y);
+        MapCoordinates(const int x, const int y);
+        MapCoordinates(const qreal x, const qreal y);
 
         bool operator==(const MapCoordinates& other) const;
         bool operator!=(const MapCoordinates& other) const;
@@ -25,7 +32,6 @@ class MapCoordinates
         bool isValid() const;
         qreal getX() const;
         qreal getY() const;
-        QString toString() const;
 
         void setX(const qreal x);
         void setY(const qreal y);
@@ -36,6 +42,9 @@ class MapCoordinates
         MapCoordinates getWest() const;
 
         MapCoordinates getRounded() const;
+
+        // DEBUG //
+        QString toString() const;
 };
 
 #endif // MAPCOORDINATES_HPP

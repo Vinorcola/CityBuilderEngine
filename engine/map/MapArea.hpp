@@ -8,6 +8,11 @@
 
 
 
+/**
+ * @brief Represent an area on the map.
+ *
+ * An area is created with some coordinates and a size. If no size provided, then an area of size 1 is created.
+ */
 class MapArea
 {
     private:
@@ -23,10 +28,14 @@ class MapArea
 
         const MapSize getSize() const;
         const MapCoordinates& getLeft() const;
+
         MapCoordinates getRight() const;
         MapCoordinates getTop() const;
         MapCoordinates getBottom() const;
+
         bool isInside(const MapCoordinates& coordinates) const;
+
+        // DEBUG //
         QString toString() const;
 };
 

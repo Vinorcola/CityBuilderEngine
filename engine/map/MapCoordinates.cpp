@@ -16,7 +16,7 @@ MapCoordinates::MapCoordinates() :
 
 
 
-MapCoordinates::MapCoordinates(int x, int y) :
+MapCoordinates::MapCoordinates(const int x, const int y) :
     coordinates(x, y)
 {
 
@@ -26,7 +26,7 @@ MapCoordinates::MapCoordinates(int x, int y) :
 
 
 
-MapCoordinates::MapCoordinates(qreal x, qreal y) :
+MapCoordinates::MapCoordinates(const qreal x, const qreal y) :
     coordinates(x, y)
 {
 
@@ -75,15 +75,6 @@ qreal MapCoordinates::getX() const
 qreal MapCoordinates::getY() const
 {
     return coordinates.y();
-}
-
-
-
-
-
-QString MapCoordinates::toString() const
-{
-    return '(' + QString::number(coordinates.x()) + ';' + QString::number(coordinates.y()) + ')';
 }
 
 
@@ -147,4 +138,13 @@ MapCoordinates MapCoordinates::getWest() const
 MapCoordinates MapCoordinates::getRounded() const
 {
     return { qRound(coordinates.x()), qRound(coordinates.y()) };
+}
+
+
+
+
+
+QString MapCoordinates::toString() const
+{
+    return '(' + QString::number(coordinates.x()) + ';' + QString::number(coordinates.y()) + ')';
 }

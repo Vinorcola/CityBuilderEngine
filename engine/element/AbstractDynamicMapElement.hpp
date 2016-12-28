@@ -8,12 +8,18 @@
 
 
 
+/**
+ * @brief Represent a dynamic element on the map.
+ *
+ * A dynamic element is an element that can move (e.g. change its coordinates through time). Moving element are of size
+ * 1. This implies they do not cover an area. They are just represented by some coordinates.
+ */
 class AbstractDynamicMapElement : public AbstractProcessable
 {
     private:
-        MapCoordinates previousLocation;
-        MapCoordinates currentLocation;
-        MapCoordinates targetLocation;
+        MapCoordinates previousLocation;///< The coordinates the element is moving from.
+        MapCoordinates currentLocation;///< The current coordinates of the element.
+        MapCoordinates targetLocation;///< The coordinates the element is moving to.
 
 
 
