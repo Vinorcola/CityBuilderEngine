@@ -18,6 +18,7 @@ class MapScene : public QGraphicsScene
 
 
     private:
+        const Map& map;
         QList<Tile*> tileList;
         QList<DynamicElement*> dynamicElementList;
         SelectionElement* selectionElement;
@@ -46,6 +47,9 @@ class MapScene : public QGraphicsScene
 
 
 
+        /**
+         * @brief Refresh the map.
+         */
         void refresh();
 
 
@@ -53,9 +57,14 @@ class MapScene : public QGraphicsScene
     private:
         Tile* getTileAt(const MapCoordinates& location);
 
-
-
         void addStaticElementBuilding(Tile* tile, const MapSize& elementSize, const QPixmap& elementImage);
+
+        /**
+         * @brief Refresh the selection element.
+         *
+         * @note Please call only if element is visible.
+         */
+        void refreshSelectionElement();
 
 
 

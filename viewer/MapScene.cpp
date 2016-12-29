@@ -15,6 +15,7 @@ const QSizeF BASE_TILE_SIZE(58, 30);
 
 MapScene::MapScene(const Map& map) :
     QGraphicsScene(),
+    map(map),
     tileList(),
     dynamicElementList(),
     selectionElement(new SelectionElement(BASE_TILE_SIZE))
@@ -136,17 +137,25 @@ void MapScene::registerNewDynamicElement(const QWeakPointer<AbstractDynamicMapEl
 
 void MapScene::refresh()
 {
+    // Refresh all the dynamic elements.
     for (auto element : dynamicElementList)
     {
         const MapCoordinates& previousTileLocation(static_cast<Tile*>(element->parentItem())->getCoordinates());
         MapCoordinates newTileLocation(element->getCoordinates().getRounded());
         if (newTileLocation != previousTileLocation)
         {
+            // Dynamic element just switch to another tile.
             getTileAt(previousTileLocation)->unregisterDynamicElement(element);
             getTileAt(newTileLocation)->registerDynamicElement(element);
         }
 
         element->refresh();
+    }
+
+    // Refresh the selection element.
+    if (selectionElement->isVisible())
+    {
+        refreshSelectionElement();
     }
 }
 
@@ -199,10 +208,27 @@ void MapScene::addStaticElementBuilding(Tile* tile, const MapSize& elementSize, 
 
 
 
+void MapScene::refreshSelectionElement()
+{
+    if (map.isFreeArea(selectionElement->getCoveredArea()))
+    {
+        selectionElement->setGood();
+    }
+    else
+    {
+        selectionElement->setBad();
+    }
+}
+
+
+
+
+
 void MapScene::currentTileChanged(Tile* currentTile)
 {
     if (selectionElement->isVisible())
     {
-        selectionElement->setPos(currentTile->pos());
+        selectionElement->attachToTile(*currentTile);
+        refreshSelectionElement();
     }
 }
