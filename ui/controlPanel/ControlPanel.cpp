@@ -34,22 +34,8 @@ BuildingButton* ControlPanel::createButton(const QString& text, Map::StaticEleme
 {
     BuildingButton* currentButton(new BuildingButton(text, type));
     buttonList.append(currentButton);
-    connect(currentButton, &BuildingButton::toggled, [this, currentButton](bool checked) {
-        if (checked)
-        {
-            for (auto button : buttonList)
-            {
-                if (button != currentButton)
-                {
-                    button->setChecked(false);
-                }
-            }
-            emit buildingRequested(currentButton->getAssociatedType());
-        }
-        else
-        {
-            emit cancelBuildingRequest();
-        }
+    connect(currentButton, &BuildingButton::clicked, [this, currentButton]() {
+        emit buildingRequested(currentButton->getAssociatedType());
     });
 
     return currentButton;

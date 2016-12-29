@@ -22,12 +22,14 @@ class Map : public QObject
     public:
         enum class StaticElementType
         {
+            None = 0,
             Maintenance,
             Road,
         };
 
         enum class DynamicElementType
         {
+            None = 0,
             RandomWalker,
         };
 
@@ -97,9 +99,13 @@ class Map : public QObject
         /**
          * @brief Create a static element on the map.
          *
+         * If the area is not free, the element is not created. For now, we just log with qDebug(). But this fail should
+         * be kept silent because it could eventually append in real condition when a static element creation request
+         * append while the area get "unfree" during the last time cycle process.
+         *
          * @param type The type of static element to create.
          * @param area The location of the element on the map.
-         * @throw UnexpectedException A static element already exists on the area.
+         * @throw UnexpectedException Try to create a static element of type None.
          */
         void createStaticElement(StaticElementType type, const MapArea& area);
 
@@ -110,6 +116,7 @@ class Map : public QObject
          *
          * @param type The type of dynamic element to create.
          * @param initialLocation The location of the element on the map.
+         * @throw UnexpectedException Try to create a dynamic element of type None.
          */
         void createDynamicElement(DynamicElementType type, const MapCoordinates& initialLocation);
 

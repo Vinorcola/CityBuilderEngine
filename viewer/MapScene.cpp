@@ -51,9 +51,9 @@ MapScene::MapScene(const Map& map) :
     }
 
     // Attach the selection element.
-    selectionElement->setVisible(false);
     addItem(selectionElement);
 
+    connect(this, &MapScene::buildingCreationRequested, &map, &Map::createStaticElement);
     connect(&map, &Map::staticElementCreated, this, &MapScene::registerNewStaticElement);
     connect(&map, &Map::dynamicElementCreated, this, &MapScene::registerNewDynamicElement);
     connect(&map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
@@ -63,29 +63,18 @@ MapScene::MapScene(const Map& map) :
 
 
 
-void MapScene::requestBuilding(Map::StaticElementType type)
+void MapScene::requestBuildingPositioning(Map::StaticElementType type)
 {
-    switch (type)
-    {
-        case Map::StaticElementType::Maintenance:
-            selectionElement->setSize(MapSize(2));
-            selectionElement->setVisible(true);
-            break;
-
-        case Map::StaticElementType::Road:
-            selectionElement->setSize(MapSize(1));
-            selectionElement->setVisible(true);
-            break;
-    }
+    selectionElement->setBuildingType(type);
 }
 
 
 
 
 
-void MapScene::cancelBuildingRequest()
+void MapScene::requestBuildingCreation(Map::StaticElementType type, const MapArea& area)
 {
-    selectionElement->setVisible(false);
+    emit buildingCreationRequested(type, area);
 }
 
 

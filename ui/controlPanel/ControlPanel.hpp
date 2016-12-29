@@ -31,10 +31,6 @@ class ControlPanel : public QDockWidget
 
     signals:
         void buildingRequested(Map::StaticElementType type);
-
-
-
-        void cancelBuildingRequest();
 };
 
 #endif // CONTROLPANEL_HPP

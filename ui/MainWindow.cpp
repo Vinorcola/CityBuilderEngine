@@ -54,7 +54,6 @@ void MainWindow::createMap(const QSize& size)
     MapViewer* viewer(new MapViewer(*currentMap));
     setCentralWidget(viewer);
     connect(controlPanel, &ControlPanel::buildingRequested, viewer, &MapViewer::buildingRequest);
-    connect(controlPanel, &ControlPanel::cancelBuildingRequest, viewer, &MapViewer::cancelBuildingRequest);
 
     // Roads
     currentMap->createStaticElement(Map::StaticElementType::Road, MapArea(MapCoordinates(3, 4)));

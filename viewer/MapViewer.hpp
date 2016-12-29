@@ -21,10 +21,6 @@ class MapViewer : public QGraphicsView
 
     public slots:
         void buildingRequest(Map::StaticElementType type);
-
-
-
-        void cancelBuildingRequest();
 };
 
 #endif // MAPVIEWER_HPP

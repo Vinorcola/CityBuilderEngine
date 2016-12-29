@@ -18,14 +18,5 @@ MapViewer::MapViewer(Map& map, QWidget* parent) :
 
 void MapViewer::buildingRequest(Map::StaticElementType type)
 {
-    static_cast<MapScene*>(scene())->requestBuilding(type);
-}
-
-
-
-
-
-void MapViewer::cancelBuildingRequest()
-{
-    static_cast<MapScene*>(scene())->cancelBuildingRequest();
+    static_cast<MapScene*>(scene())->requestBuildingPositioning(type);
 }

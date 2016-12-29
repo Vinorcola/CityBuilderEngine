@@ -13,6 +13,8 @@ DynamicElement::DynamicElement(const QSizeF& baseTileSize, const QWeakPointer<Ab
     baseTileSize(baseTileSize),
     element(element)
 {
+    setAcceptedMouseButtons(Qt::RightButton);
+
     refresh();
     setZValue(1.0);
 }

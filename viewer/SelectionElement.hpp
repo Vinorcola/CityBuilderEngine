@@ -5,6 +5,7 @@
 #include <QGraphicsPolygonItem>
 #include <QPen>
 
+#include "engine/map/Map.hpp"
 #include "engine/map/MapArea.hpp"
 #include "viewer/Tile.hpp"
 
@@ -23,6 +24,7 @@ class SelectionElement : public QGraphicsPolygonItem
         QBrush* currentBrush;
         QPen* currentPen;
         MapArea currentArea;
+        Map::StaticElementType currentBuildingType;
 
 
 
@@ -30,11 +32,10 @@ class SelectionElement : public QGraphicsPolygonItem
         SelectionElement(const QSizeF& baseTileSize);
 
         /**
-         * @brief Change the size of the selection element.
-         *
-         * @param size
+         * @brief Set the type of building selected.
+         * @param type
          */
-        void setSize(const MapSize& size);
+        void setBuildingType(Map::StaticElementType type);
 
         /**
          * @brief Set the selection element good.
@@ -61,9 +62,23 @@ class SelectionElement : public QGraphicsPolygonItem
 
     private:
         /**
+         * @brief Change the size of the selection element.
+         *
+         * @param size
+         */
+        void setSize(const MapSize& size);
+
+        /**
          * @brief Refresh the painting.
          */
         void refresh();
+
+
+
+    protected:
+        virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+
+        virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 };
 
 #endif // SELECTIONELEMENT_HPP

@@ -1,5 +1,6 @@
 #include "Map.hpp"
 
+#include <QDebug>
 #include <QSharedPointer>
 
 #include "engine/element/building/MaintenanceBuilding.hpp"
@@ -115,13 +116,17 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
 {
     if (!isFreeArea(area))
     {
-        throw UnexpectedException("Try to create a motionless element on an occupyed area " + area.toString());
+        qDebug() << "ERROR: Try to create a static element on an occupyed area " + area.toString() + ". Skiping the creation.";
+        return;
     }
 
     AbstractStaticMapElement* element;
     const RoadGraphNode* entryPointNode;
     switch (type)
     {
+        case StaticElementType::None:
+            throw UnexpectedException("Try to create a static element of type None.");
+
         case StaticElementType::Maintenance:
             entryPointNode = roadGraph.fetchNodeArround(area);
             element = new MaintenanceBuilding(*this, area, entryPointNode ? entryPointNode->getCoordinates() : MapCoordinates());
@@ -152,6 +157,9 @@ void Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinate
     AbstractDynamicMapElement* element;
     switch (type)
     {
+        case DynamicElementType::None:
+            throw UnexpectedException("Try to create a dynamic element of type None.");
+
         case DynamicElementType::RandomWalker:
             element = new RandomWalker(roadGraph, initialLocation);
             break;

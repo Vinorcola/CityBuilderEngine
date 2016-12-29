@@ -28,24 +28,27 @@ class MapScene : public QGraphicsScene
     public:
         MapScene(const Map& map);
 
+        /**
+         * @brief Request the positioning of a building (trigger selection element).
+         *
+         * @param type The type of building the user wants to create.
+         */
+        void requestBuildingPositioning(Map::StaticElementType type);
 
-
-        void requestBuilding(Map::StaticElementType type);
-
-
-
-        void cancelBuildingRequest();
+        /**
+         * @brief Request a building creation.
+         *
+         * @param type The type of building.
+         * @param area The area of construction.
+         */
+        void requestBuildingCreation(Map::StaticElementType type, const MapArea& area);
 
 
 
     public slots:
         void registerNewStaticElement(const QWeakPointer<AbstractStaticMapElement>& element);
 
-
-
         void registerNewDynamicElement(const QWeakPointer<AbstractDynamicMapElement>& element);
-
-
 
         /**
          * @brief Refresh the map.
@@ -70,6 +73,17 @@ class MapScene : public QGraphicsScene
 
     private slots:
         void currentTileChanged(Tile* currentTile);
+
+
+
+    signals:
+        /**
+         * @brief Indicate the user requested a building creation.
+         *
+         * @param type The type of building.
+         * @param area The area of construction.
+         */
+        void buildingCreationRequested(Map::StaticElementType type, const MapArea& area);
 };
 
 #endif // MAPSCENE_HPP

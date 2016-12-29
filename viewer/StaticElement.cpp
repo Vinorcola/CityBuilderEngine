@@ -8,6 +8,8 @@ StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementS
     QGraphicsPixmapItem(elementImage),
     shapePath()
 {
+    setAcceptedMouseButtons(Qt::RightButton);
+
     qreal elementSizeValue(elementSize.getValue());
     qreal baseTileSizeHeight(baseTileSize.height());
     qreal baseTileSizeWidth(baseTileSize.width());
