@@ -1,25 +1,16 @@
 #ifndef ENGINEEXCEPTION_HPP
 #define ENGINEEXCEPTION_HPP
 
-
-#include <QException>
-
+#include "exceptions/Exception.hpp"
 
 
 
-class EngineException : public QException
+
+
+class EngineException : public Exception
 {
-    private:
-        QString message;
-        
-        
-        
     public:
         EngineException(const QString& message);
-        
-        
-        
-        const QString& getMessage() const;
 };
 
 #endif // ENGINEEXCEPTION_HPP

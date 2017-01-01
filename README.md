@@ -15,3 +15,23 @@ The **Map** is the  heart of the software. It is structured as a server / client
 Then, the viewer is meant to be embedded into a **UI** environment. For the moment, the UI environment will be a simple Qt widget environment. As said before, the aesthetic of the UI is not a priority for now.
 
 The engine is constructed in a way that it should be abble to run in a different thread. For the moment, it is running in the main thread in order to make development and debugging easier. But this must not be forgotten especialy when setting up a communication between the engine and the viewer: they will both run in 2 separate thread at the end. So make sure the communication is thread-safe and non blocking.
+
+## Dependecies
+
+- Qt
+- yaml-cpp (install it with `apt-get install libyaml-cpp-dev` on Ubuntu)
+
+## Directory structure
+
+- `engine` - The game engine classes
+    - `element` - The elements that goes on the map
+        - `building` - The buiding elements (static elements)
+        - `character` - The character elements (dynamic elements)
+    - `map` - The map and map related classes
+    - `processing` - The classes that process the game
+- `exceptions` - All the custom exception classes
+- `global` - Classes that can be use everywhere (engine, ui and viewer)
+    - `conf` - Configuration classes
+- `ui` - The UI environment classes
+    - `controlPanel` - The classes for the control panel
+- `viewer` - The map viewer classes

@@ -12,9 +12,10 @@
 
 
 
-Map::Map(const QSize& size) :
+Map::Map(const QSize& size, const QString& confFilePath) :
     QObject(),
     size(size),
+    conf(confFilePath),
     roadGraph(),
     processor(this),
     staticElementList(),

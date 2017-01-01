@@ -25,10 +25,15 @@ SOURCES += \
     engine/processing/CycleDate.cpp \
     engine/processing/TimeCycleProcessor.cpp \
     engine/random.cpp \
+    exceptions/BadConfigurationException.cpp \
     exceptions/EngineException.cpp \
+    exceptions/Exception.cpp \
     exceptions/InvalidMapElementException.cpp \
     exceptions/OutOfRangeException.cpp \
     exceptions/UnexpectedException.cpp \
+    global/conf/Conf.cpp \
+    global/conf/StaticElementAreaPartDescription.cpp \
+    global/conf/StaticElementInformation.cpp \
     ui/controlPanel/BuildingButton.cpp \
     ui/controlPanel/BuildingPage.cpp \
     ui/controlPanel/ControlPanel.cpp \
@@ -60,10 +65,15 @@ HEADERS += \
     engine/processing/CycleDate.hpp \
     engine/processing/TimeCycleProcessor.hpp \
     engine/random.hpp \
+    exceptions/BadConfigurationException.hpp \
     exceptions/EngineException.hpp \
+    exceptions/Exception.hpp \
     exceptions/InvalidMapElementException.hpp \
     exceptions/OutOfRangeException.hpp \
     exceptions/UnexpectedException.hpp \
+    global/conf/Conf.hpp \
+    global/conf/StaticElementAreaPartDescription.hpp \
+    global/conf/StaticElementInformation.hpp \
     ui/controlPanel/BuildingButton.hpp \
     ui/controlPanel/BuildingPage.hpp \
     ui/controlPanel/ControlPanel.hpp \
@@ -78,3 +88,5 @@ HEADERS += \
 DISTFILES += \
     README.md
 
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += yaml-cpp

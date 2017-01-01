@@ -5,17 +5,7 @@
 
 
 EngineException::EngineException(const QString& message) :
-    QException(),
-    message(message)
+    Exception(message)
 {
-    
-}
 
-
-
-
-
-const QString& EngineException::getMessage() const
-{
-    return message;
 }

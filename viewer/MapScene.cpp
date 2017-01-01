@@ -1,7 +1,5 @@
 #include "MapScene.hpp"
 
-#include <QDebug>
-
 #include "engine/element/building/MaintenanceBuilding.hpp"
 #include "engine/element/building/Road.hpp"
 

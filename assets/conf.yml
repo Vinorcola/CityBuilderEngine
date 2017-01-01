@@ -1,0 +1,6 @@
+
+static_elements:
+    road:
+        model: [ 4,  0, 0, 0 ]
+    maintenance:
+        model: [ 12, 5, 0, 0 ]

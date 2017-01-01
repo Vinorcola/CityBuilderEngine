@@ -49,7 +49,7 @@ void MainWindow::createMap(const QSize& size)
     {
         delete currentMap;
     }
-    currentMap = new Map(size);
+    currentMap = new Map(size, "assets/conf.yml");
 
     MapViewer* viewer(new MapViewer(*currentMap));
     setCentralWidget(viewer);

@@ -9,6 +9,7 @@
 #include "engine/map/MapSize.hpp"
 #include "engine/map/RoadGraph.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
+#include "global/conf/Conf.hpp"
 
 
 
@@ -37,6 +38,7 @@ class Map : public QObject
 
     private:
         QSize size;
+        Conf conf;
         RoadGraph roadGraph;
         TimeCycleProcessor processor;
         QList<QSharedPointer<AbstractStaticMapElement>> staticElementList;
@@ -45,7 +47,7 @@ class Map : public QObject
 
 
     public:
-        Map(const QSize& size);
+        Map(const QSize& size, const QString& confFilePath);
 
 
 
