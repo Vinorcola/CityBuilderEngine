@@ -2,8 +2,6 @@
 
 
 
-
-
 StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, const QPixmap& elementImage) :
     QGraphicsPixmapItem(elementImage),
     shapePath()
@@ -31,8 +29,6 @@ StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementS
     shapePath.lineTo( 0                                       , elementSizeValue * halfBaseTileSizeHeight );
     shapePath.closeSubpath();
 }
-
-
 
 
 

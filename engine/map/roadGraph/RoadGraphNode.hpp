@@ -17,8 +17,6 @@ class RoadGraphNode
         RoadGraphNode* eastNode;
         RoadGraphNode* westNode;
 
-
-
     public:
         RoadGraphNode(RoadGraph& graph, const MapCoordinates& coordinates);
 

@@ -4,8 +4,6 @@
 
 #include "engine/map/Map.hpp"
 
-
-
 const int WALKER_GENERATION_DATE_GAP(10);
 const int MAX_NUMBER_OF_WALKER(2);
 

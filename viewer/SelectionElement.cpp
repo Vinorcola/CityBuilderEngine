@@ -6,8 +6,6 @@
 
 
 
-
-
 SelectionElement::SelectionElement(const QSizeF& baseTileSize) :
     QGraphicsPolygonItem(),
     baseTileSize(baseTileSize),
@@ -41,13 +39,10 @@ SelectionElement::SelectionElement(const QSizeF& baseTileSize) :
 
 
 
-
-
 void SelectionElement::setBuildingType(Map::StaticElementType type)
 {
     currentBuildingType = type;
-    switch (type)
-    {
+    switch (type) {
         case Map::StaticElementType::None:
             // Disable the selection element.
             setVisible(false);
@@ -67,19 +62,14 @@ void SelectionElement::setBuildingType(Map::StaticElementType type)
 
 
 
-
-
 void SelectionElement::setGood()
 {
-    if (currentBrush == &badBrush)
-    {
+    if (currentBrush == &badBrush) {
         currentBrush = &goodBrush;
         currentPen = &goodPen;
         refresh();
     }
 }
-
-
 
 
 
@@ -95,8 +85,6 @@ void SelectionElement::setBad()
 
 
 
-
-
 void SelectionElement::attachToTile(const Tile& tile)
 {
     currentArea = MapArea(tile.getCoordinates(), currentArea.getSize());
@@ -105,14 +93,10 @@ void SelectionElement::attachToTile(const Tile& tile)
 
 
 
-
-
 const MapArea& SelectionElement::getCoveredArea() const
 {
     return currentArea;
 }
-
-
 
 
 
@@ -136,15 +120,11 @@ void SelectionElement::setSize(const MapSize& size)
 
 
 
-
-
 void SelectionElement::refresh()
 {
     setBrush(*currentBrush);
     setPen(*currentPen);
 }
-
-
 
 
 
@@ -158,8 +138,6 @@ void SelectionElement::mousePressEvent(QGraphicsSceneMouseEvent* event)
         event->ignore();
     }
 }
-
-
 
 
 

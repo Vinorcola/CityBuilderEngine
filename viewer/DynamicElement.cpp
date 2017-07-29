@@ -29,8 +29,7 @@ bool DynamicElement::stillExists()
 MapCoordinates DynamicElement::getCoordinates() const
 {
     auto elementAccess(element.toStrongRef());
-    if (elementAccess)
-    {
+    if (elementAccess) {
         return elementAccess->getCurrentLocation();
     }
 
@@ -42,8 +41,7 @@ MapCoordinates DynamicElement::getCoordinates() const
 void DynamicElement::refresh()
 {
     auto elementAccess(element.toStrongRef());
-    if (elementAccess)
-    {
+    if (elementAccess) {
         const MapCoordinates& location(elementAccess->getCurrentLocation());
         MapCoordinates roundedLocation(location.getRounded());
 

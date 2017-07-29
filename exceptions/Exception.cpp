@@ -2,16 +2,12 @@
 
 
 
-
-
 Exception::Exception(const QString& message) :
     QException(),
     message(message)
 {
 
 }
-
-
 
 
 

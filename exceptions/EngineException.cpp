@@ -2,8 +2,6 @@
 
 
 
-
-
 EngineException::EngineException(const QString& message) :
     Exception(message)
 {

@@ -3,10 +3,6 @@
 
 #include "exceptions/EngineException.hpp"
 
-
-
-
-
 class OutOfRangeException : public EngineException
 {
     public:

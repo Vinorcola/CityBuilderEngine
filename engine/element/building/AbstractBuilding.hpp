@@ -3,10 +3,9 @@
 
 #include "engine/element/AbstractStaticMapElement.hpp"
 
-
-
-
-
+/**
+ * @brief The base class for buildings.
+ */
 class AbstractBuilding : public AbstractStaticMapElement
 {
     public:

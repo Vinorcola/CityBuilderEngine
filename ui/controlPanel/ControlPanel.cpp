@@ -6,8 +6,6 @@
 
 
 
-
-
 ControlPanel::ControlPanel() :
     QDockWidget(),
     buttonList()
@@ -25,8 +23,6 @@ ControlPanel::ControlPanel() :
 
     setWidget(content);
 }
-
-
 
 
 

@@ -6,14 +6,9 @@
 #include "engine/map/Map.hpp"
 #include "ui/controlPanel/ControlPanel.hpp"
 
-
-
-
-
 class BuildingPage : public QWidget
 {
         Q_OBJECT
-
 
     public:
         BuildingPage(ControlPanel& buttonCreator);

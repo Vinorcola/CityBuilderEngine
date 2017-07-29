@@ -1,5 +1,7 @@
 #include "RoadPathFinderNodeList.hpp"
 
+
+
 RoadPathFinderNodeList::RoadPathFinderNodeList() :
     nodeList()
 {
@@ -29,7 +31,7 @@ bool RoadPathFinderNodeList::contains(RoadPathFinderNode* node) const
 
 
 
-void RoadPathFinderNodeList::append(RoadPathFinderNode* node)
+void RoadPathFinderNodeList::append(Owner<RoadPathFinderNode*> node)
 {
     nodeList.append(node);
 }

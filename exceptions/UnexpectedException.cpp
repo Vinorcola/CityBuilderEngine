@@ -2,8 +2,6 @@
 
 
 
-
-
 UnexpectedException::UnexpectedException(const QString& message) :
     EngineException(message)
 {

@@ -49,9 +49,10 @@ Owner<RoadPathFinderNode*> RoadPathFinderOrderedNodeList::takeFirst()
 void RoadPathFinderOrderedNodeList::insert(Owner<RoadPathFinderNode*> node)
 {
     for (auto iterator(nodeList.begin()); iterator != nodeList.end(); ++iterator) {
-        if ((*iterator)->getEfficiency() > node->getEfficiency() || (
-                    (*iterator)->getEfficiency() == node->getEfficiency() &&
-                    (*iterator)->getStraightDistanceToTarget() > node->getStraightDistanceToTarget()
+        auto nodeFromList(*iterator);
+        if (nodeFromList->getEfficiency() > node->getEfficiency() || (
+            nodeFromList->getEfficiency() == node->getEfficiency() &&
+            nodeFromList->getStraightDistanceToTarget() > node->getStraightDistanceToTarget()
         )) {
             nodeList.insert(iterator, node);
             return;

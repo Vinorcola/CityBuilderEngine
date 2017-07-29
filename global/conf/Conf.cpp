@@ -4,8 +4,6 @@
 
 
 
-
-
 Conf::Conf(const QString& filePath) :
     staticElements()
 {
@@ -13,8 +11,7 @@ Conf::Conf(const QString& filePath) :
     YAML::Node configurationRoot(YAML::LoadFile(filePath.toStdString()));
 
     // Load static element configuration.
-    for (auto node : configurationRoot["static_elements"])
-    {
+    for (auto node : configurationRoot["static_elements"]) {
         QString key(QString::fromStdString(node.first.as<std::string>()));
         Owner<StaticElementInformation*> elementInformation(new StaticElementInformation(key, node.second["model"]));
         staticElements[elementInformation->getType()] = elementInformation;

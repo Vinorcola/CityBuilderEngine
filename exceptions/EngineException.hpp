@@ -3,10 +3,6 @@
 
 #include "exceptions/Exception.hpp"
 
-
-
-
-
 class EngineException : public Exception
 {
     public:

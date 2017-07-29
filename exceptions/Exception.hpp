@@ -3,10 +3,6 @@
 
 #include <QException>
 
-
-
-
-
 class Exception : public QException
 {
     private:

@@ -2,15 +2,11 @@
 
 
 
-
-
 CycleDate::CycleDate() :
     cycles(0)
 {
 
 }
-
-
 
 
 
@@ -21,8 +17,6 @@ void CycleDate::operator++()
 
 
 
-
-
 bool CycleDate::operator==(const CycleDate& other) const
 {
     return cycles == other.cycles;
@@ -30,14 +24,10 @@ bool CycleDate::operator==(const CycleDate& other) const
 
 
 
-
-
 void CycleDate::add(const int numberOfCycles)
 {
     cycles += numberOfCycles;
 }
-
-
 
 
 

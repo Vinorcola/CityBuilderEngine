@@ -9,10 +9,6 @@
 
 class AbstractProcessable;
 
-
-
-
-
 /**
  * @brief Class handling the time-cycle loop.
  *
@@ -38,12 +34,8 @@ class TimeCycleProcessor : public QObject
         QList<AbstractProcessable*> staticWaitingForUnregistrationList;
         CycleDate currentCycleDate;
 
-
-
     public:
         TimeCycleProcessor(QObject* parent, const float speedRatio = 1.0);
-
-
 
         /**
          * @brief Change the speed ratio of the time-cycle loop.
@@ -66,15 +58,11 @@ class TimeCycleProcessor : public QObject
          */
         void unregisterProcessable(AbstractProcessable* processable);
 
-
-
     signals:
         /**
          * @brief Indicate when a cycle process is finished.
          */
         void processFinished();
-
-
 
     protected:
         /**

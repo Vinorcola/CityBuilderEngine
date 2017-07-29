@@ -4,8 +4,6 @@
 
 
 
-
-
 Road::Road(const RoadGraphNode* graphNode) :
     AbstractBuilding(MapArea(graphNode->getCoordinates())),
     graphNode(graphNode)

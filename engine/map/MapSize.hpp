@@ -1,10 +1,6 @@
 #ifndef MAPSIZE_HPP
 #define MAPSIZE_HPP
 
-
-
-
-
 /**
  * @brief Represent a size (typically for an area or a static element) on the map.
  *
@@ -15,10 +11,9 @@ class MapSize
     private:
         int value;
 
-
-
     public:
         MapSize();
+
         explicit MapSize(const int value);
 
         int getValue() const;

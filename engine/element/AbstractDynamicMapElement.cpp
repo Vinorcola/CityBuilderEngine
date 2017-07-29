@@ -2,8 +2,6 @@
 
 #include <QDebug>
 
-
-
 const qreal WALKER_SPEED(0.25); // 0.06
 
 
@@ -14,6 +12,13 @@ AbstractDynamicMapElement::AbstractDynamicMapElement(const MapCoordinates& initi
     moveFromLocation(initialLocation),
     currentLocation(initialLocation),
     moveToLocation(initialLocation)
+{
+
+}
+
+
+
+AbstractDynamicMapElement::~AbstractDynamicMapElement()
 {
 
 }

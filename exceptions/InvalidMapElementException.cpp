@@ -2,15 +2,11 @@
 
 
 
-
-
 InvalidMapElementException::InvalidMapElementException(const MapCoordinates& coordinates) :
     EngineException("Invalid coordinates " + coordinates.toString())
 {
 
 }
-
-
 
 
 

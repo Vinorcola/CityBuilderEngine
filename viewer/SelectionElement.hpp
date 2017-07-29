@@ -9,10 +9,6 @@
 #include "engine/map/MapArea.hpp"
 #include "viewer/Tile.hpp"
 
-
-
-
-
 class SelectionElement : public QGraphicsPolygonItem
 {
     private:
@@ -25,8 +21,6 @@ class SelectionElement : public QGraphicsPolygonItem
         QPen* currentPen;
         MapArea currentArea;
         Map::StaticElementType currentBuildingType;
-
-
 
     public:
         SelectionElement(const QSizeF& baseTileSize);
@@ -58,8 +52,6 @@ class SelectionElement : public QGraphicsPolygonItem
          */
         const MapArea& getCoveredArea() const;
 
-
-
     private:
         /**
          * @brief Change the size of the selection element.
@@ -72,8 +64,6 @@ class SelectionElement : public QGraphicsPolygonItem
          * @brief Refresh the painting.
          */
         void refresh();
-
-
 
     protected:
         virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);

@@ -8,7 +8,7 @@
 class RoadPathFinderNodeList
 {
     private:
-        QList<RoadPathFinderNode*> nodeList;
+        QList<Owner<RoadPathFinderNode*>> nodeList;
 
     public:
         RoadPathFinderNodeList();
@@ -17,7 +17,7 @@ class RoadPathFinderNodeList
 
         bool contains(RoadPathFinderNode* node) const;
 
-        void append(RoadPathFinderNode* node);
+        void append(Owner<RoadPathFinderNode*> node);
 };
 
 #endif // ROADPATHFINDERNODELIST_HPP

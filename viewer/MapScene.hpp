@@ -8,22 +8,15 @@
 #include "viewer/SelectionElement.hpp"
 #include "viewer/Tile.hpp"
 
-
-
-
-
 class MapScene : public QGraphicsScene
 {
         Q_OBJECT
-
 
     private:
         const Map& map;
         QList<Tile*> tileList;
         QList<DynamicElement*> dynamicElementList;
         SelectionElement* selectionElement;
-
-
 
     public:
         MapScene(const Map& map);
@@ -43,8 +36,6 @@ class MapScene : public QGraphicsScene
          */
         void requestBuildingCreation(Map::StaticElementType type, const MapArea& area);
 
-
-
     public slots:
         void registerNewStaticElement(const QWeakPointer<AbstractStaticMapElement>& element);
 
@@ -54,8 +45,6 @@ class MapScene : public QGraphicsScene
          * @brief Refresh the map.
          */
         void refresh();
-
-
 
     private:
         Tile* getTileAt(const MapCoordinates& location);
@@ -69,12 +58,8 @@ class MapScene : public QGraphicsScene
          */
         void refreshSelectionElement();
 
-
-
     private slots:
         void currentTileChanged(Tile* currentTile);
-
-
 
     signals:
         /**

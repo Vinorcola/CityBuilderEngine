@@ -20,6 +20,9 @@ void TargetedWalker::assignTarget(const MapCoordinates& target)
     targetLocation = target;
     path.clear();
     path = roadGraph.getShortestPathBetween(getCurrentLocation(), target);
+    if (path.first()->getCoordinates() == getCurrentLocation()) {
+        path.takeFirst();
+    }
 }
 
 

@@ -5,8 +5,6 @@
 
 /**
  * @brief The base class for characters.
- *
- * @note Not sure this class is usefull... Maybe AbstractDynamicMapElement is enough.
  */
 class AbstractCharacter : public AbstractDynamicMapElement
 {

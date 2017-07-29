@@ -4,8 +4,6 @@
 
 
 
-
-
 StaticElementInformation::StaticElementInformation(const QString& key, YAML::Node model) :
     type(resolveKeyToType(key)),
     key(key),
@@ -20,14 +18,10 @@ StaticElementInformation::StaticElementInformation(const QString& key, YAML::Nod
 
 
 
-
-
 StaticElementInformation::Type StaticElementInformation::getType() const
 {
     return type;
 }
-
-
 
 
 

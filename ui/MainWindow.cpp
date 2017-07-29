@@ -7,8 +7,6 @@
 
 
 
-
-
 MainWindow::MainWindow() :
     QMainWindow(),
     controlPanel(new ControlPanel),
@@ -29,24 +27,18 @@ MainWindow::MainWindow() :
 
 
 
-
-
 MainWindow::~MainWindow()
 {
-    if (currentMap)
-    {
+    if (currentMap) {
         delete currentMap;
     }
 }
 
 
 
-
-
 void MainWindow::createMap(const QSize& size)
 {
-    if (currentMap)
-    {
+    if (currentMap) {
         delete currentMap;
     }
     currentMap = new Map(size, "assets/conf.yml");

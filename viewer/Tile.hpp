@@ -7,34 +7,21 @@
 #include "viewer/DynamicElement.hpp"
 #include "viewer/StaticElement.hpp"
 
-
-
-
-
 class Tile : public QGraphicsObject
 {
         Q_OBJECT
-
 
     private:
         MapCoordinates location;
         QStack<StaticElement*> staticElementList;
         QList<DynamicElement*> dynamicElementList;
 
-
-
     public:
         Tile(const MapCoordinates& location, const QSizeF& baseTileSize);
 
-
-
         const MapCoordinates& getCoordinates() const;
 
-
-
         void pushStaticElement(StaticElement* element);
-
-
 
         /**
          * @brief Pop the last graphics item displayed on the tile.
@@ -43,26 +30,16 @@ class Tile : public QGraphicsObject
          */
         StaticElement* popStaticElement();
 
-
-
         void registerDynamicElement(DynamicElement* element);
 
-
-
         void unregisterDynamicElement(DynamicElement* element);
-
-
 
         virtual QRectF boundingRect() const;
         virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
         virtual QPainterPath shape() const;
 
-
-
     signals:
         void isCurrentTile(Tile* tile);
-
-
 
     protected:
         virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);

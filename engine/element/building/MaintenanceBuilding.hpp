@@ -6,12 +6,15 @@
 
 class Map;
 
+/**
+ * @brief A maintenance building for testing purpose.
+ */
 class MaintenanceBuilding : public AbstractProcessableBuilding
 {
     private:
         Map& map;
         CycleDate nextWalkerGenerationDate;
-        QList<RandomWalker*> walkers;
+        QList<RandomWalker*> walkers;// TODO: use QWeakPointer.
 
     public:
         MaintenanceBuilding(Map& map, const MapArea& area, const MapCoordinates& entryPoint);

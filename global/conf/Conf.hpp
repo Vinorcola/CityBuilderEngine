@@ -5,18 +5,10 @@
 
 #include "global/conf/StaticElementInformation.hpp"
 
-template<typename StaticElementInformation> using Onwer = StaticElementInformation;
-
-
-
-
-
 class Conf
 {
     private:
         QHash<StaticElementInformation::Type, Owner<StaticElementInformation*>> staticElements;
-
-
 
     public:
         Conf(const QString& filePath);

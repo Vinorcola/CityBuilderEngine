@@ -2,8 +2,6 @@
 
 
 
-
-
 MapSize::MapSize() :
     MapSize(1)
 {
@@ -11,15 +9,11 @@ MapSize::MapSize() :
 }
 
 
-
-
 MapSize::MapSize(const int value) :
     value(value)
 {
 
 }
-
-
 
 
 

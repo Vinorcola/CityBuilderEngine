@@ -7,11 +7,7 @@
 
 #include "global/conf/StaticElementAreaPartDescription.hpp"
 
-template<typename StaticElementAreaPartDescription> using Owner = StaticElementAreaPartDescription;
-
-
-
-
+template<typename StaticElementInformation> using Onwer = StaticElementInformation;
 
 class StaticElementInformation
 {
@@ -23,8 +19,6 @@ class StaticElementInformation
             Road,
         };
 
-
-
     private:
         Type type;
         QString key;
@@ -33,8 +27,6 @@ class StaticElementInformation
         int fireRiskIncrement;
         int damageRiskIncrement;
         QList<Owner<StaticElementAreaPartDescription*>> areaDescription;
-
-
 
     public:
         /**
@@ -45,8 +37,6 @@ class StaticElementInformation
         StaticElementInformation(const QString& key, YAML::Node model);
 
         Type getType() const;
-
-
 
     private:
         static Type resolveKeyToType(const QString& key);

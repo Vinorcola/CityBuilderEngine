@@ -4,9 +4,7 @@
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/map/MapSize.hpp"
 
-
-
-
+template<typename StaticElementAreaPartDescription> using Owner = StaticElementAreaPartDescription;
 
 class StaticElementAreaPartDescription
 {
@@ -19,15 +17,11 @@ class StaticElementAreaPartDescription
             Constructible,   // Agora, Sanctuary, etc.
         };
 
-
-
     private:
         MapCoordinates anchorCoordinates;
         MapSize areaSize;
         Type type;
         int altitude;
-
-
 
     public:
         /**

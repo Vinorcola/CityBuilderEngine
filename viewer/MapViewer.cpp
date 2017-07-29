@@ -4,15 +4,11 @@
 
 
 
-
-
 MapViewer::MapViewer(Map& map, QWidget* parent) :
     QGraphicsView(parent)
 {
     setScene(new MapScene(map));
 }
-
-
 
 
 

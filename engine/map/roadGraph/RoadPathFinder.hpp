@@ -23,7 +23,7 @@ class RoadPathFinder
 
         /**
          * @brief Get the shortest path.
-         * @return A list of road node from the origin (excluded) to the target (included) or an empty path is no path available.
+         * @return A list of road node from the origin to the target or an empty path is no path available.
          */
         const QList<const RoadGraphNode*>& getShortestPath() const;
 };

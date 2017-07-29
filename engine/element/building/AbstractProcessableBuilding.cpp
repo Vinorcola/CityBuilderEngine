@@ -1,9 +1,6 @@
 #include "AbstractProcessableBuilding.hpp"
 
 
-
-
-
 AbstractProcessableBuilding::AbstractProcessableBuilding(const MapArea& area, const MapCoordinates& entryPoint) :
     AbstractBuilding(area),
     AbstractProcessable(),
@@ -11,9 +8,6 @@ AbstractProcessableBuilding::AbstractProcessableBuilding(const MapArea& area, co
 {
 
 }
-
-
-
 
 
 const MapCoordinates& AbstractProcessableBuilding::getEntryPoint() const

@@ -2,14 +2,10 @@
 
 
 
-
-
 AbstractProcessable::AbstractProcessable()
 {
 
 }
-
-
 
 
 

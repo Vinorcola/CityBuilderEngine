@@ -2,8 +2,6 @@
 
 
 
-
-
 Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize) :
     QGraphicsObject(),
     location(location),
@@ -19,8 +17,6 @@ Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize) :
 
 
 
-
-
 const MapCoordinates& Tile::getCoordinates() const
 {
     return location;
@@ -28,12 +24,9 @@ const MapCoordinates& Tile::getCoordinates() const
 
 
 
-
-
 void Tile::pushStaticElement(StaticElement* element)
 {
-    if (staticElementList.size() > 0)
-    {
+    if (staticElementList.size() > 0) {
         // Hide previous graphics item.
         staticElementList.last()->setVisible(false);
     }
@@ -45,23 +38,18 @@ void Tile::pushStaticElement(StaticElement* element)
 
 
 
-
-
 StaticElement* Tile::popStaticElement()
 {
     auto element(staticElementList.pop());
     element->setParentItem(nullptr);
 
-    if (staticElementList.size() > 0)
-    {
+    if (staticElementList.size() > 0) {
         // Show last item.
         staticElementList.last()->setVisible(true);
     }
 
     return element;
 }
-
-
 
 
 
@@ -74,8 +62,6 @@ void Tile::registerDynamicElement(DynamicElement* element)
 
 
 
-
-
 void Tile::unregisterDynamicElement(DynamicElement* element)
 {
     dynamicElementList.removeOne(element);
@@ -83,19 +69,14 @@ void Tile::unregisterDynamicElement(DynamicElement* element)
 
 
 
-
-
 QRectF Tile::boundingRect() const
 {
-    if (staticElementList.size() > 0)
-    {
+    if (staticElementList.size() > 0) {
         return staticElementList.last()->boundingRect();
     }
 
     return QRectF();
 }
-
-
 
 
 
@@ -106,19 +87,14 @@ void Tile::paint(QPainter* /*painter*/, const QStyleOptionGraphicsItem* /*option
 
 
 
-
-
 QPainterPath Tile::shape() const
 {
-    if (staticElementList.size() > 0)
-    {
+    if (staticElementList.size() > 0) {
         return staticElementList.last()->shape();
     }
 
     return QGraphicsObject::shape();
 }
-
-
 
 
 

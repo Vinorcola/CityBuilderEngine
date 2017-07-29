@@ -3,10 +3,6 @@
 
 #include <QString>
 
-
-
-
-
 /**
  * @brief Represent a date for the time cycle processor.
  *
@@ -18,12 +14,8 @@ class CycleDate
     private:
         int cycles;
 
-
-
     public:
         CycleDate();
-
-
 
         /**
          * @brief Increment the date to the next date (pass 1 cycle).

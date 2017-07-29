@@ -22,6 +22,8 @@ class AbstractDynamicMapElement : public AbstractProcessable
     public:
         AbstractDynamicMapElement(const MapCoordinates& initialLocation);
 
+        virtual ~AbstractDynamicMapElement();
+
         const MapCoordinates& getInitialLocation() const;
 
         const MapCoordinates& getComingFromLocation() const;

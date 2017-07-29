@@ -3,10 +3,6 @@
 
 #include "exceptions/EngineException.hpp"
 
-
-
-
-
 class UnexpectedException : public EngineException
 {
     public:

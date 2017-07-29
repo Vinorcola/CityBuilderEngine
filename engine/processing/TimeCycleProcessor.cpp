@@ -6,11 +6,7 @@
 #include "engine/element/building/AbstractProcessableBuilding.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 
-
-
 const float MSEC_PER_SEC(1000);
-
-
 
 
 
@@ -31,8 +27,6 @@ TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const float speedRatio) 
 
 
 
-
-
 void TimeCycleProcessor::setSpeedRatio(const float ratio)
 {
     if (ratio >= 0.1 && ratio <= 1.0 && ratio != speedRatio) {
@@ -46,14 +40,10 @@ void TimeCycleProcessor::setSpeedRatio(const float ratio)
 
 
 
-
-
 void TimeCycleProcessor::registerProcessable(AbstractProcessable* processable)
 {
     waitingForRegistrationList.append(processable);
 }
-
-
 
 
 
@@ -65,8 +55,6 @@ void TimeCycleProcessor::unregisterProcessable(AbstractProcessable* processable)
         dynamicWaitingForUnregistrationList.append(processable);
     }
 }
-
-
 
 
 void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)

@@ -4,10 +4,6 @@
 #include "exceptions/EngineException.hpp"
 #include "engine/map/MapArea.hpp"
 
-
-
-
-
 class InvalidMapElementException : public EngineException
 {
     public:
