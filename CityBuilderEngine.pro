@@ -15,12 +15,16 @@ SOURCES += \
     engine/element/character/RandomWalker.cpp \
     engine/element/AbstractDynamicMapElement.cpp \
     engine/element/AbstractStaticMapElement.cpp \
+    engine/map/roadGraph/RoadGraph.cpp \
+    engine/map/roadGraph/RoadGraphNode.cpp \
+    engine/map/roadGraph/RoadPathFinder.cpp \
+    engine/map/roadGraph/RoadPathFinderNode.cpp \
+    engine/map/roadGraph/RoadPathFinderNodeList.cpp \
+    engine/map/roadGraph/RoadPathFinderOrderedNodeList.cpp \
     engine/map/Map.cpp \
     engine/map/MapArea.cpp \
     engine/map/MapCoordinates.cpp \
     engine/map/MapSize.cpp \
-    engine/map/RoadGraph.cpp \
-    engine/map/RoadGraphNode.cpp \
     engine/processing/AbstractProcessable.cpp \
     engine/processing/CycleDate.cpp \
     engine/processing/TimeCycleProcessor.cpp \
@@ -55,12 +59,16 @@ HEADERS += \
     engine/element/character/RandomWalker.hpp \
     engine/element/AbstractDynamicMapElement.hpp \
     engine/element/AbstractStaticMapElement.hpp \
+    engine/map/roadGraph/RoadGraph.hpp \
+    engine/map/roadGraph/RoadGraphNode.hpp \
+    engine/map/roadGraph/RoadPathFinder.hpp \
+    engine/map/roadGraph/RoadPathFinderNode.hpp \
+    engine/map/roadGraph/RoadPathFinderNodeList.hpp \
+    engine/map/roadGraph/RoadPathFinderOrderedNodeList.hpp \
     engine/map/Map.hpp \
     engine/map/MapArea.hpp \
     engine/map/MapCoordinates.hpp \
     engine/map/MapSize.hpp \
-    engine/map/RoadGraph.hpp \
-    engine/map/RoadGraphNode.hpp \
     engine/processing/AbstractProcessable.hpp \
     engine/processing/CycleDate.hpp \
     engine/processing/TimeCycleProcessor.hpp \

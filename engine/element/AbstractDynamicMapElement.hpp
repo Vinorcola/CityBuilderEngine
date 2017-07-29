@@ -11,8 +11,9 @@
 /**
  * @brief Represent a dynamic element on the map.
  *
- * A dynamic element is an element that can move (e.g. change its coordinates through time). Moving element are of size
- * 1. This implies they do not cover an area. They are just represented by some coordinates.
+ * A dynamic element is an element that can move (e.g. change its coordinates through time). Moving element do not have
+ * any size, so they do not cover any area. They are just represented by some coordinates and should be persive as
+ * mathematical point.
  */
 class AbstractDynamicMapElement : public AbstractProcessable
 {

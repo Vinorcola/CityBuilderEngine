@@ -2,7 +2,7 @@
 #define ROAD_HPP
 
 #include "engine/element/building/AbstractBuilding.hpp"
-#include "engine/map/RoadGraphNode.hpp"
+#include "engine/map/roadGraph/RoadGraphNode.hpp"
 
 
 

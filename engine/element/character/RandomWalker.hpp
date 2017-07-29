@@ -2,7 +2,7 @@
 #define RANDOMWALKER_HPP
 
 #include "engine/element/character/AbstractCharacter.hpp"
-#include "engine/map/RoadGraphNode.hpp"
+#include "engine/map/roadGraph/RoadGraphNode.hpp"
 
 
 

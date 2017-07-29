@@ -7,7 +7,7 @@
 #include "engine/element/AbstractDynamicMapElement.hpp"
 #include "engine/element/AbstractStaticMapElement.hpp"
 #include "engine/map/MapSize.hpp"
-#include "engine/map/RoadGraph.hpp"
+#include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
 #include "global/conf/Conf.hpp"
 
