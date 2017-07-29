@@ -15,11 +15,9 @@ RoadGraph::RoadGraph() :
 
 RoadGraphNode* RoadGraph::fetchNodeAt(const MapCoordinates& coordinates) const
 {
-    for (int i(0), iEnd(nodeList.length()); i < iEnd; ++i)
-    {
-        if (nodeList.at(i)->getCoordinates() == coordinates)
-        {
-            return nodeList.at(i);
+    for (auto node : nodeList) {
+        if (node->getCoordinates() == coordinates) {
+            return node;
         }
     }
 
@@ -40,36 +38,26 @@ const RoadGraphNode* RoadGraph::fetchNodeArround(const MapArea& area) const
 
     MapCoordinates coordinates(left.getNorth());
     auto node(fetchNodeAt(coordinates));
-    while (!node)
-    {
+    while (!node) {
         coordinates.setX(coordinates.getX() + moveX);
         coordinates.setY(coordinates.getY() + moveY);
 
-        if (moveX == 1 && coordinates.getX() > right.getX())
-        {
+        if (moveX == 1 && coordinates.getX() > right.getX()) {
             // Overstep top corner.
             moveX = 0;
             moveY = 1;
-        }
-        else if (moveY == 1 && coordinates.getY() > right.getY())
-        {
+        } else if (moveY == 1 && coordinates.getY() > right.getY()) {
             // Overstep right corner.
             moveX = -1;
             moveY = 0;
-        }
-        else if (moveX == -1 && coordinates.getX() < left.getX())
-        {
+        } else if (moveX == -1 && coordinates.getX() < left.getX()) {
             // Overstep bottom corner.
             moveY = -1;
             moveX = 0;
-        }
-        else if (moveY == -1 && coordinates.getY() < left.getY())
-        {
+        } else if (moveY == -1 && coordinates.getY() < left.getY()) {
             // Overstep left corner. No node found.
             return node; // nulptr
-        }
-        else
-        {
+        } else {
             node = fetchNodeAt(coordinates);
         }
     }
@@ -79,23 +67,19 @@ const RoadGraphNode* RoadGraph::fetchNodeArround(const MapArea& area) const
 
 
 
-QList<const RoadGraphNode*> RoadGraph::getNextNodeList(const MapCoordinates& previousLocation, const MapCoordinates& currentLocation) const
+QList<const RoadGraphNode*> RoadGraph::getNextNodeList(const MapCoordinates& comingFromLocation, const MapCoordinates& currentLocation) const
 {
     auto node(fetchNodeAt(currentLocation));
-    if (!node)
-    {
+    if (!node) {
         throw UnexpectedException("Try to get next nodes from a non existing node.");
     }
 
     auto list(node->getNeighbourNodeList());
-    if (list.size() > 1)
-    {
+    if (list.size() > 1) {
         // If there is more than one node arround, we delete the node at the previous location so the walker do not turn
         // arround in the middle of the road.
-        for (auto element : list)
-        {
-            if (element->getCoordinates() == previousLocation)
-            {
+        for (auto element : list) {
+            if (element->getCoordinates() == comingFromLocation) {
                 list.removeOne(element);
                 break;
             }
@@ -134,8 +118,7 @@ const RoadGraphNode* RoadGraph::createNode(const MapCoordinates& coordinates)
 void RoadGraph::deleteNode(const MapCoordinates& coordinates)
 {
     auto node(fetchNodeAt(coordinates));
-    if (node)
-    {
+    if (node) {
         delete nodeList.takeAt(nodeList.indexOf(node));
     }
 }

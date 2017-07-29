@@ -2,6 +2,8 @@
 
 #include <QDebug>
 
+#include "engine/element/AbstractDynamicMapElement.hpp"
+#include "engine/element/building/AbstractProcessableBuilding.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 
 
@@ -17,9 +19,11 @@ TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const float speedRatio) 
     cyclePerSecondBase(2), // 30
     speedRatio(speedRatio),
     clock(),
-    processableList(),
+    dynamicProcessableList(),
+    staticProcessableList(),
     waitingForRegistrationList(),
-    waitingForUnregistrationList(),
+    dynamicWaitingForUnregistrationList(),
+    staticWaitingForUnregistrationList(),
     currentCycleDate()
 {
     clock.start(MSEC_PER_SEC / (cyclePerSecondBase * speedRatio), this);
@@ -31,8 +35,7 @@ TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const float speedRatio) 
 
 void TimeCycleProcessor::setSpeedRatio(const float ratio)
 {
-    if (ratio >= 0.1 && ratio <= 1.0 && ratio != speedRatio)
-    {
+    if (ratio >= 0.1 && ratio <= 1.0 && ratio != speedRatio) {
         speedRatio = ratio;
 
         // Re-launch the timer with the new speed.
@@ -48,7 +51,6 @@ void TimeCycleProcessor::setSpeedRatio(const float ratio)
 void TimeCycleProcessor::registerProcessable(AbstractProcessable* processable)
 {
     waitingForRegistrationList.append(processable);
-    processable->init(currentCycleDate);
 }
 
 
@@ -57,7 +59,11 @@ void TimeCycleProcessor::registerProcessable(AbstractProcessable* processable)
 
 void TimeCycleProcessor::unregisterProcessable(AbstractProcessable* processable)
 {
-    waitingForUnregistrationList.append(processable);
+    if (dynamic_cast<AbstractProcessableBuilding*>(processable)) {
+        staticWaitingForUnregistrationList.append(processable);
+    } else if (dynamic_cast<AbstractDynamicMapElement*>(processable)) {
+        dynamicWaitingForUnregistrationList.append(processable);
+    }
 }
 
 
@@ -68,20 +74,33 @@ void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
     qDebug() << "Process time-cycle" << currentCycleDate.toString();
 
     // Process current processable list.
-    for (auto processable : processableList)
-    {
+    // Dynamic elements have to be processed first has some of them may be deleted by the process of a static element.
+    for (auto processable : dynamicProcessableList) {
+        processable->process(currentCycleDate);
+    }
+    for (auto processable : staticProcessableList) {
         processable->process(currentCycleDate);
     }
 
     // Process unregistration.
-    for (auto processable : waitingForUnregistrationList)
-    {
-        processableList.removeOne(processable);
+    for (auto processable : dynamicWaitingForUnregistrationList) {
+        dynamicProcessableList.removeOne(processable);
     }
-    waitingForUnregistrationList.clear();
+    dynamicWaitingForUnregistrationList.clear();
+    for (auto processable : staticWaitingForUnregistrationList) {
+        staticProcessableList.removeOne(processable);
+    }
+    staticWaitingForUnregistrationList.clear();
 
     // Process registration.
-    processableList.append(waitingForRegistrationList);
+    for (auto processable : waitingForRegistrationList) {
+        processable->init(currentCycleDate);
+        if (dynamic_cast<AbstractProcessableBuilding*>(processable)) {
+            staticProcessableList.append(processable);
+        } else if (dynamic_cast<AbstractDynamicMapElement*>(processable)) {
+            dynamicProcessableList.append(processable);
+        }
+    }
     waitingForRegistrationList.clear();
 
     // Increment to cycle date.

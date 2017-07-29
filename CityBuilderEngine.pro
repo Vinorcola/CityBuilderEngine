@@ -13,6 +13,7 @@ SOURCES += \
     engine/element/building/Road.cpp \
     engine/element/character/AbstractCharacter.cpp \
     engine/element/character/RandomWalker.cpp \
+    engine/element/character/TargetedWalker.cpp \
     engine/element/AbstractDynamicMapElement.cpp \
     engine/element/AbstractStaticMapElement.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
@@ -57,6 +58,7 @@ HEADERS += \
     engine/element/building/Road.hpp \
     engine/element/character/AbstractCharacter.hpp \
     engine/element/character/RandomWalker.hpp \
+    engine/element/character/TargetedWalker.hpp \
     engine/element/AbstractDynamicMapElement.hpp \
     engine/element/AbstractStaticMapElement.hpp \
     engine/map/roadGraph/RoadGraph.hpp \

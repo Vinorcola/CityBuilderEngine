@@ -6,10 +6,8 @@
 
 
 
-const int WALKER_GENERATION_DATE_GAP(5);
+const int WALKER_GENERATION_DATE_GAP(10);
 const int MAX_NUMBER_OF_WALKER(2);
-
-
 
 
 
@@ -17,12 +15,10 @@ MaintenanceBuilding::MaintenanceBuilding(Map& map, const MapArea& area, const Ma
     AbstractProcessableBuilding(area, entryPoint),
     map(map),
     nextWalkerGenerationDate(),
-    numberOfWalkerOut(0)
+    walkers()
 {
     qDebug() << "  - Created maintenance building at" << area.toString();
 }
-
-
 
 
 
@@ -34,18 +30,29 @@ void MaintenanceBuilding::init(const CycleDate& date)
 
 
 
-
-
 void MaintenanceBuilding::process(const CycleDate& date)
 {
-    if (numberOfWalkerOut < MAX_NUMBER_OF_WALKER)
-    {
-        if (date == nextWalkerGenerationDate)
-        {
-            map.createDynamicElement(Map::DynamicElementType::RandomWalker, getEntryPoint());
-            ++numberOfWalkerOut;
+    if (date == nextWalkerGenerationDate) {
+        walkers.append(
+            static_cast<RandomWalker*>(map.createDynamicElement(Map::DynamicElementType::RandomWalker, getEntryPoint(), 15))
+        );
+
+        if (walkers.size() < MAX_NUMBER_OF_WALKER) {
             nextWalkerGenerationDate = date;
             nextWalkerGenerationDate.add(WALKER_GENERATION_DATE_GAP);
+        }
+    }
+
+    auto iterator(walkers.begin());
+    while (iterator != walkers.end()) {
+        if ((*iterator)->reachedTarget()) {
+            map.destroyDynamicElement(*iterator);
+            iterator = walkers.erase(iterator);
+
+            nextWalkerGenerationDate = date;
+            nextWalkerGenerationDate.add(WALKER_GENERATION_DATE_GAP);
+        } else {
+            ++iterator;
         }
     }
 }

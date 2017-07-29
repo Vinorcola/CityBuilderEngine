@@ -6,36 +6,41 @@
 
 
 
-
-
-RandomWalker::RandomWalker(const RoadGraph& roadGraph, const MapCoordinates& initialLocation) :
-    AbstractCharacter(initialLocation),
-    roadGraph(roadGraph)
+RandomWalker::RandomWalker(const RoadGraph& roadGraph, const MapCoordinates& initialLocation, const int walkingCredit) :
+    TargetedWalker(roadGraph, initialLocation),
+    walkingCredit(walkingCredit)
 {
     qDebug() << "  - Create random walker at" << initialLocation.toString();
 }
 
 
 
-
-
-MapCoordinates RandomWalker::getNextTargetLocation()
+MapCoordinates RandomWalker::findNextGoingToLocation()
 {
-    auto list(roadGraph.getNextNodeList(getPreviousLocation(), getCurrentLocation()));
+    // Update walking credit
+    --walkingCredit;
+    if (walkingCredit == -1) {
+        qDebug() << "  - Walker out of credits.";
 
-    if (list.size() == 0)
-    {
-        // No solutions, return invalid coordinates.
-        return MapCoordinates();
+        // Walking credit expires. Switch to targeted walker.
+        assignTarget(getInitialLocation());
+
+        return TargetedWalker::findNextGoingToLocation();
+    }
+    if (walkingCredit < -1) {
+        return TargetedWalker::findNextGoingToLocation();
     }
 
-    if (list.size() == 1)
-    {
-        // Only one solution, return its coordinates.
+    // Continue random walking.
+    auto list(roadGraph.getNextNodeList(getComingFromLocation(), getCurrentLocation()));
+    if (list.size() == 0) {
+        // No solutions, character stays where it is.
+        return getCurrentLocation();
+    }
+    if (list.size() == 1) {
         return list.first()->getCoordinates();
     }
 
     // Choose random.
-    int randomNum(randomInt(0, list.size() - 1));
-    return list.at(randomNum)->getCoordinates();
+    return list.at(randomInt(0, list.size() - 1))->getCoordinates();
 }

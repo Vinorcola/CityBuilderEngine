@@ -10,8 +10,6 @@
 
 
 
-
-
 Map::Map(const QSize& size, const QString& confFilePath) :
     QObject(),
     size(size),
@@ -26,8 +24,6 @@ Map::Map(const QSize& size, const QString& confFilePath) :
 
 
 
-
-
 const QSize& Map::getSize() const
 {
     return size;
@@ -36,37 +32,34 @@ const QSize& Map::getSize() const
 
 
 
-
 bool Map::isValidCoordinates(const MapCoordinates& coordinates) const
 {
     int sum(coordinates.getY() + coordinates.getX());
     int diff(coordinates.getY() - coordinates.getX());
-    return diff >= 0 && diff < size.height()
-        && sum >= 0 && sum < size.width();
+    return (
+        diff >= 0 && diff < size.height() &&
+        sum >= 0 && sum < size.width()
+    );
 }
-
-
 
 
 
 bool Map::isValidArea(const MapArea& area) const
 {
-    return isValidCoordinates(area.getLeft())
-        && isValidCoordinates(area.getRight())
-        && isValidCoordinates(area.getTop())
-        && isValidCoordinates(area.getBottom());
+    return (
+        isValidCoordinates(area.getLeft()) &&
+        isValidCoordinates(area.getRight()) &&
+        isValidCoordinates(area.getTop()) &&
+        isValidCoordinates(area.getBottom())
+    );
 }
-
-
 
 
 
 bool Map::isFreeCoordinates(const MapCoordinates& coordinates) const
 {
-    for (auto element : staticElementList)
-    {
-        if (element->getArea().isInside(coordinates))
-        {
+    for (auto element : staticElementList) {
+        if (element->getArea().isInside(coordinates)) {
             return false;
         }
     }
@@ -76,20 +69,15 @@ bool Map::isFreeCoordinates(const MapCoordinates& coordinates) const
 
 
 
-
-
 bool Map::isFreeArea(const MapArea& area) const
 {
     auto left(area.getLeft());
     auto right(area.getRight());
 
     MapCoordinates coordinates(left);
-    while (coordinates.getY() <= right.getY())
-    {
-        while (coordinates.getX() <= right.getX())
-        {
-            if (!isFreeCoordinates(coordinates))
-            {
+    while (coordinates.getY() <= right.getY()) {
+        while (coordinates.getX() <= right.getX()) {
+            if (!isFreeCoordinates(coordinates)) {
                 return false;
             }
             coordinates = coordinates.getEast();
@@ -102,8 +90,6 @@ bool Map::isFreeArea(const MapArea& area) const
 
 
 
-
-
 const TimeCycleProcessor& Map::getProcessor() const
 {
     return processor;
@@ -111,20 +97,16 @@ const TimeCycleProcessor& Map::getProcessor() const
 
 
 
-
-
 void Map::createStaticElement(StaticElementType type, const MapArea& area)
 {
-    if (!isFreeArea(area))
-    {
+    if (!isFreeArea(area)) {
         qDebug() << "ERROR: Try to create a static element on an occupyed area " + area.toString() + ". Skiping the creation.";
         return;
     }
 
     AbstractStaticMapElement* element;
     const RoadGraphNode* entryPointNode;
-    switch (type)
-    {
+    switch (type) {
         case StaticElementType::None:
             throw UnexpectedException("Try to create a static element of type None.");
 
@@ -135,8 +117,7 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
             break;
 
         case StaticElementType::Road:
-            if (area.getSize().getValue() > 1)
-            {
+            if (area.getSize().getValue() > 1) {
                 throw UnexpectedException("Try to create a road on an area bigger than 1: " + area.toString());
             }
             element = new Road(roadGraph.createNode(area.getLeft()));
@@ -151,19 +132,19 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
 
 
 
-
-
-void Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinates& initialLocation)
+AbstractDynamicMapElement* Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinates& initialLocation, const int randomWalkerCredit)
 {
     AbstractDynamicMapElement* element;
-    switch (type)
-    {
+    switch (type) {
         case DynamicElementType::None:
             throw UnexpectedException("Try to create a dynamic element of type None.");
 
         case DynamicElementType::RandomWalker:
-            element = new RandomWalker(roadGraph, initialLocation);
+            element = new RandomWalker(roadGraph, initialLocation, randomWalkerCredit);
             break;
+
+        default:
+            throw UnexpectedException("Try to create a dynamic element of unknown type.");
     }
 
     processor.registerProcessable(element);
@@ -171,4 +152,20 @@ void Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinate
     dynamicElementList.append(elementAccess);
 
     emit dynamicElementCreated(elementAccess.toWeakRef());
+
+    return element;
+}
+
+
+
+void Map::destroyDynamicElement(AbstractDynamicMapElement* element)
+{
+    for (auto elementAccess: dynamicElementList) {
+        if (elementAccess.data() == element) {
+            processor.unregisterProcessable(element);
+            dynamicElementList.removeOne(elementAccess);
+            elementAccess.clear();
+            return;
+        }
+    }
 }

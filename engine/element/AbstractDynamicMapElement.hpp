@@ -4,10 +4,6 @@
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 
-
-
-
-
 /**
  * @brief Represent a dynamic element on the map.
  *
@@ -18,37 +14,26 @@
 class AbstractDynamicMapElement : public AbstractProcessable
 {
     private:
-        MapCoordinates previousLocation;///< The coordinates the element is moving from.
+        const MapCoordinates initialLocation;///< The coordinates of the initial position of the element.
+        MapCoordinates moveFromLocation;///< The coordinates of the tile the element is moving from.
         MapCoordinates currentLocation;///< The current coordinates of the element.
-        MapCoordinates targetLocation;///< The coordinates the element is moving to.
-
-
+        MapCoordinates moveToLocation;///< The coordinates of the tile the element is moving to.
 
     public:
         AbstractDynamicMapElement(const MapCoordinates& initialLocation);
 
+        const MapCoordinates& getInitialLocation() const;
 
-
-        const MapCoordinates& getPreviousLocation() const;
-
-
+        const MapCoordinates& getComingFromLocation() const;
 
         const MapCoordinates& getCurrentLocation() const;
 
-
-
-        void setNextTargetLocation(const MapCoordinates& nextLocation);
-
-
+        const MapCoordinates& getGoingToLocation() const;
 
         virtual void process(const CycleDate& date);
 
-
-
     protected:
-        virtual MapCoordinates getNextTargetLocation() = 0;
-
-
+        virtual MapCoordinates findNextGoingToLocation() = 0;
 
     private:
         void moveToTarget();

@@ -125,23 +125,29 @@ void MapScene::registerNewDynamicElement(const QWeakPointer<AbstractDynamicMapEl
 void MapScene::refresh()
 {
     // Refresh all the dynamic elements.
-    for (auto element : dynamicElementList)
-    {
-        const MapCoordinates& previousTileLocation(static_cast<Tile*>(element->parentItem())->getCoordinates());
-        MapCoordinates newTileLocation(element->getCoordinates().getRounded());
-        if (newTileLocation != previousTileLocation)
-        {
-            // Dynamic element just switch to another tile.
-            getTileAt(previousTileLocation)->unregisterDynamicElement(element);
-            getTileAt(newTileLocation)->registerDynamicElement(element);
-        }
+    auto iterator(dynamicElementList.begin());
+    while (iterator != dynamicElementList.end()) {
+        auto element(*iterator);
+        if (element->stillExists()) {
+            const MapCoordinates& previousTileLocation(static_cast<Tile*>(element->parentItem())->getCoordinates());
+            MapCoordinates newTileLocation(element->getCoordinates().getRounded());
+            if (newTileLocation != previousTileLocation) {
+                // Dynamic element just switch to another tile.
+                getTileAt(previousTileLocation)->unregisterDynamicElement(element);
+                getTileAt(newTileLocation)->registerDynamicElement(element);
+            }
 
-        element->refresh();
+            element->refresh();
+            ++iterator;
+        } else {
+            removeItem(element);
+            delete element;
+            iterator = dynamicElementList.erase(iterator);
+        }
     }
 
     // Refresh the selection element.
-    if (selectionElement->isVisible())
-    {
+    if (selectionElement->isVisible()) {
         refreshSelectionElement();
     }
 }

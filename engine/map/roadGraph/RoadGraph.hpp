@@ -44,11 +44,11 @@ class RoadGraph
          * The list will contains all the node adjacents to the node at current location. The node at previous location
          * is remove from this list (except if it is the only one in the list).
          *
-         * @param previousLocation The previous location of the walker.
+         * @param comingFromLocation The location the walker is coming from.
          * @param currentLocation The current location of the walker.
          * @return A list of node.
          */
-        QList<const RoadGraphNode*> getNextNodeList(const MapCoordinates& previousLocation, const MapCoordinates& currentLocation) const;
+        QList<const RoadGraphNode*> getNextNodeList(const MapCoordinates& comingFromLocation, const MapCoordinates& currentLocation) const;
 
         /**
          * @brief Get shortest path between two coordinates.

@@ -31,9 +31,11 @@ class TimeCycleProcessor : public QObject
 
         float speedRatio;
         QBasicTimer clock;
-        QList<AbstractProcessable*> processableList;
+        QList<AbstractProcessable*> dynamicProcessableList;
+        QList<AbstractProcessable*> staticProcessableList;
         QList<AbstractProcessable*> waitingForRegistrationList;
-        QList<AbstractProcessable*> waitingForUnregistrationList;
+        QList<AbstractProcessable*> dynamicWaitingForUnregistrationList;
+        QList<AbstractProcessable*> staticWaitingForUnregistrationList;
         CycleDate currentCycleDate;
 
 

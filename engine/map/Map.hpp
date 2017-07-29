@@ -1,7 +1,7 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include <QList>
+#include <QLinkedList>
 #include <QSize>
 
 #include "engine/element/AbstractDynamicMapElement.hpp"
@@ -11,14 +11,9 @@
 #include "engine/processing/TimeCycleProcessor.hpp"
 #include "global/conf/Conf.hpp"
 
-
-
-
-
 class Map : public QObject
 {
         Q_OBJECT
-
 
     public:
         enum class StaticElementType
@@ -32,31 +27,24 @@ class Map : public QObject
         {
             None = 0,
             RandomWalker,
+            TargetedWalker,
         };
-
-
 
     private:
         QSize size;
         Conf conf;
         RoadGraph roadGraph;
         TimeCycleProcessor processor;
-        QList<QSharedPointer<AbstractStaticMapElement>> staticElementList;
-        QList<QSharedPointer<AbstractDynamicMapElement>> dynamicElementList;
-
-
+        QLinkedList<QSharedPointer<AbstractStaticMapElement>> staticElementList;
+        QLinkedList<QSharedPointer<AbstractDynamicMapElement>> dynamicElementList;
 
     public:
         Map(const QSize& size, const QString& confFilePath);
-
-
 
         /**
          * @brief Return the size of the map in terms on tiles.
          */
         const QSize& getSize() const;
-
-
 
         /**
          * @brief Indicate if the given coordinates are valid
@@ -65,8 +53,6 @@ class Map : public QObject
          */
         bool isValidCoordinates(const MapCoordinates& coordinates) const;
 
-
-
         /**
          * @brief Indicate if the given area is valid.
          *
@@ -74,28 +60,20 @@ class Map : public QObject
          */
         bool isValidArea(const MapArea& area) const;
 
-
-
         /**
          * @brief Indicate if the given coordinates are free of any king of static element.
          */
         bool isFreeCoordinates(const MapCoordinates& coordinates) const;
-
-
 
         /**
          * @brief Indicate if the given area is free of any kind of static element.
          */
         bool isFreeArea(const MapArea& area) const;
 
-
-
         /**
          * @brief Return a const reference to the time cycle processor.
          */
         const TimeCycleProcessor& getProcessor() const;
-
-
 
     public slots:
         /**
@@ -111,18 +89,21 @@ class Map : public QObject
          */
         void createStaticElement(StaticElementType type, const MapArea& area);
 
-
-
         /**
          * @brief Create a dynamic element on the map.
          *
          * @param type The type of dynamic element to create.
          * @param initialLocation The location of the element on the map.
          * @throw UnexpectedException Try to create a dynamic element of type None.
+         * @return A pointer to the element created.
          */
-        void createDynamicElement(DynamicElementType type, const MapCoordinates& initialLocation);
+        AbstractDynamicMapElement* createDynamicElement(DynamicElementType type, const MapCoordinates& initialLocation, const int randomWalkerCredit = 0);
 
-
+        /**
+         * @brief Destroy a dynamic element.
+         * @param element
+         */
+        void destroyDynamicElement(AbstractDynamicMapElement* element);
 
     signals:
         void staticElementCreated(const QWeakPointer<AbstractStaticMapElement>& elementCreated);

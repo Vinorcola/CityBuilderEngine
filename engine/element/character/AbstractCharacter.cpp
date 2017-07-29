@@ -2,8 +2,6 @@
 
 
 
-
-
 AbstractCharacter::AbstractCharacter(const MapCoordinates& initialLocation) :
     AbstractDynamicMapElement(initialLocation)
 {

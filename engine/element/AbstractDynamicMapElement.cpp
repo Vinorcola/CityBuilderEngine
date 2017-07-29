@@ -8,27 +8,29 @@ const qreal WALKER_SPEED(0.25); // 0.06
 
 
 
-
-
 AbstractDynamicMapElement::AbstractDynamicMapElement(const MapCoordinates& initialLocation) :
     AbstractProcessable(),
-    previousLocation(initialLocation),
+    initialLocation(initialLocation),
+    moveFromLocation(initialLocation),
     currentLocation(initialLocation),
-    targetLocation(initialLocation)
+    moveToLocation(initialLocation)
 {
 
 }
 
 
 
-
-
-const MapCoordinates& AbstractDynamicMapElement::getPreviousLocation() const
+const MapCoordinates&AbstractDynamicMapElement::getInitialLocation() const
 {
-    return previousLocation;
+ return initialLocation;
 }
 
 
+
+const MapCoordinates& AbstractDynamicMapElement::getComingFromLocation() const
+{
+    return moveFromLocation;
+}
 
 
 
@@ -39,27 +41,20 @@ const MapCoordinates& AbstractDynamicMapElement::getCurrentLocation() const
 
 
 
-
-
-void AbstractDynamicMapElement::setNextTargetLocation(const MapCoordinates& nextLocation)
+const MapCoordinates& AbstractDynamicMapElement::getGoingToLocation() const
 {
-    targetLocation = nextLocation;
+    return moveToLocation;
 }
-
-
 
 
 
 void AbstractDynamicMapElement::process(const CycleDate& /*date*/)
 {
-    if (targetLocation.isValid())
-    {
-        if (targetLocation == currentLocation)
-        {
-            targetLocation = getNextTargetLocation();
-            previousLocation = currentLocation;
-            if (!targetLocation.isValid())
-            {
+    if (moveToLocation.isValid()) {
+        if (moveToLocation == currentLocation) {
+            moveToLocation = findNextGoingToLocation();
+            moveFromLocation = currentLocation;
+            if (!moveToLocation.isValid()) {
                 return;
             }
         }
@@ -70,26 +65,17 @@ void AbstractDynamicMapElement::process(const CycleDate& /*date*/)
 
 
 
-
-
 void AbstractDynamicMapElement::moveToTarget()
 {
-    if (targetLocation.getX() > currentLocation.getX())
-    {
-        currentLocation.setX(qMin(currentLocation.getX() + WALKER_SPEED, targetLocation.getX()));
+    if (moveToLocation.getX() > currentLocation.getX()) {
+        currentLocation.setX(qMin(currentLocation.getX() + WALKER_SPEED, moveToLocation.getX()));
+    } else if (moveToLocation.getX() < currentLocation.getX()) {
+        currentLocation.setX(qMax(currentLocation.getX() - WALKER_SPEED, moveToLocation.getX()));
     }
-    else if (targetLocation.getX() < currentLocation.getX())
-    {
-        currentLocation.setX(qMax(currentLocation.getX() - WALKER_SPEED, targetLocation.getX()));
-    }
-
-    if (targetLocation.getY() > currentLocation.getY())
-    {
-        currentLocation.setY(qMin(currentLocation.getY() + WALKER_SPEED, targetLocation.getY()));
-    }
-    else if (targetLocation.getY() < currentLocation.getY())
-    {
-        currentLocation.setY(qMax(currentLocation.getY() - WALKER_SPEED, targetLocation.getY()));
+    if (moveToLocation.getY() > currentLocation.getY()) {
+        currentLocation.setY(qMin(currentLocation.getY() + WALKER_SPEED, moveToLocation.getY()));
+    } else if (moveToLocation.getY() < currentLocation.getY()) {
+        currentLocation.setY(qMax(currentLocation.getY() - WALKER_SPEED, moveToLocation.getY()));
     }
 
     qDebug() << "  - Moved walker to" << currentLocation.toString();
