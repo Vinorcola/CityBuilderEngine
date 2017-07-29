@@ -23,8 +23,7 @@ MaintenanceBuilding::MaintenanceBuilding(Map& map, const MapArea& area, const Ma
 
 void MaintenanceBuilding::init(const CycleDate& date)
 {
-    nextWalkerGenerationDate = date;
-    nextWalkerGenerationDate.add(WALKER_GENERATION_DATE_GAP);
+    setupWalkerGeneration(date);
 }
 
 
