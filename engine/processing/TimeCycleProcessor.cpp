@@ -15,11 +15,9 @@ TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const qreal speedRatio) 
     QObject(parent),
     speedRatio(speedRatio),
     clock(),
-    dynamicProcessableList(),
-    staticProcessableList(),
+    processableList(),
     waitingForRegistrationList(),
-    dynamicWaitingForUnregistrationList(),
-    staticWaitingForUnregistrationList(),
+    waitingForUnregistrationList(),
     currentCycleDate()
 {
     clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * speedRatio), this);
@@ -40,20 +38,16 @@ void TimeCycleProcessor::setSpeedRatio(const qreal ratio)
 
 
 
-void TimeCycleProcessor::registerProcessable(AbstractProcessable* processable)
+void TimeCycleProcessor::registerProcessable(QWeakPointer<AbstractProcessable> processable)
 {
     waitingForRegistrationList.append(processable);
 }
 
 
 
-void TimeCycleProcessor::unregisterProcessable(AbstractProcessable* processable)
+void TimeCycleProcessor::unregisterProcessable(QWeakPointer<AbstractProcessable> processable)
 {
-    if (dynamic_cast<AbstractProcessableBuilding*>(processable)) {
-        staticWaitingForUnregistrationList.append(processable);
-    } else if (dynamic_cast<AbstractDynamicMapElement*>(processable)) {
-        dynamicWaitingForUnregistrationList.append(processable);
-    }
+    waitingForUnregistrationList.append(processable);
 }
 
 
@@ -62,31 +56,27 @@ void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
     qDebug() << "Process time-cycle" << currentCycleDate.toString();
 
     // Process current processable list.
-    // Dynamic elements have to be processed first has some of them may be deleted by the process of a static element.
-    for (auto processable : dynamicProcessableList) {
-        processable->process(currentCycleDate);
-    }
-    for (auto processable : staticProcessableList) {
-        processable->process(currentCycleDate);
+    for (auto processableAccess: processableList) {
+        auto processable(processableAccess.toStrongRef());
+        if (processable) {
+            processable->process(currentCycleDate);
+        } else {
+            waitingForUnregistrationList.append(processableAccess);
+        }
     }
 
     // Process unregistration.
-    for (auto processable : dynamicWaitingForUnregistrationList) {
-        dynamicProcessableList.removeOne(processable);
+    for (auto processableAccess: waitingForUnregistrationList) {
+        processableList.removeOne(processableAccess);
     }
-    dynamicWaitingForUnregistrationList.clear();
-    for (auto processable : staticWaitingForUnregistrationList) {
-        staticProcessableList.removeOne(processable);
-    }
-    staticWaitingForUnregistrationList.clear();
+    waitingForUnregistrationList.clear();
 
     // Process registration.
-    for (auto processable : waitingForRegistrationList) {
-        processable->init(currentCycleDate);
-        if (dynamic_cast<AbstractProcessableBuilding*>(processable)) {
-            staticProcessableList.append(processable);
-        } else if (dynamic_cast<AbstractDynamicMapElement*>(processable)) {
-            dynamicProcessableList.append(processable);
+    for (auto processableAccess: waitingForRegistrationList) {
+        auto processable(processableAccess.toStrongRef());
+        if (processable) {
+            processable->init(currentCycleDate);
+            processableList.append(processable);
         }
     }
     waitingForRegistrationList.clear();

@@ -1,7 +1,7 @@
 #ifndef ABSTRACTPROCESSABLE
 #define ABSTRACTPROCESSABLE
 
-#include "engine/processing/TimeCycleProcessor.hpp"
+#include "engine/processing/CycleDate.hpp"
 
 /**
  * @brief Represent a processable element on the map.

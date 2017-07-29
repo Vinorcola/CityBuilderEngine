@@ -10,6 +10,14 @@ CycleDate::CycleDate() :
 
 
 
+CycleDate::CycleDate(const CycleDate& other) :
+    cycles(other.cycles)
+{
+
+}
+
+
+
 void CycleDate::operator++()
 {
     ++cycles;
@@ -20,6 +28,20 @@ void CycleDate::operator++()
 bool CycleDate::operator==(const CycleDate& other) const
 {
     return cycles == other.cycles;
+}
+
+
+
+bool CycleDate::operator<=(const CycleDate& other) const
+{
+    return cycles <= other.cycles;
+}
+
+
+
+void CycleDate::operator=(const CycleDate& other)
+{
+    cycles = other.cycles;
 }
 
 

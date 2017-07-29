@@ -2,12 +2,13 @@
 #define TIMECYCLEPROCESSOR_HPP
 
 #include <QBasicTimer>
+#include <QLinkedList>
 #include <QList>
 #include <QObject>
+#include <QWeakPointer>
 
+#include "engine/processing/AbstractProcessable.hpp"
 #include "engine/processing/CycleDate.hpp"
-
-class AbstractProcessable;
 
 /**
  * @brief Class handling the time-cycle loop.
@@ -25,11 +26,9 @@ class TimeCycleProcessor : public QObject
     private:
         qreal speedRatio;
         QBasicTimer clock;
-        QList<AbstractProcessable*> dynamicProcessableList;
-        QList<AbstractProcessable*> staticProcessableList;
-        QList<AbstractProcessable*> waitingForRegistrationList;
-        QList<AbstractProcessable*> dynamicWaitingForUnregistrationList;
-        QList<AbstractProcessable*> staticWaitingForUnregistrationList;
+        QLinkedList<QWeakPointer<AbstractProcessable>> processableList;
+        QList<QWeakPointer<AbstractProcessable>> waitingForRegistrationList;
+        QList<QWeakPointer<AbstractProcessable>> waitingForUnregistrationList;
         CycleDate currentCycleDate;
 
     public:
@@ -47,14 +46,14 @@ class TimeCycleProcessor : public QObject
          *
          * @param processable
          */
-        void registerProcessable(AbstractProcessable* processable);
+        void registerProcessable(QWeakPointer<AbstractProcessable> processable);
 
         /**
          * @brief Unregister a processable element.
          *
          * @param processable
          */
-        void unregisterProcessable(AbstractProcessable* processable);
+        void unregisterProcessable(QWeakPointer<AbstractProcessable> processable);
 
     signals:
         /**

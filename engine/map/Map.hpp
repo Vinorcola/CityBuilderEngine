@@ -97,13 +97,13 @@ class Map : public QObject
          * @throw UnexpectedException Try to create a dynamic element of type None.
          * @return A pointer to the element created.
          */
-        AbstractDynamicMapElement* createDynamicElement(DynamicElementType type, const MapCoordinates& initialLocation, const int randomWalkerCredit = 0, const qreal speed = 0.0);
+        QWeakPointer<AbstractDynamicMapElement> createDynamicElement(DynamicElementType type, const MapCoordinates& initialLocation, const int randomWalkerCredit = 0, const qreal speed = 0.0);
 
         /**
          * @brief Destroy a dynamic element.
          * @param element
          */
-        void destroyDynamicElement(AbstractDynamicMapElement* element);
+        void destroyDynamicElement(QWeakPointer<AbstractDynamicMapElement> element);
 
     signals:
         void staticElementCreated(const QWeakPointer<AbstractStaticMapElement>& elementCreated);

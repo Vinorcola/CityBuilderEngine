@@ -5,7 +5,7 @@
 #include "defines.hpp"
 #include "engine/map/Map.hpp"
 
-const int WALKER_GENERATION_DATE_GAP(10);
+const int WALKER_GENERATION_DATE_GAP(4 * CYCLE_PER_SECOND);
 const int MAX_NUMBER_OF_WALKER(2);
 
 
@@ -33,10 +33,10 @@ void MaintenanceBuilding::process(const CycleDate& date)
 {
     if (date == nextWalkerGenerationDate) {
         walkers.append(
-            static_cast<RandomWalker*>(map.createDynamicElement(
+            qWeakPointerCast<RandomWalker, AbstractDynamicMapElement>(map.createDynamicElement(
                 Map::DynamicElementType::RandomWalker,
                 getEntryPoint(),
-                15,
+                30,
 #ifdef SLOW_MOTION
                 0.25 / CYCLE_PER_SECOND
 #else
@@ -44,23 +44,33 @@ void MaintenanceBuilding::process(const CycleDate& date)
 #endif
             ))
         );
-
-        if (walkers.size() < MAX_NUMBER_OF_WALKER) {
-            nextWalkerGenerationDate = date;
-            nextWalkerGenerationDate.add(WALKER_GENERATION_DATE_GAP);
-        }
+        setupWalkerGeneration(date);
     }
 
     auto iterator(walkers.begin());
     while (iterator != walkers.end()) {
-        if ((*iterator)->reachedTarget()) {
-            map.destroyDynamicElement(*iterator);
-            iterator = walkers.erase(iterator);
-
-            nextWalkerGenerationDate = date;
-            nextWalkerGenerationDate.add(WALKER_GENERATION_DATE_GAP);
+        auto walker(iterator->toStrongRef());
+        if (walker) {
+            if (walker->reachedTarget()) {
+                map.destroyDynamicElement(walker.toWeakRef());
+                iterator = walkers.erase(iterator);
+                setupWalkerGeneration(date);
+            } else {
+                ++iterator;
+            }
         } else {
-            ++iterator;
+            iterator = walkers.erase(iterator);
+            setupWalkerGeneration(date);
         }
+    }
+}
+
+
+
+void MaintenanceBuilding::setupWalkerGeneration(const CycleDate& currentDate)
+{
+    if (walkers.size() < MAX_NUMBER_OF_WALKER && nextWalkerGenerationDate <= currentDate) {
+        nextWalkerGenerationDate = currentDate;
+        nextWalkerGenerationDate.add(WALKER_GENERATION_DATE_GAP);
     }
 }

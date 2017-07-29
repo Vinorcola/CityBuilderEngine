@@ -104,67 +104,68 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
         return;
     }
 
-    AbstractStaticMapElement* element;
+    QSharedPointer<AbstractStaticMapElement> element;
     const RoadGraphNode* entryPointNode;
     switch (type) {
         case StaticElementType::None:
             throw UnexpectedException("Try to create a static element of type None.");
 
-        case StaticElementType::Maintenance:
+        case StaticElementType::Maintenance: {
             entryPointNode = roadGraph.fetchNodeArround(area);
-            element = new MaintenanceBuilding(*this, area, entryPointNode ? entryPointNode->getCoordinates() : MapCoordinates());
-            processor.registerProcessable(static_cast<AbstractProcessableBuilding*>(element));
+            QSharedPointer<MaintenanceBuilding> tmp(new MaintenanceBuilding(*this, area, entryPointNode ? entryPointNode->getCoordinates() : MapCoordinates()));
+            element = qSharedPointerCast<AbstractStaticMapElement, MaintenanceBuilding>(tmp);
+            processor.registerProcessable(
+                qWeakPointerCast<AbstractProcessable, MaintenanceBuilding>(tmp)
+            );
             break;
+        }
 
         case StaticElementType::Road:
             if (area.getSize().getValue() > 1) {
                 throw UnexpectedException("Try to create a road on an area bigger than 1: " + area.toString());
             }
-            element = new Road(roadGraph.createNode(area.getLeft()));
+            element.reset(new Road(roadGraph.createNode(area.getLeft())));
             break;
     }
 
-    QSharedPointer<AbstractStaticMapElement> elementAccess(element);
-    staticElementList.append(elementAccess);
+    staticElementList.append(element);
 
-    emit staticElementCreated(elementAccess.toWeakRef());
+    emit staticElementCreated(element.toWeakRef());
 }
 
 
 
-AbstractDynamicMapElement* Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinates& initialLocation, const int randomWalkerCredit, const qreal speed)
+QWeakPointer<AbstractDynamicMapElement> Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinates& initialLocation, const int randomWalkerCredit, const qreal speed)
 {
-    AbstractDynamicMapElement* element;
+    QSharedPointer<AbstractDynamicMapElement> element;
     switch (type) {
         case DynamicElementType::None:
             throw UnexpectedException("Try to create a dynamic element of type None.");
 
         case DynamicElementType::RandomWalker:
-            element = new RandomWalker(roadGraph, initialLocation, randomWalkerCredit, speed);
+            element.reset(new RandomWalker(roadGraph, initialLocation, randomWalkerCredit, speed));
             break;
 
         default:
             throw UnexpectedException("Try to create a dynamic element of unknown type.");
     }
 
-    processor.registerProcessable(element);
-    QSharedPointer<AbstractDynamicMapElement> elementAccess(element);
-    dynamicElementList.append(elementAccess);
+    processor.registerProcessable(element.toWeakRef());
+    dynamicElementList.append(element);
 
-    emit dynamicElementCreated(elementAccess.toWeakRef());
+    emit dynamicElementCreated(element.toWeakRef());
 
-    return element;
+    return element.toWeakRef();
 }
 
 
 
-void Map::destroyDynamicElement(AbstractDynamicMapElement* element)
+void Map::destroyDynamicElement(QWeakPointer<AbstractDynamicMapElement> element)
 {
     for (auto elementAccess: dynamicElementList) {
-        if (elementAccess.data() == element) {
-            processor.unregisterProcessable(element);
+        if (elementAccess == element) {
+            // No need to unregister the processable inthe TimeCycleProcessor: it will automatically be unregistered.
             dynamicElementList.removeOne(elementAccess);
-            elementAccess.clear();
             return;
         }
     }

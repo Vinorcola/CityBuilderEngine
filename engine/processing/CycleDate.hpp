@@ -17,6 +17,8 @@ class CycleDate
     public:
         CycleDate();
 
+        CycleDate(const CycleDate& other);
+
         /**
          * @brief Increment the date to the next date (pass 1 cycle).
          */
@@ -24,10 +26,18 @@ class CycleDate
 
         /**
          * @brief Compare 2 dates to check if they are equals or not.
-         * @param other
-         * @return bool
          */
         bool operator==(const CycleDate& other) const;
+
+        /**
+         * @brief Compare 2 dates to check if other is later than the current date.
+         */
+        bool operator<=(const CycleDate& other) const;
+
+        /**
+         * @brief Copy the ither cycle date.
+         */
+        void operator=(const CycleDate& other);
 
         /**
          * @brief Add a certain amount of cycles to the date.

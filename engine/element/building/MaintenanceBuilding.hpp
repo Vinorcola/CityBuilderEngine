@@ -14,7 +14,7 @@ class MaintenanceBuilding : public AbstractProcessableBuilding
     private:
         Map& map;
         CycleDate nextWalkerGenerationDate;
-        QList<RandomWalker*> walkers;// TODO: use QWeakPointer.
+        QList<QWeakPointer<RandomWalker>> walkers;// TODO: use QWeakPointer.
 
     public:
         MaintenanceBuilding(Map& map, const MapArea& area, const MapCoordinates& entryPoint);
@@ -22,6 +22,9 @@ class MaintenanceBuilding : public AbstractProcessableBuilding
         virtual void init(const CycleDate& date);
 
         virtual void process(const CycleDate& date);
+
+    protected:
+        void setupWalkerGeneration(const CycleDate& currentDate);
 };
 
 #endif // MAINTENANCEBUILDING_HPP
