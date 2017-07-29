@@ -5,6 +5,7 @@
 #include <QSize>
 
 #include "engine/element/building/AbstractProcessableBuilding.hpp"
+#include "engine/element/building/CityEntryPoint.hpp"
 #include "engine/element/AbstractDynamicMapElement.hpp"
 #include "engine/element/AbstractStaticMapElement.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
@@ -21,6 +22,7 @@ class Map : public QObject
         enum class StaticElementType
         {
             None = 0,
+            House,
             Maintenance,
             Road,
         };
@@ -40,6 +42,7 @@ class Map : public QObject
         TimeCycleProcessor processor;
         QLinkedList<QSharedPointer<AbstractStaticMapElement>> staticElementList;
         QLinkedList<QSharedPointer<AbstractDynamicMapElement>> dynamicElementList;
+        QSharedPointer<CityEntryPoint> entryPoint;
 
     public:
         Map(const QSize& size, const QString& confFilePath, const MapCoordinates& cityEntryPointLocation);

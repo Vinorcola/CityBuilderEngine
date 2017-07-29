@@ -10,6 +10,7 @@ SOURCES += \
     engine/element/building/AbstractBuilding.cpp \
     engine/element/building/AbstractProcessableBuilding.cpp \
     engine/element/building/CityEntryPoint.cpp \
+    engine/element/building/HousingBuilding.cpp \
     engine/element/building/MaintenanceBuilding.cpp \
     engine/element/building/Road.cpp \
     engine/element/character/AbstractCharacter.cpp \
@@ -57,6 +58,7 @@ HEADERS += \
     engine/element/building/AbstractBuilding.hpp \
     engine/element/building/AbstractProcessableBuilding.hpp \
     engine/element/building/CityEntryPoint.hpp \
+    engine/element/building/HousingBuilding.hpp \
     engine/element/building/MaintenanceBuilding.hpp \
     engine/element/building/Road.hpp \
     engine/element/character/AbstractCharacter.hpp \

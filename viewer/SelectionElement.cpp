@@ -48,6 +48,11 @@ void SelectionElement::setBuildingType(Map::StaticElementType type)
             setVisible(false);
             break;
 
+        case Map::StaticElementType::House:
+            setSize(MapSize(2));
+            setVisible(true);
+            break;
+
         case Map::StaticElementType::Maintenance:
             setSize(MapSize(2));
             setVisible(true);

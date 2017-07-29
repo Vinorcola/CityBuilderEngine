@@ -1,5 +1,6 @@
 #include "MapScene.hpp"
 
+#include "engine/element/building/HousingBuilding.hpp"
 #include "engine/element/building/MaintenanceBuilding.hpp"
 #include "engine/element/building/Road.hpp"
 
@@ -78,6 +79,8 @@ void MapScene::registerNewStaticElement(const QWeakPointer<AbstractStaticMapElem
             addStaticElementBuilding(tile, MapSize(1), QPixmap("assets/img/road"));
         } else if (dynamic_cast<MaintenanceBuilding*>(staticElement)) {
             addStaticElementBuilding(tile, MapSize(2), QPixmap("assets/img/building.png"));
+        } else if (dynamic_cast<HousingBuilding*>(staticElement)) {
+            addStaticElementBuilding(tile, MapSize(2), QPixmap("assets/img/house.png"));
         }
     }
 }

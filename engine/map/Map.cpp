@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QSharedPointer>
 
-#include "engine/element/building/CityEntryPoint.hpp"
+#include "engine/element/building/HousingBuilding.hpp"
 #include "engine/element/building/MaintenanceBuilding.hpp"
 #include "engine/element/building/Road.hpp"
 #include "engine/element/character/RandomWalker.hpp"
@@ -19,11 +19,10 @@ Map::Map(const QSize& size, const QString& confFilePath, const MapCoordinates& c
     roadGraph(),
     processor(this),
     staticElementList(),
-    dynamicElementList()
+    dynamicElementList(),
+    entryPoint(new CityEntryPoint(cityEntryPointLocation))
 {
-    QSharedPointer<CityEntryPoint> cityEntryPoint(new CityEntryPoint(cityEntryPointLocation));
-    staticElementList.append(qSharedPointerCast<AbstractStaticMapElement, CityEntryPoint>(cityEntryPoint));
-    processor.registerProcessable(qWeakPointerCast<AbstractProcessable, CityEntryPoint>(cityEntryPoint));
+    processor.registerProcessable(qWeakPointerCast<AbstractProcessable, CityEntryPoint>(entryPoint));
 }
 
 
@@ -113,6 +112,16 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
     switch (type) {
         case StaticElementType::None:
             throw UnexpectedException("Try to create a static element of type None.");
+
+        case StaticElementType::House:{
+            entryPointNode = roadGraph.fetchNodeArround(area);
+            QSharedPointer<HousingBuilding> tmp(new HousingBuilding(*this, area, entryPointNode ? entryPointNode->getCoordinates() : MapCoordinates(), cityStatus, entryPoint.toWeakRef()));
+            element = qSharedPointerCast<AbstractStaticMapElement, HousingBuilding>(tmp);
+            processor.registerProcessable(
+                qWeakPointerCast<AbstractProcessable, HousingBuilding>(tmp)
+            );
+            break;
+        }
 
         case StaticElementType::Maintenance: {
             entryPointNode = roadGraph.fetchNodeArround(area);
