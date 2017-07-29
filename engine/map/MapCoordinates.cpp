@@ -55,7 +55,7 @@ bool MapCoordinates::operator!=(const MapCoordinates& other) const
 
 bool MapCoordinates::isValid() const
 {
-    return coordinates.x() != -1 && coordinates.y() != -1;
+    return coordinates.x() != -1 || coordinates.y() != -1;
 }
 
 
