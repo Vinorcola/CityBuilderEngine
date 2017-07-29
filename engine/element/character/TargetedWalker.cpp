@@ -2,11 +2,11 @@
 
 
 
-TargetedWalker::TargetedWalker(const RoadGraph& roadGraph, const MapCoordinates& initialPosition, const qreal speed) :
-    AbstractCharacter(initialPosition, speed),
-    targetLocation(initialPosition),
+TargetedWalker::TargetedWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableBuilding> issuer, const qreal speed) :
+    AbstractCharacter(issuer, speed),
+    targetBuilding(),
+    targetLocation(issuer.toStrongRef()->getEntryPoint()),
     path(),
-    hasTargetBeenAssigned(false),
     roadGraph(roadGraph)
 {
 
@@ -14,14 +14,17 @@ TargetedWalker::TargetedWalker(const RoadGraph& roadGraph, const MapCoordinates&
 
 
 
-void TargetedWalker::assignTarget(const MapCoordinates& target)
+void TargetedWalker::assignTarget(QWeakPointer<AbstractProcessableBuilding> targetAccess)
 {
-    hasTargetBeenAssigned = true;
-    targetLocation = target;
-    path.clear();
-    path = roadGraph.getShortestPathBetween(getCurrentLocation(), target);
-    if (path.first()->getCoordinates() == getCurrentLocation()) {
-        path.takeFirst();
+    auto target(targetAccess.toStrongRef());
+    if (target) {
+        targetBuilding = targetAccess;
+        targetLocation = target->getEntryPoint();
+        path.clear();
+        path = roadGraph.getShortestPathBetween(getCurrentLocation(), targetLocation);
+        if (path.first()->getCoordinates() == getCurrentLocation()) {
+            path.takeFirst();
+        }
     }
 }
 
@@ -29,14 +32,14 @@ void TargetedWalker::assignTarget(const MapCoordinates& target)
 
 bool TargetedWalker::hasTarget() const
 {
-    return hasTargetBeenAssigned;
+    return targetBuilding;
 }
 
 
 
 bool TargetedWalker::hasReachableTarget() const
 {
-    return hasTargetBeenAssigned && (
+    return targetBuilding && (
         !path.isEmpty() || (path.isEmpty() && getGoingToLocation() == targetLocation)
     );
 }
@@ -45,14 +48,22 @@ bool TargetedWalker::hasReachableTarget() const
 
 bool TargetedWalker::reachedTarget() const
 {
-    return hasTargetBeenAssigned && path.isEmpty() && getCurrentLocation() == targetLocation;
+    return targetBuilding && path.isEmpty() && getCurrentLocation() == targetLocation;
 }
 
 
 
-MapCoordinates TargetedWalker::findNextGoingToLocation()
+MapCoordinates TargetedWalker::findNextGoingToLocation(const CycleDate& date)
 {
     if (path.isEmpty()) {
+        if (targetBuilding && getCurrentLocation() == targetLocation) {
+            // Reached target.
+            auto target(targetBuilding.toStrongRef());
+            if (target) {
+                target->processInteraction(date, this);
+            }
+        }
+
         // No path to follow, character stays where it is.
         return getCurrentLocation();
     }

@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QSharedPointer>
 
+#include "engine/element/building/CityEntryPoint.hpp"
 #include "engine/element/building/MaintenanceBuilding.hpp"
 #include "engine/element/building/Road.hpp"
 #include "engine/element/character/RandomWalker.hpp"
@@ -10,16 +11,19 @@
 
 
 
-Map::Map(const QSize& size, const QString& confFilePath) :
+Map::Map(const QSize& size, const QString& confFilePath, const MapCoordinates& cityEntryPointLocation) :
     QObject(),
     size(size),
     conf(confFilePath),
+    cityStatus(10000),
     roadGraph(),
     processor(this),
     staticElementList(),
     dynamicElementList()
 {
-
+    QSharedPointer<CityEntryPoint> cityEntryPoint(new CityEntryPoint(cityEntryPointLocation));
+    staticElementList.append(qSharedPointerCast<AbstractStaticMapElement, CityEntryPoint>(cityEntryPoint));
+    processor.registerProcessable(qWeakPointerCast<AbstractProcessable, CityEntryPoint>(cityEntryPoint));
 }
 
 
@@ -120,12 +124,15 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
             break;
         }
 
-        case StaticElementType::Road:
+        case StaticElementType::Road: {
             if (area.getSize().getValue() > 1) {
                 throw UnexpectedException("Try to create a road on an area bigger than 1: " + area.toString());
             }
-            element.reset(new Road(roadGraph.createNode(area.getLeft())));
+            auto coordinates(area.getLeft());
+            element.reset(new Road(coordinates));
+            roadGraph.createNode(coordinates);
             break;
+        }
     }
 
     staticElementList.append(element);
@@ -135,16 +142,21 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
 
 
 
-QWeakPointer<AbstractDynamicMapElement> Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinates& initialLocation, const int randomWalkerCredit, const qreal speed)
-{
+QWeakPointer<AbstractDynamicMapElement> Map::createDynamicElement(Map::DynamicElementType type,
+    const AbstractProcessableBuilding* issuer,
+    const int randomWalkerCredit,
+    const qreal speed
+) {
     QSharedPointer<AbstractDynamicMapElement> element;
     switch (type) {
         case DynamicElementType::None:
             throw UnexpectedException("Try to create a dynamic element of type None.");
 
-        case DynamicElementType::RandomWalker:
-            element.reset(new RandomWalker(roadGraph, initialLocation, randomWalkerCredit, speed));
+        case DynamicElementType::RandomWalker: {
+            auto issuerAccess(qSharedPointerCast<AbstractProcessableBuilding, AbstractStaticMapElement>(fetchStaticElement(issuer)));
+            element.reset(new RandomWalker(roadGraph, issuerAccess.toWeakRef(), randomWalkerCredit, speed));
             break;
+        }
 
         default:
             throw UnexpectedException("Try to create a dynamic element of unknown type.");
@@ -160,7 +172,7 @@ QWeakPointer<AbstractDynamicMapElement> Map::createDynamicElement(Map::DynamicEl
 
 
 
-void Map::destroyDynamicElement(QWeakPointer<AbstractDynamicMapElement> element)
+void Map::destroyDynamicElement(AbstractDynamicMapElement* element)
 {
     for (auto elementAccess: dynamicElementList) {
         if (elementAccess == element) {
@@ -169,4 +181,17 @@ void Map::destroyDynamicElement(QWeakPointer<AbstractDynamicMapElement> element)
             return;
         }
     }
+}
+
+
+
+QSharedPointer<AbstractStaticMapElement> Map::fetchStaticElement(const AbstractStaticMapElement* element) const
+{
+    for (auto elementFromList : staticElementList) {
+        if (elementFromList == element) {
+            return elementFromList;
+        }
+    }
+
+    return nullptr;
 }

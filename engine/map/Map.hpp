@@ -4,10 +4,12 @@
 #include <QLinkedList>
 #include <QSize>
 
+#include "engine/element/building/AbstractProcessableBuilding.hpp"
 #include "engine/element/AbstractDynamicMapElement.hpp"
 #include "engine/element/AbstractStaticMapElement.hpp"
-#include "engine/map/MapSize.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
+#include "engine/map/CityStatus.hpp"
+#include "engine/map/MapSize.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
 #include "global/conf/Conf.hpp"
 
@@ -33,13 +35,14 @@ class Map : public QObject
     private:
         QSize size;
         Conf conf;
+        CityStatus cityStatus;
         RoadGraph roadGraph;
         TimeCycleProcessor processor;
         QLinkedList<QSharedPointer<AbstractStaticMapElement>> staticElementList;
         QLinkedList<QSharedPointer<AbstractDynamicMapElement>> dynamicElementList;
 
     public:
-        Map(const QSize& size, const QString& confFilePath);
+        Map(const QSize& size, const QString& confFilePath, const MapCoordinates& cityEntryPointLocation);
 
         /**
          * @brief Return the size of the map in terms on tiles.
@@ -93,17 +96,25 @@ class Map : public QObject
          * @brief Create a dynamic element on the map.
          *
          * @param type The type of dynamic element to create.
-         * @param initialLocation The location of the element on the map.
+         * @param issuer The building issuing the dynamic element.
          * @throw UnexpectedException Try to create a dynamic element of type None.
          * @return A pointer to the element created.
          */
-        QWeakPointer<AbstractDynamicMapElement> createDynamicElement(DynamicElementType type, const MapCoordinates& initialLocation, const int randomWalkerCredit = 0, const qreal speed = 0.0);
+        QWeakPointer<AbstractDynamicMapElement> createDynamicElement(
+            DynamicElementType type,
+            const AbstractProcessableBuilding* issuer,
+            const int randomWalkerCredit = 0,
+            const qreal speed = 0.0
+        );
 
         /**
          * @brief Destroy a dynamic element.
          * @param element
          */
-        void destroyDynamicElement(QWeakPointer<AbstractDynamicMapElement> element);
+        void destroyDynamicElement(AbstractDynamicMapElement* element);
+
+    protected:
+        QSharedPointer<AbstractStaticMapElement> fetchStaticElement(const AbstractStaticMapElement* element) const;
 
     signals:
         void staticElementCreated(const QWeakPointer<AbstractStaticMapElement>& elementCreated);

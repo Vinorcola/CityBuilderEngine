@@ -2,8 +2,8 @@
 
 
 
-AbstractCharacter::AbstractCharacter(const MapCoordinates& initialLocation, const qreal speed) :
-    AbstractDynamicMapElement(initialLocation, speed)
+AbstractCharacter::AbstractCharacter(QWeakPointer<AbstractProcessableBuilding> issuer, const qreal speed) :
+    AbstractDynamicMapElement(issuer, speed)
 {
 
 }

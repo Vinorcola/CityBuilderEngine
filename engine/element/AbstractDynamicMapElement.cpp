@@ -6,13 +6,14 @@
 
 
 
-AbstractDynamicMapElement::AbstractDynamicMapElement(const MapCoordinates& initialLocation, const qreal speed) :
+AbstractDynamicMapElement::AbstractDynamicMapElement(QWeakPointer<AbstractProcessableBuilding> issuer, const qreal speed) :
     AbstractProcessable(),
-    initialLocation(initialLocation),
+    initialLocation(issuer.toStrongRef()->getEntryPoint()),
     moveFromLocation(initialLocation),
     currentLocation(initialLocation),
     moveToLocation(initialLocation),
-    speed(speed)
+    speed(speed),
+    issuer(issuer)
 {
 
 }
@@ -28,7 +29,7 @@ AbstractDynamicMapElement::~AbstractDynamicMapElement()
 
 const MapCoordinates& AbstractDynamicMapElement::getInitialLocation() const
 {
- return initialLocation;
+    return initialLocation;
 }
 
 
@@ -54,11 +55,11 @@ const MapCoordinates& AbstractDynamicMapElement::getGoingToLocation() const
 
 
 
-void AbstractDynamicMapElement::process(const CycleDate& /*date*/)
+void AbstractDynamicMapElement::process(const CycleDate& date)
 {
     if (moveToLocation.isValid()) {
         if (moveToLocation == currentLocation) {
-            moveToLocation = findNextGoingToLocation();
+            moveToLocation = findNextGoingToLocation(date);
             moveFromLocation = currentLocation;
             if (!moveToLocation.isValid()) {
                 return;

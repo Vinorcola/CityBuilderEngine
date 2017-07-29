@@ -6,16 +6,16 @@
 
 
 
-RandomWalker::RandomWalker(const RoadGraph& roadGraph, const MapCoordinates& initialLocation, const int walkingCredit, const qreal speed) :
-    TargetedWalker(roadGraph, initialLocation, speed),
+RandomWalker::RandomWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableBuilding> issuer, const int walkingCredit, const qreal speed) :
+    TargetedWalker(roadGraph, issuer, speed),
     walkingCredit(walkingCredit)
 {
-    qDebug() << "  - Create random walker at" << initialLocation.toString();
+    qDebug() << "  - Create random walker at" << issuer.toStrongRef()->getEntryPoint().toString();
 }
 
 
 
-MapCoordinates RandomWalker::findNextGoingToLocation()
+MapCoordinates RandomWalker::findNextGoingToLocation(const CycleDate& date)
 {
     // Update walking credit
     --walkingCredit;
@@ -23,12 +23,12 @@ MapCoordinates RandomWalker::findNextGoingToLocation()
         qDebug() << "  - Walker out of credits.";
 
         // Walking credit expires. Switch to targeted walker.
-        assignTarget(getInitialLocation());
+        assignTarget(issuer);
 
-        return TargetedWalker::findNextGoingToLocation();
+        return TargetedWalker::findNextGoingToLocation(date);
     }
     if (walkingCredit < -1) {
-        return TargetedWalker::findNextGoingToLocation();
+        return TargetedWalker::findNextGoingToLocation(date);
     }
 
     // Continue random walking.

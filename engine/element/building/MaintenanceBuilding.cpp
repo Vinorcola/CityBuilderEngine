@@ -34,7 +34,7 @@ void MaintenanceBuilding::process(const CycleDate& date)
         walkers.append(
             qWeakPointerCast<RandomWalker, AbstractDynamicMapElement>(map.createDynamicElement(
                 Map::DynamicElementType::RandomWalker,
-                getEntryPoint(),
+                this,
                 30,
 #ifdef SLOW_MOTION
                 0.25 / CYCLE_PER_SECOND
@@ -45,13 +45,18 @@ void MaintenanceBuilding::process(const CycleDate& date)
         );
         setupWalkerGeneration(date);
     }
+}
 
+
+
+void MaintenanceBuilding::processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor)
+{
     auto iterator(walkers.begin());
     while (iterator != walkers.end()) {
         auto walker(iterator->toStrongRef());
         if (walker) {
-            if (walker->reachedTarget()) {
-                map.destroyDynamicElement(walker.toWeakRef());
+            if (walker == actor) {
+                map.destroyDynamicElement(actor);
                 iterator = walkers.erase(iterator);
                 setupWalkerGeneration(date);
             } else {

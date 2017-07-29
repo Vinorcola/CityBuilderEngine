@@ -15,10 +15,10 @@ class RandomWalker : public TargetedWalker
         int walkingCredit;
 
     public:
-        RandomWalker(const RoadGraph& roadGraph, const MapCoordinates& initialLocation, const int walkingCredit, const qreal speed);
+        RandomWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableBuilding> issuer, const int walkingCredit, const qreal speed);
 
     protected:
-        virtual MapCoordinates findNextGoingToLocation();
+        virtual MapCoordinates findNextGoingToLocation(const CycleDate& date);
 };
 
 #endif // RANDOMWALKER_HPP

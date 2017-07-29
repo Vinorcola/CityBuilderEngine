@@ -1,8 +1,10 @@
 #ifndef ABSTRACTDYNAMICMAPELEMENT_HPP
 #define ABSTRACTDYNAMICMAPELEMENT_HPP
 
+#include <QWeakPointer>
+
+#include "engine/element/building/AbstractProcessableBuilding.hpp"
 #include "engine/map/MapCoordinates.hpp"
-#include "engine/processing/AbstractProcessable.hpp"
 
 /**
  * @brief Represent a dynamic element on the map.
@@ -20,8 +22,11 @@ class AbstractDynamicMapElement : public AbstractProcessable
         MapCoordinates moveToLocation;///< The coordinates of the tile the element is moving to.
         qreal speed;///< In number of tile per second.
 
+    protected:
+        QWeakPointer<AbstractProcessableBuilding> issuer;///< The issuer static element.
+
     public:
-        AbstractDynamicMapElement(const MapCoordinates& initialLocation, const qreal speed);
+        AbstractDynamicMapElement(QWeakPointer<AbstractProcessableBuilding> issuer, const qreal speed);
 
         virtual ~AbstractDynamicMapElement();
 
@@ -36,7 +41,7 @@ class AbstractDynamicMapElement : public AbstractProcessable
         virtual void process(const CycleDate& date);
 
     protected:
-        virtual MapCoordinates findNextGoingToLocation() = 0;
+        virtual MapCoordinates findNextGoingToLocation(const CycleDate& date) = 0;
 
     private:
         void moveToTarget();

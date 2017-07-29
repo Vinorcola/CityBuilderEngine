@@ -41,7 +41,7 @@ void MainWindow::createMap(const QSize& size)
     if (currentMap) {
         delete currentMap;
     }
-    currentMap = new Map(size, "assets/conf.yml");
+    currentMap = new Map(size, "assets/conf.yml", {0, 0});
 
     MapViewer* viewer(new MapViewer(*currentMap));
     setCentralWidget(viewer);

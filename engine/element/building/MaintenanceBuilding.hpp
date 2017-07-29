@@ -23,6 +23,8 @@ class MaintenanceBuilding : public AbstractProcessableBuilding
 
         virtual void process(const CycleDate& date);
 
+        virtual void processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
+
     protected:
         void setupWalkerGeneration(const CycleDate& currentDate);
 };

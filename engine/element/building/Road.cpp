@@ -4,9 +4,8 @@
 
 
 
-Road::Road(const RoadGraphNode* graphNode) :
-    AbstractBuilding(MapArea(graphNode->getCoordinates())),
-    graphNode(graphNode)
+Road::Road(const MapCoordinates& coordinates) :
+    AbstractBuilding(MapArea(coordinates))
 {
-    qDebug() << "  - Created road at" << graphNode->getCoordinates().toString();
+    qDebug() << "  - Created road at" << coordinates.toString();
 }

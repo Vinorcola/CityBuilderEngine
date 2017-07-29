@@ -14,17 +14,17 @@
 class TargetedWalker : public AbstractCharacter
 {
     private:
+        QWeakPointer<AbstractProcessableBuilding> targetBuilding;
         MapCoordinates targetLocation;
         QList<const RoadGraphNode*> path;
-        bool hasTargetBeenAssigned;
 
     protected:
         const RoadGraph& roadGraph;
 
     public:
-        TargetedWalker(const RoadGraph& roadGraph, const MapCoordinates& initialPosition, const qreal speed);
+        TargetedWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableBuilding> issuer, const qreal speed);
 
-        void assignTarget(const MapCoordinates& target);
+        void assignTarget(QWeakPointer<AbstractProcessableBuilding> target);
 
         bool hasTarget() const;
 
@@ -33,7 +33,7 @@ class TargetedWalker : public AbstractCharacter
         bool reachedTarget() const;
 
     protected:
-        virtual MapCoordinates findNextGoingToLocation();
+        virtual MapCoordinates findNextGoingToLocation(const CycleDate& date);
 };
 
 #endif // TARGETEDWALKER_HPP
