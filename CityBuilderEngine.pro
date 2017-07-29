@@ -93,7 +93,8 @@ HEADERS += \
     viewer/MapViewer.hpp \
     viewer/SelectionElement.hpp \
     viewer/StaticElement.hpp \
-    viewer/Tile.hpp
+    viewer/Tile.hpp \
+    defines.hpp
 
 DISTFILES += \
     README.md

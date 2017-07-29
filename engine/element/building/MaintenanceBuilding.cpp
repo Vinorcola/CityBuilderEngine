@@ -2,6 +2,7 @@
 
 #include <QDebug>
 
+#include "defines.hpp"
 #include "engine/map/Map.hpp"
 
 const int WALKER_GENERATION_DATE_GAP(10);
@@ -32,7 +33,16 @@ void MaintenanceBuilding::process(const CycleDate& date)
 {
     if (date == nextWalkerGenerationDate) {
         walkers.append(
-            static_cast<RandomWalker*>(map.createDynamicElement(Map::DynamicElementType::RandomWalker, getEntryPoint(), 15))
+            static_cast<RandomWalker*>(map.createDynamicElement(
+                Map::DynamicElementType::RandomWalker,
+                getEntryPoint(),
+                15,
+#ifdef SLOW_MOTION
+                0.25 / CYCLE_PER_SECOND
+#else
+                2.0 / CYCLE_PER_SECOND
+#endif
+            ))
         );
 
         if (walkers.size() < MAX_NUMBER_OF_WALKER) {

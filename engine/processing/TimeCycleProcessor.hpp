@@ -23,9 +23,7 @@ class TimeCycleProcessor : public QObject
         Q_OBJECT
 
     private:
-        const float cyclePerSecondBase;
-
-        float speedRatio;
+        qreal speedRatio;
         QBasicTimer clock;
         QList<AbstractProcessable*> dynamicProcessableList;
         QList<AbstractProcessable*> staticProcessableList;
@@ -35,14 +33,14 @@ class TimeCycleProcessor : public QObject
         CycleDate currentCycleDate;
 
     public:
-        TimeCycleProcessor(QObject* parent, const float speedRatio = 1.0);
+        TimeCycleProcessor(QObject* parent, const qreal speedRatio = 1.0);
 
         /**
          * @brief Change the speed ratio of the time-cycle loop.
          *
          * @param ratio A ratio between 0.1 and 1.
          */
-        void setSpeedRatio(const float ratio);
+        void setSpeedRatio(const qreal ratio);
 
         /**
          * @brief Register a processable element.

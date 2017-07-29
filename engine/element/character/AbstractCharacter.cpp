@@ -2,8 +2,8 @@
 
 
 
-AbstractCharacter::AbstractCharacter(const MapCoordinates& initialLocation) :
-    AbstractDynamicMapElement(initialLocation)
+AbstractCharacter::AbstractCharacter(const MapCoordinates& initialLocation, const qreal speed) :
+    AbstractDynamicMapElement(initialLocation, speed)
 {
 
 }

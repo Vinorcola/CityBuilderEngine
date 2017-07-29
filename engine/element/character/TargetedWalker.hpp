@@ -22,7 +22,7 @@ class TargetedWalker : public AbstractCharacter
         const RoadGraph& roadGraph;
 
     public:
-        TargetedWalker(const RoadGraph& roadGraph, const MapCoordinates& initialPosition);
+        TargetedWalker(const RoadGraph& roadGraph, const MapCoordinates& initialPosition, const qreal speed);
 
         void assignTarget(const MapCoordinates& target);
 

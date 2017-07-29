@@ -2,16 +2,17 @@
 
 #include <QDebug>
 
-const qreal WALKER_SPEED(0.25); // 0.06
+#include "defines.hpp"
 
 
 
-AbstractDynamicMapElement::AbstractDynamicMapElement(const MapCoordinates& initialLocation) :
+AbstractDynamicMapElement::AbstractDynamicMapElement(const MapCoordinates& initialLocation, const qreal speed) :
     AbstractProcessable(),
     initialLocation(initialLocation),
     moveFromLocation(initialLocation),
     currentLocation(initialLocation),
-    moveToLocation(initialLocation)
+    moveToLocation(initialLocation),
+    speed(speed)
 {
 
 }
@@ -25,7 +26,7 @@ AbstractDynamicMapElement::~AbstractDynamicMapElement()
 
 
 
-const MapCoordinates&AbstractDynamicMapElement::getInitialLocation() const
+const MapCoordinates& AbstractDynamicMapElement::getInitialLocation() const
 {
  return initialLocation;
 }
@@ -73,14 +74,14 @@ void AbstractDynamicMapElement::process(const CycleDate& /*date*/)
 void AbstractDynamicMapElement::moveToTarget()
 {
     if (moveToLocation.getX() > currentLocation.getX()) {
-        currentLocation.setX(qMin(currentLocation.getX() + WALKER_SPEED, moveToLocation.getX()));
+        currentLocation.setX(qMin(currentLocation.getX() + speed, moveToLocation.getX()));
     } else if (moveToLocation.getX() < currentLocation.getX()) {
-        currentLocation.setX(qMax(currentLocation.getX() - WALKER_SPEED, moveToLocation.getX()));
+        currentLocation.setX(qMax(currentLocation.getX() - speed, moveToLocation.getX()));
     }
     if (moveToLocation.getY() > currentLocation.getY()) {
-        currentLocation.setY(qMin(currentLocation.getY() + WALKER_SPEED, moveToLocation.getY()));
+        currentLocation.setY(qMin(currentLocation.getY() + speed, moveToLocation.getY()));
     } else if (moveToLocation.getY() < currentLocation.getY()) {
-        currentLocation.setY(qMax(currentLocation.getY() - WALKER_SPEED, moveToLocation.getY()));
+        currentLocation.setY(qMax(currentLocation.getY() - speed, moveToLocation.getY()));
     }
 
     qDebug() << "  - Moved walker to" << currentLocation.toString();

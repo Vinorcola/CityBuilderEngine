@@ -15,7 +15,7 @@ class RandomWalker : public TargetedWalker
         int walkingCredit;
 
     public:
-        RandomWalker(const RoadGraph& roadGraph, const MapCoordinates& initialLocation, const int walkingCredit);
+        RandomWalker(const RoadGraph& roadGraph, const MapCoordinates& initialLocation, const int walkingCredit, const qreal speed);
 
     protected:
         virtual MapCoordinates findNextGoingToLocation();

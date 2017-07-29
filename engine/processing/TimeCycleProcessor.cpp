@@ -2,17 +2,17 @@
 
 #include <QDebug>
 
+#include "defines.hpp"
 #include "engine/element/AbstractDynamicMapElement.hpp"
 #include "engine/element/building/AbstractProcessableBuilding.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 
-const float MSEC_PER_SEC(1000);
+const qreal MSEC_PER_SEC(1000);
 
 
 
-TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const float speedRatio) :
+TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const qreal speedRatio) :
     QObject(parent),
-    cyclePerSecondBase(2), // 30
     speedRatio(speedRatio),
     clock(),
     dynamicProcessableList(),
@@ -22,19 +22,19 @@ TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const float speedRatio) 
     staticWaitingForUnregistrationList(),
     currentCycleDate()
 {
-    clock.start(MSEC_PER_SEC / (cyclePerSecondBase * speedRatio), this);
+    clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * speedRatio), this);
 }
 
 
 
-void TimeCycleProcessor::setSpeedRatio(const float ratio)
+void TimeCycleProcessor::setSpeedRatio(const qreal ratio)
 {
     if (ratio >= 0.1 && ratio <= 1.0 && ratio != speedRatio) {
         speedRatio = ratio;
 
         // Re-launch the timer with the new speed.
         clock.stop();
-        clock.start(MSEC_PER_SEC / (cyclePerSecondBase * ratio), this);
+        clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * ratio), this);
     }
 }
 

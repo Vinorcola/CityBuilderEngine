@@ -6,8 +6,8 @@
 
 
 
-RandomWalker::RandomWalker(const RoadGraph& roadGraph, const MapCoordinates& initialLocation, const int walkingCredit) :
-    TargetedWalker(roadGraph, initialLocation),
+RandomWalker::RandomWalker(const RoadGraph& roadGraph, const MapCoordinates& initialLocation, const int walkingCredit, const qreal speed) :
+    TargetedWalker(roadGraph, initialLocation, speed),
     walkingCredit(walkingCredit)
 {
     qDebug() << "  - Create random walker at" << initialLocation.toString();

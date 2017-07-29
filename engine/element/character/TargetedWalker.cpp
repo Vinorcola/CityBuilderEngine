@@ -2,8 +2,8 @@
 
 
 
-TargetedWalker::TargetedWalker(const RoadGraph& roadGraph, const MapCoordinates& initialPosition) :
-    AbstractCharacter(initialPosition),
+TargetedWalker::TargetedWalker(const RoadGraph& roadGraph, const MapCoordinates& initialPosition, const qreal speed) :
+    AbstractCharacter(initialPosition, speed),
     targetLocation(initialPosition),
     path(),
     hasTargetBeenAssigned(false),

@@ -18,9 +18,10 @@ class AbstractDynamicMapElement : public AbstractProcessable
         MapCoordinates moveFromLocation;///< The coordinates of the tile the element is moving from.
         MapCoordinates currentLocation;///< The current coordinates of the element.
         MapCoordinates moveToLocation;///< The coordinates of the tile the element is moving to.
+        qreal speed;///< In number of tile per second.
 
     public:
-        AbstractDynamicMapElement(const MapCoordinates& initialLocation);
+        AbstractDynamicMapElement(const MapCoordinates& initialLocation, const qreal speed);
 
         virtual ~AbstractDynamicMapElement();
 

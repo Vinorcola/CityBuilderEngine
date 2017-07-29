@@ -132,7 +132,7 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
 
 
 
-AbstractDynamicMapElement* Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinates& initialLocation, const int randomWalkerCredit)
+AbstractDynamicMapElement* Map::createDynamicElement(Map::DynamicElementType type, const MapCoordinates& initialLocation, const int randomWalkerCredit, const qreal speed)
 {
     AbstractDynamicMapElement* element;
     switch (type) {
@@ -140,7 +140,7 @@ AbstractDynamicMapElement* Map::createDynamicElement(Map::DynamicElementType typ
             throw UnexpectedException("Try to create a dynamic element of type None.");
 
         case DynamicElementType::RandomWalker:
-            element = new RandomWalker(roadGraph, initialLocation, randomWalkerCredit);
+            element = new RandomWalker(roadGraph, initialLocation, randomWalkerCredit, speed);
             break;
 
         default:

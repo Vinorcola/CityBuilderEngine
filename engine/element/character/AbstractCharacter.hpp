@@ -9,7 +9,7 @@
 class AbstractCharacter : public AbstractDynamicMapElement
 {
     public:
-        AbstractCharacter(const MapCoordinates& initialLocation);
+        AbstractCharacter(const MapCoordinates& initialLocation, const qreal speed);
 };
 
 #endif // ABSTRACTCHARACTER_HPP
