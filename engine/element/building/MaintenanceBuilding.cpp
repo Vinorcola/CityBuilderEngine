@@ -69,7 +69,7 @@ void MaintenanceBuilding::process(const CycleDate& date)
 
 void MaintenanceBuilding::setupWalkerGeneration(const CycleDate& currentDate)
 {
-    if (walkers.size() < MAX_NUMBER_OF_WALKER && nextWalkerGenerationDate <= currentDate) {
+    if (getEntryPoint().isValid() && walkers.size() < MAX_NUMBER_OF_WALKER && nextWalkerGenerationDate <= currentDate) {
         nextWalkerGenerationDate = currentDate;
         nextWalkerGenerationDate.add(WALKER_GENERATION_DATE_GAP);
     }
