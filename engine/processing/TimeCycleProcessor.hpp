@@ -5,16 +5,16 @@
 #include <QLinkedList>
 #include <QList>
 #include <QObject>
-#include <QWeakPointer>
+#include <QPointer>
 
 #include "engine/processing/AbstractProcessable.hpp"
 #include "engine/processing/CycleDate.hpp"
 
 /**
- * @brief Class handling the time-cycle loop.
+ * @brief A processor that process all the processable elements on each time-cycle.
  *
- * The time-cycle loop is the loop that make the game running. It process the evolution of each element on the map. The
- * normal speed (100%) implies 75 cycles per second. The speed can be lower down to 10% (then, only 7.5 cycles are
+ * The time-cycle loop is the loop that make the game running. It process the evolution of each processable object. The
+ * normal speed (100%) implies 30 cycles per second. The speed can be lower down to 10% (then, only 3 cycles are
  * processed each seconds).
  *
  * @todo A no-limit speed could be eventually set, making the next cycle begin as soon as the current cycle ends.
@@ -26,9 +26,9 @@ class TimeCycleProcessor : public QObject
     private:
         qreal speedRatio;
         QBasicTimer clock;
-        QLinkedList<QWeakPointer<AbstractProcessable>> processableList;
-        QList<QWeakPointer<AbstractProcessable>> waitingForRegistrationList;
-        QList<QWeakPointer<AbstractProcessable>> waitingForUnregistrationList;
+        QLinkedList<QPointer<AbstractProcessable>> processableList;
+        QList<QPointer<AbstractProcessable>> waitingForRegistrationList;
+        QList<AbstractProcessable*> waitingForUnregistrationList;
         CycleDate currentCycleDate;
 
     public:
@@ -46,14 +46,14 @@ class TimeCycleProcessor : public QObject
          *
          * @param processable
          */
-        void registerProcessable(QWeakPointer<AbstractProcessable> processable);
+        void registerProcessable(AbstractProcessable* processable);
 
         /**
          * @brief Unregister a processable element.
          *
          * @param processable
          */
-        void unregisterProcessable(QWeakPointer<AbstractProcessable> processable);
+        void unregisterProcessable(AbstractProcessable* processable);
 
     signals:
         /**
@@ -71,6 +71,11 @@ class TimeCycleProcessor : public QObject
          * @param event
          */
         virtual void timerEvent(QTimerEvent* event);
+
+        /**
+         * @brief Process a cycle.
+         */
+        void processCycle();
 };
 
 #endif // TIMECYCLEPROCESSOR_HPP

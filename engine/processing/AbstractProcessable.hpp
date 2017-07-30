@@ -1,24 +1,24 @@
 #ifndef ABSTRACTPROCESSABLE
 #define ABSTRACTPROCESSABLE
 
+#include <QObject>
+
 #include "engine/processing/CycleDate.hpp"
 
 /**
- * @brief Represent a processable element on the map.
+ * @brief Represent a processable object.
  *
- * A processable element is an element that exists on the map, and that its state will evolve during time. There are 2
- * main kinds of processable elements: buildings and characters.
+ * A processable object is an object that can be processed by the TimeCycleProcessor.
  *
- * The init() method is called when registering the element in the time-cycle processor. The process() method is called
- * to process on single time-cycle. Each processable can do what it wants during this time-cycle. For example, a
- * character can moves while a builing can generate a character.
+ * The init() method is called when the object is first registered into the processor. Then, the process() method is
+ * called on every single time-cycle.
  */
-class AbstractProcessable
+class AbstractProcessable : public QObject
 {
-    public:
-        AbstractProcessable();
+        Q_OBJECT
 
-        virtual ~AbstractProcessable();
+    public:
+        AbstractProcessable(QObject* parent);
 
         /**
          * @brief Init the processable element with the current date.

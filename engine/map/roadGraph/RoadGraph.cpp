@@ -5,7 +5,8 @@
 
 
 
-RoadGraph::RoadGraph() :
+RoadGraph::RoadGraph(QObject* parent) :
+    QObject(parent),
     nodeList()
 {
 
@@ -93,7 +94,7 @@ QList<const RoadGraphNode*> RoadGraph::getNextNodeList(const MapCoordinates& com
 
 QList<const RoadGraphNode*> RoadGraph::getShortestPathBetween(const MapCoordinates& origin, const MapCoordinates& destination) const
 {
-    RoadPathFinder pathFinder(origin, destination, *this);
+    RoadPathFinder pathFinder(this, origin, destination);
 
     return pathFinder.getShortestPath();
 }
@@ -107,7 +108,7 @@ const RoadGraphNode* RoadGraph::createNode(const MapCoordinates& coordinates)
         throw UnexpectedException("A node already exists at the coordinates " + coordinates.toString());
     }
 
-    auto newNode = new RoadGraphNode(*this, coordinates);
+    auto newNode(new RoadGraphNode(this, coordinates));
     nodeList.append(newNode);
 
     return newNode;

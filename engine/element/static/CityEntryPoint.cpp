@@ -1,7 +1,7 @@
 #include "CityEntryPoint.hpp"
 
-CityEntryPoint::CityEntryPoint(const MapCoordinates& coordinates) :
-    AbstractProcessableStaticMapElement(MapArea(coordinates), coordinates)
+CityEntryPoint::CityEntryPoint(QObject* parent, const MapCoordinates& coordinates) :
+    AbstractProcessableStaticMapElement(parent, MapArea(coordinates), coordinates)
 {
 
 }

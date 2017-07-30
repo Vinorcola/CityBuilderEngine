@@ -1,11 +1,13 @@
 #include "TargetedWalker.hpp"
 
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
 
-TargetedWalker::TargetedWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableStaticMapElement> issuer, const qreal speed) :
-    AbstractDynamicMapElement(issuer, speed),
-    targetBuilding(),
-    targetLocation(issuer.toStrongRef()->getEntryPoint()),
+
+TargetedWalker::TargetedWalker(QObject* parent, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer, const qreal speed) :
+    AbstractDynamicMapElement(parent, issuer, speed),
+    targetElement(),
+    targetLocation(issuer->getEntryPoint()),
     path(),
     roadGraph(roadGraph)
 {
@@ -14,17 +16,14 @@ TargetedWalker::TargetedWalker(const RoadGraph& roadGraph, QWeakPointer<Abstract
 
 
 
-void TargetedWalker::assignTarget(QWeakPointer<AbstractProcessableStaticMapElement> targetAccess)
+void TargetedWalker::assignTarget(AbstractProcessableStaticMapElement* target)
 {
-    auto target(targetAccess.toStrongRef());
-    if (target) {
-        targetBuilding = targetAccess;
-        targetLocation = target->getEntryPoint();
-        path.clear();
-        path = roadGraph.getShortestPathBetween(getCurrentLocation(), targetLocation);
-        if (path.first()->getCoordinates() == getCurrentLocation()) {
-            path.takeFirst();
-        }
+    targetElement = target;
+    targetLocation = target->getEntryPoint();
+    path.clear();
+    path = roadGraph->getShortestPathBetween(getCurrentLocation(), targetLocation);
+    if (path.first()->getCoordinates() == getCurrentLocation()) {
+        path.takeFirst();
     }
 }
 
@@ -32,14 +31,14 @@ void TargetedWalker::assignTarget(QWeakPointer<AbstractProcessableStaticMapEleme
 
 bool TargetedWalker::hasTarget() const
 {
-    return targetBuilding;
+    return targetElement;
 }
 
 
 
 bool TargetedWalker::hasReachableTarget() const
 {
-    return targetBuilding && (
+    return targetElement && (
         !path.isEmpty() || (path.isEmpty() && getGoingToLocation() == targetLocation)
     );
 }
@@ -48,7 +47,7 @@ bool TargetedWalker::hasReachableTarget() const
 
 bool TargetedWalker::reachedTarget() const
 {
-    return targetBuilding && path.isEmpty() && getCurrentLocation() == targetLocation;
+    return targetElement && path.isEmpty() && getCurrentLocation() == targetLocation;
 }
 
 
@@ -56,12 +55,9 @@ bool TargetedWalker::reachedTarget() const
 MapCoordinates TargetedWalker::findNextGoingToLocation(const CycleDate& date)
 {
     if (path.isEmpty()) {
-        if (targetBuilding && getCurrentLocation() == targetLocation) {
+        if (targetElement && getCurrentLocation() == targetLocation) {
             // Reached target.
-            auto target(targetBuilding.toStrongRef());
-            if (target) {
-                target->processInteraction(date, this);
-            }
+            targetElement->processInteraction(date, this);
         }
 
         // No path to follow, character stays where it is.

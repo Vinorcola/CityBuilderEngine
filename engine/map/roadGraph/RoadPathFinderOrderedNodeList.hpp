@@ -8,20 +8,18 @@
 class RoadPathFinderOrderedNodeList
 {
     private:
-        QLinkedList<Owner<RoadPathFinderNode*>> nodeList;
+        QLinkedList<RoadPathFinderNode*> nodeList;
 
     public:
         RoadPathFinderOrderedNodeList();
-
-        ~RoadPathFinderOrderedNodeList();
 
         bool isEmpty() const;
 
         RoadPathFinderNode* find(RoadPathFinderNode* node) const;
 
-        Owner<RoadPathFinderNode*> takeFirst();
+        RoadPathFinderNode* takeFirst();
 
-        void insert(Owner<RoadPathFinderNode*> node);
+        void insert(RoadPathFinderNode* node);
 };
 
 #endif // ROADPATHFINDERORDEREDNODELIST_HPP

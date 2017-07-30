@@ -2,13 +2,13 @@
 
 
 
-RoadGraphNode::RoadGraphNode(RoadGraph& graph, const MapCoordinates& coordinates) :
-    graph(graph),
+RoadGraphNode::RoadGraphNode(RoadGraph* graph, const MapCoordinates& coordinates) :
+    QObject(graph),
     coordinates(coordinates),
-    northNode(graph.fetchNodeAt(coordinates.getNorth())),
-    southNode(graph.fetchNodeAt(coordinates.getSouth())),
-    eastNode(graph.fetchNodeAt(coordinates.getEast())),
-    westNode(graph.fetchNodeAt(coordinates.getWest()))
+    northNode(graph->fetchNodeAt(coordinates.getNorth())),
+    southNode(graph->fetchNodeAt(coordinates.getSouth())),
+    eastNode(graph->fetchNodeAt(coordinates.getEast())),
+    westNode(graph->fetchNodeAt(coordinates.getWest()))
 {
     if (northNode) {
         northNode->southNode = this;
@@ -29,29 +29,17 @@ RoadGraphNode::RoadGraphNode(RoadGraph& graph, const MapCoordinates& coordinates
 RoadGraphNode::~RoadGraphNode()
 {
     // Remove link to this node.
-
-    // North
-    RoadGraphNode* node(graph.fetchNodeAt(coordinates.getNorth()));
-    if (node) {
-        node->southNode = nullptr;
+    if (northNode) {
+        northNode->southNode = nullptr;
     }
-
-    // South
-    node = graph.fetchNodeAt(coordinates.getSouth());
-    if (node) {
-        node->northNode = nullptr;
+    if (southNode) {
+        southNode->northNode = nullptr;
     }
-
-    // East
-    node = graph.fetchNodeAt(coordinates.getEast());
-    if (node) {
-        node->westNode = nullptr;
+    if (eastNode) {
+        eastNode->westNode = nullptr;
     }
-
-    // West
-    node = graph.fetchNodeAt(coordinates.getWest());
-    if (node) {
-        node->eastNode = nullptr;
+    if (westNode) {
+        westNode->eastNode = nullptr;
     }
 }
 

@@ -2,15 +2,16 @@
 
 #include <QDebug>
 
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/random.hpp"
 
 
 
-RandomWalker::RandomWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableStaticMapElement> issuer, const int walkingCredit, const qreal speed) :
-    TargetedWalker(roadGraph, issuer, speed),
+RandomWalker::RandomWalker(QObject* parent, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer, const int walkingCredit, const qreal speed) :
+    TargetedWalker(parent, roadGraph, issuer, speed),
     walkingCredit(walkingCredit)
 {
-    qDebug() << "  - Create random walker at" << issuer.toStrongRef()->getEntryPoint().toString();
+    qDebug() << "  - Create random walker at" << issuer->getEntryPoint().toString();
 }
 
 
@@ -32,7 +33,7 @@ MapCoordinates RandomWalker::findNextGoingToLocation(const CycleDate& date)
     }
 
     // Continue random walking.
-    auto list(roadGraph.getNextNodeList(getComingFromLocation(), getCurrentLocation()));
+    auto list(roadGraph->getNextNodeList(getComingFromLocation(), getCurrentLocation()));
     if (list.size() == 0) {
         // No solutions, character stays where it is.
         return getCurrentLocation();

@@ -3,15 +3,15 @@
 
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
 
-template<class RoadPathFinderNode> using Owner = RoadPathFinderNode;
-
 /**
  * @brief A road graph node wrapper used for path finder.
  */
-class RoadPathFinderNode
+class RoadPathFinderNode : public QObject
 {
+        Q_OBJECT
+
     private:
-        const RoadGraphNode& node;
+        const RoadGraphNode* node;
         const MapCoordinates& target;
         qreal costFromOrigin;
         const qreal manhattanDistanceToTarget;
@@ -24,12 +24,12 @@ class RoadPathFinderNode
          * @param cost The cost from the origin.
          * @param targetNode The target node.
          */
-        RoadPathFinderNode(const RoadGraphNode& node, const qreal cost, const MapCoordinates& target);
+        RoadPathFinderNode(QObject* parent, const RoadGraphNode* node, const qreal cost, const MapCoordinates& target);
 
         /**
          * @brief Get the wrapped graph node.
          */
-        const RoadGraphNode& getNode() const;
+        const RoadGraphNode* getNode() const;
 
         /**
          * @brief Indicate if this object wrap the target node.
@@ -60,7 +60,7 @@ class RoadPathFinderNode
         /**
          * @brief Get a list of wraper around the node neighbours.
          */
-        QList<Owner<RoadPathFinderNode*>> getNeighbours() const;
+        QList<RoadPathFinderNode*> getNeighbours() const;
 };
 
 #endif // ROADPATHFINDERNODE_H

@@ -11,11 +11,13 @@
  */
 class RandomWalker : public TargetedWalker
 {
+        Q_OBJECT
+
     private:
         int walkingCredit;
 
     public:
-        RandomWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableStaticMapElement> issuer, const int walkingCredit, const qreal speed);
+        RandomWalker(QObject* parent, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer, const int walkingCredit, const qreal speed);
 
     protected:
         virtual MapCoordinates findNextGoingToLocation(const CycleDate& date);

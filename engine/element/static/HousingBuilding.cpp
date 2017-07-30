@@ -1,14 +1,11 @@
 #include "HousingBuilding.hpp"
 
-HousingBuilding::HousingBuilding(Map& map, const MapArea& area, const MapCoordinates& entryPoint, CityStatus& cityStatus, QWeakPointer<CityEntryPoint> cityEntryPoint) :
-    AbstractProcessableStaticMapElement(area, entryPoint),
-    map(map),
-    cityStatus(cityStatus),
-    cityEntryPoint(cityEntryPoint),
+HousingBuilding::HousingBuilding(QObject* parent, const MapArea& area, const MapCoordinates& entryPoint) :
+    AbstractProcessableStaticMapElement(parent, area, entryPoint),
     housingCapacity(8),
     population(0)
 {
-    cityStatus.updateFreeHousingPlaces(housingCapacity);
+
 }
 
 

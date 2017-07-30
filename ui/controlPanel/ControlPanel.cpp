@@ -26,7 +26,7 @@ ControlPanel::ControlPanel() :
 
 
 
-BuildingButton* ControlPanel::createButton(const QString& text, Map::StaticElementType type)
+BuildingButton* ControlPanel::createButton(const QString& text, AbstractStaticMapElement::Type type)
 {
     BuildingButton* currentButton(new BuildingButton(text, type));
     buttonList.append(currentButton);

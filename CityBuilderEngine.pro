@@ -16,6 +16,7 @@ SOURCES += \
     engine/element/static/HousingBuilding.cpp \
     engine/element/static/MaintenanceBuilding.cpp \
     engine/element/static/Road.cpp \
+    engine/element/AbstractMapElement.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
     engine/map/roadGraph/RoadGraphNode.cpp \
     engine/map/roadGraph/RoadPathFinder.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
     engine/element/static/HousingBuilding.hpp \
     engine/element/static/MaintenanceBuilding.hpp \
     engine/element/static/Road.hpp \
+    engine/element/AbstractMapElement.hpp \
     engine/map/roadGraph/RoadGraph.hpp \
     engine/map/roadGraph/RoadGraphNode.hpp \
     engine/map/roadGraph/RoadPathFinder.hpp \

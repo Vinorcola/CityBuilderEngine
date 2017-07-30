@@ -10,9 +10,8 @@ const int MAX_NUMBER_OF_WALKER(2);
 
 
 
-MaintenanceBuilding::MaintenanceBuilding(Map& map, const MapArea& area, const MapCoordinates& entryPoint) :
-    AbstractProcessableStaticMapElement(area, entryPoint),
-    map(map),
+MaintenanceBuilding::MaintenanceBuilding(QObject* parent, const MapArea& area, const MapCoordinates& entryPoint) :
+    AbstractProcessableStaticMapElement(parent, area, entryPoint),
     nextWalkerGenerationDate(),
     walkers()
 {
@@ -23,7 +22,7 @@ MaintenanceBuilding::MaintenanceBuilding(Map& map, const MapArea& area, const Ma
 
 void MaintenanceBuilding::init(const CycleDate& date)
 {
-    setupWalkerGeneration(date);
+    setupNextWalkerGenerationDate(date);
 }
 
 
@@ -31,19 +30,22 @@ void MaintenanceBuilding::init(const CycleDate& date)
 void MaintenanceBuilding::process(const CycleDate& date)
 {
     if (date == nextWalkerGenerationDate) {
-        walkers.append(
-            qWeakPointerCast<RandomWalker, AbstractDynamicMapElement>(map.createDynamicElement(
-                Map::DynamicElementType::RandomWalker,
-                this,
-                30,
+        emit requestDynamicElementCreation(
+            AbstractDynamicMapElement::Type::RandomWalker,
+            30,
 #ifdef SLOW_MOTION
-                0.25 / CYCLE_PER_SECOND
+            0.25 / CYCLE_PER_SECOND,
 #else
-                2.0 / CYCLE_PER_SECOND
+            2.0 / CYCLE_PER_SECOND,
 #endif
-            ))
+            [this, date](AbstractDynamicMapElement* element) {
+                auto walker(dynamic_cast<RandomWalker*>(element));
+                if (walker) {
+                    walkers.append(walker);
+                    setupNextWalkerGenerationDate(date);
+                }
+            }
         );
-        setupWalkerGeneration(date);
     }
 }
 
@@ -51,27 +53,20 @@ void MaintenanceBuilding::process(const CycleDate& date)
 
 void MaintenanceBuilding::processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor)
 {
-    auto iterator(walkers.begin());
-    while (iterator != walkers.end()) {
-        auto walker(iterator->toStrongRef());
-        if (walker) {
-            if (walker == actor) {
-                map.destroyDynamicElement(actor);
-                iterator = walkers.erase(iterator);
-                setupWalkerGeneration(date);
-            } else {
-                ++iterator;
-            }
-        } else {
-            iterator = walkers.erase(iterator);
-            setupWalkerGeneration(date);
+    for (auto walker : walkers) {
+        if (walker == actor) {
+            emit requestDynamicElementDestruction(actor, [this, walker, date]() {
+                walkers.removeOne(walker);
+                setupNextWalkerGenerationDate(date);
+            });
+            return;
         }
     }
 }
 
 
 
-void MaintenanceBuilding::setupWalkerGeneration(const CycleDate& currentDate)
+void MaintenanceBuilding::setupNextWalkerGenerationDate(const CycleDate& currentDate)
 {
     if (getEntryPoint().isValid() && walkers.size() < MAX_NUMBER_OF_WALKER && nextWalkerGenerationDate <= currentDate) {
         nextWalkerGenerationDate = currentDate;

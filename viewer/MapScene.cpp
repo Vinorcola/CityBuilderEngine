@@ -49,57 +49,50 @@ MapScene::MapScene(const Map& map) :
     connect(this, &MapScene::buildingCreationRequested, &map, &Map::createStaticElement);
     connect(&map, &Map::staticElementCreated, this, &MapScene::registerNewStaticElement);
     connect(&map, &Map::dynamicElementCreated, this, &MapScene::registerNewDynamicElement);
-    connect(&map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
+    connect(map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
 }
 
 
 
-void MapScene::requestBuildingPositioning(Map::StaticElementType type)
+void MapScene::requestBuildingPositioning(AbstractStaticMapElement::Type type)
 {
     selectionElement->setBuildingType(type);
 }
 
 
 
-void MapScene::requestBuildingCreation(Map::StaticElementType type, const MapArea& area)
+void MapScene::requestBuildingCreation(AbstractStaticMapElement::Type type, const MapArea& area)
 {
     emit buildingCreationRequested(type, area);
 }
 
 
 
-void MapScene::registerNewStaticElement(const QWeakPointer<AbstractStaticMapElement>& element)
+void MapScene::registerNewStaticElement(const AbstractStaticMapElement* element)
 {
-    auto elementAccess(element.toStrongRef());
-    if (elementAccess) {
-        auto staticElement(elementAccess.data());
-        Tile* tile(getTileAt(staticElement->getArea().getLeft()));
+    Tile* tile(getTileAt(element->getArea().getLeft()));
 
-        if (dynamic_cast<Road*>(staticElement)) {
-            addStaticElementBuilding(tile, MapSize(1), QPixmap("assets/img/road"));
-        } else if (dynamic_cast<MaintenanceBuilding*>(staticElement)) {
-            addStaticElementBuilding(tile, MapSize(2), QPixmap("assets/img/building.png"));
-        } else if (dynamic_cast<HousingBuilding*>(staticElement)) {
-            addStaticElementBuilding(tile, MapSize(2), QPixmap("assets/img/house.png"));
-        }
+    if (dynamic_cast<const Road*>(element)) {
+        addStaticElementBuilding(tile, MapSize(1), QPixmap("assets/img/road"));
+    } else if (dynamic_cast<const MaintenanceBuilding*>(element)) {
+        addStaticElementBuilding(tile, MapSize(2), QPixmap("assets/img/building.png"));
+    } else if (dynamic_cast<const HousingBuilding*>(element)) {
+        addStaticElementBuilding(tile, MapSize(2), QPixmap("assets/img/house.png"));
     }
 }
 
 
 
-void MapScene::registerNewDynamicElement(const QWeakPointer<AbstractDynamicMapElement>& element)
+void MapScene::registerNewDynamicElement(const AbstractDynamicMapElement* element)
 {
-    auto elementAccess(element.toStrongRef());
-    if (elementAccess) {
-        // Load the test images.
-        QPixmap characterImage("assets/img/character.png");
+    // Load the test images.
+    QPixmap characterImage("assets/img/character.png");
 
-        DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, characterImage));
-        dynamicElementList.append(graphicsItem);
+    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, characterImage));
+    dynamicElementList.append(graphicsItem);
 
-        Tile* tile(getTileAt(elementAccess->getCurrentLocation().getRounded()));
-        tile->registerDynamicElement(graphicsItem);
-    }
+    Tile* tile(getTileAt(element->getCurrentLocation().getRounded()));
+    tile->registerDynamicElement(graphicsItem);
 }
 
 

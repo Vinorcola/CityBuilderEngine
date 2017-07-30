@@ -1,10 +1,10 @@
 #include "Map.hpp"
 
 #include <QDebug>
-#include <QSharedPointer>
 
 #include "engine/element/dynamic/RandomWalker.hpp"
-#include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/element/static/CityEntryPoint.hpp"
 #include "engine/element/static/HousingBuilding.hpp"
 #include "engine/element/static/MaintenanceBuilding.hpp"
 #include "engine/element/static/Road.hpp"
@@ -16,13 +16,21 @@ Map::Map(const QSize& size, const QString& confFilePath, const MapCoordinates& c
     size(size),
     conf(confFilePath),
     cityStatus(10000),
-    roadGraph(),
-    processor(this),
+    roadGraph(new RoadGraph(this)),
+    processor(new TimeCycleProcessor(this)),
+    elementList(),
     staticElementList(),
-    dynamicElementList(),
-    entryPoint(new CityEntryPoint(cityEntryPointLocation))
+    entryPoint(new CityEntryPoint(this, cityEntryPointLocation))
 {
-    processor.registerProcessable(qWeakPointerCast<AbstractProcessable, CityEntryPoint>(entryPoint));
+    processor->registerProcessable(entryPoint);
+    elementList.append(entryPoint);
+}
+
+
+
+Map::~Map()
+{
+    qDeleteAll(elementList);
 }
 
 
@@ -93,77 +101,107 @@ bool Map::isFreeArea(const MapArea& area) const
 
 
 
-const TimeCycleProcessor& Map::getProcessor() const
+MapCoordinates Map::getAutoEntryPoint(const MapArea& area) const
+{
+    auto node(roadGraph->fetchNodeArround(area));
+    if (node) {
+        return node->getCoordinates();
+    }
+
+    return MapCoordinates();
+}
+
+
+
+const TimeCycleProcessor* Map::getProcessor() const
 {
     return processor;
 }
 
 
 
-void Map::createStaticElement(StaticElementType type, const MapArea& area)
-{
+void Map::createStaticElement(
+    AbstractStaticMapElement::Type type,
+    const MapArea& area
+) {
     if (!isFreeArea(area)) {
         qDebug() << "ERROR: Try to create a static element on an occupyed area " + area.toString() + ". Skiping the creation.";
         return;
     }
 
-    QSharedPointer<AbstractStaticMapElement> element;
-    const RoadGraphNode* entryPointNode;
+    AbstractStaticMapElement* pointer;
     switch (type) {
-        case StaticElementType::None:
+        case AbstractStaticMapElement::Type::None:
             throw UnexpectedException("Try to create a static element of type None.");
 
-        case StaticElementType::House:{
-            entryPointNode = roadGraph.fetchNodeArround(area);
-            QSharedPointer<HousingBuilding> tmp(new HousingBuilding(*this, area, entryPointNode ? entryPointNode->getCoordinates() : MapCoordinates(), cityStatus, entryPoint.toWeakRef()));
-            element = qSharedPointerCast<AbstractStaticMapElement, HousingBuilding>(tmp);
-            processor.registerProcessable(
-                qWeakPointerCast<AbstractProcessable, HousingBuilding>(tmp)
-            );
+        case AbstractStaticMapElement::Type::House: {
+            auto element(new HousingBuilding(this, area, getAutoEntryPoint(area)));
+            pointer = element;
+            processor->registerProcessable(element);
+            elementList.append(element);
+            staticElementList.append(element);
             break;
         }
 
-        case StaticElementType::Maintenance: {
-            entryPointNode = roadGraph.fetchNodeArround(area);
-            QSharedPointer<MaintenanceBuilding> tmp(new MaintenanceBuilding(*this, area, entryPointNode ? entryPointNode->getCoordinates() : MapCoordinates()));
-            element = qSharedPointerCast<AbstractStaticMapElement, MaintenanceBuilding>(tmp);
-            processor.registerProcessable(
-                qWeakPointerCast<AbstractProcessable, MaintenanceBuilding>(tmp)
-            );
+        case AbstractStaticMapElement::Type::Maintenance: {
+            auto element(new MaintenanceBuilding(this, area, getAutoEntryPoint(area)));
+            pointer = element;
+            processor->registerProcessable(element);
+            elementList.append(element);
+            staticElementList.append(element);
+
+            connect(element, &MaintenanceBuilding::requestDynamicElementCreation, [this, element](
+                AbstractDynamicMapElement::Type type,
+                const int randomWalkerCredit,
+                const qreal speed,
+                std::function<void(AbstractDynamicMapElement*)> afterCreation
+            ) {
+                createDynamicElement(type, element, randomWalkerCredit, speed, afterCreation);
+            });
+            connect(element, &MaintenanceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
             break;
         }
 
-        case StaticElementType::Road: {
+        case AbstractStaticMapElement::Type::Road: {
             if (area.getSize().getValue() > 1) {
                 throw UnexpectedException("Try to create a road on an area bigger than 1: " + area.toString());
             }
             auto coordinates(area.getLeft());
-            element.reset(new Road(coordinates));
-            roadGraph.createNode(coordinates);
+            auto element(new Road(coordinates));
+            pointer = element;
+            roadGraph->createNode(coordinates);
+            elementList.append(element);
+            staticElementList.append(element);
             break;
         }
+
+        default:
+            throw UnexpectedException("Try to create a static element of unknown type.");
     }
 
-    staticElementList.append(element);
-
-    emit staticElementCreated(element.toWeakRef());
+    emit staticElementCreated(pointer);
 }
 
 
 
-QWeakPointer<AbstractDynamicMapElement> Map::createDynamicElement(Map::DynamicElementType type,
-    const AbstractProcessableStaticMapElement* issuer,
+void Map::createDynamicElement(
+    AbstractDynamicMapElement::Type type,
+    AbstractProcessableStaticMapElement* issuer,
     const int randomWalkerCredit,
-    const qreal speed
+    const qreal speed,
+    std::function<void(AbstractDynamicMapElement*)> afterCreation
 ) {
-    QSharedPointer<AbstractDynamicMapElement> element;
+    AbstractDynamicMapElement* pointer;
     switch (type) {
-        case DynamicElementType::None:
+        case AbstractDynamicMapElement::Type::None:
             throw UnexpectedException("Try to create a dynamic element of type None.");
 
-        case DynamicElementType::RandomWalker: {
-            auto issuerAccess(qSharedPointerCast<AbstractProcessableStaticMapElement, AbstractStaticMapElement>(fetchStaticElement(issuer)));
-            element.reset(new RandomWalker(roadGraph, issuerAccess.toWeakRef(), randomWalkerCredit, speed));
+        case AbstractDynamicMapElement::Type::RandomWalker: {
+            auto element(new RandomWalker(this, roadGraph, issuer, randomWalkerCredit, speed));
+            pointer = element;
+            processor->registerProcessable(element);
+            elementList.append(element);
+            afterCreation(element);
             break;
         }
 
@@ -171,22 +209,19 @@ QWeakPointer<AbstractDynamicMapElement> Map::createDynamicElement(Map::DynamicEl
             throw UnexpectedException("Try to create a dynamic element of unknown type.");
     }
 
-    processor.registerProcessable(element.toWeakRef());
-    dynamicElementList.append(element);
-
-    emit dynamicElementCreated(element.toWeakRef());
-
-    return element.toWeakRef();
+    emit dynamicElementCreated(pointer);
 }
 
 
 
-void Map::destroyDynamicElement(AbstractDynamicMapElement* element)
+void Map::destroyElement(AbstractDynamicMapElement* element, std::function<void()> afterDestruction)
 {
-    for (auto elementAccess: dynamicElementList) {
-        if (elementAccess == element) {
-            // No need to unregister the processable inthe TimeCycleProcessor: it will automatically be unregistered.
-            dynamicElementList.removeOne(elementAccess);
+    for (auto elementFromList: elementList) {
+        if (elementFromList== element) {
+            // No need to unregister the processable in the TimeCycleProcessor: it will automatically be unregistered.
+            elementList.removeOne(elementFromList);
+            delete elementFromList;
+            afterDestruction();
             return;
         }
     }
@@ -194,7 +229,7 @@ void Map::destroyDynamicElement(AbstractDynamicMapElement* element)
 
 
 
-QSharedPointer<AbstractStaticMapElement> Map::fetchStaticElement(const AbstractStaticMapElement* element) const
+AbstractStaticMapElement* Map::fetchStaticElement(const AbstractStaticMapElement* element) const
 {
     for (auto elementFromList : staticElementList) {
         if (elementFromList == element) {

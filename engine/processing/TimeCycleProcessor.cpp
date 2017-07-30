@@ -38,14 +38,14 @@ void TimeCycleProcessor::setSpeedRatio(const qreal ratio)
 
 
 
-void TimeCycleProcessor::registerProcessable(QWeakPointer<AbstractProcessable> processable)
+void TimeCycleProcessor::registerProcessable(AbstractProcessable* processable)
 {
     waitingForRegistrationList.append(processable);
 }
 
 
 
-void TimeCycleProcessor::unregisterProcessable(QWeakPointer<AbstractProcessable> processable)
+void TimeCycleProcessor::unregisterProcessable(AbstractProcessable* processable)
 {
     waitingForUnregistrationList.append(processable);
 }
@@ -53,27 +53,32 @@ void TimeCycleProcessor::unregisterProcessable(QWeakPointer<AbstractProcessable>
 
 void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
 {
+    processCycle();
+}
+
+
+
+void TimeCycleProcessor::processCycle()
+{
     qDebug() << "Process time-cycle" << currentCycleDate.toString();
 
     // Process current processable list.
-    for (auto processableAccess: processableList) {
-        auto processable(processableAccess.toStrongRef());
+    for (auto processable: processableList) {
         if (processable) {
             processable->process(currentCycleDate);
         } else {
-            waitingForUnregistrationList.append(processableAccess);
+            waitingForUnregistrationList.append(processable);
         }
     }
 
     // Process unregistration.
-    for (auto processableAccess: waitingForUnregistrationList) {
-        processableList.removeOne(processableAccess);
+    for (auto processable: waitingForUnregistrationList) {
+        processableList.removeOne(processable);
     }
     waitingForUnregistrationList.clear();
 
     // Process registration.
-    for (auto processableAccess: waitingForRegistrationList) {
-        auto processable(processableAccess.toStrongRef());
+    for (auto processable: waitingForRegistrationList) {
         if (processable) {
             processable->init(currentCycleDate);
             processableList.append(processable);

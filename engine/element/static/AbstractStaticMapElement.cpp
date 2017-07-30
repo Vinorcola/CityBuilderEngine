@@ -5,16 +5,8 @@
 
 
 AbstractStaticMapElement::AbstractStaticMapElement(const MapArea& area) :
+    AbstractMapElement(),
     area(area)
-{
-
-}
-
-
-
-
-
-AbstractStaticMapElement::~AbstractStaticMapElement()
 {
 
 }

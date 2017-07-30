@@ -7,24 +7,26 @@
 /**
  * @brief A targeted walker walks on the roads toward a specific target.
  *
- * Note that target is not assigned at the walker creation because some walker may simply not have any target after
- * being created. In this case, the walker is not moving and stays where it is. As soon as the target is assigned, the
- * walker will begin ihis journey toward the target.
+ * The target is not assigned at the walker creation because some walker may simply not have any target at that moment.
+ * In this case, the walker is simply not moving and stays where it is. As soon as the target is assigned, the walker
+ * will begin its journey toward the target following the calculated path.
  */
 class TargetedWalker : public AbstractDynamicMapElement
 {
+        Q_OBJECT
+
     private:
-        QWeakPointer<AbstractProcessableStaticMapElement> targetBuilding;
+        QPointer<AbstractProcessableStaticMapElement> targetElement;
         MapCoordinates targetLocation;
         QList<const RoadGraphNode*> path;
 
     protected:
-        const RoadGraph& roadGraph;
+        const RoadGraph* roadGraph;
 
     public:
-        TargetedWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableStaticMapElement> issuer, const qreal speed);
+        TargetedWalker(QObject* parent, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer, const qreal speed);
 
-        void assignTarget(QWeakPointer<AbstractProcessableStaticMapElement> target);
+        void assignTarget(AbstractProcessableStaticMapElement* targetElement);
 
         bool hasTarget() const;
 

@@ -2,7 +2,7 @@
 
 
 
-BuildingButton::BuildingButton(const QString& text, Map::StaticElementType type) :
+BuildingButton::BuildingButton(const QString& text, AbstractStaticMapElement::Type type) :
     QPushButton(text),
     type(type)
 {
@@ -11,7 +11,7 @@ BuildingButton::BuildingButton(const QString& text, Map::StaticElementType type)
 
 
 
-Map::StaticElementType BuildingButton::getAssociatedType() const
+AbstractStaticMapElement::Type BuildingButton::getAssociatedType() const
 {
     return type;
 }

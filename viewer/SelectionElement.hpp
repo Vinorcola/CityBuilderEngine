@@ -20,7 +20,7 @@ class SelectionElement : public QGraphicsPolygonItem
         QBrush* currentBrush;
         QPen* currentPen;
         MapArea currentArea;
-        Map::StaticElementType currentBuildingType;
+        AbstractStaticMapElement::Type currentBuildingType;
 
     public:
         SelectionElement(const QSizeF& baseTileSize);
@@ -29,7 +29,7 @@ class SelectionElement : public QGraphicsPolygonItem
          * @brief Set the type of building selected.
          * @param type
          */
-        void setBuildingType(Map::StaticElementType type);
+        void setBuildingType(AbstractStaticMapElement::Type type);
 
         /**
          * @brief Set the selection element good.

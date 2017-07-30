@@ -5,47 +5,34 @@
 #include <QSize>
 
 #include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/element/static/AbstractStaticMapElement.hpp"
-#include "engine/element/static/CityEntryPoint.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/CityStatus.hpp"
 #include "engine/map/MapSize.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
 #include "global/conf/Conf.hpp"
 
+class AbstractProcessableStaticMapElement;
+class CityEntryPoint;
+
 class Map : public QObject
 {
         Q_OBJECT
-
-    public:
-        enum class StaticElementType
-        {
-            None = 0,
-            House,
-            Maintenance,
-            Road,
-        };
-
-        enum class DynamicElementType
-        {
-            None = 0,
-            RandomWalker,
-            TargetedWalker,
-        };
 
     private:
         QSize size;
         Conf conf;
         CityStatus cityStatus;
-        RoadGraph roadGraph;
-        TimeCycleProcessor processor;
-        QLinkedList<QSharedPointer<AbstractStaticMapElement>> staticElementList;
-        QLinkedList<QSharedPointer<AbstractDynamicMapElement>> dynamicElementList;
-        QSharedPointer<CityEntryPoint> entryPoint;
+        RoadGraph* roadGraph;
+        TimeCycleProcessor* processor;
+        QLinkedList<AbstractMapElement*> elementList;
+        QLinkedList<AbstractStaticMapElement*> staticElementList;
+        CityEntryPoint* entryPoint;
 
     public:
         Map(const QSize& size, const QString& confFilePath, const MapCoordinates& cityEntryPointLocation);
+
+        virtual ~Map();
 
         /**
          * @brief Return the size of the map in terms on tiles.
@@ -77,9 +64,14 @@ class Map : public QObject
         bool isFreeArea(const MapArea& area) const;
 
         /**
+         * @brief Get the auto entry point coordinates.
+         */
+        MapCoordinates getAutoEntryPoint(const MapArea& area) const;
+
+        /**
          * @brief Return a const reference to the time cycle processor.
          */
-        const TimeCycleProcessor& getProcessor() const;
+        const TimeCycleProcessor* getProcessor() const;
 
     public slots:
         /**
@@ -93,7 +85,10 @@ class Map : public QObject
          * @param area The location of the element on the map.
          * @throw UnexpectedException Try to create a static element of type None.
          */
-        void createStaticElement(StaticElementType type, const MapArea& area);
+        void createStaticElement(
+            AbstractStaticMapElement::Type type,
+            const MapArea& area
+        );
 
         /**
          * @brief Create a dynamic element on the map.
@@ -103,25 +98,28 @@ class Map : public QObject
          * @throw UnexpectedException Try to create a dynamic element of type None.
          * @return A pointer to the element created.
          */
-        QWeakPointer<AbstractDynamicMapElement> createDynamicElement(
-            DynamicElementType type,
-            const AbstractProcessableStaticMapElement* issuer,
-            const int randomWalkerCredit = 0,
-            const qreal speed = 0.0
+        void createDynamicElement(
+            AbstractDynamicMapElement::Type type,
+            AbstractProcessableStaticMapElement* issuer,
+            const int randomWalkerCredit,
+            const qreal speed,
+            std::function<void(AbstractDynamicMapElement*)> afterCreation
         );
 
         /**
-         * @brief Destroy a dynamic element.
-         * @param element
+         * @brief Destroy an element.
          */
-        void destroyDynamicElement(AbstractDynamicMapElement* element);
+        void destroyElement(
+            AbstractDynamicMapElement* element,
+            std::function<void()> afterDestruction
+        );
 
     protected:
-        QSharedPointer<AbstractStaticMapElement> fetchStaticElement(const AbstractStaticMapElement* element) const;
+        AbstractStaticMapElement* fetchStaticElement(const AbstractStaticMapElement* element) const;
 
     signals:
-        void staticElementCreated(const QWeakPointer<AbstractStaticMapElement>& elementCreated);
-        void dynamicElementCreated(const QWeakPointer<AbstractDynamicMapElement>& elementCreated);
+        void staticElementCreated(AbstractStaticMapElement* elementCreated);
+        void dynamicElementCreated(AbstractDynamicMapElement* elementCreated);
 };
 
 #endif // MAP_HPP

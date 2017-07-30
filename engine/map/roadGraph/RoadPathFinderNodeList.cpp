@@ -10,18 +10,10 @@ RoadPathFinderNodeList::RoadPathFinderNodeList() :
 
 
 
-RoadPathFinderNodeList::~RoadPathFinderNodeList()
-{
-    qDeleteAll(nodeList);
-    nodeList.clear();
-}
-
-
-
 bool RoadPathFinderNodeList::contains(RoadPathFinderNode* node) const
 {
     for (auto nodeFromList : nodeList) {
-        if (&nodeFromList->getNode() == &node->getNode()) {
+        if (nodeFromList->getNode() == node->getNode()) {
             return true;
         }
     }
@@ -31,7 +23,7 @@ bool RoadPathFinderNodeList::contains(RoadPathFinderNode* node) const
 
 
 
-void RoadPathFinderNodeList::append(Owner<RoadPathFinderNode*> node)
+void RoadPathFinderNodeList::append(RoadPathFinderNode* node)
 {
     nodeList.append(node);
 }

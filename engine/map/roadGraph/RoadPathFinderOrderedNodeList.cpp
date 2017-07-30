@@ -10,14 +10,6 @@ RoadPathFinderOrderedNodeList::RoadPathFinderOrderedNodeList() :
 
 
 
-RoadPathFinderOrderedNodeList::~RoadPathFinderOrderedNodeList()
-{
-    qDeleteAll(nodeList);
-    nodeList.clear();
-}
-
-
-
 bool RoadPathFinderOrderedNodeList::isEmpty() const
 {
     return nodeList.isEmpty();
@@ -29,7 +21,7 @@ bool RoadPathFinderOrderedNodeList::isEmpty() const
 RoadPathFinderNode* RoadPathFinderOrderedNodeList::find(RoadPathFinderNode* node) const
 {
     for (auto nodeFromList : nodeList) {
-        if (&nodeFromList->getNode() == &node->getNode()) {
+        if (nodeFromList->getNode() == node->getNode()) {
             return nodeFromList;
         }
     }
@@ -39,14 +31,14 @@ RoadPathFinderNode* RoadPathFinderOrderedNodeList::find(RoadPathFinderNode* node
 
 
 
-Owner<RoadPathFinderNode*> RoadPathFinderOrderedNodeList::takeFirst()
+RoadPathFinderNode* RoadPathFinderOrderedNodeList::takeFirst()
 {
     return nodeList.takeFirst();
 }
 
 
 
-void RoadPathFinderOrderedNodeList::insert(Owner<RoadPathFinderNode*> node)
+void RoadPathFinderOrderedNodeList::insert(RoadPathFinderNode* node)
 {
     for (auto iterator(nodeList.begin()); iterator != nodeList.end(); ++iterator) {
         auto nodeFromList(*iterator);

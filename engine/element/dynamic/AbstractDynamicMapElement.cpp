@@ -3,24 +3,19 @@
 #include <QDebug>
 
 #include "defines.hpp"
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
 
 
-AbstractDynamicMapElement::AbstractDynamicMapElement(QWeakPointer<AbstractProcessableStaticMapElement> issuer, const qreal speed) :
-    AbstractProcessable(),
-    initialLocation(issuer.toStrongRef()->getEntryPoint()),
+AbstractDynamicMapElement::AbstractDynamicMapElement(QObject* parent, AbstractProcessableStaticMapElement* issuer, const qreal speed) :
+    AbstractProcessable(parent),
+    AbstractMapElement(),
+    initialLocation(issuer->getEntryPoint()),
     moveFromLocation(initialLocation),
     currentLocation(initialLocation),
     moveToLocation(initialLocation),
     speed(speed),
     issuer(issuer)
-{
-
-}
-
-
-
-AbstractDynamicMapElement::~AbstractDynamicMapElement()
 {
 
 }

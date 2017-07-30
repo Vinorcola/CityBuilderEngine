@@ -1,9 +1,9 @@
 #include "AbstractProcessableStaticMapElement.hpp"
 
 
-AbstractProcessableStaticMapElement::AbstractProcessableStaticMapElement(const MapArea& area, const MapCoordinates& entryPoint) :
+AbstractProcessableStaticMapElement::AbstractProcessableStaticMapElement(QObject* parent, const MapArea& area, const MapCoordinates& entryPoint) :
+    AbstractProcessable(parent),
     AbstractStaticMapElement(area),
-    AbstractProcessable(),
     entryPoint(entryPoint)
 {
 

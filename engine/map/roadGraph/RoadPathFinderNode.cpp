@@ -2,19 +2,20 @@
 
 
 
-RoadPathFinderNode::RoadPathFinderNode(const RoadGraphNode& node, const qreal costFromOrigin, const MapCoordinates& target) :
+RoadPathFinderNode::RoadPathFinderNode(QObject* parent, const RoadGraphNode* node, const qreal costFromOrigin, const MapCoordinates& target) :
+    QObject(parent),
     node(node),
     target(target),
     costFromOrigin(costFromOrigin),
-    manhattanDistanceToTarget(node.getCoordinates().getManhattanDistanceTo(target)),
-    straightDistanceToTarget(node.getCoordinates().getStraightDistanceTo(target))
+    manhattanDistanceToTarget(node->getCoordinates().getManhattanDistanceTo(target)),
+    straightDistanceToTarget(node->getCoordinates().getStraightDistanceTo(target))
 {
 
 }
 
 
 
-const RoadGraphNode& RoadPathFinderNode::getNode() const
+const RoadGraphNode* RoadPathFinderNode::getNode() const
 {
     return node;
 }
@@ -23,7 +24,7 @@ const RoadGraphNode& RoadPathFinderNode::getNode() const
 
 bool RoadPathFinderNode::matchTarget() const
 {
-    return node.getCoordinates() == target;
+    return node->getCoordinates() == target;
 }
 
 
@@ -56,12 +57,12 @@ qreal RoadPathFinderNode::getStraightDistanceToTarget() const
 
 
 
-QList<Owner<RoadPathFinderNode*>> RoadPathFinderNode::getNeighbours() const
+QList<RoadPathFinderNode*> RoadPathFinderNode::getNeighbours() const
 {
-    QList<Owner<RoadPathFinderNode*>> list;
+    QList<RoadPathFinderNode*> list;
 
-    for (auto neighbour : node.getNeighbourNodeList()) {
-        list.append(new RoadPathFinderNode(*neighbour, costFromOrigin + 1.0, target));
+    for (auto neighbour : node->getNeighbourNodeList()) {
+        list.append(new RoadPathFinderNode(parent(), neighbour, costFromOrigin + 1.0, target));
     }
 
     return list;

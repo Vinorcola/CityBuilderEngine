@@ -7,7 +7,8 @@
 
 
 
-RoadPathFinder::RoadPathFinder(const MapCoordinates& origin, const MapCoordinates& target, const RoadGraph& roadGraph) :
+RoadPathFinder::RoadPathFinder(const RoadGraph* roadGraph, const MapCoordinates& origin, const MapCoordinates& target) :
+    QObject(),
     path()
 {
     RoadPathFinderNodeList closedPathNodes;
@@ -16,12 +17,13 @@ RoadPathFinder::RoadPathFinder(const MapCoordinates& origin, const MapCoordinate
 
     // Initialize.
     if (origin.isRounded()) {
-        openedPathNodes.insert(new RoadPathFinderNode(*roadGraph.fetchNodeAt(origin), 0.0, target));
+        openedPathNodes.insert(new RoadPathFinderNode(this, roadGraph->fetchNodeAt(origin), 0.0, target));
     } else {
         // We get here the both nodes around the origin coordinates and initialize them with cost according to origin.
         for (auto originRoundedCoordinates : origin.getClosestRounded()) {
             openedPathNodes.insert(new RoadPathFinderNode(
-                *roadGraph.fetchNodeAt(originRoundedCoordinates),
+                this,
+                roadGraph->fetchNodeAt(originRoundedCoordinates),
                 originRoundedCoordinates.getManhattanDistanceTo(origin),
                 target
             ));
@@ -34,7 +36,7 @@ RoadPathFinder::RoadPathFinder(const MapCoordinates& origin, const MapCoordinate
 
         if (current->matchTarget()) {
             while (current) {
-                path.prepend(&current->getNode());
+                path.prepend(current->getNode());
                 current = parents.value(current);
             }
             break;

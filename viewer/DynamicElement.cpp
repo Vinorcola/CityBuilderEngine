@@ -4,7 +4,7 @@ const qreal BASE_DYNAMIC_ELEMENT_IMAGE_PADDING(5.0);
 
 
 
-DynamicElement::DynamicElement(const QSizeF& baseTileSize, const QWeakPointer<AbstractDynamicMapElement>& element, const QPixmap& elementImage) :
+DynamicElement::DynamicElement(const QSizeF& baseTileSize, const AbstractDynamicMapElement* element, const QPixmap& elementImage) :
     QGraphicsPixmapItem(elementImage),
     baseTileSize(baseTileSize),
     element(element)
@@ -19,16 +19,15 @@ DynamicElement::DynamicElement(const QSizeF& baseTileSize, const QWeakPointer<Ab
 
 bool DynamicElement::stillExists()
 {
-    return !element.toStrongRef().isNull();
+    return element;
 }
 
 
 
 MapCoordinates DynamicElement::getCoordinates() const
 {
-    auto elementAccess(element.toStrongRef());
-    if (elementAccess) {
-        return elementAccess->getCurrentLocation();
+    if (element) {
+        return element->getCurrentLocation();
     }
 
     return MapCoordinates();
@@ -38,9 +37,8 @@ MapCoordinates DynamicElement::getCoordinates() const
 
 void DynamicElement::refresh()
 {
-    auto elementAccess(element.toStrongRef());
-    if (elementAccess) {
-        const MapCoordinates& location(elementAccess->getCurrentLocation());
+    if (element) {
+        const MapCoordinates& location(element->getCurrentLocation());
         MapCoordinates roundedLocation(location.getRounded());
 
         qreal xBase(baseTileSize.width() / 2.0 - pixmap().width() / 2.0);

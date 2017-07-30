@@ -16,10 +16,10 @@ class ControlPanel : public QDockWidget
     public:
         ControlPanel();
 
-        BuildingButton* createButton(const QString& text, Map::StaticElementType type);
+        BuildingButton* createButton(const QString& text, AbstractStaticMapElement::Type type);
 
     signals:
-        void buildingRequested(Map::StaticElementType type);
+        void buildingRequested(AbstractStaticMapElement::Type type);
 };
 
 #endif // CONTROLPANEL_HPP

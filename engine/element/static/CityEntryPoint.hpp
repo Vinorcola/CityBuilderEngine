@@ -5,8 +5,10 @@
 
 class CityEntryPoint : public AbstractProcessableStaticMapElement
 {
+        Q_OBJECT
+
     public:
-        CityEntryPoint(const MapCoordinates& coordinates);
+        CityEntryPoint(QObject* parent, const MapCoordinates& coordinates);
 
         virtual void process(const CycleDate& date);
 

@@ -15,8 +15,10 @@ class RoadGraphNode;
  * direct north, south, west or east. This graph is used to find the shortest path between two nodes (as long as those
  * two nodes are linked together across the graph).
  */
-class RoadGraph
+class RoadGraph : public QObject
 {
+        Q_OBJECT
+
     private:
         QList<RoadGraphNode*> nodeList;
 
@@ -24,7 +26,7 @@ class RoadGraph
         /**
          * @brief Create an empty road graph.
          */
-        RoadGraph();
+        RoadGraph(QObject* parent);
 
         /**
          * @brief Fetch the road graph node located at the given coordinates (or nullptr if none was found).
@@ -59,6 +61,7 @@ class RoadGraph
          */
         QList<const RoadGraphNode*> getShortestPathBetween(const MapCoordinates& origin, const MapCoordinates& destination) const;
 
+    public slots:
         /**
          * @brief Create a new node at the given coordinates.
          *

@@ -7,10 +7,11 @@
 /**
  * @brief The RoadGraphNode class represent a node in the road graph.
  */
-class RoadGraphNode
+class RoadGraphNode : public QObject
 {
+        Q_OBJECT
+
     private:
-        RoadGraph& graph;
         MapCoordinates coordinates;
         RoadGraphNode* northNode;
         RoadGraphNode* southNode;
@@ -18,7 +19,7 @@ class RoadGraphNode
         RoadGraphNode* westNode;
 
     public:
-        RoadGraphNode(RoadGraph& graph, const MapCoordinates& coordinates);
+        RoadGraphNode(RoadGraph* graph, const MapCoordinates& coordinates);
 
         ~RoadGraphNode();
 
