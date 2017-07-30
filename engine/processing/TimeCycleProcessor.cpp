@@ -13,6 +13,7 @@ const qreal MSEC_PER_SEC(1000);
 
 TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const qreal speedRatio) :
     QObject(parent),
+    paused(false),
     speedRatio(speedRatio),
     clock(),
     processableList(),
@@ -21,19 +22,6 @@ TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const qreal speedRatio) 
     currentCycleDate()
 {
     clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * speedRatio), this);
-}
-
-
-
-void TimeCycleProcessor::setSpeedRatio(const qreal ratio)
-{
-    if (ratio >= 0.1 && ratio <= 1.0 && ratio != speedRatio) {
-        speedRatio = ratio;
-
-        // Re-launch the timer with the new speed.
-        clock.stop();
-        clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * ratio), this);
-    }
 }
 
 
@@ -51,6 +39,44 @@ void TimeCycleProcessor::unregisterProcessable(AbstractProcessable* processable)
 }
 
 
+
+void TimeCycleProcessor::pause(const bool pause)
+{
+    if (pause != paused) {
+        paused = pause;
+        if (pause) {
+            clock.stop();
+        } else {
+            clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * speedRatio), this);
+        }
+    }
+}
+
+
+
+void TimeCycleProcessor::setSpeedRatio(const qreal ratio)
+{
+    if (ratio != speedRatio && ratio >= 0.1 && ratio <= 1.0) {
+        speedRatio = ratio;
+
+        if (!paused) {
+            // Re-launch the timer with the new speed.
+            clock.stop();
+            clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * ratio), this);
+        }
+    }
+}
+
+
+
+void TimeCycleProcessor::forceNextProcess()
+{
+    if (paused) {
+        processCycle();
+    }
+}
+
+
 void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
 {
     processCycle();
@@ -60,6 +86,8 @@ void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
 
 void TimeCycleProcessor::processCycle()
 {
+    // Increment to cycle date.
+    ++currentCycleDate;
     qDebug() << "Process time-cycle" << currentCycleDate.toString();
 
     // Process current processable list.
@@ -85,7 +113,5 @@ void TimeCycleProcessor::processCycle()
         }
     }
 
-    // Increment to cycle date.
-    ++currentCycleDate;
     emit processFinished();
 }

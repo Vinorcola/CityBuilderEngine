@@ -131,6 +131,20 @@ const TimeCycleProcessor* Map::getProcessor() const
 
 
 
+void Map::pause(const bool pause)
+{
+    processor->pause(pause);
+}
+
+
+
+void Map::setProcessorSpeedRatio(const qreal speedRatio)
+{
+    processor->setSpeedRatio(speedRatio);
+}
+
+
+
 void Map::createStaticElement(
     AbstractStaticMapElement::Type type,
     const MapArea& area

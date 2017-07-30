@@ -24,6 +24,7 @@ class TimeCycleProcessor : public QObject
         Q_OBJECT
 
     private:
+        bool paused;
         qreal speedRatio;
         QBasicTimer clock;
         QLinkedList<QPointer<AbstractProcessable>> processableList;
@@ -33,13 +34,6 @@ class TimeCycleProcessor : public QObject
 
     public:
         TimeCycleProcessor(QObject* parent, const qreal speedRatio = 1.0);
-
-        /**
-         * @brief Change the speed ratio of the time-cycle loop.
-         *
-         * @param ratio A ratio between 0.1 and 1.
-         */
-        void setSpeedRatio(const qreal ratio);
 
         /**
          * @brief Register a processable element.
@@ -54,6 +48,26 @@ class TimeCycleProcessor : public QObject
          * @param processable
          */
         void unregisterProcessable(AbstractProcessable* processable);
+
+    public slots:
+        /**
+         * @brief Pause (or resume) the time-cycle processor.
+         */
+        void pause(const bool pause = true);
+
+        /**
+         * @brief Change the speed ratio of the time-cycle loop.
+         *
+         * @param ratio A ratio between 0.1 and 1.
+         */
+        void setSpeedRatio(const qreal ratio);
+
+        /**
+         * @brief Force the next process to occur.
+         *
+         * This is only for debug prupose. The process will only be triggered if the processor have been paused.
+         */
+        void forceNextProcess();
 
     signals:
         /**

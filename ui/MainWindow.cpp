@@ -10,16 +10,35 @@
 MainWindow::MainWindow() :
     QMainWindow(),
     controlPanel(new ControlPanel),
-    currentMap(nullptr)
+    currentMap(nullptr),
+    pauseAction(new QAction(tr("Pause"), this))
+#ifdef DEBUG_TOOLS
+    ,
+    processAction(new QAction("Process next step", this))
+#endif
 {
     // Menus.
     QMenu* gameMenu(menuBar()->addMenu(tr("Game")));
 
+    pauseAction->setShortcuts({ Qt::Key_P, Qt::Key_Pause });
+    pauseAction->setCheckable(true);
+    gameMenu->addAction(pauseAction);
+
     QAction* quitAction(new QAction(tr("Close the game"), this));
     quitAction->setShortcut(QKeySequence::Quit);
     gameMenu->addAction(quitAction);
-
     connect(quitAction, &QAction::triggered, this, &MainWindow::close);
+
+#ifdef DEBUG_TOOLS
+    QMenu* debugMenu(menuBar()->addMenu("Debug"));
+
+    processAction->setShortcut(Qt::Key_Space);
+    processAction->setDisabled(true);
+    connect(pauseAction, &QAction::toggled, processAction, [this](bool pause) {
+        processAction->setDisabled(!pause);
+    });
+    debugMenu->addAction(processAction);
+#endif
 
     // Control panel.
     addDockWidget(Qt::RightDockWidgetArea, controlPanel);
@@ -42,6 +61,11 @@ void MainWindow::createMap(const QSize& size)
         delete currentMap;
     }
     currentMap = new Map(size, "assets/conf.yml", {0, 0});
+    pauseAction->setChecked(false);
+    connect(pauseAction, &QAction::toggled, currentMap, &Map::pause);
+#ifdef DEBUG_TOOLS
+    connect(processAction, &QAction::triggered, currentMap->getProcessor(), &TimeCycleProcessor::forceNextProcess);
+#endif
 
     MapViewer* viewer(new MapViewer(*currentMap));
     setCentralWidget(viewer);

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+#include "defines.hpp"
 #include "engine/map/Map.hpp"
 #include "ui/controlPanel/ControlPanel.hpp"
 
@@ -13,6 +14,10 @@ class MainWindow : public QMainWindow
     private:
         ControlPanel* controlPanel;
         Map* currentMap;
+        QAction* pauseAction;
+#ifdef DEBUG_TOOLS
+        QAction* processAction;
+#endif
 
     public:
         MainWindow();

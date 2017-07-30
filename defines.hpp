@@ -5,11 +5,13 @@
 
 // Normal mode.
 #define CYCLE_PER_SECOND 30
+#define DEBUG_TOOLS
 
 /*/
 
 // Developping mode.
 #define CYCLE_PER_SECOND 2
+#define DEBUG_TOOLS
 #define SLOW_MOTION
 
 //*/
