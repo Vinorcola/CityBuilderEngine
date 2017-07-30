@@ -86,7 +86,13 @@ void MapScene::registerNewStaticElement(const AbstractStaticMapElement* element)
 void MapScene::registerNewDynamicElement(const AbstractDynamicMapElement* element)
 {
     // Load the test images.
-    QPixmap characterImage("assets/img/character.png");
+    QPixmap characterImage;
+
+    if (dynamic_cast<const RandomWalker*>(element)) {
+        characterImage.load("assets/img/character.png");
+    } else {
+        characterImage.load("assets/img/immigrant.png");
+    }
 
     DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, characterImage));
     dynamicElementList.append(graphicsItem);

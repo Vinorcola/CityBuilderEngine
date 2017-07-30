@@ -22,7 +22,7 @@ void TargetedWalker::assignTarget(AbstractProcessableStaticMapElement* target)
     targetLocation = target->getEntryPoint();
     path.clear();
     path = roadGraph->getShortestPathBetween(getCurrentLocation(), targetLocation);
-    if (path.first()->getCoordinates() == getCurrentLocation()) {
+    if (!path.isEmpty() && path.first()->getCoordinates() == getCurrentLocation()) {
         path.takeFirst();
     }
 }

@@ -14,6 +14,7 @@
 
 class AbstractProcessableStaticMapElement;
 class CityEntryPoint;
+class TargetedWalker;
 
 class Map : public QObject
 {
@@ -112,6 +113,22 @@ class Map : public QObject
         void destroyElement(
             AbstractDynamicMapElement* element,
             std::function<void()> afterDestruction
+        );
+
+        /**
+         * @brief Update the total population of the given delta.
+         */
+        void populationChanged(const int populationDelta);
+
+        /**
+         * @brief Update the free housing capacity.
+         *
+         * Also requires some immigrants from the city entry point if the house still have some housing capacity.
+         */
+        void freeHousingCapacityChanged(
+            const int previousHousingCapacity,
+            const int newHousingCapacity,
+            std::function<void(TargetedWalker*)> onImmigrantCreation
         );
 
     protected:

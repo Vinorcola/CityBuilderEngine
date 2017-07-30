@@ -72,19 +72,18 @@ void TimeCycleProcessor::processCycle()
     }
 
     // Process unregistration.
-    for (auto processable: waitingForUnregistrationList) {
-        processableList.removeOne(processable);
+    while (!waitingForUnregistrationList.isEmpty()) {
+        processableList.removeOne(waitingForUnregistrationList.takeFirst());
     }
-    waitingForUnregistrationList.clear();
 
     // Process registration.
-    for (auto processable: waitingForRegistrationList) {
+    while (!waitingForRegistrationList.isEmpty()) {
+        auto processable(waitingForRegistrationList.takeFirst());
         if (processable) {
             processable->init(currentCycleDate);
             processableList.append(processable);
         }
     }
-    waitingForRegistrationList.clear();
 
     // Increment to cycle date.
     ++currentCycleDate;

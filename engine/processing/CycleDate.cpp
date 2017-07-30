@@ -32,9 +32,30 @@ bool CycleDate::operator==(const CycleDate& other) const
 
 
 
+bool CycleDate::operator<(const CycleDate& other) const
+{
+    return cycles < other.cycles;
+}
+
+
+
+bool CycleDate::operator>(const CycleDate& other) const
+{
+    return cycles > other.cycles;
+}
+
+
+
 bool CycleDate::operator<=(const CycleDate& other) const
 {
     return cycles <= other.cycles;
+}
+
+
+
+bool CycleDate::operator>=(const CycleDate& other) const
+{
+    return cycles >= other.cycles;
 }
 
 

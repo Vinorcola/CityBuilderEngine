@@ -31,7 +31,7 @@ void MaintenanceBuilding::process(const CycleDate& date)
 {
     if (date == nextWalkerGenerationDate) {
         emit requestDynamicElementCreation(
-            AbstractDynamicMapElement::Type::RandomWalker,
+            AbstractDynamicMapElement::Type::Maintenance,
             30,
 #ifdef SLOW_MOTION
             0.25 / CYCLE_PER_SECOND,

@@ -33,8 +33,8 @@ class AbstractDynamicMapElement : public AbstractProcessable, public AbstractMap
         enum class Type
         {
             None = 0,
-            RandomWalker,
-            TargetedWalker,
+            Maintenance,
+            Immigrant,
         };
 
     private:

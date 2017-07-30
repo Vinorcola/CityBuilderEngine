@@ -48,6 +48,9 @@ void MainWindow::createMap(const QSize& size)
     connect(controlPanel, &ControlPanel::buildingRequested, viewer, &MapViewer::buildingRequest);
 
     // Roads
+    currentMap->createStaticElement(AbstractStaticMapElement::Type::Road, MapArea(MapCoordinates(0, 1)));
+    currentMap->createStaticElement(AbstractStaticMapElement::Type::Road, MapArea(MapCoordinates(0, 2)));
+    currentMap->createStaticElement(AbstractStaticMapElement::Type::Road, MapArea(MapCoordinates(0, 3)));
     currentMap->createStaticElement(AbstractStaticMapElement::Type::Road, MapArea(MapCoordinates(3, 4)));
     currentMap->createStaticElement(AbstractStaticMapElement::Type::Road, MapArea(MapCoordinates(2, 4)));
     currentMap->createStaticElement(AbstractStaticMapElement::Type::Road, MapArea(MapCoordinates(1, 4)));
@@ -71,5 +74,10 @@ void MainWindow::createMap(const QSize& size)
 
     // Buildings
     currentMap->createStaticElement(AbstractStaticMapElement::Type::Maintenance, MapArea(MapCoordinates(1, 5), MapSize(2)));
+    currentMap->createStaticElement(AbstractStaticMapElement::Type::House, MapArea(MapCoordinates(0, 11), MapSize(2)));
+    currentMap->createStaticElement(AbstractStaticMapElement::Type::House, MapArea(MapCoordinates(2, 11), MapSize(2)));
+    currentMap->createStaticElement(AbstractStaticMapElement::Type::House, MapArea(MapCoordinates(4, 11), MapSize(2)));
+    currentMap->createStaticElement(AbstractStaticMapElement::Type::House, MapArea(MapCoordinates(6, 11), MapSize(2)));
+    currentMap->createStaticElement(AbstractStaticMapElement::Type::House, MapArea(MapCoordinates(8, 10), MapSize(2)));
 }
 
