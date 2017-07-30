@@ -1,9 +1,9 @@
 #ifndef CITYENTRYPOINT_HPP
 #define CITYENTRYPOINT_HPP
 
-#include "engine/element/building/AbstractProcessableBuilding.hpp"
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
-class CityEntryPoint : public AbstractProcessableBuilding
+class CityEntryPoint : public AbstractProcessableStaticMapElement
 {
     public:
         CityEntryPoint(const MapCoordinates& coordinates);

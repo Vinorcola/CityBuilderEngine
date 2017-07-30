@@ -11,7 +11,7 @@ const int MAX_NUMBER_OF_WALKER(2);
 
 
 MaintenanceBuilding::MaintenanceBuilding(Map& map, const MapArea& area, const MapCoordinates& entryPoint) :
-    AbstractProcessableBuilding(area, entryPoint),
+    AbstractProcessableStaticMapElement(area, entryPoint),
     map(map),
     nextWalkerGenerationDate(),
     walkers()

@@ -1,7 +1,7 @@
-#ifndef ABSTRACTPROCESSABLEBUILDING_HPP
-#define ABSTRACTPROCESSABLEBUILDING_HPP
+#ifndef ABSTRACTPROCESSABLESTATICMAPELEMENT_HPP
+#define ABSTRACTPROCESSABLESTATICMAPELEMENT_HPP
 
-#include "engine/element/building/AbstractBuilding.hpp"
+#include "engine/element/static/AbstractStaticMapElement.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 
 class AbstractDynamicMapElement;
@@ -9,13 +9,13 @@ class AbstractDynamicMapElement;
 /**
  * @brief The base class for buildings that need to be processed.
  */
-class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProcessable
+class AbstractProcessableStaticMapElement : public AbstractStaticMapElement, public AbstractProcessable
 {
     private:
         MapCoordinates entryPoint;
 
     public:
-        AbstractProcessableBuilding(const MapArea& area, const MapCoordinates& entryPoint);
+        AbstractProcessableStaticMapElement(const MapArea& area, const MapCoordinates& entryPoint);
 
         const MapCoordinates& getEntryPoint() const;
 
@@ -26,4 +26,4 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
         virtual void processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) = 0;
 };
 
-#endif // ABSTRACTPROCESSABLEBUILDING_HPP
+#endif // ABSTRACTPROCESSABLESTATICMAPELEMENT_HPP

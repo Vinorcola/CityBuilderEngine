@@ -2,8 +2,8 @@
 
 
 
-TargetedWalker::TargetedWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableBuilding> issuer, const qreal speed) :
-    AbstractCharacter(issuer, speed),
+TargetedWalker::TargetedWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableStaticMapElement> issuer, const qreal speed) :
+    AbstractDynamicMapElement(issuer, speed),
     targetBuilding(),
     targetLocation(issuer.toStrongRef()->getEntryPoint()),
     path(),
@@ -14,7 +14,7 @@ TargetedWalker::TargetedWalker(const RoadGraph& roadGraph, QWeakPointer<Abstract
 
 
 
-void TargetedWalker::assignTarget(QWeakPointer<AbstractProcessableBuilding> targetAccess)
+void TargetedWalker::assignTarget(QWeakPointer<AbstractProcessableStaticMapElement> targetAccess)
 {
     auto target(targetAccess.toStrongRef());
     if (target) {

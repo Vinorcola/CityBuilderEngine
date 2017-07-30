@@ -3,7 +3,7 @@
 
 #include <QWeakPointer>
 
-#include "engine/element/building/AbstractProcessableBuilding.hpp"
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/map/MapCoordinates.hpp"
 
 /**
@@ -23,10 +23,10 @@ class AbstractDynamicMapElement : public AbstractProcessable
         qreal speed;///< In number of tile per second.
 
     protected:
-        QWeakPointer<AbstractProcessableBuilding> issuer;///< The issuer static element.
+        QWeakPointer<AbstractProcessableStaticMapElement> issuer;///< The issuer static element.
 
     public:
-        AbstractDynamicMapElement(QWeakPointer<AbstractProcessableBuilding> issuer, const qreal speed);
+        AbstractDynamicMapElement(QWeakPointer<AbstractProcessableStaticMapElement> issuer, const qreal speed);
 
         virtual ~AbstractDynamicMapElement();
 

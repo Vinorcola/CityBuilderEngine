@@ -1,7 +1,7 @@
 #ifndef RANDOMWALKER_HPP
 #define RANDOMWALKER_HPP
 
-#include "engine/element/character/TargetedWalker.hpp"
+#include "engine/element/dynamic/TargetedWalker.hpp"
 
 /**
  * @brief A random walker walks on the roads and take random directions at road intersections.
@@ -15,7 +15,7 @@ class RandomWalker : public TargetedWalker
         int walkingCredit;
 
     public:
-        RandomWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableBuilding> issuer, const int walkingCredit, const qreal speed);
+        RandomWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableStaticMapElement> issuer, const int walkingCredit, const qreal speed);
 
     protected:
         virtual MapCoordinates findNextGoingToLocation(const CycleDate& date);

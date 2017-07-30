@@ -7,17 +7,15 @@ CONFIG += c++14
 TEMPLATE = app
 
 SOURCES += \
-    engine/element/building/AbstractBuilding.cpp \
-    engine/element/building/AbstractProcessableBuilding.cpp \
-    engine/element/building/CityEntryPoint.cpp \
-    engine/element/building/HousingBuilding.cpp \
-    engine/element/building/MaintenanceBuilding.cpp \
-    engine/element/building/Road.cpp \
-    engine/element/character/AbstractCharacter.cpp \
-    engine/element/character/RandomWalker.cpp \
-    engine/element/character/TargetedWalker.cpp \
-    engine/element/AbstractDynamicMapElement.cpp \
-    engine/element/AbstractStaticMapElement.cpp \
+    engine/element/dynamic/AbstractDynamicMapElement.cpp \
+    engine/element/dynamic/RandomWalker.cpp \
+    engine/element/dynamic/TargetedWalker.cpp \
+    engine/element/static/AbstractProcessableStaticMapElement.cpp \
+    engine/element/static/AbstractStaticMapElement.cpp \
+    engine/element/static/CityEntryPoint.cpp \
+    engine/element/static/HousingBuilding.cpp \
+    engine/element/static/MaintenanceBuilding.cpp \
+    engine/element/static/Road.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
     engine/map/roadGraph/RoadGraphNode.cpp \
     engine/map/roadGraph/RoadPathFinder.cpp \
@@ -55,17 +53,15 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
-    engine/element/building/AbstractBuilding.hpp \
-    engine/element/building/AbstractProcessableBuilding.hpp \
-    engine/element/building/CityEntryPoint.hpp \
-    engine/element/building/HousingBuilding.hpp \
-    engine/element/building/MaintenanceBuilding.hpp \
-    engine/element/building/Road.hpp \
-    engine/element/character/AbstractCharacter.hpp \
-    engine/element/character/RandomWalker.hpp \
-    engine/element/character/TargetedWalker.hpp \
-    engine/element/AbstractDynamicMapElement.hpp \
-    engine/element/AbstractStaticMapElement.hpp \
+    engine/element/dynamic/AbstractDynamicMapElement.hpp \
+    engine/element/dynamic/RandomWalker.hpp \
+    engine/element/dynamic/TargetedWalker.hpp \
+    engine/element/static/AbstractProcessableStaticMapElement.hpp \
+    engine/element/static/AbstractStaticMapElement.hpp \
+    engine/element/static/CityEntryPoint.hpp \
+    engine/element/static/HousingBuilding.hpp \
+    engine/element/static/MaintenanceBuilding.hpp \
+    engine/element/static/Road.hpp \
     engine/map/roadGraph/RoadGraph.hpp \
     engine/map/roadGraph/RoadGraphNode.hpp \
     engine/map/roadGraph/RoadPathFinder.hpp \

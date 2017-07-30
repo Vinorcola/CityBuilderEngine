@@ -3,13 +3,13 @@
 
 #include <QWeakPointer>
 
-#include "engine/element/building/AbstractProcessableBuilding.hpp"
-#include "engine/element/building/CityEntryPoint.hpp"
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/element/static/CityEntryPoint.hpp"
 #include "engine/map/CityStatus.hpp"
 
 class Map;
 
-class HousingBuilding : public AbstractProcessableBuilding
+class HousingBuilding : public AbstractProcessableStaticMapElement
 {
     private:
         Map& map;

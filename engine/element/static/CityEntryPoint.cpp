@@ -1,7 +1,7 @@
 #include "CityEntryPoint.hpp"
 
 CityEntryPoint::CityEntryPoint(const MapCoordinates& coordinates) :
-    AbstractProcessableBuilding(MapArea(coordinates), coordinates)
+    AbstractProcessableStaticMapElement(MapArea(coordinates), coordinates)
 {
 
 }

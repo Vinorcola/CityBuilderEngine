@@ -1,8 +1,8 @@
 #include "MapScene.hpp"
 
-#include "engine/element/building/HousingBuilding.hpp"
-#include "engine/element/building/MaintenanceBuilding.hpp"
-#include "engine/element/building/Road.hpp"
+#include "engine/element/static/HousingBuilding.hpp"
+#include "engine/element/static/MaintenanceBuilding.hpp"
+#include "engine/element/static/Road.hpp"
 
 const QSizeF BASE_TILE_SIZE(58, 30);
 

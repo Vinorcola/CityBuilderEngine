@@ -1,15 +1,15 @@
 #ifndef MAINTENANCEBUILDING_HPP
 #define MAINTENANCEBUILDING_HPP
 
-#include "engine/element/building/AbstractProcessableBuilding.hpp"
-#include "engine/element/character/RandomWalker.hpp"
+#include "engine/element/dynamic//RandomWalker.hpp"
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
 class Map;
 
 /**
  * @brief A maintenance building for testing purpose.
  */
-class MaintenanceBuilding : public AbstractProcessableBuilding
+class MaintenanceBuilding : public AbstractProcessableStaticMapElement
 {
     private:
         Map& map;

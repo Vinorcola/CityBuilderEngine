@@ -3,7 +3,7 @@
 
 #include <QGraphicsPixmapItem>
 
-#include "engine/element/AbstractDynamicMapElement.hpp"
+#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
 
 class DynamicElement : public QGraphicsPixmapItem
 {

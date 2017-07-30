@@ -1,7 +1,7 @@
 #include "HousingBuilding.hpp"
 
 HousingBuilding::HousingBuilding(Map& map, const MapArea& area, const MapCoordinates& entryPoint, CityStatus& cityStatus, QWeakPointer<CityEntryPoint> cityEntryPoint) :
-    AbstractProcessableBuilding(area, entryPoint),
+    AbstractProcessableStaticMapElement(area, entryPoint),
     map(map),
     cityStatus(cityStatus),
     cityEntryPoint(cityEntryPoint),

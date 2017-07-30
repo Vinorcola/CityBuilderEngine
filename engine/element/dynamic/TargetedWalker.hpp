@@ -1,7 +1,7 @@
 #ifndef TARGETEDWALKER_HPP
 #define TARGETEDWALKER_HPP
 
-#include "engine/element/character/AbstractCharacter.hpp"
+#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
 
 /**
@@ -11,10 +11,10 @@
  * being created. In this case, the walker is not moving and stays where it is. As soon as the target is assigned, the
  * walker will begin ihis journey toward the target.
  */
-class TargetedWalker : public AbstractCharacter
+class TargetedWalker : public AbstractDynamicMapElement
 {
     private:
-        QWeakPointer<AbstractProcessableBuilding> targetBuilding;
+        QWeakPointer<AbstractProcessableStaticMapElement> targetBuilding;
         MapCoordinates targetLocation;
         QList<const RoadGraphNode*> path;
 
@@ -22,9 +22,9 @@ class TargetedWalker : public AbstractCharacter
         const RoadGraph& roadGraph;
 
     public:
-        TargetedWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableBuilding> issuer, const qreal speed);
+        TargetedWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableStaticMapElement> issuer, const qreal speed);
 
-        void assignTarget(QWeakPointer<AbstractProcessableBuilding> target);
+        void assignTarget(QWeakPointer<AbstractProcessableStaticMapElement> target);
 
         bool hasTarget() const;
 

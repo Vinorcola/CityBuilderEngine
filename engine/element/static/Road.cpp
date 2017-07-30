@@ -5,7 +5,7 @@
 
 
 Road::Road(const MapCoordinates& coordinates) :
-    AbstractBuilding(MapArea(coordinates))
+    AbstractStaticMapElement(MapArea(coordinates))
 {
     qDebug() << "  - Created road at" << coordinates.toString();
 }

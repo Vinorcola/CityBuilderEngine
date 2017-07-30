@@ -6,7 +6,7 @@
 
 
 
-AbstractDynamicMapElement::AbstractDynamicMapElement(QWeakPointer<AbstractProcessableBuilding> issuer, const qreal speed) :
+AbstractDynamicMapElement::AbstractDynamicMapElement(QWeakPointer<AbstractProcessableStaticMapElement> issuer, const qreal speed) :
     AbstractProcessable(),
     initialLocation(issuer.toStrongRef()->getEntryPoint()),
     moveFromLocation(initialLocation),

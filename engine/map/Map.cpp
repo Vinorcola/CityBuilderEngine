@@ -3,11 +3,11 @@
 #include <QDebug>
 #include <QSharedPointer>
 
-#include "engine/element/building/HousingBuilding.hpp"
-#include "engine/element/building/MaintenanceBuilding.hpp"
-#include "engine/element/building/Road.hpp"
-#include "engine/element/character/RandomWalker.hpp"
-#include "engine/element/AbstractStaticMapElement.hpp"
+#include "engine/element/dynamic/RandomWalker.hpp"
+#include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/element/static/HousingBuilding.hpp"
+#include "engine/element/static/MaintenanceBuilding.hpp"
+#include "engine/element/static/Road.hpp"
 
 
 
@@ -152,7 +152,7 @@ void Map::createStaticElement(StaticElementType type, const MapArea& area)
 
 
 QWeakPointer<AbstractDynamicMapElement> Map::createDynamicElement(Map::DynamicElementType type,
-    const AbstractProcessableBuilding* issuer,
+    const AbstractProcessableStaticMapElement* issuer,
     const int randomWalkerCredit,
     const qreal speed
 ) {
@@ -162,7 +162,7 @@ QWeakPointer<AbstractDynamicMapElement> Map::createDynamicElement(Map::DynamicEl
             throw UnexpectedException("Try to create a dynamic element of type None.");
 
         case DynamicElementType::RandomWalker: {
-            auto issuerAccess(qSharedPointerCast<AbstractProcessableBuilding, AbstractStaticMapElement>(fetchStaticElement(issuer)));
+            auto issuerAccess(qSharedPointerCast<AbstractProcessableStaticMapElement, AbstractStaticMapElement>(fetchStaticElement(issuer)));
             element.reset(new RandomWalker(roadGraph, issuerAccess.toWeakRef(), randomWalkerCredit, speed));
             break;
         }

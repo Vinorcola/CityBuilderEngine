@@ -6,7 +6,7 @@
 
 
 
-RandomWalker::RandomWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableBuilding> issuer, const int walkingCredit, const qreal speed) :
+RandomWalker::RandomWalker(const RoadGraph& roadGraph, QWeakPointer<AbstractProcessableStaticMapElement> issuer, const int walkingCredit, const qreal speed) :
     TargetedWalker(roadGraph, issuer, speed),
     walkingCredit(walkingCredit)
 {

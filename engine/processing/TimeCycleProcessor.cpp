@@ -3,8 +3,8 @@
 #include <QDebug>
 
 #include "defines.hpp"
-#include "engine/element/AbstractDynamicMapElement.hpp"
-#include "engine/element/building/AbstractProcessableBuilding.hpp"
+#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 
 const qreal MSEC_PER_SEC(1000);

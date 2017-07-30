@@ -4,10 +4,10 @@
 #include <QLinkedList>
 #include <QSize>
 
-#include "engine/element/building/AbstractProcessableBuilding.hpp"
-#include "engine/element/building/CityEntryPoint.hpp"
-#include "engine/element/AbstractDynamicMapElement.hpp"
-#include "engine/element/AbstractStaticMapElement.hpp"
+#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/element/static/CityEntryPoint.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/CityStatus.hpp"
 #include "engine/map/MapSize.hpp"
@@ -105,7 +105,7 @@ class Map : public QObject
          */
         QWeakPointer<AbstractDynamicMapElement> createDynamicElement(
             DynamicElementType type,
-            const AbstractProcessableBuilding* issuer,
+            const AbstractProcessableStaticMapElement* issuer,
             const int randomWalkerCredit = 0,
             const qreal speed = 0.0
         );
