@@ -54,14 +54,14 @@ MapScene::MapScene(const Map& map) :
 
 
 
-void MapScene::requestBuildingPositioning(AbstractStaticMapElement::Type type)
+void MapScene::requestBuildingPositioning(StaticElementInformation::Type type)
 {
     selectionElement->setBuildingType(type);
 }
 
 
 
-void MapScene::requestBuildingCreation(AbstractStaticMapElement::Type type, const MapArea& area)
+void MapScene::requestBuildingCreation(StaticElementInformation::Type type, const MapArea& area)
 {
     emit buildingCreationRequested(type, area);
 }
@@ -71,30 +71,14 @@ void MapScene::requestBuildingCreation(AbstractStaticMapElement::Type type, cons
 void MapScene::registerNewStaticElement(const AbstractStaticMapElement* element)
 {
     Tile* tile(getTileAt(element->getArea().getLeft()));
-
-    if (dynamic_cast<const Road*>(element)) {
-        addStaticElementBuilding(tile, MapSize(1), QPixmap("assets/img/road"));
-    } else if (dynamic_cast<const MaintenanceBuilding*>(element)) {
-        addStaticElementBuilding(tile, MapSize(2), QPixmap("assets/img/building.png"));
-    } else if (dynamic_cast<const HousingBuilding*>(element)) {
-        addStaticElementBuilding(tile, MapSize(2), QPixmap("assets/img/house.png"));
-    }
+    addStaticElementBuilding(tile, element->getConf()->getSize(), element->getConf()->getImage());
 }
 
 
 
 void MapScene::registerNewDynamicElement(const AbstractDynamicMapElement* element)
 {
-    // Load the test images.
-    QPixmap characterImage;
-
-    if (dynamic_cast<const RandomWalker*>(element)) {
-        characterImage.load("assets/img/character.png");
-    } else {
-        characterImage.load("assets/img/immigrant.png");
-    }
-
-    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, characterImage));
+    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, element->getConf()->getImage()));
     dynamicElementList.append(graphicsItem);
 
     Tile* tile(getTileAt(element->getCurrentLocation().getRounded()));

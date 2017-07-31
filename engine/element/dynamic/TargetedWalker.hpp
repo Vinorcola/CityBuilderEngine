@@ -24,7 +24,7 @@ class TargetedWalker : public AbstractDynamicMapElement
         const RoadGraph* roadGraph;
 
     public:
-        TargetedWalker(QObject* parent, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer, const qreal speed);
+        TargetedWalker(QObject* parent, const DynamicElementInformation* conf, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer);
 
         void assignTarget(AbstractProcessableStaticMapElement* targetElement);
 

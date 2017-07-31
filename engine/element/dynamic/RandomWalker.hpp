@@ -17,7 +17,7 @@ class RandomWalker : public TargetedWalker
         int walkingCredit;
 
     public:
-        RandomWalker(QObject* parent, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer, const int walkingCredit, const qreal speed);
+        RandomWalker(QObject* parent, const DynamicElementInformation* conf, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer);
 
     protected:
         virtual MapCoordinates findNextGoingToLocation(const CycleDate& date);

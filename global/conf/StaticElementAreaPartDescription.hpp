@@ -4,10 +4,10 @@
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/map/MapSize.hpp"
 
-template<typename StaticElementAreaPartDescription> using Owner = StaticElementAreaPartDescription;
-
-class StaticElementAreaPartDescription
+class StaticElementAreaPartDescription : public QObject
 {
+        Q_OBJECT
+
     public:
         enum Type {
             Classic,
@@ -32,7 +32,7 @@ class StaticElementAreaPartDescription
          * @param type              The type of area part.
          * @param altitude          The altitude of the area part.
          */
-        StaticElementAreaPartDescription(const MapCoordinates& anchorCoordinates, const MapSize& areaSize, Type type = Classic, int altitude = 0);
+        StaticElementAreaPartDescription(QObject* parent, const MapCoordinates& anchorCoordinates, const MapSize& areaSize, Type type = Classic, int altitude = 0);
 };
 
 #endif // STATICELEMENTAREAPARTDESCRIPTION_HPP

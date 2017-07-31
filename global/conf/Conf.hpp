@@ -3,15 +3,23 @@
 
 #include <QHash>
 
+#include "global/conf/DynamicElementInformation.hpp"
 #include "global/conf/StaticElementInformation.hpp"
 
-class Conf
+class Conf : public QObject
 {
+        Q_OBJECT
+
     private:
-        QHash<StaticElementInformation::Type, Owner<StaticElementInformation*>> staticElements;
+        QHash<DynamicElementInformation::Type, DynamicElementInformation*> dynamicElements;
+        QHash<StaticElementInformation::Type, StaticElementInformation*> staticElements;
 
     public:
-        Conf(const QString& filePath);
+        Conf(QObject* parent, const QString& filePath);
+
+        const DynamicElementInformation* getDynamicElementConf(DynamicElementInformation::Type type) const;
+
+        const StaticElementInformation* getStaticElementConf(StaticElementInformation::Type type) const;
 };
 
 #endif // CONF_HPP

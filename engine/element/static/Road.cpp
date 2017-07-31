@@ -4,8 +4,8 @@
 
 
 
-Road::Road(const MapCoordinates& coordinates) :
-    AbstractStaticMapElement(MapArea(coordinates))
+Road::Road(const StaticElementInformation* conf, const MapCoordinates& coordinates) :
+    AbstractStaticMapElement(conf, MapArea(coordinates))
 {
     qDebug() << "  - Created road at" << coordinates.toString();
 }

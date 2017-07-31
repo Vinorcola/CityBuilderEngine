@@ -14,7 +14,7 @@ class HousingBuilding : public AbstractProcessableStaticMapElement
         QPointer<TargetedWalker> currentImmigrant;
 
     public:
-        HousingBuilding(QObject* parent, const MapArea& area, const MapCoordinates& entryPoint);
+        HousingBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
 
         virtual void init(const CycleDate& date);
 

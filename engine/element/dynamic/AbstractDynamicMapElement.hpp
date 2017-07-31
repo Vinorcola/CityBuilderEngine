@@ -6,6 +6,7 @@
 #include "engine/element/AbstractMapElement.hpp"
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
+#include "global/conf/DynamicElementInformation.hpp"
 
 class AbstractProcessableStaticMapElement;
 
@@ -29,26 +30,20 @@ class AbstractDynamicMapElement : public AbstractProcessable, public AbstractMap
 {
         Q_OBJECT
 
-    public:
-        enum class Type
-        {
-            None = 0,
-            Maintenance,
-            Immigrant,
-        };
-
     private:
+        const DynamicElementInformation* conf;
         const MapCoordinates initialLocation;///< The coordinates of the initial position of the element.
         MapCoordinates moveFromLocation;///< The coordinates of the tile the element is moving from.
         MapCoordinates currentLocation;///< The current coordinates of the element.
         MapCoordinates moveToLocation;///< The coordinates of the tile the element is moving to.
-        qreal speed;///< In number of tile per second.
 
     protected:
         QPointer<AbstractProcessableStaticMapElement> issuer;///< The issuer static element.
 
     public:
-        AbstractDynamicMapElement(QObject* parent, AbstractProcessableStaticMapElement* issuer, const qreal speed);
+        AbstractDynamicMapElement(QObject* parent, const DynamicElementInformation* conf, AbstractProcessableStaticMapElement* issuer);
+
+        const DynamicElementInformation* getConf() const;
 
         /**
          * @brief The initial location where the dynamic element appered.

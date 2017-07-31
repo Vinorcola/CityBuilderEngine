@@ -7,9 +7,9 @@
 
 
 
-RandomWalker::RandomWalker(QObject* parent, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer, const int walkingCredit, const qreal speed) :
-    TargetedWalker(parent, roadGraph, issuer, speed),
-    walkingCredit(walkingCredit)
+RandomWalker::RandomWalker(QObject* parent, const DynamicElementInformation* conf, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer) :
+    TargetedWalker(parent, conf, roadGraph, issuer),
+    walkingCredit(conf->getWalkingCredit())
 {
     qDebug() << "  - Create random walker at" << issuer->getEntryPoint().toString();
 }

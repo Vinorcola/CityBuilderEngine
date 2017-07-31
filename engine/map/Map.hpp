@@ -22,8 +22,8 @@ class Map : public QObject
 
     private:
         QSize size;
-        Conf conf;
-        CityStatus cityStatus;
+        Conf* conf;
+        CityStatus* cityStatus;
         RoadGraph* roadGraph;
         TimeCycleProcessor* processor;
         QLinkedList<AbstractMapElement*> elementList;
@@ -97,7 +97,7 @@ class Map : public QObject
          * @throw UnexpectedException Try to create a static element of type None.
          */
         void createStaticElement(
-            AbstractStaticMapElement::Type type,
+            StaticElementInformation::Type type,
             const MapArea& area
         );
 
@@ -106,14 +106,11 @@ class Map : public QObject
          *
          * @param type The type of dynamic element to create.
          * @param issuer The building issuing the dynamic element.
+         * @param afterCreation A lambda function that will be called with the created element as first argument.
          * @throw UnexpectedException Try to create a dynamic element of type None.
-         * @return A pointer to the element created.
          */
-        void createDynamicElement(
-            AbstractDynamicMapElement::Type type,
+        void createDynamicElement(DynamicElementInformation::Type type,
             AbstractProcessableStaticMapElement* issuer,
-            const int randomWalkerCredit,
-            const qreal speed,
             std::function<void(AbstractDynamicMapElement*)> afterCreation
         );
 

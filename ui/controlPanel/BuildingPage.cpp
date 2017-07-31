@@ -11,9 +11,9 @@ BuildingPage::BuildingPage(ControlPanel& buttonCreator) :
 {
     QVBoxLayout* layout(new QVBoxLayout);
 
-    layout->addWidget(buttonCreator.createButton(tr("Maintenance"), AbstractStaticMapElement::Type::Maintenance));
-    layout->addWidget(buttonCreator.createButton(tr("House"), AbstractStaticMapElement::Type::House));
-    layout->addWidget(buttonCreator.createButton(tr("Road"), AbstractStaticMapElement::Type::Road));
+    layout->addWidget(buttonCreator.createButton(tr("Maintenance"), StaticElementInformation::Type::Maintenance));
+    layout->addWidget(buttonCreator.createButton(tr("House"), StaticElementInformation::Type::House));
+    layout->addWidget(buttonCreator.createButton(tr("Road"), StaticElementInformation::Type::Road));
 
     layout->addStretch();
     setLayout(layout);

@@ -1,6 +1,20 @@
 
-static_elements:
-    road:
-        model: [ 4,  0, 0, 0 ]
+dynamicElements:
+    immigrant:
+        speed: 2.0
+    superintendent:
+        speed: 2.0
+        walkingCredit: 30
+
+staticElements:
+    cityEntryPoint: null
+    house:
+        size: 2
+        price: 15
+        fireRisk: 12
     maintenance:
-        model: [ 12, 5, 0, 0 ]
+        size: 2
+        price: 12
+        employees: 5
+    road:
+        price: 4

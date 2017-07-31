@@ -4,8 +4,8 @@
 
 
 
-TargetedWalker::TargetedWalker(QObject* parent, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer, const qreal speed) :
-    AbstractDynamicMapElement(parent, issuer, speed),
+TargetedWalker::TargetedWalker(QObject* parent, const DynamicElementInformation* conf, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer) :
+    AbstractDynamicMapElement(parent, conf, issuer),
     targetElement(),
     targetLocation(issuer->getEntryPoint()),
     path(),

@@ -2,19 +2,21 @@
 #define STATICELEMENTINFORMATION_HPP
 
 #include <QList>
+#include <QPixmap>
 #include <QString>
 #include <yaml-cpp/yaml.h>
 
 #include "global/conf/StaticElementAreaPartDescription.hpp"
 
-template<typename StaticElementInformation> using Onwer = StaticElementInformation;
-
-class StaticElementInformation
+class StaticElementInformation : public QObject
 {
+        Q_OBJECT
+
     public:
-        enum class Type
-        {
+        enum class Type {
             None = 0,
+            CityEntryPoint,
+            House,
             Maintenance,
             Road,
         };
@@ -22,11 +24,13 @@ class StaticElementInformation
     private:
         Type type;
         QString key;
+        MapSize size;
         int price;
-        int requiredEmployees;
+        int employees;
         int fireRiskIncrement;
         int damageRiskIncrement;
-        QList<Owner<StaticElementAreaPartDescription*>> areaDescription;
+        QList<StaticElementAreaPartDescription*> areaDescription;
+        QPixmap image;
 
     public:
         /**
@@ -34,12 +38,16 @@ class StaticElementInformation
          *
          * @param configurationYamlNode The YAML node corresponding to a static element configuration.
          */
-        StaticElementInformation(const QString& key, YAML::Node model);
+        StaticElementInformation(QObject* parent, const QString& key, YAML::Node model);
 
         Type getType() const;
 
+        const MapSize& getSize() const;
+
+        const QPixmap& getImage() const;
+
     private:
-        static Type resolveKeyToType(const QString& key);
+        static Type resolveTypeFromKey(const QString& key);
 };
 
 

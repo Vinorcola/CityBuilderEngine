@@ -9,7 +9,7 @@
 class Road : public AbstractStaticMapElement
 {
     public:
-        Road(const MapCoordinates& coordinates);
+        Road(const StaticElementInformation* conf, const MapCoordinates& coordinates);
 };
 
 #endif // ROAD_HPP

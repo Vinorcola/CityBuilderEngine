@@ -4,11 +4,19 @@
 
 
 
-AbstractStaticMapElement::AbstractStaticMapElement(const MapArea& area) :
+AbstractStaticMapElement::AbstractStaticMapElement(const StaticElementInformation* conf, const MapArea& area) :
     AbstractMapElement(),
+    conf(conf),
     area(area)
 {
 
+}
+
+
+
+const StaticElementInformation*AbstractStaticMapElement::getConf() const
+{
+    return conf;
 }
 
 

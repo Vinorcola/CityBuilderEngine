@@ -1,6 +1,7 @@
 #include "CityStatus.hpp"
 
-CityStatus::CityStatus(const int initialBudget) :
+CityStatus::CityStatus(QObject* parent, const int initialBudget) :
+    QObject(parent),
     budget(initialBudget),
     population(0),
     freeHousingPlaces(0)

@@ -26,7 +26,7 @@ class MapScene : public QGraphicsScene
          *
          * @param type The type of building the user wants to create.
          */
-        void requestBuildingPositioning(AbstractStaticMapElement::Type type);
+        void requestBuildingPositioning(StaticElementInformation::Type type);
 
         /**
          * @brief Request a building creation.
@@ -34,7 +34,7 @@ class MapScene : public QGraphicsScene
          * @param type The type of building.
          * @param area The area of construction.
          */
-        void requestBuildingCreation(AbstractStaticMapElement::Type type, const MapArea& area);
+        void requestBuildingCreation(StaticElementInformation::Type type, const MapArea& area);
 
     public slots:
         void registerNewStaticElement(const AbstractStaticMapElement* element);
@@ -68,7 +68,7 @@ class MapScene : public QGraphicsScene
          * @param type The type of building.
          * @param area The area of construction.
          */
-        void buildingCreationRequested(AbstractStaticMapElement::Type type, const MapArea& area);
+        void buildingCreationRequested(StaticElementInformation::Type type, const MapArea& area);
 };
 
 #endif // MAPSCENE_HPP

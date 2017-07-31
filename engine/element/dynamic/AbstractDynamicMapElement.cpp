@@ -7,17 +7,24 @@
 
 
 
-AbstractDynamicMapElement::AbstractDynamicMapElement(QObject* parent, AbstractProcessableStaticMapElement* issuer, const qreal speed) :
+AbstractDynamicMapElement::AbstractDynamicMapElement(QObject* parent, const DynamicElementInformation* conf, AbstractProcessableStaticMapElement* issuer) :
     AbstractProcessable(parent),
     AbstractMapElement(),
+    conf(conf),
     initialLocation(issuer->getEntryPoint()),
     moveFromLocation(initialLocation),
     currentLocation(initialLocation),
     moveToLocation(initialLocation),
-    speed(speed),
     issuer(issuer)
 {
 
+}
+
+
+
+const DynamicElementInformation* AbstractDynamicMapElement::getConf() const
+{
+    return conf;
 }
 
 
@@ -70,14 +77,14 @@ void AbstractDynamicMapElement::process(const CycleDate& date)
 void AbstractDynamicMapElement::moveToTarget()
 {
     if (moveToLocation.getX() > currentLocation.getX()) {
-        currentLocation.setX(qMin(currentLocation.getX() + speed, moveToLocation.getX()));
+        currentLocation.setX(qMin(currentLocation.getX() + conf->getSpeed(), moveToLocation.getX()));
     } else if (moveToLocation.getX() < currentLocation.getX()) {
-        currentLocation.setX(qMax(currentLocation.getX() - speed, moveToLocation.getX()));
+        currentLocation.setX(qMax(currentLocation.getX() - conf->getSpeed(), moveToLocation.getX()));
     }
     if (moveToLocation.getY() > currentLocation.getY()) {
-        currentLocation.setY(qMin(currentLocation.getY() + speed, moveToLocation.getY()));
+        currentLocation.setY(qMin(currentLocation.getY() + conf->getSpeed(), moveToLocation.getY()));
     } else if (moveToLocation.getY() < currentLocation.getY()) {
-        currentLocation.setY(qMax(currentLocation.getY() - speed, moveToLocation.getY()));
+        currentLocation.setY(qMax(currentLocation.getY() - conf->getSpeed(), moveToLocation.getY()));
     }
 
     qDebug() << "  - Moved walker to" << currentLocation.toString();

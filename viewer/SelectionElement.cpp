@@ -16,7 +16,7 @@ SelectionElement::SelectionElement(const QSizeF& baseTileSize) :
     currentBrush(&badBrush),
     currentPen(&badPen),
     currentArea(),
-    currentBuildingType(AbstractStaticMapElement::Type::None)
+    currentBuildingType(StaticElementInformation::Type::None)
 {
     // NOTE: Changing accepted mouse buttons can affect mouse event handler mousePressEvent() and mouseReleaseEvent().
     setAcceptedMouseButtons(Qt::LeftButton | Qt::RightButton);
@@ -39,26 +39,26 @@ SelectionElement::SelectionElement(const QSizeF& baseTileSize) :
 
 
 
-void SelectionElement::setBuildingType(AbstractStaticMapElement::Type type)
+void SelectionElement::setBuildingType(StaticElementInformation::Type type)
 {
     currentBuildingType = type;
     switch (type) {
-        case AbstractStaticMapElement::Type::None:
+        case StaticElementInformation::Type::None:
             // Disable the selection element.
             setVisible(false);
             break;
 
-        case AbstractStaticMapElement::Type::House:
+        case StaticElementInformation::Type::House:
             setSize(MapSize(2));
             setVisible(true);
             break;
 
-        case AbstractStaticMapElement::Type::Maintenance:
+        case StaticElementInformation::Type::Maintenance:
             setSize(MapSize(2));
             setVisible(true);
             break;
 
-        case AbstractStaticMapElement::Type::Road:
+        case StaticElementInformation::Type::Road:
             setSize(MapSize(1));
             setVisible(true);
             break;
@@ -156,6 +156,6 @@ void SelectionElement::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     else
     {
         // Right click.
-        setBuildingType(AbstractStaticMapElement::Type::None);
+        setBuildingType(StaticElementInformation::Type::None);
     }
 }

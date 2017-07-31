@@ -14,13 +14,13 @@
 Map::Map(const QSize& size, const QString& confFilePath, const MapCoordinates& cityEntryPointLocation) :
     QObject(),
     size(size),
-    conf(confFilePath),
-    cityStatus(10000),
+    conf(new Conf(this, confFilePath)),
+    cityStatus(new CityStatus(this, 10000)),
     roadGraph(new RoadGraph(this)),
     processor(new TimeCycleProcessor(this)),
     elementList(),
     staticElementList(),
-    entryPoint(new CityEntryPoint(this, cityEntryPointLocation))
+    entryPoint(new CityEntryPoint(this, conf->getStaticElementConf(StaticElementInformation::Type::CityEntryPoint), cityEntryPointLocation))
 {
     processor->registerProcessable(entryPoint);
     elementList.append(entryPoint);
@@ -28,12 +28,10 @@ Map::Map(const QSize& size, const QString& confFilePath, const MapCoordinates& c
     roadGraph->createNode(cityEntryPointLocation);
 
     connect(entryPoint, &CityEntryPoint::requestDynamicElementCreation, [this](
-        AbstractDynamicMapElement::Type type,
-        const int randomWalkerCredit,
-        const qreal speed,
+        DynamicElementInformation::Type type,
         std::function<void(AbstractDynamicMapElement*)> afterCreation
     ) {
-        createDynamicElement(type, entryPoint, randomWalkerCredit, speed, afterCreation);
+        createDynamicElement(type, entryPoint, afterCreation);
     });
 }
 
@@ -146,7 +144,7 @@ void Map::setProcessorSpeedRatio(const qreal speedRatio)
 
 
 void Map::createStaticElement(
-    AbstractStaticMapElement::Type type,
+    StaticElementInformation::Type type,
     const MapArea& area
 ) {
     if (!isFreeArea(area)) {
@@ -156,23 +154,21 @@ void Map::createStaticElement(
 
     AbstractStaticMapElement* pointer;
     switch (type) {
-        case AbstractStaticMapElement::Type::None:
+        case StaticElementInformation::Type::None:
             throw UnexpectedException("Try to create a static element of type None.");
 
-        case AbstractStaticMapElement::Type::House: {
-            auto element(new HousingBuilding(this, area, getAutoEntryPoint(area)));
+        case StaticElementInformation::Type::House: {
+            auto element(new HousingBuilding(this, conf->getStaticElementConf(type), area, getAutoEntryPoint(area)));
             pointer = element;
             processor->registerProcessable(element);
             elementList.append(element);
             staticElementList.append(element);
 
             connect(element, &MaintenanceBuilding::requestDynamicElementCreation, [this, element](
-                AbstractDynamicMapElement::Type type,
-                const int randomWalkerCredit,
-                const qreal speed,
+                DynamicElementInformation::Type type,
                 std::function<void(AbstractDynamicMapElement*)> afterCreation
             ) {
-                createDynamicElement(type, element, randomWalkerCredit, speed, afterCreation);
+                createDynamicElement(type, element, afterCreation);
             });
             connect(element, &MaintenanceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
             connect(element, &HousingBuilding::freeCapacityChanged, this, &Map::freeHousingCapacityChanged);
@@ -180,31 +176,29 @@ void Map::createStaticElement(
             break;
         }
 
-        case AbstractStaticMapElement::Type::Maintenance: {
-            auto element(new MaintenanceBuilding(this, area, getAutoEntryPoint(area)));
+        case StaticElementInformation::Type::Maintenance: {
+            auto element(new MaintenanceBuilding(this, conf->getStaticElementConf(type), area, getAutoEntryPoint(area)));
             pointer = element;
             processor->registerProcessable(element);
             elementList.append(element);
             staticElementList.append(element);
 
             connect(element, &MaintenanceBuilding::requestDynamicElementCreation, [this, element](
-                AbstractDynamicMapElement::Type type,
-                const int randomWalkerCredit,
-                const qreal speed,
+                DynamicElementInformation::Type type,
                 std::function<void(AbstractDynamicMapElement*)> afterCreation
             ) {
-                createDynamicElement(type, element, randomWalkerCredit, speed, afterCreation);
+                createDynamicElement(type, element, afterCreation);
             });
             connect(element, &MaintenanceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
             break;
         }
 
-        case AbstractStaticMapElement::Type::Road: {
+        case StaticElementInformation::Type::Road: {
             if (area.getSize().getValue() > 1) {
                 throw UnexpectedException("Try to create a road on an area bigger than 1: " + area.toString());
             }
             auto coordinates(area.getLeft());
-            auto element(new Road(coordinates));
+            auto element(new Road(conf->getStaticElementConf(type), coordinates));
             pointer = element;
             roadGraph->createNode(coordinates);
             elementList.append(element);
@@ -222,19 +216,17 @@ void Map::createStaticElement(
 
 
 void Map::createDynamicElement(
-    AbstractDynamicMapElement::Type type,
+    DynamicElementInformation::Type type,
     AbstractProcessableStaticMapElement* issuer,
-    const int randomWalkerCredit,
-    const qreal speed,
     std::function<void(AbstractDynamicMapElement*)> afterCreation
 ) {
     AbstractDynamicMapElement* pointer;
     switch (type) {
-        case AbstractDynamicMapElement::Type::None:
+        case DynamicElementInformation::Type::None:
             throw UnexpectedException("Try to create a dynamic element of type None.");
 
-        case AbstractDynamicMapElement::Type::Maintenance: {
-            auto element(new RandomWalker(this, roadGraph, issuer, randomWalkerCredit, speed));
+        case DynamicElementInformation::Type::Superintendent: {
+            auto element(new RandomWalker(this, conf->getDynamicElementConf(type), roadGraph, issuer));
             pointer = element;
             processor->registerProcessable(element);
             elementList.append(element);
@@ -242,8 +234,8 @@ void Map::createDynamicElement(
             break;
         }
 
-        case AbstractDynamicMapElement::Type::Immigrant: {
-            auto element(new TargetedWalker(this, roadGraph, issuer, speed));
+        case DynamicElementInformation::Type::Immigrant: {
+            auto element(new TargetedWalker(this, conf->getDynamicElementConf(type), roadGraph, issuer));
             pointer = element;
             processor->registerProcessable(element);
             elementList.append(element);
@@ -277,7 +269,7 @@ void Map::destroyElement(AbstractDynamicMapElement* element, std::function<void(
 
 void Map::populationChanged(const int populationDelta)
 {
-    cityStatus.updatePopulation(populationDelta);
+    cityStatus->updatePopulation(populationDelta);
 }
 
 
@@ -287,7 +279,7 @@ void Map::freeHousingCapacityChanged(
     const int newHousingCapacity,
     std::function<void(TargetedWalker*)> onImmigrantCreation
 ) {
-    cityStatus.updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
+    cityStatus->updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
     if (newHousingCapacity > 0) {
         entryPoint->registerImmigrantRequest(static_cast<AbstractProcessableStaticMapElement*>(sender()), onImmigrantCreation);
     }

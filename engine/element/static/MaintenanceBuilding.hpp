@@ -16,7 +16,7 @@ class MaintenanceBuilding : public AbstractProcessableStaticMapElement
         QList<QPointer<RandomWalker>> walkers;
 
     public:
-        MaintenanceBuilding(QObject* parent, const MapArea& area, const MapCoordinates& entryPoint);
+        MaintenanceBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
 
         virtual void init(const CycleDate& date);
 

@@ -10,8 +10,8 @@ const int MAX_NUMBER_OF_WALKER(2);
 
 
 
-MaintenanceBuilding::MaintenanceBuilding(QObject* parent, const MapArea& area, const MapCoordinates& entryPoint) :
-    AbstractProcessableStaticMapElement(parent, area, entryPoint),
+MaintenanceBuilding::MaintenanceBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint) :
+    AbstractProcessableStaticMapElement(parent, conf, area, entryPoint),
     nextWalkerGenerationDate(),
     walkers()
 {
@@ -31,13 +31,7 @@ void MaintenanceBuilding::process(const CycleDate& date)
 {
     if (date == nextWalkerGenerationDate) {
         emit requestDynamicElementCreation(
-            AbstractDynamicMapElement::Type::Maintenance,
-            30,
-#ifdef SLOW_MOTION
-            0.25 / CYCLE_PER_SECOND,
-#else
-            2.0 / CYCLE_PER_SECOND,
-#endif
+            DynamicElementInformation::Type::Superintendent,
             [this, date](AbstractDynamicMapElement* element) {
                 auto walker(dynamic_cast<RandomWalker*>(element));
                 if (walker) {

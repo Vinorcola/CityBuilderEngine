@@ -4,14 +4,17 @@
 
 
 
-StaticElementInformation::StaticElementInformation(const QString& key, YAML::Node model) :
-    type(resolveKeyToType(key)),
+StaticElementInformation::StaticElementInformation(QObject* parent, const QString& key, YAML::Node model) :
+    QObject(parent),
+    type(resolveTypeFromKey(key)),
     key(key),
-    price(model[0].as<int>()),
-    requiredEmployees(model[1].as<int>()),
-    fireRiskIncrement(model[2].as<int>()),
-    damageRiskIncrement(model[3].as<int>()),
-    areaDescription()
+    size(model["size"] ? model["size"].as<int>() : 1),
+    price(model["price"] ? model["price"].as<int>() : 0),
+    employees(model["employees"] ? model["employees"].as<int>() : 0),
+    fireRiskIncrement(model["fireRisk"] ? model["fireRisk"].as<int>() : 0),
+    damageRiskIncrement(model["damageRisk"] ? model["damageRisk"].as<int>() : 0),
+    areaDescription(),
+    image("assets/img/static/" + key + "/building.png")
 {
 
 }
@@ -25,10 +28,26 @@ StaticElementInformation::Type StaticElementInformation::getType() const
 
 
 
-StaticElementInformation::Type StaticElementInformation::resolveKeyToType(const QString& key)
+const MapSize& StaticElementInformation::getSize() const
 {
-    if      (key == "road")        return Type::Road;
-    else if (key == "maintenance") return Type::Maintenance;
+    return size;
+}
+
+
+
+const QPixmap& StaticElementInformation::getImage() const
+{
+    return image;
+}
+
+
+
+StaticElementInformation::Type StaticElementInformation::resolveTypeFromKey(const QString& key)
+{
+    if (key == "cityEntryPoint") return Type::CityEntryPoint;
+    if (key == "house")          return Type::House;
+    if (key == "maintenance")    return Type::Maintenance;
+    if (key == "road")           return Type::Road;
 
     throw BadConfigurationException("Unknown static element key \"" + key + "\"");
 }

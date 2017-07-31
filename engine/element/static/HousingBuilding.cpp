@@ -6,8 +6,8 @@ const int INHABITANTS_PER_IMMIGRANT(7);
 
 
 
-HousingBuilding::HousingBuilding(QObject* parent, const MapArea& area, const MapCoordinates& entryPoint) :
-    AbstractProcessableStaticMapElement(parent, area, entryPoint),
+HousingBuilding::HousingBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint) :
+    AbstractProcessableStaticMapElement(parent, conf, area, entryPoint),
     housingCapacity(8),
     inhabitants(0),
     currentImmigrant()

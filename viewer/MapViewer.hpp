@@ -13,7 +13,7 @@ class MapViewer : public QGraphicsView
         explicit MapViewer(Map& map, QWidget* parent = nullptr);
 
     public slots:
-        void buildingRequest(AbstractStaticMapElement::Type type);
+        void buildingRequest(StaticElementInformation::Type type);
 };
 
 #endif // MAPVIEWER_HPP

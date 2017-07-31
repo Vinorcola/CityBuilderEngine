@@ -3,6 +3,7 @@
 
 #include "engine/element/AbstractMapElement.hpp"
 #include "engine/map/MapArea.hpp"
+#include "global/conf/StaticElementInformation.hpp"
 
 /**
  * @brief Represent a static element on the map.
@@ -11,19 +12,14 @@
  */
 class AbstractStaticMapElement: public AbstractMapElement
 {
-    public:
-        enum class Type
-        {
-            None = 0,
-            House,
-            Maintenance,
-            Road,
-        };
     protected:
+        const StaticElementInformation* conf;
         MapArea area;
 
     public:
-        AbstractStaticMapElement(const MapArea& area);
+        AbstractStaticMapElement(const StaticElementInformation* conf, const MapArea& area);
+
+        const StaticElementInformation* getConf() const;
 
         const MapArea& getArea() const;
 };

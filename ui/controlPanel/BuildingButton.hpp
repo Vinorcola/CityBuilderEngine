@@ -10,12 +10,12 @@ class BuildingButton : public QPushButton
         Q_OBJECT
 
     private:
-        AbstractStaticMapElement::Type type;
+        StaticElementInformation::Type type;
 
     public:
-        BuildingButton(const QString& text, AbstractStaticMapElement::Type type);
+        BuildingButton(const QString& text, StaticElementInformation::Type type);
 
-        AbstractStaticMapElement::Type getAssociatedType() const;
+        StaticElementInformation::Type getAssociatedType() const;
 };
 
 #endif // BUILDINGBUTTON_HPP

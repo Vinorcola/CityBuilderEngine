@@ -4,6 +4,7 @@
 #include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
 #include "engine/element/static/AbstractStaticMapElement.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
+#include "global/conf/DynamicElementInformation.hpp"
 
 class AbstractDynamicMapElement;
 
@@ -18,7 +19,7 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
         MapCoordinates entryPoint;
 
     public:
-        AbstractProcessableStaticMapElement(QObject* parent, const MapArea& area, const MapCoordinates& entryPoint);
+        AbstractProcessableStaticMapElement(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
 
         const MapCoordinates& getEntryPoint() const;
 
@@ -30,9 +31,7 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
 
     signals:
         void requestDynamicElementCreation(
-            AbstractDynamicMapElement::Type type,
-            const int randomWalkerCredit,
-            const qreal speed,
+            DynamicElementInformation::Type type,
             std::function<void(AbstractDynamicMapElement*)> afterCreation
         );
 

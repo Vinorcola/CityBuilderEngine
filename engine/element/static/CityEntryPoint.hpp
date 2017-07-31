@@ -13,7 +13,7 @@ class CityEntryPoint : public AbstractProcessableStaticMapElement
         QList<std::function<void(AbstractDynamicMapElement*)>> immigrantRequestQueue;
 
     public:
-        CityEntryPoint(QObject* parent, const MapCoordinates& coordinates);
+        CityEntryPoint(QObject* parent, const StaticElementInformation* conf, const MapCoordinates& coordinates);
 
         virtual void process(const CycleDate& date);
 
