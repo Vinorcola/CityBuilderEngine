@@ -1,1 +1,6 @@
+/vendor/*
+!/vendor/include
+/vendor/include/*
+!/vendor/include/.gitkeep
+!/vendor/.gitkeep
 *.pro.user*

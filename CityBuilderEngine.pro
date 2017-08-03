@@ -108,3 +108,7 @@ DISTFILES += \
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += yaml-cpp
+
+win32: INCLUDEPATH += vendor/include
+win32: DEPENDPATH += vendor/include
+win32: LIBS += -L$$PWD/vendor/yaml-cpp/ -lyaml-cpp

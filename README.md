@@ -18,8 +18,10 @@ The engine is constructed in a way that it should be abble to run in a different
 
 ## Dependecies
 
+Check the wiki for help on installing and configuring the development environment.
+
 - Qt
-- yaml-cpp (install it with `apt-get install libyaml-cpp-dev` on Ubuntu)
+- yaml-cpp
 
 ## Directory structure
 
