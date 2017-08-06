@@ -1,4 +1,23 @@
 
+controlPanel:
+    content:
+        -
+            title: Buildings
+            type: panel
+            content:
+                -
+                    title: Maintenance Office
+                    type: button
+                    staticElement: maintenance
+                -
+                    title: House
+                    type: button
+                    staticElement: house
+        -
+            title: Road
+            type: button
+            staticElement: road
+
 dynamicElements:
     immigrant:
         type: targetedWalker

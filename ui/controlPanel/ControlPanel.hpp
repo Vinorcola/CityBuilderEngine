@@ -17,7 +17,7 @@ class ControlPanel : public QDockWidget
         ControlPanel(const Conf* conf);
 
     private:
-        BuildingButton* createButton(const StaticElementInformation* elementConf);
+        BuildingButton* createButton(const ControlPanelElementInformation* elementConf);
 
     signals:
         void buildingRequested(const StaticElementInformation* elementConf);

@@ -14,27 +14,46 @@ ControlPanel::ControlPanel(const Conf* conf) :
     setFeatures(QDockWidget::NoDockWidgetFeatures);
 
     // Content creation.
-    auto content(new QTabWidget);
-    content->setTabPosition(QTabWidget::West);
+    auto content(new QWidget);
+    auto contentLayout(new QVBoxLayout);
+    content->setLayout(contentLayout);
 
-    // TODO: Automate with conf.
-    auto page(new QWidget);
-    auto pageLayout(new QVBoxLayout);
-    pageLayout->addWidget(createButton(conf->getStaticElementConf("maintenance")));
-    pageLayout->addWidget(createButton(conf->getStaticElementConf("house")));
-    pageLayout->addWidget(createButton(conf->getStaticElementConf("road")));
-    pageLayout->addStretch();
-    page->setLayout(pageLayout);
-    content->addTab(page, "Buildings");
+    auto nestedContent(new QTabWidget);
+    nestedContent->setTabPosition(QTabWidget::West);
+    contentLayout->addWidget(nestedContent);
+
+    // Load control panel elements.
+    for (auto element : conf->getControlPanelElements()) {
+        switch (element->getType()) {
+            case ControlPanelElementInformation::Type::Button:
+                contentLayout->addWidget(createButton(element));
+                break;
+
+            case ControlPanelElementInformation::Type::Panel: {
+                auto page(new QWidget);
+                auto pageLayout(new QVBoxLayout);
+                page->setLayout(pageLayout);
+                for (auto nestedElement : element->getChildren()) {
+                    if (nestedElement->getType() == ControlPanelElementInformation::Type::Button) {
+                        pageLayout->addWidget(createButton(nestedElement));
+                    }
+                }
+                pageLayout->addStretch();
+                nestedContent->addTab(page, element->getTitle());
+                break;
+            }
+        }
+    }
+    contentLayout->addStretch();
 
     setWidget(content);
 }
 
 
 
-BuildingButton* ControlPanel::createButton(const StaticElementInformation* elementConf)
+BuildingButton* ControlPanel::createButton(const ControlPanelElementInformation* elementConf)
 {
-    BuildingButton* currentButton(new BuildingButton(elementConf));
+    BuildingButton* currentButton(new BuildingButton(elementConf->getStaticElementConf()));
     buttonList.append(currentButton);
     connect(currentButton, &BuildingButton::clicked, [this, currentButton]() {
         emit buildingRequested(currentButton->getAssociatedBuilding());

@@ -1,8 +1,10 @@
 #ifndef CONF_HPP
 #define CONF_HPP
 
-#include <QHash>
+#include <QtCore/QHash>
+#include <QtCore/QList>
 
+#include "global/conf/ControlPanelElementInformation.hpp"
 #include "global/conf/DynamicElementInformation.hpp"
 #include "global/conf/StaticElementInformation.hpp"
 
@@ -13,6 +15,7 @@ class Conf : public QObject
     private:
         QHash<QString, DynamicElementInformation*> dynamicElements;
         QHash<QString, StaticElementInformation*> staticElements;
+        QList<ControlPanelElementInformation*> controlPanelElements;
 
     public:
         Conf(QObject* parent, const QString& filePath);
@@ -20,6 +23,8 @@ class Conf : public QObject
         const DynamicElementInformation* getDynamicElementConf(const QString& elementKey) const;
 
         const StaticElementInformation* getStaticElementConf(const QString& elementKey) const;
+
+        const QList<ControlPanelElementInformation*> getControlPanelElements() const;
 };
 
 #endif // CONF_HPP

@@ -40,6 +40,7 @@ SOURCES += \
     exceptions/OutOfRangeException.cpp \
     exceptions/UnexpectedException.cpp \
     global/conf/Conf.cpp \
+    global/conf/ControlPanelElementInformation.cpp \
     global/conf/DynamicElementInformation.cpp \
     global/conf/StaticElementAreaPartDescription.cpp \
     global/conf/StaticElementInformation.cpp \
@@ -88,6 +89,7 @@ HEADERS += \
     exceptions/OutOfRangeException.hpp \
     exceptions/UnexpectedException.hpp \
     global/conf/Conf.hpp \
+    global/conf/ControlPanelElementInformation.hpp \
     global/conf/DynamicElementInformation.hpp \
     global/conf/StaticElementAreaPartDescription.hpp \
     global/conf/StaticElementInformation.hpp \
