@@ -169,7 +169,7 @@ void Map::createStaticElement(
 
         case StaticElementInformation::Type::CityEntryPoint: {
             auto coordinates(area.getLeft());
-            entryPoint = new CityEntryPoint(this, elementConf, coordinates);
+            entryPoint = new CityEntryPoint(this, elementConf, coordinates, conf->getDynamicElementConf("immigrant"));
             pointer = entryPoint;
             roadGraph->createNode(coordinates);
             processor->registerProcessable(entryPoint);
@@ -177,10 +177,10 @@ void Map::createStaticElement(
             staticElementList.append(entryPoint);
 
             connect(entryPoint, &CityEntryPoint::requestDynamicElementCreation, [this](
-                DynamicElementInformation::Type type,
+                const DynamicElementInformation* elementConf,
                 std::function<void(AbstractDynamicMapElement*)> afterCreation
             ) {
-                createDynamicElement(type, entryPoint, afterCreation);
+                createDynamicElement(elementConf, entryPoint, afterCreation);
             });
             break;
         }
@@ -193,10 +193,10 @@ void Map::createStaticElement(
             staticElementList.append(element);
 
             connect(element, &ServiceBuilding::requestDynamicElementCreation, [this, element](
-                DynamicElementInformation::Type type,
+                    const DynamicElementInformation* elementConf,
                 std::function<void(AbstractDynamicMapElement*)> afterCreation
             ) {
-                createDynamicElement(type, element, afterCreation);
+                createDynamicElement(elementConf, element, afterCreation);
             });
             connect(element, &ServiceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
             connect(element, &HousingBuilding::freeCapacityChanged, this, &Map::freeHousingCapacityChanged);
@@ -212,10 +212,10 @@ void Map::createStaticElement(
             staticElementList.append(element);
 
             connect(element, &ServiceBuilding::requestDynamicElementCreation, [this, element](
-                DynamicElementInformation::Type type,
+                    const DynamicElementInformation* elementConf,
                 std::function<void(AbstractDynamicMapElement*)> afterCreation
             ) {
-                createDynamicElement(type, element, afterCreation);
+                createDynamicElement(elementConf, element, afterCreation);
             });
             connect(element, &ServiceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
             break;
@@ -241,17 +241,17 @@ void Map::createStaticElement(
 
 
 void Map::createDynamicElement(
-    DynamicElementInformation::Type type,
+    const DynamicElementInformation* elementConf,
     AbstractProcessableStaticMapElement* issuer,
     std::function<void(AbstractDynamicMapElement*)> afterCreation
 ) {
     AbstractDynamicMapElement* pointer;
-    switch (type) {
+    switch (elementConf->getType()) {
         case DynamicElementInformation::Type::None:
             throw UnexpectedException("Try to create a dynamic element of type None.");
 
-        case DynamicElementInformation::Type::Superintendent: {
-            auto element(new RandomWalker(this, conf->getDynamicElementConf(type), roadGraph, issuer));
+        case DynamicElementInformation::Type::RandomWalker: {
+            auto element(new RandomWalker(this, elementConf, roadGraph, issuer));
             pointer = element;
             processor->registerProcessable(element);
             elementList.append(element);
@@ -259,8 +259,8 @@ void Map::createDynamicElement(
             break;
         }
 
-        case DynamicElementInformation::Type::Immigrant: {
-            auto element(new TargetedWalker(this, conf->getDynamicElementConf(type), roadGraph, issuer));
+        case DynamicElementInformation::Type::TargetedWalker: {
+            auto element(new TargetedWalker(this, elementConf, roadGraph, issuer));
             pointer = element;
             processor->registerProcessable(element);
             elementList.append(element);

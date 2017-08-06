@@ -8,6 +8,9 @@
 
 #include "global/conf/StaticElementAreaPartDescription.hpp"
 
+class Conf;
+class DynamicElementInformation;
+
 class StaticElementInformation : public QObject
 {
         Q_OBJECT
@@ -32,6 +35,7 @@ class StaticElementInformation : public QObject
         int damageRiskIncrement;
         QList<StaticElementAreaPartDescription*> areaDescription;
         QPixmap image;
+        const DynamicElementInformation* walkerConf;
 
     public:
         /**
@@ -39,7 +43,7 @@ class StaticElementInformation : public QObject
          *
          * @param configurationYamlNode The YAML node corresponding to a static element configuration.
          */
-        StaticElementInformation(QObject* parent, const QString& key, const YAML::Node& model);
+        StaticElementInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model);
 
         Type getType() const;
 
@@ -48,6 +52,8 @@ class StaticElementInformation : public QObject
         const MapSize& getSize() const;
 
         const QPixmap& getImage() const;
+
+        const DynamicElementInformation* getWalkerConf() const;
 
         /**
          * @brief Check if the model for a static element is valid.

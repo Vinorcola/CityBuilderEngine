@@ -31,7 +31,7 @@ void ServiceBuilding::process(const CycleDate& date)
 {
     if (date == nextWalkerGenerationDate) {
         emit requestDynamicElementCreation(
-            DynamicElementInformation::Type::Superintendent,
+            conf->getWalkerConf(),
             [this, date](AbstractDynamicMapElement* element) {
                 auto walker(dynamic_cast<RandomWalker*>(element));
                 if (walker) {

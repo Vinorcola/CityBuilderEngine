@@ -7,8 +7,13 @@ const int IMMIGRANT_MAX_INTERVAL(60);
 
 
 
-CityEntryPoint::CityEntryPoint(QObject* parent, const StaticElementInformation* conf, const MapCoordinates& coordinates) :
-    AbstractProcessableStaticMapElement(parent, conf, MapArea(coordinates), coordinates),
+CityEntryPoint::CityEntryPoint(
+    QObject* parent,
+    const StaticElementInformation* conf,
+    const MapCoordinates& coordinates,
+    const DynamicElementInformation* immigrantConf
+) : AbstractProcessableStaticMapElement(parent, conf, MapArea(coordinates), coordinates),
+    immigrantConf(immigrantConf),
     nextImmigrantGenerationDate(),
     immigrantRequestQueue()
 {
@@ -22,7 +27,7 @@ void CityEntryPoint::process(const CycleDate& date)
     if (!immigrantRequestQueue.isEmpty()) {
         if (date == nextImmigrantGenerationDate) {
             emit requestDynamicElementCreation(
-                DynamicElementInformation::Type::Immigrant,
+                immigrantConf,
                 immigrantRequestQueue.takeFirst()
             );
             setupNextImmigrantGenerationDate(date);

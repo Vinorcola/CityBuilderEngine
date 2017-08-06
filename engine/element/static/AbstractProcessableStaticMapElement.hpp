@@ -31,7 +31,7 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
 
     signals:
         void requestDynamicElementCreation(
-            DynamicElementInformation::Type type,
+            const DynamicElementInformation* elementConf,
             std::function<void(AbstractDynamicMapElement*)> afterCreation
         );
 

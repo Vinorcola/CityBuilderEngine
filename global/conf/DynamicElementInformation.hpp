@@ -6,20 +6,21 @@
 #include <QString>
 #include <yaml-cpp/yaml.h>
 
-class DynamicElementInformation :public QObject
+class DynamicElementInformation : public QObject
 {
         Q_OBJECT
 
     public:
         enum class Type {
             None = 0,
-            Immigrant,
-            Superintendent,
+            TargetedWalker,
+            RandomWalker,
         };
 
     private:
         Type type;
         QString key;
+        QString title;
         qreal speed;
         int walkingCredit;
         QPixmap image;
@@ -29,14 +30,27 @@ class DynamicElementInformation :public QObject
 
         Type getType() const;
 
+        const QString& getTitle() const;
+
         qreal getSpeed() const;
 
         int getWalkingCredit() const;
 
         const QPixmap& getImage() const;
 
+        /**
+         * @brief Check if the model for a dynamic element is valid.
+         *
+         * If the model is invalid, it throws an exception.
+         *
+         * @param key
+         * @param model
+         * @throws BadConfigurationException
+         */
+        static void checkModel(const QString& key, const YAML::Node& model);
+
     private:
-        static Type resolveTypeFromKey(const QString& key);
+        static Type resolveType(const QString& type);
 };
 
 

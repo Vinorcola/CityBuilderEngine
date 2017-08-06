@@ -9,11 +9,17 @@ class CityEntryPoint : public AbstractProcessableStaticMapElement
         Q_OBJECT
 
     private:
+        const DynamicElementInformation* immigrantConf;
         CycleDate nextImmigrantGenerationDate;
         QList<std::function<void(AbstractDynamicMapElement*)>> immigrantRequestQueue;
 
     public:
-        CityEntryPoint(QObject* parent, const StaticElementInformation* conf, const MapCoordinates& coordinates);
+        CityEntryPoint(
+            QObject* parent,
+            const StaticElementInformation* conf,
+            const MapCoordinates& coordinates,
+            const DynamicElementInformation* immigrantConf
+        );
 
         virtual void process(const CycleDate& date);
 

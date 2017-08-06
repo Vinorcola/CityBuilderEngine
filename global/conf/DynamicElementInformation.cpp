@@ -5,10 +5,11 @@
 
 DynamicElementInformation::DynamicElementInformation(QObject* parent, const QString& key, YAML::Node model) :
     QObject(parent),
-    type(resolveTypeFromKey(key)),
+    type(resolveType(QString::fromStdString(model["type"].as<std::string>()))),
     key(key),
+    title(model["title"] ? QString::fromStdString(model["title"].as<std::string>()) : ""),
 #ifdef SLOW_MOTION
-    speed(model["speed"] ? model["speed"].as<qreal>() / CYCLE_PER_SECOND / 8 : 0.0),
+    speed(model["speed"] ? model["speed"].as<qreal>() / CYCLE_PER_SECOND / 8.0 : 0.0),
 #else
     speed(model["speed"] ? model["speed"].as<qreal>() / CYCLE_PER_SECOND : 0.0),
 #endif
@@ -23,6 +24,13 @@ DynamicElementInformation::DynamicElementInformation(QObject* parent, const QStr
 DynamicElementInformation::Type DynamicElementInformation::getType() const
 {
     return type;
+}
+
+
+
+const QString& DynamicElementInformation::getTitle() const
+{
+    return title;
 }
 
 
@@ -48,10 +56,19 @@ const QPixmap& DynamicElementInformation::getImage() const
 
 
 
-DynamicElementInformation::Type DynamicElementInformation::resolveTypeFromKey(const QString& key)
+void DynamicElementInformation::checkModel(const QString& key, const YAML::Node& model)
 {
-    if (key == "immigrant")      return Type::Immigrant;
-    if (key == "superintendent") return Type::Superintendent;
+    if (!model["type"]) {
+        throw BadConfigurationException("Missing \"type\" parameter in configuration for node \"" + key + "\".");
+    }
+}
 
-    throw BadConfigurationException("Unknown dynamic element key \"" + key + "\"");
+
+
+DynamicElementInformation::Type DynamicElementInformation::resolveType(const QString& type)
+{
+    if (type == "targetedWalker") return Type::TargetedWalker;
+    if (type == "randomWalker")   return Type::RandomWalker;
+
+    throw BadConfigurationException("Unknown dynamic element of type \"" + type + "\"");
 }

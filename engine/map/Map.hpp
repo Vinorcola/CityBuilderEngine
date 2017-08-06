@@ -114,7 +114,8 @@ class Map : public QObject
          * @param afterCreation A lambda function that will be called with the created element as first argument.
          * @throw UnexpectedException Try to create a dynamic element of type None.
          */
-        void createDynamicElement(DynamicElementInformation::Type type,
+        void createDynamicElement(
+            const DynamicElementInformation* elementConf,
             AbstractProcessableStaticMapElement* issuer,
             std::function<void(AbstractDynamicMapElement*)> afterCreation
         );

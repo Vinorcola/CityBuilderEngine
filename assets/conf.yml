@@ -1,8 +1,10 @@
 
 dynamicElements:
     immigrant:
+        type: targetedWalker
         speed: 2.0
     superintendent:
+        type: randomWalker
         speed: 2.0
         walkingCredit: 30
 
@@ -22,6 +24,7 @@ staticElements:
         price: 20
         employees: 5
         fireRisk: 5
+        walkerType: superintendent
     road:
         type: road
         title: Road

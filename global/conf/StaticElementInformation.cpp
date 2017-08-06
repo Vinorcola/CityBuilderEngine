@@ -1,10 +1,11 @@
 #include "StaticElementInformation.hpp"
 
 #include "exceptions/BadConfigurationException.hpp"
+#include "global/conf/Conf.hpp"
 
 
 
-StaticElementInformation::StaticElementInformation(QObject* parent, const QString& key, const YAML::Node& model) :
+StaticElementInformation::StaticElementInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model) :
     QObject(parent),
     type(resolveType(QString::fromStdString(model["type"].as<std::string>()))),
     key(key),
@@ -15,7 +16,8 @@ StaticElementInformation::StaticElementInformation(QObject* parent, const QStrin
     fireRiskIncrement(model["fireRisk"] ? model["fireRisk"].as<int>() : 0),
     damageRiskIncrement(model["damageRisk"] ? model["damageRisk"].as<int>() : 0),
     areaDescription(),
-    image("assets/img/static/" + key + "/building.png")
+    image("assets/img/static/" + key + "/building.png"),
+    walkerConf(model["walkerType"] ? conf->getDynamicElementConf(QString::fromStdString(model["walkerType"].as<std::string>())) : nullptr)
 {
 
 }
@@ -46,6 +48,13 @@ const MapSize& StaticElementInformation::getSize() const
 const QPixmap& StaticElementInformation::getImage() const
 {
     return image;
+}
+
+
+
+const DynamicElementInformation* StaticElementInformation::getWalkerConf() const
+{
+    return walkerConf;
 }
 
 
