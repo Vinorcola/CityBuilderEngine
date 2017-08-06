@@ -29,7 +29,6 @@ staticElements:
     - { type: road, position: { x: 2, y: 10 }}
     - { type: road, position: { x: 1, y: 10 }}
     - { type: road, position: { x: 0, y: 10 }}
-    - { type: road, position: { x: -4, y: 12 }}
     - { type: maintenance, position: { x: 1, y: 5 }}
     - { type: house, position: { x: 0, y: 11 }}
     - { type: house, position: { x: 2, y: 11 }}

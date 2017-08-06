@@ -1,8 +1,6 @@
 #include "HousingBuilding.hpp"
 
-#include <QDebug>
-
-const int INHABITANTS_PER_IMMIGRANT(7);
+const int INHABITANTS_PER_IMMIGRANT(4);
 
 
 
@@ -12,7 +10,7 @@ HousingBuilding::HousingBuilding(QObject* parent, const StaticElementInformation
     inhabitants(0),
     currentImmigrant()
 {
-    qDebug() << "Creating house at " << area.toString();
+
 }
 
 

@@ -19,11 +19,15 @@ TargetedWalker::TargetedWalker(QObject* parent, const DynamicElementInformation*
 void TargetedWalker::assignTarget(AbstractProcessableStaticMapElement* target)
 {
     targetElement = target;
-    targetLocation = target->getEntryPoint();
     path.clear();
-    path = roadGraph->getShortestPathBetween(getCurrentLocation(), targetLocation);
-    if (!path.isEmpty() && path.first()->getCoordinates() == getCurrentLocation()) {
-        path.takeFirst();
+    if (target) {
+        targetLocation = target->getEntryPoint();
+        path = roadGraph->getShortestPathBetween(getCurrentLocation(), targetLocation);
+        if (!path.isEmpty() && path.first()->getCoordinates() == getCurrentLocation()) {
+            path.takeFirst();
+        }
+    } else {
+        targetLocation = MapCoordinates();
     }
 }
 

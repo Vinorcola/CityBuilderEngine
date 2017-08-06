@@ -1,7 +1,5 @@
 #include "RandomWalker.hpp"
 
-#include <QDebug>
-
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/random.hpp"
 
@@ -11,7 +9,15 @@ RandomWalker::RandomWalker(QObject* parent, const DynamicElementInformation* con
     TargetedWalker(parent, conf, roadGraph, issuer),
     walkingCredit(conf->getWalkingCredit())
 {
-    qDebug() << "  - Create random walker at" << issuer->getEntryPoint().toString();
+
+}
+
+
+
+void RandomWalker::assignTarget(AbstractProcessableStaticMapElement* targetElement)
+{
+    walkingCredit = -2;
+    TargetedWalker::assignTarget(targetElement);
 }
 
 
@@ -21,8 +27,6 @@ MapCoordinates RandomWalker::findNextGoingToLocation(const CycleDate& date)
     // Update walking credit
     --walkingCredit;
     if (walkingCredit == -1) {
-        qDebug() << "  - Walker out of credits.";
-
         // Walking credit expires. Switch to targeted walker.
         assignTarget(issuer);
 

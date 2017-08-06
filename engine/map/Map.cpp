@@ -5,8 +5,8 @@
 #include "engine/element/dynamic/RandomWalker.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
+#include "engine/element/static/CultureBuilding.hpp"
 #include "engine/element/static/HousingBuilding.hpp"
-#include "engine/element/static/ServiceBuilding.hpp"
 #include "engine/element/static/Road.hpp"
 
 
@@ -182,6 +182,23 @@ void Map::createStaticElement(
             ) {
                 createDynamicElement(elementConf, entryPoint, afterCreation);
             });
+            break;
+        }
+
+        case StaticElementInformation::Type::CultureBuilding: {
+            auto element(new CultureBuilding(this, elementConf, area, getAutoEntryPoint(area)));
+            pointer = element;
+            processor->registerProcessable(element);
+            elementList.append(element);
+            staticElementList.append(element);
+
+            connect(element, &ServiceBuilding::requestDynamicElementCreation, [this, element](
+                    const DynamicElementInformation* elementConf,
+                std::function<void(AbstractDynamicMapElement*)> afterCreation
+            ) {
+                createDynamicElement(elementConf, element, afterCreation);
+            });
+            connect(element, &ServiceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
             break;
         }
 

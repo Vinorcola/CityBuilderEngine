@@ -1,7 +1,5 @@
 #include "AbstractDynamicMapElement.hpp"
 
-#include <QDebug>
-
 #include "defines.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
@@ -86,6 +84,4 @@ void AbstractDynamicMapElement::moveToTarget()
     } else if (moveToLocation.getY() < currentLocation.getY()) {
         currentLocation.setY(qMax(currentLocation.getY() - conf->getSpeed(), moveToLocation.getY()));
     }
-
-    qDebug() << "  - Moved walker to" << currentLocation.toString();
 }

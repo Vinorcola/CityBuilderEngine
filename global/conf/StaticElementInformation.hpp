@@ -19,6 +19,7 @@ class StaticElementInformation : public QObject
         enum class Type {
             None = 0,
             CityEntryPoint,
+            CultureBuilding,
             HousingBuilding,
             ServiceBuilding,
             Road,
@@ -35,8 +36,11 @@ class StaticElementInformation : public QObject
         int damageRiskIncrement;
         QList<StaticElementAreaPartDescription*> areaDescription;
         QPixmap image;
-        const DynamicElementInformation* walkerConf;
-        int maxNumberOfWalkers;
+        const DynamicElementInformation* randomWalkerConf;
+        int randomWalkerInterval;
+        int maxNumberOfRandomWalkers;
+        const DynamicElementInformation* targetedWalkerConf;
+        int targetedWalkerInterval;
 
     public:
         /**
@@ -54,9 +58,15 @@ class StaticElementInformation : public QObject
 
         const QPixmap& getImage() const;
 
-        const DynamicElementInformation* getWalkerConf() const;
+        const DynamicElementInformation* getRandomWalkerConf() const;
 
-        int getMaxNumberOfWalkers() const;
+        int getRandomWalkerGenerationInterval() const;
+
+        int getMaxNumberOfRandomWalkers() const;
+
+        const DynamicElementInformation* getTargetedWalkerConf() const;
+
+        int getTargetedWalkerGenerationInterval() const;
 
         /**
          * @brief Check if the model for a static element is valid.

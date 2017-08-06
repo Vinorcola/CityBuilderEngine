@@ -1,44 +1,36 @@
 #include "ServiceBuilding.hpp"
 
-#include <QDebug>
-
-#include "defines.hpp"
 #include "engine/map/Map.hpp"
-
-const int WALKER_GENERATION_DATE_GAP(8 * CYCLE_PER_SECOND);
 
 
 
 ServiceBuilding::ServiceBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint) :
     AbstractProcessableStaticMapElement(parent, conf, area, entryPoint),
-    nextWalkerGenerationDate(),
-    walkers()
+    randomWalkers(entryPoint.isValid() && conf->getRandomWalkerConf() ?
+        new WalkerPool(this, conf->getRandomWalkerConf(), conf->getRandomWalkerGenerationInterval(), conf->getMaxNumberOfRandomWalkers()) :
+        nullptr
+    )
 {
-    qDebug() << "  - Created maintenance building at" << area.toString();
+    if (randomWalkers) {
+        connect(randomWalkers, &WalkerPool::requestDynamicElementCreation, this, &ServiceBuilding::requestDynamicElementCreation);
+    }
 }
 
 
 
 void ServiceBuilding::init(const CycleDate& date)
 {
-    setupNextWalkerGenerationDate(date);
+    if (randomWalkers) {
+        randomWalkers->init(date);
+    }
 }
 
 
 
 void ServiceBuilding::process(const CycleDate& date)
 {
-    if (date == nextWalkerGenerationDate) {
-        emit requestDynamicElementCreation(
-            conf->getWalkerConf(),
-            [this, date](AbstractDynamicMapElement* element) {
-                auto walker(dynamic_cast<RandomWalker*>(element));
-                if (walker) {
-                    walkers.append(walker);
-                    setupNextWalkerGenerationDate(date);
-                }
-            }
-        );
+    if (randomWalkers) {
+        randomWalkers->process(date);
     }
 }
 
@@ -46,23 +38,12 @@ void ServiceBuilding::process(const CycleDate& date)
 
 void ServiceBuilding::processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor)
 {
-    for (auto walker : walkers) {
-        if (walker == actor) {
-            emit requestDynamicElementDestruction(actor, [this, walker, date]() {
-                walkers.removeOne(walker);
-                setupNextWalkerGenerationDate(date);
+    if (randomWalkers) {
+        auto walker(dynamic_cast<TargetedWalker*>(actor));
+        if (walker && randomWalkers->contains(walker)) {
+            emit requestDynamicElementDestruction(walker, [this, date]() {
+                randomWalkers->clean(date);
             });
-            return;
         }
-    }
-}
-
-
-
-void ServiceBuilding::setupNextWalkerGenerationDate(const CycleDate& currentDate)
-{
-    if (getEntryPoint().isValid() && walkers.size() < conf->getMaxNumberOfWalkers() && nextWalkerGenerationDate <= currentDate) {
-        nextWalkerGenerationDate = currentDate;
-        nextWalkerGenerationDate.add(WALKER_GENERATION_DATE_GAP);
     }
 }

@@ -13,10 +13,12 @@ SOURCES += \
     engine/element/static/AbstractProcessableStaticMapElement.cpp \
     engine/element/static/AbstractStaticMapElement.cpp \
     engine/element/static/CityEntryPoint.cpp \
+    engine/element/static/CultureBuilding.cpp \
     engine/element/static/HousingBuilding.cpp \
     engine/element/static/Road.cpp \
     engine/element/static/ServiceBuilding.cpp \
     engine/element/AbstractMapElement.cpp \
+    engine/element/WalkerPool.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
     engine/map/roadGraph/RoadGraphNode.cpp \
     engine/map/roadGraph/RoadPathFinder.cpp \
@@ -62,10 +64,12 @@ HEADERS += \
     engine/element/static/AbstractProcessableStaticMapElement.hpp \
     engine/element/static/AbstractStaticMapElement.hpp \
     engine/element/static/CityEntryPoint.hpp \
+    engine/element/static/CultureBuilding.hpp \
     engine/element/static/HousingBuilding.hpp \
     engine/element/static/Road.hpp \
     engine/element/static/ServiceBuilding.hpp \
     engine/element/AbstractMapElement.hpp \
+    engine/element/WalkerPool.hpp \
     engine/map/roadGraph/RoadGraph.hpp \
     engine/map/roadGraph/RoadGraphNode.hpp \
     engine/map/roadGraph/RoadPathFinder.hpp \

@@ -38,12 +38,32 @@ controlPanel:
                     type: button
                     staticElement: taxOffice
         -
+            title: Culture
+            type: panel
+            content:
+            -
+                title: Gymnasium
+                type: button
+                staticElement: gymnasium
+            -
+                title: Stadium
+                type: button
+                staticElement: stadium
+        -
             title: Road
             type: button
             staticElement: road
 
 dynamicElements:
+    athlete:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 34
     clerk:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 34
+    competitor:
         type: randomWalker
         speed: 2.0
         walkingCredit: 34
@@ -77,8 +97,21 @@ staticElements:
         price: 35
         employees: 4
         damageRisk: 8
-        walkerType: waterBearer
-        maxWalkers: 1
+        randomWalkerType: waterBearer
+        maxRandomWalkers: 1
+        randomWalkerInterval: 8
+    gymnasium:
+        type: cultureBuilding
+        title: Gymnasium
+        size: 3
+        price: 75
+        employees: 7
+        damageRisk: 5
+        randomWalkerType: athlete
+        maxRandomWalkers: 4
+        randomWalkerInterval: 8
+        targetedWalkerType: competitor
+        targetedWalkerInterval: 34
     house:
         type: housingBuilding
         title: House
@@ -93,8 +126,9 @@ staticElements:
         employees: 11
         damageRisk: 10
         fireRisk: 10
-        walkerType: healer
-        maxWalkers: 1
+        randomWalkerType: healer
+        maxRandomWalkers: 1
+        randomWalkerInterval: 8
     maintenance:
         type: serviceBuilding
         title: Maintenance Office
@@ -102,12 +136,23 @@ staticElements:
         price: 20
         employees: 5
         fireRisk: 5
-        walkerType: superintendent
-        maxWalkers: 1
+        randomWalkerType: superintendent
+        maxRandomWalkers: 1
+        randomWalkerInterval: 8
     road:
         type: road
         title: Road
         price: 3
+    stadium:
+        type: cultureBuilding
+        title: Stadium
+        size: 5
+        price: 400
+        employees: 45
+        damageRisk: 8
+        randomWalkerType: competitor
+        maxRandomWalkers: 1
+        randomWalkerInterval: 8
     taxOffice:
         type: serviceBuilding
         title: Tax Office
@@ -115,8 +160,9 @@ staticElements:
         price: 50
         employees: 8
         fireRisk: 10
-        walkerType: clerk
-        maxWalkers: 1
+        randomWalkerType: clerk
+        maxRandomWalkers: 1
+        randomWalkerInterval: 8
     watchpost:
         type: serviceBuilding
         title: Watchpost
@@ -124,5 +170,6 @@ staticElements:
         price: 40
         employees: 6
         damaeRisk: 10
-        walkerType: watchman
-        maxWalkers: 1
+        randomWalkerType: watchman
+        maxRandomWalkers: 1
+        randomWalkerInterval: 8

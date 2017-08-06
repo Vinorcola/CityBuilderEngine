@@ -2,6 +2,7 @@
 
 #include "exceptions/BadConfigurationException.hpp"
 #include "global/conf/Conf.hpp"
+#include "defines.hpp"
 
 
 
@@ -17,8 +18,17 @@ StaticElementInformation::StaticElementInformation(QObject* parent, const Conf* 
     damageRiskIncrement(model["damageRisk"] ? model["damageRisk"].as<int>() : 0),
     areaDescription(),
     image("assets/img/static/" + key + "/building.png"),
-    walkerConf(model["walkerType"] ? conf->getDynamicElementConf(QString::fromStdString(model["walkerType"].as<std::string>())) : nullptr),
-    maxNumberOfWalkers(model["maxWalkers"] ? model["maxWalkers"].as<int>() : 0)
+    randomWalkerConf(model["randomWalkerType"] ?
+        conf->getDynamicElementConf(QString::fromStdString(model["randomWalkerType"].as<std::string>())) :
+        nullptr
+    ),
+    randomWalkerInterval((model["randomWalkerInterval"] ? model["randomWalkerInterval"].as<int>() : 0) * CYCLE_PER_SECOND),
+    maxNumberOfRandomWalkers(model["maxRandomWalkers"] ? model["maxRandomWalkers"].as<int>() : 0),
+    targetedWalkerConf(model["targetedWalkerType"] ?
+        conf->getDynamicElementConf(QString::fromStdString(model["targetedWalkerType"].as<std::string>())) :
+        nullptr
+    ),
+    targetedWalkerInterval((model["targetedWalkerInterval"] ? model["targetedWalkerInterval"].as<int>() : 0) * CYCLE_PER_SECOND)
 {
 
 }
@@ -53,16 +63,37 @@ const QPixmap& StaticElementInformation::getImage() const
 
 
 
-const DynamicElementInformation* StaticElementInformation::getWalkerConf() const
+const DynamicElementInformation* StaticElementInformation::getRandomWalkerConf() const
 {
-    return walkerConf;
+    return randomWalkerConf;
 }
 
 
 
-int StaticElementInformation::getMaxNumberOfWalkers() const
+int StaticElementInformation::getRandomWalkerGenerationInterval() const
 {
-    return maxNumberOfWalkers;
+    return randomWalkerInterval;
+}
+
+
+
+int StaticElementInformation::getMaxNumberOfRandomWalkers() const
+{
+    return maxNumberOfRandomWalkers;
+}
+
+
+
+const DynamicElementInformation* StaticElementInformation::getTargetedWalkerConf() const
+{
+    return targetedWalkerConf;
+}
+
+
+
+int StaticElementInformation::getTargetedWalkerGenerationInterval() const
+{
+    return targetedWalkerInterval;
 }
 
 
@@ -79,6 +110,7 @@ void StaticElementInformation::checkModel(const QString& key, const YAML::Node& 
 StaticElementInformation::Type StaticElementInformation::resolveType(const QString& type)
 {
     if (type == "cityEntryPoint")  return Type::CityEntryPoint;
+    if (type == "cultureBuilding") return Type::CultureBuilding;
     if (type == "housingBuilding") return Type::HousingBuilding;
     if (type == "serviceBuilding") return Type::ServiceBuilding;
     if (type == "road")            return Type::Road;
