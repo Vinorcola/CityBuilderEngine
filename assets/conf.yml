@@ -2,7 +2,15 @@
 controlPanel:
     content:
         -
-            title: Buildings
+            title: Population
+            type: panel
+            content:
+                -
+                    title: Common Housing
+                    type: button
+                    staticElement: house
+        -
+            title: Hygiene/Safety
             type: panel
             content:
                 -
@@ -10,32 +18,81 @@ controlPanel:
                     type: button
                     staticElement: maintenance
                 -
-                    title: House
+                    title: Infirmary
                     type: button
-                    staticElement: house
+                    staticElement: infirmary
+                -
+                    title: Fountain
+                    type: button
+                    staticElement: fountain
+                -
+                    title: Watchpost
+                    type: button
+                    staticElement: watchpost
+        -
+            title: Administration
+            type: panel
+            content:
+                -
+                    title: Tax Office
+                    type: button
+                    staticElement: taxOffice
         -
             title: Road
             type: button
             staticElement: road
 
 dynamicElements:
+    clerk:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 34
+    healer:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 26
     immigrant:
         type: targetedWalker
         speed: 2.0
     superintendent:
         type: randomWalker
         speed: 2.0
-        walkingCredit: 30
+        walkingCredit: 43
+    watchman:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 43
+    waterBearer:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 26
 
 staticElements:
     cityEntryPoint:
         type: cityEntryPoint
+    fountain:
+        type: serviceBuilding
+        title: Fountain
+        size: 2
+        price: 35
+        employees: 4
+        damageRisk: 8
+        walkerType: waterBearer
     house:
         type: housingBuilding
         title: House
         size: 2
         price: 20
         fireRisk: 15
+    infirmary:
+        type: serviceBuilding
+        title: Infirmary
+        size: 4
+        price: 70
+        employees: 11
+        damageRisk: 10
+        fireRisk: 10
+        walkerType: healer
     maintenance:
         type: serviceBuilding
         title: Maintenance Office
@@ -48,3 +105,19 @@ staticElements:
         type: road
         title: Road
         price: 3
+    taxOffice:
+        type: serviceBuilding
+        title: Tax Office
+        size: 2
+        price: 50
+        employees: 8
+        fireRisk: 10
+        walkerType: clerk
+    watchpost:
+        type: serviceBuilding
+        title: Watchpost
+        size: 2
+        price: 40
+        employees: 6
+        damaeRisk: 10
+        walkerType: watchman
