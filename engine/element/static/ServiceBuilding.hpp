@@ -1,13 +1,15 @@
-#ifndef MAINTENANCEBUILDING_HPP
-#define MAINTENANCEBUILDING_HPP
+#ifndef SERVICEBUILDING_HPP
+#define SERVICEBUILDING_HPP
 
 #include "engine/element/dynamic/RandomWalker.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
 /**
- * @brief A maintenance building for testing purpose.
+ * @brief A service building.
+ *
+ * Service buildings mainly provide with random walkers that provide a service while they are walking through the map.
  */
-class MaintenanceBuilding : public AbstractProcessableStaticMapElement
+class ServiceBuilding : public AbstractProcessableStaticMapElement
 {
         Q_OBJECT
 
@@ -16,7 +18,7 @@ class MaintenanceBuilding : public AbstractProcessableStaticMapElement
         QList<QPointer<RandomWalker>> walkers;
 
     public:
-        MaintenanceBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
+        ServiceBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
 
         virtual void init(const CycleDate& date);
 
@@ -28,4 +30,4 @@ class MaintenanceBuilding : public AbstractProcessableStaticMapElement
         void setupNextWalkerGenerationDate(const CycleDate& currentDate);
 };
 
-#endif // MAINTENANCEBUILDING_HPP
+#endif // SERVICEBUILDING_HPP

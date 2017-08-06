@@ -20,16 +20,15 @@ class SelectionElement : public QGraphicsPolygonItem
         QBrush* currentBrush;
         QPen* currentPen;
         MapArea currentArea;
-        StaticElementInformation::Type currentBuildingType;
+        const StaticElementInformation* currentElementConf;
 
     public:
         SelectionElement(const QSizeF& baseTileSize);
 
         /**
          * @brief Set the type of building selected.
-         * @param type
          */
-        void setBuildingType(StaticElementInformation::Type type);
+        void setBuildingType(const StaticElementInformation* currentElementConf);
 
         /**
          * @brief Set the selection element good.
@@ -40,6 +39,11 @@ class SelectionElement : public QGraphicsPolygonItem
          * @brief Set the selection element bad.
          */
         void setBad();
+
+        /**
+         * @brief Hide the selection element.
+         */
+        void hide();
 
         /**
          * @brief Attache the selection element to the given tile.

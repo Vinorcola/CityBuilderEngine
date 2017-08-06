@@ -2,16 +2,16 @@
 
 
 
-BuildingButton::BuildingButton(const QString& text, StaticElementInformation::Type type) :
-    QPushButton(text),
-    type(type)
+BuildingButton::BuildingButton(const StaticElementInformation* elementConf) :
+    QPushButton(elementConf->getTitle()),
+    elementConf(elementConf)
 {
 
 }
 
 
 
-StaticElementInformation::Type BuildingButton::getAssociatedType() const
+const StaticElementInformation* BuildingButton::getAssociatedBuilding() const
 {
-    return type;
+    return elementConf;
 }

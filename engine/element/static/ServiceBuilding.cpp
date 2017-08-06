@@ -1,4 +1,4 @@
-#include "MaintenanceBuilding.hpp"
+#include "ServiceBuilding.hpp"
 
 #include <QDebug>
 
@@ -10,7 +10,7 @@ const int MAX_NUMBER_OF_WALKER(2);
 
 
 
-MaintenanceBuilding::MaintenanceBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint) :
+ServiceBuilding::ServiceBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint) :
     AbstractProcessableStaticMapElement(parent, conf, area, entryPoint),
     nextWalkerGenerationDate(),
     walkers()
@@ -20,14 +20,14 @@ MaintenanceBuilding::MaintenanceBuilding(QObject* parent, const StaticElementInf
 
 
 
-void MaintenanceBuilding::init(const CycleDate& date)
+void ServiceBuilding::init(const CycleDate& date)
 {
     setupNextWalkerGenerationDate(date);
 }
 
 
 
-void MaintenanceBuilding::process(const CycleDate& date)
+void ServiceBuilding::process(const CycleDate& date)
 {
     if (date == nextWalkerGenerationDate) {
         emit requestDynamicElementCreation(
@@ -45,7 +45,7 @@ void MaintenanceBuilding::process(const CycleDate& date)
 
 
 
-void MaintenanceBuilding::processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor)
+void ServiceBuilding::processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor)
 {
     for (auto walker : walkers) {
         if (walker == actor) {
@@ -60,7 +60,7 @@ void MaintenanceBuilding::processInteraction(const CycleDate& date, AbstractDyna
 
 
 
-void MaintenanceBuilding::setupNextWalkerGenerationDate(const CycleDate& currentDate)
+void ServiceBuilding::setupNextWalkerGenerationDate(const CycleDate& currentDate)
 {
     if (getEntryPoint().isValid() && walkers.size() < MAX_NUMBER_OF_WALKER && nextWalkerGenerationDate <= currentDate) {
         nextWalkerGenerationDate = currentDate;

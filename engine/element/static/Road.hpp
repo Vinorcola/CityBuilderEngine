@@ -4,7 +4,7 @@
 #include "engine/element/static/AbstractStaticMapElement.hpp"
 
 /**
- * @brief A road building.
+ * @brief A road.
  */
 class Road : public AbstractStaticMapElement
 {

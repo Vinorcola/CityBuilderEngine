@@ -7,14 +7,22 @@ dynamicElements:
         walkingCredit: 30
 
 staticElements:
-    cityEntryPoint: null
+    cityEntryPoint:
+        type: cityEntryPoint
     house:
+        type: housingBuilding
+        title: House
         size: 2
-        price: 15
-        fireRisk: 12
+        price: 20
+        fireRisk: 15
     maintenance:
+        type: serviceBuilding
+        title: Maintenance Office
         size: 2
-        price: 12
+        price: 20
         employees: 5
+        fireRisk: 5
     road:
-        price: 4
+        type: road
+        title: Road
+        price: 3

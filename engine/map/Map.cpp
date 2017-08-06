@@ -6,33 +6,33 @@
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
 #include "engine/element/static/HousingBuilding.hpp"
-#include "engine/element/static/MaintenanceBuilding.hpp"
+#include "engine/element/static/ServiceBuilding.hpp"
 #include "engine/element/static/Road.hpp"
 
 
 
-Map::Map(const QSize& size, const QString& confFilePath, const MapCoordinates& cityEntryPointLocation) :
+Map::Map(const Conf* conf, const MapLoader& loader) :
     QObject(),
-    size(size),
-    conf(new Conf(this, confFilePath)),
-    cityStatus(new CityStatus(this, 10000)),
+    conf(conf),
+    size(loader.getSize()),
+    cityStatus(new CityStatus(this, loader.getBudget())),
     roadGraph(new RoadGraph(this)),
     processor(new TimeCycleProcessor(this)),
     elementList(),
     staticElementList(),
-    entryPoint(new CityEntryPoint(this, conf->getStaticElementConf(StaticElementInformation::Type::CityEntryPoint), cityEntryPointLocation))
+    entryPoint()
 {
-    processor->registerProcessable(entryPoint);
-    elementList.append(entryPoint);
-    staticElementList.append(entryPoint);
-    roadGraph->createNode(cityEntryPointLocation);
-
-    connect(entryPoint, &CityEntryPoint::requestDynamicElementCreation, [this](
-        DynamicElementInformation::Type type,
-        std::function<void(AbstractDynamicMapElement*)> afterCreation
-    ) {
-        createDynamicElement(type, entryPoint, afterCreation);
-    });
+    // Load static elements.
+    for (auto elementInfo : loader.getStaticElements()) {
+        auto elementConf(conf->getStaticElementConf(QString::fromStdString(elementInfo["type"].as<std::string>())));
+        createStaticElement(
+            elementConf,
+            MapArea(
+                MapCoordinates(elementInfo["position"]["x"].as<int>(), elementInfo["position"]["y"].as<int>()),
+                elementConf->getSize()
+            )
+        );
+    }
 }
 
 
@@ -129,6 +129,13 @@ const TimeCycleProcessor* Map::getProcessor() const
 
 
 
+const QLinkedList<AbstractMapElement*>& Map::getElements() const
+{
+    return elementList;
+}
+
+
+
 void Map::pause(const bool pause)
 {
     processor->pause(pause);
@@ -144,61 +151,79 @@ void Map::setProcessorSpeedRatio(const qreal speedRatio)
 
 
 void Map::createStaticElement(
-    StaticElementInformation::Type type,
+    const StaticElementInformation* elementConf,
     const MapArea& area
 ) {
+    if (area.getSize() != elementConf->getSize()) {
+        throw UnexpectedException("Try to build a static element on a area not matching the element size.");
+    }
     if (!isFreeArea(area)) {
         qDebug() << "ERROR: Try to create a static element on an occupyed area " + area.toString() + ". Skiping the creation.";
         return;
     }
 
     AbstractStaticMapElement* pointer;
-    switch (type) {
+    switch (elementConf->getType()) {
         case StaticElementInformation::Type::None:
             throw UnexpectedException("Try to create a static element of type None.");
 
-        case StaticElementInformation::Type::House: {
-            auto element(new HousingBuilding(this, conf->getStaticElementConf(type), area, getAutoEntryPoint(area)));
+        case StaticElementInformation::Type::CityEntryPoint: {
+            auto coordinates(area.getLeft());
+            entryPoint = new CityEntryPoint(this, elementConf, coordinates);
+            pointer = entryPoint;
+            roadGraph->createNode(coordinates);
+            processor->registerProcessable(entryPoint);
+            elementList.append(entryPoint);
+            staticElementList.append(entryPoint);
+
+            connect(entryPoint, &CityEntryPoint::requestDynamicElementCreation, [this](
+                DynamicElementInformation::Type type,
+                std::function<void(AbstractDynamicMapElement*)> afterCreation
+            ) {
+                createDynamicElement(type, entryPoint, afterCreation);
+            });
+            break;
+        }
+
+        case StaticElementInformation::Type::HousingBuilding: {
+            auto element(new HousingBuilding(this, elementConf, area, getAutoEntryPoint(area)));
             pointer = element;
             processor->registerProcessable(element);
             elementList.append(element);
             staticElementList.append(element);
 
-            connect(element, &MaintenanceBuilding::requestDynamicElementCreation, [this, element](
+            connect(element, &ServiceBuilding::requestDynamicElementCreation, [this, element](
                 DynamicElementInformation::Type type,
                 std::function<void(AbstractDynamicMapElement*)> afterCreation
             ) {
                 createDynamicElement(type, element, afterCreation);
             });
-            connect(element, &MaintenanceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
+            connect(element, &ServiceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
             connect(element, &HousingBuilding::freeCapacityChanged, this, &Map::freeHousingCapacityChanged);
             connect(element, &HousingBuilding::inhabitantsChanged, this, &Map::populationChanged);
             break;
         }
 
-        case StaticElementInformation::Type::Maintenance: {
-            auto element(new MaintenanceBuilding(this, conf->getStaticElementConf(type), area, getAutoEntryPoint(area)));
+        case StaticElementInformation::Type::ServiceBuilding: {
+            auto element(new ServiceBuilding(this, elementConf, area, getAutoEntryPoint(area)));
             pointer = element;
             processor->registerProcessable(element);
             elementList.append(element);
             staticElementList.append(element);
 
-            connect(element, &MaintenanceBuilding::requestDynamicElementCreation, [this, element](
+            connect(element, &ServiceBuilding::requestDynamicElementCreation, [this, element](
                 DynamicElementInformation::Type type,
                 std::function<void(AbstractDynamicMapElement*)> afterCreation
             ) {
                 createDynamicElement(type, element, afterCreation);
             });
-            connect(element, &MaintenanceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
+            connect(element, &ServiceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
             break;
         }
 
         case StaticElementInformation::Type::Road: {
-            if (area.getSize().getValue() > 1) {
-                throw UnexpectedException("Try to create a road on an area bigger than 1: " + area.toString());
-            }
             auto coordinates(area.getLeft());
-            auto element(new Road(conf->getStaticElementConf(type), coordinates));
+            auto element(new Road(elementConf, coordinates));
             pointer = element;
             roadGraph->createNode(coordinates);
             elementList.append(element);

@@ -14,8 +14,8 @@ SOURCES += \
     engine/element/static/AbstractStaticMapElement.cpp \
     engine/element/static/CityEntryPoint.cpp \
     engine/element/static/HousingBuilding.cpp \
-    engine/element/static/MaintenanceBuilding.cpp \
     engine/element/static/Road.cpp \
+    engine/element/static/ServiceBuilding.cpp \
     engine/element/AbstractMapElement.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
     engine/map/roadGraph/RoadGraphNode.cpp \
@@ -27,6 +27,7 @@ SOURCES += \
     engine/map/Map.cpp \
     engine/map/MapArea.cpp \
     engine/map/MapCoordinates.cpp \
+    engine/map/MapLoader.cpp \
     engine/map/MapSize.cpp \
     engine/processing/AbstractProcessable.cpp \
     engine/processing/CycleDate.cpp \
@@ -43,7 +44,6 @@ SOURCES += \
     global/conf/StaticElementAreaPartDescription.cpp \
     global/conf/StaticElementInformation.cpp \
     ui/controlPanel/BuildingButton.cpp \
-    ui/controlPanel/BuildingPage.cpp \
     ui/controlPanel/ControlPanel.cpp \
     ui/MainWindow.cpp \
     viewer/DynamicElement.cpp \
@@ -62,8 +62,8 @@ HEADERS += \
     engine/element/static/AbstractStaticMapElement.hpp \
     engine/element/static/CityEntryPoint.hpp \
     engine/element/static/HousingBuilding.hpp \
-    engine/element/static/MaintenanceBuilding.hpp \
     engine/element/static/Road.hpp \
+    engine/element/static/ServiceBuilding.hpp \
     engine/element/AbstractMapElement.hpp \
     engine/map/roadGraph/RoadGraph.hpp \
     engine/map/roadGraph/RoadGraphNode.hpp \
@@ -75,6 +75,7 @@ HEADERS += \
     engine/map/Map.hpp \
     engine/map/MapArea.hpp \
     engine/map/MapCoordinates.hpp \
+    engine/map/MapLoader.hpp \
     engine/map/MapSize.hpp \
     engine/processing/AbstractProcessable.hpp \
     engine/processing/CycleDate.hpp \
@@ -91,7 +92,6 @@ HEADERS += \
     global/conf/StaticElementAreaPartDescription.hpp \
     global/conf/StaticElementInformation.hpp \
     ui/controlPanel/BuildingButton.hpp \
-    ui/controlPanel/BuildingPage.hpp \
     ui/controlPanel/ControlPanel.hpp \
     ui/MainWindow.hpp \
     viewer/DynamicElement.hpp \
@@ -103,6 +103,7 @@ HEADERS += \
     defines.hpp
 
 DISTFILES += \
+    assets/save/testing.yml \
     assets/conf.yml \
     README.md
 

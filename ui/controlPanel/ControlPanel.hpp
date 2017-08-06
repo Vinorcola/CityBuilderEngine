@@ -14,12 +14,13 @@ class ControlPanel : public QDockWidget
         QList<BuildingButton*> buttonList;
 
     public:
-        ControlPanel();
+        ControlPanel(const Conf* conf);
 
-        BuildingButton* createButton(const QString& text, StaticElementInformation::Type type);
+    private:
+        BuildingButton* createButton(const StaticElementInformation* elementConf);
 
     signals:
-        void buildingRequested(StaticElementInformation::Type type);
+        void buildingRequested(const StaticElementInformation* elementConf);
 };
 
 #endif // CONTROLPANEL_HPP

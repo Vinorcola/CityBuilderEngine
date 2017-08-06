@@ -12,7 +12,7 @@ MapViewer::MapViewer(Map& map, QWidget* parent) :
 
 
 
-void MapViewer::buildingRequest(StaticElementInformation::Type type)
+void MapViewer::buildingRequest(const StaticElementInformation* elementConf)
 {
-    static_cast<MapScene*>(scene())->requestBuildingPositioning(type);
+    static_cast<MapScene*>(scene())->requestBuildingPositioning(elementConf);
 }

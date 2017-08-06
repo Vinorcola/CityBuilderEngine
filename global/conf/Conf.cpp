@@ -22,21 +22,22 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     // Load static element configuration.
     for (auto node : configurationRoot["staticElements"]) {
         QString key(QString::fromStdString(node.first.as<std::string>()));
+        StaticElementInformation::checkModel(key, node.second);
         auto elementInformation(new StaticElementInformation(this, key, node.second));
-        staticElements[elementInformation->getType()] = elementInformation;
+        staticElements.insert(key, elementInformation);
     }
 }
 
 
 
-const DynamicElementInformation*Conf::getDynamicElementConf(DynamicElementInformation::Type type) const
+const DynamicElementInformation* Conf::getDynamicElementConf(DynamicElementInformation::Type type) const
 {
     return dynamicElements.value(type);
 }
 
 
 
-const StaticElementInformation*Conf::getStaticElementConf(StaticElementInformation::Type type) const
+const StaticElementInformation* Conf::getStaticElementConf(const QString& elementKey) const
 {
-    return staticElements.value(type);
+    return staticElements.value(elementKey);
 }

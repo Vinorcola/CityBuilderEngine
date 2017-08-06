@@ -4,6 +4,12 @@
 #include "engine/element/dynamic/TargetedWalker.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
+/**
+ * @brief A housing building.
+ *
+ * A housing building receive some inhabitants and consume some items. The housing building is also the only type of
+ * building that can evolve into different stages.
+ */
 class HousingBuilding : public AbstractProcessableStaticMapElement
 {
         Q_OBJECT

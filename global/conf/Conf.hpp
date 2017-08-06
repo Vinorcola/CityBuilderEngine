@@ -12,14 +12,14 @@ class Conf : public QObject
 
     private:
         QHash<DynamicElementInformation::Type, DynamicElementInformation*> dynamicElements;
-        QHash<StaticElementInformation::Type, StaticElementInformation*> staticElements;
+        QHash<QString, StaticElementInformation*> staticElements;
 
     public:
         Conf(QObject* parent, const QString& filePath);
 
         const DynamicElementInformation* getDynamicElementConf(DynamicElementInformation::Type type) const;
 
-        const StaticElementInformation* getStaticElementConf(StaticElementInformation::Type type) const;
+        const StaticElementInformation* getStaticElementConf(const QString& elementKey) const;
 };
 
 #endif // CONF_HPP

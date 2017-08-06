@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
-#include <QMainWindow>
+#include <QtWidgets/QMainWindow>
 
 #include "defines.hpp"
 #include "engine/map/Map.hpp"
@@ -12,6 +12,7 @@ class MainWindow : public QMainWindow
         Q_OBJECT
 
     private:
+        const Conf* conf;
         ControlPanel* controlPanel;
         Map* currentMap;
         QAction* pauseAction;
@@ -24,7 +25,7 @@ class MainWindow : public QMainWindow
 
         virtual ~MainWindow();
 
-        void createMap(const QSize& size);
+        void loadMap(const QString& filePath);
 };
 
 #endif // MAINWINDOW_HPP

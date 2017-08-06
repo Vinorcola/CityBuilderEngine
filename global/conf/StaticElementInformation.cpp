@@ -4,10 +4,11 @@
 
 
 
-StaticElementInformation::StaticElementInformation(QObject* parent, const QString& key, YAML::Node model) :
+StaticElementInformation::StaticElementInformation(QObject* parent, const QString& key, const YAML::Node& model) :
     QObject(parent),
-    type(resolveTypeFromKey(key)),
+    type(resolveType(QString::fromStdString(model["type"].as<std::string>()))),
     key(key),
+    title(model["title"] ? QString::fromStdString(model["title"].as<std::string>()) : ""),
     size(model["size"] ? model["size"].as<int>() : 1),
     price(model["price"] ? model["price"].as<int>() : 0),
     employees(model["employees"] ? model["employees"].as<int>() : 0),
@@ -28,6 +29,13 @@ StaticElementInformation::Type StaticElementInformation::getType() const
 
 
 
+const QString& StaticElementInformation::getTitle() const
+{
+    return title;
+}
+
+
+
 const MapSize& StaticElementInformation::getSize() const
 {
     return size;
@@ -42,12 +50,21 @@ const QPixmap& StaticElementInformation::getImage() const
 
 
 
-StaticElementInformation::Type StaticElementInformation::resolveTypeFromKey(const QString& key)
+void StaticElementInformation::checkModel(const QString& key, const YAML::Node& model)
 {
-    if (key == "cityEntryPoint") return Type::CityEntryPoint;
-    if (key == "house")          return Type::House;
-    if (key == "maintenance")    return Type::Maintenance;
-    if (key == "road")           return Type::Road;
+    if (!model["type"]) {
+        throw BadConfigurationException("Missing \"type\" parameter in configuration for node \"" + key + "\".");
+    }
+}
 
-    throw BadConfigurationException("Unknown static element key \"" + key + "\"");
+
+
+StaticElementInformation::Type StaticElementInformation::resolveType(const QString& type)
+{
+    if (type == "cityEntryPoint")  return Type::CityEntryPoint;
+    if (type == "housingBuilding") return Type::HousingBuilding;
+    if (type == "serviceBuilding") return Type::ServiceBuilding;
+    if (type == "road")            return Type::Road;
+
+    throw BadConfigurationException("Unknown static element of type \"" + type + "\".");
 }

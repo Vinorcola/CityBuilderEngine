@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
     qsrand(QDateTime::currentDateTime().toTime_t());
 
     MainWindow* window(new MainWindow);
-    window->createMap({ 23, 23 });
+    window->loadMap("assets/save/testing.yml");
     window->show();
 
     return a.exec();

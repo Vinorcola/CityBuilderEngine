@@ -10,12 +10,12 @@ class BuildingButton : public QPushButton
         Q_OBJECT
 
     private:
-        StaticElementInformation::Type type;
+        const StaticElementInformation* elementConf;
 
     public:
-        BuildingButton(const QString& text, StaticElementInformation::Type type);
+        BuildingButton(const StaticElementInformation* elementConf);
 
-        StaticElementInformation::Type getAssociatedType() const;
+        const StaticElementInformation* getAssociatedBuilding() const;
 };
 
 #endif // BUILDINGBUTTON_HPP

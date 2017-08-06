@@ -1,7 +1,7 @@
 #include "MapScene.hpp"
 
 #include "engine/element/static/HousingBuilding.hpp"
-#include "engine/element/static/MaintenanceBuilding.hpp"
+#include "engine/element/static/ServiceBuilding.hpp"
 #include "engine/element/static/Road.hpp"
 
 const QSizeF BASE_TILE_SIZE(58, 30);
@@ -46,6 +46,14 @@ MapScene::MapScene(const Map& map) :
     // Attach the selection element.
     addItem(selectionElement);
 
+    // Load existing elements.
+    for (auto element: map.getElements()) {
+        auto staticElement(dynamic_cast<AbstractStaticMapElement*>(element));
+        if (staticElement) {
+            registerNewStaticElement(staticElement);
+        }
+    }
+
     connect(this, &MapScene::buildingCreationRequested, &map, &Map::createStaticElement);
     connect(&map, &Map::staticElementCreated, this, &MapScene::registerNewStaticElement);
     connect(&map, &Map::dynamicElementCreated, this, &MapScene::registerNewDynamicElement);
@@ -54,16 +62,16 @@ MapScene::MapScene(const Map& map) :
 
 
 
-void MapScene::requestBuildingPositioning(StaticElementInformation::Type type)
+void MapScene::requestBuildingPositioning(const StaticElementInformation* elementConf)
 {
-    selectionElement->setBuildingType(type);
+    selectionElement->setBuildingType(elementConf);
 }
 
 
 
-void MapScene::requestBuildingCreation(StaticElementInformation::Type type, const MapArea& area)
+void MapScene::requestBuildingCreation(const StaticElementInformation* elementConf, const MapArea& area)
 {
-    emit buildingCreationRequested(type, area);
+    emit buildingCreationRequested(elementConf, area);
 }
 
 

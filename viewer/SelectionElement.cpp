@@ -16,7 +16,7 @@ SelectionElement::SelectionElement(const QSizeF& baseTileSize) :
     currentBrush(&badBrush),
     currentPen(&badPen),
     currentArea(),
-    currentBuildingType(StaticElementInformation::Type::None)
+    currentElementConf(nullptr)
 {
     // NOTE: Changing accepted mouse buttons can affect mouse event handler mousePressEvent() and mouseReleaseEvent().
     setAcceptedMouseButtons(Qt::LeftButton | Qt::RightButton);
@@ -39,30 +39,11 @@ SelectionElement::SelectionElement(const QSizeF& baseTileSize) :
 
 
 
-void SelectionElement::setBuildingType(StaticElementInformation::Type type)
+void SelectionElement::setBuildingType(const StaticElementInformation* elementConf)
 {
-    currentBuildingType = type;
-    switch (type) {
-        case StaticElementInformation::Type::None:
-            // Disable the selection element.
-            setVisible(false);
-            break;
-
-        case StaticElementInformation::Type::House:
-            setSize(MapSize(2));
-            setVisible(true);
-            break;
-
-        case StaticElementInformation::Type::Maintenance:
-            setSize(MapSize(2));
-            setVisible(true);
-            break;
-
-        case StaticElementInformation::Type::Road:
-            setSize(MapSize(1));
-            setVisible(true);
-            break;
-    }
+    this->currentElementConf = elementConf;
+    setVisible(true);
+    setSize(elementConf->getSize());
 }
 
 
@@ -80,12 +61,19 @@ void SelectionElement::setGood()
 
 void SelectionElement::setBad()
 {
-    if (currentBrush == &goodBrush)
-    {
+    if (currentBrush == &goodBrush) {
         currentBrush = &badBrush;
         currentPen = &badPen;
         refresh();
     }
+}
+
+
+
+void SelectionElement::hide()
+{
+    currentElementConf = nullptr;
+    setVisible(false);
 }
 
 
@@ -138,8 +126,7 @@ void SelectionElement::mousePressEvent(QGraphicsSceneMouseEvent* event)
     // NOTE: Nothing to do here. Action only operate on mouse release event. However, we ignore the event if the element
     // is not visible. This will prevent triggering further events related to this mouse click.
 
-    if (!isVisible())
-    {
+    if (!isVisible()) {
         event->ignore();
     }
 }
@@ -149,13 +136,10 @@ void SelectionElement::mousePressEvent(QGraphicsSceneMouseEvent* event)
 void SelectionElement::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     // NOTE: Button can be either Qt::LeftButton or Qt::RightButton because of accepted events set in constructor.
-    if (event->button() == Qt::LeftButton)
-    {
-        static_cast<MapScene*>(scene())->requestBuildingCreation(currentBuildingType, currentArea);
-    }
-    else
-    {
+    if (event->button() == Qt::LeftButton) {
+        static_cast<MapScene*>(scene())->requestBuildingCreation(currentElementConf, currentArea);
+    } else {
         // Right click.
-        setBuildingType(StaticElementInformation::Type::None);
+        hide();
     }
 }

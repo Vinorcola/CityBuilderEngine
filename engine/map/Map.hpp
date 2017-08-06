@@ -1,13 +1,13 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include <QLinkedList>
-#include <QSize>
+#include <QtCore/QLinkedList>
 
 #include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
 #include "engine/element/static/AbstractStaticMapElement.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/CityStatus.hpp"
+#include "engine/map/MapLoader.hpp"
 #include "engine/map/MapSize.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
 #include "global/conf/Conf.hpp"
@@ -21,8 +21,8 @@ class Map : public QObject
         Q_OBJECT
 
     private:
+        const Conf* conf;
         QSize size;
-        Conf* conf;
         CityStatus* cityStatus;
         RoadGraph* roadGraph;
         TimeCycleProcessor* processor;
@@ -31,7 +31,7 @@ class Map : public QObject
         CityEntryPoint* entryPoint;
 
     public:
-        Map(const QSize& size, const QString& confFilePath, const MapCoordinates& cityEntryPointLocation);
+        Map(const Conf* conf, const MapLoader& loader);
 
         virtual ~Map();
 
@@ -74,6 +74,11 @@ class Map : public QObject
          */
         const TimeCycleProcessor* getProcessor() const;
 
+        /**
+         * @brief Return the list of all known elements.
+         */
+        const QLinkedList<AbstractMapElement*>& getElements() const;
+
     public slots:
         /**
          * @brief Set (or unset) the pause mode.
@@ -97,7 +102,7 @@ class Map : public QObject
          * @throw UnexpectedException Try to create a static element of type None.
          */
         void createStaticElement(
-            StaticElementInformation::Type type,
+            const StaticElementInformation* elementConf,
             const MapArea& area
         );
 
