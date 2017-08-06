@@ -78,6 +78,7 @@ staticElements:
         employees: 4
         damageRisk: 8
         walkerType: waterBearer
+        maxWalkers: 1
     house:
         type: housingBuilding
         title: House
@@ -93,6 +94,7 @@ staticElements:
         damageRisk: 10
         fireRisk: 10
         walkerType: healer
+        maxWalkers: 1
     maintenance:
         type: serviceBuilding
         title: Maintenance Office
@@ -101,6 +103,7 @@ staticElements:
         employees: 5
         fireRisk: 5
         walkerType: superintendent
+        maxWalkers: 1
     road:
         type: road
         title: Road
@@ -113,6 +116,7 @@ staticElements:
         employees: 8
         fireRisk: 10
         walkerType: clerk
+        maxWalkers: 1
     watchpost:
         type: serviceBuilding
         title: Watchpost
@@ -121,3 +125,4 @@ staticElements:
         employees: 6
         damaeRisk: 10
         walkerType: watchman
+        maxWalkers: 1

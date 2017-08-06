@@ -5,8 +5,7 @@
 #include "defines.hpp"
 #include "engine/map/Map.hpp"
 
-const int WALKER_GENERATION_DATE_GAP(4 * CYCLE_PER_SECOND);
-const int MAX_NUMBER_OF_WALKER(2);
+const int WALKER_GENERATION_DATE_GAP(8 * CYCLE_PER_SECOND);
 
 
 
@@ -62,7 +61,7 @@ void ServiceBuilding::processInteraction(const CycleDate& date, AbstractDynamicM
 
 void ServiceBuilding::setupNextWalkerGenerationDate(const CycleDate& currentDate)
 {
-    if (getEntryPoint().isValid() && walkers.size() < MAX_NUMBER_OF_WALKER && nextWalkerGenerationDate <= currentDate) {
+    if (getEntryPoint().isValid() && walkers.size() < conf->getMaxNumberOfWalkers() && nextWalkerGenerationDate <= currentDate) {
         nextWalkerGenerationDate = currentDate;
         nextWalkerGenerationDate.add(WALKER_GENERATION_DATE_GAP);
     }

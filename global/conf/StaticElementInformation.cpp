@@ -17,7 +17,8 @@ StaticElementInformation::StaticElementInformation(QObject* parent, const Conf* 
     damageRiskIncrement(model["damageRisk"] ? model["damageRisk"].as<int>() : 0),
     areaDescription(),
     image("assets/img/static/" + key + "/building.png"),
-    walkerConf(model["walkerType"] ? conf->getDynamicElementConf(QString::fromStdString(model["walkerType"].as<std::string>())) : nullptr)
+    walkerConf(model["walkerType"] ? conf->getDynamicElementConf(QString::fromStdString(model["walkerType"].as<std::string>())) : nullptr),
+    maxNumberOfWalkers(model["maxWalkers"] ? model["maxWalkers"].as<int>() : 0)
 {
 
 }
@@ -55,6 +56,13 @@ const QPixmap& StaticElementInformation::getImage() const
 const DynamicElementInformation* StaticElementInformation::getWalkerConf() const
 {
     return walkerConf;
+}
+
+
+
+int StaticElementInformation::getMaxNumberOfWalkers() const
+{
+    return maxNumberOfWalkers;
 }
 
 

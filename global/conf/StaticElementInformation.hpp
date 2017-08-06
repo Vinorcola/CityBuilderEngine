@@ -36,6 +36,7 @@ class StaticElementInformation : public QObject
         QList<StaticElementAreaPartDescription*> areaDescription;
         QPixmap image;
         const DynamicElementInformation* walkerConf;
+        int maxNumberOfWalkers;
 
     public:
         /**
@@ -54,6 +55,8 @@ class StaticElementInformation : public QObject
         const QPixmap& getImage() const;
 
         const DynamicElementInformation* getWalkerConf() const;
+
+        int getMaxNumberOfWalkers() const;
 
         /**
          * @brief Check if the model for a static element is valid.
