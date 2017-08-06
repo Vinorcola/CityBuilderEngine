@@ -1,7 +1,7 @@
 #ifndef STATICELEMENT_HPP
 #define STATICELEMENT_HPP
 
-#include <QGraphicsPixmapItem>
+#include <QtWidgets/QGraphicsPixmapItem>
 
 #include "engine/map/MapSize.hpp"
 

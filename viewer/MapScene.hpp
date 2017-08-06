@@ -1,7 +1,7 @@
 #ifndef MAPSCENE_HPP
 #define MAPSCENE_HPP
 
-#include <QGraphicsScene>
+#include <QtWidgets/QGraphicsScene>
 
 #include "engine/map/Map.hpp"
 #include "viewer/DynamicElement.hpp"

@@ -1,11 +1,10 @@
 #ifndef TIMECYCLEPROCESSOR_HPP
 #define TIMECYCLEPROCESSOR_HPP
 
-#include <QBasicTimer>
-#include <QLinkedList>
-#include <QList>
-#include <QObject>
-#include <QPointer>
+#include <QtCore/QBasicTimer>
+#include <QtCore/QLinkedList>
+#include <QtCore/QList>
+#include <QtCore/QPointer>
 
 #include "engine/processing/AbstractProcessable.hpp"
 #include "engine/processing/CycleDate.hpp"

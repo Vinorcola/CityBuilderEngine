@@ -1,7 +1,7 @@
 #ifndef CONTROLPANEL_HPP
 #define CONTROLPANEL_HPP
 
-#include <QDockWidget>
+#include <QtWidgets/QDockWidget>
 
 #include "engine/map/Map.hpp"
 #include "ui/controlPanel/BuildingButton.hpp"

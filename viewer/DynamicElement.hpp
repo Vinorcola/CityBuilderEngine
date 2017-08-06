@@ -1,7 +1,7 @@
 #ifndef DYNAMICELEMENT_HPP
 #define DYNAMICELEMENT_HPP
 
-#include <QGraphicsPixmapItem>
+#include <QtWidgets/QGraphicsPixmapItem>
 
 #include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
 

@@ -1,10 +1,10 @@
 #ifndef STATICELEMENTINFORMATION_HPP
 #define STATICELEMENTINFORMATION_HPP
 
-#include <QList>
-#include <QPixmap>
-#include <QString>
-#include <yaml-cpp/yaml.h>
+#include <QtCore/QList>
+#include <QtCore/QString>
+#include <QtGui/QPixmap>
+#include <yaml-cpp/node/node.h>
 
 #include "global/conf/StaticElementAreaPartDescription.hpp"
 

@@ -1,7 +1,7 @@
 #ifndef CITYSTATUS_HPP
 #define CITYSTATUS_HPP
 
-#include <QObject>
+#include <QtCore/QObject>
 
 class CityStatus : public QObject
 {

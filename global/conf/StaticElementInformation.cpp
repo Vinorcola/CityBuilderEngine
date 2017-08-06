@@ -1,5 +1,7 @@
 #include "StaticElementInformation.hpp"
 
+#include <yaml-cpp/yaml.h>
+
 #include "exceptions/BadConfigurationException.hpp"
 #include "global/conf/Conf.hpp"
 #include "defines.hpp"

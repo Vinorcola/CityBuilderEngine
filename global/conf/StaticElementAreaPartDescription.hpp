@@ -1,6 +1,8 @@
 #ifndef STATICELEMENTAREAPARTDESCRIPTION_HPP
 #define STATICELEMENTAREAPARTDESCRIPTION_HPP
 
+#include <QtCore/QObject>
+
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/map/MapSize.hpp"
 

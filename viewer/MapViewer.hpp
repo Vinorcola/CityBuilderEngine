@@ -1,7 +1,7 @@
 #ifndef MAPVIEWER_HPP
 #define MAPVIEWER_HPP
 
-#include <QGraphicsView>
+#include <QtWidgets/QGraphicsView>
 
 #include "engine/map/Map.hpp"
 

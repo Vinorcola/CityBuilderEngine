@@ -1,9 +1,9 @@
 #ifndef SELECTIONELEMENT_HPP
 #define SELECTIONELEMENT_HPP
 
-#include <QBrush>
-#include <QGraphicsPolygonItem>
-#include <QPen>
+#include <QtGui/QBrush>
+#include <QtGui/QPen>
+#include <QtWidgets/QGraphicsPolygonItem>
 
 #include "engine/map/Map.hpp"
 #include "engine/map/MapArea.hpp"

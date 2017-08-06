@@ -1,7 +1,9 @@
 #include "DynamicElementInformation.hpp"
 
-#include "defines.hpp"
+#include <yaml-cpp/yaml.h>
+
 #include "exceptions/BadConfigurationException.hpp"
+#include "defines.hpp"
 
 DynamicElementInformation::DynamicElementInformation(QObject* parent, const QString& key, YAML::Node model) :
     QObject(parent),

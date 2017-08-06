@@ -1,7 +1,7 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
-#include <QStack>
+#include <QtCore/QStack>
 
 #include "engine/map/MapCoordinates.hpp"
 #include "viewer/DynamicElement.hpp"

@@ -1,7 +1,7 @@
 #ifndef BUILDINGBUTTON_HPP
 #define BUILDINGBUTTON_HPP
 
-#include <QPushButton>
+#include <QtWidgets/QPushButton>
 
 #include "engine/map/Map.hpp"
 

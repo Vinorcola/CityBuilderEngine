@@ -1,7 +1,7 @@
 #ifndef CYCLEDATE_HPP
 #define CYCLEDATE_HPP
 
-#include <QString>
+#include <QtCore/QString>
 
 /**
  * @brief Represent a date for the time cycle processor.

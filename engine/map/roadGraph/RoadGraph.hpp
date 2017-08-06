@@ -1,7 +1,8 @@
 #ifndef ROADGRAPH_HPP
 #define ROADGRAPH_HPP
 
-#include <QList>
+#include <QtCore/QList>
+#include <QtCore/QObject>
 
 #include "engine/map/MapArea.hpp"
 #include "exceptions/UnexpectedException.hpp"

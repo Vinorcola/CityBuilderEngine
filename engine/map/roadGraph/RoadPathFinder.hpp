@@ -1,7 +1,7 @@
 #ifndef ROADPATHFINDER_HPP
 #define ROADPATHFINDER_HPP
 
-#include <QList>
+#include <QtCore/QList>
 
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
 

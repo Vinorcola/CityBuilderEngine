@@ -1,6 +1,7 @@
 #include "Map.hpp"
 
 #include <QDebug>
+#include <yaml-cpp/yaml.h>
 
 #include "engine/element/dynamic/RandomWalker.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"

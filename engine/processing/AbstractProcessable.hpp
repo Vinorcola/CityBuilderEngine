@@ -1,7 +1,7 @@
 #ifndef ABSTRACTPROCESSABLE
 #define ABSTRACTPROCESSABLE
 
-#include <QObject>
+#include <QtCore/QObject>
 
 #include "engine/processing/CycleDate.hpp"
 

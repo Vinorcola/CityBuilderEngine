@@ -1,6 +1,5 @@
 #include "AbstractDynamicMapElement.hpp"
 
-#include "defines.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
 

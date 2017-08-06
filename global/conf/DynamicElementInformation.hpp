@@ -1,10 +1,10 @@
 #ifndef DYNAMICELEMENTINFORMATION_HPP
 #define DYNAMICELEMENTINFORMATION_HPP
 
-#include <QObject>
-#include <QPixmap>
-#include <QString>
-#include <yaml-cpp/yaml.h>
+#include <QtCore/QObject>
+#include <QtCore/QString>
+#include <QtGui/QPixmap>
+#include <yaml-cpp/node/node.h>
 
 class DynamicElementInformation : public QObject
 {

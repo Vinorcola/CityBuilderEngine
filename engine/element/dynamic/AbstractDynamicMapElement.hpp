@@ -1,7 +1,7 @@
 #ifndef ABSTRACTDYNAMICMAPELEMENT_HPP
 #define ABSTRACTDYNAMICMAPELEMENT_HPP
 
-#include <QPointer>
+#include <QtCore/QPointer>
 
 #include "engine/element/AbstractMapElement.hpp"
 #include "engine/map/MapCoordinates.hpp"

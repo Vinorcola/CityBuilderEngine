@@ -1,8 +1,8 @@
 #ifndef MAPCOORDINATES_HPP
 #define MAPCOORDINATES_HPP
 
-#include <QList>
-#include <QPointF>
+#include <QtCore/QList>
+#include <QtCore/QPointF>
 
 /**
  * @brief Represent the coordinates of a point on a map.
