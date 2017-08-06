@@ -16,7 +16,7 @@ Then, the viewer is meant to be embedded into a **UI** environment. For the mome
 
 The engine is constructed in a way that it should be abble to run in a different thread. For the moment, it is running in the main thread in order to make development and debugging easier. But this must not be forgotten especialy when setting up a communication between the engine and the viewer: they will both run in 2 separate thread at the end. So make sure the communication is thread-safe and non blocking.
 
-## Dependecies
+## Dependencies
 
 Check the wiki for help on installing and configuring the development environment.
 
