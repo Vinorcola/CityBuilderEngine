@@ -26,8 +26,9 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
         /**
          * @brief Process an interaction with a dynamic element and the building.
          * @param actor The actor of the interaction.
+         * @return Indicate if the actor was processed or not.
          */
-        virtual void processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) = 0;
+        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) = 0;
 
     signals:
         void requestDynamicElementCreation(

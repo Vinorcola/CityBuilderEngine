@@ -25,6 +25,11 @@ Conf::Conf(QObject* parent, const QString& filePath) :
         staticElements.insert(key, new StaticElementInformation(this, this, key, node.second));
     }
 
+    // Resolve dependencies.
+    for (auto element : staticElements) {
+        element->resolveDependencies(this);
+    }
+
     // Load control panel items.
     for (auto node : configurationRoot["controlPanel"]["content"]) {
         ControlPanelElementInformation::checkModel(node);

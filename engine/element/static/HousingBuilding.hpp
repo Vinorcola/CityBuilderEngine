@@ -26,7 +26,7 @@ class HousingBuilding : public AbstractProcessableStaticMapElement
 
         virtual void process(const CycleDate& date);
 
-        virtual void processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
+        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
 
     signals:
         void freeCapacityChanged(const int previousFreeCapacity, const int newFreeCapacity, std::function<void(TargetedWalker*)> onImmigrantCreation);

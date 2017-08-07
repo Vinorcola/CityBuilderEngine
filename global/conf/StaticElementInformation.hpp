@@ -6,7 +6,9 @@
 #include <QtGui/QPixmap>
 #include <yaml-cpp/node/node.h>
 
+#include "engine/map/searchEngine/StaticSearchCriteria.hpp"
 #include "global/conf/StaticElementAreaPartDescription.hpp"
+#include "global/conf/StaticSearchCriteriaDescription.hpp"
 
 class Conf;
 class DynamicElementInformation;
@@ -41,6 +43,8 @@ class StaticElementInformation : public QObject
         int maxNumberOfRandomWalkers;
         const DynamicElementInformation* targetedWalkerConf;
         int targetedWalkerInterval;
+        StaticSearchCriteriaDescription* targetCriteriaDescription;
+        QScopedPointer<StaticSearchCriteria> targetCriteria;
 
     public:
         /**
@@ -49,6 +53,8 @@ class StaticElementInformation : public QObject
          * @param configurationYamlNode The YAML node corresponding to a static element configuration.
          */
         StaticElementInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model);
+
+        void resolveDependencies(const Conf* conf);
 
         Type getType() const;
 
@@ -67,6 +73,8 @@ class StaticElementInformation : public QObject
         const DynamicElementInformation* getTargetedWalkerConf() const;
 
         int getTargetedWalkerGenerationInterval() const;
+
+        const StaticSearchCriteria& getTargetCriteria() const;
 
         /**
          * @brief Check if the model for a static element is valid.

@@ -23,7 +23,7 @@ class CityEntryPoint : public AbstractProcessableStaticMapElement
 
         virtual void process(const CycleDate& date);
 
-        virtual void processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
+        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
 
     public slots:
         void registerImmigrantRequest(AbstractProcessableStaticMapElement* issuer, std::function<void(TargetedWalker*)> onImmigrantCreation);

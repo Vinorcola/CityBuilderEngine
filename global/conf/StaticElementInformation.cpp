@@ -30,9 +30,23 @@ StaticElementInformation::StaticElementInformation(QObject* parent, const Conf* 
         conf->getDynamicElementConf(QString::fromStdString(model["targetedWalkerType"].as<std::string>())) :
         nullptr
     ),
-    targetedWalkerInterval((model["targetedWalkerInterval"] ? model["targetedWalkerInterval"].as<int>() : 0) * CYCLE_PER_SECOND)
+    targetedWalkerInterval((model["targetedWalkerInterval"] ? model["targetedWalkerInterval"].as<int>() : 0) * CYCLE_PER_SECOND),
+    targetCriteriaDescription(model["targetCriteria"] ?
+        new StaticSearchCriteriaDescription(this, model["targetCriteria"]) :
+        nullptr
+    ),
+    targetCriteria()
 {
 
+}
+
+
+
+void StaticElementInformation::resolveDependencies(const Conf* conf)
+{
+    if (targetCriteriaDescription) {
+        targetCriteria.reset(new StaticSearchCriteria(conf->getStaticElementConf(targetCriteriaDescription->getTargetKey())));
+    }
 }
 
 
@@ -96,6 +110,13 @@ const DynamicElementInformation* StaticElementInformation::getTargetedWalkerConf
 int StaticElementInformation::getTargetedWalkerGenerationInterval() const
 {
     return targetedWalkerInterval;
+}
+
+
+
+const StaticSearchCriteria& StaticElementInformation::getTargetCriteria() const
+{
+return *targetCriteria;
 }
 
 

@@ -39,9 +39,9 @@ void CityEntryPoint::process(const CycleDate& date)
 
 
 
-void CityEntryPoint::processInteraction(const CycleDate& /*date*/, AbstractDynamicMapElement* /*actor*/)
+bool CityEntryPoint::processInteraction(const CycleDate& /*date*/, AbstractDynamicMapElement* /*actor*/)
 {
-
+    return false;
 }
 
 

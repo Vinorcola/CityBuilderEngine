@@ -112,6 +112,8 @@ staticElements:
         randomWalkerInterval: 8
         targetedWalkerType: competitor
         targetedWalkerInterval: 34
+        targetCriteria:
+            type: stadium
     house:
         type: housingBuilding
         title: House

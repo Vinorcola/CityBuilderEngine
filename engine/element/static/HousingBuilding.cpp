@@ -31,7 +31,7 @@ void HousingBuilding::process(const CycleDate& /*date*/)
 
 
 
-void HousingBuilding::processInteraction(const CycleDate& /*date*/, AbstractDynamicMapElement* actor)
+bool HousingBuilding::processInteraction(const CycleDate& /*date*/, AbstractDynamicMapElement* actor)
 {
     if (actor == currentImmigrant) {
         emit requestDynamicElementDestruction(currentImmigrant, [this]() {
@@ -50,5 +50,9 @@ void HousingBuilding::processInteraction(const CycleDate& /*date*/, AbstractDyna
                 });
             }
         });
+
+        return true;
     }
+
+    return false;
 }

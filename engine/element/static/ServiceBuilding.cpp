@@ -36,7 +36,7 @@ void ServiceBuilding::process(const CycleDate& date)
 
 
 
-void ServiceBuilding::processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor)
+bool ServiceBuilding::processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor)
 {
     if (randomWalkers) {
         auto walker(dynamic_cast<TargetedWalker*>(actor));
@@ -44,6 +44,10 @@ void ServiceBuilding::processInteraction(const CycleDate& date, AbstractDynamicM
             emit requestDynamicElementDestruction(walker, [this, date]() {
                 randomWalkers->clean(date);
             });
+
+            return true;
         }
     }
+
+    return false;
 }

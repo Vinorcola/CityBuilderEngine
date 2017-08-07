@@ -2,22 +2,23 @@
 #define CULTUREBUILDING_HPP
 
 #include "engine/element/static/ServiceBuilding.hpp"
+#include "engine/element/TargetedWalkerPool.hpp"
 
 class CultureBuilding : public ServiceBuilding
 {
         Q_OBJECT
 
     private:
-        WalkerPool* targetedWalkers;
+        TargetedWalkerPool* targetedWalkers;
 
     public:
-        CultureBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
+        CultureBuilding(QObject* parent, const SearchEngine* searchEngine, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
 
         virtual void init(const CycleDate& date);
 
         virtual void process(const CycleDate& date);
 
-        virtual void processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
+        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
 
     private slots:
         void requestTargetedWalkerCreation(

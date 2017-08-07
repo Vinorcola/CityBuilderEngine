@@ -8,7 +8,7 @@ class WalkerPool : public AbstractProcessable
 {
         Q_OBJECT
 
-    private:
+    protected:
         const DynamicElementInformation* elementConf;
         const int generationInterval;
         const int max;
@@ -16,7 +16,12 @@ class WalkerPool : public AbstractProcessable
         QList<QPointer<TargetedWalker>> walkers;
 
     public:
-        WalkerPool(QObject* parent, const DynamicElementInformation* elementConf, const int generationInterval, const int max = 1);
+        WalkerPool(
+            QObject* parent,
+            const DynamicElementInformation* elementConf,
+            const int generationInterval,
+            const int max = 1
+        );
 
         bool contains(const TargetedWalker* walker) const;
 

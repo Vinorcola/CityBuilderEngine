@@ -21,6 +21,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     processor(new TimeCycleProcessor(this)),
     elementList(),
     staticElementList(),
+    searchEngine(new SearchEngine(this, staticElementList)),
     entryPoint()
 {
     // Load static elements.
@@ -191,7 +192,7 @@ void Map::createStaticElement(
         }
 
         case StaticElementInformation::Type::CultureBuilding: {
-            auto element(new CultureBuilding(this, elementConf, area, getAutoEntryPoint(area)));
+            auto element(new CultureBuilding(this, searchEngine, elementConf, area, getAutoEntryPoint(area)));
             pointer = element;
             processor->registerProcessable(element);
             elementList.append(element);

@@ -18,6 +18,7 @@ SOURCES += \
     engine/element/static/Road.cpp \
     engine/element/static/ServiceBuilding.cpp \
     engine/element/AbstractMapElement.cpp \
+    engine/element/TargetedWalkerPool.cpp \
     engine/element/WalkerPool.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
     engine/map/roadGraph/RoadGraphNode.cpp \
@@ -25,6 +26,8 @@ SOURCES += \
     engine/map/roadGraph/RoadPathFinderNode.cpp \
     engine/map/roadGraph/RoadPathFinderNodeList.cpp \
     engine/map/roadGraph/RoadPathFinderOrderedNodeList.cpp \
+    engine/map/searchEngine/SearchEngine.cpp \
+    engine/map/searchEngine/StaticSearchCriteria.cpp \
     engine/map/CityStatus.cpp \
     engine/map/Map.cpp \
     engine/map/MapArea.cpp \
@@ -46,6 +49,7 @@ SOURCES += \
     global/conf/DynamicElementInformation.cpp \
     global/conf/StaticElementAreaPartDescription.cpp \
     global/conf/StaticElementInformation.cpp \
+    global/conf/StaticSearchCriteriaDescription.cpp \
     ui/controlPanel/BuildingButton.cpp \
     ui/controlPanel/ControlPanel.cpp \
     ui/MainWindow.cpp \
@@ -69,6 +73,7 @@ HEADERS += \
     engine/element/static/Road.hpp \
     engine/element/static/ServiceBuilding.hpp \
     engine/element/AbstractMapElement.hpp \
+    engine/element/TargetedWalkerPool.hpp \
     engine/element/WalkerPool.hpp \
     engine/map/roadGraph/RoadGraph.hpp \
     engine/map/roadGraph/RoadGraphNode.hpp \
@@ -76,6 +81,8 @@ HEADERS += \
     engine/map/roadGraph/RoadPathFinderNode.hpp \
     engine/map/roadGraph/RoadPathFinderNodeList.hpp \
     engine/map/roadGraph/RoadPathFinderOrderedNodeList.hpp \
+    engine/map/searchEngine/SearchEngine.hpp \
+    engine/map/searchEngine/StaticSearchCriteria.hpp \
     engine/map/CityStatus.hpp \
     engine/map/Map.hpp \
     engine/map/MapArea.hpp \
@@ -97,6 +104,7 @@ HEADERS += \
     global/conf/DynamicElementInformation.hpp \
     global/conf/StaticElementAreaPartDescription.hpp \
     global/conf/StaticElementInformation.hpp \
+    global/conf/StaticSearchCriteriaDescription.hpp \
     ui/controlPanel/BuildingButton.hpp \
     ui/controlPanel/ControlPanel.hpp \
     ui/MainWindow.hpp \

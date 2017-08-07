@@ -2,8 +2,12 @@
 
 
 
-WalkerPool::WalkerPool(QObject* parent, const DynamicElementInformation* elementConf, const int generationInterval, const int max) :
-    AbstractProcessable(parent),
+WalkerPool::WalkerPool(
+    QObject* parent,
+    const DynamicElementInformation* elementConf,
+    const int generationInterval,
+    const int max
+) : AbstractProcessable(parent),
     elementConf(elementConf),
     generationInterval(generationInterval),
     max(max),

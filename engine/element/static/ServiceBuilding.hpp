@@ -23,7 +23,7 @@ class ServiceBuilding : public AbstractProcessableStaticMapElement
 
         virtual void process(const CycleDate& date);
 
-        virtual void processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
+        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
 };
 
 #endif // SERVICEBUILDING_HPP

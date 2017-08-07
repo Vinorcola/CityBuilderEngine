@@ -6,6 +6,7 @@
 #include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
 #include "engine/element/static/AbstractStaticMapElement.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
+#include "engine/map/searchEngine/SearchEngine.hpp"
 #include "engine/map/CityStatus.hpp"
 #include "engine/map/MapLoader.hpp"
 #include "engine/map/MapSize.hpp"
@@ -28,6 +29,7 @@ class Map : public QObject
         TimeCycleProcessor* processor;
         QLinkedList<AbstractMapElement*> elementList;
         QLinkedList<AbstractStaticMapElement*> staticElementList;
+        SearchEngine* searchEngine;
         CityEntryPoint* entryPoint;
 
     public:
