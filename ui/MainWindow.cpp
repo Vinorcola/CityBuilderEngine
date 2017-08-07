@@ -26,7 +26,7 @@ MainWindow::MainWindow() :
     gameMenu->addAction(pauseAction);
 
     QAction* quitAction(new QAction(tr("Close the game"), this));
-    quitAction->setShortcut(QKeySequence::Quit);
+    quitAction->setShortcuts({ Qt::CTRL + Qt::Key_Q, QKeySequence::Quit });
     gameMenu->addAction(quitAction);
     connect(quitAction, &QAction::triggered, this, &MainWindow::close);
 

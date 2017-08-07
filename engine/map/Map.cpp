@@ -59,7 +59,7 @@ bool Map::isValidCoordinates(const MapCoordinates& coordinates) const
     int diff(coordinates.getY() - coordinates.getX());
     return (
         diff >= 0 && diff < size.height() &&
-        sum >= 0 && sum < size.width()
+        sum >= 0 && sum <= size.width()
     );
 }
 
@@ -92,6 +92,10 @@ bool Map::isFreeCoordinates(const MapCoordinates& coordinates) const
 
 bool Map::isFreeArea(const MapArea& area) const
 {
+    if (!isValidArea(area)) {
+        return false;
+    }
+
     auto left(area.getLeft());
     auto right(area.getRight());
 
