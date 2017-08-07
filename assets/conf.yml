@@ -155,6 +155,7 @@ staticElements:
         randomWalkerType: competitor
         maxRandomWalkers: 1
         randomWalkerInterval: 8
+        needWalker: competitor
     taxOffice:
         type: serviceBuilding
         title: Tax Office

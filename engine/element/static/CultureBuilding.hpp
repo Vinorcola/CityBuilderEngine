@@ -20,6 +20,8 @@ class CultureBuilding : public ServiceBuilding
 
         virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
 
+        virtual void notifyWalkerDestruction(const CycleDate& date);
+
     private slots:
         void requestTargetedWalkerCreation(
             const DynamicElementInformation* elementConf,

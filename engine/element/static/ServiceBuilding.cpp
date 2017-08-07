@@ -9,7 +9,8 @@ ServiceBuilding::ServiceBuilding(QObject* parent, const StaticElementInformation
     randomWalkers(entryPoint.isValid() && conf->getRandomWalkerConf() ?
         new WalkerPool(this, conf->getRandomWalkerConf(), conf->getRandomWalkerGenerationInterval(), conf->getMaxNumberOfRandomWalkers()) :
         nullptr
-    )
+    ),
+    canGenerateWalkersUntil()
 {
     if (randomWalkers) {
         connect(randomWalkers, &WalkerPool::requestDynamicElementCreation, this, &ServiceBuilding::requestDynamicElementCreation);
@@ -20,7 +21,7 @@ ServiceBuilding::ServiceBuilding(QObject* parent, const StaticElementInformation
 
 void ServiceBuilding::init(const CycleDate& date)
 {
-    if (randomWalkers) {
+    if (randomWalkers && !conf->getNeededWalker()) {
         randomWalkers->init(date);
     }
 }
@@ -29,7 +30,7 @@ void ServiceBuilding::init(const CycleDate& date)
 
 void ServiceBuilding::process(const CycleDate& date)
 {
-    if (randomWalkers) {
+    if (randomWalkers && (!conf->getNeededWalker() || date <= canGenerateWalkersUntil)) {
         randomWalkers->process(date);
     }
 }
@@ -47,6 +48,21 @@ bool ServiceBuilding::processInteraction(const CycleDate& date, AbstractDynamicM
 
             return true;
         }
+    }
+    if (actor->getConf() == conf->getNeededWalker()) {
+        auto issuer(actor->getIssuer());
+        emit requestDynamicElementDestruction(actor, [this, date, issuer]() {
+            if (issuer) {
+                issuer->notifyWalkerDestruction(date);
+            }
+            if (canGenerateWalkersUntil < date) {
+                randomWalkers->init(date);
+            }
+            canGenerateWalkersUntil = date;
+            canGenerateWalkersUntil.add(conf->getRandomWalkerGenerationInterval() * 10);
+        });
+
+        return true;
     }
 
     return false;

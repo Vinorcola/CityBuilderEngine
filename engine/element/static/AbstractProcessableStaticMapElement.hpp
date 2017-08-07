@@ -30,6 +30,12 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
          */
         virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) = 0;
 
+        /**
+         * @brief Notify that a walker originated from the static element was destroyed.
+         * @param date
+         */
+        virtual void notifyWalkerDestruction(const CycleDate& date);
+
     signals:
         void requestDynamicElementCreation(
             const DynamicElementInformation* elementConf,

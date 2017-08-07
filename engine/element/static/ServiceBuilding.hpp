@@ -15,6 +15,7 @@ class ServiceBuilding : public AbstractProcessableStaticMapElement
 
     private:
         WalkerPool* randomWalkers;
+        CycleDate canGenerateWalkersUntil;
 
     public:
         ServiceBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);

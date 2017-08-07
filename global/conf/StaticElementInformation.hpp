@@ -45,6 +45,7 @@ class StaticElementInformation : public QObject
         int targetedWalkerInterval;
         StaticSearchCriteriaDescription* targetCriteriaDescription;
         QScopedPointer<StaticSearchCriteria> targetCriteria;
+        const DynamicElementInformation* needWalker;
 
     public:
         /**
@@ -75,6 +76,8 @@ class StaticElementInformation : public QObject
         int getTargetedWalkerGenerationInterval() const;
 
         const StaticSearchCriteria& getTargetCriteria() const;
+
+        const DynamicElementInformation* getNeededWalker() const;
 
         /**
          * @brief Check if the model for a static element is valid.

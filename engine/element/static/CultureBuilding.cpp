@@ -62,16 +62,16 @@ bool CultureBuilding::processInteraction(const CycleDate& date, AbstractDynamicM
             return true;
         }
     }
-    if (actor->getConf() == conf->getRandomWalkerConf()) {
-        // The actor is not a known walker but is of the same type that random walkers emitted. We can then accept it.
-        emit requestDynamicElementDestruction(actor, [this, date]() {
-            // TODO: Now, building can emit random walkers.
-        });
-
-        return true;
-    }
 
     return false;
+}
+
+
+
+void CultureBuilding::notifyWalkerDestruction(const CycleDate& date)
+{
+    ServiceBuilding::notifyWalkerDestruction(date);
+    targetedWalkers->clean(date);
 }
 
 

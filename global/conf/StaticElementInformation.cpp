@@ -35,7 +35,11 @@ StaticElementInformation::StaticElementInformation(QObject* parent, const Conf* 
         new StaticSearchCriteriaDescription(this, model["targetCriteria"]) :
         nullptr
     ),
-    targetCriteria()
+    targetCriteria(),
+    needWalker(model["needWalker"] ?
+        conf->getDynamicElementConf(QString::fromStdString(model["needWalker"].as<std::string>())) :
+        nullptr
+    )
 {
 
 }
@@ -116,7 +120,14 @@ int StaticElementInformation::getTargetedWalkerGenerationInterval() const
 
 const StaticSearchCriteria& StaticElementInformation::getTargetCriteria() const
 {
-return *targetCriteria;
+    return *targetCriteria;
+}
+
+
+
+const DynamicElementInformation* StaticElementInformation::getNeededWalker() const
+{
+    return needWalker;
 }
 
 

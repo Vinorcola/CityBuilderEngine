@@ -66,6 +66,11 @@ class AbstractDynamicMapElement : public AbstractProcessable, public AbstractMap
         const MapCoordinates& getGoingToLocation() const;
 
         /**
+         * @brief Get the element issuer.
+         */
+        AbstractProcessableStaticMapElement* getIssuer() const;
+
+        /**
          * @brief Make the dynamic element move towards the moveToLocation.
          * @param date The current cycle-time date.
          */

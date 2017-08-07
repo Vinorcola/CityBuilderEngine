@@ -54,6 +54,13 @@ const MapCoordinates& AbstractDynamicMapElement::getGoingToLocation() const
 
 
 
+AbstractProcessableStaticMapElement* AbstractDynamicMapElement::getIssuer() const
+{
+    return issuer;
+}
+
+
+
 void AbstractDynamicMapElement::process(const CycleDate& date)
 {
     if (moveToLocation.isValid()) {
