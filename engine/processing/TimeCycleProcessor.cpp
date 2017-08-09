@@ -40,6 +40,13 @@ void TimeCycleProcessor::unregisterProcessable(AbstractProcessable* processable)
 
 
 
+qreal TimeCycleProcessor::getSpeedRatio() const
+{
+    return speedRatio;
+}
+
+
+
 void TimeCycleProcessor::pause(const bool pause)
 {
     if (pause != paused) {

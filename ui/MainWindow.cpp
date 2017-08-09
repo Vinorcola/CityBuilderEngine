@@ -1,5 +1,6 @@
 #include "MainWindow.hpp"
 
+#include <QtWidgets/QInputDialog>
 #include <QtWidgets/QMenuBar>
 
 #include "viewer/MapViewer.hpp"
@@ -12,13 +13,14 @@ MainWindow::MainWindow() :
     conf(new Conf(this, "assets/conf.yml")),
     controlPanel(new ControlPanel(conf)),
     currentMap(nullptr),
-    pauseAction(new QAction(tr("Pause"), this))
+    pauseAction(new QAction(tr("Pause"), this)),
+    speedAction(new QAction(tr("Speed"), this))
 #ifdef DEBUG_TOOLS
     ,
     processAction(new QAction("Process next step", this))
 #endif
 {
-    // Menus.
+    // Game menu.
     QMenu* gameMenu(menuBar()->addMenu(tr("Game")));
 
     pauseAction->setShortcuts({ Qt::Key_P, Qt::Key_Pause });
@@ -30,7 +32,15 @@ MainWindow::MainWindow() :
     gameMenu->addAction(quitAction);
     connect(quitAction, &QAction::triggered, this, &MainWindow::close);
 
+    // Options menu.
+    QMenu* optionsMenu(menuBar()->addMenu(tr("Options")));
+
+    speedAction->setDisabled(true);
+    optionsMenu->addAction(speedAction);
+    connect(speedAction, &QAction::triggered, this, &MainWindow::openSpeedDialog);
+
 #ifdef DEBUG_TOOLS
+    // Debug menu.
     QMenu* debugMenu(menuBar()->addMenu("Debug"));
 
     processAction->setShortcut(Qt::Key_Space);
@@ -62,8 +72,10 @@ void MainWindow::loadMap(const QString& filePath)
         delete currentMap;
     }
     currentMap = new Map(conf, MapLoader(filePath));
+    speedAction->setEnabled(true);
     pauseAction->setChecked(false);
     connect(pauseAction, &QAction::toggled, currentMap, &Map::pause);
+    connect(this, &MainWindow::requestSpeedRatioChange, currentMap, &Map::setProcessorSpeedRatio);
 #ifdef DEBUG_TOOLS
     connect(processAction, &QAction::triggered, currentMap->getProcessor(), &TimeCycleProcessor::forceNextProcess);
 #endif
@@ -71,5 +83,18 @@ void MainWindow::loadMap(const QString& filePath)
     MapViewer* viewer(new MapViewer(*currentMap));
     setCentralWidget(viewer);
     connect(controlPanel, &ControlPanel::buildingRequested, viewer, &MapViewer::buildingRequest);
+}
+
+
+
+void MainWindow::openSpeedDialog()
+{
+    pauseAction->trigger();
+    int initialSpeed(currentMap->getProcessor()->getSpeedRatio() * 100.0);
+    int speed(QInputDialog::getInt(this, tr("Speed"), tr("Game speed"), initialSpeed, 10, 200, 10));
+    if (speed != initialSpeed) {
+        emit requestSpeedRatioChange(speed / 100.0);
+    }
+    pauseAction->trigger();
 }
 

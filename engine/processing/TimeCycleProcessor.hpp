@@ -48,6 +48,8 @@ class TimeCycleProcessor : public QObject
          */
         void unregisterProcessable(AbstractProcessable* processable);
 
+        qreal getSpeedRatio() const;
+
     public slots:
         /**
          * @brief Pause (or resume) the time-cycle processor.

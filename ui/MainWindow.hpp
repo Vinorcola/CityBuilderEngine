@@ -16,6 +16,7 @@ class MainWindow : public QMainWindow
         ControlPanel* controlPanel;
         Map* currentMap;
         QAction* pauseAction;
+        QAction* speedAction;
 #ifdef DEBUG_TOOLS
         QAction* processAction;
 #endif
@@ -25,7 +26,13 @@ class MainWindow : public QMainWindow
 
         virtual ~MainWindow();
 
+    public slots:
         void loadMap(const QString& filePath);
+
+        void openSpeedDialog();
+
+    signals:
+        void requestSpeedRatioChange(const qreal speedRatio);
 };
 
 #endif // MAINWINDOW_HPP
