@@ -57,7 +57,7 @@ class TimeCycleProcessor : public QObject
         /**
          * @brief Change the speed ratio of the time-cycle loop.
          *
-         * @param ratio A ratio between 0.1 and 1.
+         * @param ratio A ratio between 0.1 and 2.
          */
         void setSpeedRatio(const qreal ratio);
 

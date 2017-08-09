@@ -56,7 +56,7 @@ void TimeCycleProcessor::pause(const bool pause)
 
 void TimeCycleProcessor::setSpeedRatio(const qreal ratio)
 {
-    if (ratio != speedRatio && ratio >= 0.1 && ratio <= 1.0) {
+    if (ratio != speedRatio && ratio >= 0.1 && ratio <= 2.0) {
         speedRatio = ratio;
 
         if (!paused) {
@@ -75,6 +75,7 @@ void TimeCycleProcessor::forceNextProcess()
         processCycle();
     }
 }
+
 
 
 void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
