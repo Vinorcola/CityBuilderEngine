@@ -66,8 +66,7 @@ void WalkerPool::process(const CycleDate& date)
 void WalkerPool::setupNextWalkerGenerationDate(const CycleDate& currentDate)
 {
     if (walkers.size() < max && nextGenerationDate <= currentDate) {
-        nextGenerationDate = currentDate;
-        nextGenerationDate.add(generationInterval);
+        nextGenerationDate.reassign(currentDate, generationInterval);
     }
 }
 

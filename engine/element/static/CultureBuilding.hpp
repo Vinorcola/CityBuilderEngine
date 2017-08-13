@@ -12,15 +12,21 @@ class CultureBuilding : public ServiceBuilding
         TargetedWalkerPool* targetedWalkers;
 
     public:
-        CultureBuilding(QObject* parent, const SearchEngine* searchEngine, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
+        CultureBuilding(
+            QObject* parent,
+            const SearchEngine* searchEngine,
+            const StaticElementInformation* conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
 
-        virtual void init(const CycleDate& date);
+        virtual void init(const CycleDate& date) override;
 
-        virtual void process(const CycleDate& date);
+        virtual void process(const CycleDate& date) override;
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
+        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
 
-        virtual void notifyWalkerDestruction(const CycleDate& date);
+        virtual void notifyWalkerDestruction(const CycleDate& date) override;
 
     private slots:
         void requestTargetedWalkerCreation(

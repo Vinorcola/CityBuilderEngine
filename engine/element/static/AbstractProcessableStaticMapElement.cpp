@@ -17,7 +17,7 @@ const MapCoordinates& AbstractProcessableStaticMapElement::getEntryPoint() const
 
 
 
-void AbstractProcessableStaticMapElement::notifyWalkerDestruction(const CycleDate& date)
+void AbstractProcessableStaticMapElement::notifyWalkerDestruction(const CycleDate& /*date*/)
 {
 
 }

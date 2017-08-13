@@ -1,5 +1,7 @@
 #include "CultureBuilding.hpp"
 
+#include "engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp"
+
 
 
 CultureBuilding::CultureBuilding(
@@ -8,7 +10,8 @@ CultureBuilding::CultureBuilding(
     const StaticElementInformation* conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
-) : ServiceBuilding(parent, conf, area, entryPoint),
+) :
+    ServiceBuilding(parent, conf, area, entryPoint),
     targetedWalkers(entryPoint.isValid() && conf->getTargetedWalkerConf() ?
         new TargetedWalkerPool(
             this,
@@ -23,6 +26,15 @@ CultureBuilding::CultureBuilding(
     if (targetedWalkers) {
         connect(targetedWalkers, &WalkerPool::requestDynamicElementCreation, this, &CultureBuilding::requestTargetedWalkerCreation);
     }
+//    return conf->getNeededWalker() ?
+//        new ConditionalRandomWalkerGenerator(
+//            this,
+//            conf->getRandomWalkerConf(),
+//            conf->getNeededWalker(),
+//            conf->getRandomWalkerGenerationInterval(),
+//            conf->getMaxNumberOfRandomWalkers()
+//        ) :
+//        ServiceBuilding::generateRandomWalker(conf);
 }
 
 

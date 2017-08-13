@@ -60,7 +60,6 @@ void CityEntryPoint::registerImmigrantRequest(AbstractProcessableStaticMapElemen
 void CityEntryPoint::setupNextImmigrantGenerationDate(const CycleDate& currentDate)
 {
     if (!immigrantRequestQueue.isEmpty() && nextImmigrantGenerationDate <= currentDate) {
-        nextImmigrantGenerationDate = currentDate;
-        nextImmigrantGenerationDate.add(randomInt(IMMIGRANT_MIN_INTERVAL, IMMIGRANT_MAX_INTERVAL));
+        nextImmigrantGenerationDate.reassign(currentDate, randomInt(IMMIGRANT_MIN_INTERVAL, IMMIGRANT_MAX_INTERVAL));
     }
 }

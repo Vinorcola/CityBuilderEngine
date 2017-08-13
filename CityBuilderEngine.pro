@@ -10,6 +10,9 @@ SOURCES += \
     engine/element/dynamic/AbstractDynamicMapElement.cpp \
     engine/element/dynamic/RandomWalker.cpp \
     engine/element/dynamic/TargetedWalker.cpp \
+    engine/element/static/behavior/AbstractStaticElementBehavior.cpp \
+    engine/element/static/behavior/ConditionalRandomWalkerGenerator.cpp \
+    engine/element/static/behavior/RandomWalkerGenerator.cpp \
     engine/element/static/AbstractProcessableStaticMapElement.cpp \
     engine/element/static/AbstractStaticMapElement.cpp \
     engine/element/static/CityEntryPoint.cpp \
@@ -65,6 +68,9 @@ HEADERS += \
     engine/element/dynamic/AbstractDynamicMapElement.hpp \
     engine/element/dynamic/RandomWalker.hpp \
     engine/element/dynamic/TargetedWalker.hpp \
+    engine/element/static/behavior/AbstractStaticElementBehavior.hpp \
+    engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp \
+    engine/element/static/behavior/RandomWalkerGenerator.hpp \
     engine/element/static/AbstractProcessableStaticMapElement.hpp \
     engine/element/static/AbstractStaticMapElement.hpp \
     engine/element/static/CityEntryPoint.hpp \

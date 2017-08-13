@@ -1,7 +1,7 @@
 #ifndef SERVICEBUILDING_HPP
 #define SERVICEBUILDING_HPP
 
-#include "engine/element/WalkerPool.hpp"
+#include "engine/element/static/behavior/RandomWalkerGenerator.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
 /**
@@ -14,17 +14,21 @@ class ServiceBuilding : public AbstractProcessableStaticMapElement
         Q_OBJECT
 
     private:
-        WalkerPool* randomWalkers;
-        CycleDate canGenerateWalkersUntil;
+        RandomWalkerGenerator* randomWalkers;
 
     public:
-        ServiceBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
+        ServiceBuilding(
+            QObject* parent,
+            const StaticElementInformation* conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
 
-        virtual void init(const CycleDate& date);
+        virtual void init(const CycleDate& date) override;
 
-        virtual void process(const CycleDate& date);
+        virtual void process(const CycleDate& date) override;
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
+        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
 };
 
 #endif // SERVICEBUILDING_HPP
