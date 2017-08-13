@@ -13,18 +13,19 @@ CultureBuilding::CultureBuilding(
 ) :
     ServiceBuilding(parent, conf, area, entryPoint),
     targetedWalkers(entryPoint.isValid() && conf->getTargetedWalkerConf() ?
-        new TargetedWalkerPool(
+        new TargetedWalkerGenerator(
             this,
             searchEngine,
+            conf->getTargetCriteria(),
             conf->getTargetedWalkerConf(),
-            conf->getTargetedWalkerGenerationInterval(),
-            conf->getTargetCriteria()
+            conf->getTargetedWalkerGenerationInterval()
         ) :
         nullptr
     )
 {
     if (targetedWalkers) {
-        connect(targetedWalkers, &WalkerPool::requestDynamicElementCreation, this, &CultureBuilding::requestTargetedWalkerCreation);
+        connect(targetedWalkers, &TargetedWalkerGenerator::requestDynamicElementCreation, this, &CultureBuilding::requestTargetedWalkerCreation);
+        connect(targetedWalkers, &TargetedWalkerGenerator::requestDynamicElementDestruction, this, &ServiceBuilding::requestDynamicElementDestruction);
     }
 //    return conf->getNeededWalker() ?
 //        new ConditionalRandomWalkerGenerator(
@@ -44,6 +45,9 @@ void CultureBuilding::init(const CycleDate& date)
     ServiceBuilding::init(date);
     if (targetedWalkers) {
         targetedWalkers->init(date);
+        if (getEntryPoint().isValid()) {
+            targetedWalkers->setGenerationSpeedRatio(1.0, date);
+        }
     }
 }
 
@@ -64,15 +68,8 @@ bool CultureBuilding::processInteraction(const CycleDate& date, AbstractDynamicM
     if (ServiceBuilding::processInteraction(date, actor)) {
         return true;
     }
-    if (targetedWalkers) {
-        auto walker(dynamic_cast<TargetedWalker*>(actor));
-        if (walker && targetedWalkers->contains(walker)) {
-            emit requestDynamicElementDestruction(walker, [this, date]() {
-                targetedWalkers->clean(date);
-            });
-
-            return true;
-        }
+    if (targetedWalkers && targetedWalkers->processInteraction(date, actor)) {
+        return true;
     }
 
     return false;
@@ -80,10 +77,10 @@ bool CultureBuilding::processInteraction(const CycleDate& date, AbstractDynamicM
 
 
 
-void CultureBuilding::notifyWalkerDestruction(const CycleDate& date)
+void CultureBuilding::notifyWalkerDestruction()
 {
-    ServiceBuilding::notifyWalkerDestruction(date);
-    targetedWalkers->clean(date);
+    ServiceBuilding::notifyWalkerDestruction();
+    targetedWalkers->clean();
 }
 
 

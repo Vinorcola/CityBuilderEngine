@@ -13,6 +13,7 @@ SOURCES += \
     engine/element/static/behavior/AbstractStaticElementBehavior.cpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.cpp \
     engine/element/static/behavior/RandomWalkerGenerator.cpp \
+    engine/element/static/behavior/TargetedWalkerGenerator.cpp \
     engine/element/static/AbstractProcessableStaticMapElement.cpp \
     engine/element/static/AbstractStaticMapElement.cpp \
     engine/element/static/CityEntryPoint.cpp \
@@ -21,8 +22,6 @@ SOURCES += \
     engine/element/static/Road.cpp \
     engine/element/static/ServiceBuilding.cpp \
     engine/element/AbstractMapElement.cpp \
-    engine/element/TargetedWalkerPool.cpp \
-    engine/element/WalkerPool.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
     engine/map/roadGraph/RoadGraphNode.cpp \
     engine/map/roadGraph/RoadPathFinder.cpp \
@@ -71,6 +70,7 @@ HEADERS += \
     engine/element/static/behavior/AbstractStaticElementBehavior.hpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp \
     engine/element/static/behavior/RandomWalkerGenerator.hpp \
+    engine/element/static/behavior/TargetedWalkerGenerator.hpp \
     engine/element/static/AbstractProcessableStaticMapElement.hpp \
     engine/element/static/AbstractStaticMapElement.hpp \
     engine/element/static/CityEntryPoint.hpp \
@@ -79,8 +79,6 @@ HEADERS += \
     engine/element/static/Road.hpp \
     engine/element/static/ServiceBuilding.hpp \
     engine/element/AbstractMapElement.hpp \
-    engine/element/TargetedWalkerPool.hpp \
-    engine/element/WalkerPool.hpp \
     engine/map/roadGraph/RoadGraph.hpp \
     engine/map/roadGraph/RoadGraphNode.hpp \
     engine/map/roadGraph/RoadPathFinder.hpp \

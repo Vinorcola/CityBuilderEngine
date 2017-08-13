@@ -14,10 +14,3 @@ const MapCoordinates& AbstractProcessableStaticMapElement::getEntryPoint() const
 {
     return entryPoint;
 }
-
-
-
-void AbstractProcessableStaticMapElement::notifyWalkerDestruction(const CycleDate& /*date*/)
-{
-
-}

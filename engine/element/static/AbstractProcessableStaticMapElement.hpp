@@ -34,7 +34,7 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
          * @brief Notify that a walker originated from the static element was destroyed.
          * @param date
          */
-        virtual void notifyWalkerDestruction(const CycleDate& date);
+        virtual void notifyWalkerDestruction() {}
 
     signals:
         void requestDynamicElementCreation(

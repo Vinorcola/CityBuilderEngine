@@ -2,14 +2,14 @@
 #define CULTUREBUILDING_HPP
 
 #include "engine/element/static/ServiceBuilding.hpp"
-#include "engine/element/TargetedWalkerPool.hpp"
+#include "engine/element/static/behavior/TargetedWalkerGenerator.hpp"
 
 class CultureBuilding : public ServiceBuilding
 {
         Q_OBJECT
 
     private:
-        TargetedWalkerPool* targetedWalkers;
+        TargetedWalkerGenerator* targetedWalkers;
 
     public:
         CultureBuilding(
@@ -26,7 +26,7 @@ class CultureBuilding : public ServiceBuilding
 
         virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
 
-        virtual void notifyWalkerDestruction(const CycleDate& date) override;
+        virtual void notifyWalkerDestruction() override;
 
     private slots:
         void requestTargetedWalkerCreation(

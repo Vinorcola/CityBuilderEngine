@@ -45,7 +45,7 @@ bool ConditionalRandomWalkerGenerator::processInteraction(const CycleDate& date,
         auto issuer(actor->getIssuer());
         emit requestDynamicElementDestruction(actor, [this, date, issuer]() {
             if (issuer) {
-                issuer->notifyWalkerDestruction(date);
+                issuer->notifyWalkerDestruction();
             }
         });
 
