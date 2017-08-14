@@ -1,8 +1,16 @@
 #ifndef CITYENTRYPOINT_HPP
 #define CITYENTRYPOINT_HPP
 
-#include "engine/element/dynamic/TargetedWalker.hpp"
+#include <functional>
+#include <QtCore/QList>
+
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/processing/CycleDate.hpp"
+
+class AbstractDynamicMapElement;
+class DynamicElementInformation;
+class MapCoordinates;
+class TargetedWalker;
 
 class CityEntryPoint : public AbstractProcessableStaticMapElement
 {

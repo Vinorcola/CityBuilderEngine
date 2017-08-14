@@ -1,8 +1,12 @@
 #ifndef ROADGRAPHNODE_HPP
 #define ROADGRAPHNODE_HPP
 
+#include <QtCore/QList>
+#include <QtCore/QObject>
+
 #include "engine/map/MapCoordinates.hpp"
-#include "engine/map/roadGraph/RoadGraph.hpp"
+
+class RoadGraph;
 
 /**
  * @brief The RoadGraphNode class represent a node in the road graph.

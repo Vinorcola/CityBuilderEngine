@@ -2,8 +2,11 @@
 #define ROADPATHFINDER_HPP
 
 #include <QtCore/QList>
+#include <QtCore/QObject>
 
-#include "engine/map/roadGraph/RoadGraphNode.hpp"
+class MapCoordinates;
+class RoadGraph;
+class RoadGraphNode;
 
 /**
  * @brief The RoadPathFinder class run an A* algorithm on a road graph to find the shortest path between two nodes.

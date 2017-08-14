@@ -4,7 +4,10 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtGui/QPixmap>
-#include <yaml-cpp/node/node.h>
+
+namespace YAML {
+    class Node;
+}
 
 class DynamicElementInformation : public QObject
 {
@@ -26,7 +29,7 @@ class DynamicElementInformation : public QObject
         QPixmap image;
 
     public:
-        DynamicElementInformation(QObject* parent, const QString& key, YAML::Node model);
+        DynamicElementInformation(QObject* parent, const QString& key, const YAML::Node& model);
 
         Type getType() const;
 

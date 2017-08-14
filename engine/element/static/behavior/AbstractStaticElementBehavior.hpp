@@ -1,8 +1,10 @@
 #ifndef ABSTRACTSTATICELEMENTBEHAVIOR_HPP
 #define ABSTRACTSTATICELEMENTBEHAVIOR_HPP
 
-#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
+
+class AbstractDynamicMapElement;
+class CycleDate;
 
 class AbstractStaticElementBehavior : public AbstractProcessable
 {

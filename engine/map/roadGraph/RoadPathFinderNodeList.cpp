@@ -1,5 +1,7 @@
 #include "RoadPathFinderNodeList.hpp"
 
+#include "engine/map/roadGraph/RoadPathFinderNode.hpp"
+
 
 
 RoadPathFinderNodeList::RoadPathFinderNodeList() :

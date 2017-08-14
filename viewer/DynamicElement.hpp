@@ -1,9 +1,12 @@
 #ifndef DYNAMICELEMENT_HPP
 #define DYNAMICELEMENT_HPP
 
+#include <QtCore/QPointer>
 #include <QtWidgets/QGraphicsPixmapItem>
 
-#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "engine/map/MapCoordinates.hpp"
+
+class AbstractDynamicMapElement;
 
 class DynamicElement : public QGraphicsPixmapItem
 {

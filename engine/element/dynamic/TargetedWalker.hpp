@@ -1,8 +1,17 @@
 #ifndef TARGETEDWALKER_HPP
 #define TARGETEDWALKER_HPP
 
+#include <QtCore/QList>
+#include <QtCore/QPointer>
+
 #include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
-#include "engine/map/roadGraph/RoadGraphNode.hpp"
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/map/MapCoordinates.hpp"
+
+class CycleDate;
+class DynamicElementInformation;
+class RoadGraph;
+class RoadGraphNode;
 
 /**
  * @brief A targeted walker walks on the roads toward a specific target.
@@ -24,7 +33,12 @@ class TargetedWalker : public AbstractDynamicMapElement
         const RoadGraph* roadGraph;
 
     public:
-        TargetedWalker(QObject* parent, const DynamicElementInformation* conf, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer);
+        TargetedWalker(
+            QObject* parent,
+            const DynamicElementInformation* conf,
+            const RoadGraph* roadGraph,
+            AbstractProcessableStaticMapElement* issuer
+        );
 
         virtual void assignTarget(AbstractProcessableStaticMapElement* targetElement);
 
@@ -35,7 +49,7 @@ class TargetedWalker : public AbstractDynamicMapElement
         bool reachedTarget() const;
 
     protected:
-        virtual MapCoordinates findNextGoingToLocation(const CycleDate& date);
+        virtual MapCoordinates findNextGoingToLocation(const CycleDate& date) override;
 };
 
 #endif // TARGETEDWALKER_HPP

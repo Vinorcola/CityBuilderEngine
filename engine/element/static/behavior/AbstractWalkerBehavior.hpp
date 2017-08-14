@@ -1,7 +1,13 @@
 #ifndef ABSTRACTWALKERBEHAVIOR_HPP
 #define ABSTRACTWALKERBEHAVIOR_HPP
 
+#include <functional>
+
 #include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
+
+class AbstractDynamicMapElement;
+class AbstractProcessableStaticMapElement;
+class DynamicElementInformation;
 
 class AbstractWalkerBehavior : public AbstractStaticElementBehavior
 {

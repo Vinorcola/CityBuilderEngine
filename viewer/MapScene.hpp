@@ -3,10 +3,16 @@
 
 #include <QtWidgets/QGraphicsScene>
 
-#include "engine/map/Map.hpp"
-#include "viewer/DynamicElement.hpp"
-#include "viewer/SelectionElement.hpp"
-#include "viewer/Tile.hpp"
+class AbstractDynamicMapElement;
+class AbstractStaticMapElement;
+class DynamicElement;
+class Map;
+class MapArea;
+class MapCoordinates;
+class MapSize;
+class SelectionElement;
+class StaticElementInformation;
+class Tile;
 
 class MapScene : public QGraphicsScene
 {

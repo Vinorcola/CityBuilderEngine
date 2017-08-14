@@ -1,5 +1,8 @@
 #include "DynamicElement.hpp"
 
+#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "viewer/SelectionElement.hpp"
+
 const qreal BASE_DYNAMIC_ELEMENT_IMAGE_PADDING(5.0);
 
 

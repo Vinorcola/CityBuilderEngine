@@ -1,8 +1,17 @@
 #ifndef HOUSINGBUILDING_HPP
 #define HOUSINGBUILDING_HPP
 
+#include <functional>
+#include <QtCore/QPointer>
+
 #include "engine/element/dynamic/TargetedWalker.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+
+class AbstractDynamicMapElement;
+class CycleDate;
+class MapArea;
+class MapCoordinates;
+class StaticElementInformation;
 
 /**
  * @brief A housing building.
@@ -29,7 +38,11 @@ class HousingBuilding : public AbstractProcessableStaticMapElement
         virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor);
 
     signals:
-        void freeCapacityChanged(const int previousFreeCapacity, const int newFreeCapacity, std::function<void(TargetedWalker*)> onImmigrantCreation);
+        void freeCapacityChanged(
+            const int previousFreeCapacity,
+            const int newFreeCapacity,
+            std::function<void(TargetedWalker*)> onImmigrantCreation
+        );
 
         void inhabitantsChanged(const int inhabitantsDelta);
 };

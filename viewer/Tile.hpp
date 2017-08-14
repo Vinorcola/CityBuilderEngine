@@ -1,11 +1,14 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
+#include <QtCore/QList>
 #include <QtCore/QStack>
+#include <QtWidgets/QGraphicsObject>
 
 #include "engine/map/MapCoordinates.hpp"
-#include "viewer/DynamicElement.hpp"
-#include "viewer/StaticElement.hpp"
+
+class DynamicElement;
+class StaticElement;
 
 class Tile : public QGraphicsObject
 {

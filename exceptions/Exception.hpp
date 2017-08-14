@@ -1,7 +1,9 @@
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 
+#include <string>
 #include <QtCore/QException>
+#include <QtCore/QString>
 
 class Exception : public QException
 {

@@ -2,6 +2,11 @@
 #define CONDITIONALRANDOMWALKERGENERATOR_HPP
 
 #include "engine/element/static/behavior/RandomWalkerGenerator.hpp"
+#include "engine/processing/CycleDate.hpp"
+
+class AbstractDynamicMapElement;
+class AbstractProcessableStaticMapElement;
+class DynamicElementInformation;
 
 class ConditionalRandomWalkerGenerator : public RandomWalkerGenerator
 {

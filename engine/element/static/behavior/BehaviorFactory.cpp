@@ -3,9 +3,10 @@
 #include "engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp"
 #include "engine/element/static/behavior/RandomWalkerGenerator.hpp"
 #include "engine/element/static/behavior/TargetedWalkerGenerator.hpp"
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/map/Map.hpp"
+#include "exceptions/UnexpectedException.hpp"
 #include "global/conf/BehaviorInformation.hpp"
+#include "global/conf/DynamicElementInformation.hpp"
 
 
 

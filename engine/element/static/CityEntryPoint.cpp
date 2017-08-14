@@ -1,5 +1,6 @@
 #include "CityEntryPoint.hpp"
 
+#include "engine/element/dynamic/TargetedWalker.hpp"
 #include "engine/random.hpp"
 
 const int IMMIGRANT_MIN_INTERVAL(10);

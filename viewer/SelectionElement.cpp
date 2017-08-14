@@ -2,7 +2,9 @@
 
 #include <QGraphicsSceneMouseEvent>
 
+#include "global/conf/StaticElementInformation.hpp"
 #include "viewer/MapScene.hpp"
+#include "viewer/Tile.hpp"
 
 
 

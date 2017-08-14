@@ -16,7 +16,7 @@ class MapSize
 
         explicit MapSize(const int value);
 
-        bool operator!=(const MapSize& other) const;
+        bool operator !=(const MapSize& other) const;
 
         int getValue() const;
 };

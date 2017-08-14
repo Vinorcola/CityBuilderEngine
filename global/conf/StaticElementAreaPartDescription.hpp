@@ -34,7 +34,13 @@ class StaticElementAreaPartDescription : public QObject
          * @param type              The type of area part.
          * @param altitude          The altitude of the area part.
          */
-        StaticElementAreaPartDescription(QObject* parent, const MapCoordinates& anchorCoordinates, const MapSize& areaSize, Type type = Classic, int altitude = 0);
+        StaticElementAreaPartDescription(
+            QObject* parent,
+            const MapCoordinates& anchorCoordinates,
+            const MapSize& areaSize,
+            Type type = Classic,
+            int altitude = 0
+        );
 };
 
 #endif // STATICELEMENTAREAPARTDESCRIPTION_HPP

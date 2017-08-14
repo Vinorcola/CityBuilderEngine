@@ -1,11 +1,15 @@
 #ifndef CONTROLPANELELEMENTINFORMATION_HPP
 #define CONTROLPANELELEMENTINFORMATION_HPP
 
+#include <QtCore/QList>
 #include <QtCore/QObject>
-#include <yaml-cpp/node/node.h>
+#include <QtCore/QString>
 
 class Conf;
 class StaticElementInformation;
+namespace YAML {
+    class Node;
+}
 
 class ControlPanelElementInformation : public QObject
 {

@@ -2,6 +2,10 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include "global/conf/ControlPanelElementInformation.hpp"
+#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/StaticElementInformation.hpp"
+
 
 
 Conf::Conf(QObject* parent, const QString& filePath) :

@@ -3,7 +3,8 @@
 
 #include "engine/element/AbstractMapElement.hpp"
 #include "engine/map/MapArea.hpp"
-#include "global/conf/StaticElementInformation.hpp"
+
+class StaticElementInformation;
 
 /**
  * @brief Represent a static element on the map.

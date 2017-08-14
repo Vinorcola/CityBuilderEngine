@@ -3,7 +3,7 @@
 
 #include <QtCore/QList>
 
-#include "engine/map/roadGraph/RoadPathFinderNode.hpp"
+class RoadPathFinderNode;
 
 class RoadPathFinderNodeList
 {

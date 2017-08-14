@@ -1,9 +1,16 @@
 #ifndef RANDOMWALKERGENERATOR_HPP
 #define RANDOMWALKERGENERATOR_HPP
 
+#include <QtCore/QList>
+#include <QtCore/QPointer>
+
 #include "engine/element/dynamic/RandomWalker.hpp"
 #include "engine/element/static/behavior/AbstractWalkerBehavior.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
+#include "engine/processing/CycleDate.hpp"
+
+class AbstractDynamicMapElement;
+class AbstractProcessableStaticMapElement;
+class DynamicElementInformation;
 
 class RandomWalkerGenerator : public AbstractWalkerBehavior
 {

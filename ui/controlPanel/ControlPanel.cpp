@@ -3,6 +3,10 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QVBoxLayout>
 
+#include "global/conf/Conf.hpp"
+#include "global/conf/ControlPanelElementInformation.hpp"
+#include "ui/controlPanel/BuildingButton.hpp"
+
 
 
 ControlPanel::ControlPanel(const Conf* conf) :

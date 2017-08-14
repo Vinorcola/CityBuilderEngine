@@ -3,7 +3,8 @@
 
 #include <QtWidgets/QGraphicsView>
 
-#include "engine/map/Map.hpp"
+class Map;
+class StaticElementInformation;
 
 class MapViewer : public QGraphicsView
 {

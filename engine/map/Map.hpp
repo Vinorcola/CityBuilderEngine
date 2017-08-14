@@ -1,22 +1,28 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
+#include <functional>
 #include <QtCore/QLinkedList>
+#include <QtCore/QObject>
+#include <QtCore/QSize>
 
-#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
-#include "engine/element/static/behavior/BehaviorFactory.hpp"
-#include "engine/element/static/AbstractStaticMapElement.hpp"
-#include "engine/map/roadGraph/RoadGraph.hpp"
-#include "engine/map/searchEngine/SearchEngine.hpp"
-#include "engine/map/CityStatus.hpp"
-#include "engine/map/MapLoader.hpp"
-#include "engine/map/MapSize.hpp"
-#include "engine/processing/TimeCycleProcessor.hpp"
-#include "global/conf/Conf.hpp"
-
+class AbstractDynamicMapElement;
+class AbstractMapElement;
 class AbstractProcessableStaticMapElement;
+class AbstractStaticMapElement;
+class BehaviorFactory;
 class CityEntryPoint;
+class CityStatus;
+class Conf;
+class DynamicElementInformation;
+class MapArea;
+class MapCoordinates;
+class MapLoader;
+class RoadGraph;
+class SearchEngine;
+class StaticElementInformation;
 class TargetedWalker;
+class TimeCycleProcessor;
 
 class Map : public QObject
 {

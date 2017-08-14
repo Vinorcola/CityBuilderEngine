@@ -1,12 +1,17 @@
 #ifndef ABSTRACTPROCESSABLESTATICMAPELEMENT_HPP
 #define ABSTRACTPROCESSABLESTATICMAPELEMENT_HPP
 
-#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include <functional>
+
 #include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/map/MapCoordinates.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
 
 class AbstractDynamicMapElement;
+class CycleDate;
+class DynamicElementInformation;
+class MapArea;
+class StaticElementInformation;
 
 /**
  * @brief The base class for buildings that need to be processed.

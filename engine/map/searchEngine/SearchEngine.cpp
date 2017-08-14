@@ -1,5 +1,8 @@
 #include "SearchEngine.hpp"
 
+#include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/map/searchEngine/StaticSearchCriteria.hpp"
+
 
 
 SearchEngine::SearchEngine(QObject* parent, const QLinkedList<AbstractStaticMapElement*>& staticElements) :

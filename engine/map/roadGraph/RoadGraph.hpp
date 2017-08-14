@@ -4,9 +4,8 @@
 #include <QtCore/QList>
 #include <QtCore/QObject>
 
-#include "engine/map/MapArea.hpp"
-#include "exceptions/UnexpectedException.hpp"
-
+class MapArea;
+class MapCoordinates;
 class RoadGraphNode;
 
 /**

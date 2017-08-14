@@ -1,5 +1,7 @@
 #include "BuildingButton.hpp"
 
+#include "global/conf/StaticElementInformation.hpp"
+
 
 
 BuildingButton::BuildingButton(const StaticElementInformation* elementConf) :

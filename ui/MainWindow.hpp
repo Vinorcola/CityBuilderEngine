@@ -3,9 +3,9 @@
 
 #include <QtWidgets/QMainWindow>
 
-#include "engine/map/Map.hpp"
-#include "ui/controlPanel/ControlPanel.hpp"
-#include "defines.hpp"
+class Conf;
+class ControlPanel;
+class Map;
 
 class MainWindow : public QMainWindow
 {

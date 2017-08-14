@@ -1,9 +1,13 @@
 #include "RoadPathFinder.hpp"
 
 #include <QtAlgorithms>
+#include <QtCore/QHash>
 
+#include "engine/map/roadGraph/RoadGraph.hpp"
+#include "engine/map/roadGraph/RoadPathFinderNode.hpp"
 #include "engine/map/roadGraph/RoadPathFinderNodeList.hpp"
 #include "engine/map/roadGraph/RoadPathFinderOrderedNodeList.hpp"
+#include "engine/map/MapCoordinates.hpp"
 
 
 

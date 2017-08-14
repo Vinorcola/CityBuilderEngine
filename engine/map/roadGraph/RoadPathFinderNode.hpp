@@ -1,7 +1,11 @@
 #ifndef ROADPATHFINDERNODE_H
 #define ROADPATHFINDERNODE_H
 
-#include "engine/map/roadGraph/RoadGraphNode.hpp"
+#include <QtCore/QList>
+#include <QtCore/QObject>
+
+class MapCoordinates;
+class RoadGraphNode;
 
 /**
  * @brief A road graph node wrapper used for path finder.

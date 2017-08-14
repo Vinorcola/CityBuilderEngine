@@ -1,5 +1,7 @@
 #include "RoadPathFinderNode.hpp"
 
+#include "engine/map/roadGraph/RoadGraphNode.hpp"
+
 
 
 RoadPathFinderNode::RoadPathFinderNode(QObject* parent, const RoadGraphNode* node, const qreal costFromOrigin, const MapCoordinates& target) :

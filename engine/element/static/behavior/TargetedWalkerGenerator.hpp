@@ -1,9 +1,18 @@
 #ifndef TARGETEDWALKERGENERATOR_HPP
 #define TARGETEDWALKERGENERATOR_HPP
 
+#include <QtCore/QList>
+#include <QtCore/QPointer>
+
 #include "engine/element/dynamic/TargetedWalker.hpp"
 #include "engine/element/static/behavior/AbstractWalkerBehavior.hpp"
-#include "engine/map/searchEngine/SearchEngine.hpp"
+#include "engine/map/searchEngine/StaticSearchCriteria.hpp"
+#include "engine/processing/CycleDate.hpp"
+
+class AbstractDynamicMapElement;
+class AbstractProcessableStaticMapElement;
+class DynamicElementInformation;
+class SearchEngine;
 
 class TargetedWalkerGenerator : public AbstractWalkerBehavior
 {

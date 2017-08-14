@@ -1,7 +1,15 @@
 #include "MapScene.hpp"
 
-#include "engine/element/static/HousingBuilding.hpp"
-#include "engine/element/static/Road.hpp"
+#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/map/Map.hpp"
+#include "engine/processing/TimeCycleProcessor.hpp"
+#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/StaticElementInformation.hpp"
+#include "viewer/DynamicElement.hpp"
+#include "viewer/SelectionElement.hpp"
+#include "viewer/StaticElement.hpp"
+#include "viewer/Tile.hpp"
 
 const QSizeF BASE_TILE_SIZE(58, 30);
 

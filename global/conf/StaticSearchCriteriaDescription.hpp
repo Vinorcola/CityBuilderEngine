@@ -2,7 +2,11 @@
 #define STATICSEARCHCRITERIADESCRIPTION_HPP
 
 #include <QtCore/QObject>
-#include <yaml-cpp/node/node.h>
+#include <QtCore/QString>
+
+namespace YAML {
+    class Node;
+}
 
 /**
  * @brief This class contains information to construct a StaticSearchCriteria object.

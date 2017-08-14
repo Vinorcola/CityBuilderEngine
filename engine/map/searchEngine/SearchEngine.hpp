@@ -4,8 +4,8 @@
 #include <QtCore/QLinkedList>
 #include <QtCore/QObject>
 
-#include "engine/element/static/AbstractStaticMapElement.hpp"
-#include "engine/map/searchEngine/StaticSearchCriteria.hpp"
+class AbstractStaticMapElement;
+class StaticSearchCriteria;
 
 /**
  * @brief The search engine fetch existing static elements according to criteria.

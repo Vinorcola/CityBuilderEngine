@@ -2,7 +2,7 @@
 #define YAMLLIBRARYENHANCEMENT_HPP
 
 #include <QtCore/QString>
-#include <yaml-cpp/yaml.h>
+#include <yaml-cpp/node/convert.h>
 
 namespace YAML {
 

@@ -1,6 +1,8 @@
 #ifndef MAPAREA_HPP
 #define MAPAREA_HPP
 
+#include <QtCore/QString>
+
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/map/MapSize.hpp"
 

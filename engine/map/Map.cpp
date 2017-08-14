@@ -4,11 +4,23 @@
 #include <yaml-cpp/yaml.h>
 
 #include "engine/element/dynamic/RandomWalker.hpp"
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/element/static/behavior/BehaviorFactory.hpp"
 #include "engine/element/static/Building.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
 #include "engine/element/static/HousingBuilding.hpp"
 #include "engine/element/static/Road.hpp"
+#include "engine/map/roadGraph/RoadGraph.hpp"
+#include "engine/map/roadGraph/RoadGraphNode.hpp"
+#include "engine/map/searchEngine/SearchEngine.hpp"
+#include "engine/map/CityStatus.hpp"
+#include "engine/map/MapArea.hpp"
+#include "engine/map/MapCoordinates.hpp"
+#include "engine/map/MapLoader.hpp"
+#include "engine/processing/TimeCycleProcessor.hpp"
+#include "exceptions/UnexpectedException.hpp"
+#include "global/conf/Conf.hpp"
+#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/StaticElementInformation.hpp"
 
 
 

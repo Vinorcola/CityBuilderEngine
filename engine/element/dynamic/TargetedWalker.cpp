@@ -1,10 +1,16 @@
 #include "TargetedWalker.hpp"
 
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/map/roadGraph/RoadGraph.hpp"
+#include "engine/map/roadGraph/RoadGraphNode.hpp"
 
 
 
-TargetedWalker::TargetedWalker(QObject* parent, const DynamicElementInformation* conf, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer) :
+TargetedWalker::TargetedWalker(
+    QObject* parent,
+    const DynamicElementInformation* conf,
+    const RoadGraph* roadGraph,
+    AbstractProcessableStaticMapElement* issuer
+) :
     AbstractDynamicMapElement(parent, conf, issuer),
     targetElement(),
     targetLocation(issuer->getEntryPoint()),

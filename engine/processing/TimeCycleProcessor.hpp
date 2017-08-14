@@ -4,6 +4,7 @@
 #include <QtCore/QBasicTimer>
 #include <QtCore/QLinkedList>
 #include <QtCore/QList>
+#include <QtCore/QObject>
 #include <QtCore/QPointer>
 
 #include "engine/processing/AbstractProcessable.hpp"

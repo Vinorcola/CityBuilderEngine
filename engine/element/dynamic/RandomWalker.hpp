@@ -2,6 +2,12 @@
 #define RANDOMWALKER_HPP
 
 #include "engine/element/dynamic/TargetedWalker.hpp"
+#include "engine/map/MapCoordinates.hpp"
+
+class AbstractProcessableStaticMapElement;
+class CycleDate;
+class DynamicElementInformation;
+class RoadGraph;
 
 /**
  * @brief A random walker walks on the roads and take random directions at road intersections.
@@ -17,12 +23,17 @@ class RandomWalker : public TargetedWalker
         int walkingCredit;
 
     public:
-        RandomWalker(QObject* parent, const DynamicElementInformation* conf, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer);
+        RandomWalker(
+            QObject* parent,
+            const DynamicElementInformation* conf,
+            const RoadGraph* roadGraph,
+            AbstractProcessableStaticMapElement* issuer
+        );
 
-        virtual void assignTarget(AbstractProcessableStaticMapElement* targetElement);
+        virtual void assignTarget(AbstractProcessableStaticMapElement* targetElement) override;
 
     protected:
-        virtual MapCoordinates findNextGoingToLocation(const CycleDate& date);
+        virtual MapCoordinates findNextGoingToLocation(const CycleDate& date) override;
 };
 
 #endif // RANDOMWALKER_HPP

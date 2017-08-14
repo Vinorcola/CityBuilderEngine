@@ -1,6 +1,7 @@
 #include "AbstractDynamicMapElement.hpp"
 
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "global/conf/DynamicElementInformation.hpp"
 
 
 

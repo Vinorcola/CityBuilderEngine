@@ -8,6 +8,7 @@
 
 class Conf;
 class DynamicElementInformation;
+class StaticSearchCriteria;
 class StaticSearchCriteriaDescription;
 namespace YAML {
     class Node;

@@ -3,6 +3,7 @@
 #include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
 #include "engine/element/static/behavior/AbstractWalkerBehavior.hpp"
 #include "engine/element/static/behavior/BehaviorFactory.hpp"
+#include "global/conf/StaticElementInformation.hpp"
 
 
 

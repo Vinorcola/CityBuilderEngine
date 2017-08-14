@@ -1,12 +1,11 @@
 #ifndef STATICELEMENTINFORMATION_HPP
 #define STATICELEMENTINFORMATION_HPP
 
+#include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QString>
 #include <QtGui/QPixmap>
-#include <yaml-cpp/node/node.h>
 
-#include "engine/map/searchEngine/StaticSearchCriteria.hpp"
 #include "engine/map/MapSize.hpp"
 
 class BehaviorInformation;
@@ -14,6 +13,9 @@ class Conf;
 class DynamicElementInformation;
 class StaticElementAreaPartDescription;
 class StaticSearchCriteriaDescription;
+namespace YAML {
+    class Node;
+}
 
 class StaticElementInformation : public QObject
 {
