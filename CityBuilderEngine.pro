@@ -11,7 +11,7 @@ SOURCES += \
     engine/element/dynamic/RandomWalker.cpp \
     engine/element/dynamic/TargetedWalker.cpp \
     engine/element/static/behavior/AbstractStaticElementBehavior.cpp \
-    engine/element/static/behavior/AbstractWalkerBehavior.cpp \
+    engine/element/static/behavior/AbstractWalkerGenerator.cpp \
     engine/element/static/behavior/BehaviorFactory.cpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.cpp \
     engine/element/static/behavior/RandomWalkerGenerator.cpp \
@@ -70,7 +70,7 @@ HEADERS += \
     engine/element/dynamic/RandomWalker.hpp \
     engine/element/dynamic/TargetedWalker.hpp \
     engine/element/static/behavior/AbstractStaticElementBehavior.hpp \
-    engine/element/static/behavior/AbstractWalkerBehavior.hpp \
+    engine/element/static/behavior/AbstractWalkerGenerator.hpp \
     engine/element/static/behavior/BehaviorFactory.hpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp \
     engine/element/static/behavior/RandomWalkerGenerator.hpp \

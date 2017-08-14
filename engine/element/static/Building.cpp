@@ -1,7 +1,7 @@
 #include "Building.hpp"
 
 #include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
-#include "engine/element/static/behavior/AbstractWalkerBehavior.hpp"
+#include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
 #include "engine/element/static/behavior/BehaviorFactory.hpp"
 #include "global/conf/StaticElementInformation.hpp"
 
@@ -59,7 +59,7 @@ bool Building::processInteraction(const CycleDate& date, AbstractDynamicMapEleme
 void Building::notifyWalkerDestruction()
 {
     for (auto behavior : behaviors) {
-        auto walkerBehavior(dynamic_cast<AbstractWalkerBehavior*>(behavior));
+        auto walkerBehavior(dynamic_cast<AbstractWalkerGenerator*>(behavior));
         if (walkerBehavior) {
             walkerBehavior->clean();
         }

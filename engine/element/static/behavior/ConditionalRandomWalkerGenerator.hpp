@@ -31,7 +31,7 @@ class ConditionalRandomWalkerGenerator : public RandomWalkerGenerator
         virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
 
     protected:
-        virtual bool canGenerate(const CycleDate& currentDate) const override;
+        virtual bool canSetupNextGenerationDate(const CycleDate& currentDate) const override;
 };
 
 #endif // CONDITIONALRANDOMWALKERGENERATOR_HPP

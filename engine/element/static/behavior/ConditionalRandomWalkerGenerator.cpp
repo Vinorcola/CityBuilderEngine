@@ -59,9 +59,9 @@ bool ConditionalRandomWalkerGenerator::processInteraction(const CycleDate& date,
 
 
 
-bool ConditionalRandomWalkerGenerator::canGenerate(const CycleDate& currentDate) const
+bool ConditionalRandomWalkerGenerator::canSetupNextGenerationDate(const CycleDate& currentDate) const
 {
     return
         currentDate <= canGenarateWalkerUntilDate &&
-        RandomWalkerGenerator::canGenerate(currentDate);
+        RandomWalkerGenerator::canSetupNextGenerationDate(currentDate);
 }
