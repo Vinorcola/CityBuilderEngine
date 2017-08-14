@@ -4,6 +4,7 @@
 #include <QtCore/QLinkedList>
 
 #include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "engine/element/static/behavior/BehaviorFactory.hpp"
 #include "engine/element/static/AbstractStaticMapElement.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/searchEngine/SearchEngine.hpp"
@@ -27,9 +28,10 @@ class Map : public QObject
         CityStatus* cityStatus;
         RoadGraph* roadGraph;
         TimeCycleProcessor* processor;
+        SearchEngine* searchEngine;
+        BehaviorFactory* behaviorFactory;
         QLinkedList<AbstractMapElement*> elementList;
         QLinkedList<AbstractStaticMapElement*> staticElementList;
-        SearchEngine* searchEngine;
         CityEntryPoint* entryPoint;
 
     public:

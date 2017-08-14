@@ -4,10 +4,17 @@
 
 
 
-TargetedWalkerGenerator::TargetedWalkerGenerator(QObject* parent, const SearchEngine* searchEngine, const StaticSearchCriteria& targetSearchCriteria, const DynamicElementInformation* walkerConf, const int generationInterval, const int maxWalkers) :
-    AbstractStaticElementBehavior(parent),
+TargetedWalkerGenerator::TargetedWalkerGenerator(
+    AbstractProcessableStaticMapElement* issuer,
+    const SearchEngine* searchEngine,
+    const StaticSearchCriteria* targetSearchCriteria,
+    const DynamicElementInformation* walkerConf,
+    const int generationInterval,
+    const int maxWalkers
+) :
+    AbstractWalkerBehavior(issuer),
     searchEngine(searchEngine),
-    targetSearchCriteria(targetSearchCriteria),
+    targetSearchCriteria(*targetSearchCriteria),
     walkerConf(walkerConf),
     generationInterval(generationInterval),
     maxWalkers(maxWalkers),
@@ -49,7 +56,7 @@ void TargetedWalkerGenerator::clean()
 
 
 
-void TargetedWalkerGenerator::setGenerationSpeedRatio(qreal ratio, const CycleDate& currentDate)
+void TargetedWalkerGenerator::setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate)
 {
     // If ratio does not change, we avoid useless calculations.
     if (generationSpeedRatio == ratio) {
@@ -129,6 +136,7 @@ void TargetedWalkerGenerator::generate(AbstractProcessableStaticMapElement* targ
 {
     emit requestDynamicElementCreation(
         walkerConf,
+        issuer,
         [this, target](AbstractDynamicMapElement* element) {
             static_cast<TargetedWalker*>(element)->assignTarget(target);
             walkers.append(static_cast<TargetedWalker*>(element));

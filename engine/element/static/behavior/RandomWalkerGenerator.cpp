@@ -3,12 +3,12 @@
 
 
 RandomWalkerGenerator::RandomWalkerGenerator(
-    QObject* parent,
+    AbstractProcessableStaticMapElement* issuer,
     const DynamicElementInformation* walkerConf,
     const int generationInterval,
     const int maxWalkers
 ) :
-    AbstractStaticElementBehavior(parent),
+    AbstractWalkerBehavior(issuer),
     walkerConf(walkerConf),
     generationInterval(generationInterval),
     maxWalkers(maxWalkers),
@@ -50,7 +50,7 @@ void RandomWalkerGenerator::clean()
 
 
 
-void RandomWalkerGenerator::setGenerationSpeedRatio(qreal ratio, const CycleDate& currentDate)
+void RandomWalkerGenerator::setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate)
 {
     // If ratio does not change, we avoid useless calculations.
     if (generationSpeedRatio == ratio) {
@@ -109,9 +109,19 @@ bool RandomWalkerGenerator::processInteraction(const CycleDate& date, AbstractDy
 
 
 
+bool RandomWalkerGenerator::canGenerate(const CycleDate& currentDate) const
+{
+    return
+        generationSpeedRatio > 0.0 &&
+        walkers.size() < maxWalkers &&
+        nextGenerationDate <= currentDate;
+}
+
+
+
 void RandomWalkerGenerator::setupNextGenerationDate(const CycleDate& currentDate)
 {
-    if (generationSpeedRatio > 0.0 && walkers.size() < maxWalkers && nextGenerationDate <= currentDate) {
+    if (canGenerate(currentDate)) {
         nextGenerationDate.reassign(currentDate, generationInterval * generationSpeedRatio);
     }
 
@@ -124,6 +134,7 @@ void RandomWalkerGenerator::generate()
 {
     emit requestDynamicElementCreation(
         walkerConf,
+        issuer,
         [this](AbstractDynamicMapElement* element) {
             walkers.append(static_cast<RandomWalker*>(element));
         }

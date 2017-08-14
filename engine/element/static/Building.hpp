@@ -1,24 +1,22 @@
-#ifndef SERVICEBUILDING_HPP
-#define SERVICEBUILDING_HPP
+#ifndef BUILDING_HPP
+#define BUILDING_HPP
 
-#include "engine/element/static/behavior/RandomWalkerGenerator.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
-/**
- * @brief A service building.
- *
- * Service buildings mainly provide with random walkers that provide a service while they are walking through the map.
- */
-class ServiceBuilding : public AbstractProcessableStaticMapElement
+class AbstractStaticElementBehavior;
+class BehaviorFactory;
+
+class Building : public AbstractProcessableStaticMapElement
 {
         Q_OBJECT
 
     private:
-        RandomWalkerGenerator* randomWalkers;
+        QList<AbstractStaticElementBehavior*> behaviors;
 
     public:
-        ServiceBuilding(
+        Building(
             QObject* parent,
+            const BehaviorFactory* behaviorFactory,
             const StaticElementInformation* conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
@@ -29,6 +27,8 @@ class ServiceBuilding : public AbstractProcessableStaticMapElement
         virtual void process(const CycleDate& date) override;
 
         virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
+
+        virtual void notifyWalkerDestruction() override;
 };
 
-#endif // SERVICEBUILDING_HPP
+#endif // BUILDING_HPP

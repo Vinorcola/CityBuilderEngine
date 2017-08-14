@@ -12,6 +12,8 @@ class AbstractStaticElementBehavior : public AbstractProcessable
         AbstractStaticElementBehavior(QObject* parent);
 
         virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) = 0;
+
+        virtual void setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate) = 0;
 };
 
 #endif // ABSTRACTSTATICELEMENTBEHAVIOR_HPP

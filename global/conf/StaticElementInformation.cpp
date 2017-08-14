@@ -3,7 +3,9 @@
 #include <yaml-cpp/yaml.h>
 
 #include "exceptions/BadConfigurationException.hpp"
+#include "global/conf/BehaviorInformation.hpp"
 #include "global/conf/Conf.hpp"
+#include "global/conf/StaticSearchCriteriaDescription.hpp"
 #include "defines.hpp"
 
 
@@ -19,37 +21,23 @@ StaticElementInformation::StaticElementInformation(QObject* parent, const Conf* 
     fireRiskIncrement(model["fireRisk"] ? model["fireRisk"].as<int>() : 0),
     damageRiskIncrement(model["damageRisk"] ? model["damageRisk"].as<int>() : 0),
     areaDescription(),
-    image("assets/img/static/" + key + "/building.png"),
-    randomWalkerConf(model["randomWalkerType"] ?
-        conf->getDynamicElementConf(QString::fromStdString(model["randomWalkerType"].as<std::string>())) :
-        nullptr
-    ),
-    randomWalkerInterval((model["randomWalkerInterval"] ? model["randomWalkerInterval"].as<int>() : 0) * CYCLE_PER_SECOND),
-    maxNumberOfRandomWalkers(model["maxRandomWalkers"] ? model["maxRandomWalkers"].as<int>() : 0),
-    targetedWalkerConf(model["targetedWalkerType"] ?
-        conf->getDynamicElementConf(QString::fromStdString(model["targetedWalkerType"].as<std::string>())) :
-        nullptr
-    ),
-    targetedWalkerInterval((model["targetedWalkerInterval"] ? model["targetedWalkerInterval"].as<int>() : 0) * CYCLE_PER_SECOND),
-    targetCriteriaDescription(model["targetCriteria"] ?
-        new StaticSearchCriteriaDescription(this, model["targetCriteria"]) :
-        nullptr
-    ),
-    targetCriteria(),
-    needWalker(model["needWalker"] ?
-        conf->getDynamicElementConf(QString::fromStdString(model["needWalker"].as<std::string>())) :
-        nullptr
-    )
+    behaviors(),
+    image("assets/img/static/" + key + "/building.png")
 {
-
+    if (model["behaviors"]) {
+        for (auto node : model["behaviors"]) {
+            BehaviorInformation::checkModel(key, node);
+            behaviors.append(new BehaviorInformation(this, conf, node));
+        }
+    }
 }
 
 
 
 void StaticElementInformation::resolveDependencies(const Conf* conf)
 {
-    if (targetCriteriaDescription) {
-        targetCriteria.reset(new StaticSearchCriteria(conf->getStaticElementConf(targetCriteriaDescription->getTargetKey())));
+    for (auto behavior : behaviors) {
+        behavior->resolveDependencies(conf);
     }
 }
 
@@ -76,58 +64,16 @@ const MapSize& StaticElementInformation::getSize() const
 
 
 
+const QList<BehaviorInformation*>& StaticElementInformation::getBehaviors() const
+{
+    return behaviors;
+}
+
+
+
 const QPixmap& StaticElementInformation::getImage() const
 {
     return image;
-}
-
-
-
-const DynamicElementInformation* StaticElementInformation::getRandomWalkerConf() const
-{
-    return randomWalkerConf;
-}
-
-
-
-int StaticElementInformation::getRandomWalkerGenerationInterval() const
-{
-    return randomWalkerInterval;
-}
-
-
-
-int StaticElementInformation::getMaxNumberOfRandomWalkers() const
-{
-    return maxNumberOfRandomWalkers;
-}
-
-
-
-const DynamicElementInformation* StaticElementInformation::getTargetedWalkerConf() const
-{
-    return targetedWalkerConf;
-}
-
-
-
-int StaticElementInformation::getTargetedWalkerGenerationInterval() const
-{
-    return targetedWalkerInterval;
-}
-
-
-
-const StaticSearchCriteria& StaticElementInformation::getTargetCriteria() const
-{
-    return *targetCriteria;
-}
-
-
-
-const DynamicElementInformation* StaticElementInformation::getNeededWalker() const
-{
-    return needWalker;
 }
 
 
@@ -143,10 +89,9 @@ void StaticElementInformation::checkModel(const QString& key, const YAML::Node& 
 
 StaticElementInformation::Type StaticElementInformation::resolveType(const QString& type)
 {
+    if (type == "building")        return Type::Building;
     if (type == "cityEntryPoint")  return Type::CityEntryPoint;
-    if (type == "cultureBuilding") return Type::CultureBuilding;
     if (type == "housingBuilding") return Type::HousingBuilding;
-    if (type == "serviceBuilding") return Type::ServiceBuilding;
     if (type == "road")            return Type::Road;
 
     throw BadConfigurationException("Unknown static element of type \"" + type + "\".");

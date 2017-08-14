@@ -2,10 +2,10 @@
 #define TARGETEDWALKERGENERATOR_HPP
 
 #include "engine/element/dynamic/TargetedWalker.hpp"
-#include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
+#include "engine/element/static/behavior/AbstractWalkerBehavior.hpp"
 #include "engine/map/searchEngine/SearchEngine.hpp"
 
-class TargetedWalkerGenerator : public AbstractStaticElementBehavior
+class TargetedWalkerGenerator : public AbstractWalkerBehavior
 {
         Q_OBJECT
 
@@ -22,9 +22,9 @@ class TargetedWalkerGenerator : public AbstractStaticElementBehavior
 
     public:
         TargetedWalkerGenerator(
-            QObject* parent,
+            AbstractProcessableStaticMapElement* issuer,
             const SearchEngine* searchEngine,
-            const StaticSearchCriteria& targetSearchCriteria,
+            const StaticSearchCriteria* targetSearchCriteria,
             const DynamicElementInformation* walkerConf,
             const int generationInterval,
             const int maxWalkers = 1
@@ -39,7 +39,7 @@ class TargetedWalkerGenerator : public AbstractStaticElementBehavior
         /**
          * @brief Clean the list of walkers by removing deleted walkers.
          */
-        void clean();
+        virtual void clean() override;
 
         /**
          * @brief Change the generation speed ratio.
@@ -50,7 +50,7 @@ class TargetedWalkerGenerator : public AbstractStaticElementBehavior
          * @param ratio
          * @param currentDate
          */
-        void setGenerationSpeedRatio(qreal ratio, const CycleDate& currentDate);
+        virtual void setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate) override;
 
         virtual void process(const CycleDate &date) override;
 
@@ -60,17 +60,6 @@ class TargetedWalkerGenerator : public AbstractStaticElementBehavior
         void setupNextGenerationDate(const CycleDate& currentDate);
 
         void generate(AbstractProcessableStaticMapElement* target);
-
-    signals:
-        void requestDynamicElementCreation(
-            const DynamicElementInformation* elementConf,
-            std::function<void(AbstractDynamicMapElement*)> afterCreation
-        );
-
-        void requestDynamicElementDestruction(
-            AbstractDynamicMapElement* element,
-            std::function<void()> afterDestruction
-        );
 };
 
 #endif // TARGETEDWALKERGENERATOR_HPP

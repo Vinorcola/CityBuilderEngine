@@ -5,8 +5,8 @@
 
 #include "engine/element/dynamic/RandomWalker.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/element/static/Building.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
-#include "engine/element/static/CultureBuilding.hpp"
 #include "engine/element/static/HousingBuilding.hpp"
 #include "engine/element/static/Road.hpp"
 
@@ -19,9 +19,10 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     cityStatus(new CityStatus(this, loader.getBudget())),
     roadGraph(new RoadGraph(this)),
     processor(new TimeCycleProcessor(this)),
+    searchEngine(new SearchEngine(this, staticElementList)),
+    behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
     elementList(),
     staticElementList(),
-    searchEngine(new SearchEngine(this, staticElementList)),
     entryPoint()
 {
     // Load static elements.
@@ -173,6 +174,23 @@ void Map::createStaticElement(
         case StaticElementInformation::Type::None:
             throw UnexpectedException("Try to create a static element of type None.");
 
+        case StaticElementInformation::Type::Building: {
+            auto element(new Building(this, behaviorFactory, elementConf, area, getAutoEntryPoint(area)));
+            pointer = element;
+            processor->registerProcessable(element);
+            elementList.append(element);
+            staticElementList.append(element);
+
+            connect(element, &Building::requestDynamicElementCreation, [this, element](
+                const DynamicElementInformation* elementConf,
+                std::function<void(AbstractDynamicMapElement*)> afterCreation
+            ) {
+                createDynamicElement(elementConf, element, afterCreation);
+            });
+            connect(element, &Building::requestDynamicElementDestruction, this, &Map::destroyElement);
+            break;
+        }
+
         case StaticElementInformation::Type::CityEntryPoint: {
             auto coordinates(area.getLeft());
             entryPoint = new CityEntryPoint(this, elementConf, coordinates, conf->getDynamicElementConf("immigrant"));
@@ -191,23 +209,6 @@ void Map::createStaticElement(
             break;
         }
 
-        case StaticElementInformation::Type::CultureBuilding: {
-            auto element(new CultureBuilding(this, searchEngine, elementConf, area, getAutoEntryPoint(area)));
-            pointer = element;
-            processor->registerProcessable(element);
-            elementList.append(element);
-            staticElementList.append(element);
-
-            connect(element, &ServiceBuilding::requestDynamicElementCreation, [this, element](
-                    const DynamicElementInformation* elementConf,
-                std::function<void(AbstractDynamicMapElement*)> afterCreation
-            ) {
-                createDynamicElement(elementConf, element, afterCreation);
-            });
-            connect(element, &ServiceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
-            break;
-        }
-
         case StaticElementInformation::Type::HousingBuilding: {
             auto element(new HousingBuilding(this, elementConf, area, getAutoEntryPoint(area)));
             pointer = element;
@@ -215,32 +216,15 @@ void Map::createStaticElement(
             elementList.append(element);
             staticElementList.append(element);
 
-            connect(element, &ServiceBuilding::requestDynamicElementCreation, [this, element](
-                    const DynamicElementInformation* elementConf,
+            connect(element, &HousingBuilding::requestDynamicElementCreation, [this, element](
+                const DynamicElementInformation* elementConf,
                 std::function<void(AbstractDynamicMapElement*)> afterCreation
             ) {
                 createDynamicElement(elementConf, element, afterCreation);
             });
-            connect(element, &ServiceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
+            connect(element, &HousingBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
             connect(element, &HousingBuilding::freeCapacityChanged, this, &Map::freeHousingCapacityChanged);
             connect(element, &HousingBuilding::inhabitantsChanged, this, &Map::populationChanged);
-            break;
-        }
-
-        case StaticElementInformation::Type::ServiceBuilding: {
-            auto element(new ServiceBuilding(this, elementConf, area, getAutoEntryPoint(area)));
-            pointer = element;
-            processor->registerProcessable(element);
-            elementList.append(element);
-            staticElementList.append(element);
-
-            connect(element, &ServiceBuilding::requestDynamicElementCreation, [this, element](
-                    const DynamicElementInformation* elementConf,
-                std::function<void(AbstractDynamicMapElement*)> afterCreation
-            ) {
-                createDynamicElement(elementConf, element, afterCreation);
-            });
-            connect(element, &ServiceBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
             break;
         }
 

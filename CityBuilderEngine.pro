@@ -11,16 +11,17 @@ SOURCES += \
     engine/element/dynamic/RandomWalker.cpp \
     engine/element/dynamic/TargetedWalker.cpp \
     engine/element/static/behavior/AbstractStaticElementBehavior.cpp \
+    engine/element/static/behavior/AbstractWalkerBehavior.cpp \
+    engine/element/static/behavior/BehaviorFactory.cpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.cpp \
     engine/element/static/behavior/RandomWalkerGenerator.cpp \
     engine/element/static/behavior/TargetedWalkerGenerator.cpp \
     engine/element/static/AbstractProcessableStaticMapElement.cpp \
     engine/element/static/AbstractStaticMapElement.cpp \
+    engine/element/static/Building.cpp \
     engine/element/static/CityEntryPoint.cpp \
-    engine/element/static/CultureBuilding.cpp \
     engine/element/static/HousingBuilding.cpp \
     engine/element/static/Road.cpp \
-    engine/element/static/ServiceBuilding.cpp \
     engine/element/AbstractMapElement.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
     engine/map/roadGraph/RoadGraphNode.cpp \
@@ -46,6 +47,7 @@ SOURCES += \
     exceptions/InvalidMapElementException.cpp \
     exceptions/OutOfRangeException.cpp \
     exceptions/UnexpectedException.cpp \
+    global/conf/BehaviorInformation.cpp \
     global/conf/Conf.cpp \
     global/conf/ControlPanelElementInformation.cpp \
     global/conf/DynamicElementInformation.cpp \
@@ -68,16 +70,17 @@ HEADERS += \
     engine/element/dynamic/RandomWalker.hpp \
     engine/element/dynamic/TargetedWalker.hpp \
     engine/element/static/behavior/AbstractStaticElementBehavior.hpp \
+    engine/element/static/behavior/AbstractWalkerBehavior.hpp \
+    engine/element/static/behavior/BehaviorFactory.hpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp \
     engine/element/static/behavior/RandomWalkerGenerator.hpp \
     engine/element/static/behavior/TargetedWalkerGenerator.hpp \
     engine/element/static/AbstractProcessableStaticMapElement.hpp \
     engine/element/static/AbstractStaticMapElement.hpp \
+    engine/element/static/Building.hpp \
     engine/element/static/CityEntryPoint.hpp \
-    engine/element/static/CultureBuilding.hpp \
     engine/element/static/HousingBuilding.hpp \
     engine/element/static/Road.hpp \
-    engine/element/static/ServiceBuilding.hpp \
     engine/element/AbstractMapElement.hpp \
     engine/map/roadGraph/RoadGraph.hpp \
     engine/map/roadGraph/RoadGraphNode.hpp \
@@ -103,12 +106,14 @@ HEADERS += \
     exceptions/InvalidMapElementException.hpp \
     exceptions/OutOfRangeException.hpp \
     exceptions/UnexpectedException.hpp \
+    global/conf/BehaviorInformation.hpp \
     global/conf/Conf.hpp \
     global/conf/ControlPanelElementInformation.hpp \
     global/conf/DynamicElementInformation.hpp \
     global/conf/StaticElementAreaPartDescription.hpp \
     global/conf/StaticElementInformation.hpp \
     global/conf/StaticSearchCriteriaDescription.hpp \
+    global/yamlLibraryEnhancement.hpp \
     ui/controlPanel/BuildingButton.hpp \
     ui/controlPanel/ControlPanel.hpp \
     ui/MainWindow.hpp \

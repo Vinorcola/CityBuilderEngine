@@ -2,14 +2,14 @@
 #define RANDOMWALKERGENERATOR_HPP
 
 #include "engine/element/dynamic/RandomWalker.hpp"
-#include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
+#include "engine/element/static/behavior/AbstractWalkerBehavior.hpp"
 #include "global/conf/DynamicElementInformation.hpp"
 
-class RandomWalkerGenerator : public AbstractStaticElementBehavior
+class RandomWalkerGenerator : public AbstractWalkerBehavior
 {
         Q_OBJECT
 
-    private:
+    protected:
         const DynamicElementInformation* walkerConf;
         const int generationInterval;
         const int maxWalkers;
@@ -20,7 +20,7 @@ class RandomWalkerGenerator : public AbstractStaticElementBehavior
 
     public:
         RandomWalkerGenerator(
-            QObject* parent,
+            AbstractProcessableStaticMapElement* issuer,
             const DynamicElementInformation* walkerConf,
             const int generationInterval,
             const int maxWalkers = 1
@@ -35,7 +35,7 @@ class RandomWalkerGenerator : public AbstractStaticElementBehavior
         /**
          * @brief Clean the list of walkers by removing deleted walkers.
          */
-        void clean();
+        virtual void clean() override;
 
         /**
          * @brief Change the generation speed ratio.
@@ -46,27 +46,18 @@ class RandomWalkerGenerator : public AbstractStaticElementBehavior
          * @param ratio
          * @param currentDate
          */
-        void setGenerationSpeedRatio(qreal ratio, const CycleDate& currentDate);
+        virtual void setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate) override;
 
         virtual void process(const CycleDate &date) override;
 
         virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
 
     protected:
+        virtual bool canGenerate(const CycleDate& currentDate) const;
+
         void setupNextGenerationDate(const CycleDate& currentDate);
 
         void generate();
-
-    signals:
-        void requestDynamicElementCreation(
-            const DynamicElementInformation* elementConf,
-            std::function<void(AbstractDynamicMapElement*)> afterCreation
-        );
-
-        void requestDynamicElementDestruction(
-            AbstractDynamicMapElement* element,
-            std::function<void()> afterDestruction
-        );
 };
 
 #endif // RANDOMWALKERGENERATOR_HPP

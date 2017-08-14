@@ -53,12 +53,4 @@ class DynamicElementInformation : public QObject
         static Type resolveType(const QString& type);
 };
 
-
-
-// qHash function for using DynamicElementInformation::Type as key.
-inline uint qHash(DynamicElementInformation::Type key, uint seed)
-{
-    return qHash(static_cast<uint>(key), seed);
-}
-
 #endif // DYNAMICELEMENTINFORMATION_HPP

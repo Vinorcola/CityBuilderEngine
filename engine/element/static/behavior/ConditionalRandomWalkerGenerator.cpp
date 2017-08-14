@@ -5,15 +5,15 @@
 
 
 ConditionalRandomWalkerGenerator::ConditionalRandomWalkerGenerator(
-    QObject* parent,
+    AbstractProcessableStaticMapElement* issuer,
     const DynamicElementInformation* walkerConf,
     const DynamicElementInformation* dependencyWalkerConf,
     const int generationInterval,
     const int maxWalkers
 ) :
-    RandomWalkerGenerator(parent, walkerConf, generationInterval, maxWalkers),
+    RandomWalkerGenerator(issuer, walkerConf, generationInterval, maxWalkers),
     dependencyWalkerConf(dependencyWalkerConf),
-    activityInterval(dependencyWalkerConf->getWalkingCredit() * 2),
+    activityInterval(generationInterval * 3),
     canGenarateWalkerUntilDate()
 {
 
@@ -24,7 +24,7 @@ ConditionalRandomWalkerGenerator::ConditionalRandomWalkerGenerator(
 void ConditionalRandomWalkerGenerator::process(const CycleDate& date)
 {
     if (date == canGenarateWalkerUntilDate) {
-        setGenerationSpeedRatio(0.0, date);
+        nextGenerationDate.reset();
     }
 
     RandomWalkerGenerator::process(date);
@@ -40,8 +40,10 @@ bool ConditionalRandomWalkerGenerator::processInteraction(const CycleDate& date,
 
     // Process a walker that is needed to generate random walkers.
     if (actor->getConf() == dependencyWalkerConf) {
-        setGenerationSpeedRatio(1.0, date);
         canGenarateWalkerUntilDate.reassign(date, activityInterval);
+        if (nextGenerationDate < date) {
+            setupNextGenerationDate(date);
+        }
         auto issuer(actor->getIssuer());
         emit requestDynamicElementDestruction(actor, [this, date, issuer]() {
             if (issuer) {
@@ -53,4 +55,13 @@ bool ConditionalRandomWalkerGenerator::processInteraction(const CycleDate& date,
     }
 
     return false;
+}
+
+
+
+bool ConditionalRandomWalkerGenerator::canGenerate(const CycleDate& currentDate) const
+{
+    return
+        currentDate <= canGenarateWalkerUntilDate &&
+        RandomWalkerGenerator::canGenerate(currentDate);
 }

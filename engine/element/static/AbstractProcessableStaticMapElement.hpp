@@ -19,7 +19,12 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
         MapCoordinates entryPoint;
 
     public:
-        AbstractProcessableStaticMapElement(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
+        AbstractProcessableStaticMapElement(
+            QObject* parent,
+            const StaticElementInformation* conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
 
         const MapCoordinates& getEntryPoint() const;
 

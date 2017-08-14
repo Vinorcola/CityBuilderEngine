@@ -14,7 +14,7 @@ class ConditionalRandomWalkerGenerator : public RandomWalkerGenerator
 
     public:
         ConditionalRandomWalkerGenerator(
-            QObject* parent,
+            AbstractProcessableStaticMapElement* issuer,
             const DynamicElementInformation* walkerConf,
             const DynamicElementInformation* dependencyWalkerConf,
             const int generationInterval,
@@ -24,6 +24,9 @@ class ConditionalRandomWalkerGenerator : public RandomWalkerGenerator
         virtual void process(const CycleDate &date) override;
 
         virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
+
+    protected:
+        virtual bool canGenerate(const CycleDate& currentDate) const override;
 };
 
 #endif // CONDITIONALRANDOMWALKERGENERATOR_HPP
