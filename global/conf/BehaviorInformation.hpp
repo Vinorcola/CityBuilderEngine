@@ -22,6 +22,7 @@ class BehaviorInformation : public QObject
         enum class Type {
             None = 0,
             ConditionalRandomWalkerGenerator,
+            InhabitantContainer,
             RandomWalkerGenerator,
             TargetedWalkerGenerator,
         };

@@ -7,7 +7,6 @@
 #include "engine/element/static/behavior/BehaviorFactory.hpp"
 #include "engine/element/static/Building.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
-#include "engine/element/static/HousingBuilding.hpp"
 #include "engine/element/static/Road.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
@@ -221,25 +220,6 @@ void Map::createStaticElement(
             break;
         }
 
-        case StaticElementInformation::Type::HousingBuilding: {
-            auto element(new HousingBuilding(this, elementConf, area, getAutoEntryPoint(area)));
-            pointer = element;
-            processor->registerProcessable(element);
-            elementList.append(element);
-            staticElementList.append(element);
-
-            connect(element, &HousingBuilding::requestDynamicElementCreation, [this, element](
-                const DynamicElementInformation* elementConf,
-                std::function<void(AbstractDynamicMapElement*)> afterCreation
-            ) {
-                createDynamicElement(elementConf, element, afterCreation);
-            });
-            connect(element, &HousingBuilding::requestDynamicElementDestruction, this, &Map::destroyElement);
-            connect(element, &HousingBuilding::freeCapacityChanged, this, &Map::freeHousingCapacityChanged);
-            connect(element, &HousingBuilding::inhabitantsChanged, this, &Map::populationChanged);
-            break;
-        }
-
         case StaticElementInformation::Type::Road: {
             auto coordinates(area.getLeft());
             auto element(new Road(elementConf, coordinates));
@@ -321,11 +301,12 @@ void Map::populationChanged(const int populationDelta)
 void Map::freeHousingCapacityChanged(
     const int previousHousingCapacity,
     const int newHousingCapacity,
+    AbstractProcessableStaticMapElement* issuer,
     std::function<void(TargetedWalker*)> onImmigrantCreation
 ) {
     cityStatus->updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
     if (newHousingCapacity > 0) {
-        entryPoint->registerImmigrantRequest(static_cast<AbstractProcessableStaticMapElement*>(sender()), onImmigrantCreation);
+        entryPoint->registerImmigrantRequest(issuer, onImmigrantCreation);
     }
 }
 

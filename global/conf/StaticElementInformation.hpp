@@ -26,7 +26,6 @@ class StaticElementInformation : public QObject
             None = 0,
             Building,
             CityEntryPoint,
-            HousingBuilding,
             Road,
         };
 

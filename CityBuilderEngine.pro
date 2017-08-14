@@ -14,13 +14,13 @@ SOURCES += \
     engine/element/static/behavior/AbstractWalkerGenerator.cpp \
     engine/element/static/behavior/BehaviorFactory.cpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.cpp \
+    engine/element/static/behavior/InhabitantContainer.cpp \
     engine/element/static/behavior/RandomWalkerGenerator.cpp \
     engine/element/static/behavior/TargetedWalkerGenerator.cpp \
     engine/element/static/AbstractProcessableStaticMapElement.cpp \
     engine/element/static/AbstractStaticMapElement.cpp \
     engine/element/static/Building.cpp \
     engine/element/static/CityEntryPoint.cpp \
-    engine/element/static/HousingBuilding.cpp \
     engine/element/static/Road.cpp \
     engine/element/AbstractMapElement.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
@@ -73,13 +73,13 @@ HEADERS += \
     engine/element/static/behavior/AbstractWalkerGenerator.hpp \
     engine/element/static/behavior/BehaviorFactory.hpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp \
+    engine/element/static/behavior/InhabitantContainer.hpp \
     engine/element/static/behavior/RandomWalkerGenerator.hpp \
     engine/element/static/behavior/TargetedWalkerGenerator.hpp \
     engine/element/static/AbstractProcessableStaticMapElement.hpp \
     engine/element/static/AbstractStaticMapElement.hpp \
     engine/element/static/Building.hpp \
     engine/element/static/CityEntryPoint.hpp \
-    engine/element/static/HousingBuilding.hpp \
     engine/element/static/Road.hpp \
     engine/element/AbstractMapElement.hpp \
     engine/map/roadGraph/RoadGraph.hpp \

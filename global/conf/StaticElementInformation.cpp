@@ -91,7 +91,6 @@ StaticElementInformation::Type StaticElementInformation::resolveType(const QStri
 {
     if (type == "building")        return Type::Building;
     if (type == "cityEntryPoint")  return Type::CityEntryPoint;
-    if (type == "housingBuilding") return Type::HousingBuilding;
     if (type == "road")            return Type::Road;
 
     throw BadConfigurationException("Unknown static element of type \"" + type + "\".");

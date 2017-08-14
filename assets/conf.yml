@@ -124,11 +124,14 @@ staticElements:
                 targetSearchCriteria:
                     type: stadium
     house:
-        type: housingBuilding
+        type: building
         title: House
         size: 2
         price: 20
         fireRisk: 15
+        behaviors:
+            -
+                type: inhabitantContainer
     infirmary:
         type: building
         title: Infirmary

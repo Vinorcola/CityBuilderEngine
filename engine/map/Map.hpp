@@ -151,6 +151,7 @@ class Map : public QObject
         void freeHousingCapacityChanged(
             const int previousHousingCapacity,
             const int newHousingCapacity,
+            AbstractProcessableStaticMapElement* issuer,
             std::function<void(TargetedWalker*)> onImmigrantCreation
         );
 

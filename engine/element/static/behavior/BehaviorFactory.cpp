@@ -1,6 +1,7 @@
 #include "BehaviorFactory.hpp"
 
 #include "engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp"
+#include "engine/element/static/behavior/InhabitantContainer.hpp"
 #include "engine/element/static/behavior/RandomWalkerGenerator.hpp"
 #include "engine/element/static/behavior/TargetedWalkerGenerator.hpp"
 #include "engine/map/Map.hpp"
@@ -36,6 +37,15 @@ AbstractStaticElementBehavior* BehaviorFactory::generate(
             ));
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createDynamicElement);
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyElement);
+
+            return behavior;
+        }
+
+        case BehaviorInformation::Type::InhabitantContainer: {
+            auto behavior(new InhabitantContainer(issuer));
+            connect(behavior, &InhabitantContainer::requestDynamicElementDestruction, map, &Map::destroyElement);
+            connect(behavior, &InhabitantContainer::freeCapacityChanged, map, &Map::freeHousingCapacityChanged);
+            connect(behavior, &InhabitantContainer::inhabitantsChanged, map, &Map::populationChanged);
 
             return behavior;
         }

@@ -1,11 +1,12 @@
-#include "HousingBuilding.hpp"
+#include "InhabitantContainer.hpp"
 
 const int INHABITANTS_PER_IMMIGRANT(4);
 
 
 
-HousingBuilding::HousingBuilding(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint) :
-    AbstractProcessableStaticMapElement(parent, conf, area, entryPoint),
+InhabitantContainer::InhabitantContainer(AbstractProcessableStaticMapElement* issuer) :
+    AbstractStaticElementBehavior(issuer),
+    issuer(issuer),
     housingCapacity(8),
     inhabitants(0),
     currentImmigrant()
@@ -15,23 +16,23 @@ HousingBuilding::HousingBuilding(QObject* parent, const StaticElementInformation
 
 
 
-void HousingBuilding::init(const CycleDate& /*date*/)
+void InhabitantContainer::init(const CycleDate& /*date*/)
 {
-    emit freeCapacityChanged(0, housingCapacity, [this](TargetedWalker* immigrant) {
+    emit freeCapacityChanged(0, housingCapacity, issuer, [this](TargetedWalker* immigrant) {
         currentImmigrant = immigrant;
     });
 }
 
 
 
-void HousingBuilding::process(const CycleDate& /*date*/)
+void InhabitantContainer::process(const CycleDate& /*date*/)
 {
 
 }
 
 
 
-bool HousingBuilding::processInteraction(const CycleDate& /*date*/, AbstractDynamicMapElement* actor)
+bool InhabitantContainer::processInteraction(const CycleDate& /*date*/, AbstractDynamicMapElement* actor)
 {
     if (actor == currentImmigrant) {
         emit requestDynamicElementDestruction(currentImmigrant, [this]() {
@@ -45,7 +46,7 @@ bool HousingBuilding::processInteraction(const CycleDate& /*date*/, AbstractDyna
                 emit inhabitantsChanged(INHABITANTS_PER_IMMIGRANT);
             }
             if (inhabitants < housingCapacity) {
-                emit freeCapacityChanged(previousHousingCapacity, housingCapacity - inhabitants, [this](TargetedWalker* immigrant) {
+                emit freeCapacityChanged(previousHousingCapacity, housingCapacity - inhabitants, issuer, [this](TargetedWalker* immigrant) {
                     currentImmigrant = immigrant;
                 });
             }
@@ -55,4 +56,11 @@ bool HousingBuilding::processInteraction(const CycleDate& /*date*/, AbstractDyna
     }
 
     return false;
+}
+
+
+
+void InhabitantContainer::setActivitySpeedRatio(qreal /*ratio*/, const CycleDate& /*currentDate*/)
+{
+    // This behavior does not have any activity.
 }
