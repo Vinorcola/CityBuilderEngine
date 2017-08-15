@@ -28,14 +28,11 @@ class InhabitantContainer : public AbstractStaticElementBehavior
 
         virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
 
-        virtual void setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate) override;
-
     signals:
         void freeCapacityChanged(
             const int previousFreeCapacity,
             const int newFreeCapacity,
-            AbstractProcessableStaticMapElement* issuer,
-            std::function<void(TargetedWalker*)> onImmigrantCreation
+            std::function<void(AbstractDynamicMapElement*)> onImmigrantCreation
         );
 
         void inhabitantsChanged(const int inhabitantsDelta);

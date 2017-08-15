@@ -90,6 +90,12 @@ dynamicElements:
 staticElements:
     cityEntryPoint:
         type: cityEntryPoint
+        behaviors:
+            -
+                type: queuedWalkerGenerator
+                walkerType: immigrant
+                minGenerationInterval: 0.034
+                maxGenerationInterval: 3
     fountain:
         type: building
         title: Fountain

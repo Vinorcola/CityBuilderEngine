@@ -10,7 +10,7 @@ AbstractWalkerGenerator::AbstractWalkerGenerator(
     const int generationInterval,
     const int maxWalkers
 ) :
-    AbstractStaticElementBehavior(issuer),
+    AbstractActivityBehavior(issuer),
     issuer(issuer),
     walkerConf(walkerConf),
     generationInterval(generationInterval),

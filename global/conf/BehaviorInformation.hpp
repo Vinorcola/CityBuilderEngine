@@ -23,6 +23,7 @@ class BehaviorInformation : public QObject
             None = 0,
             ConditionalRandomWalkerGenerator,
             InhabitantContainer,
+            QueuedWalkerGenerator,
             RandomWalkerGenerator,
             TargetedWalkerGenerator,
         };
@@ -32,6 +33,8 @@ class BehaviorInformation : public QObject
         const DynamicElementInformation* dependencyWalkerConf;
         const DynamicElementInformation* walkerConf;
         const int walkerGenerationInterval;
+        const int minWalkerGenerationInterval;
+        const int maxWalkerGenerationInterval;
         const int maxWalkers;
         const StaticSearchCriteriaDescription* targetSearchCriteriaDescription;
         QScopedPointer<StaticSearchCriteria> targetSearchCriteria;
@@ -48,6 +51,10 @@ class BehaviorInformation : public QObject
         const DynamicElementInformation* getWalkerConf() const;
 
         int getWalkerGenerationInterval() const;
+
+        int getMinWalkerGenerationInterval() const;
+
+        int getMaxWalkerGenerationInterval() const;
 
         int getMaxWalkers() const;
 

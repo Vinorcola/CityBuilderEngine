@@ -33,6 +33,8 @@ class DynamicElementInformation : public QObject
 
         Type getType() const;
 
+        const QString& getKey() const;
+
         const QString& getTitle() const;
 
         qreal getSpeed() const;

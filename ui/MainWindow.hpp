@@ -3,6 +3,8 @@
 
 #include <QtWidgets/QMainWindow>
 
+#include "defines.hpp"
+
 class Conf;
 class ControlPanel;
 class Map;

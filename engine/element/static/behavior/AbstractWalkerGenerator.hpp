@@ -6,14 +6,14 @@
 #include <QtCore/QPointer>
 
 #include "engine/element/dynamic/TargetedWalker.hpp"
-#include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
+#include "engine/element/static/behavior/AbstractActivityBehavior.hpp"
 #include "engine/processing/CycleDate.hpp"
 
 class AbstractDynamicMapElement;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 
-class AbstractWalkerGenerator : public AbstractStaticElementBehavior
+class AbstractWalkerGenerator : public AbstractActivityBehavior
 {
         Q_OBJECT
 

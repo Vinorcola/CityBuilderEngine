@@ -17,7 +17,7 @@ class Building : public AbstractProcessableStaticMapElement
 {
         Q_OBJECT
 
-    private:
+    protected:
         QList<AbstractStaticElementBehavior*> behaviors;
 
     public:

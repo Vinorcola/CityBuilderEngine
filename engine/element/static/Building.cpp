@@ -1,5 +1,6 @@
 #include "Building.hpp"
 
+#include "engine/element/static/behavior/AbstractActivityBehavior.hpp"
 #include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
 #include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
 #include "engine/element/static/behavior/BehaviorFactory.hpp"
@@ -28,7 +29,10 @@ void Building::init(const CycleDate& date)
 {
     for (auto behavior : behaviors) {
         behavior->init(date);
-        behavior->setActivitySpeedRatio(1.0, date);
+        auto activityBehavior(dynamic_cast<AbstractActivityBehavior*>(behavior));
+        if (activityBehavior) {
+            activityBehavior->setActivitySpeedRatio(1.0, date);
+        }
     }
 }
 

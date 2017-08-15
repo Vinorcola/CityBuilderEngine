@@ -31,6 +31,13 @@ DynamicElementInformation::Type DynamicElementInformation::getType() const
 
 
 
+const QString& DynamicElementInformation::getKey() const
+{
+    return key;
+}
+
+
+
 const QString& DynamicElementInformation::getTitle() const
 {
     return title;

@@ -18,8 +18,9 @@ InhabitantContainer::InhabitantContainer(AbstractProcessableStaticMapElement* is
 
 void InhabitantContainer::init(const CycleDate& /*date*/)
 {
-    emit freeCapacityChanged(0, housingCapacity, issuer, [this](TargetedWalker* immigrant) {
-        currentImmigrant = immigrant;
+    emit freeCapacityChanged(0, housingCapacity, [this](AbstractDynamicMapElement* immigrant) {
+        static_cast<TargetedWalker*>(immigrant)->assignTarget(issuer);
+        currentImmigrant = static_cast<TargetedWalker*>(immigrant);
     });
 }
 
@@ -46,8 +47,9 @@ bool InhabitantContainer::processInteraction(const CycleDate& /*date*/, Abstract
                 emit inhabitantsChanged(INHABITANTS_PER_IMMIGRANT);
             }
             if (inhabitants < housingCapacity) {
-                emit freeCapacityChanged(previousHousingCapacity, housingCapacity - inhabitants, issuer, [this](TargetedWalker* immigrant) {
-                    currentImmigrant = immigrant;
+                emit freeCapacityChanged(previousHousingCapacity, housingCapacity - inhabitants, [this](AbstractDynamicMapElement* immigrant) {
+                    static_cast<TargetedWalker*>(immigrant)->assignTarget(issuer);
+                    currentImmigrant = static_cast<TargetedWalker*>(immigrant);
                 });
             }
         });
@@ -56,11 +58,4 @@ bool InhabitantContainer::processInteraction(const CycleDate& /*date*/, Abstract
     }
 
     return false;
-}
-
-
-
-void InhabitantContainer::setActivitySpeedRatio(qreal /*ratio*/, const CycleDate& /*currentDate*/)
-{
-    // This behavior does not have any activity.
 }

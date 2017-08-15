@@ -204,7 +204,7 @@ void Map::createStaticElement(
 
         case StaticElementInformation::Type::CityEntryPoint: {
             auto coordinates(area.getLeft());
-            entryPoint = new CityEntryPoint(this, elementConf, coordinates, conf->getDynamicElementConf("immigrant"));
+            entryPoint = new CityEntryPoint(this, behaviorFactory, elementConf, coordinates);
             pointer = entryPoint;
             roadGraph->createNode(coordinates);
             processor->registerProcessable(entryPoint);
@@ -301,12 +301,11 @@ void Map::populationChanged(const int populationDelta)
 void Map::freeHousingCapacityChanged(
     const int previousHousingCapacity,
     const int newHousingCapacity,
-    AbstractProcessableStaticMapElement* issuer,
-    std::function<void(TargetedWalker*)> onImmigrantCreation
+    std::function<void(AbstractDynamicMapElement*)> onImmigrantCreation
 ) {
     cityStatus->updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
     if (newHousingCapacity > 0) {
-        entryPoint->registerImmigrantRequest(issuer, onImmigrantCreation);
+        entryPoint->requestImmigrant(onImmigrantCreation);
     }
 }
 
