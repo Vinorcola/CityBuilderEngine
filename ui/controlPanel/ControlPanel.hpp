@@ -1,10 +1,13 @@
 #ifndef CONTROLPANEL_HPP
 #define CONTROLPANEL_HPP
 
+#include <QtCore/QList>
 #include <QtWidgets/QDockWidget>
 
-#include "engine/map/Map.hpp"
-#include "ui/controlPanel/BuildingButton.hpp"
+class BuildingButton;
+class Conf;
+class ControlPanelElementInformation;
+class StaticElementInformation;
 
 class ControlPanel : public QDockWidget
 {

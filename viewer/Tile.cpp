@@ -1,5 +1,8 @@
 #include "Tile.hpp"
 
+#include "viewer/DynamicElement.hpp"
+#include "viewer/StaticElement.hpp"
+
 
 
 Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize) :

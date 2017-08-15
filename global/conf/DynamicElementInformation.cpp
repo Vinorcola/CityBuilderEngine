@@ -3,13 +3,14 @@
 #include <yaml-cpp/yaml.h>
 
 #include "exceptions/BadConfigurationException.hpp"
+#include "global/yamlLibraryEnhancement.hpp"
 #include "defines.hpp"
 
-DynamicElementInformation::DynamicElementInformation(QObject* parent, const QString& key, YAML::Node model) :
+DynamicElementInformation::DynamicElementInformation(QObject* parent, const QString& key, const YAML::Node& model) :
     QObject(parent),
-    type(resolveType(QString::fromStdString(model["type"].as<std::string>()))),
+    type(resolveType(model["type"].as<QString>())),
     key(key),
-    title(model["title"] ? QString::fromStdString(model["title"].as<std::string>()) : ""),
+    title(model["title"] ? model["title"].as<QString>() : ""),
 #ifdef SLOW_MOTION
     speed(model["speed"] ? model["speed"].as<qreal>() / CYCLE_PER_SECOND / 8.0 : 0.0),
 #else
@@ -26,6 +27,13 @@ DynamicElementInformation::DynamicElementInformation(QObject* parent, const QStr
 DynamicElementInformation::Type DynamicElementInformation::getType() const
 {
     return type;
+}
+
+
+
+const QString& DynamicElementInformation::getKey() const
+{
+    return key;
 }
 
 

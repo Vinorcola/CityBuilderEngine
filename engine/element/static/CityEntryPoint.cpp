@@ -1,6 +1,9 @@
 #include "CityEntryPoint.hpp"
 
+#include "engine/element/dynamic/TargetedWalker.hpp"
+#include "engine/element/static/behavior/QueuedWalkerGenerator.hpp"
 #include "engine/random.hpp"
+#include "global/conf/DynamicElementInformation.hpp"
 
 const int IMMIGRANT_MIN_INTERVAL(10);
 const int IMMIGRANT_MAX_INTERVAL(60);
@@ -9,58 +12,25 @@ const int IMMIGRANT_MAX_INTERVAL(60);
 
 CityEntryPoint::CityEntryPoint(
     QObject* parent,
+    const BehaviorFactory* behaviorFactory,
     const StaticElementInformation* conf,
-    const MapCoordinates& coordinates,
-    const DynamicElementInformation* immigrantConf
-) : AbstractProcessableStaticMapElement(parent, conf, MapArea(coordinates), coordinates),
-    immigrantConf(immigrantConf),
-    nextImmigrantGenerationDate(),
-    immigrantRequestQueue()
+    const MapCoordinates& coordinates
+) :
+    Building(parent, behaviorFactory, conf, MapArea(coordinates), coordinates),
+    immigrantGenerator()
 {
-
-}
-
-
-
-void CityEntryPoint::process(const CycleDate& date)
-{
-    if (!immigrantRequestQueue.isEmpty()) {
-        if (date == nextImmigrantGenerationDate) {
-            emit requestDynamicElementCreation(
-                immigrantConf,
-                immigrantRequestQueue.takeFirst()
-            );
-            setupNextImmigrantGenerationDate(date);
-        } else if (date > nextImmigrantGenerationDate) {
-            setupNextImmigrantGenerationDate(date);
+    for (auto behavior : behaviors) {
+        auto queuedWalkerGenerator(dynamic_cast<QueuedWalkerGenerator*>(behavior));
+        if (queuedWalkerGenerator && queuedWalkerGenerator->getWalkerConf()->getKey() == "immigrant") {
+            immigrantGenerator = queuedWalkerGenerator;
+            break;
         }
     }
 }
 
 
 
-bool CityEntryPoint::processInteraction(const CycleDate& /*date*/, AbstractDynamicMapElement* /*actor*/)
+void CityEntryPoint::requestImmigrant(std::function<void(AbstractDynamicMapElement*)> onWalkerCreation)
 {
-    return false;
-}
-
-
-
-void CityEntryPoint::registerImmigrantRequest(AbstractProcessableStaticMapElement* issuer, std::function<void(TargetedWalker*)> onImmigrantCreation)
-{
-    immigrantRequestQueue.append([issuer, onImmigrantCreation](AbstractDynamicMapElement* element) {
-        auto immigrant(static_cast<TargetedWalker*>(element));
-        immigrant->assignTarget(issuer);
-        onImmigrantCreation(immigrant);
-    });
-}
-
-
-
-void CityEntryPoint::setupNextImmigrantGenerationDate(const CycleDate& currentDate)
-{
-    if (!immigrantRequestQueue.isEmpty() && nextImmigrantGenerationDate <= currentDate) {
-        nextImmigrantGenerationDate = currentDate;
-        nextImmigrantGenerationDate.add(randomInt(IMMIGRANT_MIN_INTERVAL, IMMIGRANT_MAX_INTERVAL));
-    }
+    immigrantGenerator->registerWalkerRequest(onWalkerCreation);
 }

@@ -17,49 +17,77 @@ class CycleDate
     public:
         CycleDate();
 
+        /**
+         * @brief Copy a date and optionally add an interval.
+         */
         CycleDate(const CycleDate& other);
+
+        /**
+         * @brief Copy the other cycle date.
+         */
+        void operator =(const CycleDate& other);
+
+        /**
+         * @brief Copy the other cycle date.
+         */
+        void operator =(const CycleDate&& other);
+
+        /**
+         * @brief Convert to boolean.
+         *
+         * An empty date (initialized from the empty constructor) is false.
+         */
+        operator bool();
 
         /**
          * @brief Increment the date to the next date (pass 1 cycle).
          */
-        void operator++();
+        void operator ++();
 
         /**
          * @brief Compare 2 dates to check if they are equals or not.
          */
-        bool operator==(const CycleDate& other) const;
+        bool operator ==(const CycleDate& other) const;
+
+        /**
+         * @brief Compare 2 dates to check if they are different or not.
+         */
+        bool operator !=(const CycleDate& other) const;
 
         /**
          * @brief Compare 2 dates to check if other is strictly later than the current date.
          */
-        bool operator<(const CycleDate& other) const;
+        bool operator <(const CycleDate& other) const;
 
         /**
          * @brief Compare 2 dates to check if other is strictly earlier than the current date.
          */
-        bool operator>(const CycleDate& other) const;
+        bool operator >(const CycleDate& other) const;
 
         /**
          * @brief Compare 2 dates to check if other is later than the current date.
          */
-        bool operator<=(const CycleDate& other) const;
+        bool operator <=(const CycleDate& other) const;
 
         /**
          * @brief Compare 2 dates to check if other is earlier than the current date.
          */
-        bool operator>=(const CycleDate& other) const;
+        bool operator >=(const CycleDate& other) const;
 
         /**
-         * @brief Copy the ither cycle date.
+         * @brief Return the difference between the 2 dates.
          */
-        void operator=(const CycleDate& other);
+        int operator -(const CycleDate& other) const;
 
         /**
-         * @brief Add a certain amount of cycles to the date.
-         *
-         * @param numberOfCycles
+         * @brief Reassign the date according to another date, and add an interval.
          */
-        void add(const int numberOfCycles);
+        void reassign(const CycleDate& other, const int addInterval);
+
+        /**
+         * @brief Reset a date.
+         */
+        void reset();
 
         // DEBUG //
         QString toString() const;

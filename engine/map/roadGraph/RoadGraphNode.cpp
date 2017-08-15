@@ -1,5 +1,7 @@
 #include "RoadGraphNode.hpp"
 
+#include "engine/map/roadGraph/RoadGraph.hpp"
+
 
 
 RoadGraphNode::RoadGraphNode(RoadGraph* graph, const MapCoordinates& coordinates) :

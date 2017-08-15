@@ -3,6 +3,9 @@
 
 #include "engine/element/static/AbstractStaticMapElement.hpp"
 
+class MapCoordinates;
+class StaticElementInformation;
+
 /**
  * @brief A road.
  */

@@ -3,6 +3,7 @@
 
 #include <QtCore/QList>
 #include <QtCore/QPointF>
+#include <QtCore/QString>
 
 /**
  * @brief Represent the coordinates of a point on a map.
@@ -52,14 +53,14 @@ class MapCoordinates
          *
          * @param other Other coordinates to compare to.
          */
-        bool operator==(const MapCoordinates& other) const;
+        bool operator ==(const MapCoordinates& other) const;
 
         /**
          * @brief Indicate if the two coordinates are different.
          *
          * @param other Other coordinates to compare to.
          */
-        bool operator!=(const MapCoordinates& other) const;
+        bool operator !=(const MapCoordinates& other) const;
 
         /**
          * @brief Indicate if the coordinates are valid.

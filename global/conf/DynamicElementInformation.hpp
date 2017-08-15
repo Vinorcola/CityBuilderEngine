@@ -4,7 +4,10 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtGui/QPixmap>
-#include <yaml-cpp/node/node.h>
+
+namespace YAML {
+    class Node;
+}
 
 class DynamicElementInformation : public QObject
 {
@@ -26,9 +29,11 @@ class DynamicElementInformation : public QObject
         QPixmap image;
 
     public:
-        DynamicElementInformation(QObject* parent, const QString& key, YAML::Node model);
+        DynamicElementInformation(QObject* parent, const QString& key, const YAML::Node& model);
 
         Type getType() const;
+
+        const QString& getKey() const;
 
         const QString& getTitle() const;
 
@@ -52,13 +57,5 @@ class DynamicElementInformation : public QObject
     private:
         static Type resolveType(const QString& type);
 };
-
-
-
-// qHash function for using DynamicElementInformation::Type as key.
-inline uint qHash(DynamicElementInformation::Type key, uint seed)
-{
-    return qHash(static_cast<uint>(key), seed);
-}
 
 #endif // DYNAMICELEMENTINFORMATION_HPP

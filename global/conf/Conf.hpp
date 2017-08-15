@@ -3,10 +3,12 @@
 
 #include <QtCore/QHash>
 #include <QtCore/QList>
+#include <QtCore/QObject>
+#include <QtCore/QString>
 
-#include "global/conf/ControlPanelElementInformation.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
-#include "global/conf/StaticElementInformation.hpp"
+class ControlPanelElementInformation;
+class DynamicElementInformation;
+class StaticElementInformation;
 
 class Conf : public QObject
 {

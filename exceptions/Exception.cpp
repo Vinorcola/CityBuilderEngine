@@ -4,7 +4,8 @@
 
 Exception::Exception(const QString& message) :
     QException(),
-    message(message)
+    message(message),
+    stdMessage(message.toStdString())
 {
 
 }
@@ -14,4 +15,11 @@ Exception::Exception(const QString& message) :
 const QString& Exception::getMessage() const
 {
     return message;
+}
+
+
+
+const char* Exception::what() const noexcept
+{
+    return stdMessage.c_str();
 }

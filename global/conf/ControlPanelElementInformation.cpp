@@ -4,14 +4,15 @@
 
 #include "exceptions/BadConfigurationException.hpp"
 #include "global/conf/Conf.hpp"
+#include "global/yamlLibraryEnhancement.hpp"
 
 
 
 ControlPanelElementInformation::ControlPanelElementInformation(QObject* parent, Conf* conf, const YAML::Node& model) :
     QObject(parent),
-    type(resolveType(QString::fromStdString(model["type"].as<std::string>()))),
-    title(QString::fromStdString(model["title"].as<std::string>())),
-    staticElementConf(model["staticElement"] ? conf->getStaticElementConf(QString::fromStdString(model["staticElement"].as<std::string>())) : nullptr),
+    type(resolveType(model["type"].as<QString>())),
+    title(model["title"].as<QString>()),
+    staticElementConf(model["staticElement"] ? conf->getStaticElementConf(model["staticElement"].as<QString>()) : nullptr),
     children()
 {
     if (model["content"]) {

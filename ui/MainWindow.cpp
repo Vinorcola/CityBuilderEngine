@@ -3,6 +3,11 @@
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QMenuBar>
 
+#include "engine/map/Map.hpp"
+#include "engine/map/MapLoader.hpp"
+#include "engine/processing/TimeCycleProcessor.hpp"
+#include "global/conf/Conf.hpp"
+#include "global/conf/StaticElementInformation.hpp"
 #include "viewer/MapViewer.hpp"
 #include "ui/controlPanel/ControlPanel.hpp"
 
@@ -28,7 +33,7 @@ MainWindow::MainWindow() :
     gameMenu->addAction(pauseAction);
 
     QAction* quitAction(new QAction(tr("Close the game"), this));
-    quitAction->setShortcuts({ Qt::CTRL + Qt::Key_Q, QKeySequence::Quit });
+    quitAction->setShortcut(QKeySequence::Quit);
     gameMenu->addAction(quitAction);
     connect(quitAction, &QAction::triggered, this, &MainWindow::close);
 

@@ -2,7 +2,9 @@
 #define INVALIDMAPELEMENTEXCEPTION_HPP
 
 #include "exceptions/EngineException.hpp"
-#include "engine/map/MapArea.hpp"
+
+class MapArea;
+class MapCoordinates;
 
 class InvalidMapElementException : public EngineException
 {

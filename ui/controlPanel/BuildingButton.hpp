@@ -3,7 +3,7 @@
 
 #include <QtWidgets/QPushButton>
 
-#include "engine/map/Map.hpp"
+class StaticElementInformation;
 
 class BuildingButton : public QPushButton
 {

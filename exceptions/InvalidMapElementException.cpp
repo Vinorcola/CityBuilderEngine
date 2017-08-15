@@ -1,5 +1,8 @@
 #include "InvalidMapElementException.hpp"
 
+#include "engine/map/MapArea.hpp"
+#include "engine/map/MapCoordinates.hpp"
+
 
 
 InvalidMapElementException::InvalidMapElementException(const MapCoordinates& coordinates) :

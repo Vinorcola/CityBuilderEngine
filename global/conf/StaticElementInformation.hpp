@@ -1,17 +1,21 @@
 #ifndef STATICELEMENTINFORMATION_HPP
 #define STATICELEMENTINFORMATION_HPP
 
+#include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QString>
 #include <QtGui/QPixmap>
-#include <yaml-cpp/node/node.h>
 
-#include "engine/map/searchEngine/StaticSearchCriteria.hpp"
-#include "global/conf/StaticElementAreaPartDescription.hpp"
-#include "global/conf/StaticSearchCriteriaDescription.hpp"
+#include "engine/map/MapSize.hpp"
 
+class BehaviorInformation;
 class Conf;
 class DynamicElementInformation;
+class StaticElementAreaPartDescription;
+class StaticSearchCriteriaDescription;
+namespace YAML {
+    class Node;
+}
 
 class StaticElementInformation : public QObject
 {
@@ -20,10 +24,8 @@ class StaticElementInformation : public QObject
     public:
         enum class Type {
             None = 0,
+            Building,
             CityEntryPoint,
-            CultureBuilding,
-            HousingBuilding,
-            ServiceBuilding,
             Road,
         };
 
@@ -37,15 +39,8 @@ class StaticElementInformation : public QObject
         int fireRiskIncrement;
         int damageRiskIncrement;
         QList<StaticElementAreaPartDescription*> areaDescription;
+        QList<BehaviorInformation*> behaviors;
         QPixmap image;
-        const DynamicElementInformation* randomWalkerConf;
-        int randomWalkerInterval;
-        int maxNumberOfRandomWalkers;
-        const DynamicElementInformation* targetedWalkerConf;
-        int targetedWalkerInterval;
-        StaticSearchCriteriaDescription* targetCriteriaDescription;
-        QScopedPointer<StaticSearchCriteria> targetCriteria;
-        const DynamicElementInformation* needWalker;
 
     public:
         /**
@@ -63,21 +58,9 @@ class StaticElementInformation : public QObject
 
         const MapSize& getSize() const;
 
+        const QList<BehaviorInformation*>& getBehaviors() const;
+
         const QPixmap& getImage() const;
-
-        const DynamicElementInformation* getRandomWalkerConf() const;
-
-        int getRandomWalkerGenerationInterval() const;
-
-        int getMaxNumberOfRandomWalkers() const;
-
-        const DynamicElementInformation* getTargetedWalkerConf() const;
-
-        int getTargetedWalkerGenerationInterval() const;
-
-        const StaticSearchCriteria& getTargetCriteria() const;
-
-        const DynamicElementInformation* getNeededWalker() const;
 
         /**
          * @brief Check if the model for a static element is valid.
@@ -93,13 +76,5 @@ class StaticElementInformation : public QObject
     private:
         static Type resolveType(const QString& type);
 };
-
-
-
-// qHash function for using StaticElementInformation::Type as key.
-inline uint qHash(StaticElementInformation::Type key, uint seed)
-{
-    return qHash(static_cast<uint>(key), seed);
-}
 
 #endif // STATICELEMENTINFORMATION_HPP

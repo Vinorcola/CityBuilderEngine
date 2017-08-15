@@ -18,58 +18,93 @@ CycleDate::CycleDate(const CycleDate& other) :
 
 
 
-void CycleDate::operator++()
-{
-    ++cycles;
-}
-
-
-
-bool CycleDate::operator==(const CycleDate& other) const
-{
-    return cycles == other.cycles;
-}
-
-
-
-bool CycleDate::operator<(const CycleDate& other) const
-{
-    return cycles < other.cycles;
-}
-
-
-
-bool CycleDate::operator>(const CycleDate& other) const
-{
-    return cycles > other.cycles;
-}
-
-
-
-bool CycleDate::operator<=(const CycleDate& other) const
-{
-    return cycles <= other.cycles;
-}
-
-
-
-bool CycleDate::operator>=(const CycleDate& other) const
-{
-    return cycles >= other.cycles;
-}
-
-
-
-void CycleDate::operator=(const CycleDate& other)
+void CycleDate::operator =(const CycleDate& other)
 {
     cycles = other.cycles;
 }
 
 
 
-void CycleDate::add(const int numberOfCycles)
+void CycleDate::operator =(const CycleDate&& other)
 {
-    cycles += numberOfCycles;
+    cycles = other.cycles;
+}
+
+
+
+CycleDate::operator bool()
+{
+    return cycles != 0;
+}
+
+
+
+void CycleDate::operator ++()
+{
+    ++cycles;
+}
+
+
+
+bool CycleDate::operator ==(const CycleDate& other) const
+{
+    return cycles == other.cycles;
+}
+
+
+
+bool CycleDate::operator !=(const CycleDate& other) const
+{
+    return cycles != other.cycles;
+}
+
+
+
+bool CycleDate::operator <(const CycleDate& other) const
+{
+    return cycles < other.cycles;
+}
+
+
+
+bool CycleDate::operator >(const CycleDate& other) const
+{
+    return cycles > other.cycles;
+}
+
+
+
+bool CycleDate::operator <=(const CycleDate& other) const
+{
+    return cycles <= other.cycles;
+}
+
+
+
+bool CycleDate::operator >=(const CycleDate& other) const
+{
+    return cycles >= other.cycles;
+}
+
+
+
+int CycleDate::operator -(const CycleDate& other) const
+{
+    return cycles - other.cycles;
+}
+
+
+
+void CycleDate::reassign(const CycleDate& other, const int addInterval)
+{
+    cycles = other.cycles + addInterval;
+}
+
+
+
+void CycleDate::reset()
+{
+    cycles = 0;
 }
 
 

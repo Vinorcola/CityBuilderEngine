@@ -3,12 +3,13 @@
 
 #include <QtCore/QPointer>
 
+#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/element/AbstractMapElement.hpp"
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
 
-class AbstractProcessableStaticMapElement;
+class CycleDate;
+class DynamicElementInformation;
 
 /**
  * @brief Represent a dynamic element on the map.
@@ -74,7 +75,7 @@ class AbstractDynamicMapElement : public AbstractProcessable, public AbstractMap
          * @brief Make the dynamic element move towards the moveToLocation.
          * @param date The current cycle-time date.
          */
-        virtual void process(const CycleDate& date);
+        virtual void process(const CycleDate& date) override;
 
     protected:
         /**

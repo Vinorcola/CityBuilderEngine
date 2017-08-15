@@ -1,12 +1,17 @@
 #ifndef ABSTRACTPROCESSABLESTATICMAPELEMENT_HPP
 #define ABSTRACTPROCESSABLESTATICMAPELEMENT_HPP
 
-#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include <functional>
+
 #include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/map/MapCoordinates.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
 
 class AbstractDynamicMapElement;
+class CycleDate;
+class DynamicElementInformation;
+class MapArea;
+class StaticElementInformation;
 
 /**
  * @brief The base class for buildings that need to be processed.
@@ -19,7 +24,12 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
         MapCoordinates entryPoint;
 
     public:
-        AbstractProcessableStaticMapElement(QObject* parent, const StaticElementInformation* conf, const MapArea& area, const MapCoordinates& entryPoint);
+        AbstractProcessableStaticMapElement(
+            QObject* parent,
+            const StaticElementInformation* conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
 
         const MapCoordinates& getEntryPoint() const;
 
@@ -34,7 +44,7 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
          * @brief Notify that a walker originated from the static element was destroyed.
          * @param date
          */
-        virtual void notifyWalkerDestruction(const CycleDate& date);
+        virtual void notifyWalkerDestruction() {}
 
     signals:
         void requestDynamicElementCreation(

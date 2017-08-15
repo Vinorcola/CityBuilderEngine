@@ -39,14 +39,14 @@ MapCoordinates::MapCoordinates(const qreal x, const qreal y) :
 
 
 
-bool MapCoordinates::operator==(const MapCoordinates& other) const
+bool MapCoordinates::operator ==(const MapCoordinates& other) const
 {
     return coordinates.x() == other.coordinates.x() && coordinates.y() == other.coordinates.y();
 }
 
 
 
-bool MapCoordinates::operator!=(const MapCoordinates& other) const
+bool MapCoordinates::operator !=(const MapCoordinates& other) const
 {
     return coordinates.x() != other.coordinates.x() || coordinates.y() != other.coordinates.y();
 }

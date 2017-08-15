@@ -1,11 +1,18 @@
 #include "RandomWalker.hpp"
 
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/map/roadGraph/RoadGraph.hpp"
+#include "engine/map/roadGraph/RoadGraphNode.hpp"
 #include "engine/random.hpp"
+#include "global/conf/DynamicElementInformation.hpp"
 
 
 
-RandomWalker::RandomWalker(QObject* parent, const DynamicElementInformation* conf, const RoadGraph* roadGraph, AbstractProcessableStaticMapElement* issuer) :
+RandomWalker::RandomWalker(
+    QObject* parent,
+    const DynamicElementInformation* conf,
+    const RoadGraph* roadGraph,
+    AbstractProcessableStaticMapElement* issuer
+) :
     TargetedWalker(parent, conf, roadGraph, issuer),
     walkingCredit(conf->getWalkingCredit())
 {

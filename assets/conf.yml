@@ -90,89 +90,122 @@ dynamicElements:
 staticElements:
     cityEntryPoint:
         type: cityEntryPoint
+        behaviors:
+            -
+                type: queuedWalkerGenerator
+                walkerType: immigrant
+                minGenerationInterval: 0.034
+                maxGenerationInterval: 3
     fountain:
-        type: serviceBuilding
+        type: building
         title: Fountain
         size: 2
         price: 35
         employees: 4
         damageRisk: 8
-        randomWalkerType: waterBearer
-        maxRandomWalkers: 1
-        randomWalkerInterval: 8
+        behaviors:
+            -
+                type: randomWalkerGenerator
+                walkerType: waterBearer
+                maxWalkers: 1
+                generationInterval: 8
     gymnasium:
-        type: cultureBuilding
+        type: building
         title: Gymnasium
         size: 3
         price: 75
         employees: 7
         damageRisk: 5
-        randomWalkerType: athlete
-        maxRandomWalkers: 4
-        randomWalkerInterval: 8
-        targetedWalkerType: competitor
-        targetedWalkerInterval: 34
-        targetCriteria:
-            type: stadium
+        behaviors:
+            -
+                type: randomWalkerGenerator
+                walkerType: athlete
+                maxWalkers: 4
+                generationInterval: 8
+            -
+                type: targetedWalkerGenerator
+                walkerType: competitor
+                maxWalkers: 1
+                generationInterval: 34
+                targetSearchCriteria:
+                    type: stadium
     house:
-        type: housingBuilding
+        type: building
         title: House
         size: 2
         price: 20
         fireRisk: 15
+        behaviors:
+            -
+                type: inhabitantContainer
     infirmary:
-        type: serviceBuilding
+        type: building
         title: Infirmary
         size: 4
         price: 70
         employees: 11
         damageRisk: 10
         fireRisk: 10
-        randomWalkerType: healer
-        maxRandomWalkers: 1
-        randomWalkerInterval: 8
+        behaviors:
+            -
+                type: randomWalkerGenerator
+                walkerType: healer
+                maxWalkers: 1
+                generationInterval: 8
     maintenance:
-        type: serviceBuilding
+        type: building
         title: Maintenance Office
         size: 2
         price: 20
         employees: 5
         fireRisk: 5
-        randomWalkerType: superintendent
-        maxRandomWalkers: 1
-        randomWalkerInterval: 8
+        behaviors:
+            -
+                type: randomWalkerGenerator
+                walkerType: superintendent
+                maxWalkers: 1
+                generationInterval: 8
     road:
         type: road
         title: Road
         price: 3
     stadium:
-        type: cultureBuilding
+        type: building
         title: Stadium
         size: 5
         price: 400
         employees: 45
         damageRisk: 8
-        randomWalkerType: competitor
-        maxRandomWalkers: 1
-        randomWalkerInterval: 8
-        needWalker: competitor
+        behaviors:
+            -
+                type: conditionalRandomWalkerGenerator
+                dependencyWalker: competitor
+                walkerType: competitor
+                maxWalkers: 1
+                generationInterval: 8
     taxOffice:
-        type: serviceBuilding
+        type: building
         title: Tax Office
         size: 2
         price: 50
         employees: 8
         fireRisk: 10
-        randomWalkerType: clerk
-        maxRandomWalkers: 1
-        randomWalkerInterval: 8
+        behaviors:
+            -
+                type: randomWalkerGenerator
+                walkerType: clerk
+                maxWalkers: 1
+                generationInterval: 8
     watchpost:
-        type: serviceBuilding
+        type: building
         title: Watchpost
         size: 2
         price: 40
         employees: 6
-        damaeRisk: 10
-        randomWalkerType: watchman
-        maxRandomWalkers: 1
-        randomWalkerInterval: 8
+        damageRisk: 10
+        behaviors:
+            -
+                type: randomWalkerGenerator
+                walkerType: watchman
+                maxWalkers: 1
+                generationInterval: 8

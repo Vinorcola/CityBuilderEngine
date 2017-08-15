@@ -17,7 +17,7 @@ MapSize::MapSize(const int value) :
 
 
 
-bool MapSize::operator!=(const MapSize& other) const
+bool MapSize::operator !=(const MapSize& other) const
 {
     return value != other.value;
 }

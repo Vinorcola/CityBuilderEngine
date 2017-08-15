@@ -3,7 +3,7 @@
 
 #include <QtCore/QObject>
 
-#include "engine/processing/CycleDate.hpp"
+class CycleDate;
 
 /**
  * @brief Represent a processable object.
