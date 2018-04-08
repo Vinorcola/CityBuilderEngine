@@ -10,6 +10,11 @@ class BehaviorInformation;
 class Map;
 class SearchEngine;
 
+/**
+ * @brief The behavior factory.
+ *
+ * Instanciate a new behavior based on the given behavior configuration provided.
+ */
 class BehaviorFactory : public QObject
 {
         Q_OBJECT

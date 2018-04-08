@@ -9,6 +9,11 @@
 
 class AbstractProcessableStaticMapElement;
 
+/**
+ * @brief An inhabitant holder.
+ *
+ * A behavior that allow the building to holds some inhabitants.
+ */
 class InhabitantContainer : public AbstractStaticElementBehavior
 {
         Q_OBJECT

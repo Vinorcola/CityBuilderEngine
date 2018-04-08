@@ -18,6 +18,8 @@ class TargetedWalker;
  * This walker generator does not inherit from AbstractWalkerGenerator because it's behavior is quite different. Walkers
  * are not generated in a result of an activity. They are rather generated on external request. External requests are
  * queued and treated one at the time. The laps between 2 requests is set randomly using a min laps and a max laps.
+ *
+ * This behavior is mainly used by CityEntryPoint.
  */
 class QueuedWalkerGenerator : public AbstractStaticElementBehavior
 {

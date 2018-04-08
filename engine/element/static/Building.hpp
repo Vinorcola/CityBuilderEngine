@@ -13,6 +13,13 @@ class MapArea;
 class MapCoordinates;
 class StaticElementInformation;
 
+/**
+ * @brief A building on the map.
+ *
+ * A building is a static element that can be processed by the engine processor. In order to be processed, it will hold
+ * some behaviors. Each behavior will be processed and will fullfill a specific purpose. Behaviors are instanciated
+ * using the given building configuration.
+ */
 class Building : public AbstractProcessableStaticMapElement
 {
         Q_OBJECT

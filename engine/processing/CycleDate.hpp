@@ -4,7 +4,7 @@
 #include <QtCore/QString>
 
 /**
- * @brief Represent a date for the time cycle processor.
+ * @brief Represent a date of the time-cycle processor.
  *
  * Currently, the date is simply an integer starting at 1 and incrementing at each cycle. But in the future, it could
  * become something more sophisticated.

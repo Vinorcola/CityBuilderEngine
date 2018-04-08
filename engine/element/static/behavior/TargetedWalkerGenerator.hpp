@@ -9,6 +9,12 @@ class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 class SearchEngine;
 
+/**
+ * @brief A targeted walker generator.
+ *
+ * The target is searched on walker generation according to the given search criteria. If no target is found, the walker
+ * is still generated but without any target (it will just stay still).
+ */
 class TargetedWalkerGenerator : public AbstractWalkerGenerator
 {
         Q_OBJECT

@@ -13,6 +13,12 @@ class AbstractDynamicMapElement;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 
+/**
+ * @brief The base class for behavior generating walkers (dynamic elements).
+ *
+ * Such behavior usually generates a certain number of walker every interval of time, based on the activity ratio and
+ * the max number of walkers supported.
+ */
 class AbstractWalkerGenerator : public AbstractActivityBehavior
 {
         Q_OBJECT

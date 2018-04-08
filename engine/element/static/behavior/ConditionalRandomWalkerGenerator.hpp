@@ -8,6 +8,11 @@ class AbstractDynamicMapElement;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 
+/**
+ * @brief A walker generator based on a conditionnal generation.
+ *
+ * This behavior generates a walker only when some conditions are fullfuilled.
+ */
 class ConditionalRandomWalkerGenerator : public RandomWalkerGenerator
 {
         Q_OBJECT

@@ -3,6 +3,12 @@
 
 #include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
 
+/**
+ * @brief The base class for behaviors for which the process depends on the building's activity.
+ *
+ * Buildings that rely on employment will have an activity ratio. This ratio will change according to the building's
+ * employment capacity.
+ */
 class AbstractActivityBehavior : public AbstractStaticElementBehavior
 {
         Q_OBJECT

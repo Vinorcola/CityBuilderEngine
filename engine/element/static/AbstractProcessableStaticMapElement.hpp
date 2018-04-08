@@ -14,7 +14,10 @@ class MapArea;
 class StaticElementInformation;
 
 /**
- * @brief The base class for buildings that need to be processed.
+ * @brief The base class for a processable static element on the map.
+ *
+ * A processable static element is a static element that need to be processed by the engine processor. This mean the
+ * element can evolve and/or produce something.
  */
 class AbstractProcessableStaticMapElement : public AbstractProcessable, public AbstractStaticMapElement
 {

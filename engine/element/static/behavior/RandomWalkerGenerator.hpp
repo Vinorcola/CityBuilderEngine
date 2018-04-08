@@ -11,6 +11,11 @@ class AbstractDynamicMapElement;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 
+/**
+ * @brief A wandering walker generator.
+ *
+ * Generates a walker that will take some road, walking randomly until it has walked for a certain distance.
+ */
 class RandomWalkerGenerator : public AbstractWalkerGenerator
 {
         Q_OBJECT

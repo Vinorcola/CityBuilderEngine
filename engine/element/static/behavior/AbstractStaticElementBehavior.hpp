@@ -6,6 +6,9 @@
 class AbstractDynamicMapElement;
 class CycleDate;
 
+/**
+ * @brief The base class for buildings' behaviors.
+ */
 class AbstractStaticElementBehavior : public AbstractProcessable
 {
         Q_OBJECT

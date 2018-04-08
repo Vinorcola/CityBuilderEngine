@@ -7,9 +7,10 @@
 class StaticElementInformation;
 
 /**
- * @brief Represent a static element on the map.
+ * @brief The base class for a static element on the map.
  *
- * A static element is an element that can't move. It covers an area of the map.
+ * A static element is an element that do not move. It covers an area of the map. This area will be blocked to other static
+ * elements (two static elements cannot share a piece of area).
  */
 class AbstractStaticMapElement: public AbstractMapElement
 {

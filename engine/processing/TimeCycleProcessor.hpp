@@ -11,13 +11,13 @@
 #include "engine/processing/CycleDate.hpp"
 
 /**
- * @brief A processor that process all the processable elements on each time-cycle.
+ * @brief An engine processor that process all the processable elements on each time-cycle.
  *
- * The time-cycle loop is the loop that make the game running. It process the evolution of each processable object. The
- * normal speed (100%) implies 30 cycles per second. The speed can be lower down to 10% (then, only 3 cycles are
- * processed each seconds).
+ * The time-cycle loop is the loop that make the game running. It process the evolution of each processable object
+ * (AbstractProcessable). The normal speed (100%) implies 30 cycles per second. The speed can be lower down to 10%
+ * (then, only 3 cycles are processed each seconds).
  *
- * @todo A no-limit speed could be eventually set, making the next cycle begin as soon as the current cycle ends.
+ * @todo A no-limit speed could be eventually set, making the next cycle to begin as soon as the current cycle ends.
  */
 class TimeCycleProcessor : public QObject
 {
