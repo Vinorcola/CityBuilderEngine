@@ -7,8 +7,7 @@
 
 
 
-RoadGraph::RoadGraph(QObject* parent) :
-    QObject(parent),
+RoadGraph::RoadGraph() :
     nodeList()
 {
 
@@ -110,7 +109,7 @@ const RoadGraphNode* RoadGraph::createNode(const MapCoordinates& coordinates)
         throw UnexpectedException("A node already exists at the coordinates " + coordinates.toString());
     }
 
-    auto newNode(new RoadGraphNode(this, coordinates));
+    auto newNode(new RoadGraphNode(*this, coordinates));
     nodeList.append(newNode);
 
     return newNode;

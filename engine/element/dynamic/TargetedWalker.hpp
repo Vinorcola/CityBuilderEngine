@@ -30,13 +30,12 @@ class TargetedWalker : public AbstractDynamicMapElement
         QList<const RoadGraphNode*> path;
 
     protected:
-        const RoadGraph* roadGraph;
+        const RoadGraph& roadGraph;
 
     public:
-        TargetedWalker(
-            QObject* parent,
+        TargetedWalker(QObject* parent,
             const DynamicElementInformation* conf,
-            const RoadGraph* roadGraph,
+            const RoadGraph& roadGraph,
             AbstractProcessableStaticMapElement* issuer
         );
 

@@ -2,7 +2,6 @@
 #define ROADGRAPHNODE_HPP
 
 #include <QtCore/QList>
-#include <QtCore/QObject>
 
 #include "engine/map/MapCoordinates.hpp"
 
@@ -11,10 +10,8 @@ class RoadGraph;
 /**
  * @brief The RoadGraphNode class represent a node in the road graph.
  */
-class RoadGraphNode : public QObject
+class RoadGraphNode
 {
-        Q_OBJECT
-
     private:
         MapCoordinates coordinates;
         RoadGraphNode* northNode;
@@ -23,7 +20,7 @@ class RoadGraphNode : public QObject
         RoadGraphNode* westNode;
 
     public:
-        RoadGraphNode(RoadGraph* graph, const MapCoordinates& coordinates);
+        RoadGraphNode(const RoadGraph& graph, const MapCoordinates& coordinates);
 
         ~RoadGraphNode();
 

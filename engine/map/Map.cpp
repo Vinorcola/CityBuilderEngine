@@ -8,7 +8,6 @@
 #include "engine/element/static/Building.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
 #include "engine/element/static/Road.hpp"
-#include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
 #include "engine/map/searchEngine/SearchEngine.hpp"
 #include "engine/map/MapArea.hpp"
@@ -27,7 +26,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     conf(conf),
     size(loader.getSize()),
     cityStatus(loader.getBudget()),
-    roadGraph(new RoadGraph(this)),
+    roadGraph(),
     processor(new TimeCycleProcessor(this)),
     searchEngine(new SearchEngine(this, staticElementList)),
     behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
@@ -129,7 +128,7 @@ bool Map::isFreeArea(const MapArea& area) const
 
 MapCoordinates Map::getAutoEntryPoint(const MapArea& area) const
 {
-    auto node(roadGraph->fetchNodeArround(area));
+    auto node(roadGraph.fetchNodeArround(area));
     if (node) {
         return node->getCoordinates();
     }
@@ -205,7 +204,7 @@ void Map::createStaticElement(
             auto coordinates(area.getLeft());
             entryPoint = new CityEntryPoint(this, behaviorFactory, elementConf, coordinates);
             pointer = entryPoint;
-            roadGraph->createNode(coordinates);
+            roadGraph.createNode(coordinates);
             processor->registerProcessable(entryPoint);
             elementList.append(entryPoint);
             staticElementList.append(entryPoint);
@@ -223,7 +222,7 @@ void Map::createStaticElement(
             auto coordinates(area.getLeft());
             auto element(new Road(elementConf, coordinates));
             pointer = element;
-            roadGraph->createNode(coordinates);
+            roadGraph.createNode(coordinates);
             elementList.append(element);
             staticElementList.append(element);
             break;

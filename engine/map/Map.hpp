@@ -6,6 +6,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
+#include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/CityStatus.hpp"
 
 class AbstractDynamicMapElement;
@@ -19,7 +20,6 @@ class DynamicElementInformation;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
-class RoadGraph;
 class SearchEngine;
 class StaticElementInformation;
 class TargetedWalker;
@@ -33,7 +33,7 @@ class Map : public QObject
         const Conf* conf;
         QSize size;
         CityStatus cityStatus;
-        RoadGraph* roadGraph;
+        RoadGraph roadGraph;
         TimeCycleProcessor* processor;
         SearchEngine* searchEngine;
         BehaviorFactory* behaviorFactory;

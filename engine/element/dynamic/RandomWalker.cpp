@@ -7,10 +7,9 @@
 
 
 
-RandomWalker::RandomWalker(
-    QObject* parent,
+RandomWalker::RandomWalker(QObject* parent,
     const DynamicElementInformation* conf,
-    const RoadGraph* roadGraph,
+    const RoadGraph& roadGraph,
     AbstractProcessableStaticMapElement* issuer
 ) :
     TargetedWalker(parent, conf, roadGraph, issuer),
@@ -44,7 +43,7 @@ MapCoordinates RandomWalker::findNextGoingToLocation(const CycleDate& date)
     }
 
     // Continue random walking.
-    auto list(roadGraph->getNextNodeList(getComingFromLocation(), getCurrentLocation()));
+    auto list(roadGraph.getNextNodeList(getComingFromLocation(), getCurrentLocation()));
     if (list.size() == 0) {
         // No solutions, character stays where it is.
         return getCurrentLocation();
