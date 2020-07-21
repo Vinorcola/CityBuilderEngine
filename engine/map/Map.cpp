@@ -11,7 +11,6 @@
 #include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
 #include "engine/map/searchEngine/SearchEngine.hpp"
-#include "engine/map/CityStatus.hpp"
 #include "engine/map/MapArea.hpp"
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/map/MapLoader.hpp"
@@ -27,7 +26,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     QObject(),
     conf(conf),
     size(loader.getSize()),
-    cityStatus(new CityStatus(this, loader.getBudget())),
+    cityStatus(loader.getBudget()),
     roadGraph(new RoadGraph(this)),
     processor(new TimeCycleProcessor(this)),
     searchEngine(new SearchEngine(this, staticElementList)),
@@ -293,7 +292,7 @@ void Map::destroyElement(AbstractDynamicMapElement* element, std::function<void(
 
 void Map::populationChanged(const int populationDelta)
 {
-    cityStatus->updatePopulation(populationDelta);
+    cityStatus.updatePopulation(populationDelta);
 }
 
 
@@ -303,7 +302,7 @@ void Map::freeHousingCapacityChanged(
     const int newHousingCapacity,
     std::function<void(AbstractDynamicMapElement*)> onImmigrantCreation
 ) {
-    cityStatus->updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
+    cityStatus.updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
     if (newHousingCapacity > 0) {
         entryPoint->requestImmigrant(onImmigrantCreation);
     }

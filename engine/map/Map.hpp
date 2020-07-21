@@ -6,13 +6,14 @@
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
+#include "engine/map/CityStatus.hpp"
+
 class AbstractDynamicMapElement;
 class AbstractMapElement;
 class AbstractProcessableStaticMapElement;
 class AbstractStaticMapElement;
 class BehaviorFactory;
 class CityEntryPoint;
-class CityStatus;
 class Conf;
 class DynamicElementInformation;
 class MapArea;
@@ -31,7 +32,7 @@ class Map : public QObject
     private:
         const Conf* conf;
         QSize size;
-        CityStatus* cityStatus;
+        CityStatus cityStatus;
         RoadGraph* roadGraph;
         TimeCycleProcessor* processor;
         SearchEngine* searchEngine;

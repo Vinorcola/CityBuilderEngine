@@ -1,19 +1,15 @@
 #ifndef CITYSTATUS_HPP
 #define CITYSTATUS_HPP
 
-#include <QtCore/QObject>
-
-class CityStatus : public QObject
+class CityStatus
 {
-        Q_OBJECT
-
     private:
         int budget;
         int population;
         int freeHousingPlaces;
 
     public:
-        CityStatus(QObject* parent, const int initialBudget);
+        CityStatus(const int initialBudget);
 
         /**
          * @brief Update the number of free housing of the given delta.
