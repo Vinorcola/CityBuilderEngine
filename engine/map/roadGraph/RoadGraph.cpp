@@ -1,17 +1,27 @@
 #include "RoadGraph.hpp"
 
+#include <QtAlgorithms>
+
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
-#include "engine/map/roadGraph/RoadPathFinder.hpp"
+#include "engine/map/roadGraph/pathFinder/RoadPathFinderNode.hpp"
+#include "engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.hpp"
+#include "engine/map/roadGraph/pathFinder/RoadPathFinderOrderedNodeList.hpp"
 #include "engine/map/MapArea.hpp"
 #include "exceptions/UnexpectedException.hpp"
 
 
 
-RoadGraph::RoadGraph(QObject* parent) :
-    QObject(parent),
+RoadGraph::RoadGraph() :
     nodeList()
 {
 
+}
+
+
+
+RoadGraph::~RoadGraph()
+{
+    qDeleteAll(nodeList);
 }
 
 
@@ -96,9 +106,59 @@ QList<const RoadGraphNode*> RoadGraph::getNextNodeList(const MapCoordinates& com
 
 QList<const RoadGraphNode*> RoadGraph::getShortestPathBetween(const MapCoordinates& origin, const MapCoordinates& destination) const
 {
-    RoadPathFinder pathFinder(this, origin, destination);
+    QList<const RoadGraphNode*> path;
+    RoadPathFinderNodeList closedPathNodes;
+    RoadPathFinderOrderedNodeList openedPathNodes;
+    QHash<RoadPathFinderNode*, QSharedPointer<RoadPathFinderNode>> parents;
 
-    return pathFinder.getShortestPath();
+    // Initialize.
+    if (origin.isRounded()) {
+        openedPathNodes.insert(QSharedPointer<RoadPathFinderNode>(
+            new RoadPathFinderNode(*this->fetchNodeAt(origin), 0.0, destination)
+        ));
+    } else {
+        // We get here the both nodes around the origin coordinates and initialize them with cost according to origin.
+        for (auto originRoundedCoordinates : origin.getClosestRounded()) {
+            openedPathNodes.insert(QSharedPointer<RoadPathFinderNode>(new RoadPathFinderNode(
+                *this->fetchNodeAt(originRoundedCoordinates),
+                originRoundedCoordinates.getManhattanDistanceTo(origin),
+                destination
+            )));
+        }
+    }
+
+    while (!openedPathNodes.isEmpty()) {
+        auto current(openedPathNodes.takeFirst());
+        closedPathNodes.append(current);
+
+        if (current->matchTarget()) {
+            while (current) {
+                path.prepend(&current->getRoadNode());
+                current = parents.value(current.get());
+            }
+            break;
+        }
+
+        int currentNeighboursCostFromOrigin(current->getCostFromOrigin() + 1);
+        for (auto neighbour : current->getNeighbours()) {
+            if (!closedPathNodes.contains(*neighbour)) {
+                auto existingNeighbour(openedPathNodes.findForRoad(neighbour->getRoadNode()));
+                if (!existingNeighbour) {
+                    // Insert the neighbour in the opened path nodes.
+                    parents[neighbour.get()] = current;
+                    openedPathNodes.insert(neighbour);
+                } else {
+                    if (currentNeighboursCostFromOrigin < existingNeighbour->getCostFromOrigin()) {
+                        // Update the existing neighbour cost.
+                        parents[existingNeighbour.get()] = current;
+                        existingNeighbour->updateCostFromOrigin(currentNeighboursCostFromOrigin);
+                    }
+                }
+            }
+        }
+    }
+
+    return path;
 }
 
 
@@ -110,7 +170,7 @@ const RoadGraphNode* RoadGraph::createNode(const MapCoordinates& coordinates)
         throw UnexpectedException("A node already exists at the coordinates " + coordinates.toString());
     }
 
-    auto newNode(new RoadGraphNode(this, coordinates));
+    auto newNode(new RoadGraphNode(*this, coordinates));
     nodeList.append(newNode);
 
     return newNode;

@@ -4,13 +4,12 @@
 
 
 
-RoadGraphNode::RoadGraphNode(RoadGraph* graph, const MapCoordinates& coordinates) :
-    QObject(graph),
+RoadGraphNode::RoadGraphNode(const RoadGraph& graph, const MapCoordinates& coordinates) :
     coordinates(coordinates),
-    northNode(graph->fetchNodeAt(coordinates.getNorth())),
-    southNode(graph->fetchNodeAt(coordinates.getSouth())),
-    eastNode(graph->fetchNodeAt(coordinates.getEast())),
-    westNode(graph->fetchNodeAt(coordinates.getWest()))
+    northNode(graph.fetchNodeAt(coordinates.getNorth())),
+    southNode(graph.fetchNodeAt(coordinates.getSouth())),
+    eastNode(graph.fetchNodeAt(coordinates.getEast())),
+    westNode(graph.fetchNodeAt(coordinates.getWest()))
 {
     if (northNode) {
         northNode->southNode = this;

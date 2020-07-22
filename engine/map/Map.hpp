@@ -2,9 +2,14 @@
 #define MAP_HPP
 
 #include <functional>
-#include <QtCore/QLinkedList>
+#include <list>
 #include <QtCore/QObject>
 #include <QtCore/QSize>
+
+#include "engine/map/roadGraph/RoadGraph.hpp"
+#include "engine/map/searchEngine/SearchEngine.hpp"
+#include "engine/map/CityStatus.hpp"
+#include "defines.hpp"
 
 class AbstractDynamicMapElement;
 class AbstractMapElement;
@@ -12,14 +17,11 @@ class AbstractProcessableStaticMapElement;
 class AbstractStaticMapElement;
 class BehaviorFactory;
 class CityEntryPoint;
-class CityStatus;
 class Conf;
 class DynamicElementInformation;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
-class RoadGraph;
-class SearchEngine;
 class StaticElementInformation;
 class TargetedWalker;
 class TimeCycleProcessor;
@@ -31,13 +33,13 @@ class Map : public QObject
     private:
         const Conf* conf;
         QSize size;
-        CityStatus* cityStatus;
-        RoadGraph* roadGraph;
+        CityStatus cityStatus;
+        RoadGraph roadGraph;
         TimeCycleProcessor* processor;
-        SearchEngine* searchEngine;
+        SearchEngine searchEngine;
         BehaviorFactory* behaviorFactory;
-        QLinkedList<AbstractMapElement*> elementList;
-        QLinkedList<AbstractStaticMapElement*> staticElementList;
+        std::list<Owner<AbstractMapElement*>> elementList;
+        std::list<AbstractStaticMapElement*> staticElementList;
         CityEntryPoint* entryPoint;
 
     public:
@@ -87,7 +89,7 @@ class Map : public QObject
         /**
          * @brief Return the list of all known elements.
          */
-        const QLinkedList<AbstractMapElement*>& getElements() const;
+        const std::list<AbstractMapElement *> &getElements() const;
 
     public slots:
         /**

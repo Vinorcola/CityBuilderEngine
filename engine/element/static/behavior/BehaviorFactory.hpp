@@ -21,10 +21,10 @@ class BehaviorFactory : public QObject
 
     private:
         const Map* map;
-        const SearchEngine* searchEngine;
+        const SearchEngine& searchEngine;
 
     public:
-        BehaviorFactory(QObject* parent, const Map* map, const SearchEngine* searchEngine);
+        BehaviorFactory(QObject* parent, const Map* map, const SearchEngine& searchEngine);
 
         AbstractStaticElementBehavior* generate(
             AbstractProcessableStaticMapElement* issuer,

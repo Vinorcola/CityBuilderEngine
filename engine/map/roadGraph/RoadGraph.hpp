@@ -2,7 +2,8 @@
 #define ROADGRAPH_HPP
 
 #include <QtCore/QList>
-#include <QtCore/QObject>
+
+#include "defines.hpp"
 
 class MapArea;
 class MapCoordinates;
@@ -15,18 +16,18 @@ class RoadGraphNode;
  * direct north, south, west or east. This graph is used to find the shortest path between two nodes (as long as those
  * two nodes are linked together across the graph).
  */
-class RoadGraph : public QObject
+class RoadGraph
 {
-        Q_OBJECT
-
     private:
-        QList<RoadGraphNode*> nodeList;
+        QList<Owner<RoadGraphNode*>> nodeList;
 
     public:
         /**
          * @brief Create an empty road graph.
          */
-        RoadGraph(QObject* parent);
+        RoadGraph();
+
+        ~RoadGraph();
 
         /**
          * @brief Fetch the road graph node located at the given coordinates (or nullptr if none was found).
@@ -61,7 +62,6 @@ class RoadGraph : public QObject
          */
         QList<const RoadGraphNode*> getShortestPathBetween(const MapCoordinates& origin, const MapCoordinates& destination) const;
 
-    public slots:
         /**
          * @brief Create a new node at the given coordinates.
          *

@@ -26,7 +26,7 @@ class RandomWalker : public TargetedWalker
         RandomWalker(
             QObject* parent,
             const DynamicElementInformation* conf,
-            const RoadGraph* roadGraph,
+            const RoadGraph& roadGraph,
             AbstractProcessableStaticMapElement* issuer
         );
 

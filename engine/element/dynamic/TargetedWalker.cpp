@@ -8,7 +8,7 @@
 TargetedWalker::TargetedWalker(
     QObject* parent,
     const DynamicElementInformation* conf,
-    const RoadGraph* roadGraph,
+    const RoadGraph& roadGraph,
     AbstractProcessableStaticMapElement* issuer
 ) :
     AbstractDynamicMapElement(parent, conf, issuer),
@@ -28,7 +28,7 @@ void TargetedWalker::assignTarget(AbstractProcessableStaticMapElement* target)
     path.clear();
     if (target) {
         targetLocation = target->getEntryPoint();
-        path = roadGraph->getShortestPathBetween(getCurrentLocation(), targetLocation);
+        path = roadGraph.getShortestPathBetween(getCurrentLocation(), targetLocation);
         if (!path.isEmpty() && path.first()->getCoordinates() == getCurrentLocation()) {
             path.takeFirst();
         }

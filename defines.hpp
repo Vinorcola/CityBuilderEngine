@@ -1,6 +1,8 @@
 #ifndef DEFINES_HPP
 #define DEFINES_HPP
 
+template<typename X> using Owner = X;
+
 // <--- Add/Remove start between the slahes to switch.
 
 // Normal mode.

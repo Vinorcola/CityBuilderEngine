@@ -8,10 +8,7 @@
 #include "engine/element/static/Building.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
 #include "engine/element/static/Road.hpp"
-#include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
-#include "engine/map/searchEngine/SearchEngine.hpp"
-#include "engine/map/CityStatus.hpp"
 #include "engine/map/MapArea.hpp"
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/map/MapLoader.hpp"
@@ -27,10 +24,10 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     QObject(),
     conf(conf),
     size(loader.getSize()),
-    cityStatus(new CityStatus(this, loader.getBudget())),
-    roadGraph(new RoadGraph(this)),
+    cityStatus(loader.getBudget()),
+    roadGraph(),
     processor(new TimeCycleProcessor(this)),
-    searchEngine(new SearchEngine(this, staticElementList)),
+    searchEngine(staticElementList),
     behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
     elementList(),
     staticElementList(),
@@ -130,7 +127,7 @@ bool Map::isFreeArea(const MapArea& area) const
 
 MapCoordinates Map::getAutoEntryPoint(const MapArea& area) const
 {
-    auto node(roadGraph->fetchNodeArround(area));
+    auto node(roadGraph.fetchNodeArround(area));
     if (node) {
         return node->getCoordinates();
     }
@@ -147,7 +144,7 @@ const TimeCycleProcessor* Map::getProcessor() const
 
 
 
-const QLinkedList<AbstractMapElement*>& Map::getElements() const
+const std::list<AbstractMapElement*>& Map::getElements() const
 {
     return elementList;
 }
@@ -189,8 +186,8 @@ void Map::createStaticElement(
             auto element(new Building(this, behaviorFactory, elementConf, area, getAutoEntryPoint(area)));
             pointer = element;
             processor->registerProcessable(element);
-            elementList.append(element);
-            staticElementList.append(element);
+            elementList.push_back(element);
+            staticElementList.push_back(element);
 
             connect(element, &Building::requestDynamicElementCreation, [this, element](
                 const DynamicElementInformation* elementConf,
@@ -206,10 +203,10 @@ void Map::createStaticElement(
             auto coordinates(area.getLeft());
             entryPoint = new CityEntryPoint(this, behaviorFactory, elementConf, coordinates);
             pointer = entryPoint;
-            roadGraph->createNode(coordinates);
+            roadGraph.createNode(coordinates);
             processor->registerProcessable(entryPoint);
-            elementList.append(entryPoint);
-            staticElementList.append(entryPoint);
+            elementList.push_back(entryPoint);
+            staticElementList.push_back(entryPoint);
 
             connect(entryPoint, &CityEntryPoint::requestDynamicElementCreation, [this](
                 const DynamicElementInformation* elementConf,
@@ -224,9 +221,9 @@ void Map::createStaticElement(
             auto coordinates(area.getLeft());
             auto element(new Road(elementConf, coordinates));
             pointer = element;
-            roadGraph->createNode(coordinates);
-            elementList.append(element);
-            staticElementList.append(element);
+            roadGraph.createNode(coordinates);
+            elementList.push_back(element);
+            staticElementList.push_back(element);
             break;
         }
 
@@ -253,7 +250,7 @@ void Map::createDynamicElement(
             auto element(new RandomWalker(this, elementConf, roadGraph, issuer));
             pointer = element;
             processor->registerProcessable(element);
-            elementList.append(element);
+            elementList.push_back(element);
             afterCreation(element);
             break;
         }
@@ -262,7 +259,7 @@ void Map::createDynamicElement(
             auto element(new TargetedWalker(this, elementConf, roadGraph, issuer));
             pointer = element;
             processor->registerProcessable(element);
-            elementList.append(element);
+            elementList.push_back(element);
             afterCreation(element);
             break;
         }
@@ -281,7 +278,7 @@ void Map::destroyElement(AbstractDynamicMapElement* element, std::function<void(
     for (auto elementFromList: elementList) {
         if (elementFromList== element) {
             // No need to unregister the processable in the TimeCycleProcessor: it will automatically be unregistered.
-            elementList.removeOne(elementFromList);
+            elementList.remove(elementFromList);
             delete elementFromList;
             afterDestruction();
             return;
@@ -293,7 +290,7 @@ void Map::destroyElement(AbstractDynamicMapElement* element, std::function<void(
 
 void Map::populationChanged(const int populationDelta)
 {
-    cityStatus->updatePopulation(populationDelta);
+    cityStatus.updatePopulation(populationDelta);
 }
 
 
@@ -303,7 +300,7 @@ void Map::freeHousingCapacityChanged(
     const int newHousingCapacity,
     std::function<void(AbstractDynamicMapElement*)> onImmigrantCreation
 ) {
-    cityStatus->updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
+    cityStatus.updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
     if (newHousingCapacity > 0) {
         entryPoint->requestImmigrant(onImmigrantCreation);
     }
