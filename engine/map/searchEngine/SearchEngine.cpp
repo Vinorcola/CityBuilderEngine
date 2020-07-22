@@ -5,7 +5,7 @@
 
 
 
-SearchEngine::SearchEngine(const QLinkedList<AbstractStaticMapElement*>& staticElements) :
+SearchEngine::SearchEngine(const std::list<AbstractStaticMapElement *> &staticElements) :
     staticElements(staticElements)
 {
 

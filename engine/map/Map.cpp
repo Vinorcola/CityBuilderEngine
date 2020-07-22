@@ -144,7 +144,7 @@ const TimeCycleProcessor* Map::getProcessor() const
 
 
 
-const QLinkedList<AbstractMapElement*>& Map::getElements() const
+const std::list<AbstractMapElement*>& Map::getElements() const
 {
     return elementList;
 }
@@ -186,8 +186,8 @@ void Map::createStaticElement(
             auto element(new Building(this, behaviorFactory, elementConf, area, getAutoEntryPoint(area)));
             pointer = element;
             processor->registerProcessable(element);
-            elementList.append(element);
-            staticElementList.append(element);
+            elementList.push_back(element);
+            staticElementList.push_back(element);
 
             connect(element, &Building::requestDynamicElementCreation, [this, element](
                 const DynamicElementInformation* elementConf,
@@ -205,8 +205,8 @@ void Map::createStaticElement(
             pointer = entryPoint;
             roadGraph.createNode(coordinates);
             processor->registerProcessable(entryPoint);
-            elementList.append(entryPoint);
-            staticElementList.append(entryPoint);
+            elementList.push_back(entryPoint);
+            staticElementList.push_back(entryPoint);
 
             connect(entryPoint, &CityEntryPoint::requestDynamicElementCreation, [this](
                 const DynamicElementInformation* elementConf,
@@ -222,8 +222,8 @@ void Map::createStaticElement(
             auto element(new Road(elementConf, coordinates));
             pointer = element;
             roadGraph.createNode(coordinates);
-            elementList.append(element);
-            staticElementList.append(element);
+            elementList.push_back(element);
+            staticElementList.push_back(element);
             break;
         }
 
@@ -250,7 +250,7 @@ void Map::createDynamicElement(
             auto element(new RandomWalker(this, elementConf, roadGraph, issuer));
             pointer = element;
             processor->registerProcessable(element);
-            elementList.append(element);
+            elementList.push_back(element);
             afterCreation(element);
             break;
         }
@@ -259,7 +259,7 @@ void Map::createDynamicElement(
             auto element(new TargetedWalker(this, elementConf, roadGraph, issuer));
             pointer = element;
             processor->registerProcessable(element);
-            elementList.append(element);
+            elementList.push_back(element);
             afterCreation(element);
             break;
         }
@@ -278,7 +278,7 @@ void Map::destroyElement(AbstractDynamicMapElement* element, std::function<void(
     for (auto elementFromList: elementList) {
         if (elementFromList== element) {
             // No need to unregister the processable in the TimeCycleProcessor: it will automatically be unregistered.
-            elementList.removeOne(elementFromList);
+            elementList.remove(elementFromList);
             delete elementFromList;
             afterDestruction();
             return;

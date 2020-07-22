@@ -1,7 +1,8 @@
 #ifndef SEARCHENGINE_HPP
 #define SEARCHENGINE_HPP
 
-#include <QtCore/QLinkedList>
+#include <list>
+#include <QtCore/QList>
 
 class AbstractStaticMapElement;
 class StaticSearchCriteria;
@@ -12,10 +13,10 @@ class StaticSearchCriteria;
 class SearchEngine
 {
     private:
-        const QLinkedList<AbstractStaticMapElement*>& staticElements;
+        const std::list<AbstractStaticMapElement*>& staticElements;
 
     public:
-        SearchEngine(const QLinkedList<AbstractStaticMapElement*>& staticElements);
+        SearchEngine(const std::list<AbstractStaticMapElement*>& staticElements);
 
         /**
          * @brief Search a static element into the list of existing elements.

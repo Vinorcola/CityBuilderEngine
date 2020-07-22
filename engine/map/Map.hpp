@@ -2,7 +2,7 @@
 #define MAP_HPP
 
 #include <functional>
-#include <QtCore/QLinkedList>
+#include <list>
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
@@ -38,8 +38,8 @@ class Map : public QObject
         TimeCycleProcessor* processor;
         SearchEngine searchEngine;
         BehaviorFactory* behaviorFactory;
-        QLinkedList<Owner<AbstractMapElement*>> elementList;
-        QLinkedList<AbstractStaticMapElement*> staticElementList;
+        std::list<Owner<AbstractMapElement*>> elementList;
+        std::list<AbstractStaticMapElement*> staticElementList;
         CityEntryPoint* entryPoint;
 
     public:
@@ -89,7 +89,7 @@ class Map : public QObject
         /**
          * @brief Return the list of all known elements.
          */
-        const QLinkedList<AbstractMapElement*>& getElements() const;
+        const std::list<AbstractMapElement *> &getElements() const;
 
     public slots:
         /**
