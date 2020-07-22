@@ -25,7 +25,6 @@ SOURCES += \
     engine/element/static/CityEntryPoint.cpp \
     engine/element/static/Road.cpp \
     engine/element/AbstractMapElement.cpp \
-    engine/map/roadGraph/pathFinder/RoadPathFinder.cpp \
     engine/map/roadGraph/pathFinder/RoadPathFinderNode.cpp \
     engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.cpp \
     engine/map/roadGraph/pathFinder/RoadPathFinderOrderedNodeList.cpp \
@@ -86,7 +85,6 @@ HEADERS += \
     engine/element/static/CityEntryPoint.hpp \
     engine/element/static/Road.hpp \
     engine/element/AbstractMapElement.hpp \
-    engine/map/roadGraph/pathFinder/RoadPathFinder.hpp \
     engine/map/roadGraph/pathFinder/RoadPathFinderNode.hpp \
     engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.hpp \
     engine/map/roadGraph/pathFinder/RoadPathFinderOrderedNodeList.hpp \
