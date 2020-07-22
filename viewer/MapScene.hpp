@@ -3,7 +3,7 @@
 
 #include <QtWidgets/QGraphicsScene>
 
-class AbstractDynamicMapElement;
+class Character;
 class AbstractStaticMapElement;
 class DynamicElement;
 class Map;
@@ -45,7 +45,7 @@ class MapScene : public QGraphicsScene
     public slots:
         void registerNewStaticElement(const AbstractStaticMapElement* element);
 
-        void registerNewDynamicElement(const AbstractDynamicMapElement* element);
+        void registerNewDynamicElement(const Character* element);
 
         /**
          * @brief Refresh the map.

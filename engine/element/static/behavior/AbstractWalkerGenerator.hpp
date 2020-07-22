@@ -9,7 +9,7 @@
 #include "engine/element/static/behavior/AbstractActivityBehavior.hpp"
 #include "engine/processing/CycleDate.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 
@@ -65,7 +65,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
 
         virtual void process(const CycleDate& date) override;
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
+        virtual bool processInteraction(const CycleDate& date, Character* actor) override;
 
     protected:
         virtual bool canSetupNextGenerationDate(const CycleDate& currentDate) const;
@@ -78,11 +78,11 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
         void requestDynamicElementCreation(
             const DynamicElementInformation* elementConf,
             AbstractProcessableStaticMapElement* issuer,
-            std::function<void(AbstractDynamicMapElement*)> afterCreation
+            std::function<void(Character*)> afterCreation
         );
 
         void requestDynamicElementDestruction(
-            AbstractDynamicMapElement* element,
+            Character* element,
             std::function<void()> afterDestruction
         );
 };

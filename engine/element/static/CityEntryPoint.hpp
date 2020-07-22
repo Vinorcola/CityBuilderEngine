@@ -6,7 +6,7 @@
 
 #include "engine/element/static/Building.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class BehaviorFactory;
 class DynamicElementInformation;
 class MapCoordinates;
@@ -35,7 +35,7 @@ class CityEntryPoint : public Building
             const MapCoordinates& coordinates
         );
 
-        void requestImmigrant(std::function<void(AbstractDynamicMapElement*)> onWalkerCreation);
+        void requestImmigrant(std::function<void(Character*)> onWalkerCreation);
 };
 
 #endif // CITYENTRYPOINT_HPP

@@ -7,7 +7,7 @@
 #include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
 #include "engine/processing/CycleDate.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 class TargetedWalker;
@@ -31,7 +31,7 @@ class QueuedWalkerGenerator : public AbstractStaticElementBehavior
         const int minGenerationInterval;
         const int maxGenerationInterval;
         CycleDate nextWalkerGenerationDate;
-        QList<std::function<void(AbstractDynamicMapElement*)>> walkerRequestQueue;
+        QList<std::function<void(Character*)>> walkerRequestQueue;
 
     public:
         QueuedWalkerGenerator(
@@ -45,9 +45,9 @@ class QueuedWalkerGenerator : public AbstractStaticElementBehavior
 
         virtual void process(const CycleDate& date) override;
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
+        virtual bool processInteraction(const CycleDate& date, Character* actor) override;
 
-        void registerWalkerRequest(std::function<void(AbstractDynamicMapElement*)> onWalkerCreation);
+        void registerWalkerRequest(std::function<void(Character*)> onWalkerCreation);
 
     protected:
         void setupNextWalkerGenerationDate(const CycleDate& currentDate);
@@ -56,7 +56,7 @@ class QueuedWalkerGenerator : public AbstractStaticElementBehavior
         void requestDynamicElementCreation(
             const DynamicElementInformation* elementConf,
             AbstractProcessableStaticMapElement* issuer,
-            std::function<void(AbstractDynamicMapElement*)> afterCreation
+            std::function<void(Character*)> afterCreation
         );
 };
 

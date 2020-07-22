@@ -5,7 +5,7 @@
 
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class AbstractStaticElementBehavior;
 class BehaviorFactory;
 class CycleDate;
@@ -40,7 +40,7 @@ class Building : public AbstractProcessableStaticMapElement
 
         virtual void process(const CycleDate& date) override;
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
+        virtual bool processInteraction(const CycleDate& date, Character* actor) override;
 
         virtual void notifyWalkerDestruction() override;
 };

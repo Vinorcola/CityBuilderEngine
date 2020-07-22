@@ -6,11 +6,11 @@
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
-class AbstractDynamicMapElement;
 class AbstractMapElement;
 class AbstractProcessableStaticMapElement;
 class AbstractStaticMapElement;
 class BehaviorFactory;
+class Character;
 class CityEntryPoint;
 class CityStatus;
 class Conf;
@@ -19,6 +19,7 @@ class MapArea;
 class MapCoordinates;
 class MapLoader;
 class RoadGraph;
+class RoadGraphNode;
 class SearchEngine;
 class StaticElementInformation;
 class TargetedWalker;
@@ -36,7 +37,7 @@ class Map : public QObject
         TimeCycleProcessor* processor;
         SearchEngine* searchEngine;
         BehaviorFactory* behaviorFactory;
-        QLinkedList<AbstractMapElement*> elementList;
+        QLinkedList<Character*> dynamicElementList;
         QLinkedList<AbstractStaticMapElement*> staticElementList;
         CityEntryPoint* entryPoint;
 
@@ -75,6 +76,24 @@ class Map : public QObject
         bool isFreeArea(const MapArea& area) const;
 
         /**
+         * @brief Resolve the road graph node corresponding to the given coordinates.
+         *
+         * It returns `nullptr` if there is no road at those coordinates.
+         */
+        const RoadGraphNode* resolveRoad(const MapCoordinates& coordinates) const;
+
+        /**
+         * @brief Get shortest road path between two coordinates.
+         *
+         * It returns a list of road nodes to go through or an empty list if there is not path available between the
+         * given coordinates.
+         */
+        QList<const RoadGraphNode*> getShortestRoadPathBetween(
+            const MapCoordinates& origin,
+            const MapCoordinates& destination
+        ) const;
+
+        /**
          * @brief Get the auto entry point coordinates.
          */
         MapCoordinates getAutoEntryPoint(const MapArea& area) const;
@@ -87,7 +106,12 @@ class Map : public QObject
         /**
          * @brief Return the list of all known elements.
          */
-        const QLinkedList<AbstractMapElement*>& getElements() const;
+        const QLinkedList<Character*>& getDynamicElements() const;
+
+        /**
+         * @brief Return the list of all known elements.
+         */
+        const QLinkedList<AbstractStaticMapElement*>& getStaticElements() const;
 
     public slots:
         /**
@@ -127,14 +151,22 @@ class Map : public QObject
         void createDynamicElement(
             const DynamicElementInformation* elementConf,
             AbstractProcessableStaticMapElement* issuer,
-            std::function<void(AbstractDynamicMapElement*)> afterCreation
+            std::function<void(Character*)> afterCreation
         );
 
         /**
          * @brief Destroy an element.
          */
-        void destroyElement(
-            AbstractDynamicMapElement* element,
+        void destroyDynamicElement(
+            Character* element,
+            std::function<void()> afterDestruction
+        );
+
+        /**
+         * @brief Destroy an element.
+         */
+        void destroyStaticElement(
+            AbstractStaticMapElement* element,
             std::function<void()> afterDestruction
         );
 
@@ -151,7 +183,7 @@ class Map : public QObject
         void freeHousingCapacityChanged(
             const int previousHousingCapacity,
             const int newHousingCapacity,
-            std::function<void(AbstractDynamicMapElement*)> onImmigrantCreation
+            std::function<void(Character*)> onImmigrantCreation
         );
 
     protected:
@@ -159,7 +191,7 @@ class Map : public QObject
 
     signals:
         void staticElementCreated(AbstractStaticMapElement* elementCreated);
-        void dynamicElementCreated(AbstractDynamicMapElement* elementCreated);
+        void dynamicElementCreated(Character* elementCreated);
 };
 
 #endif // MAP_HPP

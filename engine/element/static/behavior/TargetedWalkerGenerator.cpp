@@ -31,7 +31,7 @@ void TargetedWalkerGenerator::generate()
         emit requestDynamicElementCreation(
             walkerConf,
             issuer,
-            [this, target](AbstractDynamicMapElement* element) {
+            [this, target](Character* element) {
                 static_cast<TargetedWalker*>(element)->assignTarget(target);
                 walkers.append(static_cast<TargetedWalker*>(element));
             }

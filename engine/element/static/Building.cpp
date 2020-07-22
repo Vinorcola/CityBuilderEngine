@@ -47,7 +47,7 @@ void Building::process(const CycleDate& date)
 
 
 
-bool Building::processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor)
+bool Building::processInteraction(const CycleDate& date, Character* actor)
 {
     for (auto behavior : behaviors) {
         if (behavior->processInteraction(date, actor)) {

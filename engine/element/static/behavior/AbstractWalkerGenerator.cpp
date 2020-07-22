@@ -94,7 +94,7 @@ void AbstractWalkerGenerator::process(const CycleDate& date)
 
 
 
-bool AbstractWalkerGenerator::processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor)
+bool AbstractWalkerGenerator::processInteraction(const CycleDate& date, Character* actor)
 {
     // Process a random walker issued from this walker generator.
     auto walker(dynamic_cast<TargetedWalker*>(actor));
@@ -137,7 +137,7 @@ void AbstractWalkerGenerator::generate()
     emit requestDynamicElementCreation(
         walkerConf,
         issuer,
-        [this](AbstractDynamicMapElement* element) {
+        [this](Character* element) {
             walkers.append(static_cast<TargetedWalker*>(element));
         }
     );

@@ -7,7 +7,7 @@ CONFIG += c++14
 TEMPLATE = app
 
 SOURCES += \
-    engine/element/dynamic/AbstractDynamicMapElement.cpp \
+    engine/element/dynamic/Character.cpp \
     engine/element/dynamic/RandomWalker.cpp \
     engine/element/dynamic/TargetedWalker.cpp \
     engine/element/static/behavior/AbstractActivityBehavior.cpp \
@@ -68,7 +68,7 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
-    engine/element/dynamic/AbstractDynamicMapElement.hpp \
+    engine/element/dynamic/Character.hpp \
     engine/element/dynamic/RandomWalker.hpp \
     engine/element/dynamic/TargetedWalker.hpp \
     engine/element/static/behavior/AbstractActivityBehavior.hpp \

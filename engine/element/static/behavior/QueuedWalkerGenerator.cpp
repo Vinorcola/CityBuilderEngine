@@ -48,14 +48,14 @@ void QueuedWalkerGenerator::process(const CycleDate& date)
 
 
 
-bool QueuedWalkerGenerator::processInteraction(const CycleDate& /*date*/, AbstractDynamicMapElement* /*actor*/)
+bool QueuedWalkerGenerator::processInteraction(const CycleDate& /*date*/, Character* /*actor*/)
 {
     return false;
 }
 
 
 
-void QueuedWalkerGenerator::registerWalkerRequest(std::function<void(AbstractDynamicMapElement*)> onWalkerCreation)
+void QueuedWalkerGenerator::registerWalkerRequest(std::function<void(Character*)> onWalkerCreation)
 {
     walkerRequestQueue.append(onWalkerCreation);
 }

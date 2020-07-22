@@ -18,7 +18,7 @@ InhabitantContainer::InhabitantContainer(AbstractProcessableStaticMapElement* is
 
 void InhabitantContainer::init(const CycleDate& /*date*/)
 {
-    emit freeCapacityChanged(0, housingCapacity, [this](AbstractDynamicMapElement* immigrant) {
+    emit freeCapacityChanged(0, housingCapacity, [this](Character* immigrant) {
         static_cast<TargetedWalker*>(immigrant)->assignTarget(issuer);
         currentImmigrant = static_cast<TargetedWalker*>(immigrant);
     });
@@ -33,7 +33,7 @@ void InhabitantContainer::process(const CycleDate& /*date*/)
 
 
 
-bool InhabitantContainer::processInteraction(const CycleDate& /*date*/, AbstractDynamicMapElement* actor)
+bool InhabitantContainer::processInteraction(const CycleDate& /*date*/, Character* actor)
 {
     if (actor == currentImmigrant) {
         emit requestDynamicElementDestruction(currentImmigrant, [this]() {
@@ -47,7 +47,7 @@ bool InhabitantContainer::processInteraction(const CycleDate& /*date*/, Abstract
                 emit inhabitantsChanged(INHABITANTS_PER_IMMIGRANT);
             }
             if (inhabitants < housingCapacity) {
-                emit freeCapacityChanged(previousHousingCapacity, housingCapacity - inhabitants, [this](AbstractDynamicMapElement* immigrant) {
+                emit freeCapacityChanged(previousHousingCapacity, housingCapacity - inhabitants, [this](Character* immigrant) {
                     static_cast<TargetedWalker*>(immigrant)->assignTarget(issuer);
                     currentImmigrant = static_cast<TargetedWalker*>(immigrant);
                 });

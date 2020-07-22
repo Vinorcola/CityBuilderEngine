@@ -11,7 +11,7 @@ TargetedWalker::TargetedWalker(
     const RoadGraph* roadGraph,
     AbstractProcessableStaticMapElement* issuer
 ) :
-    AbstractDynamicMapElement(parent, conf, issuer),
+    Character(parent, conf, issuer),
     targetElement(),
     targetLocation(issuer->getEntryPoint()),
     path(),

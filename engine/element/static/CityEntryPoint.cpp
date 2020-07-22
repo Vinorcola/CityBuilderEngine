@@ -30,7 +30,7 @@ CityEntryPoint::CityEntryPoint(
 
 
 
-void CityEntryPoint::requestImmigrant(std::function<void(AbstractDynamicMapElement*)> onWalkerCreation)
+void CityEntryPoint::requestImmigrant(std::function<void(Character*)> onWalkerCreation)
 {
     immigrantGenerator->registerWalkerRequest(onWalkerCreation);
 }

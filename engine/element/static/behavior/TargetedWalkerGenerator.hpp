@@ -4,7 +4,7 @@
 #include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
 #include "engine/map/searchEngine/StaticSearchCriteria.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 class SearchEngine;

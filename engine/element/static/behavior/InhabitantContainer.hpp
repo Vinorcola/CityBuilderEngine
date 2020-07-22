@@ -31,19 +31,19 @@ class InhabitantContainer : public AbstractStaticElementBehavior
 
         virtual void process(const CycleDate& date) override;
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
+        virtual bool processInteraction(const CycleDate& date, Character* actor) override;
 
     signals:
         void freeCapacityChanged(
             const int previousFreeCapacity,
             const int newFreeCapacity,
-            std::function<void(AbstractDynamicMapElement*)> onImmigrantCreation
+            std::function<void(Character*)> onImmigrantCreation
         );
 
         void inhabitantsChanged(const int inhabitantsDelta);
 
         void requestDynamicElementDestruction(
-            AbstractDynamicMapElement* element,
+            Character* element,
             std::function<void()> afterDestruction
         );
 };

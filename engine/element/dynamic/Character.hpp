@@ -1,6 +1,7 @@
-#ifndef ABSTRACTDYNAMICMAPELEMENT_HPP
-#define ABSTRACTDYNAMICMAPELEMENT_HPP
+#ifndef CHARACTER_HPP
+#define CHARACTER_HPP
 
+#include <QtCore/QObject>
 #include <QtCore/QPointer>
 
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
@@ -12,22 +13,17 @@ class CycleDate;
 class DynamicElementInformation;
 
 /**
- * @brief Represent a dynamic element on the map.
+ * @brief A character on the map.
  *
- * A dynamic element is an element that can move (e.g. change its coordinates through time). Moving elements do not have
- * any size, so they do not cover any area. They are just represented by some coordinates and should be perceived as
- * mathematical points.
+ * A character is a dynamic element that can move (e.g. change its coordinates through time). It do not have any size,
+ * so they do not cover any area. They are just represented by some coordinates and should be perceived as mathematical
+ * points.
  *
- * Dynamic elements are always issued from a static element. This static element is the one taht requested the dynamic
- * element creation. However, the issuer does not strictly own the dynamic element: all elements are owned by the map
- * object. The dynamic element can still interact with its issuer since it keep a pointer to it.
- *
- * This base class contains all the logic for moving a dynamic element during a the time-cycle processing. So the class
- * that inherit AbstractDynamicMapElement does not have to implement the process() method. However, they must provide
- * implementation for the findNextGoingToLocation() method. This method must return the immediate tile coordinates to
- * move towards.
+ * Characters are always issued from a building. This building (named the character's issuer) does not strictly own the
+ * character: all characters are owned by the map. Furthermore, a charater can be kept alive even if the issuer has been
+ * destroyed.
  */
-class AbstractDynamicMapElement : public AbstractProcessable, public AbstractMapElement
+class Character : public AbstractProcessable
 {
         Q_OBJECT
 
@@ -42,7 +38,7 @@ class AbstractDynamicMapElement : public AbstractProcessable, public AbstractMap
         QPointer<AbstractProcessableStaticMapElement> issuer;///< The issuer static element.
 
     public:
-        AbstractDynamicMapElement(QObject* parent, const DynamicElementInformation* conf, AbstractProcessableStaticMapElement* issuer);
+        Character(QObject* parent, const DynamicElementInformation* conf, AbstractProcessableStaticMapElement* issuer);
 
         const DynamicElementInformation* getConf() const;
 
@@ -89,4 +85,4 @@ class AbstractDynamicMapElement : public AbstractProcessable, public AbstractMap
         void moveToTarget();
 };
 
-#endif // ABSTRACTDYNAMICMAPELEMENT_HPP
+#endif // CHARACTER_HPP

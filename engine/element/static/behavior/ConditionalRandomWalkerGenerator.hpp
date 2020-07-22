@@ -4,7 +4,7 @@
 #include "engine/element/static/behavior/RandomWalkerGenerator.hpp"
 #include "engine/processing/CycleDate.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 
@@ -33,7 +33,7 @@ class ConditionalRandomWalkerGenerator : public RandomWalkerGenerator
 
         virtual void process(const CycleDate &date) override;
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
+        virtual bool processInteraction(const CycleDate& date, Character* actor) override;
 
     protected:
         virtual bool canSetupNextGenerationDate(const CycleDate& currentDate) const override;

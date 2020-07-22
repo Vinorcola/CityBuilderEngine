@@ -7,7 +7,7 @@
 #include "engine/element/dynamic/RandomWalker.hpp"
 #include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 

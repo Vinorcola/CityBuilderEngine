@@ -1,13 +1,12 @@
-#include "AbstractDynamicMapElement.hpp"
+#include "Character.hpp"
 
-#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "global/conf/DynamicElementInformation.hpp"
 
 
 
-AbstractDynamicMapElement::AbstractDynamicMapElement(QObject* parent, const DynamicElementInformation* conf, AbstractProcessableStaticMapElement* issuer) :
+Character::Character(QObject* parent, const DynamicElementInformation* conf, AbstractProcessableStaticMapElement* issuer) :
     AbstractProcessable(parent),
-    AbstractMapElement(),
     conf(conf),
     initialLocation(issuer->getEntryPoint()),
     moveFromLocation(initialLocation),
@@ -20,49 +19,49 @@ AbstractDynamicMapElement::AbstractDynamicMapElement(QObject* parent, const Dyna
 
 
 
-const DynamicElementInformation* AbstractDynamicMapElement::getConf() const
+const DynamicElementInformation* Character::getConf() const
 {
     return conf;
 }
 
 
 
-const MapCoordinates& AbstractDynamicMapElement::getInitialLocation() const
+const MapCoordinates& Character::getInitialLocation() const
 {
     return initialLocation;
 }
 
 
 
-const MapCoordinates& AbstractDynamicMapElement::getComingFromLocation() const
+const MapCoordinates& Character::getComingFromLocation() const
 {
     return moveFromLocation;
 }
 
 
 
-const MapCoordinates& AbstractDynamicMapElement::getCurrentLocation() const
+const MapCoordinates& Character::getCurrentLocation() const
 {
     return currentLocation;
 }
 
 
 
-const MapCoordinates& AbstractDynamicMapElement::getGoingToLocation() const
+const MapCoordinates& Character::getGoingToLocation() const
 {
     return moveToLocation;
 }
 
 
 
-AbstractProcessableStaticMapElement* AbstractDynamicMapElement::getIssuer() const
+AbstractProcessableStaticMapElement* Character::getIssuer() const
 {
     return issuer;
 }
 
 
 
-void AbstractDynamicMapElement::process(const CycleDate& date)
+void Character::process(const CycleDate& date)
 {
     if (moveToLocation.isValid()) {
         if (moveToLocation == currentLocation) {
@@ -79,7 +78,7 @@ void AbstractDynamicMapElement::process(const CycleDate& date)
 
 
 
-void AbstractDynamicMapElement::moveToTarget()
+void Character::moveToTarget()
 {
     if (moveToLocation.getX() > currentLocation.getX()) {
         currentLocation.setX(qMin(currentLocation.getX() + conf->getSpeed(), moveToLocation.getX()));

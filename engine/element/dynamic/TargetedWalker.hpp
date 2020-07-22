@@ -4,7 +4,7 @@
 #include <QtCore/QList>
 #include <QtCore/QPointer>
 
-#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/map/MapCoordinates.hpp"
 
@@ -20,7 +20,7 @@ class RoadGraphNode;
  * In this case, the walker is simply not moving and stays where it is. As soon as the target is assigned, the walker
  * will begin its journey toward the target following the calculated path.
  */
-class TargetedWalker : public AbstractDynamicMapElement
+class TargetedWalker : public Character
 {
         Q_OBJECT
 

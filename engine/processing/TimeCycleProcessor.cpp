@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 #include "defines.hpp"

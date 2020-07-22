@@ -7,7 +7,7 @@
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class CycleDate;
 class DynamicElementInformation;
 class MapArea;
@@ -41,7 +41,7 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
          * @param actor The actor of the interaction.
          * @return Indicate if the actor was processed or not.
          */
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) = 0;
+        virtual bool processInteraction(const CycleDate& date, Character* actor) = 0;
 
         /**
          * @brief Notify that a walker originated from the static element was destroyed.
@@ -52,11 +52,11 @@ class AbstractProcessableStaticMapElement : public AbstractProcessable, public A
     signals:
         void requestDynamicElementCreation(
             const DynamicElementInformation* elementConf,
-            std::function<void(AbstractDynamicMapElement*)> afterCreation
+            std::function<void(Character*)> afterCreation
         );
 
         void requestDynamicElementDestruction(
-            AbstractDynamicMapElement* element,
+            Character* element,
             std::function<void()> afterDestruction
         );
 };

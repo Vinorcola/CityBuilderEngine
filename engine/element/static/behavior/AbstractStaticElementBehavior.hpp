@@ -3,7 +3,7 @@
 
 #include "engine/processing/AbstractProcessable.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class CycleDate;
 
 /**
@@ -16,7 +16,7 @@ class AbstractStaticElementBehavior : public AbstractProcessable
     public:
         AbstractStaticElementBehavior(QObject* parent);
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) = 0;
+        virtual bool processInteraction(const CycleDate& date, Character* actor) = 0;
 };
 
 #endif // ABSTRACTSTATICELEMENTBEHAVIOR_HPP

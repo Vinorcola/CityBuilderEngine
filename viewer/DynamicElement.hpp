@@ -6,16 +6,16 @@
 
 #include "engine/map/MapCoordinates.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 
 class DynamicElement : public QGraphicsPixmapItem
 {
     private:
         const QSizeF& baseTileSize;
-        QPointer<const AbstractDynamicMapElement> element;
+        QPointer<const Character> element;
 
     public:
-        DynamicElement(const QSizeF& baseTileSize, const AbstractDynamicMapElement* element, const QPixmap& elementImage);
+        DynamicElement(const QSizeF& baseTileSize, const Character* element, const QPixmap& elementImage);
 
         /**
          * @brief Indicae if the logical element linked to this graphical element still exists.
