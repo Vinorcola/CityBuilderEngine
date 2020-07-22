@@ -1,6 +1,6 @@
 #include "RoadPathFinderOrderedNodeList.hpp"
 
-#include "engine/map/roadGraph/RoadPathFinderNode.hpp"
+#include "engine/map/roadGraph/pathFinder/RoadPathFinderNode.hpp"
 
 
 
@@ -16,7 +16,6 @@ bool RoadPathFinderOrderedNodeList::isEmpty() const
 {
     return nodeList.isEmpty();
 }
-
 
 
 

@@ -25,12 +25,12 @@ SOURCES += \
     engine/element/static/CityEntryPoint.cpp \
     engine/element/static/Road.cpp \
     engine/element/AbstractMapElement.cpp \
+    engine/map/roadGraph/pathFinder/RoadPathFinder.cpp \
+    engine/map/roadGraph/pathFinder/RoadPathFinderNode.cpp \
+    engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.cpp \
+    engine/map/roadGraph/pathFinder/RoadPathFinderOrderedNodeList.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
     engine/map/roadGraph/RoadGraphNode.cpp \
-    engine/map/roadGraph/RoadPathFinder.cpp \
-    engine/map/roadGraph/RoadPathFinderNode.cpp \
-    engine/map/roadGraph/RoadPathFinderNodeList.cpp \
-    engine/map/roadGraph/RoadPathFinderOrderedNodeList.cpp \
     engine/map/searchEngine/SearchEngine.cpp \
     engine/map/searchEngine/StaticSearchCriteria.cpp \
     engine/map/CityStatus.cpp \
@@ -86,12 +86,12 @@ HEADERS += \
     engine/element/static/CityEntryPoint.hpp \
     engine/element/static/Road.hpp \
     engine/element/AbstractMapElement.hpp \
+    engine/map/roadGraph/pathFinder/RoadPathFinder.hpp \
+    engine/map/roadGraph/pathFinder/RoadPathFinderNode.hpp \
+    engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.hpp \
+    engine/map/roadGraph/pathFinder/RoadPathFinderOrderedNodeList.hpp \
     engine/map/roadGraph/RoadGraph.hpp \
     engine/map/roadGraph/RoadGraphNode.hpp \
-    engine/map/roadGraph/RoadPathFinder.hpp \
-    engine/map/roadGraph/RoadPathFinderNode.hpp \
-    engine/map/roadGraph/RoadPathFinderNodeList.hpp \
-    engine/map/roadGraph/RoadPathFinderOrderedNodeList.hpp \
     engine/map/searchEngine/SearchEngine.hpp \
     engine/map/searchEngine/StaticSearchCriteria.hpp \
     engine/map/CityStatus.hpp \

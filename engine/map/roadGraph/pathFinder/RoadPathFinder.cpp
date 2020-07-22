@@ -4,9 +4,9 @@
 #include <QtCore/QHash>
 
 #include "engine/map/roadGraph/RoadGraph.hpp"
-#include "engine/map/roadGraph/RoadPathFinderNode.hpp"
-#include "engine/map/roadGraph/RoadPathFinderNodeList.hpp"
-#include "engine/map/roadGraph/RoadPathFinderOrderedNodeList.hpp"
+#include "engine/map/roadGraph/pathFinder/RoadPathFinderNode.hpp"
+#include "engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.hpp"
+#include "engine/map/roadGraph/pathFinder/RoadPathFinderOrderedNodeList.hpp"
 #include "engine/map/MapCoordinates.hpp"
 
 

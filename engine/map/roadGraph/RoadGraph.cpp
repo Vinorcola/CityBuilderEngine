@@ -1,7 +1,7 @@
 #include "RoadGraph.hpp"
 
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
-#include "engine/map/roadGraph/RoadPathFinder.hpp"
+#include "engine/map/roadGraph/pathFinder/RoadPathFinder.hpp"
 #include "engine/map/MapArea.hpp"
 #include "exceptions/UnexpectedException.hpp"
 
