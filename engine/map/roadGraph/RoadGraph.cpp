@@ -1,7 +1,9 @@
 #include "RoadGraph.hpp"
 
+#include <QtAlgorithms>
+
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
-#include "engine/map/roadGraph/RoadPathFinder.hpp"
+#include "engine/map/roadGraph/pathFinder/RoadPathFinder.hpp"
 #include "engine/map/MapArea.hpp"
 #include "exceptions/UnexpectedException.hpp"
 
@@ -11,6 +13,13 @@ RoadGraph::RoadGraph() :
     nodeList()
 {
 
+}
+
+
+
+RoadGraph::~RoadGraph()
+{
+    qDeleteAll(nodeList);
 }
 
 
@@ -95,7 +104,7 @@ QList<const RoadGraphNode*> RoadGraph::getNextNodeList(const MapCoordinates& com
 
 QList<const RoadGraphNode*> RoadGraph::getShortestPathBetween(const MapCoordinates& origin, const MapCoordinates& destination) const
 {
-    RoadPathFinder pathFinder(this, origin, destination);
+    RoadPathFinder pathFinder(*this, origin, destination);
 
     return pathFinder.getShortestPath();
 }

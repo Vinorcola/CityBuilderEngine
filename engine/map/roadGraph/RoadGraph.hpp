@@ -3,6 +3,8 @@
 
 #include <QtCore/QList>
 
+#include "defines.hpp"
+
 class MapArea;
 class MapCoordinates;
 class RoadGraphNode;
@@ -17,13 +19,15 @@ class RoadGraphNode;
 class RoadGraph
 {
     private:
-        QList<RoadGraphNode*> nodeList;
+        QList<Owner<RoadGraphNode*>> nodeList;
 
     public:
         /**
          * @brief Create an empty road graph.
          */
         RoadGraph();
+
+        ~RoadGraph();
 
         /**
          * @brief Fetch the road graph node located at the given coordinates (or nullptr if none was found).

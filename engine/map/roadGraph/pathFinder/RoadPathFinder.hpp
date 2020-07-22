@@ -2,7 +2,6 @@
 #define ROADPATHFINDER_HPP
 
 #include <QtCore/QList>
-#include <QtCore/QObject>
 
 class MapCoordinates;
 class RoadGraph;
@@ -11,10 +10,8 @@ class RoadGraphNode;
 /**
  * @brief The RoadPathFinder class run an A* algorithm on a road graph to find the shortest path between two nodes.
  */
-class RoadPathFinder : public QObject
+class RoadPathFinder
 {
-        Q_OBJECT
-
     private:
         QList<const RoadGraphNode*> path;
 
@@ -25,7 +22,7 @@ class RoadPathFinder : public QObject
          * @param origin Must be coordinates whoses both closest rounded match a road node.
          * @param target Must be rounded coordinates that match a road node.
          */
-        RoadPathFinder(const RoadGraph* roadGraph, const MapCoordinates& origin, const MapCoordinates& target);
+        RoadPathFinder(const RoadGraph& roadGraph, const MapCoordinates& origin, const MapCoordinates& target);
 
         /**
          * @brief Get the shortest path.
