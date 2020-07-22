@@ -20,13 +20,13 @@ class TargetedWalkerGenerator : public AbstractWalkerGenerator
         Q_OBJECT
 
     private:
-        const SearchEngine* searchEngine;
+        const SearchEngine& searchEngine;
         StaticSearchCriteria targetSearchCriteria;
 
     public:
         TargetedWalkerGenerator(
             AbstractProcessableStaticMapElement* issuer,
-            const SearchEngine* searchEngine,
+            const SearchEngine& searchEngine,
             const StaticSearchCriteria* targetSearchCriteria,
             const DynamicElementInformation* walkerConf,
             const int generationInterval,

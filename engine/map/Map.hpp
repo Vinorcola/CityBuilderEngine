@@ -7,7 +7,9 @@
 #include <QtCore/QSize>
 
 #include "engine/map/roadGraph/RoadGraph.hpp"
+#include "engine/map/searchEngine/SearchEngine.hpp"
 #include "engine/map/CityStatus.hpp"
+#include "defines.hpp"
 
 class AbstractDynamicMapElement;
 class AbstractMapElement;
@@ -20,7 +22,6 @@ class DynamicElementInformation;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
-class SearchEngine;
 class StaticElementInformation;
 class TargetedWalker;
 class TimeCycleProcessor;
@@ -35,9 +36,9 @@ class Map : public QObject
         CityStatus cityStatus;
         RoadGraph roadGraph;
         TimeCycleProcessor* processor;
-        SearchEngine* searchEngine;
+        SearchEngine searchEngine;
         BehaviorFactory* behaviorFactory;
-        QLinkedList<AbstractMapElement*> elementList;
+        QLinkedList<Owner<AbstractMapElement*>> elementList;
         QLinkedList<AbstractStaticMapElement*> staticElementList;
         CityEntryPoint* entryPoint;
 

@@ -5,8 +5,7 @@
 
 
 
-SearchEngine::SearchEngine(QObject* parent, const QLinkedList<AbstractStaticMapElement*>& staticElements) :
-    QObject(parent),
+SearchEngine::SearchEngine(const QLinkedList<AbstractStaticMapElement*>& staticElements) :
     staticElements(staticElements)
 {
 

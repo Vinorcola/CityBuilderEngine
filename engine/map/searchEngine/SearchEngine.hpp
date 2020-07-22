@@ -2,7 +2,6 @@
 #define SEARCHENGINE_HPP
 
 #include <QtCore/QLinkedList>
-#include <QtCore/QObject>
 
 class AbstractStaticMapElement;
 class StaticSearchCriteria;
@@ -10,15 +9,13 @@ class StaticSearchCriteria;
 /**
  * @brief The search engine fetch existing static elements according to criteria.
  */
-class SearchEngine : public QObject
+class SearchEngine
 {
-        Q_OBJECT
-
     private:
         const QLinkedList<AbstractStaticMapElement*>& staticElements;
 
     public:
-        SearchEngine(QObject* parent, const QLinkedList<AbstractStaticMapElement*>& staticElements);
+        SearchEngine(const QLinkedList<AbstractStaticMapElement*>& staticElements);
 
         /**
          * @brief Search a static element into the list of existing elements.

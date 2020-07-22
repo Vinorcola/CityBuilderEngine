@@ -9,7 +9,6 @@
 #include "engine/element/static/CityEntryPoint.hpp"
 #include "engine/element/static/Road.hpp"
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
-#include "engine/map/searchEngine/SearchEngine.hpp"
 #include "engine/map/MapArea.hpp"
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/map/MapLoader.hpp"
@@ -28,7 +27,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     cityStatus(loader.getBudget()),
     roadGraph(),
     processor(new TimeCycleProcessor(this)),
-    searchEngine(new SearchEngine(this, staticElementList)),
+    searchEngine(staticElementList),
     behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
     elementList(),
     staticElementList(),

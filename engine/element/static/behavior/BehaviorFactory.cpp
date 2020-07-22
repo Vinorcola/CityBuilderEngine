@@ -12,7 +12,7 @@
 
 
 
-BehaviorFactory::BehaviorFactory(QObject* parent, const Map* map, const SearchEngine* searchEngine) :
+BehaviorFactory::BehaviorFactory(QObject* parent, const Map* map, const SearchEngine& searchEngine) :
     QObject(parent),
     map(map),
     searchEngine(searchEngine)
