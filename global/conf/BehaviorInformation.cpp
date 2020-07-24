@@ -46,14 +46,14 @@ BehaviorInformation::Type BehaviorInformation::getType() const
 
 
 
-const DynamicElementInformation* BehaviorInformation::getDependencyWalkerConf() const
+const CharacterInformation* BehaviorInformation::getDependencyWalkerConf() const
 {
     return dependencyWalkerConf;
 }
 
 
 
-const DynamicElementInformation* BehaviorInformation::getWalkerConf() const
+const CharacterInformation* BehaviorInformation::getWalkerConf() const
 {
     return walkerConf;
 }

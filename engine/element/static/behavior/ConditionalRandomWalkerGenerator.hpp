@@ -6,7 +6,7 @@
 
 class Character;
 class AbstractProcessableStaticMapElement;
-class DynamicElementInformation;
+class CharacterInformation;
 
 /**
  * @brief A walker generator based on a conditionnal generation.
@@ -18,15 +18,15 @@ class ConditionalRandomWalkerGenerator : public RandomWalkerGenerator
         Q_OBJECT
 
     private:
-        const DynamicElementInformation* dependencyWalkerConf;
+        const CharacterInformation* dependencyWalkerConf;
         const int activityInterval;
         CycleDate canGenarateWalkerUntilDate;
 
     public:
         ConditionalRandomWalkerGenerator(
             AbstractProcessableStaticMapElement* issuer,
-            const DynamicElementInformation* walkerConf,
-            const DynamicElementInformation* dependencyWalkerConf,
+            const CharacterInformation* walkerConf,
+            const CharacterInformation* dependencyWalkerConf,
             const int generationInterval,
             const int maxWalkers = 1
         );

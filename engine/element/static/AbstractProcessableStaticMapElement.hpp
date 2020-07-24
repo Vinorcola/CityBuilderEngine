@@ -9,7 +9,7 @@
 
 class Character;
 class CycleDate;
-class DynamicElementInformation;
+class CharacterInformation;
 class MapArea;
 class StaticElementInformation;
 
@@ -51,7 +51,7 @@ class AbstractProcessableStaticMapElement : public AbstractStaticMapElement, pub
 
     signals:
         void requestDynamicElementCreation(
-            const DynamicElementInformation* elementConf,
+            const CharacterInformation* elementConf,
             std::function<void(Character*)> afterCreation
         );
 

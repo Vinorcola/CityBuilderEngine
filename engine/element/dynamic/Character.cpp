@@ -1,13 +1,13 @@
 #include "Character.hpp"
 
 #include "engine/element/dynamic/MotionHandler.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/CharacterInformation.hpp"
 
 
 
 Character::Character(QObject* parent,
     const Map* map,
-    const DynamicElementInformation* conf,
+    const CharacterInformation* conf,
     AbstractProcessableStaticMapElement* issuer,
     int wanderingCredits
 ) :
@@ -34,7 +34,7 @@ void Character::assignTarget(AbstractProcessableStaticMapElement* target)
 
 
 
-const DynamicElementInformation* Character::getConf() const
+const CharacterInformation* Character::getConf() const
 {
     return conf;
 }

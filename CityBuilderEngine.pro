@@ -51,9 +51,9 @@ SOURCES += \
     exceptions/OutOfRangeException.cpp \
     exceptions/UnexpectedException.cpp \
     global/conf/BehaviorInformation.cpp \
+    global/conf/CharacterInformation.cpp \
     global/conf/Conf.cpp \
     global/conf/ControlPanelElementInformation.cpp \
-    global/conf/DynamicElementInformation.cpp \
     global/conf/StaticElementAreaPartDescription.cpp \
     global/conf/StaticElementInformation.cpp \
     global/conf/StaticSearchCriteriaDescription.cpp \
@@ -113,9 +113,9 @@ HEADERS += \
     exceptions/OutOfRangeException.hpp \
     exceptions/UnexpectedException.hpp \
     global/conf/BehaviorInformation.hpp \
+    global/conf/CharacterInformation.hpp \
     global/conf/Conf.hpp \
     global/conf/ControlPanelElementInformation.hpp \
-    global/conf/DynamicElementInformation.hpp \
     global/conf/StaticElementAreaPartDescription.hpp \
     global/conf/StaticElementInformation.hpp \
     global/conf/StaticSearchCriteriaDescription.hpp \

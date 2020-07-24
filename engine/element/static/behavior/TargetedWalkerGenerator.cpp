@@ -8,7 +8,7 @@ TargetedWalkerGenerator::TargetedWalkerGenerator(
     AbstractProcessableStaticMapElement* issuer,
     const SearchEngine* searchEngine,
     const StaticSearchCriteria* targetSearchCriteria,
-    const DynamicElementInformation* walkerConf,
+    const CharacterInformation* walkerConf,
     const int generationInterval,
     const int maxWalkers
 ) :

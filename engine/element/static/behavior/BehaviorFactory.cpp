@@ -8,7 +8,7 @@
 #include "engine/map/Map.hpp"
 #include "exceptions/UnexpectedException.hpp"
 #include "global/conf/BehaviorInformation.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/CharacterInformation.hpp"
 
 
 

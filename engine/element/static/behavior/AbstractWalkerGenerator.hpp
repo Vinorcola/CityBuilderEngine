@@ -11,7 +11,7 @@
 
 class Character;
 class AbstractProcessableStaticMapElement;
-class DynamicElementInformation;
+class CharacterInformation;
 
 /**
  * @brief The base class for behavior generating walkers (dynamic elements).
@@ -25,7 +25,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
 
     protected:
         AbstractProcessableStaticMapElement* issuer;
-        const DynamicElementInformation* walkerConf;
+        const CharacterInformation* walkerConf;
         const int generationInterval;
         const int maxWalkers;
         qreal generationSpeedRatio;
@@ -36,7 +36,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
     public:
         AbstractWalkerGenerator(
             AbstractProcessableStaticMapElement* issuer,
-            const DynamicElementInformation* walkerConf,
+            const CharacterInformation* walkerConf,
             const int generationInterval,
             const int maxWalkers = 1
         );
@@ -76,7 +76,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
 
     signals:
         void requestDynamicElementCreation(
-            const DynamicElementInformation* elementConf,
+            const CharacterInformation* elementConf,
             AbstractProcessableStaticMapElement* issuer,
             std::function<void(Character*)> afterCreation
         );

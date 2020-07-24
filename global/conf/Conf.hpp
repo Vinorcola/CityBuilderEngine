@@ -7,7 +7,7 @@
 #include <QtCore/QString>
 
 class ControlPanelElementInformation;
-class DynamicElementInformation;
+class CharacterInformation;
 class StaticElementInformation;
 
 class Conf : public QObject
@@ -15,14 +15,14 @@ class Conf : public QObject
         Q_OBJECT
 
     private:
-        QHash<QString, DynamicElementInformation*> dynamicElements;
+        QHash<QString, CharacterInformation*> dynamicElements;
         QHash<QString, StaticElementInformation*> staticElements;
         QList<ControlPanelElementInformation*> controlPanelElements;
 
     public:
         Conf(QObject* parent, const QString& filePath);
 
-        const DynamicElementInformation* getDynamicElementConf(const QString& elementKey) const;
+        const CharacterInformation* getDynamicElementConf(const QString& elementKey) const;
 
         const StaticElementInformation* getStaticElementConf(const QString& elementKey) const;
 

@@ -10,7 +10,7 @@
 #include "engine/processing/AbstractProcessable.hpp"
 
 class CycleDate;
-class DynamicElementInformation;
+class CharacterInformation;
 class Map;
 class MotionHandler;
 
@@ -33,7 +33,7 @@ class Character : public QObject, public AbstractProcessable
         Q_OBJECT
 
     private:
-        const DynamicElementInformation* conf;
+        const CharacterInformation* conf;
         QPointer<AbstractProcessableStaticMapElement> issuer;///< The issuer building.
         QPointer<AbstractProcessableStaticMapElement> target;///< The target building.
         MotionHandler* motionHandler;///< A helper that will handle character's motion.
@@ -42,14 +42,14 @@ class Character : public QObject, public AbstractProcessable
         Character(
             QObject* parent,
             const Map* map,
-            const DynamicElementInformation* conf,
+            const CharacterInformation* conf,
             AbstractProcessableStaticMapElement* issuer,
             int wanderingCredits = 0
         );
 
         void assignTarget(AbstractProcessableStaticMapElement* target);
 
-        const DynamicElementInformation* getConf() const;
+        const CharacterInformation* getConf() const;
 
         /**
          * @brief The current location of the character.

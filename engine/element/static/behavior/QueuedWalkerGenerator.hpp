@@ -9,7 +9,7 @@
 
 class Character;
 class AbstractProcessableStaticMapElement;
-class DynamicElementInformation;
+class CharacterInformation;
 
 /**
  * @brief A queued walker generator.
@@ -26,7 +26,7 @@ class QueuedWalkerGenerator : public AbstractStaticElementBehavior
 
     private:
         AbstractProcessableStaticMapElement* issuer;
-        const DynamicElementInformation* walkerConf;
+        const CharacterInformation* walkerConf;
         const int minGenerationInterval;
         const int maxGenerationInterval;
         CycleDate nextWalkerGenerationDate;
@@ -35,12 +35,12 @@ class QueuedWalkerGenerator : public AbstractStaticElementBehavior
     public:
         QueuedWalkerGenerator(
             AbstractProcessableStaticMapElement* issuer,
-            const DynamicElementInformation* walkerConf,
+            const CharacterInformation* walkerConf,
             const int minGenerationInterval,
             const int maxGenerationInterval
         );
 
-        const DynamicElementInformation* getWalkerConf() const;
+        const CharacterInformation* getWalkerConf() const;
 
         virtual void process(const CycleDate& date) override;
 
@@ -53,7 +53,7 @@ class QueuedWalkerGenerator : public AbstractStaticElementBehavior
 
     signals:
         void requestDynamicElementCreation(
-            const DynamicElementInformation* elementConf,
+            const CharacterInformation* elementConf,
             AbstractProcessableStaticMapElement* issuer,
             std::function<void(Character*)> afterCreation
         );

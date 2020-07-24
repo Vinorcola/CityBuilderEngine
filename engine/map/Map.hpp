@@ -13,7 +13,7 @@ class Character;
 class CityEntryPoint;
 class CityStatus;
 class Conf;
-class DynamicElementInformation;
+class CharacterInformation;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
@@ -145,7 +145,7 @@ class Map : public QObject
          * @throw UnexpectedException Try to create a dynamic element of type None.
          */
         void createCharacter(
-            const DynamicElementInformation* conf,
+            const CharacterInformation* conf,
             AbstractProcessableStaticMapElement* issuer,
             std::function<void(Character*)> afterCreation
         );

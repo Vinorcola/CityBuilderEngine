@@ -18,7 +18,7 @@
 #include "engine/processing/TimeCycleProcessor.hpp"
 #include "exceptions/UnexpectedException.hpp"
 #include "global/conf/Conf.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/CharacterInformation.hpp"
 #include "global/conf/StaticElementInformation.hpp"
 
 
@@ -209,7 +209,7 @@ void Map::createStaticElement(
             staticElementList.append(element);
 
             connect(element, &Building::requestDynamicElementCreation, [this, element](
-                const DynamicElementInformation* elementConf,
+                const CharacterInformation* elementConf,
                 std::function<void(Character*)> afterCreation
             ) {
                 createCharacter(elementConf, element, afterCreation);
@@ -227,7 +227,7 @@ void Map::createStaticElement(
             staticElementList.append(entryPoint);
 
             connect(entryPoint, &CityEntryPoint::requestDynamicElementCreation, [this](
-                const DynamicElementInformation* elementConf,
+                const CharacterInformation* elementConf,
                 std::function<void(Character*)> afterCreation
             ) {
                 createCharacter(elementConf, entryPoint, afterCreation);
@@ -254,7 +254,7 @@ void Map::createStaticElement(
 
 
 void Map::createCharacter(
-    const DynamicElementInformation* conf,
+    const CharacterInformation* conf,
     AbstractProcessableStaticMapElement* issuer,
     std::function<void(Character*)> afterCreation
 ) {

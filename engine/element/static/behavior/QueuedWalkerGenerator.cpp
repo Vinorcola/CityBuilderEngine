@@ -6,7 +6,7 @@
 
 
 QueuedWalkerGenerator::QueuedWalkerGenerator(AbstractProcessableStaticMapElement* issuer,
-    const DynamicElementInformation* walkerConf,
+    const CharacterInformation* walkerConf,
     const int minGenerationInterval,
     const int maxGenerationInterval
 ) :
@@ -23,7 +23,7 @@ QueuedWalkerGenerator::QueuedWalkerGenerator(AbstractProcessableStaticMapElement
 
 
 
-const DynamicElementInformation* QueuedWalkerGenerator::getWalkerConf() const
+const CharacterInformation* QueuedWalkerGenerator::getWalkerConf() const
 {
     return walkerConf;
 }

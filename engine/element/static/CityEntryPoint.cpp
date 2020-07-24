@@ -3,7 +3,7 @@
 #include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/QueuedWalkerGenerator.hpp"
 #include "engine/random.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/CharacterInformation.hpp"
 
 const int IMMIGRANT_MIN_INTERVAL(10);
 const int IMMIGRANT_MAX_INTERVAL(60);

@@ -6,8 +6,8 @@
 
 ConditionalRandomWalkerGenerator::ConditionalRandomWalkerGenerator(
     AbstractProcessableStaticMapElement* issuer,
-    const DynamicElementInformation* walkerConf,
-    const DynamicElementInformation* dependencyWalkerConf,
+    const CharacterInformation* walkerConf,
+    const CharacterInformation* dependencyWalkerConf,
     const int generationInterval,
     const int maxWalkers
 ) :

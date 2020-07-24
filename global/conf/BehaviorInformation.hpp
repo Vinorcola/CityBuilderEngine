@@ -7,7 +7,7 @@
 #include "engine/map/searchEngine/StaticSearchCriteria.hpp"
 
 class Conf;
-class DynamicElementInformation;
+class CharacterInformation;
 class StaticSearchCriteria;
 class StaticSearchCriteriaDescription;
 namespace YAML {
@@ -30,8 +30,8 @@ class BehaviorInformation : public QObject
 
     private:
         Type type;
-        const DynamicElementInformation* dependencyWalkerConf;
-        const DynamicElementInformation* walkerConf;
+        const CharacterInformation* dependencyWalkerConf;
+        const CharacterInformation* walkerConf;
         const int walkerGenerationInterval;
         const int minWalkerGenerationInterval;
         const int maxWalkerGenerationInterval;
@@ -46,9 +46,9 @@ class BehaviorInformation : public QObject
 
         Type getType() const;
 
-        const DynamicElementInformation* getDependencyWalkerConf() const;
+        const CharacterInformation* getDependencyWalkerConf() const;
 
-        const DynamicElementInformation* getWalkerConf() const;
+        const CharacterInformation* getWalkerConf() const;
 
         int getWalkerGenerationInterval() const;
 

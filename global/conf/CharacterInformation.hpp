@@ -1,5 +1,5 @@
-#ifndef DYNAMICELEMENTINFORMATION_HPP
-#define DYNAMICELEMENTINFORMATION_HPP
+#ifndef CHARACTERINFORMATION_HPP
+#define CHARACTERINFORMATION_HPP
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -9,7 +9,7 @@ namespace YAML {
     class Node;
 }
 
-class DynamicElementInformation : public QObject
+class CharacterInformation : public QObject
 {
         Q_OBJECT
 
@@ -29,7 +29,7 @@ class DynamicElementInformation : public QObject
         QPixmap image;
 
     public:
-        DynamicElementInformation(QObject* parent, const QString& key, const YAML::Node& model);
+        CharacterInformation(QObject* parent, const QString& key, const YAML::Node& model);
 
         Type getType() const;
 
@@ -44,13 +44,9 @@ class DynamicElementInformation : public QObject
         const QPixmap& getImage() const;
 
         /**
-         * @brief Check if the model for a dynamic element is valid.
+         * @brief Check if the model is valid.
          *
-         * If the model is invalid, it throws an exception.
-         *
-         * @param key
-         * @param model
-         * @throws BadConfigurationException
+         * @throws BadConfigurationException Thrown if the model is invalid.
          */
         static void checkModel(const QString& key, const YAML::Node& model);
 
@@ -58,4 +54,4 @@ class DynamicElementInformation : public QObject
         static Type resolveType(const QString& type);
 };
 
-#endif // DYNAMICELEMENTINFORMATION_HPP
+#endif // CHARACTERINFORMATION_HPP

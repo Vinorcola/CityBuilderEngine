@@ -4,7 +4,7 @@
 #include "engine/element/static/AbstractStaticMapElement.hpp"
 #include "engine/map/Map.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/CharacterInformation.hpp"
 #include "global/conf/StaticElementInformation.hpp"
 #include "viewer/DynamicElement.hpp"
 #include "viewer/SelectionElement.hpp"
