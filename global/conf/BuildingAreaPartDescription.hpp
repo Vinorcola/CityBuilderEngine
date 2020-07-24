@@ -15,6 +15,7 @@ class BuildingAreaPartDescription : public QObject
             Classic,
             AttachedToRoad,  // Agora, Boulevard, Avenue, etc.
             AttachedToCoast, // Dock, Fishing wharf, etc.
+            Road,            // CityEntryPoint, Road, etc.
             RoadLinker,      // Boulevard & Avenue
             Constructible,   // Agora, Sanctuary, etc.
         };
