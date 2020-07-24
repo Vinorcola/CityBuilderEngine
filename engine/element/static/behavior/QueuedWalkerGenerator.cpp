@@ -1,6 +1,6 @@
 #include "QueuedWalkerGenerator.hpp"
 
-#include "engine/element/dynamic/TargetedWalker.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/random.hpp"
 
 
@@ -23,7 +23,7 @@ QueuedWalkerGenerator::QueuedWalkerGenerator(AbstractProcessableStaticMapElement
 
 
 
-const DynamicElementInformation*QueuedWalkerGenerator::getWalkerConf() const
+const DynamicElementInformation* QueuedWalkerGenerator::getWalkerConf() const
 {
     return walkerConf;
 }

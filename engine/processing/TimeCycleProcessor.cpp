@@ -2,9 +2,8 @@
 
 #include <QDebug>
 
-#include "engine/element/dynamic/Character.hpp"
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
-#include "engine/processing/AbstractProcessable.hpp"
+#include "engine/processing/BuildingProcessor.hpp"
+#include "engine/processing/CharacterProcessor.hpp"
 #include "defines.hpp"
 
 const qreal MSEC_PER_SEC(1000);
@@ -16,26 +15,11 @@ TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const qreal speedRatio) 
     paused(false),
     speedRatio(speedRatio),
     clock(),
-    processableList(),
-    waitingForRegistrationList(),
-    waitingForUnregistrationList(),
-    currentCycleDate()
+    currentCycleDate(),
+    buildingProcessor(new BuildingProcessor(this)),
+    characterProcessor(new CharacterProcessor(this))
 {
     clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * speedRatio), this);
-}
-
-
-
-void TimeCycleProcessor::registerProcessable(AbstractProcessable* processable)
-{
-    waitingForRegistrationList.append(processable);
-}
-
-
-
-void TimeCycleProcessor::unregisterProcessable(AbstractProcessable* processable)
-{
-    waitingForUnregistrationList.append(processable);
 }
 
 
@@ -43,6 +27,34 @@ void TimeCycleProcessor::unregisterProcessable(AbstractProcessable* processable)
 qreal TimeCycleProcessor::getSpeedRatio() const
 {
     return speedRatio;
+}
+
+
+
+void TimeCycleProcessor::registerBuilding(AbstractProcessableStaticMapElement* building)
+{
+    buildingProcessor->registerBuilding(building);
+}
+
+
+
+void TimeCycleProcessor::registerCharacter(Character* character)
+{
+    characterProcessor->registerCharacter(character);
+}
+
+
+
+void TimeCycleProcessor::unregisterBuilding(AbstractProcessableStaticMapElement* building)
+{
+    buildingProcessor->unregisterBuilding(building);
+}
+
+
+
+void TimeCycleProcessor::unregisterCharacter(Character* character)
+{
+    characterProcessor->unregisterCharacter(character);
 }
 
 
@@ -98,28 +110,11 @@ void TimeCycleProcessor::processCycle()
     ++currentCycleDate;
     qDebug() << "Process time-cycle" << currentCycleDate.toString();
 
-    // Process current processable list.
-    for (auto processable: processableList) {
-        if (processable) {
-            processable->process(currentCycleDate);
-        } else {
-            waitingForUnregistrationList.append(processable);
-        }
-    }
+    // Process characters.
+    characterProcessor->process(currentCycleDate);
 
-    // Process unregistration.
-    while (!waitingForUnregistrationList.isEmpty()) {
-        processableList.removeOne(waitingForUnregistrationList.takeFirst());
-    }
-
-    // Process registration.
-    while (!waitingForRegistrationList.isEmpty()) {
-        auto processable(waitingForRegistrationList.takeFirst());
-        if (processable) {
-            processable->init(currentCycleDate);
-            processableList.append(processable);
-        }
-    }
+    // Process buildings.
+    buildingProcessor->process(currentCycleDate);
 
     emit processFinished();
 }

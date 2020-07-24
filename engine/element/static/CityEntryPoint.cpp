@@ -1,6 +1,6 @@
 #include "CityEntryPoint.hpp"
 
-#include "engine/element/dynamic/TargetedWalker.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/QueuedWalkerGenerator.hpp"
 #include "engine/random.hpp"
 #include "global/conf/DynamicElementInformation.hpp"

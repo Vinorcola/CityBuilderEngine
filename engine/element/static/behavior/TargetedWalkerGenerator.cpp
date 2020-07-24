@@ -32,8 +32,8 @@ void TargetedWalkerGenerator::generate()
             walkerConf,
             issuer,
             [this, target](Character* element) {
-                static_cast<TargetedWalker*>(element)->assignTarget(target);
-                walkers.append(static_cast<TargetedWalker*>(element));
+                element->assignTarget(target);
+                walkers.append(element);
             }
         );
     }

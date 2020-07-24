@@ -4,10 +4,8 @@
 #include <QtCore/QList>
 #include <QtCore/QPointer>
 
-#include "engine/element/dynamic/RandomWalker.hpp"
 #include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
 
-class Character;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
 

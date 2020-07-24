@@ -2,8 +2,14 @@
 
 
 
-AbstractProcessable::AbstractProcessable(QObject* parent) :
-    QObject(parent)
+AbstractProcessable::AbstractProcessable()
+{
+
+}
+
+
+
+AbstractProcessable::~AbstractProcessable()
 {
 
 }

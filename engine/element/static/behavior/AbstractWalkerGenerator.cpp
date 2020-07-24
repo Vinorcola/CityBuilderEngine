@@ -24,7 +24,7 @@ AbstractWalkerGenerator::AbstractWalkerGenerator(
 
 
 
-bool AbstractWalkerGenerator::contains(const TargetedWalker* walker) const
+bool AbstractWalkerGenerator::contains(const Character* walker) const
 {
     for (auto walkerFromList : walkers) {
         if (walkerFromList == walker) {
@@ -97,9 +97,8 @@ void AbstractWalkerGenerator::process(const CycleDate& date)
 bool AbstractWalkerGenerator::processInteraction(const CycleDate& date, Character* actor)
 {
     // Process a random walker issued from this walker generator.
-    auto walker(dynamic_cast<TargetedWalker*>(actor));
-    if (walker && contains(walker)) {
-        emit requestDynamicElementDestruction(walker, [this, date]() {
+    if (contains(actor)) {
+        emit requestDynamicElementDestruction(actor, [this, date]() {
             clean();
         });
 
@@ -138,7 +137,7 @@ void AbstractWalkerGenerator::generate()
         walkerConf,
         issuer,
         [this](Character* element) {
-            walkers.append(static_cast<TargetedWalker*>(element));
+            walkers.append(element);
         }
     );
 }

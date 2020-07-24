@@ -1,8 +1,6 @@
 #ifndef ABSTRACTPROCESSABLE
 #define ABSTRACTPROCESSABLE
 
-#include <QtCore/QObject>
-
 class CycleDate;
 
 /**
@@ -13,12 +11,12 @@ class CycleDate;
  * The init() method is called when the object is first registered in the engine processor. Then, the process() method
  * is called on every single time-cycle.
  */
-class AbstractProcessable : public QObject
+class AbstractProcessable
 {
-        Q_OBJECT
-
     public:
-        AbstractProcessable(QObject* parent);
+        AbstractProcessable();
+
+        virtual ~AbstractProcessable();
 
         /**
          * @brief Init the processable element with the current date.

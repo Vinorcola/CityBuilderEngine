@@ -1,20 +1,36 @@
 #include "Character.hpp"
 
-#include "engine/element/dynamic/Character.hpp"
+#include "engine/element/dynamic/MotionHandler.hpp"
 #include "global/conf/DynamicElementInformation.hpp"
 
 
 
-Character::Character(QObject* parent, const DynamicElementInformation* conf, AbstractProcessableStaticMapElement* issuer) :
-    AbstractProcessable(parent),
+Character::Character(
+    QObject* parent,
+    const Map* map,
+    const DynamicElementInformation* conf,
+    AbstractProcessableStaticMapElement* issuer,
+    int randomWalkingCredit
+) :
+    QObject(parent),
+    AbstractProcessable(),
     conf(conf),
-    initialLocation(issuer->getEntryPoint()),
-    moveFromLocation(initialLocation),
-    currentLocation(initialLocation),
-    moveToLocation(initialLocation),
-    issuer(issuer)
+    issuer(issuer),
+    target(),
+    motionHandler(new MotionHandler(this, map, conf->getSpeed(), issuer->getEntryPoint(), randomWalkingCredit))
 {
+    connect(motionHandler, &MotionHandler::walkingCreditExpired, [this]() {
+        target = this->issuer;
+        motionHandler->setTarget(this->issuer->getEntryPoint());
+    });
+}
 
+
+
+void Character::assignTarget(AbstractProcessableStaticMapElement* target)
+{
+    this->target = target;
+    motionHandler->setTarget(target->getEntryPoint());
 }
 
 
@@ -26,30 +42,9 @@ const DynamicElementInformation* Character::getConf() const
 
 
 
-const MapCoordinates& Character::getInitialLocation() const
-{
-    return initialLocation;
-}
-
-
-
-const MapCoordinates& Character::getComingFromLocation() const
-{
-    return moveFromLocation;
-}
-
-
-
 const MapCoordinates& Character::getCurrentLocation() const
 {
-    return currentLocation;
-}
-
-
-
-const MapCoordinates& Character::getGoingToLocation() const
-{
-    return moveToLocation;
+    return motionHandler->getCurrentLocation();
 }
 
 
@@ -63,31 +58,12 @@ AbstractProcessableStaticMapElement* Character::getIssuer() const
 
 void Character::process(const CycleDate& date)
 {
-    if (moveToLocation.isValid()) {
-        if (moveToLocation == currentLocation) {
-            moveToLocation = findNextGoingToLocation(date);
-            moveFromLocation = currentLocation;
-            if (!moveToLocation.isValid()) {
-                return;
-            }
+    motionHandler->move();
+
+    if (motionHandler->hasReachedTarget()) {
+        motionHandler->resetTarget();
+        if (target) {
+            target->processInteraction(date, this);
         }
-
-        moveToTarget();
-    }
-}
-
-
-
-void Character::moveToTarget()
-{
-    if (moveToLocation.getX() > currentLocation.getX()) {
-        currentLocation.setX(qMin(currentLocation.getX() + conf->getSpeed(), moveToLocation.getX()));
-    } else if (moveToLocation.getX() < currentLocation.getX()) {
-        currentLocation.setX(qMax(currentLocation.getX() - conf->getSpeed(), moveToLocation.getX()));
-    }
-    if (moveToLocation.getY() > currentLocation.getY()) {
-        currentLocation.setY(qMin(currentLocation.getY() + conf->getSpeed(), moveToLocation.getY()));
-    } else if (moveToLocation.getY() < currentLocation.getY()) {
-        currentLocation.setY(qMax(currentLocation.getY() - conf->getSpeed(), moveToLocation.getY()));
     }
 }

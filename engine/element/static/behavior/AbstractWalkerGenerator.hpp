@@ -5,7 +5,7 @@
 #include <QtCore/QList>
 #include <QtCore/QPointer>
 
-#include "engine/element/dynamic/TargetedWalker.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/AbstractActivityBehavior.hpp"
 #include "engine/processing/CycleDate.hpp"
 
@@ -31,7 +31,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
         qreal generationSpeedRatio;
         bool needToSetupNextGenerationDate;
         CycleDate nextGenerationDate;
-        QList<QPointer<TargetedWalker>> walkers;
+        QList<QPointer<Character>> walkers;
 
     public:
         AbstractWalkerGenerator(
@@ -45,7 +45,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
          * @brief Indicate if the walker belongs to this walker generator.
          * @param walker
          */
-        bool contains(const TargetedWalker* walker) const;
+        bool contains(const Character* walker) const;
 
         /**
          * @brief Clean the list of walkers by removing deleted walkers.

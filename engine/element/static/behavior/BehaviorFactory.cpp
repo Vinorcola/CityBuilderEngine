@@ -37,14 +37,14 @@ AbstractStaticElementBehavior* BehaviorFactory::generate(
                 conf->getMaxWalkers()
             ));
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createDynamicElement);
-            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyDynamicElement);
+            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyCharacter);
 
             return behavior;
         }
 
         case BehaviorInformation::Type::InhabitantContainer: {
             auto behavior(new InhabitantContainer(issuer));
-            connect(behavior, &InhabitantContainer::requestDynamicElementDestruction, map, &Map::destroyDynamicElement);
+            connect(behavior, &InhabitantContainer::requestDynamicElementDestruction, map, &Map::destroyCharacter);
             connect(behavior, &InhabitantContainer::freeCapacityChanged, map, &Map::freeHousingCapacityChanged);
             connect(behavior, &InhabitantContainer::inhabitantsChanged, map, &Map::populationChanged);
 
@@ -66,7 +66,7 @@ AbstractStaticElementBehavior* BehaviorFactory::generate(
                 conf->getMaxWalkers()
             ));
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createDynamicElement);
-            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyDynamicElement);
+            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyCharacter);
 
             return behavior;
         }
@@ -81,7 +81,7 @@ AbstractStaticElementBehavior* BehaviorFactory::generate(
                 conf->getMaxWalkers()
             ));
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createDynamicElement);
-            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyDynamicElement);
+            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyCharacter);
 
             return behavior;
         }

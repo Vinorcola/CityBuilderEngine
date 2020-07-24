@@ -2,13 +2,14 @@
 #define TIMECYCLEPROCESSOR_HPP
 
 #include <QtCore/QBasicTimer>
-#include <QtCore/QLinkedList>
-#include <QtCore/QList>
 #include <QtCore/QObject>
-#include <QtCore/QPointer>
 
-#include "engine/processing/AbstractProcessable.hpp"
 #include "engine/processing/CycleDate.hpp"
+
+class AbstractProcessableStaticMapElement;
+class BuildingProcessor;
+class Character;
+class CharacterProcessor;
 
 /**
  * @brief An engine processor that process all the processable elements on each time-cycle.
@@ -27,29 +28,34 @@ class TimeCycleProcessor : public QObject
         bool paused;
         qreal speedRatio;
         QBasicTimer clock;
-        QLinkedList<QPointer<AbstractProcessable>> processableList;
-        QList<QPointer<AbstractProcessable>> waitingForRegistrationList;
-        QList<AbstractProcessable*> waitingForUnregistrationList;
         CycleDate currentCycleDate;
+        BuildingProcessor* buildingProcessor;
+        CharacterProcessor* characterProcessor;
 
     public:
         TimeCycleProcessor(QObject* parent, const qreal speedRatio = 1.0);
 
-        /**
-         * @brief Register a processable element.
-         *
-         * @param processable
-         */
-        void registerProcessable(AbstractProcessable* processable);
-
-        /**
-         * @brief Unregister a processable element.
-         *
-         * @param processable
-         */
-        void unregisterProcessable(AbstractProcessable* processable);
-
         qreal getSpeedRatio() const;
+
+        /**
+         * @brief Register a building to be process each time cycle.
+         */
+        void registerBuilding(AbstractProcessableStaticMapElement* building);
+
+        /**
+         * @brief Register a character to be process each time cycle.
+         */
+        void registerCharacter(Character* character);
+
+        /**
+         * @brief Unregister a building from processor.
+         */
+        void unregisterBuilding(AbstractProcessableStaticMapElement* building);
+
+        /**
+         * @brief Unregister a character from processor.
+         */
+        void unregisterCharacter(Character* character);
 
     public slots:
         /**

@@ -19,7 +19,7 @@ class StaticElementInformation;
  * A processable static element is a static element that need to be processed by the engine processor. This mean the
  * element can evolve and/or produce something.
  */
-class AbstractProcessableStaticMapElement : public AbstractProcessable, public AbstractStaticMapElement
+class AbstractProcessableStaticMapElement : public AbstractStaticMapElement, public AbstractProcessable
 {
         Q_OBJECT
 

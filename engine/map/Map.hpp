@@ -6,7 +6,6 @@
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
-class AbstractMapElement;
 class AbstractProcessableStaticMapElement;
 class AbstractStaticMapElement;
 class BehaviorFactory;
@@ -22,7 +21,6 @@ class RoadGraph;
 class RoadGraphNode;
 class SearchEngine;
 class StaticElementInformation;
-class TargetedWalker;
 class TimeCycleProcessor;
 
 class Map : public QObject
@@ -157,10 +155,7 @@ class Map : public QObject
         /**
          * @brief Destroy an element.
          */
-        void destroyDynamicElement(
-            Character* element,
-            std::function<void()> afterDestruction
-        );
+        void destroyCharacter(Character* character, std::function<void()> afterDestruction);
 
         /**
          * @brief Destroy an element.

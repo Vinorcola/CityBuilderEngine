@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <yaml-cpp/yaml.h>
 
-#include "engine/element/dynamic/RandomWalker.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/BehaviorFactory.hpp"
 #include "engine/element/static/Building.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
@@ -213,7 +213,7 @@ void Map::createStaticElement(
         case StaticElementInformation::Type::Building: {
             auto element(new Building(this, behaviorFactory, elementConf, area, getAutoEntryPoint(area)));
             pointer = element;
-            processor->registerProcessable(element);
+            processor->registerBuilding(element);
             staticElementList.append(element);
 
             connect(element, &Building::requestDynamicElementCreation, [this, element](
@@ -222,7 +222,7 @@ void Map::createStaticElement(
             ) {
                 createDynamicElement(elementConf, element, afterCreation);
             });
-            connect(element, &Building::requestDynamicElementDestruction, this, &Map::destroyDynamicElement);
+            connect(element, &Building::requestDynamicElementDestruction, this, &Map::destroyCharacter);
             break;
         }
 
@@ -231,7 +231,7 @@ void Map::createStaticElement(
             entryPoint = new CityEntryPoint(this, behaviorFactory, elementConf, coordinates);
             pointer = entryPoint;
             roadGraph->createNode(coordinates);
-            processor->registerProcessable(entryPoint);
+            processor->registerBuilding(entryPoint);
             staticElementList.append(entryPoint);
 
             connect(entryPoint, &CityEntryPoint::requestDynamicElementCreation, [this](
@@ -266,24 +266,22 @@ void Map::createDynamicElement(
     AbstractProcessableStaticMapElement* issuer,
     std::function<void(Character*)> afterCreation
 ) {
-    Character* pointer;
+    Character* element;
     switch (elementConf->getType()) {
         case DynamicElementInformation::Type::None:
             throw UnexpectedException("Try to create a dynamic element of type None.");
 
         case DynamicElementInformation::Type::RandomWalker: {
-            auto element(new RandomWalker(this, elementConf, roadGraph, issuer));
-            pointer = element;
-            processor->registerProcessable(element);
+            element = new Character(this, this, elementConf, issuer, elementConf->getWalkingCredit());
+            processor->registerCharacter(element);
             dynamicElementList.append(element);
             afterCreation(element);
             break;
         }
 
         case DynamicElementInformation::Type::TargetedWalker: {
-            auto element(new TargetedWalker(this, elementConf, roadGraph, issuer));
-            pointer = element;
-            processor->registerProcessable(element);
+            element = new Character(this, this, elementConf, issuer);
+            processor->registerCharacter(element);
             dynamicElementList.append(element);
             afterCreation(element);
             break;
@@ -293,18 +291,17 @@ void Map::createDynamicElement(
             throw UnexpectedException("Try to create a dynamic element of unknown type.");
     }
 
-    emit dynamicElementCreated(pointer);
+    emit dynamicElementCreated(element);
 }
 
 
 
-void Map::destroyDynamicElement(Character* element, std::function<void()> afterDestruction)
+void Map::destroyCharacter(Character* character, std::function<void()> afterDestruction)
 {
     for (auto elementFromList: dynamicElementList) {
-        if (elementFromList== element) {
-            // No need to unregister the processable in the TimeCycleProcessor: it will automatically be unregistered.
-            dynamicElementList.removeOne(elementFromList);
-            delete elementFromList;
+        if (character == elementFromList) {
+            dynamicElementList.removeOne(character);
+            delete character;
             afterDestruction();
             return;
         }
@@ -317,7 +314,6 @@ void Map::destroyStaticElement(AbstractStaticMapElement* element, std::function<
 {
     for (auto elementFromList: staticElementList) {
         if (elementFromList== element) {
-            // No need to unregister the processable in the TimeCycleProcessor: it will automatically be unregistered.
             staticElementList.removeOne(elementFromList);
             delete elementFromList;
             afterDestruction();

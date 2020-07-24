@@ -8,8 +8,7 @@ TEMPLATE = app
 
 SOURCES += \
     engine/element/dynamic/Character.cpp \
-    engine/element/dynamic/RandomWalker.cpp \
-    engine/element/dynamic/TargetedWalker.cpp \
+    engine/element/dynamic/MotionHandler.cpp \
     engine/element/static/behavior/AbstractActivityBehavior.cpp \
     engine/element/static/behavior/AbstractStaticElementBehavior.cpp \
     engine/element/static/behavior/AbstractWalkerGenerator.cpp \
@@ -40,6 +39,8 @@ SOURCES += \
     engine/map/MapLoader.cpp \
     engine/map/MapSize.cpp \
     engine/processing/AbstractProcessable.cpp \
+    engine/processing/BuildingProcessor.cpp \
+    engine/processing/CharacterProcessor.cpp \
     engine/processing/CycleDate.cpp \
     engine/processing/TimeCycleProcessor.cpp \
     engine/random.cpp \
@@ -69,8 +70,7 @@ SOURCES += \
 
 HEADERS += \
     engine/element/dynamic/Character.hpp \
-    engine/element/dynamic/RandomWalker.hpp \
-    engine/element/dynamic/TargetedWalker.hpp \
+    engine/element/dynamic/MotionHandler.hpp \
     engine/element/static/behavior/AbstractActivityBehavior.hpp \
     engine/element/static/behavior/AbstractStaticElementBehavior.hpp \
     engine/element/static/behavior/AbstractWalkerGenerator.hpp \
@@ -101,6 +101,8 @@ HEADERS += \
     engine/map/MapLoader.hpp \
     engine/map/MapSize.hpp \
     engine/processing/AbstractProcessable.hpp \
+    engine/processing/BuildingProcessor.hpp \
+    engine/processing/CharacterProcessor.hpp \
     engine/processing/CycleDate.hpp \
     engine/processing/TimeCycleProcessor.hpp \
     engine/random.hpp \

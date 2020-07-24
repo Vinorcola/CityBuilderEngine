@@ -10,7 +10,6 @@
 class Character;
 class AbstractProcessableStaticMapElement;
 class DynamicElementInformation;
-class TargetedWalker;
 
 /**
  * @brief A queued walker generator.

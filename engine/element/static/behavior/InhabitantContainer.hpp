@@ -4,7 +4,7 @@
 #include <functional>
 #include <QtCore/QPointer>
 
-#include "engine/element/dynamic/TargetedWalker.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
 
 class AbstractProcessableStaticMapElement;
@@ -22,7 +22,7 @@ class InhabitantContainer : public AbstractStaticElementBehavior
         AbstractProcessableStaticMapElement* issuer;
         int housingCapacity;
         int inhabitants;
-        QPointer<TargetedWalker> currentImmigrant;
+        QPointer<Character> currentImmigrant;
 
     public:
         InhabitantContainer(AbstractProcessableStaticMapElement* issuer);
