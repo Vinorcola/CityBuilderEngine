@@ -9,7 +9,7 @@
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 
-class AbstractStaticElementBehavior;
+class AbstractBehavior;
 class BehaviorFactory;
 class BuildingInformation;
 class Character;
@@ -29,7 +29,7 @@ class ProcessableBuilding : public Building, public AbstractProcessable
         Q_OBJECT
 
     private:
-        QList<AbstractStaticElementBehavior*> behaviors;
+        QList<AbstractBehavior*> behaviors;
         MapCoordinates entryPoint;
 
     public:
@@ -69,7 +69,7 @@ class ProcessableBuilding : public Building, public AbstractProcessable
         );
 
     protected:
-        const QList<AbstractStaticElementBehavior*>& getBehaviors() const;
+        const QList<AbstractBehavior*>& getBehaviors() const;
 };
 
 #endif // PROCESSABLEBUILDING_HPP

@@ -1,7 +1,7 @@
 #include "ProcessableBuilding.hpp"
 
 #include "engine/element/static/behavior/AbstractActivityBehavior.hpp"
-#include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
+#include "engine/element/static/behavior/AbstractBehavior.hpp"
 #include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
 #include "engine/element/static/behavior/BehaviorFactory.hpp"
 #include "global/conf/BuildingInformation.hpp"
@@ -80,7 +80,7 @@ void ProcessableBuilding::notifyWalkerDestruction()
 
 
 
-const QList<AbstractStaticElementBehavior*>& ProcessableBuilding::getBehaviors() const
+const QList<AbstractBehavior*>& ProcessableBuilding::getBehaviors() const
 {
     return behaviors;
 }

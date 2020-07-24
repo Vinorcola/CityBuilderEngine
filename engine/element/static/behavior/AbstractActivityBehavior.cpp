@@ -3,7 +3,7 @@
 
 
 AbstractActivityBehavior::AbstractActivityBehavior(QObject* parent) :
-    AbstractStaticElementBehavior(parent)
+    AbstractBehavior(parent)
 {
 
 }

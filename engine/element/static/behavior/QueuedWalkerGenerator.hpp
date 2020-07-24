@@ -4,7 +4,7 @@
 #include <functional>
 #include <QtCore/QList>
 
-#include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
+#include "engine/element/static/behavior/AbstractBehavior.hpp"
 #include "engine/processing/CycleDate.hpp"
 
 class Character;
@@ -20,7 +20,7 @@ class ProcessableBuilding;
  *
  * This behavior is mainly used by CityEntryPoint.
  */
-class QueuedWalkerGenerator : public AbstractStaticElementBehavior
+class QueuedWalkerGenerator : public AbstractBehavior
 {
         Q_OBJECT
 

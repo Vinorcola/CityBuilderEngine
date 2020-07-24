@@ -1,5 +1,5 @@
-#ifndef ABSTRACTSTATICELEMENTBEHAVIOR_HPP
-#define ABSTRACTSTATICELEMENTBEHAVIOR_HPP
+#ifndef ABSTRACTBEHAVIOR_HPP
+#define ABSTRACTBEHAVIOR_HPP
 
 #include <QtCore/QObject>
 
@@ -11,14 +11,14 @@ class CycleDate;
 /**
  * @brief The base class for buildings' behaviors.
  */
-class AbstractStaticElementBehavior : public QObject, public AbstractProcessable
+class AbstractBehavior : public QObject, public AbstractProcessable
 {
         Q_OBJECT
 
     public:
-        AbstractStaticElementBehavior(QObject* parent);
+        AbstractBehavior(QObject* parent);
 
         virtual bool processInteraction(const CycleDate& date, Character* actor) = 0;
 };
 
-#endif // ABSTRACTSTATICELEMENTBEHAVIOR_HPP
+#endif // ABSTRACTBEHAVIOR_HPP

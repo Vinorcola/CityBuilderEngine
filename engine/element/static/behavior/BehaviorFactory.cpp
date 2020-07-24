@@ -22,7 +22,7 @@ BehaviorFactory::BehaviorFactory(QObject* parent, const Map* map, const SearchEn
 
 
 
-AbstractStaticElementBehavior* BehaviorFactory::generate(
+AbstractBehavior* BehaviorFactory::generate(
     ProcessableBuilding* issuer,
     const BehaviorInformation* conf
 ) const

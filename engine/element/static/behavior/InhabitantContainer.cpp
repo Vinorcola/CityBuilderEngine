@@ -5,7 +5,7 @@ const int INHABITANTS_PER_IMMIGRANT(4);
 
 
 InhabitantContainer::InhabitantContainer(ProcessableBuilding* issuer) :
-    AbstractStaticElementBehavior(issuer),
+    AbstractBehavior(issuer),
     issuer(issuer),
     housingCapacity(8),
     inhabitants(0),

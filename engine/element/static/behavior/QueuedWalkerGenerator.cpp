@@ -10,7 +10,7 @@ QueuedWalkerGenerator::QueuedWalkerGenerator(ProcessableBuilding* issuer,
     const int minGenerationInterval,
     const int maxGenerationInterval
 ) :
-    AbstractStaticElementBehavior(issuer),
+    AbstractBehavior(issuer),
     issuer(issuer),
     walkerConf(walkerConf),
     minGenerationInterval(minGenerationInterval),

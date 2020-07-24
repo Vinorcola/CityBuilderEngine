@@ -4,7 +4,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QList>
 
-class AbstractStaticElementBehavior;
+class AbstractBehavior;
 class BehaviorInformation;
 class Map;
 class ProcessableBuilding;
@@ -26,7 +26,7 @@ class BehaviorFactory : public QObject
     public:
         BehaviorFactory(QObject* parent, const Map* map, const SearchEngine* searchEngine);
 
-        AbstractStaticElementBehavior* generate(ProcessableBuilding* issuer, const BehaviorInformation* conf) const;
+        AbstractBehavior* generate(ProcessableBuilding* issuer, const BehaviorInformation* conf) const;
 };
 
 #endif // BEHAVIORFACTORY_HPP

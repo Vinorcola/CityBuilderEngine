@@ -10,7 +10,7 @@ SOURCES += \
     engine/element/dynamic/Character.cpp \
     engine/element/dynamic/MotionHandler.cpp \
     engine/element/static/behavior/AbstractActivityBehavior.cpp \
-    engine/element/static/behavior/AbstractStaticElementBehavior.cpp \
+    engine/element/static/behavior/AbstractBehavior.cpp \
     engine/element/static/behavior/AbstractWalkerGenerator.cpp \
     engine/element/static/behavior/BehaviorFactory.cpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.cpp \
@@ -70,7 +70,7 @@ HEADERS += \
     engine/element/dynamic/Character.hpp \
     engine/element/dynamic/MotionHandler.hpp \
     engine/element/static/behavior/AbstractActivityBehavior.hpp \
-    engine/element/static/behavior/AbstractStaticElementBehavior.hpp \
+    engine/element/static/behavior/AbstractBehavior.hpp \
     engine/element/static/behavior/AbstractWalkerGenerator.hpp \
     engine/element/static/behavior/BehaviorFactory.hpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp \

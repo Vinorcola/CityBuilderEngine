@@ -5,7 +5,7 @@
 #include <QtCore/QPointer>
 
 #include "engine/element/dynamic/Character.hpp"
-#include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
+#include "engine/element/static/behavior/AbstractBehavior.hpp"
 
 class ProcessableBuilding;
 
@@ -14,7 +14,7 @@ class ProcessableBuilding;
  *
  * A behavior that allow the building to holds some inhabitants.
  */
-class InhabitantContainer : public AbstractStaticElementBehavior
+class InhabitantContainer : public AbstractBehavior
 {
         Q_OBJECT
 
