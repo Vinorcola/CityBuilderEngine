@@ -54,12 +54,12 @@ MapScene::MapScene(const Map& map) :
     addItem(selectionElement);
 
     // Load existing elements.
-    for (auto element: map.getStaticElements()) {
+    for (auto element: map.getBuildings()) {
         registerNewStaticElement(element);
     }
 
-    connect(this, &MapScene::buildingCreationRequested, &map, &Map::createStaticElement);
-    connect(&map, &Map::staticElementCreated, this, &MapScene::registerNewStaticElement);
+    connect(this, &MapScene::buildingCreationRequested, &map, &Map::createBuilding);
+    connect(&map, &Map::buildingCreated, this, &MapScene::registerNewStaticElement);
     connect(&map, &Map::characterCreated, this, &MapScene::registerNewDynamicElement);
     connect(map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
 }
