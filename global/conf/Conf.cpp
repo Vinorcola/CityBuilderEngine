@@ -10,27 +10,28 @@
 
 Conf::Conf(QObject* parent, const QString& filePath) :
     QObject(parent),
-    dynamicElements(),
-    staticElements()
+    buildings(),
+    characters(),
+    controlPanelElements()
 {
     // Load file.
     YAML::Node configurationRoot(YAML::LoadFile(filePath.toStdString()));
 
-    // Load dynamic element configuration.
-    for (auto node : configurationRoot["dynamicElements"]) {
+    // Load characters' configuration.
+    for (auto node : configurationRoot["characters"]) {
         QString key(QString::fromStdString(node.first.as<std::string>()));
-        dynamicElements.insert(key, new CharacterInformation(this, key, node.second));
+        characters.insert(key, new CharacterInformation(this, key, node.second));
     }
 
-    // Load static element configuration.
-    for (auto node : configurationRoot["staticElements"]) {
+    // Load buildings' configuration.
+    for (auto node : configurationRoot["buildings"]) {
         QString key(QString::fromStdString(node.first.as<std::string>()));
         BuildingInformation::checkModel(key, node.second);
-        staticElements.insert(key, new BuildingInformation(this, this, key, node.second));
+        buildings.insert(key, new BuildingInformation(this, this, key, node.second));
     }
 
     // Resolve dependencies.
-    for (auto element : staticElements) {
+    for (auto element : buildings) {
         element->resolveDependencies(this);
     }
 
@@ -43,16 +44,16 @@ Conf::Conf(QObject* parent, const QString& filePath) :
 
 
 
-const CharacterInformation* Conf::getDynamicElementConf(const QString& elementKey) const
+const CharacterInformation* Conf::getCharacterConf(const QString& elementKey) const
 {
-    return dynamicElements.value(elementKey);
+    return characters.value(elementKey);
 }
 
 
 
-const BuildingInformation* Conf::getStaticElementConf(const QString& elementKey) const
+const BuildingInformation* Conf::getBuildingConf(const QString& elementKey) const
 {
-    return staticElements.value(elementKey);
+    return buildings.value(elementKey);
 }
 
 

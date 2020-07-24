@@ -128,8 +128,8 @@ HEADERS += \
     defines.hpp
 
 DISTFILES += \
-    assets/save/testing.yml \
-    assets/conf.yml \
+    assets/conf.yaml \
+    assets/save/testing.yaml \
     README.md
 
 unix: CONFIG += link_pkgconfig

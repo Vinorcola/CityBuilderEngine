@@ -12,7 +12,7 @@ ControlPanelElementInformation::ControlPanelElementInformation(QObject* parent, 
     QObject(parent),
     type(resolveType(model["type"].as<QString>())),
     title(model["title"].as<QString>()),
-    staticElementConf(model["staticElement"] ? conf->getStaticElementConf(model["staticElement"].as<QString>()) : nullptr),
+    staticElementConf(model["staticElement"] ? conf->getBuildingConf(model["staticElement"].as<QString>()) : nullptr),
     children()
 {
     if (model["content"]) {

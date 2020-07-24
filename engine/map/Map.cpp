@@ -38,7 +38,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
 {
     // Load static elements.
     for (auto elementInfo : loader.getStaticElements()) {
-        auto elementConf(conf->getStaticElementConf(QString::fromStdString(elementInfo["type"].as<std::string>())));
+        auto elementConf(conf->getBuildingConf(QString::fromStdString(elementInfo["type"].as<std::string>())));
         createBuilding(
             elementConf,
             MapArea(

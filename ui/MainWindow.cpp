@@ -15,7 +15,7 @@
 
 MainWindow::MainWindow() :
     QMainWindow(),
-    conf(new Conf(this, "assets/conf.yml")),
+    conf(new Conf(this, "assets/conf.yaml")),
     controlPanel(new ControlPanel(conf)),
     currentMap(nullptr),
     pauseAction(new QAction(tr("Pause"), this)),
