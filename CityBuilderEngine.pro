@@ -28,8 +28,8 @@ SOURCES += \
     engine/map/roadGraph/pathFinder/RoadPathFinderOrderedNodeList.cpp \
     engine/map/roadGraph/RoadGraph.cpp \
     engine/map/roadGraph/RoadGraphNode.cpp \
+    engine/map/searchEngine/BuildingSearchCriteria.cpp \
     engine/map/searchEngine/SearchEngine.cpp \
-    engine/map/searchEngine/StaticSearchCriteria.cpp \
     engine/map/CityStatus.cpp \
     engine/map/Map.cpp \
     engine/map/MapArea.cpp \
@@ -51,10 +51,10 @@ SOURCES += \
     global/conf/BehaviorInformation.cpp \
     global/conf/BuildingAreaPartDescription.cpp \
     global/conf/BuildingInformation.cpp \
+    global/conf/BuildingSearchCriteriaDescription.cpp \
     global/conf/CharacterInformation.cpp \
     global/conf/Conf.cpp \
     global/conf/ControlPanelElementInformation.cpp \
-    global/conf/StaticSearchCriteriaDescription.cpp \
     ui/controlPanel/BuildingButton.cpp \
     ui/controlPanel/ControlPanel.cpp \
     ui/MainWindow.cpp \
@@ -88,8 +88,8 @@ HEADERS += \
     engine/map/roadGraph/pathFinder/RoadPathFinderOrderedNodeList.hpp \
     engine/map/roadGraph/RoadGraph.hpp \
     engine/map/roadGraph/RoadGraphNode.hpp \
+    engine/map/searchEngine/BuildingSearchCriteria.hpp \
     engine/map/searchEngine/SearchEngine.hpp \
-    engine/map/searchEngine/StaticSearchCriteria.hpp \
     engine/map/CityStatus.hpp \
     engine/map/Map.hpp \
     engine/map/MapArea.hpp \
@@ -111,10 +111,10 @@ HEADERS += \
     global/conf/BehaviorInformation.hpp \
     global/conf/BuildingAreaPartDescription.hpp \
     global/conf/BuildingInformation.hpp \
+    global/conf/BuildingSearchCriteriaDescription.hpp \
     global/conf/CharacterInformation.hpp \
     global/conf/Conf.hpp \
     global/conf/ControlPanelElementInformation.hpp \
-    global/conf/StaticSearchCriteriaDescription.hpp \
     global/yamlLibraryEnhancement.hpp \
     ui/controlPanel/BuildingButton.hpp \
     ui/controlPanel/ControlPanel.hpp \

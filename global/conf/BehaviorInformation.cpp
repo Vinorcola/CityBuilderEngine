@@ -4,7 +4,7 @@
 
 #include "exceptions/BadConfigurationException.hpp"
 #include "global/conf/Conf.hpp"
-#include "global/conf/StaticSearchCriteriaDescription.hpp"
+#include "global/conf/BuildingSearchCriteriaDescription.hpp"
 #include "global/yamlLibraryEnhancement.hpp"
 #include "defines.hpp"
 
@@ -20,7 +20,7 @@ BehaviorInformation::BehaviorInformation(QObject* parent, const Conf* conf, cons
     maxWalkerGenerationInterval(model["maxGenerationInterval"] ? model["maxGenerationInterval"].as<int>() * CYCLE_PER_SECOND : 0),
     maxWalkers(model["maxWalkers"] ? model["maxWalkers"].as<int>() : 0),
     targetSearchCriteriaDescription(model["targetSearchCriteria"] ?
-        new StaticSearchCriteriaDescription(this, model["targetSearchCriteria"]) :
+        new BuildingSearchCriteriaDescription(this, model["targetSearchCriteria"]) :
         nullptr
     ),
     targetSearchCriteria()
@@ -33,7 +33,7 @@ BehaviorInformation::BehaviorInformation(QObject* parent, const Conf* conf, cons
 void BehaviorInformation::resolveDependencies(const Conf* conf)
 {
     if (targetSearchCriteriaDescription) {
-        targetSearchCriteria.reset(new StaticSearchCriteria(conf->getStaticElementConf(targetSearchCriteriaDescription->getTargetKey())));
+        targetSearchCriteria.reset(new BuildingSearchCriteria(conf->getStaticElementConf(targetSearchCriteriaDescription->getTargetKey())));
     }
 }
 
@@ -88,7 +88,7 @@ int BehaviorInformation::getMaxWalkers() const
 
 
 
-const StaticSearchCriteria* BehaviorInformation::getTargetSearchCriteria() const
+const BuildingSearchCriteria* BehaviorInformation::getTargetSearchCriteria() const
 {
     return targetSearchCriteria.data();
 }

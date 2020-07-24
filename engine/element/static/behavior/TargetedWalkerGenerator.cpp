@@ -7,7 +7,7 @@
 TargetedWalkerGenerator::TargetedWalkerGenerator(
     ProcessableBuilding* issuer,
     const SearchEngine* searchEngine,
-    const StaticSearchCriteria* targetSearchCriteria,
+    const BuildingSearchCriteria* targetSearchCriteria,
     const CharacterInformation* walkerConf,
     const int generationInterval,
     const int maxWalkers

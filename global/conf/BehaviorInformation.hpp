@@ -4,12 +4,12 @@
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
 
-#include "engine/map/searchEngine/StaticSearchCriteria.hpp"
+#include "engine/map/searchEngine/BuildingSearchCriteria.hpp"
 
 class Conf;
 class CharacterInformation;
-class StaticSearchCriteria;
-class StaticSearchCriteriaDescription;
+class BuildingSearchCriteria;
+class BuildingSearchCriteriaDescription;
 namespace YAML {
     class Node;
 }
@@ -36,8 +36,8 @@ class BehaviorInformation : public QObject
         const int minWalkerGenerationInterval;
         const int maxWalkerGenerationInterval;
         const int maxWalkers;
-        const StaticSearchCriteriaDescription* targetSearchCriteriaDescription;
-        QScopedPointer<StaticSearchCriteria> targetSearchCriteria;
+        const BuildingSearchCriteriaDescription* targetSearchCriteriaDescription;
+        QScopedPointer<BuildingSearchCriteria> targetSearchCriteria;
 
     public:
         BehaviorInformation(QObject* parent, const Conf* conf, const YAML::Node& model);
@@ -58,7 +58,7 @@ class BehaviorInformation : public QObject
 
         int getMaxWalkers() const;
 
-        const StaticSearchCriteria* getTargetSearchCriteria() const;
+        const BuildingSearchCriteria* getTargetSearchCriteria() const;
 
         /**
          * @brief Check if the model for a behavior is valid.

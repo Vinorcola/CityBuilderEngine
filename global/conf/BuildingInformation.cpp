@@ -5,7 +5,7 @@
 #include "exceptions/BadConfigurationException.hpp"
 #include "global/conf/BehaviorInformation.hpp"
 #include "global/conf/Conf.hpp"
-#include "global/conf/StaticSearchCriteriaDescription.hpp"
+#include "global/conf/BuildingSearchCriteriaDescription.hpp"
 #include "defines.hpp"
 
 

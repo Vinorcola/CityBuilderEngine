@@ -12,7 +12,7 @@ class BehaviorInformation;
 class CharacterInformation;
 class Conf;
 class BuildingAreaPartDescription;
-class StaticSearchCriteriaDescription;
+class BuildingSearchCriteriaDescription;
 namespace YAML {
     class Node;
 }

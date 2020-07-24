@@ -5,25 +5,25 @@
 #include <QtCore/QObject>
 
 class Building;
-class StaticSearchCriteria;
+class BuildingSearchCriteria;
 
 /**
- * @brief The search engine fetch existing static elements according to criteria.
+ * @brief The search engine fetch existing buildings according to criteria.
  */
 class SearchEngine : public QObject
 {
         Q_OBJECT
 
     private:
-        const QLinkedList<Building*>& staticElements;
+        const QLinkedList<Building*>& buildingList;
 
     public:
-        SearchEngine(QObject* parent, const QLinkedList<Building*>& staticElements);
+        SearchEngine(QObject* parent, const QLinkedList<Building*>& buildingList);
 
         /**
          * @brief Search a static element into the list of existing elements.
          */
-        QList<Building*> search(const StaticSearchCriteria& criteria) const;
+        QList<Building*> search(const BuildingSearchCriteria& criteria) const;
 };
 
 #endif // SEARCHENGINE_HPP
