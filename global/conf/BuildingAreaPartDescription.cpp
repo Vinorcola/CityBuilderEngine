@@ -1,8 +1,8 @@
-#include "StaticElementAreaPartDescription.hpp"
+#include "BuildingAreaPartDescription.hpp"
 
 
 
-StaticElementAreaPartDescription::StaticElementAreaPartDescription(
+BuildingAreaPartDescription::BuildingAreaPartDescription(
     QObject* parent,
     const MapCoordinates& anchorCoordinates,
     const MapSize& areaSize,

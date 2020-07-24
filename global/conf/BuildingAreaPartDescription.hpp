@@ -1,12 +1,12 @@
-#ifndef STATICELEMENTAREAPARTDESCRIPTION_HPP
-#define STATICELEMENTAREAPARTDESCRIPTION_HPP
+#ifndef BUILDINGAREAPARTDESCRIPTION_HPP
+#define BUILDINGAREAPARTDESCRIPTION_HPP
 
 #include <QtCore/QObject>
 
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/map/MapSize.hpp"
 
-class StaticElementAreaPartDescription : public QObject
+class BuildingAreaPartDescription : public QObject
 {
         Q_OBJECT
 
@@ -15,6 +15,7 @@ class StaticElementAreaPartDescription : public QObject
             Classic,
             AttachedToRoad,  // Agora, Boulevard, Avenue, etc.
             AttachedToCoast, // Dock, Fishing wharf, etc.
+            Road,            // CityEntryPoint, Road, etc.
             RoadLinker,      // Boulevard & Avenue
             Constructible,   // Agora, Sanctuary, etc.
         };
@@ -34,7 +35,7 @@ class StaticElementAreaPartDescription : public QObject
          * @param type              The type of area part.
          * @param altitude          The altitude of the area part.
          */
-        StaticElementAreaPartDescription(
+        BuildingAreaPartDescription(
             QObject* parent,
             const MapCoordinates& anchorCoordinates,
             const MapSize& areaSize,
@@ -43,4 +44,4 @@ class StaticElementAreaPartDescription : public QObject
         );
 };
 
-#endif // STATICELEMENTAREAPARTDESCRIPTION_HPP
+#endif // BUILDINGAREAPARTDESCRIPTION_HPP

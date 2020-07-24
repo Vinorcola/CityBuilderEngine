@@ -4,12 +4,12 @@
 #include <functional>
 #include <QtCore/QList>
 
-#include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
+#include "engine/element/static/behavior/AbstractBehavior.hpp"
 #include "engine/processing/CycleDate.hpp"
 
 class Character;
-class AbstractProcessableStaticMapElement;
 class CharacterInformation;
+class ProcessableBuilding;
 
 /**
  * @brief A queued walker generator.
@@ -20,12 +20,12 @@ class CharacterInformation;
  *
  * This behavior is mainly used by CityEntryPoint.
  */
-class QueuedWalkerGenerator : public AbstractStaticElementBehavior
+class QueuedWalkerGenerator : public AbstractBehavior
 {
         Q_OBJECT
 
     private:
-        AbstractProcessableStaticMapElement* issuer;
+        ProcessableBuilding* issuer;
         const CharacterInformation* walkerConf;
         const int minGenerationInterval;
         const int maxGenerationInterval;
@@ -34,7 +34,7 @@ class QueuedWalkerGenerator : public AbstractStaticElementBehavior
 
     public:
         QueuedWalkerGenerator(
-            AbstractProcessableStaticMapElement* issuer,
+            ProcessableBuilding* issuer,
             const CharacterInformation* walkerConf,
             const int minGenerationInterval,
             const int maxGenerationInterval
@@ -53,8 +53,8 @@ class QueuedWalkerGenerator : public AbstractStaticElementBehavior
 
     signals:
         void requestDynamicElementCreation(
-            const CharacterInformation* elementConf,
-            AbstractProcessableStaticMapElement* issuer,
+            const CharacterInformation* conf,
+            ProcessableBuilding* issuer,
             std::function<void(Character*)> afterCreation
         );
 };

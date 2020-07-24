@@ -33,7 +33,7 @@ void CharacterProcessor::unregisterCharacter(Character* character)
 void CharacterProcessor::process(const CycleDate& date)
 {
     // Process current processable list.
-    for (auto processable: processableList) {
+    for (auto processable : processableList) {
         if (processable) {
             processable->process(date);
         } else {

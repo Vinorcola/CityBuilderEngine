@@ -6,25 +6,25 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
-class ControlPanelElementInformation;
+class BuildingInformation;
 class CharacterInformation;
-class StaticElementInformation;
+class ControlPanelElementInformation;
 
 class Conf : public QObject
 {
         Q_OBJECT
 
     private:
-        QHash<QString, CharacterInformation*> dynamicElements;
-        QHash<QString, StaticElementInformation*> staticElements;
+        QHash<QString, BuildingInformation*> buildings;
+        QHash<QString, CharacterInformation*> characters;
         QList<ControlPanelElementInformation*> controlPanelElements;
 
     public:
         Conf(QObject* parent, const QString& filePath);
 
-        const CharacterInformation* getDynamicElementConf(const QString& elementKey) const;
+        const CharacterInformation* getCharacterConf(const QString& elementKey) const;
 
-        const StaticElementInformation* getStaticElementConf(const QString& elementKey) const;
+        const BuildingInformation* getBuildingConf(const QString& elementKey) const;
 
         const QList<ControlPanelElementInformation*> getControlPanelElements() const;
 };

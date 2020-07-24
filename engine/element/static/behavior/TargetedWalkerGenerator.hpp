@@ -2,11 +2,11 @@
 #define TARGETEDWALKERGENERATOR_HPP
 
 #include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
-#include "engine/map/searchEngine/StaticSearchCriteria.hpp"
+#include "engine/map/searchEngine/BuildingSearchCriteria.hpp"
 
 class Character;
-class AbstractProcessableStaticMapElement;
 class CharacterInformation;
+class ProcessableBuilding;
 class SearchEngine;
 
 /**
@@ -21,13 +21,13 @@ class TargetedWalkerGenerator : public AbstractWalkerGenerator
 
     private:
         const SearchEngine* searchEngine;
-        StaticSearchCriteria targetSearchCriteria;
+        BuildingSearchCriteria targetSearchCriteria;
 
     public:
         TargetedWalkerGenerator(
-            AbstractProcessableStaticMapElement* issuer,
+            ProcessableBuilding* issuer,
             const SearchEngine* searchEngine,
-            const StaticSearchCriteria* targetSearchCriteria,
+            const BuildingSearchCriteria* targetSearchCriteria,
             const CharacterInformation* walkerConf,
             const int generationInterval,
             const int maxWalkers = 1

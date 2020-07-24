@@ -5,8 +5,8 @@
 
 #include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/BehaviorFactory.hpp"
-#include "engine/element/static/Building.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
+#include "engine/element/static/ProcessableBuilding.hpp"
 #include "engine/element/static/Road.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
@@ -17,9 +17,9 @@
 #include "engine/map/MapLoader.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
 #include "exceptions/UnexpectedException.hpp"
-#include "global/conf/Conf.hpp"
+#include "global/conf/BuildingInformation.hpp"
 #include "global/conf/CharacterInformation.hpp"
-#include "global/conf/StaticElementInformation.hpp"
+#include "global/conf/Conf.hpp"
 
 
 
@@ -30,16 +30,16 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     cityStatus(new CityStatus(this, loader.getBudget())),
     roadGraph(new RoadGraph(this)),
     processor(new TimeCycleProcessor(this)),
-    searchEngine(new SearchEngine(this, staticElementList)),
+    searchEngine(new SearchEngine(this, buildingList)),
     behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
     characterList(),
-    staticElementList(),
+    buildingList(),
     entryPoint()
 {
     // Load static elements.
     for (auto elementInfo : loader.getStaticElements()) {
-        auto elementConf(conf->getStaticElementConf(QString::fromStdString(elementInfo["type"].as<std::string>())));
-        createStaticElement(
+        auto elementConf(conf->getBuildingConf(QString::fromStdString(elementInfo["type"].as<std::string>())));
+        createBuilding(
             elementConf,
             MapArea(
                 MapCoordinates(elementInfo["position"]["x"].as<int>(), elementInfo["position"]["y"].as<int>()),
@@ -85,7 +85,7 @@ bool Map::isValidArea(const MapArea& area) const
 
 bool Map::isFreeCoordinates(const MapCoordinates& coordinates) const
 {
-    for (auto element : staticElementList) {
+    for (auto element : buildingList) {
         if (element->getArea().isInside(coordinates)) {
             return false;
         }
@@ -164,9 +164,9 @@ const QLinkedList<Character*>& Map::getCharacters() const
 
 
 
-const QLinkedList<AbstractStaticMapElement*>& Map::getStaticElements() const
+const QLinkedList<Building*>& Map::getBuildings() const
 {
-    return staticElementList;
+    return buildingList;
 }
 
 
@@ -185,48 +185,46 @@ void Map::setProcessorSpeedRatio(const qreal speedRatio)
 
 
 
-void Map::createStaticElement(
-    const StaticElementInformation* elementConf,
-    const MapArea& area
-) {
-    if (area.getSize() != elementConf->getSize()) {
-        throw UnexpectedException("Try to build a static element on a area not matching the element size.");
+void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
+{
+    if (area.getSize() != conf->getSize()) {
+        throw UnexpectedException("Try to build a building on a area not matching the configured size.");
     }
     if (!isFreeArea(area)) {
-        qDebug() << "ERROR: Try to create a static element on an occupyed area " + area.toString() + ". Skiping the creation.";
+        qDebug() << "WARNING: Try to create a building on an occupyed area " + area.toString() + ". Skiping the creation.";
         return;
     }
 
-    AbstractStaticMapElement* pointer;
-    switch (elementConf->getType()) {
-        case StaticElementInformation::Type::None:
+    Building* pointer;
+    switch (conf->getType()) {
+        case BuildingInformation::Type::None:
             throw UnexpectedException("Try to create a static element of type None.");
 
-        case StaticElementInformation::Type::Building: {
-            auto element(new Building(this, behaviorFactory, elementConf, area, getAutoEntryPoint(area)));
+        case BuildingInformation::Type::Building: {
+            auto element(new ProcessableBuilding(this, behaviorFactory, conf, area, getAutoEntryPoint(area)));
             pointer = element;
             processor->registerBuilding(element);
-            staticElementList.append(element);
+            buildingList.append(element);
 
-            connect(element, &Building::requestDynamicElementCreation, [this, element](
+            connect(element, &ProcessableBuilding::requestCharacterCreation, [this, element](
                 const CharacterInformation* elementConf,
                 std::function<void(Character*)> afterCreation
             ) {
                 createCharacter(elementConf, element, afterCreation);
             });
-            connect(element, &Building::requestDynamicElementDestruction, this, &Map::destroyCharacter);
+            connect(element, &ProcessableBuilding::requestCharacterDestruction, this, &Map::destroyCharacter);
             break;
         }
 
-        case StaticElementInformation::Type::CityEntryPoint: {
+        case BuildingInformation::Type::CityEntryPoint: {
             auto coordinates(area.getLeft());
-            entryPoint = new CityEntryPoint(this, behaviorFactory, elementConf, coordinates);
+            entryPoint = new CityEntryPoint(this, behaviorFactory, conf, coordinates);
             pointer = entryPoint;
             roadGraph->createNode(coordinates);
             processor->registerBuilding(entryPoint);
-            staticElementList.append(entryPoint);
+            buildingList.append(entryPoint);
 
-            connect(entryPoint, &CityEntryPoint::requestDynamicElementCreation, [this](
+            connect(entryPoint, &CityEntryPoint::requestCharacterCreation, [this](
                 const CharacterInformation* elementConf,
                 std::function<void(Character*)> afterCreation
             ) {
@@ -235,12 +233,12 @@ void Map::createStaticElement(
             break;
         }
 
-        case StaticElementInformation::Type::Road: {
+        case BuildingInformation::Type::Road: {
             auto coordinates(area.getLeft());
-            auto element(new Road(elementConf, coordinates));
+            auto element(new Road(this, conf, coordinates));
             pointer = element;
             roadGraph->createNode(coordinates);
-            staticElementList.append(element);
+            buildingList.append(element);
             break;
         }
 
@@ -248,14 +246,14 @@ void Map::createStaticElement(
             throw UnexpectedException("Try to create a static element of unknown type.");
     }
 
-    emit staticElementCreated(pointer);
+    emit buildingCreated(pointer);
 }
 
 
 
 void Map::createCharacter(
     const CharacterInformation* conf,
-    AbstractProcessableStaticMapElement* issuer,
+    ProcessableBuilding* issuer,
     std::function<void(Character*)> afterCreation
 ) {
     auto character(new Character(this, this, conf, issuer, conf->getWalkingCredit()));
@@ -268,12 +266,12 @@ void Map::createCharacter(
 
 
 
-void Map::destroyStaticElement(AbstractStaticMapElement* element, std::function<void()> afterDestruction)
+void Map::destroyBuilding(Building* building, std::function<void()> afterDestruction)
 {
-    for (auto elementFromList: staticElementList) {
-        if (elementFromList== element) {
-            staticElementList.removeOne(elementFromList);
-            delete elementFromList;
+    for (auto fromList : buildingList) {
+        if (fromList == building) {
+            buildingList.removeOne(building);
+            delete building;
             afterDestruction();
             return;
         }
@@ -284,8 +282,8 @@ void Map::destroyStaticElement(AbstractStaticMapElement* element, std::function<
 
 void Map::destroyCharacter(Character* character, std::function<void()> afterDestruction)
 {
-    for (auto fromList: characterList) {
-        if (character == fromList) {
+    for (auto fromList : characterList) {
+        if (fromList == character) {
             characterList.removeOne(character);
             delete character;
             afterDestruction();
@@ -316,11 +314,11 @@ void Map::freeHousingCapacityChanged(
 
 
 
-AbstractStaticMapElement* Map::fetchStaticElement(const AbstractStaticMapElement* element) const
+Building* Map::fetchBuilding(const Building* building) const
 {
-    for (auto elementFromList : staticElementList) {
-        if (elementFromList == element) {
-            return elementFromList;
+    for (auto fromList : buildingList) {
+        if (fromList == building) {
+            return fromList;
         }
     }
 

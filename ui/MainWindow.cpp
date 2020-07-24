@@ -6,8 +6,8 @@
 #include "engine/map/Map.hpp"
 #include "engine/map/MapLoader.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
+#include "global/conf/BuildingInformation.hpp"
 #include "global/conf/Conf.hpp"
-#include "global/conf/StaticElementInformation.hpp"
 #include "viewer/MapViewer.hpp"
 #include "ui/controlPanel/ControlPanel.hpp"
 
@@ -15,7 +15,7 @@
 
 MainWindow::MainWindow() :
     QMainWindow(),
-    conf(new Conf(this, "assets/conf.yml")),
+    conf(new Conf(this, "assets/conf.yaml")),
     controlPanel(new ControlPanel(conf)),
     currentMap(nullptr),
     pauseAction(new QAction(tr("Pause"), this)),

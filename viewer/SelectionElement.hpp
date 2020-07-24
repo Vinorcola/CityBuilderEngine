@@ -9,7 +9,7 @@
 #include "engine/map/MapArea.hpp"
 #include "engine/map/MapSize.hpp"
 
-class StaticElementInformation;
+class BuildingInformation;
 class Tile;
 
 class SelectionElement : public QGraphicsPolygonItem
@@ -23,7 +23,7 @@ class SelectionElement : public QGraphicsPolygonItem
         QBrush* currentBrush;
         QPen* currentPen;
         MapArea currentArea;
-        const StaticElementInformation* currentElementConf;
+        const BuildingInformation* currentElementConf;
 
     public:
         SelectionElement(const QSizeF& baseTileSize);
@@ -31,7 +31,7 @@ class SelectionElement : public QGraphicsPolygonItem
         /**
          * @brief Set the type of building selected.
          */
-        void setBuildingType(const StaticElementInformation* currentElementConf);
+        void setBuildingType(const BuildingInformation* currentElementConf);
 
         /**
          * @brief Set the selection element good.

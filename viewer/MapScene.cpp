@@ -1,11 +1,11 @@
 #include "MapScene.hpp"
 
 #include "engine/element/dynamic/Character.hpp"
-#include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/element/static/Building.hpp"
 #include "engine/map/Map.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
+#include "global/conf/BuildingInformation.hpp"
 #include "global/conf/CharacterInformation.hpp"
-#include "global/conf/StaticElementInformation.hpp"
 #include "viewer/DynamicElement.hpp"
 #include "viewer/SelectionElement.hpp"
 #include "viewer/StaticElement.hpp"
@@ -54,33 +54,33 @@ MapScene::MapScene(const Map& map) :
     addItem(selectionElement);
 
     // Load existing elements.
-    for (auto element: map.getStaticElements()) {
+    for (auto element: map.getBuildings()) {
         registerNewStaticElement(element);
     }
 
-    connect(this, &MapScene::buildingCreationRequested, &map, &Map::createStaticElement);
-    connect(&map, &Map::staticElementCreated, this, &MapScene::registerNewStaticElement);
+    connect(this, &MapScene::buildingCreationRequested, &map, &Map::createBuilding);
+    connect(&map, &Map::buildingCreated, this, &MapScene::registerNewStaticElement);
     connect(&map, &Map::characterCreated, this, &MapScene::registerNewDynamicElement);
     connect(map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
 }
 
 
 
-void MapScene::requestBuildingPositioning(const StaticElementInformation* elementConf)
+void MapScene::requestBuildingPositioning(const BuildingInformation* elementConf)
 {
     selectionElement->setBuildingType(elementConf);
 }
 
 
 
-void MapScene::requestBuildingCreation(const StaticElementInformation* elementConf, const MapArea& area)
+void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area)
 {
     emit buildingCreationRequested(elementConf, area);
 }
 
 
 
-void MapScene::registerNewStaticElement(const AbstractStaticMapElement* element)
+void MapScene::registerNewStaticElement(const Building* element)
 {
     Tile* tile(getTileAt(element->getArea().getLeft()));
     addStaticElementBuilding(tile, element->getConf()->getSize(), element->getConf()->getImage());

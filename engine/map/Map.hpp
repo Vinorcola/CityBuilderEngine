@@ -6,21 +6,21 @@
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
-class AbstractProcessableStaticMapElement;
-class AbstractStaticMapElement;
 class BehaviorFactory;
+class Building;
+class BuildingInformation;
 class Character;
+class CharacterInformation;
 class CityEntryPoint;
 class CityStatus;
 class Conf;
-class CharacterInformation;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
+class ProcessableBuilding;
 class RoadGraph;
 class RoadGraphNode;
 class SearchEngine;
-class StaticElementInformation;
 class TimeCycleProcessor;
 
 class Map : public QObject
@@ -36,7 +36,7 @@ class Map : public QObject
         SearchEngine* searchEngine;
         BehaviorFactory* behaviorFactory;
         QLinkedList<Character*> characterList;
-        QLinkedList<AbstractStaticMapElement*> staticElementList;
+        QLinkedList<Building*> buildingList;
         CityEntryPoint* entryPoint;
 
     public:
@@ -90,7 +90,7 @@ class Map : public QObject
         ) const;
 
         /**
-         * @brief Get the auto entry point coordinates.
+         * @brief Get the auto entry point around the given area.
          */
         MapCoordinates getAutoEntryPoint(const MapArea& area) const;
 
@@ -107,7 +107,7 @@ class Map : public QObject
         /**
          * @brief Return the list of all buildings.
          */
-        const QLinkedList<AbstractStaticMapElement*>& getStaticElements() const;
+        const QLinkedList<Building*>& getBuildings() const;
 
     public slots:
         /**
@@ -127,14 +127,11 @@ class Map : public QObject
          * be kept silent because it could eventually append in real condition when a static element creation request
          * append while the area get "unfree" during the last time cycle process.
          *
-         * @param type The type of static element to create.
+         * @param conf The conf for the new building to create.
          * @param area The location of the element on the map.
          * @throw UnexpectedException Try to create a static element of type None.
          */
-        void createStaticElement(
-            const StaticElementInformation* elementConf,
-            const MapArea& area
-        );
+        void createBuilding(const BuildingInformation* conf, const MapArea& area);
 
         /**
          * @brief Create a character on the map.
@@ -146,17 +143,14 @@ class Map : public QObject
          */
         void createCharacter(
             const CharacterInformation* conf,
-            AbstractProcessableStaticMapElement* issuer,
+            ProcessableBuilding* issuer,
             std::function<void(Character*)> afterCreation
         );
 
         /**
-         * @brief Destroy an element.
+         * @brief Destroy a building.
          */
-        void destroyStaticElement(
-            AbstractStaticMapElement* element,
-            std::function<void()> afterDestruction
-        );
+        void destroyBuilding(Building* building, std::function<void()> afterDestruction);
 
         /**
          * @brief Destroy a character.
@@ -180,11 +174,11 @@ class Map : public QObject
         );
 
     protected:
-        AbstractStaticMapElement* fetchStaticElement(const AbstractStaticMapElement* element) const;
+        Building* fetchBuilding(const Building* building) const;
 
     signals:
-        void staticElementCreated(AbstractStaticMapElement* elementCreated);
-        void characterCreated(Character* elementCreated);
+        void buildingCreated(Building* building);
+        void characterCreated(Character* character);
 };
 
 #endif // MAP_HPP

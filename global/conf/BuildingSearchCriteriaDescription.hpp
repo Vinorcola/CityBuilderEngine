@@ -11,7 +11,7 @@ namespace YAML {
 /**
  * @brief This class contains information to construct a StaticSearchCriteria object.
  */
-class StaticSearchCriteriaDescription : public QObject
+class BuildingSearchCriteriaDescription : public QObject
 {
         Q_OBJECT
 
@@ -19,7 +19,7 @@ class StaticSearchCriteriaDescription : public QObject
         QString targetKey;
 
     public:
-        StaticSearchCriteriaDescription(QObject* parent, const YAML::Node& model);
+        BuildingSearchCriteriaDescription(QObject* parent, const YAML::Node& model);
 
         const QString& getTargetKey() const;
 };

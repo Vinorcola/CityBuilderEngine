@@ -1,93 +1,5 @@
 
-controlPanel:
-    content:
-        -
-            title: Population
-            type: panel
-            content:
-                -
-                    title: Common Housing
-                    type: button
-                    staticElement: house
-        -
-            title: Hygiene/Safety
-            type: panel
-            content:
-                -
-                    title: Maintenance Office
-                    type: button
-                    staticElement: maintenance
-                -
-                    title: Infirmary
-                    type: button
-                    staticElement: infirmary
-                -
-                    title: Fountain
-                    type: button
-                    staticElement: fountain
-                -
-                    title: Watchpost
-                    type: button
-                    staticElement: watchpost
-        -
-            title: Administration
-            type: panel
-            content:
-                -
-                    title: Tax Office
-                    type: button
-                    staticElement: taxOffice
-        -
-            title: Culture
-            type: panel
-            content:
-            -
-                title: Gymnasium
-                type: button
-                staticElement: gymnasium
-            -
-                title: Stadium
-                type: button
-                staticElement: stadium
-        -
-            title: Road
-            type: button
-            staticElement: road
-
-dynamicElements:
-    athlete:
-        type: randomWalker
-        speed: 2.0
-        walkingCredit: 34
-    clerk:
-        type: randomWalker
-        speed: 2.0
-        walkingCredit: 34
-    competitor:
-        type: randomWalker
-        speed: 2.0
-        walkingCredit: 34
-    healer:
-        type: randomWalker
-        speed: 2.0
-        walkingCredit: 26
-    immigrant:
-        type: targetedWalker
-        speed: 2.0
-    superintendent:
-        type: randomWalker
-        speed: 2.0
-        walkingCredit: 43
-    watchman:
-        type: randomWalker
-        speed: 2.0
-        walkingCredit: 43
-    waterBearer:
-        type: randomWalker
-        speed: 2.0
-        walkingCredit: 26
-
-staticElements:
+buildings:
     cityEntryPoint:
         type: cityEntryPoint
         behaviors:
@@ -209,3 +121,91 @@ staticElements:
                 walkerType: watchman
                 maxWalkers: 1
                 generationInterval: 8
+
+characters:
+    athlete:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 34
+    clerk:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 34
+    competitor:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 34
+    healer:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 26
+    immigrant:
+        type: targetedWalker
+        speed: 2.0
+    superintendent:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 43
+    watchman:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 43
+    waterBearer:
+        type: randomWalker
+        speed: 2.0
+        walkingCredit: 26
+
+controlPanel:
+    content:
+        -
+            title: Population
+            type: panel
+            content:
+                -
+                    title: Common Housing
+                    type: button
+                    staticElement: house
+        -
+            title: Hygiene/Safety
+            type: panel
+            content:
+                -
+                    title: Maintenance Office
+                    type: button
+                    staticElement: maintenance
+                -
+                    title: Infirmary
+                    type: button
+                    staticElement: infirmary
+                -
+                    title: Fountain
+                    type: button
+                    staticElement: fountain
+                -
+                    title: Watchpost
+                    type: button
+                    staticElement: watchpost
+        -
+            title: Administration
+            type: panel
+            content:
+                -
+                    title: Tax Office
+                    type: button
+                    staticElement: taxOffice
+        -
+            title: Culture
+            type: panel
+            content:
+            -
+                title: Gymnasium
+                type: button
+                staticElement: gymnasium
+            -
+                title: Stadium
+                type: button
+                staticElement: stadium
+        -
+            title: Road
+            type: button
+            staticElement: road

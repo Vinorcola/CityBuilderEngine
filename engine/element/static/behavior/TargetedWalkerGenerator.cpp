@@ -5,9 +5,9 @@
 
 
 TargetedWalkerGenerator::TargetedWalkerGenerator(
-    AbstractProcessableStaticMapElement* issuer,
+    ProcessableBuilding* issuer,
     const SearchEngine* searchEngine,
-    const StaticSearchCriteria* targetSearchCriteria,
+    const BuildingSearchCriteria* targetSearchCriteria,
     const CharacterInformation* walkerConf,
     const int generationInterval,
     const int maxWalkers
@@ -27,7 +27,7 @@ void TargetedWalkerGenerator::generate()
     auto results(searchEngine->search(targetSearchCriteria));
 
     if (!results.isEmpty()) {
-        auto target(dynamic_cast<AbstractProcessableStaticMapElement*>(results.first()));
+        auto target(dynamic_cast<ProcessableBuilding*>(results.first()));
         emit requestDynamicElementCreation(
             walkerConf,
             issuer,

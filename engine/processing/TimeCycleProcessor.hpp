@@ -6,10 +6,10 @@
 
 #include "engine/processing/CycleDate.hpp"
 
-class AbstractProcessableStaticMapElement;
 class BuildingProcessor;
 class Character;
 class CharacterProcessor;
+class ProcessableBuilding;
 
 /**
  * @brief An engine processor that process all the processable elements on each time-cycle.
@@ -40,7 +40,7 @@ class TimeCycleProcessor : public QObject
         /**
          * @brief Register a building to be process each time cycle.
          */
-        void registerBuilding(AbstractProcessableStaticMapElement* building);
+        void registerBuilding(ProcessableBuilding* building);
 
         /**
          * @brief Register a character to be process each time cycle.
@@ -50,7 +50,7 @@ class TimeCycleProcessor : public QObject
         /**
          * @brief Unregister a building from processor.
          */
-        void unregisterBuilding(AbstractProcessableStaticMapElement* building);
+        void unregisterBuilding(ProcessableBuilding* building);
 
         /**
          * @brief Unregister a character from processor.

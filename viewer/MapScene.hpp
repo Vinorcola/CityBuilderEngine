@@ -3,15 +3,15 @@
 
 #include <QtWidgets/QGraphicsScene>
 
+class Building;
+class BuildingInformation;
 class Character;
-class AbstractStaticMapElement;
 class DynamicElement;
 class Map;
 class MapArea;
 class MapCoordinates;
 class MapSize;
 class SelectionElement;
-class StaticElementInformation;
 class Tile;
 
 class MapScene : public QGraphicsScene
@@ -32,7 +32,7 @@ class MapScene : public QGraphicsScene
          *
          * @param type The type of building the user wants to create.
          */
-        void requestBuildingPositioning(const StaticElementInformation* elementConf);
+        void requestBuildingPositioning(const BuildingInformation* elementConf);
 
         /**
          * @brief Request a building creation.
@@ -40,10 +40,10 @@ class MapScene : public QGraphicsScene
          * @param buildingKey The type of building.
          * @param area        The area of construction.
          */
-        void requestBuildingCreation(const StaticElementInformation* elementConf, const MapArea& area);
+        void requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area);
 
     public slots:
-        void registerNewStaticElement(const AbstractStaticMapElement* element);
+        void registerNewStaticElement(const Building* element);
 
         void registerNewDynamicElement(const Character* element);
 
@@ -74,7 +74,7 @@ class MapScene : public QGraphicsScene
          * @param buildingKey The type of building.
          * @param area        The area of construction.
          */
-        void buildingCreationRequested(const StaticElementInformation* elementConf, const MapArea& area);
+        void buildingCreationRequested(const BuildingInformation* elementConf, const MapArea& area);
 };
 
 #endif // MAPSCENE_HPP

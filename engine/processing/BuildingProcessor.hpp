@@ -8,8 +8,8 @@
 
 #include "engine/processing/AbstractProcessable.hpp"
 
-class AbstractProcessableStaticMapElement;
 class CycleDate;
+class ProcessableBuilding;
 
 /**
  * @brief A processor for all map's buildings.
@@ -19,9 +19,9 @@ class BuildingProcessor: public QObject, public AbstractProcessable
         Q_OBJECT
 
     private:
-        QLinkedList<QPointer<AbstractProcessableStaticMapElement>> processableList;
-        QList<QPointer<AbstractProcessableStaticMapElement>> waitingForRegistrationList;
-        QList<AbstractProcessableStaticMapElement*> waitingForUnregistrationList;
+        QLinkedList<QPointer<ProcessableBuilding>> processableList;
+        QList<QPointer<ProcessableBuilding>> waitingForRegistrationList;
+        QList<ProcessableBuilding*> waitingForUnregistrationList;
 
     public:
         explicit BuildingProcessor(QObject* parent);
@@ -29,12 +29,12 @@ class BuildingProcessor: public QObject, public AbstractProcessable
         /**
          * @brief Register a building to be process each time cycle.
          */
-        void registerBuilding(AbstractProcessableStaticMapElement* building);
+        void registerBuilding(ProcessableBuilding* building);
 
         /**
          * @brief Unregister a building from processor.
          */
-        void unregisterBuilding(AbstractProcessableStaticMapElement* building);
+        void unregisterBuilding(ProcessableBuilding* building);
 
         virtual void process(const CycleDate& date) override;
 };

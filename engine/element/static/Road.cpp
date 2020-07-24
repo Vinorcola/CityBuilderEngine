@@ -2,8 +2,8 @@
 
 
 
-Road::Road(const StaticElementInformation* conf, const MapCoordinates& coordinates) :
-    AbstractStaticMapElement(conf, MapArea(coordinates))
+Road::Road(QObject* parent, const BuildingInformation* conf, const MapCoordinates& coordinates) :
+    Building(parent, conf, MapArea(coordinates))
 {
 
 }

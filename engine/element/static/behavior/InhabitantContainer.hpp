@@ -5,27 +5,27 @@
 #include <QtCore/QPointer>
 
 #include "engine/element/dynamic/Character.hpp"
-#include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
+#include "engine/element/static/behavior/AbstractBehavior.hpp"
 
-class AbstractProcessableStaticMapElement;
+class ProcessableBuilding;
 
 /**
  * @brief An inhabitant holder.
  *
  * A behavior that allow the building to holds some inhabitants.
  */
-class InhabitantContainer : public AbstractStaticElementBehavior
+class InhabitantContainer : public AbstractBehavior
 {
         Q_OBJECT
 
     private:
-        AbstractProcessableStaticMapElement* issuer;
+        ProcessableBuilding* issuer;
         int housingCapacity;
         int inhabitants;
         QPointer<Character> currentImmigrant;
 
     public:
-        InhabitantContainer(AbstractProcessableStaticMapElement* issuer);
+        InhabitantContainer(ProcessableBuilding* issuer);
 
         virtual void init(const CycleDate& date) override;
 

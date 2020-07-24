@@ -1,25 +1,25 @@
 #include "SearchEngine.hpp"
 
-#include "engine/element/static/AbstractStaticMapElement.hpp"
-#include "engine/map/searchEngine/StaticSearchCriteria.hpp"
+#include "engine/element/static/Building.hpp"
+#include "engine/map/searchEngine/BuildingSearchCriteria.hpp"
 
 
 
-SearchEngine::SearchEngine(QObject* parent, const QLinkedList<AbstractStaticMapElement*>& staticElements) :
+SearchEngine::SearchEngine(QObject* parent, const QLinkedList<Building*>& buildingList) :
     QObject(parent),
-    staticElements(staticElements)
+    buildingList(buildingList)
 {
 
 }
 
 
 
-QList<AbstractStaticMapElement*> SearchEngine::search(const StaticSearchCriteria& criteria) const
+QList<Building*> SearchEngine::search(const BuildingSearchCriteria& criteria) const
 {
-    QList<AbstractStaticMapElement*> results;
-    for (auto element : staticElements) {
-        if (element->getConf() == criteria.getConf()) {
-            results.append(element);
+    QList<Building*> results;
+    for (auto building : buildingList) {
+        if (building->getConf() == criteria.getConf()) {
+            results.append(building);
         }
     }
 

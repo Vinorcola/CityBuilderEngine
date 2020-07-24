@@ -1,10 +1,10 @@
 #include "BuildingButton.hpp"
 
-#include "global/conf/StaticElementInformation.hpp"
+#include "global/conf/BuildingInformation.hpp"
 
 
 
-BuildingButton::BuildingButton(const StaticElementInformation* elementConf) :
+BuildingButton::BuildingButton(const BuildingInformation* elementConf) :
     QPushButton(elementConf->getTitle()),
     elementConf(elementConf)
 {
@@ -13,7 +13,7 @@ BuildingButton::BuildingButton(const StaticElementInformation* elementConf) :
 
 
 
-const StaticElementInformation* BuildingButton::getAssociatedBuilding() const
+const BuildingInformation* BuildingButton::getAssociatedBuilding() const
 {
     return elementConf;
 }

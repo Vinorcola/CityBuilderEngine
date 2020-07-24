@@ -4,26 +4,26 @@
 #include <QtCore/QLinkedList>
 #include <QtCore/QObject>
 
-class AbstractStaticMapElement;
-class StaticSearchCriteria;
+class Building;
+class BuildingSearchCriteria;
 
 /**
- * @brief The search engine fetch existing static elements according to criteria.
+ * @brief The search engine fetch existing buildings according to criteria.
  */
 class SearchEngine : public QObject
 {
         Q_OBJECT
 
     private:
-        const QLinkedList<AbstractStaticMapElement*>& staticElements;
+        const QLinkedList<Building*>& buildingList;
 
     public:
-        SearchEngine(QObject* parent, const QLinkedList<AbstractStaticMapElement*>& staticElements);
+        SearchEngine(QObject* parent, const QLinkedList<Building*>& buildingList);
 
         /**
          * @brief Search a static element into the list of existing elements.
          */
-        QList<AbstractStaticMapElement*> search(const StaticSearchCriteria& criteria) const;
+        QList<Building*> search(const BuildingSearchCriteria& criteria) const;
 };
 
 #endif // SEARCHENGINE_HPP

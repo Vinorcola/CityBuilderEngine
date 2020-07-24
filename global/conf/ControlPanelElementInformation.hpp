@@ -6,7 +6,7 @@
 #include <QtCore/QString>
 
 class Conf;
-class StaticElementInformation;
+class BuildingInformation;
 namespace YAML {
     class Node;
 }
@@ -24,7 +24,7 @@ class ControlPanelElementInformation : public QObject
     private:
         Type type;
         QString title;
-        const StaticElementInformation* staticElementConf;
+        const BuildingInformation* staticElementConf;
         QList<ControlPanelElementInformation*> children;
 
     public:
@@ -34,7 +34,7 @@ class ControlPanelElementInformation : public QObject
 
         const QString& getTitle() const;
 
-        const StaticElementInformation* getStaticElementConf() const;
+        const BuildingInformation* getStaticElementConf() const;
 
         const QList<ControlPanelElementInformation*>& getChildren() const;
 

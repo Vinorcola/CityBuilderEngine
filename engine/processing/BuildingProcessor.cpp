@@ -1,6 +1,6 @@
 #include "BuildingProcessor.hpp"
 
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/element/static/ProcessableBuilding.hpp"
 
 
 
@@ -16,14 +16,14 @@ BuildingProcessor::BuildingProcessor(QObject* parent) :
 
 
 
-void BuildingProcessor::registerBuilding(AbstractProcessableStaticMapElement* building)
+void BuildingProcessor::registerBuilding(ProcessableBuilding* building)
 {
     waitingForRegistrationList.append(building);
 }
 
 
 
-void BuildingProcessor::unregisterBuilding(AbstractProcessableStaticMapElement* building)
+void BuildingProcessor::unregisterBuilding(ProcessableBuilding* building)
 {
     waitingForUnregistrationList.append(building);
 }
@@ -33,7 +33,7 @@ void BuildingProcessor::unregisterBuilding(AbstractProcessableStaticMapElement* 
 void BuildingProcessor::process(const CycleDate& date)
 {
     // Process current processable list.
-    for (auto processable: processableList) {
+    for (auto processable : processableList) {
         if (processable) {
             processable->process(date);
         } else {

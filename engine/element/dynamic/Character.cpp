@@ -8,7 +8,7 @@
 Character::Character(QObject* parent,
     const Map* map,
     const CharacterInformation* conf,
-    AbstractProcessableStaticMapElement* issuer,
+    ProcessableBuilding* issuer,
     int wanderingCredits
 ) :
     QObject(parent),
@@ -26,7 +26,7 @@ Character::Character(QObject* parent,
 
 
 
-void Character::assignTarget(AbstractProcessableStaticMapElement* target)
+void Character::assignTarget(ProcessableBuilding* target)
 {
     this->target = target;
     motionHandler->setTarget(target->getEntryPoint());
@@ -48,7 +48,7 @@ const MapCoordinates& Character::getCurrentLocation() const
 
 
 
-AbstractProcessableStaticMapElement* Character::getIssuer() const
+ProcessableBuilding* Character::getIssuer() const
 {
     return issuer;
 }

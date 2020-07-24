@@ -31,7 +31,7 @@ qreal TimeCycleProcessor::getSpeedRatio() const
 
 
 
-void TimeCycleProcessor::registerBuilding(AbstractProcessableStaticMapElement* building)
+void TimeCycleProcessor::registerBuilding(ProcessableBuilding* building)
 {
     buildingProcessor->registerBuilding(building);
 }
@@ -45,7 +45,7 @@ void TimeCycleProcessor::registerCharacter(Character* character)
 
 
 
-void TimeCycleProcessor::unregisterBuilding(AbstractProcessableStaticMapElement* building)
+void TimeCycleProcessor::unregisterBuilding(ProcessableBuilding* building)
 {
     buildingProcessor->unregisterBuilding(building);
 }

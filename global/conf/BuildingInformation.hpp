@@ -1,5 +1,5 @@
-#ifndef STATICELEMENTINFORMATION_HPP
-#define STATICELEMENTINFORMATION_HPP
+#ifndef BUILDINGINFORMATION_HPP
+#define BUILDINGINFORMATION_HPP
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -9,15 +9,15 @@
 #include "engine/map/MapSize.hpp"
 
 class BehaviorInformation;
-class Conf;
 class CharacterInformation;
-class StaticElementAreaPartDescription;
-class StaticSearchCriteriaDescription;
+class Conf;
+class BuildingAreaPartDescription;
+class BuildingSearchCriteriaDescription;
 namespace YAML {
     class Node;
 }
 
-class StaticElementInformation : public QObject
+class BuildingInformation : public QObject
 {
         Q_OBJECT
 
@@ -38,7 +38,7 @@ class StaticElementInformation : public QObject
         int employees;
         int fireRiskIncrement;
         int damageRiskIncrement;
-        QList<StaticElementAreaPartDescription*> areaDescription;
+        QList<BuildingAreaPartDescription*> areaDescription;
         QList<BehaviorInformation*> behaviors;
         QPixmap image;
 
@@ -48,7 +48,7 @@ class StaticElementInformation : public QObject
          *
          * @param configurationYamlNode The YAML node corresponding to a static element configuration.
          */
-        StaticElementInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model);
+        BuildingInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model);
 
         void resolveDependencies(const Conf* conf);
 
@@ -77,4 +77,4 @@ class StaticElementInformation : public QObject
         static Type resolveType(const QString& type);
 };
 
-#endif // STATICELEMENTINFORMATION_HPP
+#endif // BUILDINGINFORMATION_HPP
