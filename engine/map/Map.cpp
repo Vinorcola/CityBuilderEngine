@@ -32,7 +32,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     processor(new TimeCycleProcessor(this)),
     searchEngine(new SearchEngine(this, staticElementList)),
     behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
-    dynamicElementList(),
+    characterList(),
     staticElementList(),
     entryPoint()
 {
@@ -47,14 +47,6 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
             )
         );
     }
-}
-
-
-
-Map::~Map()
-{
-    qDeleteAll(dynamicElementList);
-    qDeleteAll(staticElementList);
 }
 
 
@@ -165,9 +157,9 @@ const TimeCycleProcessor* Map::getProcessor() const
 
 
 
-const QLinkedList<Character*>& Map::getDynamicElements() const
+const QLinkedList<Character*>& Map::getCharacters() const
 {
-    return dynamicElementList;
+    return characterList;
 }
 
 
@@ -220,7 +212,7 @@ void Map::createStaticElement(
                 const DynamicElementInformation* elementConf,
                 std::function<void(Character*)> afterCreation
             ) {
-                createDynamicElement(elementConf, element, afterCreation);
+                createCharacter(elementConf, element, afterCreation);
             });
             connect(element, &Building::requestDynamicElementDestruction, this, &Map::destroyCharacter);
             break;
@@ -238,7 +230,7 @@ void Map::createStaticElement(
                 const DynamicElementInformation* elementConf,
                 std::function<void(Character*)> afterCreation
             ) {
-                createDynamicElement(elementConf, entryPoint, afterCreation);
+                createCharacter(elementConf, entryPoint, afterCreation);
             });
             break;
         }
@@ -261,51 +253,17 @@ void Map::createStaticElement(
 
 
 
-void Map::createDynamicElement(
-    const DynamicElementInformation* elementConf,
+void Map::createCharacter(
+    const DynamicElementInformation* conf,
     AbstractProcessableStaticMapElement* issuer,
     std::function<void(Character*)> afterCreation
 ) {
-    Character* element;
-    switch (elementConf->getType()) {
-        case DynamicElementInformation::Type::None:
-            throw UnexpectedException("Try to create a dynamic element of type None.");
+    auto character(new Character(this, this, conf, issuer, conf->getWalkingCredit()));
+    processor->registerCharacter(character);
+    characterList.append(character);
+    afterCreation(character);
 
-        case DynamicElementInformation::Type::RandomWalker: {
-            element = new Character(this, this, elementConf, issuer, elementConf->getWalkingCredit());
-            processor->registerCharacter(element);
-            dynamicElementList.append(element);
-            afterCreation(element);
-            break;
-        }
-
-        case DynamicElementInformation::Type::TargetedWalker: {
-            element = new Character(this, this, elementConf, issuer);
-            processor->registerCharacter(element);
-            dynamicElementList.append(element);
-            afterCreation(element);
-            break;
-        }
-
-        default:
-            throw UnexpectedException("Try to create a dynamic element of unknown type.");
-    }
-
-    emit dynamicElementCreated(element);
-}
-
-
-
-void Map::destroyCharacter(Character* character, std::function<void()> afterDestruction)
-{
-    for (auto elementFromList: dynamicElementList) {
-        if (character == elementFromList) {
-            dynamicElementList.removeOne(character);
-            delete character;
-            afterDestruction();
-            return;
-        }
-    }
+    emit characterCreated(character);
 }
 
 
@@ -316,6 +274,20 @@ void Map::destroyStaticElement(AbstractStaticMapElement* element, std::function<
         if (elementFromList== element) {
             staticElementList.removeOne(elementFromList);
             delete elementFromList;
+            afterDestruction();
+            return;
+        }
+    }
+}
+
+
+
+void Map::destroyCharacter(Character* character, std::function<void()> afterDestruction)
+{
+    for (auto fromList: characterList) {
+        if (character == fromList) {
+            characterList.removeOne(character);
+            delete character;
             afterDestruction();
             return;
         }

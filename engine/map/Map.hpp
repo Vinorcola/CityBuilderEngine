@@ -35,14 +35,12 @@ class Map : public QObject
         TimeCycleProcessor* processor;
         SearchEngine* searchEngine;
         BehaviorFactory* behaviorFactory;
-        QLinkedList<Character*> dynamicElementList;
+        QLinkedList<Character*> characterList;
         QLinkedList<AbstractStaticMapElement*> staticElementList;
         CityEntryPoint* entryPoint;
 
     public:
         Map(const Conf* conf, const MapLoader& loader);
-
-        virtual ~Map();
 
         /**
          * @brief Return the size of the map in terms on tiles.
@@ -102,12 +100,12 @@ class Map : public QObject
         const TimeCycleProcessor* getProcessor() const;
 
         /**
-         * @brief Return the list of all known elements.
+         * @brief Return the list of all characters.
          */
-        const QLinkedList<Character*>& getDynamicElements() const;
+        const QLinkedList<Character*>& getCharacters() const;
 
         /**
-         * @brief Return the list of all known elements.
+         * @brief Return the list of all buildings.
          */
         const QLinkedList<AbstractStaticMapElement*>& getStaticElements() const;
 
@@ -139,23 +137,18 @@ class Map : public QObject
         );
 
         /**
-         * @brief Create a dynamic element on the map.
+         * @brief Create a character on the map.
          *
-         * @param type The type of dynamic element to create.
-         * @param issuer The building issuing the dynamic element.
-         * @param afterCreation A lambda function that will be called with the created element as first argument.
+         * @param conf          The conf for the new character to create.
+         * @param issuer        The building issuing the character.
+         * @param afterCreation A callback that will be called with the created character as first argument.
          * @throw UnexpectedException Try to create a dynamic element of type None.
          */
-        void createDynamicElement(
-            const DynamicElementInformation* elementConf,
+        void createCharacter(
+            const DynamicElementInformation* conf,
             AbstractProcessableStaticMapElement* issuer,
             std::function<void(Character*)> afterCreation
         );
-
-        /**
-         * @brief Destroy an element.
-         */
-        void destroyCharacter(Character* character, std::function<void()> afterDestruction);
 
         /**
          * @brief Destroy an element.
@@ -164,6 +157,11 @@ class Map : public QObject
             AbstractStaticMapElement* element,
             std::function<void()> afterDestruction
         );
+
+        /**
+         * @brief Destroy a character.
+         */
+        void destroyCharacter(Character* character, std::function<void()> afterDestruction);
 
         /**
          * @brief Update the total population of the given delta.
@@ -186,7 +184,7 @@ class Map : public QObject
 
     signals:
         void staticElementCreated(AbstractStaticMapElement* elementCreated);
-        void dynamicElementCreated(Character* elementCreated);
+        void characterCreated(Character* elementCreated);
 };
 
 #endif // MAP_HPP

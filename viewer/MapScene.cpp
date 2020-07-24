@@ -60,7 +60,7 @@ MapScene::MapScene(const Map& map) :
 
     connect(this, &MapScene::buildingCreationRequested, &map, &Map::createStaticElement);
     connect(&map, &Map::staticElementCreated, this, &MapScene::registerNewStaticElement);
-    connect(&map, &Map::dynamicElementCreated, this, &MapScene::registerNewDynamicElement);
+    connect(&map, &Map::characterCreated, this, &MapScene::registerNewDynamicElement);
     connect(map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
 }
 
