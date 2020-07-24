@@ -5,19 +5,18 @@
 
 
 
-Character::Character(
-    QObject* parent,
+Character::Character(QObject* parent,
     const Map* map,
     const DynamicElementInformation* conf,
     AbstractProcessableStaticMapElement* issuer,
-    int randomWalkingCredit
+    int wanderingCredits
 ) :
     QObject(parent),
     AbstractProcessable(),
     conf(conf),
     issuer(issuer),
     target(),
-    motionHandler(new MotionHandler(this, map, conf->getSpeed(), issuer->getEntryPoint(), randomWalkingCredit))
+    motionHandler(new MotionHandler(this, map, conf->getSpeed(), issuer->getEntryPoint(), wanderingCredits))
 {
     connect(motionHandler, &MotionHandler::wanderingCreditsExpired, [this]() {
         target = this->issuer;

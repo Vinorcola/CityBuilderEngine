@@ -21,9 +21,12 @@ class MotionHandler;
  * so they do not cover any area. They are just represented by some coordinates and should be perceived as mathematical
  * points.
  *
- * Characters are always issued from a building. This building (named the character's issuer) does not strictly own the
- * character: all characters are owned by the map. Furthermore, a charater can be kept alive even if the issuer has been
+ * Characters are always issued from a building. This building (the `issuer`) does not strictly own the character:
+ * all the characters belong to the map. Furthermore, a charater can be kept alive even if the issuer has been
  * destroyed.
+ *
+ * If a character is granted wandering credits, it will use them to wander around (see MotionHandler for more details).
+ * Otherwise, the character won't move until a traget is assigned to it.
  */
 class Character : public QObject, public AbstractProcessable
 {
@@ -31,9 +34,9 @@ class Character : public QObject, public AbstractProcessable
 
     private:
         const DynamicElementInformation* conf;
-        QPointer<AbstractProcessableStaticMapElement> issuer;///< The issuer static element.
-        QPointer<AbstractProcessableStaticMapElement> target;///< The target static element.
-        MotionHandler* motionHandler;
+        QPointer<AbstractProcessableStaticMapElement> issuer;///< The issuer building.
+        QPointer<AbstractProcessableStaticMapElement> target;///< The target building.
+        MotionHandler* motionHandler;///< A helper that will handle character's motion.
 
     public:
         Character(
@@ -41,7 +44,7 @@ class Character : public QObject, public AbstractProcessable
             const Map* map,
             const DynamicElementInformation* conf,
             AbstractProcessableStaticMapElement* issuer,
-            int randomWalkingCredit = 0
+            int wanderingCredits = 0
         );
 
         void assignTarget(AbstractProcessableStaticMapElement* target);
@@ -49,18 +52,17 @@ class Character : public QObject, public AbstractProcessable
         const DynamicElementInformation* getConf() const;
 
         /**
-         * @brief The current location coordinates of the dynamic element.
+         * @brief The current location of the character.
          */
         const MapCoordinates& getCurrentLocation() const;
 
         /**
-         * @brief Get the element issuer.
+         * @brief Get the issuer.
          */
         AbstractProcessableStaticMapElement* getIssuer() const;
 
         /**
-         * @brief Make the dynamic element move towards the moveToLocation.
-         * @param date The current cycle-time date.
+         * @brief Make the charater move.
          */
         virtual void process(const CycleDate& date) override;
 };

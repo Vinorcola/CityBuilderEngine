@@ -36,7 +36,7 @@ class BuildingProcessor: public QObject, public AbstractProcessable
          */
         void unregisterBuilding(AbstractProcessableStaticMapElement* building);
 
-        virtual void process(const CycleDate& date);
+        virtual void process(const CycleDate& date) override;
 };
 
 #endif // BUILDINGPROCESSOR_HPP

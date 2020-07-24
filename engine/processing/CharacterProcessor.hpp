@@ -9,6 +9,7 @@
 #include "engine/processing/AbstractProcessable.hpp"
 
 class Character;
+class CycleDate;
 
 /**
  * @brief A processor for all map's characters.
@@ -35,7 +36,7 @@ class CharacterProcessor : public QObject, public AbstractProcessable
          */
         void unregisterCharacter(Character* character);
 
-        virtual void process(const CycleDate& date);
+        virtual void process(const CycleDate& date) override;
 };
 
 #endif // CHARACTERPROCESSOR_HPP
