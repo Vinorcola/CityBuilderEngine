@@ -7,9 +7,8 @@ CONFIG += c++14
 TEMPLATE = app
 
 SOURCES += \
-    engine/element/dynamic/AbstractDynamicMapElement.cpp \
-    engine/element/dynamic/RandomWalker.cpp \
-    engine/element/dynamic/TargetedWalker.cpp \
+    engine/element/dynamic/Character.cpp \
+    engine/element/dynamic/MotionHandler.cpp \
     engine/element/static/behavior/AbstractActivityBehavior.cpp \
     engine/element/static/behavior/AbstractStaticElementBehavior.cpp \
     engine/element/static/behavior/AbstractWalkerGenerator.cpp \
@@ -40,6 +39,8 @@ SOURCES += \
     engine/map/MapLoader.cpp \
     engine/map/MapSize.cpp \
     engine/processing/AbstractProcessable.cpp \
+    engine/processing/BuildingProcessor.cpp \
+    engine/processing/CharacterProcessor.cpp \
     engine/processing/CycleDate.cpp \
     engine/processing/TimeCycleProcessor.cpp \
     engine/random.cpp \
@@ -50,9 +51,9 @@ SOURCES += \
     exceptions/OutOfRangeException.cpp \
     exceptions/UnexpectedException.cpp \
     global/conf/BehaviorInformation.cpp \
+    global/conf/CharacterInformation.cpp \
     global/conf/Conf.cpp \
     global/conf/ControlPanelElementInformation.cpp \
-    global/conf/DynamicElementInformation.cpp \
     global/conf/StaticElementAreaPartDescription.cpp \
     global/conf/StaticElementInformation.cpp \
     global/conf/StaticSearchCriteriaDescription.cpp \
@@ -68,9 +69,8 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
-    engine/element/dynamic/AbstractDynamicMapElement.hpp \
-    engine/element/dynamic/RandomWalker.hpp \
-    engine/element/dynamic/TargetedWalker.hpp \
+    engine/element/dynamic/Character.hpp \
+    engine/element/dynamic/MotionHandler.hpp \
     engine/element/static/behavior/AbstractActivityBehavior.hpp \
     engine/element/static/behavior/AbstractStaticElementBehavior.hpp \
     engine/element/static/behavior/AbstractWalkerGenerator.hpp \
@@ -101,6 +101,8 @@ HEADERS += \
     engine/map/MapLoader.hpp \
     engine/map/MapSize.hpp \
     engine/processing/AbstractProcessable.hpp \
+    engine/processing/BuildingProcessor.hpp \
+    engine/processing/CharacterProcessor.hpp \
     engine/processing/CycleDate.hpp \
     engine/processing/TimeCycleProcessor.hpp \
     engine/random.hpp \
@@ -111,9 +113,9 @@ HEADERS += \
     exceptions/OutOfRangeException.hpp \
     exceptions/UnexpectedException.hpp \
     global/conf/BehaviorInformation.hpp \
+    global/conf/CharacterInformation.hpp \
     global/conf/Conf.hpp \
     global/conf/ControlPanelElementInformation.hpp \
-    global/conf/DynamicElementInformation.hpp \
     global/conf/StaticElementAreaPartDescription.hpp \
     global/conf/StaticElementInformation.hpp \
     global/conf/StaticSearchCriteriaDescription.hpp \

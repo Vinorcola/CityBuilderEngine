@@ -8,7 +8,7 @@ TargetedWalkerGenerator::TargetedWalkerGenerator(
     AbstractProcessableStaticMapElement* issuer,
     const SearchEngine* searchEngine,
     const StaticSearchCriteria* targetSearchCriteria,
-    const DynamicElementInformation* walkerConf,
+    const CharacterInformation* walkerConf,
     const int generationInterval,
     const int maxWalkers
 ) :
@@ -31,9 +31,9 @@ void TargetedWalkerGenerator::generate()
         emit requestDynamicElementCreation(
             walkerConf,
             issuer,
-            [this, target](AbstractDynamicMapElement* element) {
-                static_cast<TargetedWalker*>(element)->assignTarget(target);
-                walkers.append(static_cast<TargetedWalker*>(element));
+            [this, target](Character* element) {
+                element->assignTarget(target);
+                walkers.append(element);
             }
         );
     }

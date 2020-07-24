@@ -4,7 +4,7 @@
 #include <functional>
 #include <QtCore/QPointer>
 
-#include "engine/element/dynamic/TargetedWalker.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
 
 class AbstractProcessableStaticMapElement;
@@ -22,7 +22,7 @@ class InhabitantContainer : public AbstractStaticElementBehavior
         AbstractProcessableStaticMapElement* issuer;
         int housingCapacity;
         int inhabitants;
-        QPointer<TargetedWalker> currentImmigrant;
+        QPointer<Character> currentImmigrant;
 
     public:
         InhabitantContainer(AbstractProcessableStaticMapElement* issuer);
@@ -31,19 +31,19 @@ class InhabitantContainer : public AbstractStaticElementBehavior
 
         virtual void process(const CycleDate& date) override;
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
+        virtual bool processInteraction(const CycleDate& date, Character* actor) override;
 
     signals:
         void freeCapacityChanged(
             const int previousFreeCapacity,
             const int newFreeCapacity,
-            std::function<void(AbstractDynamicMapElement*)> onImmigrantCreation
+            std::function<void(Character*)> onImmigrantCreation
         );
 
         void inhabitantsChanged(const int inhabitantsDelta);
 
         void requestDynamicElementDestruction(
-            AbstractDynamicMapElement* element,
+            Character* element,
             std::function<void()> afterDestruction
         );
 };

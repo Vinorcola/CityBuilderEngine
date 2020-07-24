@@ -1,12 +1,12 @@
 #include "QueuedWalkerGenerator.hpp"
 
-#include "engine/element/dynamic/TargetedWalker.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/random.hpp"
 
 
 
 QueuedWalkerGenerator::QueuedWalkerGenerator(AbstractProcessableStaticMapElement* issuer,
-    const DynamicElementInformation* walkerConf,
+    const CharacterInformation* walkerConf,
     const int minGenerationInterval,
     const int maxGenerationInterval
 ) :
@@ -23,7 +23,7 @@ QueuedWalkerGenerator::QueuedWalkerGenerator(AbstractProcessableStaticMapElement
 
 
 
-const DynamicElementInformation*QueuedWalkerGenerator::getWalkerConf() const
+const CharacterInformation* QueuedWalkerGenerator::getWalkerConf() const
 {
     return walkerConf;
 }
@@ -48,14 +48,14 @@ void QueuedWalkerGenerator::process(const CycleDate& date)
 
 
 
-bool QueuedWalkerGenerator::processInteraction(const CycleDate& /*date*/, AbstractDynamicMapElement* /*actor*/)
+bool QueuedWalkerGenerator::processInteraction(const CycleDate& /*date*/, Character* /*actor*/)
 {
     return false;
 }
 
 
 
-void QueuedWalkerGenerator::registerWalkerRequest(std::function<void(AbstractDynamicMapElement*)> onWalkerCreation)
+void QueuedWalkerGenerator::registerWalkerRequest(std::function<void(Character*)> onWalkerCreation)
 {
     walkerRequestQueue.append(onWalkerCreation);
 }

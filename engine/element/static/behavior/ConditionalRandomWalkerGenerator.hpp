@@ -4,9 +4,9 @@
 #include "engine/element/static/behavior/RandomWalkerGenerator.hpp"
 #include "engine/processing/CycleDate.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class AbstractProcessableStaticMapElement;
-class DynamicElementInformation;
+class CharacterInformation;
 
 /**
  * @brief A walker generator based on a conditionnal generation.
@@ -18,22 +18,22 @@ class ConditionalRandomWalkerGenerator : public RandomWalkerGenerator
         Q_OBJECT
 
     private:
-        const DynamicElementInformation* dependencyWalkerConf;
+        const CharacterInformation* dependencyWalkerConf;
         const int activityInterval;
         CycleDate canGenarateWalkerUntilDate;
 
     public:
         ConditionalRandomWalkerGenerator(
             AbstractProcessableStaticMapElement* issuer,
-            const DynamicElementInformation* walkerConf,
-            const DynamicElementInformation* dependencyWalkerConf,
+            const CharacterInformation* walkerConf,
+            const CharacterInformation* dependencyWalkerConf,
             const int generationInterval,
             const int maxWalkers = 1
         );
 
         virtual void process(const CycleDate &date) override;
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
+        virtual bool processInteraction(const CycleDate& date, Character* actor) override;
 
     protected:
         virtual bool canSetupNextGenerationDate(const CycleDate& currentDate) const override;

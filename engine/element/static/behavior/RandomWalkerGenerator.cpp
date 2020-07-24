@@ -4,7 +4,7 @@
 
 RandomWalkerGenerator::RandomWalkerGenerator(
     AbstractProcessableStaticMapElement* issuer,
-    const DynamicElementInformation* walkerConf,
+    const CharacterInformation* walkerConf,
     const int generationInterval,
     const int maxWalkers
 ) :

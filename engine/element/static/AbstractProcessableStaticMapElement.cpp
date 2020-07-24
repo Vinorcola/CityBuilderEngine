@@ -8,8 +8,8 @@ AbstractProcessableStaticMapElement::AbstractProcessableStaticMapElement(
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    AbstractProcessable(parent),
     AbstractStaticMapElement(conf, area),
+    AbstractProcessable(),
     entryPoint(entryPoint)
 {
 

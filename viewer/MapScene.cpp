@@ -1,10 +1,10 @@
 #include "MapScene.hpp"
 
-#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/AbstractStaticMapElement.hpp"
 #include "engine/map/Map.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/CharacterInformation.hpp"
 #include "global/conf/StaticElementInformation.hpp"
 #include "viewer/DynamicElement.hpp"
 #include "viewer/SelectionElement.hpp"
@@ -54,16 +54,13 @@ MapScene::MapScene(const Map& map) :
     addItem(selectionElement);
 
     // Load existing elements.
-    for (auto element: map.getElements()) {
-        auto staticElement(dynamic_cast<AbstractStaticMapElement*>(element));
-        if (staticElement) {
-            registerNewStaticElement(staticElement);
-        }
+    for (auto element: map.getStaticElements()) {
+        registerNewStaticElement(element);
     }
 
     connect(this, &MapScene::buildingCreationRequested, &map, &Map::createStaticElement);
     connect(&map, &Map::staticElementCreated, this, &MapScene::registerNewStaticElement);
-    connect(&map, &Map::dynamicElementCreated, this, &MapScene::registerNewDynamicElement);
+    connect(&map, &Map::characterCreated, this, &MapScene::registerNewDynamicElement);
     connect(map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
 }
 
@@ -91,7 +88,7 @@ void MapScene::registerNewStaticElement(const AbstractStaticMapElement* element)
 
 
 
-void MapScene::registerNewDynamicElement(const AbstractDynamicMapElement* element)
+void MapScene::registerNewDynamicElement(const Character* element)
 {
     DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, element->getConf()->getImage()));
     dynamicElementList.append(graphicsItem);

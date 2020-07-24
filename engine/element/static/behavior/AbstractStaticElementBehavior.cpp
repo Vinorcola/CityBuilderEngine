@@ -3,7 +3,8 @@
 
 
 AbstractStaticElementBehavior::AbstractStaticElementBehavior(QObject* parent) :
-    AbstractProcessable(parent)
+    QObject(parent),
+    AbstractProcessable()
 {
 
 }

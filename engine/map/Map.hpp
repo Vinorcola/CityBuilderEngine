@@ -6,22 +6,21 @@
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
-class AbstractDynamicMapElement;
-class AbstractMapElement;
 class AbstractProcessableStaticMapElement;
 class AbstractStaticMapElement;
 class BehaviorFactory;
+class Character;
 class CityEntryPoint;
 class CityStatus;
 class Conf;
-class DynamicElementInformation;
+class CharacterInformation;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
 class RoadGraph;
+class RoadGraphNode;
 class SearchEngine;
 class StaticElementInformation;
-class TargetedWalker;
 class TimeCycleProcessor;
 
 class Map : public QObject
@@ -36,14 +35,12 @@ class Map : public QObject
         TimeCycleProcessor* processor;
         SearchEngine* searchEngine;
         BehaviorFactory* behaviorFactory;
-        QLinkedList<AbstractMapElement*> elementList;
+        QLinkedList<Character*> characterList;
         QLinkedList<AbstractStaticMapElement*> staticElementList;
         CityEntryPoint* entryPoint;
 
     public:
         Map(const Conf* conf, const MapLoader& loader);
-
-        virtual ~Map();
 
         /**
          * @brief Return the size of the map in terms on tiles.
@@ -75,6 +72,24 @@ class Map : public QObject
         bool isFreeArea(const MapArea& area) const;
 
         /**
+         * @brief Resolve the road graph node corresponding to the given coordinates.
+         *
+         * It returns `nullptr` if there is no road at those coordinates.
+         */
+        const RoadGraphNode* resolveRoad(const MapCoordinates& coordinates) const;
+
+        /**
+         * @brief Get shortest road path between two coordinates.
+         *
+         * It returns a list of road nodes to go through or an empty list if there is not path available between the
+         * given coordinates.
+         */
+        QList<const RoadGraphNode*> getShortestRoadPathBetween(
+            const MapCoordinates& origin,
+            const MapCoordinates& destination
+        ) const;
+
+        /**
          * @brief Get the auto entry point coordinates.
          */
         MapCoordinates getAutoEntryPoint(const MapArea& area) const;
@@ -85,9 +100,14 @@ class Map : public QObject
         const TimeCycleProcessor* getProcessor() const;
 
         /**
-         * @brief Return the list of all known elements.
+         * @brief Return the list of all characters.
          */
-        const QLinkedList<AbstractMapElement*>& getElements() const;
+        const QLinkedList<Character*>& getCharacters() const;
+
+        /**
+         * @brief Return the list of all buildings.
+         */
+        const QLinkedList<AbstractStaticMapElement*>& getStaticElements() const;
 
     public slots:
         /**
@@ -117,26 +137,31 @@ class Map : public QObject
         );
 
         /**
-         * @brief Create a dynamic element on the map.
+         * @brief Create a character on the map.
          *
-         * @param type The type of dynamic element to create.
-         * @param issuer The building issuing the dynamic element.
-         * @param afterCreation A lambda function that will be called with the created element as first argument.
+         * @param conf          The conf for the new character to create.
+         * @param issuer        The building issuing the character.
+         * @param afterCreation A callback that will be called with the created character as first argument.
          * @throw UnexpectedException Try to create a dynamic element of type None.
          */
-        void createDynamicElement(
-            const DynamicElementInformation* elementConf,
+        void createCharacter(
+            const CharacterInformation* conf,
             AbstractProcessableStaticMapElement* issuer,
-            std::function<void(AbstractDynamicMapElement*)> afterCreation
+            std::function<void(Character*)> afterCreation
         );
 
         /**
          * @brief Destroy an element.
          */
-        void destroyElement(
-            AbstractDynamicMapElement* element,
+        void destroyStaticElement(
+            AbstractStaticMapElement* element,
             std::function<void()> afterDestruction
         );
+
+        /**
+         * @brief Destroy a character.
+         */
+        void destroyCharacter(Character* character, std::function<void()> afterDestruction);
 
         /**
          * @brief Update the total population of the given delta.
@@ -151,7 +176,7 @@ class Map : public QObject
         void freeHousingCapacityChanged(
             const int previousHousingCapacity,
             const int newHousingCapacity,
-            std::function<void(AbstractDynamicMapElement*)> onImmigrantCreation
+            std::function<void(Character*)> onImmigrantCreation
         );
 
     protected:
@@ -159,7 +184,7 @@ class Map : public QObject
 
     signals:
         void staticElementCreated(AbstractStaticMapElement* elementCreated);
-        void dynamicElementCreated(AbstractDynamicMapElement* elementCreated);
+        void characterCreated(Character* elementCreated);
 };
 
 #endif // MAP_HPP

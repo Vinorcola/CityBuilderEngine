@@ -1,13 +1,13 @@
 #include "DynamicElement.hpp"
 
-#include "engine/element/dynamic/AbstractDynamicMapElement.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "viewer/SelectionElement.hpp"
 
 const qreal BASE_DYNAMIC_ELEMENT_IMAGE_PADDING(5.0);
 
 
 
-DynamicElement::DynamicElement(const QSizeF& baseTileSize, const AbstractDynamicMapElement* element, const QPixmap& elementImage) :
+DynamicElement::DynamicElement(const QSizeF& baseTileSize, const Character* element, const QPixmap& elementImage) :
     QGraphicsPixmapItem(elementImage),
     baseTileSize(baseTileSize),
     element(element)

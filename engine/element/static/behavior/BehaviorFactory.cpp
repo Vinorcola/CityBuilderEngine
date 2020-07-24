@@ -8,7 +8,7 @@
 #include "engine/map/Map.hpp"
 #include "exceptions/UnexpectedException.hpp"
 #include "global/conf/BehaviorInformation.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/CharacterInformation.hpp"
 
 
 
@@ -36,15 +36,15 @@ AbstractStaticElementBehavior* BehaviorFactory::generate(
                 conf->getWalkerGenerationInterval(),
                 conf->getMaxWalkers()
             ));
-            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createDynamicElement);
-            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyElement);
+            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createCharacter);
+            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyCharacter);
 
             return behavior;
         }
 
         case BehaviorInformation::Type::InhabitantContainer: {
             auto behavior(new InhabitantContainer(issuer));
-            connect(behavior, &InhabitantContainer::requestDynamicElementDestruction, map, &Map::destroyElement);
+            connect(behavior, &InhabitantContainer::requestDynamicElementDestruction, map, &Map::destroyCharacter);
             connect(behavior, &InhabitantContainer::freeCapacityChanged, map, &Map::freeHousingCapacityChanged);
             connect(behavior, &InhabitantContainer::inhabitantsChanged, map, &Map::populationChanged);
 
@@ -53,7 +53,7 @@ AbstractStaticElementBehavior* BehaviorFactory::generate(
 
         case BehaviorInformation::Type::QueuedWalkerGenerator: {
             auto behavior(new QueuedWalkerGenerator(issuer, conf->getWalkerConf(), conf->getMinWalkerGenerationInterval(), conf->getMaxWalkerGenerationInterval()));
-            connect(behavior, &QueuedWalkerGenerator::requestDynamicElementCreation, map, &Map::createDynamicElement);
+            connect(behavior, &QueuedWalkerGenerator::requestDynamicElementCreation, map, &Map::createCharacter);
 
             return behavior;
         }
@@ -65,8 +65,8 @@ AbstractStaticElementBehavior* BehaviorFactory::generate(
                 conf->getWalkerGenerationInterval(),
                 conf->getMaxWalkers()
             ));
-            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createDynamicElement);
-            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyElement);
+            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createCharacter);
+            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyCharacter);
 
             return behavior;
         }
@@ -80,8 +80,8 @@ AbstractStaticElementBehavior* BehaviorFactory::generate(
                 conf->getWalkerGenerationInterval(),
                 conf->getMaxWalkers()
             ));
-            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createDynamicElement);
-            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyElement);
+            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createCharacter);
+            connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyCharacter);
 
             return behavior;
         }

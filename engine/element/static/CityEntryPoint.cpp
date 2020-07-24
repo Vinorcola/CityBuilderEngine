@@ -1,9 +1,9 @@
 #include "CityEntryPoint.hpp"
 
-#include "engine/element/dynamic/TargetedWalker.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/QueuedWalkerGenerator.hpp"
 #include "engine/random.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/CharacterInformation.hpp"
 
 const int IMMIGRANT_MIN_INTERVAL(10);
 const int IMMIGRANT_MAX_INTERVAL(60);
@@ -30,7 +30,7 @@ CityEntryPoint::CityEntryPoint(
 
 
 
-void CityEntryPoint::requestImmigrant(std::function<void(AbstractDynamicMapElement*)> onWalkerCreation)
+void CityEntryPoint::requestImmigrant(std::function<void(Character*)> onWalkerCreation)
 {
     immigrantGenerator->registerWalkerRequest(onWalkerCreation);
 }

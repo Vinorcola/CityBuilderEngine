@@ -1,4 +1,4 @@
-#include "DynamicElementInformation.hpp"
+#include "CharacterInformation.hpp"
 
 #include <yaml-cpp/yaml.h>
 
@@ -6,7 +6,7 @@
 #include "global/yamlLibraryEnhancement.hpp"
 #include "defines.hpp"
 
-DynamicElementInformation::DynamicElementInformation(QObject* parent, const QString& key, const YAML::Node& model) :
+CharacterInformation::CharacterInformation(QObject* parent, const QString& key, const YAML::Node& model) :
     QObject(parent),
     type(resolveType(model["type"].as<QString>())),
     key(key),
@@ -24,49 +24,49 @@ DynamicElementInformation::DynamicElementInformation(QObject* parent, const QStr
 
 
 
-DynamicElementInformation::Type DynamicElementInformation::getType() const
+CharacterInformation::Type CharacterInformation::getType() const
 {
     return type;
 }
 
 
 
-const QString& DynamicElementInformation::getKey() const
+const QString& CharacterInformation::getKey() const
 {
     return key;
 }
 
 
 
-const QString& DynamicElementInformation::getTitle() const
+const QString& CharacterInformation::getTitle() const
 {
     return title;
 }
 
 
 
-qreal DynamicElementInformation::getSpeed() const
+qreal CharacterInformation::getSpeed() const
 {
     return speed;
 }
 
 
 
-int DynamicElementInformation::getWalkingCredit() const
+int CharacterInformation::getWalkingCredit() const
 {
     return walkingCredit;
 }
 
 
 
-const QPixmap& DynamicElementInformation::getImage() const
+const QPixmap& CharacterInformation::getImage() const
 {
     return image;
 }
 
 
 
-void DynamicElementInformation::checkModel(const QString& key, const YAML::Node& model)
+void CharacterInformation::checkModel(const QString& key, const YAML::Node& model)
 {
     if (!model["type"]) {
         throw BadConfigurationException("Missing \"type\" parameter in configuration for node \"" + key + "\".");
@@ -75,7 +75,7 @@ void DynamicElementInformation::checkModel(const QString& key, const YAML::Node&
 
 
 
-DynamicElementInformation::Type DynamicElementInformation::resolveType(const QString& type)
+CharacterInformation::Type CharacterInformation::resolveType(const QString& type)
 {
     if (type == "targetedWalker") return Type::TargetedWalker;
     if (type == "randomWalker")   return Type::RandomWalker;

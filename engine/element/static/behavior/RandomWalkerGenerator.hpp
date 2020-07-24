@@ -4,12 +4,10 @@
 #include <QtCore/QList>
 #include <QtCore/QPointer>
 
-#include "engine/element/dynamic/RandomWalker.hpp"
 #include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
 
-class AbstractDynamicMapElement;
 class AbstractProcessableStaticMapElement;
-class DynamicElementInformation;
+class CharacterInformation;
 
 /**
  * @brief A wandering walker generator.
@@ -23,7 +21,7 @@ class RandomWalkerGenerator : public AbstractWalkerGenerator
     public:
         RandomWalkerGenerator(
             AbstractProcessableStaticMapElement* issuer,
-            const DynamicElementInformation* walkerConf,
+            const CharacterInformation* walkerConf,
             const int generationInterval,
             const int maxWalkers = 1
         );

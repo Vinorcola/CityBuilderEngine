@@ -4,9 +4,9 @@
 #include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
 #include "engine/map/searchEngine/StaticSearchCriteria.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class AbstractProcessableStaticMapElement;
-class DynamicElementInformation;
+class CharacterInformation;
 class SearchEngine;
 
 /**
@@ -28,7 +28,7 @@ class TargetedWalkerGenerator : public AbstractWalkerGenerator
             AbstractProcessableStaticMapElement* issuer,
             const SearchEngine* searchEngine,
             const StaticSearchCriteria* targetSearchCriteria,
-            const DynamicElementInformation* walkerConf,
+            const CharacterInformation* walkerConf,
             const int generationInterval,
             const int maxWalkers = 1
         );

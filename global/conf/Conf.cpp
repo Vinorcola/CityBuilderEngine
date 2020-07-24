@@ -3,7 +3,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "global/conf/ControlPanelElementInformation.hpp"
-#include "global/conf/DynamicElementInformation.hpp"
+#include "global/conf/CharacterInformation.hpp"
 #include "global/conf/StaticElementInformation.hpp"
 
 
@@ -19,7 +19,7 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     // Load dynamic element configuration.
     for (auto node : configurationRoot["dynamicElements"]) {
         QString key(QString::fromStdString(node.first.as<std::string>()));
-        dynamicElements.insert(key, new DynamicElementInformation(this, key, node.second));
+        dynamicElements.insert(key, new CharacterInformation(this, key, node.second));
     }
 
     // Load static element configuration.
@@ -43,7 +43,7 @@ Conf::Conf(QObject* parent, const QString& filePath) :
 
 
 
-const DynamicElementInformation* Conf::getDynamicElementConf(const QString& elementKey) const
+const CharacterInformation* Conf::getDynamicElementConf(const QString& elementKey) const
 {
     return dynamicElements.value(elementKey);
 }

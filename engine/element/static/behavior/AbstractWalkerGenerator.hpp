@@ -5,13 +5,13 @@
 #include <QtCore/QList>
 #include <QtCore/QPointer>
 
-#include "engine/element/dynamic/TargetedWalker.hpp"
+#include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/AbstractActivityBehavior.hpp"
 #include "engine/processing/CycleDate.hpp"
 
-class AbstractDynamicMapElement;
+class Character;
 class AbstractProcessableStaticMapElement;
-class DynamicElementInformation;
+class CharacterInformation;
 
 /**
  * @brief The base class for behavior generating walkers (dynamic elements).
@@ -25,18 +25,18 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
 
     protected:
         AbstractProcessableStaticMapElement* issuer;
-        const DynamicElementInformation* walkerConf;
+        const CharacterInformation* walkerConf;
         const int generationInterval;
         const int maxWalkers;
         qreal generationSpeedRatio;
         bool needToSetupNextGenerationDate;
         CycleDate nextGenerationDate;
-        QList<QPointer<TargetedWalker>> walkers;
+        QList<QPointer<Character>> walkers;
 
     public:
         AbstractWalkerGenerator(
             AbstractProcessableStaticMapElement* issuer,
-            const DynamicElementInformation* walkerConf,
+            const CharacterInformation* walkerConf,
             const int generationInterval,
             const int maxWalkers = 1
         );
@@ -45,7 +45,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
          * @brief Indicate if the walker belongs to this walker generator.
          * @param walker
          */
-        bool contains(const TargetedWalker* walker) const;
+        bool contains(const Character* walker) const;
 
         /**
          * @brief Clean the list of walkers by removing deleted walkers.
@@ -65,7 +65,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
 
         virtual void process(const CycleDate& date) override;
 
-        virtual bool processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor) override;
+        virtual bool processInteraction(const CycleDate& date, Character* actor) override;
 
     protected:
         virtual bool canSetupNextGenerationDate(const CycleDate& currentDate) const;
@@ -76,13 +76,13 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
 
     signals:
         void requestDynamicElementCreation(
-            const DynamicElementInformation* elementConf,
+            const CharacterInformation* elementConf,
             AbstractProcessableStaticMapElement* issuer,
-            std::function<void(AbstractDynamicMapElement*)> afterCreation
+            std::function<void(Character*)> afterCreation
         );
 
         void requestDynamicElementDestruction(
-            AbstractDynamicMapElement* element,
+            Character* element,
             std::function<void()> afterDestruction
         );
 };

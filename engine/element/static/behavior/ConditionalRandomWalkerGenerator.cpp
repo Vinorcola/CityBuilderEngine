@@ -6,8 +6,8 @@
 
 ConditionalRandomWalkerGenerator::ConditionalRandomWalkerGenerator(
     AbstractProcessableStaticMapElement* issuer,
-    const DynamicElementInformation* walkerConf,
-    const DynamicElementInformation* dependencyWalkerConf,
+    const CharacterInformation* walkerConf,
+    const CharacterInformation* dependencyWalkerConf,
     const int generationInterval,
     const int maxWalkers
 ) :
@@ -32,7 +32,7 @@ void ConditionalRandomWalkerGenerator::process(const CycleDate& date)
 
 
 
-bool ConditionalRandomWalkerGenerator::processInteraction(const CycleDate& date, AbstractDynamicMapElement* actor)
+bool ConditionalRandomWalkerGenerator::processInteraction(const CycleDate& date, Character* actor)
 {
     if (RandomWalkerGenerator::processInteraction(date, actor)) {
         return true;

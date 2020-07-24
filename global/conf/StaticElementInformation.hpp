@@ -10,7 +10,7 @@
 
 class BehaviorInformation;
 class Conf;
-class DynamicElementInformation;
+class CharacterInformation;
 class StaticElementAreaPartDescription;
 class StaticSearchCriteriaDescription;
 namespace YAML {
