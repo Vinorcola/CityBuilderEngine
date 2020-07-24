@@ -19,7 +19,7 @@ Character::Character(
     target(),
     motionHandler(new MotionHandler(this, map, conf->getSpeed(), issuer->getEntryPoint(), randomWalkingCredit))
 {
-    connect(motionHandler, &MotionHandler::walkingCreditExpired, [this]() {
+    connect(motionHandler, &MotionHandler::wanderingCreditsExpired, [this]() {
         target = this->issuer;
         motionHandler->setTarget(this->issuer->getEntryPoint());
     });

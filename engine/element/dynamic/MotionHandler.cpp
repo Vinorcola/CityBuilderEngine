@@ -9,28 +9,29 @@
 
 
 
-MotionHandler::MotionHandler(QObject* parent,
+MotionHandler::MotionHandler(
+    QObject* parent,
     const Map* map,
     qreal speed,
     const MapCoordinates& initialLocation,
-    int randomWalkingCredit,
+    int wanderingCredits,
     bool restrictedToRoads
 ) :
     QObject(parent),
     map(map),
     speed(speed),
     restrictedToRoads(restrictedToRoads),
-    randomWalker(randomWalkingCredit > 0),
-    randomWalkingCredit(randomWalkingCredit),
+    isWanderingStrategy(wanderingCredits > 0),
+    wanderingCredits(wanderingCredits),
     location(initialLocation),
-    moveFrom(initialLocation),
-    moveTo(),
+    movingFrom(initialLocation),
+    movingTo(),
     targetRoadNode(nullptr),
     target(),
     roadPath()
 {
-    if (randomWalker) {
-        moveTo = getNextPathTile();
+    if (isWanderingStrategy) {
+        movingTo = getNextPathTile();
     }
 }
 
@@ -88,12 +89,12 @@ MapCoordinates MotionHandler::getCurrentTileCoordinates() const
 
 const MapCoordinates& MotionHandler::move()
 {
-    if (moveTo.isValid()) {
-        if (moveTo == location) {
+    if (movingTo.isValid()) {
+        if (movingTo == location) {
             // Fetch next tile on the path.
-            moveTo = getNextPathTile();
-            moveFrom = location;
-            if (!moveTo.isValid()) {
+            movingTo = getNextPathTile();
+            movingFrom = location;
+            if (!movingTo.isValid()) {
                 return location;
             }
         }
@@ -125,46 +126,46 @@ void MotionHandler::calculatePath()
         assert(false);
     }
 
-    moveFrom = location.getRounded();
-    moveTo = MapCoordinates();
+    movingFrom = location.getRounded();
+    movingTo = MapCoordinates();
     roadPath.clear();
     if (!targetRoadNode) {
         return;
     }
 
     roadPath = map->getShortestRoadPathBetween(location, targetRoadNode->getCoordinates());
-    if (!roadPath.isEmpty()) {
-        if (roadPath.first()->getCoordinates() == location) {
-            roadPath.takeFirst();
-        }
-        moveTo = getNextPathTile();
+    if (roadPath.isEmpty()) {
+        return;
     }
+
+    if (roadPath.first()->getCoordinates() == location) {
+        roadPath.takeFirst();
+    }
+    movingTo = getNextPathTile();
 }
 
 
 
 MapCoordinates MotionHandler::getNextPathTile()
 {
-    // As soon as a character has a valid target, it becomes a targeted walker, even if it was a random walker that
-    // still has some walking credit.
     if (target.isValid()) {
         if (roadPath.empty()) {
-            // Destination reached or no path available.
+            // Destination reached or no available path.
             return MapCoordinates();
         }
 
         return roadPath.takeFirst()->getCoordinates();
     }
 
-    // Random walker.
-    if (randomWalker) {
-        // Update walking credit
-        --randomWalkingCredit;
-        if (randomWalkingCredit == -1) {
-            // Walking credit expires.
-            emit walkingCreditExpired();
+    if (isWanderingStrategy) {
+        // Use a wandering credit.
+        --wanderingCredits;
+        if (wanderingCredits == -1) {
+            // Wandering credits expired.
+            emit wanderingCreditsExpired();
 
-            return moveTo;
+            return movingTo; // During the emitted signal, a new target may be set and a movingTo location can already
+                             // ba calculated, so we must not erase it. We return the current movingTo value.
         }
 
         return getNextRandomTile();
@@ -177,7 +178,6 @@ MapCoordinates MotionHandler::getNextPathTile()
 
 MapCoordinates MotionHandler::getNextRandomTile()
 {
-    // Continue random walking.
     auto neighbourNodes(getCurrentRoadNode()->getNeighbourNodeList());
     if (neighbourNodes.size() == 0) {
         // Character is on a single road tile.
@@ -187,9 +187,9 @@ MapCoordinates MotionHandler::getNextRandomTile()
         // Dead end, must go back.
         return neighbourNodes.first()->getCoordinates();
     }
-    // Remove the node we come from.
+    // We remove the node we came from.
     for (auto node: neighbourNodes) {
-        if (node->getCoordinates() == moveFrom) {
+        if (node->getCoordinates() == movingFrom) {
             neighbourNodes.removeOne(node);
             break;
         }
@@ -207,14 +207,14 @@ MapCoordinates MotionHandler::getNextRandomTile()
 
 void MotionHandler::moveToTarget()
 {
-    if (moveTo.getX() > location.getX()) {
-        location.setX(qMin(location.getX() + speed, moveTo.getX()));
-    } else if (moveTo.getX() < location.getX()) {
-        location.setX(qMax(location.getX() - speed, moveTo.getX()));
+    if (movingTo.getX() > location.getX()) {
+        location.setX(qMin(location.getX() + speed, movingTo.getX()));
+    } else if (movingTo.getX() < location.getX()) {
+        location.setX(qMax(location.getX() - speed, movingTo.getX()));
     }
-    if (moveTo.getY() > location.getY()) {
-        location.setY(qMin(location.getY() + speed, moveTo.getY()));
-    } else if (moveTo.getY() < location.getY()) {
-        location.setY(qMax(location.getY() - speed, moveTo.getY()));
+    if (movingTo.getY() > location.getY()) {
+        location.setY(qMin(location.getY() + speed, movingTo.getY()));
+    } else if (movingTo.getY() < location.getY()) {
+        location.setY(qMax(location.getY() - speed, movingTo.getY()));
     }
 }
