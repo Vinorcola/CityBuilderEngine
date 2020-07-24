@@ -4,7 +4,7 @@
 #include <QtCore/QLinkedList>
 #include <QtCore/QObject>
 
-class AbstractStaticMapElement;
+class Building;
 class StaticSearchCriteria;
 
 /**
@@ -15,15 +15,15 @@ class SearchEngine : public QObject
         Q_OBJECT
 
     private:
-        const QLinkedList<AbstractStaticMapElement*>& staticElements;
+        const QLinkedList<Building*>& staticElements;
 
     public:
-        SearchEngine(QObject* parent, const QLinkedList<AbstractStaticMapElement*>& staticElements);
+        SearchEngine(QObject* parent, const QLinkedList<Building*>& staticElements);
 
         /**
          * @brief Search a static element into the list of existing elements.
          */
-        QList<AbstractStaticMapElement*> search(const StaticSearchCriteria& criteria) const;
+        QList<Building*> search(const StaticSearchCriteria& criteria) const;
 };
 
 #endif // SEARCHENGINE_HPP

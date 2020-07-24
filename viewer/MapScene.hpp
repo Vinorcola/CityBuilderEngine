@@ -3,8 +3,8 @@
 
 #include <QtWidgets/QGraphicsScene>
 
+class Building;
 class Character;
-class AbstractStaticMapElement;
 class DynamicElement;
 class Map;
 class MapArea;
@@ -43,7 +43,7 @@ class MapScene : public QGraphicsScene
         void requestBuildingCreation(const StaticElementInformation* elementConf, const MapArea& area);
 
     public slots:
-        void registerNewStaticElement(const AbstractStaticMapElement* element);
+        void registerNewStaticElement(const Building* element);
 
         void registerNewDynamicElement(const Character* element);
 

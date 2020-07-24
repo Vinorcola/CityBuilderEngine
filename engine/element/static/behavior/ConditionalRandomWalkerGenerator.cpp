@@ -1,11 +1,11 @@
 #include "ConditionalRandomWalkerGenerator.hpp"
 
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/element/static/ProcessableBuilding.hpp"
 
 
 
 ConditionalRandomWalkerGenerator::ConditionalRandomWalkerGenerator(
-    AbstractProcessableStaticMapElement* issuer,
+    ProcessableBuilding* issuer,
     const CharacterInformation* walkerConf,
     const CharacterInformation* dependencyWalkerConf,
     const int generationInterval,

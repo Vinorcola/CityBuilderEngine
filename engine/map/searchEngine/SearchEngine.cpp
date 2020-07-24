@@ -1,11 +1,11 @@
 #include "SearchEngine.hpp"
 
-#include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/element/static/Building.hpp"
 #include "engine/map/searchEngine/StaticSearchCriteria.hpp"
 
 
 
-SearchEngine::SearchEngine(QObject* parent, const QLinkedList<AbstractStaticMapElement*>& staticElements) :
+SearchEngine::SearchEngine(QObject* parent, const QLinkedList<Building*>& staticElements) :
     QObject(parent),
     staticElements(staticElements)
 {
@@ -14,9 +14,9 @@ SearchEngine::SearchEngine(QObject* parent, const QLinkedList<AbstractStaticMapE
 
 
 
-QList<AbstractStaticMapElement*> SearchEngine::search(const StaticSearchCriteria& criteria) const
+QList<Building*> SearchEngine::search(const StaticSearchCriteria& criteria) const
 {
-    QList<AbstractStaticMapElement*> results;
+    QList<Building*> results;
     for (auto element : staticElements) {
         if (element->getConf() == criteria.getConf()) {
             results.append(element);

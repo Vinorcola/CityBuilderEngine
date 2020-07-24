@@ -5,8 +5,8 @@
 
 #include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/BehaviorFactory.hpp"
-#include "engine/element/static/Building.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
+#include "engine/element/static/ProcessableBuilding.hpp"
 #include "engine/element/static/Road.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
 #include "engine/map/roadGraph/RoadGraphNode.hpp"
@@ -164,7 +164,7 @@ const QLinkedList<Character*>& Map::getCharacters() const
 
 
 
-const QLinkedList<AbstractStaticMapElement*>& Map::getStaticElements() const
+const QLinkedList<Building*>& Map::getStaticElements() const
 {
     return staticElementList;
 }
@@ -197,24 +197,24 @@ void Map::createStaticElement(
         return;
     }
 
-    AbstractStaticMapElement* pointer;
+    Building* pointer;
     switch (elementConf->getType()) {
         case StaticElementInformation::Type::None:
             throw UnexpectedException("Try to create a static element of type None.");
 
         case StaticElementInformation::Type::Building: {
-            auto element(new Building(this, behaviorFactory, elementConf, area, getAutoEntryPoint(area)));
+            auto element(new ProcessableBuilding(this, behaviorFactory, elementConf, area, getAutoEntryPoint(area)));
             pointer = element;
             processor->registerBuilding(element);
             staticElementList.append(element);
 
-            connect(element, &Building::requestDynamicElementCreation, [this, element](
+            connect(element, &ProcessableBuilding::requestCharacterCreation, [this, element](
                 const CharacterInformation* elementConf,
                 std::function<void(Character*)> afterCreation
             ) {
                 createCharacter(elementConf, element, afterCreation);
             });
-            connect(element, &Building::requestDynamicElementDestruction, this, &Map::destroyCharacter);
+            connect(element, &ProcessableBuilding::requestCharacterDestruction, this, &Map::destroyCharacter);
             break;
         }
 
@@ -226,7 +226,7 @@ void Map::createStaticElement(
             processor->registerBuilding(entryPoint);
             staticElementList.append(entryPoint);
 
-            connect(entryPoint, &CityEntryPoint::requestDynamicElementCreation, [this](
+            connect(entryPoint, &CityEntryPoint::requestCharacterCreation, [this](
                 const CharacterInformation* elementConf,
                 std::function<void(Character*)> afterCreation
             ) {
@@ -237,7 +237,7 @@ void Map::createStaticElement(
 
         case StaticElementInformation::Type::Road: {
             auto coordinates(area.getLeft());
-            auto element(new Road(elementConf, coordinates));
+            auto element(new Road(this, elementConf, coordinates));
             pointer = element;
             roadGraph->createNode(coordinates);
             staticElementList.append(element);
@@ -255,7 +255,7 @@ void Map::createStaticElement(
 
 void Map::createCharacter(
     const CharacterInformation* conf,
-    AbstractProcessableStaticMapElement* issuer,
+    ProcessableBuilding* issuer,
     std::function<void(Character*)> afterCreation
 ) {
     auto character(new Character(this, this, conf, issuer, conf->getWalkingCredit()));
@@ -268,7 +268,7 @@ void Map::createCharacter(
 
 
 
-void Map::destroyStaticElement(AbstractStaticMapElement* element, std::function<void()> afterDestruction)
+void Map::destroyStaticElement(Building* element, std::function<void()> afterDestruction)
 {
     for (auto elementFromList: staticElementList) {
         if (elementFromList== element) {
@@ -316,7 +316,7 @@ void Map::freeHousingCapacityChanged(
 
 
 
-AbstractStaticMapElement* Map::fetchStaticElement(const AbstractStaticMapElement* element) const
+Building* Map::fetchStaticElement(const Building* element) const
 {
     for (auto elementFromList : staticElementList) {
         if (elementFromList == element) {

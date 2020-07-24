@@ -6,7 +6,7 @@
 
 #include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
 
-class AbstractProcessableStaticMapElement;
+class ProcessableBuilding;
 class CharacterInformation;
 
 /**
@@ -20,7 +20,7 @@ class RandomWalkerGenerator : public AbstractWalkerGenerator
 
     public:
         RandomWalkerGenerator(
-            AbstractProcessableStaticMapElement* issuer,
+            ProcessableBuilding* issuer,
             const CharacterInformation* walkerConf,
             const int generationInterval,
             const int maxWalkers = 1

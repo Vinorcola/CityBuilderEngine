@@ -5,8 +5,8 @@
 #include "engine/processing/CycleDate.hpp"
 
 class Character;
-class AbstractProcessableStaticMapElement;
 class CharacterInformation;
+class ProcessableBuilding;
 
 /**
  * @brief A walker generator based on a conditionnal generation.
@@ -24,7 +24,7 @@ class ConditionalRandomWalkerGenerator : public RandomWalkerGenerator
 
     public:
         ConditionalRandomWalkerGenerator(
-            AbstractProcessableStaticMapElement* issuer,
+            ProcessableBuilding* issuer,
             const CharacterInformation* walkerConf,
             const CharacterInformation* dependencyWalkerConf,
             const int generationInterval,

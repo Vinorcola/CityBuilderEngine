@@ -3,7 +3,7 @@
 
 
 RandomWalkerGenerator::RandomWalkerGenerator(
-    AbstractProcessableStaticMapElement* issuer,
+    ProcessableBuilding* issuer,
     const CharacterInformation* walkerConf,
     const int generationInterval,
     const int maxWalkers

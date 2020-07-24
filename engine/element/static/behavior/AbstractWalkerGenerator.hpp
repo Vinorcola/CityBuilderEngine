@@ -10,8 +10,8 @@
 #include "engine/processing/CycleDate.hpp"
 
 class Character;
-class AbstractProcessableStaticMapElement;
 class CharacterInformation;
+class ProcessableBuilding;
 
 /**
  * @brief The base class for behavior generating walkers (dynamic elements).
@@ -24,7 +24,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
         Q_OBJECT
 
     protected:
-        AbstractProcessableStaticMapElement* issuer;
+        ProcessableBuilding* issuer;
         const CharacterInformation* walkerConf;
         const int generationInterval;
         const int maxWalkers;
@@ -35,7 +35,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
 
     public:
         AbstractWalkerGenerator(
-            AbstractProcessableStaticMapElement* issuer,
+            ProcessableBuilding* issuer,
             const CharacterInformation* walkerConf,
             const int generationInterval,
             const int maxWalkers = 1
@@ -77,7 +77,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
     signals:
         void requestDynamicElementCreation(
             const CharacterInformation* elementConf,
-            AbstractProcessableStaticMapElement* issuer,
+            ProcessableBuilding* issuer,
             std::function<void(Character*)> afterCreation
         );
 

@@ -1,7 +1,7 @@
 #include "MapScene.hpp"
 
 #include "engine/element/dynamic/Character.hpp"
-#include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/element/static/Building.hpp"
 #include "engine/map/Map.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
 #include "global/conf/CharacterInformation.hpp"
@@ -80,7 +80,7 @@ void MapScene::requestBuildingCreation(const StaticElementInformation* elementCo
 
 
 
-void MapScene::registerNewStaticElement(const AbstractStaticMapElement* element)
+void MapScene::registerNewStaticElement(const Building* element)
 {
     Tile* tile(getTileAt(element->getArea().getLeft()));
     addStaticElementBuilding(tile, element->getConf()->getSize(), element->getConf()->getImage());

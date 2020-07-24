@@ -5,8 +5,8 @@
 #include "engine/map/searchEngine/StaticSearchCriteria.hpp"
 
 class Character;
-class AbstractProcessableStaticMapElement;
 class CharacterInformation;
+class ProcessableBuilding;
 class SearchEngine;
 
 /**
@@ -25,7 +25,7 @@ class TargetedWalkerGenerator : public AbstractWalkerGenerator
 
     public:
         TargetedWalkerGenerator(
-            AbstractProcessableStaticMapElement* issuer,
+            ProcessableBuilding* issuer,
             const SearchEngine* searchEngine,
             const StaticSearchCriteria* targetSearchCriteria,
             const CharacterInformation* walkerConf,

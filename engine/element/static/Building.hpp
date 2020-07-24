@@ -1,48 +1,32 @@
 #ifndef BUILDING_HPP
 #define BUILDING_HPP
 
-#include <QtCore/QList>
+#include <QtCore/QObject>
 
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/map/MapArea.hpp"
 
-class Character;
-class AbstractStaticElementBehavior;
-class BehaviorFactory;
-class CycleDate;
-class MapArea;
-class MapCoordinates;
 class StaticElementInformation;
 
 /**
- * @brief A building on the map.
+ * @brief The base class for a static element on the map.
  *
- * A building is a static element that can be processed by the engine processor. In order to be processed, it will hold
- * some behaviors. Each behavior will be processed and will fullfill a specific purpose. Behaviors are instanciated
- * using the given building configuration.
+ * A static element is an element that do not move. It covers an area of the map. This area will be blocked to other static
+ * elements (two static elements cannot share a piece of area).
  */
-class Building : public AbstractProcessableStaticMapElement
+class Building: public QObject
 {
         Q_OBJECT
 
     protected:
-        QList<AbstractStaticElementBehavior*> behaviors;
+        const StaticElementInformation* conf;
+        MapArea area;
 
     public:
-        Building(
-            QObject* parent,
-            const BehaviorFactory* behaviorFactory,
-            const StaticElementInformation* conf,
-            const MapArea& area,
-            const MapCoordinates& entryPoint
-        );
+        Building(QObject* parent, const StaticElementInformation* conf, const MapArea& area);
 
-        virtual void init(const CycleDate& date) override;
+        const StaticElementInformation* getConf() const;
 
-        virtual void process(const CycleDate& date) override;
-
-        virtual bool processInteraction(const CycleDate& date, Character* actor) override;
-
-        virtual void notifyWalkerDestruction() override;
+        const MapArea& getArea() const;
 };
 
 #endif // BUILDING_HPP

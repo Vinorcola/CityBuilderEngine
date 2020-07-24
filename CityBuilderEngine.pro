@@ -18,12 +18,10 @@ SOURCES += \
     engine/element/static/behavior/QueuedWalkerGenerator.cpp \
     engine/element/static/behavior/RandomWalkerGenerator.cpp \
     engine/element/static/behavior/TargetedWalkerGenerator.cpp \
-    engine/element/static/AbstractProcessableStaticMapElement.cpp \
-    engine/element/static/AbstractStaticMapElement.cpp \
     engine/element/static/Building.cpp \
     engine/element/static/CityEntryPoint.cpp \
+    engine/element/static/ProcessableBuilding.cpp \
     engine/element/static/Road.cpp \
-    engine/element/AbstractMapElement.cpp \
     engine/map/roadGraph/pathFinder/RoadPathFinder.cpp \
     engine/map/roadGraph/pathFinder/RoadPathFinderNode.cpp \
     engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.cpp \
@@ -80,12 +78,10 @@ HEADERS += \
     engine/element/static/behavior/QueuedWalkerGenerator.hpp \
     engine/element/static/behavior/RandomWalkerGenerator.hpp \
     engine/element/static/behavior/TargetedWalkerGenerator.hpp \
-    engine/element/static/AbstractProcessableStaticMapElement.hpp \
-    engine/element/static/AbstractStaticMapElement.hpp \
     engine/element/static/Building.hpp \
     engine/element/static/CityEntryPoint.hpp \
+    engine/element/static/ProcessableBuilding.hpp \
     engine/element/static/Road.hpp \
-    engine/element/AbstractMapElement.hpp \
     engine/map/roadGraph/pathFinder/RoadPathFinder.hpp \
     engine/map/roadGraph/pathFinder/RoadPathFinderNode.hpp \
     engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.hpp \

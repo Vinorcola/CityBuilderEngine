@@ -6,8 +6,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
-class AbstractProcessableStaticMapElement;
-class AbstractStaticMapElement;
+class Building;
 class BehaviorFactory;
 class Character;
 class CityEntryPoint;
@@ -17,6 +16,7 @@ class CharacterInformation;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
+class ProcessableBuilding;
 class RoadGraph;
 class RoadGraphNode;
 class SearchEngine;
@@ -36,7 +36,7 @@ class Map : public QObject
         SearchEngine* searchEngine;
         BehaviorFactory* behaviorFactory;
         QLinkedList<Character*> characterList;
-        QLinkedList<AbstractStaticMapElement*> staticElementList;
+        QLinkedList<Building*> staticElementList;
         CityEntryPoint* entryPoint;
 
     public:
@@ -107,7 +107,7 @@ class Map : public QObject
         /**
          * @brief Return the list of all buildings.
          */
-        const QLinkedList<AbstractStaticMapElement*>& getStaticElements() const;
+        const QLinkedList<Building*>& getStaticElements() const;
 
     public slots:
         /**
@@ -146,7 +146,7 @@ class Map : public QObject
          */
         void createCharacter(
             const CharacterInformation* conf,
-            AbstractProcessableStaticMapElement* issuer,
+            ProcessableBuilding* issuer,
             std::function<void(Character*)> afterCreation
         );
 
@@ -154,7 +154,7 @@ class Map : public QObject
          * @brief Destroy an element.
          */
         void destroyStaticElement(
-            AbstractStaticMapElement* element,
+            Building* element,
             std::function<void()> afterDestruction
         );
 
@@ -180,10 +180,10 @@ class Map : public QObject
         );
 
     protected:
-        AbstractStaticMapElement* fetchStaticElement(const AbstractStaticMapElement* element) const;
+        Building* fetchStaticElement(const Building* element) const;
 
     signals:
-        void staticElementCreated(AbstractStaticMapElement* elementCreated);
+        void staticElementCreated(Building* elementCreated);
         void characterCreated(Character* elementCreated);
 };
 

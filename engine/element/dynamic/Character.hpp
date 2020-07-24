@@ -4,8 +4,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
 
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
-#include "engine/element/AbstractMapElement.hpp"
+#include "engine/element/static/ProcessableBuilding.hpp"
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
 
@@ -34,8 +33,8 @@ class Character : public QObject, public AbstractProcessable
 
     private:
         const CharacterInformation* conf;
-        QPointer<AbstractProcessableStaticMapElement> issuer;///< The issuer building.
-        QPointer<AbstractProcessableStaticMapElement> target;///< The target building.
+        QPointer<ProcessableBuilding> issuer;///< The issuer building.
+        QPointer<ProcessableBuilding> target;///< The target building.
         MotionHandler* motionHandler;///< A helper that will handle character's motion.
 
     public:
@@ -43,11 +42,11 @@ class Character : public QObject, public AbstractProcessable
             QObject* parent,
             const Map* map,
             const CharacterInformation* conf,
-            AbstractProcessableStaticMapElement* issuer,
+            ProcessableBuilding* issuer,
             int wanderingCredits = 0
         );
 
-        void assignTarget(AbstractProcessableStaticMapElement* target);
+        void assignTarget(ProcessableBuilding* target);
 
         const CharacterInformation* getConf() const;
 
@@ -59,7 +58,7 @@ class Character : public QObject, public AbstractProcessable
         /**
          * @brief Get the issuer.
          */
-        AbstractProcessableStaticMapElement* getIssuer() const;
+        ProcessableBuilding* getIssuer() const;
 
         /**
          * @brief Make the charater move.

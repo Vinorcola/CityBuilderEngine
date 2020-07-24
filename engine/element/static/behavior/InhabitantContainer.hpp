@@ -7,7 +7,7 @@
 #include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
 
-class AbstractProcessableStaticMapElement;
+class ProcessableBuilding;
 
 /**
  * @brief An inhabitant holder.
@@ -19,13 +19,13 @@ class InhabitantContainer : public AbstractStaticElementBehavior
         Q_OBJECT
 
     private:
-        AbstractProcessableStaticMapElement* issuer;
+        ProcessableBuilding* issuer;
         int housingCapacity;
         int inhabitants;
         QPointer<Character> currentImmigrant;
 
     public:
-        InhabitantContainer(AbstractProcessableStaticMapElement* issuer);
+        InhabitantContainer(ProcessableBuilding* issuer);
 
         virtual void init(const CycleDate& date) override;
 

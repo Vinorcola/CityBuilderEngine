@@ -1,11 +1,11 @@
 #include "AbstractWalkerGenerator.hpp"
 
-#include "engine/element/static/AbstractProcessableStaticMapElement.hpp"
+#include "engine/element/static/ProcessableBuilding.hpp"
 
 
 
 AbstractWalkerGenerator::AbstractWalkerGenerator(
-    AbstractProcessableStaticMapElement* issuer,
+    ProcessableBuilding* issuer,
     const CharacterInformation* walkerConf,
     const int generationInterval,
     const int maxWalkers

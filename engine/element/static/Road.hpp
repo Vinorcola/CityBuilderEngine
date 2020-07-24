@@ -1,7 +1,7 @@
 #ifndef ROAD_HPP
 #define ROAD_HPP
 
-#include "engine/element/static/AbstractStaticMapElement.hpp"
+#include "engine/element/static/Building.hpp"
 
 class MapCoordinates;
 class StaticElementInformation;
@@ -12,10 +12,12 @@ class StaticElementInformation;
  * Roads are very particular buildings. They constitute a road graph on wich the dynamic elements will move. Check
  * RoadGraph for more information.
  */
-class Road : public AbstractStaticMapElement
+class Road : public Building
 {
+        Q_OBJECT
+
     public:
-        Road(const StaticElementInformation* conf, const MapCoordinates& coordinates);
+        Road(QObject* parent, const StaticElementInformation* conf, const MapCoordinates& coordinates);
 };
 
 #endif // ROAD_HPP
