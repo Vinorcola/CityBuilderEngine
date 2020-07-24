@@ -17,9 +17,9 @@
 #include "engine/map/MapLoader.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
 #include "exceptions/UnexpectedException.hpp"
-#include "global/conf/Conf.hpp"
+#include "global/conf/BuildingInformation.hpp"
 #include "global/conf/CharacterInformation.hpp"
-#include "global/conf/StaticElementInformation.hpp"
+#include "global/conf/Conf.hpp"
 
 
 
@@ -186,7 +186,7 @@ void Map::setProcessorSpeedRatio(const qreal speedRatio)
 
 
 void Map::createStaticElement(
-    const StaticElementInformation* elementConf,
+    const BuildingInformation* elementConf,
     const MapArea& area
 ) {
     if (area.getSize() != elementConf->getSize()) {
@@ -199,10 +199,10 @@ void Map::createStaticElement(
 
     Building* pointer;
     switch (elementConf->getType()) {
-        case StaticElementInformation::Type::None:
+        case BuildingInformation::Type::None:
             throw UnexpectedException("Try to create a static element of type None.");
 
-        case StaticElementInformation::Type::Building: {
+        case BuildingInformation::Type::Building: {
             auto element(new ProcessableBuilding(this, behaviorFactory, elementConf, area, getAutoEntryPoint(area)));
             pointer = element;
             processor->registerBuilding(element);
@@ -218,7 +218,7 @@ void Map::createStaticElement(
             break;
         }
 
-        case StaticElementInformation::Type::CityEntryPoint: {
+        case BuildingInformation::Type::CityEntryPoint: {
             auto coordinates(area.getLeft());
             entryPoint = new CityEntryPoint(this, behaviorFactory, elementConf, coordinates);
             pointer = entryPoint;
@@ -235,7 +235,7 @@ void Map::createStaticElement(
             break;
         }
 
-        case StaticElementInformation::Type::Road: {
+        case BuildingInformation::Type::Road: {
             auto coordinates(area.getLeft());
             auto element(new Road(this, elementConf, coordinates));
             pointer = element;

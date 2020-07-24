@@ -1,11 +1,11 @@
 #include "StaticSearchCriteria.hpp"
 
+#include "global/conf/BuildingInformation.hpp"
 #include "global/conf/Conf.hpp"
-#include "global/conf/StaticElementInformation.hpp"
 
 
 
-StaticSearchCriteria::StaticSearchCriteria(const StaticElementInformation* staticElementConf) :
+StaticSearchCriteria::StaticSearchCriteria(const BuildingInformation* staticElementConf) :
     elementConf(staticElementConf)
 {
 
@@ -13,7 +13,7 @@ StaticSearchCriteria::StaticSearchCriteria(const StaticElementInformation* stati
 
 
 
-const StaticElementInformation* StaticSearchCriteria::getConf() const
+const BuildingInformation* StaticSearchCriteria::getConf() const
 {
     return elementConf;
 }

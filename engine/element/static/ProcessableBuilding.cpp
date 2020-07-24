@@ -4,14 +4,14 @@
 #include "engine/element/static/behavior/AbstractStaticElementBehavior.hpp"
 #include "engine/element/static/behavior/AbstractWalkerGenerator.hpp"
 #include "engine/element/static/behavior/BehaviorFactory.hpp"
-#include "global/conf/StaticElementInformation.hpp"
+#include "global/conf/BuildingInformation.hpp"
 
 
 
 ProcessableBuilding::ProcessableBuilding(
     QObject* parent,
     const BehaviorFactory* behaviorFactory,
-    const StaticElementInformation* conf,
+    const BuildingInformation* conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :

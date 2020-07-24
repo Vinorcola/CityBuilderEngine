@@ -49,11 +49,11 @@ SOURCES += \
     exceptions/OutOfRangeException.cpp \
     exceptions/UnexpectedException.cpp \
     global/conf/BehaviorInformation.cpp \
+    global/conf/BuildingInformation.cpp \
     global/conf/CharacterInformation.cpp \
     global/conf/Conf.cpp \
     global/conf/ControlPanelElementInformation.cpp \
     global/conf/StaticElementAreaPartDescription.cpp \
-    global/conf/StaticElementInformation.cpp \
     global/conf/StaticSearchCriteriaDescription.cpp \
     ui/controlPanel/BuildingButton.cpp \
     ui/controlPanel/ControlPanel.cpp \
@@ -109,11 +109,11 @@ HEADERS += \
     exceptions/OutOfRangeException.hpp \
     exceptions/UnexpectedException.hpp \
     global/conf/BehaviorInformation.hpp \
+    global/conf/BuildingInformation.hpp \
     global/conf/CharacterInformation.hpp \
     global/conf/Conf.hpp \
     global/conf/ControlPanelElementInformation.hpp \
     global/conf/StaticElementAreaPartDescription.hpp \
-    global/conf/StaticElementInformation.hpp \
     global/conf/StaticSearchCriteriaDescription.hpp \
     global/yamlLibraryEnhancement.hpp \
     ui/controlPanel/BuildingButton.hpp \

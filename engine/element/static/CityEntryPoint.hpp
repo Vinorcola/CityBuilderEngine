@@ -30,7 +30,7 @@ class CityEntryPoint : public ProcessableBuilding
         CityEntryPoint(
             QObject* parent,
             const BehaviorFactory* behaviorFactory,
-            const StaticElementInformation* conf,
+            const BuildingInformation* conf,
             const MapCoordinates& coordinates
         );
 

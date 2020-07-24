@@ -10,7 +10,7 @@
 CityEntryPoint::CityEntryPoint(
     QObject* parent,
     const BehaviorFactory* behaviorFactory,
-    const StaticElementInformation* conf,
+    const BuildingInformation* conf,
     const MapCoordinates& coordinates
 ) :
     ProcessableBuilding(parent, behaviorFactory, conf, MapArea(coordinates), coordinates),

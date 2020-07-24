@@ -3,8 +3,8 @@
 
 #include <QtWidgets/QGraphicsView>
 
+class BuildingInformation;
 class Map;
-class StaticElementInformation;
 
 class MapViewer : public QGraphicsView
 {
@@ -14,7 +14,7 @@ class MapViewer : public QGraphicsView
         explicit MapViewer(Map& map, QWidget* parent = nullptr);
 
     public slots:
-        void buildingRequest(const StaticElementInformation* elementConf);
+        void buildingRequest(const BuildingInformation* elementConf);
 };
 
 #endif // MAPVIEWER_HPP

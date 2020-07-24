@@ -5,7 +5,7 @@
 
 #include "engine/map/MapArea.hpp"
 
-class StaticElementInformation;
+class BuildingInformation;
 
 /**
  * @brief The base class for a static element on the map.
@@ -18,13 +18,13 @@ class Building: public QObject
         Q_OBJECT
 
     protected:
-        const StaticElementInformation* conf;
+        const BuildingInformation* conf;
         MapArea area;
 
     public:
-        Building(QObject* parent, const StaticElementInformation* conf, const MapArea& area);
+        Building(QObject* parent, const BuildingInformation* conf, const MapArea& area);
 
-        const StaticElementInformation* getConf() const;
+        const BuildingInformation* getConf() const;
 
         const MapArea& getArea() const;
 };

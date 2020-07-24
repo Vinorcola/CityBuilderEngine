@@ -6,9 +6,9 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
-class ControlPanelElementInformation;
+class BuildingInformation;
 class CharacterInformation;
-class StaticElementInformation;
+class ControlPanelElementInformation;
 
 class Conf : public QObject
 {
@@ -16,7 +16,7 @@ class Conf : public QObject
 
     private:
         QHash<QString, CharacterInformation*> dynamicElements;
-        QHash<QString, StaticElementInformation*> staticElements;
+        QHash<QString, BuildingInformation*> staticElements;
         QList<ControlPanelElementInformation*> controlPanelElements;
 
     public:
@@ -24,7 +24,7 @@ class Conf : public QObject
 
         const CharacterInformation* getDynamicElementConf(const QString& elementKey) const;
 
-        const StaticElementInformation* getStaticElementConf(const QString& elementKey) const;
+        const BuildingInformation* getStaticElementConf(const QString& elementKey) const;
 
         const QList<ControlPanelElementInformation*> getControlPanelElements() const;
 };

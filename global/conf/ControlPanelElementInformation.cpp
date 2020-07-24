@@ -39,7 +39,7 @@ const QString& ControlPanelElementInformation::getTitle() const
 
 
 
-const StaticElementInformation*ControlPanelElementInformation::getStaticElementConf() const
+const BuildingInformation*ControlPanelElementInformation::getStaticElementConf() const
 {
     return staticElementConf;
 }

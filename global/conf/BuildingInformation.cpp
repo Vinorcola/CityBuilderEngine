@@ -1,4 +1,4 @@
-#include "StaticElementInformation.hpp"
+#include "BuildingInformation.hpp"
 
 #include <yaml-cpp/yaml.h>
 
@@ -10,7 +10,7 @@
 
 
 
-StaticElementInformation::StaticElementInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model) :
+BuildingInformation::BuildingInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model) :
     QObject(parent),
     type(resolveType(QString::fromStdString(model["type"].as<std::string>()))),
     key(key),
@@ -34,7 +34,7 @@ StaticElementInformation::StaticElementInformation(QObject* parent, const Conf* 
 
 
 
-void StaticElementInformation::resolveDependencies(const Conf* conf)
+void BuildingInformation::resolveDependencies(const Conf* conf)
 {
     for (auto behavior : behaviors) {
         behavior->resolveDependencies(conf);
@@ -43,42 +43,42 @@ void StaticElementInformation::resolveDependencies(const Conf* conf)
 
 
 
-StaticElementInformation::Type StaticElementInformation::getType() const
+BuildingInformation::Type BuildingInformation::getType() const
 {
     return type;
 }
 
 
 
-const QString& StaticElementInformation::getTitle() const
+const QString& BuildingInformation::getTitle() const
 {
     return title;
 }
 
 
 
-const MapSize& StaticElementInformation::getSize() const
+const MapSize& BuildingInformation::getSize() const
 {
     return size;
 }
 
 
 
-const QList<BehaviorInformation*>& StaticElementInformation::getBehaviors() const
+const QList<BehaviorInformation*>& BuildingInformation::getBehaviors() const
 {
     return behaviors;
 }
 
 
 
-const QPixmap& StaticElementInformation::getImage() const
+const QPixmap& BuildingInformation::getImage() const
 {
     return image;
 }
 
 
 
-void StaticElementInformation::checkModel(const QString& key, const YAML::Node& model)
+void BuildingInformation::checkModel(const QString& key, const YAML::Node& model)
 {
     if (!model["type"]) {
         throw BadConfigurationException("Missing \"type\" parameter in configuration for node \"" + key + "\".");
@@ -87,7 +87,7 @@ void StaticElementInformation::checkModel(const QString& key, const YAML::Node& 
 
 
 
-StaticElementInformation::Type StaticElementInformation::resolveType(const QString& type)
+BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
     if (type == "building")        return Type::Building;
     if (type == "cityEntryPoint")  return Type::CityEntryPoint;

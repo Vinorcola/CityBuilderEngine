@@ -17,7 +17,7 @@ namespace YAML {
     class Node;
 }
 
-class StaticElementInformation : public QObject
+class BuildingInformation : public QObject
 {
         Q_OBJECT
 
@@ -48,7 +48,7 @@ class StaticElementInformation : public QObject
          *
          * @param configurationYamlNode The YAML node corresponding to a static element configuration.
          */
-        StaticElementInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model);
+        BuildingInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model);
 
         void resolveDependencies(const Conf* conf);
 

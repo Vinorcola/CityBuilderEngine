@@ -2,9 +2,9 @@
 
 #include <yaml-cpp/yaml.h>
 
-#include "global/conf/ControlPanelElementInformation.hpp"
+#include "global/conf/BuildingInformation.hpp"
 #include "global/conf/CharacterInformation.hpp"
-#include "global/conf/StaticElementInformation.hpp"
+#include "global/conf/ControlPanelElementInformation.hpp"
 
 
 
@@ -25,8 +25,8 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     // Load static element configuration.
     for (auto node : configurationRoot["staticElements"]) {
         QString key(QString::fromStdString(node.first.as<std::string>()));
-        StaticElementInformation::checkModel(key, node.second);
-        staticElements.insert(key, new StaticElementInformation(this, this, key, node.second));
+        BuildingInformation::checkModel(key, node.second);
+        staticElements.insert(key, new BuildingInformation(this, this, key, node.second));
     }
 
     // Resolve dependencies.
@@ -50,7 +50,7 @@ const CharacterInformation* Conf::getDynamicElementConf(const QString& elementKe
 
 
 
-const StaticElementInformation* Conf::getStaticElementConf(const QString& elementKey) const
+const BuildingInformation* Conf::getStaticElementConf(const QString& elementKey) const
 {
     return staticElements.value(elementKey);
 }

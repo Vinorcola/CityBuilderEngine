@@ -11,11 +11,11 @@
 
 class AbstractStaticElementBehavior;
 class BehaviorFactory;
+class BuildingInformation;
 class Character;
 class CharacterInformation;
 class CycleDate;
 class MapArea;
-class StaticElementInformation;
 
 /**
  * @brief A processable building.
@@ -36,7 +36,7 @@ class ProcessableBuilding : public Building, public AbstractProcessable
         ProcessableBuilding(
             QObject* parent,
             const BehaviorFactory* behaviorFactory,
-            const StaticElementInformation* conf,
+            const BuildingInformation* conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
         );

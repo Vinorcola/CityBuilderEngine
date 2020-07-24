@@ -3,19 +3,19 @@
 
 #include <QtWidgets/QPushButton>
 
-class StaticElementInformation;
+class BuildingInformation;
 
 class BuildingButton : public QPushButton
 {
         Q_OBJECT
 
     private:
-        const StaticElementInformation* elementConf;
+        const BuildingInformation* elementConf;
 
     public:
-        BuildingButton(const StaticElementInformation* elementConf);
+        BuildingButton(const BuildingInformation* elementConf);
 
-        const StaticElementInformation* getAssociatedBuilding() const;
+        const BuildingInformation* getAssociatedBuilding() const;
 };
 
 #endif // BUILDINGBUTTON_HPP

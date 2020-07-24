@@ -1,7 +1,7 @@
 #ifndef STATICSEARCHCRITERIA_HPP
 #define STATICSEARCHCRITERIA_HPP
 
-class StaticElementInformation;
+class BuildingInformation;
 
 /**
  * @brief Criteria for searching a static element in the search engine.
@@ -9,12 +9,12 @@ class StaticElementInformation;
 class StaticSearchCriteria
 {
     private:
-        const StaticElementInformation* elementConf;
+        const BuildingInformation* elementConf;
 
     public:
-        explicit StaticSearchCriteria(const StaticElementInformation* elementConf);
+        explicit StaticSearchCriteria(const BuildingInformation* elementConf);
 
-        const StaticElementInformation* getConf() const;
+        const BuildingInformation* getConf() const;
 };
 
 #endif // STATICSEARCHCRITERIA_HPP

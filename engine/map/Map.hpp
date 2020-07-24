@@ -6,13 +6,14 @@
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
-class Building;
 class BehaviorFactory;
+class Building;
+class BuildingInformation;
 class Character;
+class CharacterInformation;
 class CityEntryPoint;
 class CityStatus;
 class Conf;
-class CharacterInformation;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
@@ -20,7 +21,6 @@ class ProcessableBuilding;
 class RoadGraph;
 class RoadGraphNode;
 class SearchEngine;
-class StaticElementInformation;
 class TimeCycleProcessor;
 
 class Map : public QObject
@@ -132,7 +132,7 @@ class Map : public QObject
          * @throw UnexpectedException Try to create a static element of type None.
          */
         void createStaticElement(
-            const StaticElementInformation* elementConf,
+            const BuildingInformation* elementConf,
             const MapArea& area
         );
 

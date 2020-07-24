@@ -2,7 +2,7 @@
 
 #include <QGraphicsSceneMouseEvent>
 
-#include "global/conf/StaticElementInformation.hpp"
+#include "global/conf/BuildingInformation.hpp"
 #include "viewer/MapScene.hpp"
 #include "viewer/Tile.hpp"
 
@@ -41,7 +41,7 @@ SelectionElement::SelectionElement(const QSizeF& baseTileSize) :
 
 
 
-void SelectionElement::setBuildingType(const StaticElementInformation* elementConf)
+void SelectionElement::setBuildingType(const BuildingInformation* elementConf)
 {
     this->currentElementConf = elementConf;
     setVisible(true);

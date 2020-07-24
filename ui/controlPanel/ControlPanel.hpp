@@ -5,9 +5,9 @@
 #include <QtWidgets/QDockWidget>
 
 class BuildingButton;
+class BuildingInformation;
 class Conf;
 class ControlPanelElementInformation;
-class StaticElementInformation;
 
 class ControlPanel : public QDockWidget
 {
@@ -23,7 +23,7 @@ class ControlPanel : public QDockWidget
         BuildingButton* createButton(const ControlPanelElementInformation* elementConf);
 
     signals:
-        void buildingRequested(const StaticElementInformation* elementConf);
+        void buildingRequested(const BuildingInformation* elementConf);
 };
 
 #endif // CONTROLPANEL_HPP

@@ -3,8 +3,8 @@
 
 #include "engine/element/static/Building.hpp"
 
+class BuildingInformation;
 class MapCoordinates;
-class StaticElementInformation;
 
 /**
  * @brief A road.
@@ -17,7 +17,7 @@ class Road : public Building
         Q_OBJECT
 
     public:
-        Road(QObject* parent, const StaticElementInformation* conf, const MapCoordinates& coordinates);
+        Road(QObject* parent, const BuildingInformation* conf, const MapCoordinates& coordinates);
 };
 
 #endif // ROAD_HPP
