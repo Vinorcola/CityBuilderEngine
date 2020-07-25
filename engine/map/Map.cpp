@@ -29,7 +29,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     size(loader.getSize()),
     cityStatus(new CityStatus(this, loader.getBudget())),
     roadGraph(new RoadGraph(this)),
-    processor(new TimeCycleProcessor(this)),
+    processor(new TimeCycleProcessor(this, loader.getDate())),
     searchEngine(new SearchEngine(this, buildingList)),
     behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
     characterList(),

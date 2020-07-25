@@ -12,10 +12,15 @@
 class CycleDate
 {
     private:
+        bool valid;
+        int year;
+        int month;
         int cycles;
 
     public:
         CycleDate();
+
+        CycleDate(const int year, const int month, const int cycles = 0);
 
         /**
          * @brief Copy a date and optionally add an interval.
@@ -28,16 +33,16 @@ class CycleDate
         void operator =(const CycleDate& other);
 
         /**
-         * @brief Copy the other cycle date.
-         */
-        void operator =(const CycleDate&& other);
-
-        /**
-         * @brief Convert to boolean.
+         * @brief Indicate if the date is valid.
          *
-         * An empty date (initialized from the empty constructor) is false.
+         * An empty date (initialized from the empty constructor) is invalid.
          */
         operator bool();
+
+        /**
+         * @brief Indicate if the date is invlid.
+         */
+        bool operator !();
 
         /**
          * @brief Increment the date to the next date (pass 1 cycle).

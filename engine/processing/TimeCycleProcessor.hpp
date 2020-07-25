@@ -33,7 +33,7 @@ class TimeCycleProcessor : public QObject
         CharacterProcessor* characterProcessor;
 
     public:
-        TimeCycleProcessor(QObject* parent, const qreal speedRatio = 1.0);
+        TimeCycleProcessor(QObject* parent, const CycleDate& startingDate, const qreal speedRatio = 1.0);
 
         qreal getSpeedRatio() const;
 

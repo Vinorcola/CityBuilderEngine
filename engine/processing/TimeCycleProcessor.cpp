@@ -10,12 +10,12 @@ const qreal MSEC_PER_SEC(1000);
 
 
 
-TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const qreal speedRatio) :
+TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const CycleDate& startingDate, const qreal speedRatio) :
     QObject(parent),
     paused(false),
     speedRatio(speedRatio),
     clock(),
-    currentCycleDate(),
+    currentCycleDate(startingDate),
     buildingProcessor(new BuildingProcessor(this)),
     characterProcessor(new CharacterProcessor(this))
 {
