@@ -10,6 +10,7 @@ class Conf;
 class CharacterInformation;
 class BuildingSearchCriteria;
 class BuildingSearchCriteriaDescription;
+class ItemInformation;
 namespace YAML {
     class Node;
 }
@@ -23,6 +24,7 @@ class BehaviorInformation : public QObject
             None = 0,
             ConditionalRandomWalkerGenerator,
             InhabitantContainer,
+            ItemStorage,
             QueuedWalkerGenerator,
             RandomWalkerGenerator,
             TargetedWalkerGenerator,
@@ -36,6 +38,7 @@ class BehaviorInformation : public QObject
         const int minWalkerGenerationInterval;
         const int maxWalkerGenerationInterval;
         const int maxWalkers;
+        QList<const ItemInformation*> items;
         const BuildingSearchCriteriaDescription* targetSearchCriteriaDescription;
         QScopedPointer<BuildingSearchCriteria> targetSearchCriteria;
 
@@ -57,6 +60,8 @@ class BehaviorInformation : public QObject
         int getMaxWalkerGenerationInterval() const;
 
         int getMaxWalkers() const;
+
+        const QList<const ItemInformation*>& getItems() const;
 
         const BuildingSearchCriteria* getTargetSearchCriteria() const;
 

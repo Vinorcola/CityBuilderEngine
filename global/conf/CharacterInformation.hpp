@@ -25,7 +25,7 @@ class CharacterInformation : public QObject
         QString key;
         QString title;
         qreal speed;
-        int walkingCredit;
+        int wanderingCredits;
         QPixmap image;
 
     public:
@@ -39,7 +39,7 @@ class CharacterInformation : public QObject
 
         qreal getSpeed() const;
 
-        int getWalkingCredit() const;
+        int getWanderingCredits() const;
 
         const QPixmap& getImage() const;
 

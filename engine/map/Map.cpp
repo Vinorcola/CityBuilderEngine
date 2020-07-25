@@ -256,7 +256,7 @@ void Map::createCharacter(
     ProcessableBuilding* issuer,
     std::function<void(Character*)> afterCreation
 ) {
-    auto character(new Character(this, this, conf, issuer, conf->getWalkingCredit()));
+    auto character(new Character(this, this, conf, issuer, conf->getWanderingCredits()));
     processor->registerCharacter(character);
     characterList.append(character);
     afterCreation(character);

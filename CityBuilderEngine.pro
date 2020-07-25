@@ -15,6 +15,7 @@ SOURCES += \
     engine/element/static/behavior/BehaviorFactory.cpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.cpp \
     engine/element/static/behavior/InhabitantContainer.cpp \
+    engine/element/static/behavior/ItemStorage.cpp \
     engine/element/static/behavior/QueuedWalkerGenerator.cpp \
     engine/element/static/behavior/RandomWalkerGenerator.cpp \
     engine/element/static/behavior/TargetedWalkerGenerator.cpp \
@@ -76,6 +77,7 @@ HEADERS += \
     engine/element/static/behavior/BehaviorFactory.hpp \
     engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp \
     engine/element/static/behavior/InhabitantContainer.hpp \
+    engine/element/static/behavior/ItemStorage.hpp \
     engine/element/static/behavior/QueuedWalkerGenerator.hpp \
     engine/element/static/behavior/RandomWalkerGenerator.hpp \
     engine/element/static/behavior/TargetedWalkerGenerator.hpp \

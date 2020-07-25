@@ -19,13 +19,18 @@ BehaviorInformation::BehaviorInformation(QObject* parent, const Conf* conf, cons
     minWalkerGenerationInterval(model["minGenerationInterval"] ? model["minGenerationInterval"].as<qreal>() * CYCLE_PER_SECOND : 0),
     maxWalkerGenerationInterval(model["maxGenerationInterval"] ? model["maxGenerationInterval"].as<int>() * CYCLE_PER_SECOND : 0),
     maxWalkers(model["maxWalkers"] ? model["maxWalkers"].as<int>() : 0),
+    items(),
     targetSearchCriteriaDescription(model["targetSearchCriteria"] ?
         new BuildingSearchCriteriaDescription(this, model["targetSearchCriteria"]) :
         nullptr
     ),
     targetSearchCriteria()
 {
-
+    if (model["items"]) {
+        for (auto node : model["items"]) {
+            items.append(conf->getItemConf(node.as<QString>()));
+        }
+    }
 }
 
 
@@ -33,7 +38,9 @@ BehaviorInformation::BehaviorInformation(QObject* parent, const Conf* conf, cons
 void BehaviorInformation::resolveDependencies(const Conf* conf)
 {
     if (targetSearchCriteriaDescription) {
-        targetSearchCriteria.reset(new BuildingSearchCriteria(conf->getBuildingConf(targetSearchCriteriaDescription->getTargetKey())));
+        targetSearchCriteria.reset(
+            new BuildingSearchCriteria(conf->getBuildingConf(targetSearchCriteriaDescription->getTargetKey()))
+        );
     }
 }
 
@@ -88,6 +95,13 @@ int BehaviorInformation::getMaxWalkers() const
 
 
 
+const QList<const ItemInformation*>& BehaviorInformation::getItems() const
+{
+    return items;
+}
+
+
+
 const BuildingSearchCriteria* BehaviorInformation::getTargetSearchCriteria() const
 {
     return targetSearchCriteria.data();
@@ -108,6 +122,7 @@ BehaviorInformation::Type BehaviorInformation::resolveType(const QString& type)
 {
     if (type == "conditionalRandomWalkerGenerator") return Type::ConditionalRandomWalkerGenerator;
     if (type == "inhabitantContainer")              return Type::InhabitantContainer;
+    if (type == "itemStorage")                      return Type::ItemStorage;
     if (type == "queuedWalkerGenerator")            return Type::QueuedWalkerGenerator;
     if (type == "randomWalkerGenerator")            return Type::RandomWalkerGenerator;
     if (type == "targetedWalkerGenerator")          return Type::TargetedWalkerGenerator;
