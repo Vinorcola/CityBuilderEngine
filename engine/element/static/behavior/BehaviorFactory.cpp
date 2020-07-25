@@ -47,7 +47,7 @@ AbstractBehavior* BehaviorFactory::generate(
             auto behavior(new InhabitantContainer(issuer));
             connect(behavior, &InhabitantContainer::requestDynamicElementDestruction, map, &Map::destroyCharacter);
             connect(behavior, &InhabitantContainer::freeCapacityChanged, map, &Map::freeHousingCapacityChanged);
-            connect(behavior, &InhabitantContainer::inhabitantsChanged, map, &Map::populationChanged);
+            connect(behavior, &InhabitantContainer::inhabitantsChanged, map, &Map::changePopulation);
 
             return behavior;
         }

@@ -1,12 +1,15 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+#include <QtCore/QString>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QMainWindow>
 
 #include "defines.hpp"
 
 class Conf;
 class ControlPanel;
+class InformationWidget;
 class Map;
 
 class MainWindow : public QMainWindow
@@ -22,6 +25,7 @@ class MainWindow : public QMainWindow
 #ifdef DEBUG_TOOLS
         QAction* processAction;
 #endif
+        InformationWidget* informationWidget;
 
     public:
         MainWindow();

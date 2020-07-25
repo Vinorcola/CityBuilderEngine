@@ -94,6 +94,10 @@ class CycleDate
          */
         void reset();
 
+        int getYear() const;
+
+        int getMonth() const;
+
         // DEBUG //
         QString toString() const;
 };

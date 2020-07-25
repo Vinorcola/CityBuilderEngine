@@ -38,6 +38,15 @@ class TimeCycleProcessor : public QObject
         qreal getSpeedRatio() const;
 
         /**
+         * @brief Get the current date.
+         *
+         * Should not be used for inside the engine, but rather for display purpose. Anything that depends on the
+         * current date should be an `AbstractProcessable` object, and should be registered using the appropriate
+         * register method.
+         */
+        const CycleDate& getCurrentDate() const;
+
+        /**
          * @brief Register a building to be process each time cycle.
          */
         void registerBuilding(ProcessableBuilding* building);
@@ -82,6 +91,8 @@ class TimeCycleProcessor : public QObject
          * @brief Indicate when a cycle process is finished.
          */
         void processFinished();
+
+        void dateChanged(const int year, const int month);
 
     protected:
         /**

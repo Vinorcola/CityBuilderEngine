@@ -1,6 +1,7 @@
 #include "MainWindow.hpp"
 
 #include <QtWidgets/QInputDialog>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 
 #include "engine/map/Map.hpp"
@@ -10,6 +11,7 @@
 #include "global/conf/Conf.hpp"
 #include "viewer/MapViewer.hpp"
 #include "ui/controlPanel/ControlPanel.hpp"
+#include "ui/InformationWidget.hpp"
 
 
 
@@ -19,11 +21,11 @@ MainWindow::MainWindow() :
     controlPanel(new ControlPanel(conf)),
     currentMap(nullptr),
     pauseAction(new QAction(tr("Pause"), this)),
-    speedAction(new QAction(tr("Speed"), this))
+    speedAction(new QAction(tr("Speed"), this)),
 #ifdef DEBUG_TOOLS
-    ,
-    processAction(new QAction("Process next step", this))
+    processAction(new QAction("Process next step", this)),
 #endif
+    informationWidget(new InformationWidget(this))
 {
     // Game menu.
     QMenu* gameMenu(menuBar()->addMenu(tr("Game")));
@@ -56,6 +58,9 @@ MainWindow::MainWindow() :
     debugMenu->addAction(processAction);
 #endif
 
+    // Informaiton widget.
+    menuBar()->setCornerWidget(informationWidget);
+
     // Control panel.
     addDockWidget(Qt::RightDockWidgetArea, controlPanel);
 }
@@ -85,6 +90,15 @@ void MainWindow::loadMap(const QString& filePath)
     connect(processAction, &QAction::triggered, currentMap->getProcessor(), &TimeCycleProcessor::forceNextProcess);
 #endif
 
+    // Setup information display
+    informationWidget->updateBudget(currentMap->getCurrentBudget());
+    informationWidget->updatePopulation(currentMap->getCurrentPopulation());
+    auto currentDate(currentMap->getCurrentDate());
+    informationWidget->updateDate(currentDate.getYear(), currentDate.getMonth());
+    connect(currentMap, &Map::budgetChanged, informationWidget, &InformationWidget::updateBudget);
+    connect(currentMap, &Map::populationChanged, informationWidget, &InformationWidget::updatePopulation);
+    connect(currentMap, &Map::dateChanged, informationWidget, &InformationWidget::updateDate);
+
     MapViewer* viewer(new MapViewer(*currentMap));
     setCentralWidget(viewer);
     connect(controlPanel, &ControlPanel::buildingRequested, viewer, &MapViewer::buildingRequest);
@@ -94,12 +108,17 @@ void MainWindow::loadMap(const QString& filePath)
 
 void MainWindow::openSpeedDialog()
 {
-    pauseAction->trigger();
+    bool isPaused(pauseAction->isChecked());
+    if (!isPaused) {
+        pauseAction->trigger();
+    }
     int initialSpeed(currentMap->getProcessor()->getSpeedRatio() * 100.0);
     int speed(QInputDialog::getInt(this, tr("Speed"), tr("Game speed"), initialSpeed, 10, 200, 10));
     if (speed != initialSpeed) {
         emit requestSpeedRatioChange(speed / 100.0);
     }
-    pauseAction->trigger();
+    if (!isPaused) {
+        pauseAction->trigger();
+    }
 }
 

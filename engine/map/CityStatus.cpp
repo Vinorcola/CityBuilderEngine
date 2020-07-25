@@ -11,6 +11,20 @@ CityStatus::CityStatus(QObject* parent, const int initialBudget) :
 
 
 
+int CityStatus::getBudget() const
+{
+    return budget;
+}
+
+
+
+int CityStatus::getPopulation() const
+{
+    return population;
+}
+
+
+
 void CityStatus::updateFreeHousingPlaces(const int delta)
 {
     freeHousingPlaces += delta;
@@ -21,4 +35,6 @@ void CityStatus::updateFreeHousingPlaces(const int delta)
 void CityStatus::updatePopulation(const int delta)
 {
     population += delta;
+
+    emit populationChanged(population);
 }

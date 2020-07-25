@@ -266,6 +266,20 @@ void CycleDate::reset()
 
 
 
+int CycleDate::getYear() const
+{
+    return year;
+}
+
+
+
+int CycleDate::getMonth() const
+{
+    return month;
+}
+
+
+
 QString CycleDate::toString() const
 {
     if (!valid) {

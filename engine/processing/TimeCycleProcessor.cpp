@@ -31,6 +31,13 @@ qreal TimeCycleProcessor::getSpeedRatio() const
 
 
 
+const CycleDate& TimeCycleProcessor::getCurrentDate() const
+{
+    return currentCycleDate;
+}
+
+
+
 void TimeCycleProcessor::registerBuilding(ProcessableBuilding* building)
 {
     buildingProcessor->registerBuilding(building);
@@ -106,6 +113,8 @@ void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
 
 void TimeCycleProcessor::processCycle()
 {
+    auto previousMonth(currentCycleDate.getMonth());
+
     // Increment to cycle date.
     ++currentCycleDate;
     qDebug() << "Process time-cycle" << currentCycleDate.toString();
@@ -117,4 +126,7 @@ void TimeCycleProcessor::processCycle()
     buildingProcessor->process(currentCycleDate);
 
     emit processFinished();
+    if (previousMonth != currentCycleDate.getMonth()) {
+        emit dateChanged(currentCycleDate.getYear(), currentCycleDate.getMonth());
+    }
 }

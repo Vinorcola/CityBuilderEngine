@@ -59,6 +59,7 @@ SOURCES += \
     global/conf/ItemInformation.cpp \
     ui/controlPanel/BuildingButton.cpp \
     ui/controlPanel/ControlPanel.cpp \
+    ui/InformationWidget.cpp \
     ui/MainWindow.cpp \
     viewer/DynamicElement.cpp \
     viewer/MapScene.cpp \
@@ -122,6 +123,7 @@ HEADERS += \
     global/yamlLibraryEnhancement.hpp \
     ui/controlPanel/BuildingButton.hpp \
     ui/controlPanel/ControlPanel.hpp \
+    ui/InformationWidget.hpp \
     ui/MainWindow.hpp \
     viewer/DynamicElement.hpp \
     viewer/MapScene.hpp \

@@ -14,6 +14,7 @@ class CharacterInformation;
 class CityEntryPoint;
 class CityStatus;
 class Conf;
+class CycleDate;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
@@ -109,6 +110,21 @@ class Map : public QObject
          */
         const QLinkedList<Building*>& getBuildings() const;
 
+        /**
+         * @brief Get current budget.
+         */
+        int getCurrentBudget() const;
+
+        /**
+         * @brief Get the current population.
+         */
+        int getCurrentPopulation() const;
+
+        /**
+         * @brief Get the current date for display purpose.
+         */
+        const CycleDate& getCurrentDate() const;
+
     public slots:
         /**
          * @brief Set (or unset) the pause mode.
@@ -160,7 +176,7 @@ class Map : public QObject
         /**
          * @brief Update the total population of the given delta.
          */
-        void populationChanged(const int populationDelta);
+        void changePopulation(const int populationDelta);
 
         /**
          * @brief Update the free housing capacity.
@@ -179,6 +195,9 @@ class Map : public QObject
     signals:
         void buildingCreated(Building* building);
         void characterCreated(Character* character);
+        void budgetChanged(const int budget);
+        void populationChanged(const int population);
+        void dateChanged(const int year, const int month);
 };
 
 #endif // MAP_HPP

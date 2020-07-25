@@ -47,6 +47,9 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
             )
         );
     }
+
+    connect(cityStatus, &CityStatus::populationChanged, this, &Map::populationChanged);
+    connect(processor, &TimeCycleProcessor::dateChanged, this, &Map::dateChanged);
 }
 
 
@@ -167,6 +170,27 @@ const QLinkedList<Character*>& Map::getCharacters() const
 const QLinkedList<Building*>& Map::getBuildings() const
 {
     return buildingList;
+}
+
+
+
+int Map::getCurrentBudget() const
+{
+    return cityStatus->getBudget();
+}
+
+
+
+int Map::getCurrentPopulation() const
+{
+    return cityStatus->getPopulation();
+}
+
+
+
+const CycleDate& Map::getCurrentDate() const
+{
+    return processor->getCurrentDate();
 }
 
 
@@ -294,7 +318,7 @@ void Map::destroyCharacter(Character* character, std::function<void()> afterDest
 
 
 
-void Map::populationChanged(const int populationDelta)
+void Map::changePopulation(const int populationDelta)
 {
     cityStatus->updatePopulation(populationDelta);
 }
