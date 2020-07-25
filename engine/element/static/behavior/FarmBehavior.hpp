@@ -25,6 +25,9 @@ class FarmBehavior : public AbstractActivityBehavior
         virtual void process(const CycleDate& date) override;
 
         virtual bool processInteraction(const CycleDate& date, Character* actor) override;
+
+    signals:
+        void hasProduced(const int quantity);
 };
 
 #endif // FARMBEHAVIOR_HPP

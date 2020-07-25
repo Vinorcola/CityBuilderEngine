@@ -48,7 +48,7 @@ void FarmBehavior::setActivitySpeedRatio(qreal ratio, const CycleDate& currentDa
 
 
 
-bool FarmBehavior::acceptItem(const ItemInformation* itemType) const
+bool FarmBehavior::acceptItem(const ItemInformation* /*itemType*/) const
 {
     return false;
 }
@@ -63,7 +63,9 @@ void FarmBehavior::process(const CycleDate& date)
             remainingGrowthInterval = 0;
         }
         qreal productivityRatio(CycleDate::getCyclesPerYear() / (CycleDate::getCyclesPerYear() + remainingGrowthInterval));
-        // TODO: produce.
+        int quantity(productivityRatio * MAX_QUANTITY);
+
+        emit hasProduced(quantity);
     }
 }
 

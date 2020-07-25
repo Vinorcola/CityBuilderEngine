@@ -23,6 +23,7 @@ class BehaviorInformation : public QObject
         enum class Type {
             None = 0,
             ConditionalRandomWalkerGenerator,
+            DeliverymanGenerator,
             Farm,
             InhabitantContainer,
             ItemStorage,

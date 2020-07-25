@@ -137,6 +137,7 @@ void BehaviorInformation::checkModel(const QString& key, const YAML::Node& model
 BehaviorInformation::Type BehaviorInformation::resolveType(const QString& type)
 {
     if (type == "conditionalRandomWalkerGenerator") return Type::ConditionalRandomWalkerGenerator;
+    if (type == "deliverymanGenerator")             return Type::DeliverymanGenerator;
     if (type == "farm")                             return Type::Farm;
     if (type == "inhabitantContainer")              return Type::InhabitantContainer;
     if (type == "itemStorage")                      return Type::ItemStorage;

@@ -1,6 +1,7 @@
 #include "BehaviorFactory.hpp"
 
 #include "engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp"
+#include "engine/element/static/behavior/DeliverymanGenerator.hpp"
 #include "engine/element/static/behavior/FarmBehavior.hpp"
 #include "engine/element/static/behavior/InhabitantContainer.hpp"
 #include "engine/element/static/behavior/ItemStorage.hpp"
@@ -44,7 +45,13 @@ AbstractBehavior* BehaviorFactory::generate(
             return behavior;
         }
 
-    case BehaviorInformation::Type::Farm: {
+        case BehaviorInformation::Type::DeliverymanGenerator: {
+            auto behavior(new DeliverymanGenerator(issuer, conf->getWalkerConf()));
+
+            return behavior;
+        }
+
+        case BehaviorInformation::Type::Farm: {
             auto behavior(new FarmBehavior(issuer, conf));
 
             return behavior;
@@ -59,7 +66,7 @@ AbstractBehavior* BehaviorFactory::generate(
             return behavior;
         }
 
-    case BehaviorInformation::Type::ItemStorage: {
+        case BehaviorInformation::Type::ItemStorage: {
             auto behavior(new ItemStorage(issuer, conf));
 
             return behavior;

@@ -146,6 +146,10 @@ buildings:
                 type: farm
                 harvestMonth: 7
                 producedItem: wheat
+            -
+                type: deliverymanGenerator
+                walkerType: deliveryman
+                maxWalker: 1
 
 characters:
     athlete:
