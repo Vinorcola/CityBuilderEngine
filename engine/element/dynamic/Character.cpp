@@ -9,14 +9,16 @@ Character::Character(QObject* parent,
     const Map* map,
     const CharacterInformation* conf,
     ProcessableBuilding* issuer,
-    int wanderingCredits
+    int wanderingCredits,
+    owner<CarriedItem*> carriedItem
 ) :
     QObject(parent),
     AbstractProcessable(),
     conf(conf),
     issuer(issuer),
     target(),
-    motionHandler(new MotionHandler(this, map, conf->getSpeed(), issuer->getEntryPoint(), wanderingCredits))
+    motionHandler(new MotionHandler(this, map, conf->getSpeed(), issuer->getEntryPoint(), wanderingCredits)),
+    carriedItem(carriedItem)
 {
     connect(motionHandler, &MotionHandler::wanderingCreditsExpired, [this]() {
         target = this->issuer;
@@ -26,10 +28,35 @@ Character::Character(QObject* parent,
 
 
 
+Character::~Character()
+{
+    if (carriedItem) {
+        delete carriedItem;
+    }
+}
+
+
+
 void Character::assignTarget(ProcessableBuilding* target)
 {
     this->target = target;
     motionHandler->setTarget(target->getEntryPoint());
+}
+
+
+
+owner<Character::CarriedItem*> Character::takeCarriedItems(const int maxQuantity)
+{
+    if (carriedItem->quantity <= maxQuantity) {
+        auto items(carriedItem);
+        carriedItem = nullptr;
+
+        return items;
+    } else {
+        carriedItem->quantity -= maxQuantity;
+
+        return new CarriedItem(carriedItem->conf, maxQuantity);
+    }
 }
 
 

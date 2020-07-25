@@ -7,9 +7,11 @@
 #include "engine/element/static/ProcessableBuilding.hpp"
 #include "engine/map/MapCoordinates.hpp"
 #include "engine/processing/AbstractProcessable.hpp"
+#include "defines.hpp"
 
 class CycleDate;
 class CharacterInformation;
+class ItemInformation;
 class Map;
 class MotionHandler;
 
@@ -31,11 +33,23 @@ class Character : public QObject, public AbstractProcessable
 {
         Q_OBJECT
 
+    public:
+        struct CarriedItem {
+            const ItemInformation* conf;
+            int quantity;
+
+            CarriedItem(const ItemInformation* conf, const int quantity) :
+                conf(conf),
+                quantity(quantity)
+            {}
+        };
+
     private:
         const CharacterInformation* conf;
         QPointer<ProcessableBuilding> issuer;///< The issuer building.
         QPointer<ProcessableBuilding> target;///< The target building.
         MotionHandler* motionHandler;///< A helper that will handle character's motion.
+        owner<CarriedItem*> carriedItem;
 
     public:
         Character(
@@ -43,10 +57,15 @@ class Character : public QObject, public AbstractProcessable
             const Map* map,
             const CharacterInformation* conf,
             ProcessableBuilding* issuer,
-            int wanderingCredits = 0
+            int wanderingCredits = 0,
+            owner<CarriedItem*> carriedItem = nullptr
         );
 
+        virtual ~Character();
+
         void assignTarget(ProcessableBuilding* target);
+
+        owner<CarriedItem*> takeCarriedItems(const int maxQuantity);
 
         const CharacterInformation* getConf() const;
 

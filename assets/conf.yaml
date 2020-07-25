@@ -160,6 +160,9 @@ characters:
         type: randomWalker
         speed: 2.0
         wanderingCredits: 34
+    deliveryman:
+        type: targetedWalker
+        speed: 2.0
     healer:
         type: randomWalker
         speed: 2.0
