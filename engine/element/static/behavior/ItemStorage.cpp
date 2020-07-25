@@ -7,7 +7,7 @@
 
 
 ItemStorage::ItemStorage(ProcessableBuilding* issuer, const BehaviorInformation* behaviorInformation) :
-    AbstractBehavior(issuer),
+    AbstractActivityBehavior(issuer),
     issuer(issuer),
     availableItems(behaviorInformation->getItems()),
     storage()
@@ -22,6 +22,26 @@ ItemStorage::ItemStorage(ProcessableBuilding* issuer, const BehaviorInformation*
 ItemStorage::~ItemStorage()
 {
     qDeleteAll(storage);
+}
+
+
+
+void ItemStorage::setActivitySpeedRatio(qreal ratio, const CycleDate& /*currentDate*/)
+{
+    assert(ratio >= 0.0);
+    assert(ratio <= 1.0);
+
+    activitySpeedRatio = ratio;
+}
+
+
+
+bool ItemStorage::acceptItem(const ItemInformation* itemType) const
+{
+    // TODO: Take activity into account.
+    // TODO: Take current stock into account.
+
+    return availableItems.contains(itemType);
 }
 
 

@@ -80,6 +80,13 @@ void AbstractWalkerGenerator::setActivitySpeedRatio(qreal ratio, const CycleDate
 
 
 
+bool AbstractWalkerGenerator::acceptItem(const ItemInformation* /*itemType*/) const
+{
+    return false;
+}
+
+
+
 void AbstractWalkerGenerator::process(const CycleDate& date)
 {
     if (needToSetupNextGenerationDate) {

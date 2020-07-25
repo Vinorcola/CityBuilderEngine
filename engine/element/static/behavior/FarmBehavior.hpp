@@ -20,6 +20,8 @@ class FarmBehavior : public AbstractActivityBehavior
 
         virtual void setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate) override;
 
+        virtual bool acceptItem(const ItemInformation* itemType) const override;
+
         virtual void process(const CycleDate& date) override;
 
         virtual bool processInteraction(const CycleDate& date, Character* actor) override;

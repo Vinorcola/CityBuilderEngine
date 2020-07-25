@@ -48,6 +48,13 @@ void FarmBehavior::setActivitySpeedRatio(qreal ratio, const CycleDate& currentDa
 
 
 
+bool FarmBehavior::acceptItem(const ItemInformation* itemType) const
+{
+    return false;
+}
+
+
+
 void FarmBehavior::process(const CycleDate& date)
 {
     if (date.isFirstCycleOfMonth() && date.getMonth() == conf->getHarvestMonth()) {

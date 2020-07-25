@@ -80,6 +80,20 @@ void ProcessableBuilding::notifyWalkerDestruction()
 
 
 
+bool ProcessableBuilding::acceptItem(const ItemInformation* itemType) const
+{
+    for (auto behavior : behaviors) {
+        auto activityBehavior(dynamic_cast<AbstractActivityBehavior*>(behavior));
+        if (activityBehavior && activityBehavior->acceptItem(itemType)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+
 const QList<AbstractBehavior*>& ProcessableBuilding::getBehaviors() const
 {
     return behaviors;

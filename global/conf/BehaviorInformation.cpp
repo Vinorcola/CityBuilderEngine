@@ -41,7 +41,7 @@ void BehaviorInformation::resolveDependencies(const Conf* conf)
 {
     if (targetSearchCriteriaDescription) {
         targetSearchCriteria.reset(
-            new BuildingSearchCriteria(conf->getBuildingConf(targetSearchCriteriaDescription->getTargetKey()))
+            new BuildingSearchCriteria({ conf->getBuildingConf(targetSearchCriteriaDescription->getTargetKey()) })
         );
     }
 }
