@@ -21,6 +21,17 @@ buildings:
                 walkerType: waterBearer
                 maxWalkers: 1
                 generationInterval: 8
+    granary:
+        type: building
+        title: Granary
+        size: 4
+        price: 0 # TODO: set the value
+        employees: 0 # TODO: set the value
+        damageRisk: 0 # TODO: set the value
+        behaviors:
+            -
+                type: itemStorage
+                items: [ carrots, cheese, fish, meat, onions, urchin, wheat ]
     gymnasium:
         type: building
         title: Gymnasium
@@ -126,34 +137,70 @@ characters:
     athlete:
         type: randomWalker
         speed: 2.0
-        walkingCredit: 34
+        wanderingCredits: 34
     clerk:
         type: randomWalker
         speed: 2.0
-        walkingCredit: 34
+        wanderingCredits: 34
     competitor:
         type: randomWalker
         speed: 2.0
-        walkingCredit: 34
+        wanderingCredits: 34
     healer:
         type: randomWalker
         speed: 2.0
-        walkingCredit: 26
+        wanderingCredits: 26
     immigrant:
         type: targetedWalker
         speed: 2.0
     superintendent:
         type: randomWalker
         speed: 2.0
-        walkingCredit: 43
+        wanderingCredits: 43
     watchman:
         type: randomWalker
         speed: 2.0
-        walkingCredit: 43
+        wanderingCredits: 43
     waterBearer:
         type: randomWalker
         speed: 2.0
-        walkingCredit: 26
+        wanderingCredits: 26
+
+items:
+    armor:
+        title: Armor
+    bronze:
+        title: Bronze
+    carrots:
+        title: Carrots
+    cheese:
+        title: Cheese
+    fish:
+        title: Fish
+    fleece:
+        title: Fleece
+    grapes:
+        title: Grapes
+    marble:
+        title: Marble
+    meat:
+        title: Meat
+    oliveOil:
+        title: Olive oil
+    olives:
+        title: Olives
+    onions:
+        title: Onions
+    sculpture:
+        title: Sculpture
+    urchin:
+        title: Urchin
+    wheat:
+        title: Wheat
+    wine:
+        title: Wine
+    wood:
+        title: Wood
 
 controlPanel:
     content:
@@ -164,7 +211,7 @@ controlPanel:
                 -
                     title: Common Housing
                     type: button
-                    staticElement: house
+                    building: house
         -
             title: Hygiene/Safety
             type: panel
@@ -172,19 +219,27 @@ controlPanel:
                 -
                     title: Maintenance Office
                     type: button
-                    staticElement: maintenance
+                    building: maintenance
                 -
                     title: Infirmary
                     type: button
-                    staticElement: infirmary
+                    building: infirmary
                 -
                     title: Fountain
                     type: button
-                    staticElement: fountain
+                    building: fountain
                 -
                     title: Watchpost
                     type: button
-                    staticElement: watchpost
+                    building: watchpost
+        -
+            title: Storage
+            type: panel
+            content:
+                -
+                    title: Granary
+                    type: button
+                    building: granary
         -
             title: Administration
             type: panel
@@ -192,7 +247,7 @@ controlPanel:
                 -
                     title: Tax Office
                     type: button
-                    staticElement: taxOffice
+                    building: taxOffice
         -
             title: Culture
             type: panel
@@ -200,12 +255,12 @@ controlPanel:
             -
                 title: Gymnasium
                 type: button
-                staticElement: gymnasium
+                building: gymnasium
             -
                 title: Stadium
                 type: button
-                staticElement: stadium
+                building: stadium
         -
             title: Road
             type: button
-            staticElement: road
+            building: road

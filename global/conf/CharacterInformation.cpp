@@ -16,7 +16,7 @@ CharacterInformation::CharacterInformation(QObject* parent, const QString& key, 
 #else
     speed(model["speed"] ? model["speed"].as<qreal>() / CYCLE_PER_SECOND : 0.0),
 #endif
-    walkingCredit(model["walkingCredit"] ? model["walkingCredit"].as<int>() : 0),
+    wanderingCredits(model["wanderingCredits"] ? model["wanderingCredits"].as<int>() : 0),
     image("assets/img/dynamic/" + key + "/character.png")
 {
 
@@ -52,9 +52,9 @@ qreal CharacterInformation::getSpeed() const
 
 
 
-int CharacterInformation::getWalkingCredit() const
+int CharacterInformation::getWanderingCredits() const
 {
-    return walkingCredit;
+    return wanderingCredits;
 }
 
 

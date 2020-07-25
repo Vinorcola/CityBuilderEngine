@@ -2,6 +2,7 @@
 
 #include "engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp"
 #include "engine/element/static/behavior/InhabitantContainer.hpp"
+#include "engine/element/static/behavior/ItemStorage.hpp"
 #include "engine/element/static/behavior/QueuedWalkerGenerator.hpp"
 #include "engine/element/static/behavior/RandomWalkerGenerator.hpp"
 #include "engine/element/static/behavior/TargetedWalkerGenerator.hpp"
@@ -47,6 +48,12 @@ AbstractBehavior* BehaviorFactory::generate(
             connect(behavior, &InhabitantContainer::requestDynamicElementDestruction, map, &Map::destroyCharacter);
             connect(behavior, &InhabitantContainer::freeCapacityChanged, map, &Map::freeHousingCapacityChanged);
             connect(behavior, &InhabitantContainer::inhabitantsChanged, map, &Map::populationChanged);
+
+            return behavior;
+        }
+
+    case BehaviorInformation::Type::ItemStorage: {
+            auto behavior(new ItemStorage(issuer, conf));
 
             return behavior;
         }

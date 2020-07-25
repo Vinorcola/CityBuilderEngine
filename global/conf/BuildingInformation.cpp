@@ -6,15 +6,16 @@
 #include "global/conf/BehaviorInformation.hpp"
 #include "global/conf/Conf.hpp"
 #include "global/conf/BuildingSearchCriteriaDescription.hpp"
+#include "global/yamlLibraryEnhancement.hpp"
 #include "defines.hpp"
 
 
 
 BuildingInformation::BuildingInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model) :
     QObject(parent),
-    type(resolveType(QString::fromStdString(model["type"].as<std::string>()))),
+    type(resolveType(model["type"].as<QString>())),
     key(key),
-    title(model["title"] ? QString::fromStdString(model["title"].as<std::string>()) : ""),
+    title(model["title"] ? model["title"].as<QString>() : ""),
     size(model["size"] ? model["size"].as<int>() : 1),
     price(model["price"] ? model["price"].as<int>() : 0),
     employees(model["employees"] ? model["employees"].as<int>() : 0),
