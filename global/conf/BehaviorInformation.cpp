@@ -24,7 +24,9 @@ BehaviorInformation::BehaviorInformation(QObject* parent, const Conf* conf, cons
         new BuildingSearchCriteriaDescription(this, model["targetSearchCriteria"]) :
         nullptr
     ),
-    targetSearchCriteria()
+    targetSearchCriteria(),
+    harvestMonth(model["harvestMonth"] ? model["harvestMonth"].as<int>() : 0),
+    producedItem(model["producedItem"] ? conf->getItemConf(model["producedItem"].as<QString>()) : nullptr)
 {
     if (model["items"]) {
         for (auto node : model["items"]) {
@@ -109,6 +111,20 @@ const BuildingSearchCriteria* BehaviorInformation::getTargetSearchCriteria() con
 
 
 
+int BehaviorInformation::getHarvestMonth() const
+{
+    return harvestMonth;
+}
+
+
+
+const ItemInformation* BehaviorInformation::getProducedItem() const
+{
+    return producedItem;
+}
+
+
+
 void BehaviorInformation::checkModel(const QString& key, const YAML::Node& model)
 {
     if (!model["type"]) {
@@ -121,6 +137,7 @@ void BehaviorInformation::checkModel(const QString& key, const YAML::Node& model
 BehaviorInformation::Type BehaviorInformation::resolveType(const QString& type)
 {
     if (type == "conditionalRandomWalkerGenerator") return Type::ConditionalRandomWalkerGenerator;
+    if (type == "farm")                             return Type::Farm;
     if (type == "inhabitantContainer")              return Type::InhabitantContainer;
     if (type == "itemStorage")                      return Type::ItemStorage;
     if (type == "queuedWalkerGenerator")            return Type::QueuedWalkerGenerator;

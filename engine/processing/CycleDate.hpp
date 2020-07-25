@@ -6,8 +6,12 @@
 /**
  * @brief Represent a date of the time-cycle processor.
  *
- * Currently, the date is simply an integer starting at 1 and incrementing at each cycle. But in the future, it could
- * become something more sophisticated.
+ * A date is composed of a year and a month. The month is then divided into cycles. The number of cycles in a month
+ * depends on the number of cycles per seconds configured. A month should last 20 seconds.
+ *
+ * A date can be invalid. An invalid date is created with the empty constructor or by using the reset() method. By
+ * convention, an invalid date is considered lower than a valid date. Furthermore, 2 invalid dates are considered
+ * different. Comparison should not be used between 2 invalid dates.
  */
 class CycleDate
 {
@@ -98,8 +102,12 @@ class CycleDate
 
         int getMonth() const;
 
+        bool isFirstCycleOfMonth() const;
+
         // DEBUG //
         QString toString() const;
+
+        static int getCyclesPerYear();
 };
 
 #endif // CYCLEDATE_HPP

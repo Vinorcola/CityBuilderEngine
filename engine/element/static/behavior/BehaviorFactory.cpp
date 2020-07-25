@@ -1,6 +1,7 @@
 #include "BehaviorFactory.hpp"
 
 #include "engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp"
+#include "engine/element/static/behavior/FarmBehavior.hpp"
 #include "engine/element/static/behavior/InhabitantContainer.hpp"
 #include "engine/element/static/behavior/ItemStorage.hpp"
 #include "engine/element/static/behavior/QueuedWalkerGenerator.hpp"
@@ -39,6 +40,12 @@ AbstractBehavior* BehaviorFactory::generate(
             ));
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createCharacter);
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyCharacter);
+
+            return behavior;
+        }
+
+    case BehaviorInformation::Type::Farm: {
+            auto behavior(new FarmBehavior(issuer, conf));
 
             return behavior;
         }

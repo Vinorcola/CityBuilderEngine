@@ -15,7 +15,6 @@ AbstractWalkerGenerator::AbstractWalkerGenerator(
     walkerConf(walkerConf),
     generationInterval(generationInterval),
     maxWalkers(maxWalkers),
-    generationSpeedRatio(0.0),
     needToSetupNextGenerationDate(true),
     nextGenerationDate()
 {
@@ -55,12 +54,12 @@ void AbstractWalkerGenerator::clean()
 void AbstractWalkerGenerator::setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate)
 {
     // If ratio does not change, we avoid useless calculations.
-    if (generationSpeedRatio == ratio) {
+    if (activitySpeedRatio == ratio) {
         return;
     }
 
     if (ratio <= 0.0) {
-        generationSpeedRatio = 0.0;
+        activitySpeedRatio = 0.0;
         nextGenerationDate.reset();
     } else {
         if (ratio > 1.0) {
@@ -70,10 +69,10 @@ void AbstractWalkerGenerator::setActivitySpeedRatio(qreal ratio, const CycleDate
         // Calculate the next generation date and setup ratio.
         if (nextGenerationDate) {
             int dateInterval(nextGenerationDate - currentDate);
-            nextGenerationDate.reassign(currentDate, dateInterval * ratio / generationSpeedRatio);
-            generationSpeedRatio = ratio;
-        } else if (generationSpeedRatio == 0.0) {
-            generationSpeedRatio = ratio;
+            nextGenerationDate.reassign(currentDate, dateInterval * ratio / activitySpeedRatio);
+            activitySpeedRatio = ratio;
+        } else if (activitySpeedRatio == 0.0) {
+            activitySpeedRatio = ratio;
             setupNextGenerationDate(currentDate);
         }
     }
@@ -113,7 +112,7 @@ bool AbstractWalkerGenerator::processInteraction(const CycleDate& date, Characte
 bool AbstractWalkerGenerator::canSetupNextGenerationDate(const CycleDate& currentDate) const
 {
     return
-        generationSpeedRatio > 0.0 &&
+        activitySpeedRatio > 0.0 &&
         walkers.size() < maxWalkers &&
         nextGenerationDate <= currentDate;
 }
@@ -123,7 +122,7 @@ bool AbstractWalkerGenerator::canSetupNextGenerationDate(const CycleDate& curren
 void AbstractWalkerGenerator::setupNextGenerationDate(const CycleDate& currentDate)
 {
     if (canSetupNextGenerationDate(currentDate)) {
-        nextGenerationDate.reassign(currentDate, generationInterval * generationSpeedRatio);
+        nextGenerationDate.reassign(currentDate, generationInterval * activitySpeedRatio);
     }
 
     needToSetupNextGenerationDate = false;

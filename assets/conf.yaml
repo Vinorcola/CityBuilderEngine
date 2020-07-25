@@ -28,6 +28,7 @@ buildings:
         price: 0 # TODO: set the value
         employees: 0 # TODO: set the value
         damageRisk: 0 # TODO: set the value
+        fireRisk: 0 # TODO: set the value
         behaviors:
             -
                 type: itemStorage
@@ -132,6 +133,19 @@ buildings:
                 walkerType: watchman
                 maxWalkers: 1
                 generationInterval: 8
+    wheatFarm:
+        type: building
+        title: Wheat farm
+        size: 3
+        price: 45
+        employees: 10
+        damageRisk: 5
+        fireRisk: 10
+        behaviors:
+            -
+                type: farm
+                harvestMonth: 7
+                producedItem: wheat
 
 characters:
     athlete:
@@ -212,6 +226,14 @@ controlPanel:
                     title: Common Housing
                     type: button
                     building: house
+        -
+            title: Husbandry
+            type: panel
+            content:
+                -
+                    title: Wheat farm
+                    type: button
+                    building: wheatFarm
         -
             title: Hygiene/Safety
             type: panel

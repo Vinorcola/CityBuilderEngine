@@ -13,6 +13,9 @@ class AbstractActivityBehavior : public AbstractBehavior
 {
         Q_OBJECT
 
+    protected:
+        qreal activitySpeedRatio;
+
     public:
         AbstractActivityBehavior(QObject* parent);
 

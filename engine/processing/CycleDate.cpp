@@ -280,6 +280,13 @@ int CycleDate::getMonth() const
 
 
 
+bool CycleDate::isFirstCycleOfMonth() const
+{
+    return cycles == 0;
+}
+
+
+
 QString CycleDate::toString() const
 {
     if (!valid) {
@@ -287,4 +294,11 @@ QString CycleDate::toString() const
     }
 
     return QString::number(year) + '-' + (month < 10 ? "0" : "") + QString::number(month) + '-' + QString::number(cycles);
+}
+
+
+
+int CycleDate::getCyclesPerYear()
+{
+    return CYCLES_PER_MONTH * MONTHS_PER_YEAR;
 }

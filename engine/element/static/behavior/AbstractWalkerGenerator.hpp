@@ -28,7 +28,6 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
         const CharacterInformation* walkerConf;
         const int generationInterval;
         const int maxWalkers;
-        qreal generationSpeedRatio;
         bool needToSetupNextGenerationDate;
         CycleDate nextGenerationDate;
         QList<QPointer<Character>> walkers;
