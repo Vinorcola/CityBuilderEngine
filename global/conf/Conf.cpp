@@ -5,11 +5,14 @@
 #include "global/conf/BuildingInformation.hpp"
 #include "global/conf/CharacterInformation.hpp"
 #include "global/conf/ControlPanelElementInformation.hpp"
+#include "global/conf/ItemInformation.hpp"
+#include "global/yamlLibraryEnhancement.hpp"
 
 
 
 Conf::Conf(QObject* parent, const QString& filePath) :
     QObject(parent),
+    items(),
     buildings(),
     characters(),
     controlPanelElements()
@@ -17,15 +20,22 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     // Load file.
     YAML::Node configurationRoot(YAML::LoadFile(filePath.toStdString()));
 
+    // Load item's configuration.
+    for (auto node : configurationRoot["items"]) {
+        QString key(node.first.as<QString>());
+        ItemInformation::checkModel(key, node.second);
+        items.insert(key, new ItemInformation(this, key, node.second));
+    }
+
     // Load characters' configuration.
     for (auto node : configurationRoot["characters"]) {
-        QString key(QString::fromStdString(node.first.as<std::string>()));
+        QString key(node.first.as<QString>());
         characters.insert(key, new CharacterInformation(this, key, node.second));
     }
 
     // Load buildings' configuration.
     for (auto node : configurationRoot["buildings"]) {
-        QString key(QString::fromStdString(node.first.as<std::string>()));
+        QString key(node.first.as<QString>());
         BuildingInformation::checkModel(key, node.second);
         buildings.insert(key, new BuildingInformation(this, this, key, node.second));
     }
@@ -44,16 +54,23 @@ Conf::Conf(QObject* parent, const QString& filePath) :
 
 
 
-const CharacterInformation* Conf::getCharacterConf(const QString& elementKey) const
+const ItemInformation* Conf::getItemConf(const QString& key) const
 {
-    return characters.value(elementKey);
+    return items.value(key);
 }
 
 
 
-const BuildingInformation* Conf::getBuildingConf(const QString& elementKey) const
+const CharacterInformation* Conf::getCharacterConf(const QString& key) const
 {
-    return buildings.value(elementKey);
+    return characters.value(key);
+}
+
+
+
+const BuildingInformation* Conf::getBuildingConf(const QString& key) const
+{
+    return buildings.value(key);
 }
 
 

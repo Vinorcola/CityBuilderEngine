@@ -155,6 +155,42 @@ characters:
         speed: 2.0
         walkingCredit: 26
 
+items:
+    armor:
+        title: Armor
+    bronze:
+        title: Bronze
+    carrots:
+        title: Carrots
+    cheese:
+        title: Cheese
+    fish:
+        title: Fish
+    fleece:
+        title: Fleece
+    grapes:
+        title: Grapes
+    marble:
+        title: Marble
+    meat:
+        title: Meat
+    oliveOil:
+        title: Olive oil
+    olives:
+        title: Olives
+    onions:
+        title: Onions
+    sculpture:
+        title: Sculpture
+    urchin:
+        title: Urchin
+    wheat:
+        title: Wheat
+    wine:
+        title: Wine
+    wood:
+        title: Wood
+
 controlPanel:
     content:
         -

@@ -2,11 +2,13 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include "global/yamlLibraryEnhancement.hpp"
+
 
 
 BuildingSearchCriteriaDescription::BuildingSearchCriteriaDescription(QObject* parent, const YAML::Node& model) :
     QObject(parent),
-    targetKey(model["type"] ? QString::fromStdString(model["type"].as<std::string>()) : "")
+    targetKey(model["type"] ? model["type"].as<QString>() : "")
 {
 
 }

@@ -25,7 +25,7 @@ class InhabitantContainer : public AbstractBehavior
         QPointer<Character> currentImmigrant;
 
     public:
-        InhabitantContainer(ProcessableBuilding* issuer);
+        explicit InhabitantContainer(ProcessableBuilding* issuer);
 
         virtual void init(const CycleDate& date) override;
 

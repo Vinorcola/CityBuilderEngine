@@ -55,6 +55,7 @@ SOURCES += \
     global/conf/CharacterInformation.cpp \
     global/conf/Conf.cpp \
     global/conf/ControlPanelElementInformation.cpp \
+    global/conf/ItemInformation.cpp \
     ui/controlPanel/BuildingButton.cpp \
     ui/controlPanel/ControlPanel.cpp \
     ui/MainWindow.cpp \
@@ -115,6 +116,7 @@ HEADERS += \
     global/conf/CharacterInformation.hpp \
     global/conf/Conf.hpp \
     global/conf/ControlPanelElementInformation.hpp \
+    global/conf/ItemInformation.hpp \
     global/yamlLibraryEnhancement.hpp \
     ui/controlPanel/BuildingButton.hpp \
     ui/controlPanel/ControlPanel.hpp \

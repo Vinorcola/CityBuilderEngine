@@ -9,12 +9,14 @@
 class BuildingInformation;
 class CharacterInformation;
 class ControlPanelElementInformation;
+class ItemInformation;
 
 class Conf : public QObject
 {
         Q_OBJECT
 
     private:
+        QHash<QString, ItemInformation*> items;
         QHash<QString, BuildingInformation*> buildings;
         QHash<QString, CharacterInformation*> characters;
         QList<ControlPanelElementInformation*> controlPanelElements;
@@ -22,9 +24,11 @@ class Conf : public QObject
     public:
         Conf(QObject* parent, const QString& filePath);
 
-        const CharacterInformation* getCharacterConf(const QString& elementKey) const;
+        const ItemInformation* getItemConf(const QString& key) const;
 
-        const BuildingInformation* getBuildingConf(const QString& elementKey) const;
+        const CharacterInformation* getCharacterConf(const QString& key) const;
+
+        const BuildingInformation* getBuildingConf(const QString& key) const;
 
         const QList<ControlPanelElementInformation*> getControlPanelElements() const;
 };
