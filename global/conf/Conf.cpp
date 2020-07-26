@@ -6,6 +6,7 @@
 #include "global/conf/CharacterInformation.hpp"
 #include "global/conf/ControlPanelElementInformation.hpp"
 #include "global/conf/ItemInformation.hpp"
+#include "global/conf/NatureElementInformation.hpp"
 #include "global/yamlLibraryEnhancement.hpp"
 
 
@@ -15,6 +16,7 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     items(),
     buildings(),
     characters(),
+    natureElements(),
     controlPanelElements()
 {
     // Load file.
@@ -38,6 +40,13 @@ Conf::Conf(QObject* parent, const QString& filePath) :
         QString key(node.first.as<QString>());
         BuildingInformation::checkModel(key, node.second);
         buildings.insert(key, new BuildingInformation(this, this, key, node.second));
+    }
+
+    // Load nature elements' configuration.
+    for (auto node : configurationRoot["natureElements"]) {
+        QString key(node.first.as<QString>());
+        NatureElementInformation::checkModel(key, node.second);
+        natureElements.insert(key, new NatureElementInformation(this, key, node.second));
     }
 
     // Resolve dependencies.

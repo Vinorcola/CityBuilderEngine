@@ -59,6 +59,7 @@ SOURCES += \
     global/conf/Conf.cpp \
     global/conf/ControlPanelElementInformation.cpp \
     global/conf/ItemInformation.cpp \
+    global/conf/NatureElementInformation.cpp \
     ui/controlPanel/BuildingButton.cpp \
     ui/controlPanel/ControlPanel.cpp \
     ui/InformationWidget.cpp \
@@ -124,6 +125,7 @@ HEADERS += \
     global/conf/Conf.hpp \
     global/conf/ControlPanelElementInformation.hpp \
     global/conf/ItemInformation.hpp \
+    global/conf/NatureElementInformation.hpp \
     global/yamlLibraryEnhancement.hpp \
     ui/controlPanel/BuildingButton.hpp \
     ui/controlPanel/ControlPanel.hpp \
@@ -139,7 +141,8 @@ HEADERS += \
 
 DISTFILES += \
     assets/conf.yaml \
-    assets/save/testing.yaml \
+    assets/save/testing-a.yaml \
+    assets/save/testing-b.yaml \
     README.md
 
 unix: CONFIG += link_pkgconfig

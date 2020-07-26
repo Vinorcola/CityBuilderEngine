@@ -10,6 +10,7 @@ class BuildingInformation;
 class CharacterInformation;
 class ControlPanelElementInformation;
 class ItemInformation;
+class NatureElementInformation;
 
 class Conf : public QObject
 {
@@ -19,6 +20,7 @@ class Conf : public QObject
         QHash<QString, ItemInformation*> items;
         QHash<QString, BuildingInformation*> buildings;
         QHash<QString, CharacterInformation*> characters;
+        QHash<QString, NatureElementInformation*> natureElements;
         QList<ControlPanelElementInformation*> controlPanelElements;
 
     public:

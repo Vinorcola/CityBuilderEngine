@@ -36,13 +36,13 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     buildingList(),
     entryPoint()
 {
-    // Load static elements.
-    for (auto elementInfo : loader.getStaticElements()) {
-        auto elementConf(conf->getBuildingConf(QString::fromStdString(elementInfo["type"].as<std::string>())));
+    // Load buildings.
+    for (auto buildingInfo : loader.getBuildings()) {
+        auto elementConf(conf->getBuildingConf(QString::fromStdString(buildingInfo["type"].as<std::string>())));
         createBuilding(
             elementConf,
             MapArea(
-                MapCoordinates(elementInfo["position"]["x"].as<int>(), elementInfo["position"]["y"].as<int>()),
+                MapCoordinates(buildingInfo["position"]["x"].as<int>(), buildingInfo["position"]["y"].as<int>()),
                 elementConf->getSize()
             )
         );

@@ -223,6 +223,14 @@ items:
     wood:
         title: Wood
 
+nature:
+    copper:
+        title: Copper
+    silver:
+        title: Silver
+    wood:
+        title: Wood
+
 controlPanel:
     content:
         -
