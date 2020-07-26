@@ -6,16 +6,25 @@
 /**
  * @brief Represent a date of the time-cycle processor.
  *
- * Currently, the date is simply an integer starting at 1 and incrementing at each cycle. But in the future, it could
- * become something more sophisticated.
+ * A date is composed of a year and a month. The month is then divided into cycles. The number of cycles in a month
+ * depends on the number of cycles per seconds configured. A month should last 20 seconds.
+ *
+ * A date can be invalid. An invalid date is created with the empty constructor or by using the reset() method. By
+ * convention, an invalid date is considered lower than a valid date. Furthermore, 2 invalid dates are considered
+ * different. Comparison should not be used between 2 invalid dates.
  */
 class CycleDate
 {
     private:
+        bool valid;
+        int year;
+        int month;
         int cycles;
 
     public:
         CycleDate();
+
+        CycleDate(const int year, const int month, const int cycles = 0);
 
         /**
          * @brief Copy a date and optionally add an interval.
@@ -28,16 +37,16 @@ class CycleDate
         void operator =(const CycleDate& other);
 
         /**
-         * @brief Copy the other cycle date.
-         */
-        void operator =(const CycleDate&& other);
-
-        /**
-         * @brief Convert to boolean.
+         * @brief Indicate if the date is valid.
          *
-         * An empty date (initialized from the empty constructor) is false.
+         * An empty date (initialized from the empty constructor) is invalid.
          */
         operator bool();
+
+        /**
+         * @brief Indicate if the date is invlid.
+         */
+        bool operator !();
 
         /**
          * @brief Increment the date to the next date (pass 1 cycle).
@@ -89,8 +98,16 @@ class CycleDate
          */
         void reset();
 
+        int getYear() const;
+
+        int getMonth() const;
+
+        bool isFirstCycleOfMonth() const;
+
         // DEBUG //
         QString toString() const;
+
+        static int getCyclesPerYear();
 };
 
 #endif // CYCLEDATE_HPP

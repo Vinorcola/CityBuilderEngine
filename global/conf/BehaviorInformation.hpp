@@ -23,6 +23,8 @@ class BehaviorInformation : public QObject
         enum class Type {
             None = 0,
             ConditionalRandomWalkerGenerator,
+            DeliverymanGenerator,
+            Farm,
             InhabitantContainer,
             ItemStorage,
             QueuedWalkerGenerator,
@@ -41,6 +43,8 @@ class BehaviorInformation : public QObject
         QList<const ItemInformation*> items;
         const BuildingSearchCriteriaDescription* targetSearchCriteriaDescription;
         QScopedPointer<BuildingSearchCriteria> targetSearchCriteria;
+        const int harvestMonth;
+        const ItemInformation* producedItem;
 
     public:
         BehaviorInformation(QObject* parent, const Conf* conf, const YAML::Node& model);
@@ -64,6 +68,10 @@ class BehaviorInformation : public QObject
         const QList<const ItemInformation*>& getItems() const;
 
         const BuildingSearchCriteria* getTargetSearchCriteria() const;
+
+        int getHarvestMonth() const;
+
+        const ItemInformation* getProducedItem() const;
 
         /**
          * @brief Check if the model for a behavior is valid.

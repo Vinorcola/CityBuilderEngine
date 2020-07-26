@@ -1,7 +1,10 @@
-#ifndef STATICSEARCHCRITERIA_HPP
-#define STATICSEARCHCRITERIA_HPP
+#ifndef BUILDINGSEARCHCRITERIA_HPP
+#define BUILDINGSEARCHCRITERIA_HPP
+
+#include <QtCore/QList>
 
 class BuildingInformation;
+class ItemInformation;
 
 /**
  * @brief Criteria for searching a building in the search engine.
@@ -9,12 +12,18 @@ class BuildingInformation;
 class BuildingSearchCriteria
 {
     private:
-        const BuildingInformation* conf;
+        QList<const BuildingInformation*> allowedBuildingTypes;
+        const ItemInformation* acceptingItem;
 
     public:
-        explicit BuildingSearchCriteria(const BuildingInformation* conf);
+        explicit BuildingSearchCriteria(
+            const QList<const BuildingInformation*>& allowedBuildingTypes,
+            const ItemInformation* acceptingItem = nullptr
+        );
 
-        const BuildingInformation* getConf() const;
+        const QList<const BuildingInformation*>& getAllowedBuildingTypes() const;
+
+        const ItemInformation* getAcceptingItem() const;
 };
 
-#endif // STATICSEARCHCRITERIA_HPP
+#endif // BUILDINGSEARCHCRITERIA_HPP

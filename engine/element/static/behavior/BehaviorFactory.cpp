@@ -1,6 +1,8 @@
 #include "BehaviorFactory.hpp"
 
 #include "engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp"
+#include "engine/element/static/behavior/DeliverymanGenerator.hpp"
+#include "engine/element/static/behavior/FarmBehavior.hpp"
 #include "engine/element/static/behavior/InhabitantContainer.hpp"
 #include "engine/element/static/behavior/ItemStorage.hpp"
 #include "engine/element/static/behavior/QueuedWalkerGenerator.hpp"
@@ -43,16 +45,28 @@ AbstractBehavior* BehaviorFactory::generate(
             return behavior;
         }
 
-        case BehaviorInformation::Type::InhabitantContainer: {
-            auto behavior(new InhabitantContainer(issuer));
-            connect(behavior, &InhabitantContainer::requestDynamicElementDestruction, map, &Map::destroyCharacter);
-            connect(behavior, &InhabitantContainer::freeCapacityChanged, map, &Map::freeHousingCapacityChanged);
-            connect(behavior, &InhabitantContainer::inhabitantsChanged, map, &Map::populationChanged);
+        case BehaviorInformation::Type::DeliverymanGenerator: {
+            auto behavior(new DeliverymanGenerator(issuer, conf->getWalkerConf()));
 
             return behavior;
         }
 
-    case BehaviorInformation::Type::ItemStorage: {
+        case BehaviorInformation::Type::Farm: {
+            auto behavior(new FarmBehavior(issuer, conf));
+
+            return behavior;
+        }
+
+        case BehaviorInformation::Type::InhabitantContainer: {
+            auto behavior(new InhabitantContainer(issuer));
+            connect(behavior, &InhabitantContainer::requestDynamicElementDestruction, map, &Map::destroyCharacter);
+            connect(behavior, &InhabitantContainer::freeCapacityChanged, map, &Map::freeHousingCapacityChanged);
+            connect(behavior, &InhabitantContainer::inhabitantsChanged, map, &Map::changePopulation);
+
+            return behavior;
+        }
+
+        case BehaviorInformation::Type::ItemStorage: {
             auto behavior(new ItemStorage(issuer, conf));
 
             return behavior;

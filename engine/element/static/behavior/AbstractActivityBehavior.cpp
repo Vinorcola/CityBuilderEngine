@@ -3,7 +3,8 @@
 
 
 AbstractActivityBehavior::AbstractActivityBehavior(QObject* parent) :
-    AbstractBehavior(parent)
+    AbstractBehavior(parent),
+    activitySpeedRatio(0.0)
 {
 
 }

@@ -15,6 +15,7 @@ class BuildingInformation;
 class Character;
 class CharacterInformation;
 class CycleDate;
+class ItemInformation;
 class MapArea;
 
 /**
@@ -56,6 +57,8 @@ class ProcessableBuilding : public Building, public AbstractProcessable
         bool processInteraction(const CycleDate& date, Character* actor);
 
         void notifyWalkerDestruction();
+
+        bool acceptItem(const ItemInformation* itemType) const;
 
     signals:
         void requestCharacterCreation(

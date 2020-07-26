@@ -10,12 +10,12 @@ const qreal MSEC_PER_SEC(1000);
 
 
 
-TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const qreal speedRatio) :
+TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const CycleDate& startingDate, const qreal speedRatio) :
     QObject(parent),
     paused(false),
     speedRatio(speedRatio),
     clock(),
-    currentCycleDate(),
+    currentCycleDate(startingDate),
     buildingProcessor(new BuildingProcessor(this)),
     characterProcessor(new CharacterProcessor(this))
 {
@@ -27,6 +27,13 @@ TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const qreal speedRatio) 
 qreal TimeCycleProcessor::getSpeedRatio() const
 {
     return speedRatio;
+}
+
+
+
+const CycleDate& TimeCycleProcessor::getCurrentDate() const
+{
+    return currentCycleDate;
 }
 
 
@@ -106,6 +113,8 @@ void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
 
 void TimeCycleProcessor::processCycle()
 {
+    auto previousMonth(currentCycleDate.getMonth());
+
     // Increment to cycle date.
     ++currentCycleDate;
     qDebug() << "Process time-cycle" << currentCycleDate.toString();
@@ -117,4 +126,7 @@ void TimeCycleProcessor::processCycle()
     buildingProcessor->process(currentCycleDate);
 
     emit processFinished();
+    if (previousMonth != currentCycleDate.getMonth()) {
+        emit dateChanged(currentCycleDate.getYear(), currentCycleDate.getMonth());
+    }
 }

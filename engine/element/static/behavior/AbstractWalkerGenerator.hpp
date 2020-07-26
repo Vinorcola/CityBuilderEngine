@@ -28,7 +28,6 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
         const CharacterInformation* walkerConf;
         const int generationInterval;
         const int maxWalkers;
-        qreal generationSpeedRatio;
         bool needToSetupNextGenerationDate;
         CycleDate nextGenerationDate;
         QList<QPointer<Character>> walkers;
@@ -62,6 +61,8 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
          * @param currentDate
          */
         virtual void setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate) override;
+
+        virtual bool acceptItem(const ItemInformation* itemType) const override;
 
         virtual void process(const CycleDate& date) override;
 

@@ -3,6 +3,10 @@ size:
     height: 23
     width: 23
 status:
+    date:
+        year: -1500
+        month: 1
+        cycles: 0
     budget: 10000
 dynamicElements: []
 staticElements:

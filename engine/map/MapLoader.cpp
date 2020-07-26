@@ -2,6 +2,8 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include "engine/processing/CycleDate.hpp"
+
 
 
 MapLoader::MapLoader(const QString& filePath) :
@@ -15,6 +17,17 @@ MapLoader::MapLoader(const QString& filePath) :
 QSize MapLoader::getSize() const
 {
     return { rootNode["size"]["width"].as<int>(), rootNode["size"]["height"].as<int>() };
+}
+
+
+
+CycleDate MapLoader::getDate() const
+{
+    return CycleDate(
+        rootNode["status"]["date"]["year"].as<int>(),
+        rootNode["status"]["date"]["month"].as<int>(),
+        rootNode["status"]["date"]["cycles"].as<int>()
+    );
 }
 
 

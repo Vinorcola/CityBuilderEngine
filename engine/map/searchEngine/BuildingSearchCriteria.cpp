@@ -5,15 +5,26 @@
 
 
 
-BuildingSearchCriteria::BuildingSearchCriteria(const BuildingInformation* conf) :
-    conf(conf)
+BuildingSearchCriteria::BuildingSearchCriteria(
+    const QList<const BuildingInformation *>& allowedBuildingTypes,
+    const ItemInformation* acceptingItem
+) :
+    allowedBuildingTypes(allowedBuildingTypes),
+    acceptingItem(acceptingItem)
 {
 
 }
 
 
 
-const BuildingInformation* BuildingSearchCriteria::getConf() const
+const QList<const BuildingInformation*>& BuildingSearchCriteria::getAllowedBuildingTypes() const
 {
-    return conf;
+    return allowedBuildingTypes;
+}
+
+
+
+const ItemInformation *BuildingSearchCriteria::getAcceptingItem() const
+{
+    return acceptingItem;
 }

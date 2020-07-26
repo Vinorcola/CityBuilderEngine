@@ -24,7 +24,9 @@ BehaviorInformation::BehaviorInformation(QObject* parent, const Conf* conf, cons
         new BuildingSearchCriteriaDescription(this, model["targetSearchCriteria"]) :
         nullptr
     ),
-    targetSearchCriteria()
+    targetSearchCriteria(),
+    harvestMonth(model["harvestMonth"] ? model["harvestMonth"].as<int>() : 0),
+    producedItem(model["producedItem"] ? conf->getItemConf(model["producedItem"].as<QString>()) : nullptr)
 {
     if (model["items"]) {
         for (auto node : model["items"]) {
@@ -39,7 +41,7 @@ void BehaviorInformation::resolveDependencies(const Conf* conf)
 {
     if (targetSearchCriteriaDescription) {
         targetSearchCriteria.reset(
-            new BuildingSearchCriteria(conf->getBuildingConf(targetSearchCriteriaDescription->getTargetKey()))
+            new BuildingSearchCriteria({ conf->getBuildingConf(targetSearchCriteriaDescription->getTargetKey()) })
         );
     }
 }
@@ -109,6 +111,20 @@ const BuildingSearchCriteria* BehaviorInformation::getTargetSearchCriteria() con
 
 
 
+int BehaviorInformation::getHarvestMonth() const
+{
+    return harvestMonth;
+}
+
+
+
+const ItemInformation* BehaviorInformation::getProducedItem() const
+{
+    return producedItem;
+}
+
+
+
 void BehaviorInformation::checkModel(const QString& key, const YAML::Node& model)
 {
     if (!model["type"]) {
@@ -121,6 +137,8 @@ void BehaviorInformation::checkModel(const QString& key, const YAML::Node& model
 BehaviorInformation::Type BehaviorInformation::resolveType(const QString& type)
 {
     if (type == "conditionalRandomWalkerGenerator") return Type::ConditionalRandomWalkerGenerator;
+    if (type == "deliverymanGenerator")             return Type::DeliverymanGenerator;
+    if (type == "farm")                             return Type::Farm;
     if (type == "inhabitantContainer")              return Type::InhabitantContainer;
     if (type == "itemStorage")                      return Type::ItemStorage;
     if (type == "queuedWalkerGenerator")            return Type::QueuedWalkerGenerator;

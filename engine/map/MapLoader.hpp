@@ -5,6 +5,8 @@
 #include <QtCore/QString>
 #include <yaml-cpp/node/node.h>
 
+class CycleDate;
+
 class MapLoader
 {
     private:
@@ -14,6 +16,8 @@ class MapLoader
         explicit MapLoader(const QString& filePath);
 
         QSize getSize() const;
+
+        CycleDate getDate() const;
 
         int getBudget() const;
 
