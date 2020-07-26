@@ -194,6 +194,13 @@ qreal MapCoordinates::getManhattanDistanceTo(const MapCoordinates& other) const
 
 
 
+qreal MapCoordinates::getChebyshevDistanceTo(const MapCoordinates& other) const
+{
+    return qMax(qFabs(coordinates.x() - other.coordinates.x()), qFabs(coordinates.y() - other.coordinates.y()));
+}
+
+
+
 qreal MapCoordinates::getStraightDistanceTo(const MapCoordinates& other) const
 {
     qreal xDiff(coordinates.x() - other.coordinates.x());

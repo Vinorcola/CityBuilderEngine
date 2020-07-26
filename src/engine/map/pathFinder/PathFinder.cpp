@@ -30,7 +30,7 @@ QList<MapCoordinates> PathFinder::getShortestPath(
 
     // Initialize.
     if (origin.isRounded()) {
-        openedPathNodes.insertNodeToProcess(new PathFinderNode(origin, destination, 0.0));
+        openedPathNodes.insertNodeToProcess(new PathFinderNode(origin, destination, 0.0, !restrictedToRoads));
     }
     else {
         // We get here the both nodes around the origin coordinates and initialize them with cost according to origin.
@@ -38,7 +38,8 @@ QList<MapCoordinates> PathFinder::getShortestPath(
             openedPathNodes.insertNodeToProcess(new PathFinderNode(
                 originRoundedCoordinates,
                 destination,
-                originRoundedCoordinates.getManhattanDistanceTo(origin)
+                originRoundedCoordinates.getManhattanDistanceTo(origin),
+                !restrictedToRoads
             ));
         }
     }
@@ -56,7 +57,7 @@ QList<MapCoordinates> PathFinder::getShortestPath(
         }
 
         qreal neighboursCostFromOrigin(current->getCostFromOrigin() + 1.0);
-        for (auto neighbourLocation : current->getNeighbours(!restrictedToRoads)) {
+        for (auto neighbourLocation : current->getNeighbours()) {
             if (closedPathNodes.isNodeForLocationAlreadyProcessed(neighbourLocation)) {
                 continue;
             }
@@ -77,7 +78,7 @@ QList<MapCoordinates> PathFinder::getShortestPath(
             }
             else {
                 // Create neighbour node and insert it in the opened path nodes.
-                neighbour = new PathFinderNode(neighbourLocation, destination, neighboursCostFromOrigin);
+                neighbour = new PathFinderNode(neighbourLocation, destination, neighboursCostFromOrigin, !restrictedToRoads);
                 parents[neighbour] = current;
                 openedPathNodes.insertNodeToProcess(neighbour);
             }

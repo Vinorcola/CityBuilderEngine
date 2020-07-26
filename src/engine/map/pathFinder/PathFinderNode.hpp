@@ -14,11 +14,17 @@ class PathFinderNode
     private:
         const MapCoordinates location;
         qreal costFromOrigin;
-        const qreal manhattanDistanceToDestination;
+        const qreal theoreticalBestDistanceToDestination;
         const qreal straightDistanceToDestination;
+        const bool useDiagonals;
 
     public:
-        PathFinderNode(const MapCoordinates& location, const MapCoordinates& destination, const qreal cost);
+        PathFinderNode(
+            const MapCoordinates& location,
+            const MapCoordinates& destination,
+            const qreal cost,
+            const bool useDiagonals
+        );
 
         /**
          * @brief Change the node cost only if the given cost is better.
@@ -40,21 +46,15 @@ class PathFinderNode
          */
         qreal getCostFromOrigin() const;
 
-        QList<MapCoordinates> getNeighbours(const bool includeDiagonalDirections) const;
+        /**
+         * @brief Get the list of neighbours' coordinates to this node.
+         */
+        QList<MapCoordinates> getNeighbours() const;
 
         /**
          * @brief Indicate if this node is closer to the destination compared to the other node.
          */
         bool isTheoreticallyCloserToDestinationThan(const PathFinderNode& other) const;
-
-    private:
-        /**
-         * @brief Get the theoretical best cost from origin to destination using the current node.
-         *
-         * This uses the current cost from origin and add the estimated remaining cost to destination assuming we have
-         * the best path between this node and the destination (Manhattan distance).
-         */
-        qreal getTheoreticalBestCostToReachDestination() const;
 };
 
 #endif // PATHFINDERNODE_HPP

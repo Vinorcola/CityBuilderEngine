@@ -2,11 +2,21 @@
 
 
 
-PathFinderNode::PathFinderNode(const MapCoordinates& location, const MapCoordinates& destination, const qreal cost) :
+PathFinderNode::PathFinderNode(
+    const MapCoordinates& location,
+    const MapCoordinates& destination,
+    const qreal cost,
+    const bool useDiagonals
+) :
     location(location),
     costFromOrigin(cost),
-    manhattanDistanceToDestination(location.getManhattanDistanceTo(destination)),
-    straightDistanceToDestination(location.getStraightDistanceTo(destination))
+    theoreticalBestDistanceToDestination(
+        useDiagonals ?
+            location.getChebyshevDistanceTo(destination) :
+            location.getManhattanDistanceTo(destination)
+    ),
+    straightDistanceToDestination(location.getStraightDistanceTo(destination)),
+    useDiagonals(useDiagonals)
 {
 
 }
@@ -43,14 +53,14 @@ qreal PathFinderNode::getCostFromOrigin() const
 
 
 
-QList<MapCoordinates> PathFinderNode::getNeighbours(const bool includeDiagonalDirections) const
+QList<MapCoordinates> PathFinderNode::getNeighbours() const
 {
     QList<MapCoordinates> list;
     list.append(location.getNorth());
     list.append(location.getEast());
     list.append(location.getSouth());
     list.append(location.getWest());
-    if (includeDiagonalDirections) {
+    if (useDiagonals) {
         list.append(location.getTop());
         list.append(location.getRight());
         list.append(location.getBottom());
@@ -64,8 +74,8 @@ QList<MapCoordinates> PathFinderNode::getNeighbours(const bool includeDiagonalDi
 
 bool PathFinderNode::isTheoreticallyCloserToDestinationThan(const PathFinderNode& other) const
 {
-    auto thisBestCost(getTheoreticalBestCostToReachDestination());
-    auto otherBestCost(other.getTheoreticalBestCostToReachDestination());
+    auto thisBestCost(costFromOrigin + theoreticalBestDistanceToDestination);
+    auto otherBestCost(other.costFromOrigin + other.theoreticalBestDistanceToDestination);
 
     if (thisBestCost < otherBestCost) {
         return true;
@@ -78,11 +88,4 @@ bool PathFinderNode::isTheoreticallyCloserToDestinationThan(const PathFinderNode
     // Best costs are equals, we use straight distance to decide.
 
     return straightDistanceToDestination < other.straightDistanceToDestination;
-}
-
-
-
-qreal PathFinderNode::getTheoreticalBestCostToReachDestination() const
-{
-    return costFromOrigin + manhattanDistanceToDestination;
 }

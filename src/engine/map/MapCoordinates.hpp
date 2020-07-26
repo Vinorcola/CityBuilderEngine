@@ -189,6 +189,14 @@ class MapCoordinates
         qreal getManhattanDistanceTo(const MapCoordinates& other) const;
 
         /**
+         * @brief Get Chebyshev distance between two coordinates.
+         *
+         * @param other The coordinates to use to calculate the distance from.
+         * @return The Chebyshev distance.
+         */
+        qreal getChebyshevDistanceTo(const MapCoordinates& other) const;
+
+        /**
          * @brief Get straight distance between two coordinates.
          * @param other The coordinates to use to calculate the distance from.
          * @return The straight distance.
