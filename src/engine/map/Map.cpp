@@ -21,6 +21,7 @@
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
+#include "src/global/conf/NatureElementInformation.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
 
 
@@ -37,6 +38,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     characterList(),
     buildingList(),
     natureElementList(),
+    traversableLocationCache(),
     entryPoint()
 {
     // Load buildings.
@@ -217,6 +219,20 @@ const CycleDate& Map::getCurrentDate() const
 
 
 
+bool Map::isLocationTraversable(const MapCoordinates& location) const
+{
+    return traversableLocationCache.isLocationTraversable(location);
+}
+
+
+
+bool Map::isLocationARoad(const MapCoordinates& location) const
+{
+    return roadGraph->fetchNodeAt(location) != nullptr;
+}
+
+
+
 void Map::pause(const bool pause)
 {
     processor->pause(pause);
@@ -294,6 +310,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
         default:
             throw UnexpectedException("Try to create a static element of unknown type.");
     }
+    traversableLocationCache.registerNonTraversableArea(area);
 
     emit buildingCreated(pointer);
 }
@@ -327,6 +344,9 @@ void Map::createNatureElement(const NatureElementInformation* conf, const MapAre
 
     auto natureElement(new NatureElement(this, conf, area));
     natureElementList.append(natureElement);
+    if (!conf->isTraversable()) {
+        traversableLocationCache.registerNonTraversableArea(area);
+    }
 
     emit natureElementCreated(natureElement);
 }

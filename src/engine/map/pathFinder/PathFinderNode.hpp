@@ -14,11 +14,11 @@ class PathFinderNode
     private:
         const MapCoordinates location;
         qreal costFromOrigin;
-        const qreal manhattanDistanceToTarget;
-        const qreal straightDistanceToTarget;
+        const qreal manhattanDistanceToDestination;
+        const qreal straightDistanceToDestination;
 
     public:
-        PathFinderNode(const MapCoordinates& location, const qreal cost, const MapCoordinates& target);
+        PathFinderNode(const MapCoordinates& location, const MapCoordinates& destination, const qreal cost);
 
         /**
          * @brief Change the node cost only if the given cost is better.
@@ -31,28 +31,30 @@ class PathFinderNode
         const MapCoordinates& getLocation() const;
 
         /**
-         * @brief Indicate if this node is at the target's coordinates.
+         * @brief Indicate if this node is at the destination's coordinates.
          */
-        bool isTarget() const;
+        bool isDestination() const;
 
         /**
          * @brief Get the current cost of this node from origin.
          */
         qreal getCostFromOrigin() const;
 
+        QList<MapCoordinates> getNeighbours(const bool includeDiagonalDirections) const;
+
         /**
-         * @brief Indicate if this node is closer to the target compared to the other node.
+         * @brief Indicate if this node is closer to the destination compared to the other node.
          */
-        bool isTheoreticallyCloserToTargetThan(const PathFinderNode& other) const;
+        bool isTheoreticallyCloserToDestinationThan(const PathFinderNode& other) const;
 
     private:
         /**
-         * @brief Get the theoretical best cost from origin to target using the current node.
+         * @brief Get the theoretical best cost from origin to destination using the current node.
          *
-         * This uses the current cost from origin and add the estimated remaining cost to target assuming we have the
-         * best path between this node and the target (Manhattan distance).
+         * This uses the current cost from origin and add the estimated remaining cost to destination assuming we have
+         * the best path between this node and the destination (Manhattan distance).
          */
-        qreal getTheoreticalBestCostToReachTarget() const;
+        qreal getTheoreticalBestCostToReachDestination() const;
 };
 
 #endif // PATHFINDERNODE_HPP

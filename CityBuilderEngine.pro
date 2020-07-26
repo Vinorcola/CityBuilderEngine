@@ -26,6 +26,8 @@ SOURCES += \
     src/engine/element/static/NatureElement.cpp \
     src/engine/element/static/ProcessableBuilding.cpp \
     src/engine/element/static/Road.cpp \
+    src/engine/map/pathFinder/MapDetailsInterface.cpp \
+    src/engine/map/pathFinder/PathFinder.cpp \
     src/engine/map/pathFinder/PathFinderNode.cpp \
     src/engine/map/pathFinder/ProcessedPathFinderNodeList.cpp \
     src/engine/map/pathFinder/UnprocessedPathFinderNodeList.cpp \
@@ -43,6 +45,7 @@ SOURCES += \
     src/engine/map/MapCoordinates.cpp \
     src/engine/map/MapLoader.cpp \
     src/engine/map/MapSize.cpp \
+    src/engine/map/TraversableLocationCache.cpp \
     src/engine/processing/AbstractProcessable.cpp \
     src/engine/processing/BuildingProcessor.cpp \
     src/engine/processing/CharacterProcessor.cpp \
@@ -53,6 +56,7 @@ SOURCES += \
     src/exceptions/EngineException.cpp \
     src/exceptions/Exception.cpp \
     src/exceptions/InvalidMapElementException.cpp \
+    src/exceptions/NotImplementedException.cpp \
     src/exceptions/OutOfRangeException.cpp \
     src/exceptions/UnexpectedException.cpp \
     src/global/conf/BehaviorInformation.cpp \
@@ -96,6 +100,8 @@ HEADERS += \
     src/engine/element/static/NatureElement.hpp \
     src/engine/element/static/ProcessableBuilding.hpp \
     src/engine/element/static/Road.hpp \
+    src/engine/map/pathFinder/MapDetailsInterface.hpp \
+    src/engine/map/pathFinder/PathFinder.hpp \
     src/engine/map/pathFinder/PathFinderNode.hpp \
     src/engine/map/pathFinder/ProcessedPathFinderNodeList.hpp \
     src/engine/map/pathFinder/UnprocessedPathFinderNodeList.hpp \
@@ -113,6 +119,7 @@ HEADERS += \
     src/engine/map/MapCoordinates.hpp \
     src/engine/map/MapLoader.hpp \
     src/engine/map/MapSize.hpp \
+    src/engine/map/TraversableLocationCache.hpp \
     src/engine/processing/AbstractProcessable.hpp \
     src/engine/processing/BuildingProcessor.hpp \
     src/engine/processing/CharacterProcessor.hpp \
@@ -123,6 +130,7 @@ HEADERS += \
     src/exceptions/EngineException.hpp \
     src/exceptions/Exception.hpp \
     src/exceptions/InvalidMapElementException.hpp \
+    src/exceptions/NotImplementedException.hpp \
     src/exceptions/OutOfRangeException.hpp \
     src/exceptions/UnexpectedException.hpp \
     src/global/conf/BehaviorInformation.hpp \

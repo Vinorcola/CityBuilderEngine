@@ -6,6 +6,9 @@
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
+#include "src/engine/map/pathFinder/MapDetailsInterface.hpp"
+#include "src/engine/map/TraversableLocationCache.hpp"
+
 class BehaviorFactory;
 class Building;
 class BuildingInformation;
@@ -26,7 +29,7 @@ class RoadGraphNode;
 class SearchEngine;
 class TimeCycleProcessor;
 
-class Map : public QObject
+class Map : public QObject, public MapDetailsInterface
 {
         Q_OBJECT
 
@@ -41,6 +44,7 @@ class Map : public QObject
         QLinkedList<Character*> characterList;
         QLinkedList<Building*> buildingList;
         QLinkedList<NatureElement*> natureElementList;
+        TraversableLocationCache traversableLocationCache;
         CityEntryPoint* entryPoint;
 
     public:
@@ -132,6 +136,10 @@ class Map : public QObject
          * @brief Get the current date for display purpose.
          */
         const CycleDate& getCurrentDate() const;
+
+        virtual bool isLocationTraversable(const MapCoordinates& location) const;
+
+        virtual bool isLocationARoad(const MapCoordinates& location) const;
 
     public slots:
         /**

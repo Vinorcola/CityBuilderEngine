@@ -12,6 +12,13 @@ ProcessedPathFinderNodeList::ProcessedPathFinderNodeList() :
 
 
 
+ProcessedPathFinderNodeList::~ProcessedPathFinderNodeList()
+{
+    qDeleteAll(list);
+}
+
+
+
 bool ProcessedPathFinderNodeList::isNodeForLocationAlreadyProcessed(const MapCoordinates& location) const
 {
     for (auto node: list) {
@@ -25,7 +32,7 @@ bool ProcessedPathFinderNodeList::isNodeForLocationAlreadyProcessed(const MapCoo
 
 
 
-void ProcessedPathFinderNodeList::markNodeAsProcessed(const PathFinderNode& node)
+void ProcessedPathFinderNodeList::markNodeAsProcessed(owner<const PathFinderNode*> node)
 {
-    list.append(&node);
+    list.append(node);
 }

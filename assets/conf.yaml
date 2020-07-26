@@ -226,13 +226,13 @@ items:
 natureElements:
     copper:
         title: Copper
-        convertible: false
+        traversable: false
     silver:
         title: Silver
-        convertible: false
+        traversable: false
     wood:
         title: Wood
-        convertible: true
+        traversable: true
 
 controlPanel:
     content:

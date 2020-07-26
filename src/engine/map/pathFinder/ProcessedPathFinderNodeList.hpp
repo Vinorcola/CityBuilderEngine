@@ -3,6 +3,8 @@
 
 #include <QtCore/QList>
 
+#include "src/defines.hpp"
+
 class MapCoordinates;
 class PathFinderNode;
 
@@ -12,14 +14,16 @@ class PathFinderNode;
 class ProcessedPathFinderNodeList
 {
     private:
-        QList<const PathFinderNode*> list;
+        QList<owner<const PathFinderNode*>> list;
 
     public:
         ProcessedPathFinderNodeList();
 
+        ~ProcessedPathFinderNodeList();
+
         bool isNodeForLocationAlreadyProcessed(const MapCoordinates& location) const;
 
-        void markNodeAsProcessed(const PathFinderNode& node);
+        void markNodeAsProcessed(owner<const PathFinderNode*> node);
 };
 
 #endif // PROCESSEDPATHFINDERNODELIST_HPP

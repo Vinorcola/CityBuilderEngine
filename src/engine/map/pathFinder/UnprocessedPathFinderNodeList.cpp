@@ -12,29 +12,36 @@ UnprocessedPathFinderNodeList::UnprocessedPathFinderNodeList() :
 
 
 
-bool UnprocessedPathFinderNodeList::hasNodeToProcess() const
+UnprocessedPathFinderNodeList::~UnprocessedPathFinderNodeList()
 {
-    return list.isEmpty();
+    qDeleteAll(list);
 }
 
 
 
-void UnprocessedPathFinderNodeList::insertNodeToProcess(const PathFinderNode& node)
+bool UnprocessedPathFinderNodeList::hasNodeToProcess() const
+{
+    return !list.isEmpty();
+}
+
+
+
+void UnprocessedPathFinderNodeList::insertNodeToProcess(owner<PathFinderNode*> node)
 {
     for (auto iterator(list.begin()); iterator != list.end(); ++iterator) {
         auto nodeFromList(*iterator);
-        if (node.isTheoreticallyCloserToTargetThan(*nodeFromList)) {
-            list.insert(iterator, &node);
+        if (node->isTheoreticallyCloserToDestinationThan(*nodeFromList)) {
+            list.insert(iterator, node);
             return;
         }
     }
 
-    list.append(&node);
+    list.append(node);
 }
 
 
 
-const PathFinderNode* UnprocessedPathFinderNodeList::findClosestToTargetAtLocation(const MapCoordinates& location) const
+PathFinderNode* UnprocessedPathFinderNodeList::findClosestToDestinationAtLocation(const MapCoordinates& location) const
 {
     for (auto node : list) {
         if (node->getLocation() == location) {
@@ -47,7 +54,7 @@ const PathFinderNode* UnprocessedPathFinderNodeList::findClosestToTargetAtLocati
 
 
 
-const PathFinderNode& UnprocessedPathFinderNodeList::takeClosestToTarget()
+owner<PathFinderNode*> UnprocessedPathFinderNodeList::takeClosestToDestination()
 {
-    return *list.takeFirst();
+    return list.takeFirst();
 }

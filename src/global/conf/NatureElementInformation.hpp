@@ -24,11 +24,15 @@ class NatureElementInformation : public QObject
         Type type;
         QString key;
         QString title;
-        bool convertible;
+        bool traversable;
         QPixmap image;
 
     public:
         NatureElementInformation(QObject* parent, const QString& key, const YAML::Node& model);
+
+        bool isTraversable() const;
+
+        const QPixmap& getImage() const;
 
         /**
          * @brief Check if the model is valid.
@@ -36,8 +40,6 @@ class NatureElementInformation : public QObject
          * @throws BadConfigurationException The model is invalid.
          */
         static void checkModel(const QString& key, const YAML::Node& model);
-
-        const QPixmap& getImage() const;
 
     private:
         static Type resolveType(const QString& type);

@@ -3,6 +3,8 @@
 
 #include <QtCore/QLinkedList>
 
+#include "src/defines.hpp"
+
 class MapCoordinates;
 class PathFinderNode;
 
@@ -12,18 +14,20 @@ class PathFinderNode;
 class UnprocessedPathFinderNodeList
 {
     private:
-        QLinkedList<const PathFinderNode*> list;
+        QLinkedList<owner<PathFinderNode*>> list;
 
     public:
         UnprocessedPathFinderNodeList();
 
+        ~UnprocessedPathFinderNodeList();
+
         bool hasNodeToProcess() const;
 
-        void insertNodeToProcess(const PathFinderNode& node);
+        void insertNodeToProcess(owner<PathFinderNode*> node);
 
-        const PathFinderNode* findClosestToTargetAtLocation(const MapCoordinates& location) const;
+        PathFinderNode* findClosestToDestinationAtLocation(const MapCoordinates& location) const;
 
-        const PathFinderNode& takeClosestToTarget();
+        owner<PathFinderNode*> takeClosestToDestination();
 };
 
 #endif // UNPROCESSEDPATHFINDERNODELIST_HPP
