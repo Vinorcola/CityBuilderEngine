@@ -1,5 +1,7 @@
 #include "ItemStorage.hpp"
 
+#include <assert.h>
+
 #include "engine/element/static/ProcessableBuilding.hpp"
 #include "global/conf/BehaviorInformation.hpp"
 #include "global/conf/ItemInformation.hpp"
