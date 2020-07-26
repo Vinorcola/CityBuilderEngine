@@ -6,6 +6,7 @@
 #include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/behavior/BehaviorFactory.hpp"
 #include "engine/element/static/CityEntryPoint.hpp"
+#include "engine/element/static/NatureElement.hpp"
 #include "engine/element/static/ProcessableBuilding.hpp"
 #include "engine/element/static/Road.hpp"
 #include "engine/map/roadGraph/RoadGraph.hpp"
@@ -20,6 +21,7 @@
 #include "global/conf/BuildingInformation.hpp"
 #include "global/conf/CharacterInformation.hpp"
 #include "global/conf/Conf.hpp"
+#include "global/yamlLibraryEnhancement.hpp"
 
 
 
@@ -34,16 +36,29 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
     characterList(),
     buildingList(),
+    natureElementList(),
     entryPoint()
 {
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
-        auto elementConf(conf->getBuildingConf(QString::fromStdString(buildingInfo["type"].as<std::string>())));
+        auto buildingConf(conf->getBuildingConf(buildingInfo["type"].as<QString>()));
         createBuilding(
-            elementConf,
+            buildingConf,
             MapArea(
                 MapCoordinates(buildingInfo["position"]["x"].as<int>(), buildingInfo["position"]["y"].as<int>()),
-                elementConf->getSize()
+                buildingConf->getSize()
+            )
+        );
+    }
+
+    // Load nature elements.
+    for (auto natureElementInfo : loader.getNatureElements()) {
+        auto natureElementConf(conf->getNatureElementConf(natureElementInfo["type"].as<QString>()));
+        createNatureElement(
+            natureElementConf,
+            MapArea(
+                MapCoordinates(natureElementInfo["position"]["x"].as<int>(), natureElementInfo["position"]["y"].as<int>()),
+                MapSize(1) // For now, only single tiles nature elements are supported.
             )
         );
     }
@@ -160,6 +175,13 @@ const TimeCycleProcessor* Map::getProcessor() const
 
 
 
+const QLinkedList<Building*>& Map::getBuildings() const
+{
+    return buildingList;
+}
+
+
+
 const QLinkedList<Character*>& Map::getCharacters() const
 {
     return characterList;
@@ -167,9 +189,9 @@ const QLinkedList<Character*>& Map::getCharacters() const
 
 
 
-const QLinkedList<Building*>& Map::getBuildings() const
+const QLinkedList<NatureElement*>& Map::getNatureElements() const
 {
-    return buildingList;
+    return natureElementList;
 }
 
 
@@ -211,6 +233,9 @@ void Map::setProcessorSpeedRatio(const qreal speedRatio)
 
 void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
 {
+    if (!isValidArea(area)) {
+        throw UnexpectedException("Try to create a building on an invalid area: " + area.toString() + ".");
+    }
     if (area.getSize() != conf->getSize()) {
         throw UnexpectedException("Try to build a building on a area not matching the configured size.");
     }
@@ -286,6 +311,24 @@ void Map::createCharacter(
     afterCreation(character);
 
     emit characterCreated(character);
+}
+
+
+
+void Map::createNatureElement(const NatureElementInformation* conf, const MapArea& area)
+{
+    if (!isValidArea(area)) {
+        throw UnexpectedException("Try to create a nature element on an invalid area: " + area.toString() + ".");
+    }
+    if (!isFreeArea(area)) {
+        qDebug() << "WARNING: Try to create a building on an occupyed area " + area.toString() + ". Skiping the creation.";
+        return;
+    }
+
+    auto natureElement(new NatureElement(this, conf, area));
+    natureElementList.append(natureElement);
+
+    emit natureElementCreated(natureElement);
 }
 
 

@@ -70,6 +70,13 @@ const ItemInformation* Conf::getItemConf(const QString& key) const
 
 
 
+const BuildingInformation* Conf::getBuildingConf(const QString& key) const
+{
+    return buildings.value(key);
+}
+
+
+
 const CharacterInformation* Conf::getCharacterConf(const QString& key) const
 {
     return characters.value(key);
@@ -77,9 +84,9 @@ const CharacterInformation* Conf::getCharacterConf(const QString& key) const
 
 
 
-const BuildingInformation* Conf::getBuildingConf(const QString& key) const
+const NatureElementInformation* Conf::getNatureElementConf(const QString& key) const
 {
-    return buildings.value(key);
+    return natureElements.value(key);
 }
 
 

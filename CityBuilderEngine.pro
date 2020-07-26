@@ -23,6 +23,7 @@ SOURCES += \
     engine/element/static/behavior/TargetedWalkerGenerator.cpp \
     engine/element/static/Building.cpp \
     engine/element/static/CityEntryPoint.cpp \
+    engine/element/static/NatureElement.cpp \
     engine/element/static/ProcessableBuilding.cpp \
     engine/element/static/Road.cpp \
     engine/map/roadGraph/pathFinder/RoadPathFinder.cpp \
@@ -89,6 +90,7 @@ HEADERS += \
     engine/element/static/behavior/TargetedWalkerGenerator.hpp \
     engine/element/static/Building.hpp \
     engine/element/static/CityEntryPoint.hpp \
+    engine/element/static/NatureElement.hpp \
     engine/element/static/ProcessableBuilding.hpp \
     engine/element/static/Road.hpp \
     engine/map/roadGraph/pathFinder/RoadPathFinder.hpp \

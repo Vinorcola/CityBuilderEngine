@@ -50,10 +50,17 @@ buildings:
     - { type: house, position: { x: 8, y: 20 }}
 characters: []
 natureElements:
-    - { type: wood, position: { x: 40, y: 20 }}
-    - { type: wood, position: { x: 41, y: 20 }}
-    - { type: wood, position: { x: 42, y: 20 }}
-    - { type: wood, position: { x: 40, y: 21 }}
-    - { type: wood, position: { x: 41, y: 21 }}
-    - { type: wood, position: { x: 42, y: 20 }}
-    - { type: wood, position: { x: 43, y: 20 }}
+    - { type: wood, position: { x: 0, y: 40 }}
+    - { type: wood, position: { x: 1, y: 40 }}
+    - { type: wood, position: { x: 2, y: 40 }}
+    - { type: wood, position: { x: 3, y: 40 }}
+    - { type: wood, position: { x: 0, y: 41 }}
+    - { type: wood, position: { x: 1, y: 41 }}
+    - { type: wood, position: { x: 1, y: 42 }}
+    - { type: wood, position: { x: 3, y: 42 }}
+    - { type: copper, position: { x: -24, y: 37 }}
+    - { type: copper, position: { x: -25, y: 37 }}
+    - { type: copper, position: { x: -26, y: 36 }}
+    - { type: silver, position: { x: 14, y: 37 }}
+    - { type: silver, position: { x: 15, y: 37 }}
+    - { type: silver, position: { x: 16, y: 36 }}

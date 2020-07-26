@@ -37,6 +37,8 @@ class NatureElementInformation : public QObject
          */
         static void checkModel(const QString& key, const YAML::Node& model);
 
+        const QPixmap& getImage() const;
+
     private:
         static Type resolveType(const QString& type);
 };

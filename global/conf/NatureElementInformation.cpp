@@ -32,6 +32,13 @@ void NatureElementInformation::checkModel(const QString& key, const YAML::Node& 
 
 
 
+const QPixmap& NatureElementInformation::getImage() const
+{
+    return image;
+}
+
+
+
 NatureElementInformation::Type NatureElementInformation::resolveType(const QString& type)
 {
     if (type == "copper") return Type::Copper;

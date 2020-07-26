@@ -2,10 +2,12 @@
 
 #include "engine/element/dynamic/Character.hpp"
 #include "engine/element/static/Building.hpp"
+#include "engine/element/static/NatureElement.hpp"
 #include "engine/map/Map.hpp"
 #include "engine/processing/TimeCycleProcessor.hpp"
 #include "global/conf/BuildingInformation.hpp"
 #include "global/conf/CharacterInformation.hpp"
+#include "global/conf/NatureElementInformation.hpp"
 #include "viewer/DynamicElement.hpp"
 #include "viewer/SelectionElement.hpp"
 #include "viewer/StaticElement.hpp"
@@ -54,13 +56,16 @@ MapScene::MapScene(const Map& map) :
     addItem(selectionElement);
 
     // Load existing elements.
-    for (auto element: map.getBuildings()) {
-        registerNewStaticElement(element);
+    for (auto element : map.getBuildings()) {
+        registerNewBuilding(element);
+    }
+    for (auto element : map.getNatureElements()) {
+        registerNewNatureElement(element);
     }
 
     connect(this, &MapScene::buildingCreationRequested, &map, &Map::createBuilding);
-    connect(&map, &Map::buildingCreated, this, &MapScene::registerNewStaticElement);
-    connect(&map, &Map::characterCreated, this, &MapScene::registerNewDynamicElement);
+    connect(&map, &Map::buildingCreated, this, &MapScene::registerNewBuilding);
+    connect(&map, &Map::characterCreated, this, &MapScene::registerNewCharacter);
     connect(map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
 }
 
@@ -80,21 +85,29 @@ void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, c
 
 
 
-void MapScene::registerNewStaticElement(const Building* element)
+void MapScene::registerNewBuilding(const Building* element)
 {
     Tile* tile(getTileAt(element->getArea().getLeft()));
-    addStaticElementBuilding(tile, element->getConf()->getSize(), element->getConf()->getImage());
+    addStaticElement(tile, element->getConf()->getSize(), element->getConf()->getImage());
 }
 
 
 
-void MapScene::registerNewDynamicElement(const Character* element)
+void MapScene::registerNewCharacter(const Character* element)
 {
     DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, element->getConf()->getImage()));
     dynamicElementList.append(graphicsItem);
 
     Tile* tile(getTileAt(element->getCurrentLocation().getRounded()));
     tile->registerDynamicElement(graphicsItem);
+}
+
+
+
+void MapScene::registerNewNatureElement(const NatureElement* element)
+{
+    Tile* tile(getTileAt(element->getArea().getLeft()));
+    addStaticElement(tile, element->getArea().getSize(), element->getConf()->getImage());
 }
 
 
@@ -144,7 +157,7 @@ Tile* MapScene::getTileAt(const MapCoordinates& location)
 
 
 
-void MapScene::addStaticElementBuilding(Tile* tile, const MapSize& elementSize, const QPixmap& elementImage)
+void MapScene::addStaticElement(Tile* tile, const MapSize& elementSize, const QPixmap& elementImage)
 {
     tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, elementSize, elementImage));
 
