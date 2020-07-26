@@ -97,28 +97,56 @@ void MapCoordinates::setY(const qreal y)
 
 MapCoordinates MapCoordinates::getNorth() const
 {
-    return { coordinates.x(), coordinates.y() - 1 };
+    return { coordinates.x(), coordinates.y() - 1.0 };
 }
 
 
 
 MapCoordinates MapCoordinates::getSouth() const
 {
-    return { coordinates.x(), coordinates.y() + 1 };
+    return { coordinates.x(), coordinates.y() + 1.0 };
 }
 
 
 
 MapCoordinates MapCoordinates::getEast() const
 {
-    return { coordinates.x() + 1, coordinates.y() };
+    return { coordinates.x() + 1.0, coordinates.y() };
 }
 
 
 
 MapCoordinates MapCoordinates::getWest() const
 {
-    return { coordinates.x() - 1, coordinates.y() };
+    return { coordinates.x() - 1.0, coordinates.y() };
+}
+
+
+
+MapCoordinates MapCoordinates::getTop() const
+{
+    return { coordinates.x() + 1.0, coordinates.y() - 1.0 };
+}
+
+
+
+MapCoordinates MapCoordinates::getRight() const
+{
+    return { coordinates.x() + 1.0, coordinates.y() + 1.0 };
+}
+
+
+
+MapCoordinates MapCoordinates::getBottom() const
+{
+    return { coordinates.x() - 1.0, coordinates.y() + 1.0 };
+}
+
+
+
+MapCoordinates MapCoordinates::getLeft() const
+{
+    return { coordinates.x() - 1.0, coordinates.y() - 1.0 };
 }
 
 

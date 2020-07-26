@@ -99,7 +99,7 @@ class MapCoordinates
         void setY(const qreal y);
 
         /**
-         * @brief Get the coordinates in the emmidiate north.
+         * @brief Get the coordinates in the immediate north.
          *
          * @note If coordinates are real, the decimal part is kept.
          * @return New coordinates.
@@ -107,7 +107,7 @@ class MapCoordinates
         MapCoordinates getNorth() const;
 
         /**
-         * @brief Get the coordinates in the emmidiate south.
+         * @brief Get the coordinates in the immediate south.
          *
          * @note If coordinates are real, the decimal part is kept.
          * @return New coordinates.
@@ -115,7 +115,7 @@ class MapCoordinates
         MapCoordinates getSouth() const;
 
         /**
-         * @brief Get the coordinates in the emmidiate east.
+         * @brief Get the coordinates in the immediate east.
          *
          * @note If coordinates are real, the decimal part is kept.
          * @return New coordinates.
@@ -123,12 +123,44 @@ class MapCoordinates
         MapCoordinates getEast() const;
 
         /**
-         * @brief Get the coordinates in the emmidiate west.
+         * @brief Get the coordinates in the immediate west.
          *
          * @note If coordinates are real, the decimal part is kept.
          * @return New coordinates.
          */
         MapCoordinates getWest() const;
+
+        /**
+         * @brief Get the coordinates in the immediate top.
+         *
+         * @note If coordinates are real, the decimal part is kept.
+         * @return New coordinates.
+         */
+        MapCoordinates getTop() const;
+
+        /**
+         * @brief Get the coordinates in the immediate right.
+         *
+         * @note If coordinates are real, the decimal part is kept.
+         * @return New coordinates.
+         */
+        MapCoordinates getRight() const;
+
+        /**
+         * @brief Get the coordinates in the immediate bottom.
+         *
+         * @note If coordinates are real, the decimal part is kept.
+         * @return New coordinates.
+         */
+        MapCoordinates getBottom() const;
+
+        /**
+         * @brief Get the coordinates in the immediate left.
+         *
+         * @note If coordinates are real, the decimal part is kept.
+         * @return New coordinates.
+         */
+        MapCoordinates getLeft() const;
 
         /**
          * @brief Get the integer coordinates corresponding to the coordinates.
