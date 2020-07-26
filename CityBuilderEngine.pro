@@ -27,6 +27,8 @@ SOURCES += \
     src/engine/element/static/ProcessableBuilding.cpp \
     src/engine/element/static/Road.cpp \
     src/engine/map/pathFinder/PathFinderNode.cpp \
+    src/engine/map/pathFinder/ProcessedPathFinderNodeList.cpp \
+    src/engine/map/pathFinder/UnprocessedPathFinderNodeList.cpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinder.cpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNode.cpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.cpp \
@@ -95,6 +97,8 @@ HEADERS += \
     src/engine/element/static/ProcessableBuilding.hpp \
     src/engine/element/static/Road.hpp \
     src/engine/map/pathFinder/PathFinderNode.hpp \
+    src/engine/map/pathFinder/ProcessedPathFinderNodeList.hpp \
+    src/engine/map/pathFinder/UnprocessedPathFinderNodeList.hpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinder.hpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNode.hpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.hpp \

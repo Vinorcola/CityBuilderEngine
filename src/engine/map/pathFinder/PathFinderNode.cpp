@@ -22,6 +22,13 @@ void PathFinderNode::updateCostIfBetter(const qreal cost)
 
 
 
+const MapCoordinates& PathFinderNode::getLocation() const
+{
+    return location;
+}
+
+
+
 bool PathFinderNode::isTarget() const
 {
     return straightDistanceToTarget == 0.0;
@@ -36,14 +43,27 @@ qreal PathFinderNode::getCostFromOrigin() const
 
 
 
-qreal PathFinderNode::getTheoreticalBestCostToReachTarget() const
+bool PathFinderNode::isTheoreticallyCloserToTargetThan(const PathFinderNode& other) const
 {
-    return costFromOrigin + manhattanDistanceToTarget;
+    auto thisBestCost(getTheoreticalBestCostToReachTarget());
+    auto otherBestCost(other.getTheoreticalBestCostToReachTarget());
+
+    if (thisBestCost < otherBestCost) {
+        return true;
+    }
+
+    if (thisBestCost> otherBestCost) {
+        return false;
+    }
+
+    // Best costs are equals, we use straight distance to decide.
+
+    return straightDistanceToTarget < other.straightDistanceToTarget;
 }
 
 
 
-qreal PathFinderNode::getStraightDistanceToTarget() const
+qreal PathFinderNode::getTheoreticalBestCostToReachTarget() const
 {
-    return straightDistanceToTarget;
+    return costFromOrigin + manhattanDistanceToTarget;
 }

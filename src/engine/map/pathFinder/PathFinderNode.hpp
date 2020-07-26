@@ -26,6 +26,11 @@ class PathFinderNode
         void updateCostIfBetter(const qreal cost);
 
         /**
+         * @brief Return the location of the node.
+         */
+        const MapCoordinates& getLocation() const;
+
+        /**
          * @brief Indicate if this node is at the target's coordinates.
          */
         bool isTarget() const;
@@ -36,17 +41,18 @@ class PathFinderNode
         qreal getCostFromOrigin() const;
 
         /**
+         * @brief Indicate if this node is closer to the target compared to the other node.
+         */
+        bool isTheoreticallyCloserToTargetThan(const PathFinderNode& other) const;
+
+    private:
+        /**
          * @brief Get the theoretical best cost from origin to target using the current node.
          *
          * This uses the current cost from origin and add the estimated remaining cost to target assuming we have the
          * best path between this node and the target (Manhattan distance).
          */
         qreal getTheoreticalBestCostToReachTarget() const;
-
-        /**
-         * @brief Get the straight distance between this node and the target.
-         */
-        qreal getStraightDistanceToTarget() const;
 };
 
 #endif // PATHFINDERNODE_HPP
