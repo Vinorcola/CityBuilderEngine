@@ -23,6 +23,7 @@ SOURCES += \
     engine/element/static/behavior/TargetedWalkerGenerator.cpp \
     engine/element/static/Building.cpp \
     engine/element/static/CityEntryPoint.cpp \
+    engine/element/static/NatureElement.cpp \
     engine/element/static/ProcessableBuilding.cpp \
     engine/element/static/Road.cpp \
     engine/map/roadGraph/pathFinder/RoadPathFinder.cpp \
@@ -59,6 +60,7 @@ SOURCES += \
     global/conf/Conf.cpp \
     global/conf/ControlPanelElementInformation.cpp \
     global/conf/ItemInformation.cpp \
+    global/conf/NatureElementInformation.cpp \
     ui/controlPanel/BuildingButton.cpp \
     ui/controlPanel/ControlPanel.cpp \
     ui/InformationWidget.cpp \
@@ -88,6 +90,7 @@ HEADERS += \
     engine/element/static/behavior/TargetedWalkerGenerator.hpp \
     engine/element/static/Building.hpp \
     engine/element/static/CityEntryPoint.hpp \
+    engine/element/static/NatureElement.hpp \
     engine/element/static/ProcessableBuilding.hpp \
     engine/element/static/Road.hpp \
     engine/map/roadGraph/pathFinder/RoadPathFinder.hpp \
@@ -124,6 +127,7 @@ HEADERS += \
     global/conf/Conf.hpp \
     global/conf/ControlPanelElementInformation.hpp \
     global/conf/ItemInformation.hpp \
+    global/conf/NatureElementInformation.hpp \
     global/yamlLibraryEnhancement.hpp \
     ui/controlPanel/BuildingButton.hpp \
     ui/controlPanel/ControlPanel.hpp \
@@ -139,7 +143,8 @@ HEADERS += \
 
 DISTFILES += \
     assets/conf.yaml \
-    assets/save/testing.yaml \
+    assets/save/testing-a.yaml \
+    assets/save/testing-b.yaml \
     README.md
 
 unix: CONFIG += link_pkgconfig

@@ -17,7 +17,7 @@ CharacterInformation::CharacterInformation(QObject* parent, const QString& key, 
     speed(model["speed"] ? model["speed"].as<qreal>() / CYCLE_PER_SECOND : 0.0),
 #endif
     wanderingCredits(model["wanderingCredits"] ? model["wanderingCredits"].as<int>() : 0),
-    image("assets/img/dynamic/" + key + "/character.png")
+    image("assets/img/dynamic/character/" + key + ".png")
 {
 
 }
@@ -80,5 +80,5 @@ CharacterInformation::Type CharacterInformation::resolveType(const QString& type
     if (type == "targetedWalker") return Type::TargetedWalker;
     if (type == "randomWalker")   return Type::RandomWalker;
 
-    throw BadConfigurationException("Unknown dynamic element of type \"" + type + "\"");
+    throw BadConfigurationException("Unknown character of type \"" + type + "\"");
 }

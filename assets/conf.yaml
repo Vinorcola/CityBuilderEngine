@@ -223,6 +223,17 @@ items:
     wood:
         title: Wood
 
+natureElements:
+    copper:
+        title: Copper
+        convertible: false
+    silver:
+        title: Silver
+        convertible: false
+    wood:
+        title: Wood
+        convertible: true
+
 controlPanel:
     content:
         -

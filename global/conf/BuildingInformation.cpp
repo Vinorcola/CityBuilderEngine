@@ -23,7 +23,7 @@ BuildingInformation::BuildingInformation(QObject* parent, const Conf* conf, cons
     damageRiskIncrement(model["damageRisk"] ? model["damageRisk"].as<int>() : 0),
     areaDescription(),
     behaviors(),
-    image("assets/img/static/" + key + "/building.png")
+    image("assets/img/static/building/" + key + ".png")
 {
     if (model["behaviors"]) {
         for (auto node : model["behaviors"]) {
@@ -94,5 +94,5 @@ BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
     if (type == "cityEntryPoint")  return Type::CityEntryPoint;
     if (type == "road")            return Type::Road;
 
-    throw BadConfigurationException("Unknown static element of type \"" + type + "\".");
+    throw BadConfigurationException("Unknown building of type \"" + type + "\".");
 }

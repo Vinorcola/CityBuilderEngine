@@ -18,6 +18,8 @@ class CycleDate;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
+class NatureElement;
+class NatureElementInformation;
 class ProcessableBuilding;
 class RoadGraph;
 class RoadGraphNode;
@@ -38,6 +40,7 @@ class Map : public QObject
         BehaviorFactory* behaviorFactory;
         QLinkedList<Character*> characterList;
         QLinkedList<Building*> buildingList;
+        QLinkedList<NatureElement*> natureElementList;
         CityEntryPoint* entryPoint;
 
     public:
@@ -101,14 +104,19 @@ class Map : public QObject
         const TimeCycleProcessor* getProcessor() const;
 
         /**
+         * @brief Return the list of all buildings.
+         */
+        const QLinkedList<Building*>& getBuildings() const;
+
+        /**
          * @brief Return the list of all characters.
          */
         const QLinkedList<Character*>& getCharacters() const;
 
         /**
-         * @brief Return the list of all buildings.
+         * @brief Return the list of all nature elements.
          */
-        const QLinkedList<Building*>& getBuildings() const;
+        const QLinkedList<NatureElement*>& getNatureElements() const;
 
         /**
          * @brief Get current budget.
@@ -137,7 +145,7 @@ class Map : public QObject
         void setProcessorSpeedRatio(const qreal speedRatio);
 
         /**
-         * @brief Create a static element on the map.
+         * @brief Create a building on the map.
          *
          * If the area is not free, the element is not created. For now, we just log with qDebug(). But this fail should
          * be kept silent because it could eventually append in real condition when a static element creation request
@@ -162,6 +170,13 @@ class Map : public QObject
             ProcessableBuilding* issuer,
             std::function<void(Character*)> afterCreation
         );
+
+        /**
+         * @brief Create a nature element on the map.
+         * @param conf The conf for the new nature element to create.
+         * @param area The location of the element on the map.
+         */
+        void createNatureElement(const NatureElementInformation* conf, const MapArea& area);
 
         /**
          * @brief Destroy a building.
@@ -195,6 +210,7 @@ class Map : public QObject
     signals:
         void buildingCreated(Building* building);
         void characterCreated(Character* character);
+        void natureElementCreated(NatureElement* natureElement);
         void budgetChanged(const int budget);
         void populationChanged(const int population);
         void dateChanged(const int year, const int month);

@@ -39,7 +39,21 @@ int MapLoader::getBudget() const
 
 
 
-YAML::Node MapLoader::getStaticElements() const
+YAML::Node MapLoader::getBuildings() const
 {
-    return rootNode["staticElements"];
+    return rootNode["buildings"];
+}
+
+
+
+YAML::Node MapLoader::getCharacters() const
+{
+    return rootNode["characters"];
+}
+
+
+
+YAML::Node MapLoader::getNatureElements() const
+{
+    return rootNode["natureElements"];
 }

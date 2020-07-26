@@ -8,8 +8,7 @@ status:
         month: 1
         cycles: 0
     budget: 10000
-dynamicElements: []
-staticElements:
+buildings:
     - { type: cityEntryPoint, position: { x: 0, y: 0 }}
     - { type: road, position: { x: 0, y: 1 }}
     - { type: road, position: { x: 0, y: 2 }}
@@ -39,3 +38,5 @@ staticElements:
     - { type: house, position: { x: 4, y: 11 }}
     - { type: house, position: { x: 6, y: 11 }}
     - { type: house, position: { x: 8, y: 10 }}
+characters: []
+natureElements: []

@@ -95,5 +95,10 @@ const QString MONTH_TEXTS[13] = {
 
 QString InformationWidget::resolveDateText()
 {
-    return MONTH_TEXTS[month] + ' ' + QString::number(year);
+    if (year < 0) {
+        return MONTH_TEXTS[month] + ' ' + QString::number(-year) + " BC";
+    }
+    else {
+        return MONTH_TEXTS[month] + ' ' + QString::number(year);
+    }
 }

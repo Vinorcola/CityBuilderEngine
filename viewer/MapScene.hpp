@@ -11,6 +11,7 @@ class Map;
 class MapArea;
 class MapCoordinates;
 class MapSize;
+class NatureElement;
 class SelectionElement;
 class Tile;
 
@@ -43,9 +44,11 @@ class MapScene : public QGraphicsScene
         void requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area);
 
     public slots:
-        void registerNewStaticElement(const Building* element);
+        void registerNewBuilding(const Building* element);
 
-        void registerNewDynamicElement(const Character* element);
+        void registerNewCharacter(const Character* element);
+
+        void registerNewNatureElement(const NatureElement* element);
 
         /**
          * @brief Refresh the map.
@@ -55,7 +58,7 @@ class MapScene : public QGraphicsScene
     private:
         Tile* getTileAt(const MapCoordinates& location);
 
-        void addStaticElementBuilding(Tile* tile, const MapSize& elementSize, const QPixmap& elementImage);
+        void addStaticElement(Tile* tile, const MapSize& elementSize, const QPixmap& elementImage);
 
         /**
          * @brief Refresh the selection element.

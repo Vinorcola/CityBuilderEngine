@@ -10,6 +10,7 @@ class BuildingInformation;
 class CharacterInformation;
 class ControlPanelElementInformation;
 class ItemInformation;
+class NatureElementInformation;
 
 class Conf : public QObject
 {
@@ -19,6 +20,7 @@ class Conf : public QObject
         QHash<QString, ItemInformation*> items;
         QHash<QString, BuildingInformation*> buildings;
         QHash<QString, CharacterInformation*> characters;
+        QHash<QString, NatureElementInformation*> natureElements;
         QList<ControlPanelElementInformation*> controlPanelElements;
 
     public:
@@ -26,9 +28,11 @@ class Conf : public QObject
 
         const ItemInformation* getItemConf(const QString& key) const;
 
+        const BuildingInformation* getBuildingConf(const QString& key) const;
+
         const CharacterInformation* getCharacterConf(const QString& key) const;
 
-        const BuildingInformation* getBuildingConf(const QString& key) const;
+        const NatureElementInformation* getNatureElementConf(const QString& key) const;
 
         const QList<ControlPanelElementInformation*> getControlPanelElements() const;
 };

@@ -6,6 +6,7 @@
 #include "global/conf/CharacterInformation.hpp"
 #include "global/conf/ControlPanelElementInformation.hpp"
 #include "global/conf/ItemInformation.hpp"
+#include "global/conf/NatureElementInformation.hpp"
 #include "global/yamlLibraryEnhancement.hpp"
 
 
@@ -15,6 +16,7 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     items(),
     buildings(),
     characters(),
+    natureElements(),
     controlPanelElements()
 {
     // Load file.
@@ -40,6 +42,13 @@ Conf::Conf(QObject* parent, const QString& filePath) :
         buildings.insert(key, new BuildingInformation(this, this, key, node.second));
     }
 
+    // Load nature elements' configuration.
+    for (auto node : configurationRoot["natureElements"]) {
+        QString key(node.first.as<QString>());
+        NatureElementInformation::checkModel(key, node.second);
+        natureElements.insert(key, new NatureElementInformation(this, key, node.second));
+    }
+
     // Resolve dependencies.
     for (auto element : buildings) {
         element->resolveDependencies(this);
@@ -61,6 +70,13 @@ const ItemInformation* Conf::getItemConf(const QString& key) const
 
 
 
+const BuildingInformation* Conf::getBuildingConf(const QString& key) const
+{
+    return buildings.value(key);
+}
+
+
+
 const CharacterInformation* Conf::getCharacterConf(const QString& key) const
 {
     return characters.value(key);
@@ -68,9 +84,9 @@ const CharacterInformation* Conf::getCharacterConf(const QString& key) const
 
 
 
-const BuildingInformation* Conf::getBuildingConf(const QString& key) const
+const NatureElementInformation* Conf::getNatureElementConf(const QString& key) const
 {
-    return buildings.value(key);
+    return natureElements.value(key);
 }
 
 

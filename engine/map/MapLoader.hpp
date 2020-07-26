@@ -21,7 +21,11 @@ class MapLoader
 
         int getBudget() const;
 
-        YAML::Node getStaticElements() const;
+        YAML::Node getBuildings() const;
+
+        YAML::Node getCharacters() const;
+
+        YAML::Node getNatureElements() const;
 };
 
 #endif // MAPLOADER_HPP
