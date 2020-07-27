@@ -8,8 +8,7 @@
 
 #include "src/engine/map/path/MapDetailsInterface.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
-#include "src/engine/map/RoadLocationCache.hpp"
-#include "src/engine/map/TraversableLocationCache.hpp"
+#include "src/engine/map/MapDetailsCache.hpp"
 
 class BehaviorFactory;
 class Building;
@@ -43,8 +42,7 @@ class Map : public QObject, public MapDetailsInterface
         QLinkedList<Character*> characterList;
         QLinkedList<Building*> buildingList;
         QLinkedList<NatureElement*> natureElementList;
-        TraversableLocationCache traversableLocationCache;
-        RoadLocationCache roadLocationCache;
+        MapDetailsCache mapDetailsCache;
         CityEntryPoint* entryPoint;
         PathGenerator pathGenerator;
 

@@ -1,5 +1,5 @@
-#ifndef ROADLOCATIONCACHE_HPP
-#define ROADLOCATIONCACHE_HPP
+#ifndef MAPDETAILSCACHE_HPP
+#define MAPDETAILSCACHE_HPP
 
 #include <QtCore/QSet>
 #include <QtCore/QString>
@@ -7,13 +7,20 @@
 class MapArea;
 class MapCoordinates;
 
-class RoadLocationCache
+class MapDetailsCache
 {
     private:
+        QSet<QString> nonTraversableCoordinates;
         QSet<QString> roadCoordinates;
 
     public:
-        RoadLocationCache();
+        MapDetailsCache();
+
+        void registerNonTraversableLocation(const MapCoordinates& location);
+
+        void registerNonTraversableArea(const MapArea& area);
+
+        bool isLocationTraversable(const MapCoordinates& location) const;
 
         void registerRoadLocation(const MapCoordinates& location);
 
@@ -27,4 +34,4 @@ class RoadLocationCache
         QString hashCoordinates(const MapCoordinates& coordinates) const;
 };
 
-#endif // ROADLOCATIONCACHE_HPP
+#endif // MAPDETAILSCACHE_HPP

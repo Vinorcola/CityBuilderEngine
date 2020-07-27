@@ -39,10 +39,9 @@ SOURCES += \
     src/engine/map/Map.cpp \
     src/engine/map/MapArea.cpp \
     src/engine/map/MapCoordinates.cpp \
+    src/engine/map/MapDetailsCache.cpp \
     src/engine/map/MapLoader.cpp \
     src/engine/map/MapSize.cpp \
-    src/engine/map/RoadLocationCache.cpp \
-    src/engine/map/TraversableLocationCache.cpp \
     src/engine/processing/AbstractProcessable.cpp \
     src/engine/processing/BuildingProcessor.cpp \
     src/engine/processing/CharacterProcessor.cpp \
@@ -112,10 +111,9 @@ HEADERS += \
     src/engine/map/Map.hpp \
     src/engine/map/MapArea.hpp \
     src/engine/map/MapCoordinates.hpp \
+    src/engine/map/MapDetailsCache.hpp \
     src/engine/map/MapLoader.hpp \
     src/engine/map/MapSize.hpp \
-    src/engine/map/RoadLocationCache.hpp \
-    src/engine/map/TraversableLocationCache.hpp \
     src/engine/processing/AbstractProcessable.hpp \
     src/engine/processing/BuildingProcessor.hpp \
     src/engine/processing/CharacterProcessor.hpp \

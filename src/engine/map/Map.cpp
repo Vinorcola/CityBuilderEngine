@@ -35,8 +35,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     characterList(),
     buildingList(),
     natureElementList(),
-    traversableLocationCache(),
-    roadLocationCache(),
+    mapDetailsCache(),
     entryPoint(),
     pathGenerator(*this)
 {
@@ -191,14 +190,14 @@ const CycleDate& Map::getCurrentDate() const
 
 bool Map::isLocationTraversable(const MapCoordinates& location) const
 {
-    return isValidCoordinates(location) && traversableLocationCache.isLocationTraversable(location);
+    return isValidCoordinates(location) && mapDetailsCache.isLocationTraversable(location);
 }
 
 
 
 bool Map::hasRoadAtLocation(const MapCoordinates& location) const
 {
-    return isValidCoordinates(location) && roadLocationCache.hasRoadAtLocation(location);
+    return isValidCoordinates(location) && mapDetailsCache.hasRoadAtLocation(location);
 }
 
 
@@ -236,12 +235,12 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             throw UnexpectedException("Try to create a static element of type None.");
 
         case BuildingInformation::Type::Building: {
-            auto entryPoint(roadLocationCache.getBestEntryPointForArea(area));
+            auto entryPoint(mapDetailsCache.getBestEntryPointForArea(area));
             auto element(new ProcessableBuilding(this, behaviorFactory, conf, area, entryPoint));
             pointer = element;
             processor->registerBuilding(element);
             buildingList.append(element);
-            traversableLocationCache.registerNonTraversableArea(area);
+            mapDetailsCache.registerNonTraversableArea(area);
 
             connect(element, &ProcessableBuilding::requestCharacterCreation, [this, element](
                 const CharacterInformation* elementConf,
@@ -259,7 +258,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             pointer = entryPoint;
             processor->registerBuilding(entryPoint);
             buildingList.append(entryPoint);
-            roadLocationCache.registerRoadLocation(area.getLeft());
+            mapDetailsCache.registerRoadLocation(area.getLeft());
 
             connect(entryPoint, &CityEntryPoint::requestCharacterCreation, [this](
                 const CharacterInformation* elementConf,
@@ -275,7 +274,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             auto element(new Road(this, conf, coordinates));
             pointer = element;
             buildingList.append(element);
-            roadLocationCache.registerRoadLocation(area.getLeft());
+            mapDetailsCache.registerRoadLocation(area.getLeft());
             break;
         }
 
@@ -316,7 +315,7 @@ void Map::createNatureElement(const NatureElementInformation* conf, const MapAre
     auto natureElement(new NatureElement(this, conf, area));
     natureElementList.append(natureElement);
     if (!conf->isTraversable()) {
-        traversableLocationCache.registerNonTraversableArea(area);
+        mapDetailsCache.registerNonTraversableArea(area);
     }
 
     emit natureElementCreated(natureElement);
@@ -331,7 +330,7 @@ void Map::destroyBuilding(Building* building, std::function<void()> afterDestruc
             buildingList.removeOne(building);
             auto roadBuilding(dynamic_cast<Road*>(building));
             if (roadBuilding) {
-                roadLocationCache.unregisterRoadLocation(building->getArea().getLeft());
+                mapDetailsCache.unregisterRoadLocation(building->getArea().getLeft());
             }
             delete building;
             afterDestruction();
