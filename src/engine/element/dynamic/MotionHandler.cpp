@@ -2,8 +2,9 @@
 
 #include <cassert>
 
+#include "src/engine/map/path/PathGenerator.hpp"
+#include "src/engine/map/path/PathInterface.hpp"
 #include "src/engine/map/roadGraph/RoadGraphNode.hpp"
-#include "src/engine/map/Map.hpp"
 #include "src/engine/random.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
 
@@ -11,64 +12,102 @@
 
 MotionHandler::MotionHandler(
     QObject* parent,
-    const Map* map,
+    const PathGenerator& pathGenerator,
     qreal speed,
     const MapCoordinates& initialLocation,
-    int wanderingCredits,
+    int wanderingCredits
+) :
+    QObject(parent),
+    pathGenerator(pathGenerator),
+    speed(speed),
+    restrictedToRoads(true),
+    destination(),
+    path(pathGenerator.generateWanderingPath(initialLocation, wanderingCredits)),
+    location(initialLocation),
+    movingFrom(initialLocation),
+    movingTo(path->getNextTargetCoordinates())
+{
+
+}
+
+
+
+MotionHandler::MotionHandler(QObject* parent,
+    const PathGenerator& pathGenerator,
+    qreal speed,
+    const MapCoordinates& initialLocation,
+    const MapCoordinates& destination,
     bool restrictedToRoads
 ) :
     QObject(parent),
-    map(map),
+    pathGenerator(pathGenerator),
     speed(speed),
     restrictedToRoads(restrictedToRoads),
-    isWanderingStrategy(wanderingCredits > 0),
-    wanderingCredits(wanderingCredits),
+    destination(destination),
+    path(
+        restrictedToRoads ?
+            pathGenerator.generateShortestRoadPathTo(initialLocation, destination) :
+            pathGenerator.generateShortestPathTo(initialLocation, destination)
+    ),
     location(initialLocation),
     movingFrom(initialLocation),
-    movingTo(),
-    targetRoadNode(nullptr),
-    target(),
-    roadPath()
+    movingTo(path->getNextTargetCoordinates())
 {
-    if (isWanderingStrategy) {
-        movingTo = getNextPathTile();
+
+}
+
+
+
+MotionHandler::~MotionHandler()
+{
+    if (path) {
+        delete path;
     }
 }
 
 
 
-void MotionHandler::setTarget(const RoadGraphNode* location)
+void MotionHandler::changeDestination(const RoadGraphNode* location)
 {
     assert(location != nullptr);
 
-    targetRoadNode = location;
-    target = location->getCoordinates();
-    calculatePath();
+    changeDestination(location->getCoordinates());
 }
 
 
 
-void MotionHandler::setTarget(const MapCoordinates& location)
+void MotionHandler::changeDestination(const MapCoordinates& destination)
 {
-    targetRoadNode = map->resolveRoad(location);
-    target = location;
-    calculatePath();
+    this->destination = destination;
+    if (path) {
+        delete path;
+    }
+    path = restrictedToRoads ?
+        pathGenerator.generateShortestRoadPathTo(location, destination) :
+        pathGenerator.generateShortestPathTo(location, destination);
+    movingFrom = location;
+    movingTo = path->getNextTargetCoordinates();
+
 }
 
 
 
-void MotionHandler::resetTarget()
+void MotionHandler::resetDestination()
 {
-    targetRoadNode = nullptr;
-    target = MapCoordinates();
-    calculatePath();
+    destination = MapCoordinates();
+    if (path) {
+        delete path;
+        path = nullptr;
+    }
+    movingFrom = location;
+    movingTo = MapCoordinates();
 }
 
 
 
-bool MotionHandler::hasReachedTarget() const
+bool MotionHandler::isPathCompleted() const
 {
-    return target.isValid() && location == target;
+    return !movingTo.isValid() && (!destination.isValid() || location == destination);
 }
 
 
@@ -89,118 +128,34 @@ MapCoordinates MotionHandler::getCurrentTileCoordinates() const
 
 const MapCoordinates& MotionHandler::move()
 {
-    if (movingTo.isValid()) {
-        if (movingTo == location) {
-            // Fetch next tile on the path.
-            movingTo = getNextPathTile();
-            movingFrom = location;
-            if (!movingTo.isValid()) {
-                return location;
-            }
-        }
-
-        moveToTarget();
+    if (location == movingTo) {
+        configureNextMovingStep();
     }
+
+    if (!movingTo.isValid()) {
+        return location;
+    }
+
+    moveToTarget();
 
     return location;
 }
 
 
 
-const RoadGraphNode* MotionHandler::getCurrentRoadNode() const
+void MotionHandler::configureNextMovingStep()
 {
-    auto roadNode(map->resolveRoad(location.getRounded()));
-    if (!roadNode) {
-        throw new UnexpectedException("Expected a road at location " + location.toString());
-    }
-
-    return roadNode;
-}
-
-
-
-void MotionHandler::calculatePath()
-{
-    if (!restrictedToRoads) {
-        // Not implemented yet.
-        assert(false);
-    }
-
-    movingFrom = location.getRounded();
-    movingTo = MapCoordinates();
-    roadPath.clear();
-    if (!targetRoadNode) {
-        return;
-    }
-
-    roadPath = map->getShortestRoadPathBetween(location, targetRoadNode->getCoordinates());
-    if (roadPath.isEmpty()) {
-        return;
-    }
-
-    if (roadPath.first()->getCoordinates() == location) {
-        roadPath.takeFirst();
-    }
-    movingTo = getNextPathTile();
-}
-
-
-
-MapCoordinates MotionHandler::getNextPathTile()
-{
-    if (target.isValid()) {
-        if (roadPath.empty()) {
-            // Destination reached or no available path.
-            return MapCoordinates();
+    // Fetch next tile on the path.
+    movingFrom = location;
+    movingTo = path->getNextTargetCoordinates();
+    if (!movingTo.isValid()) {
+        if (location == destination) {
+            emit pathCompleted();
         }
-
-        return roadPath.takeFirst()->getCoordinates();
-    }
-
-    if (isWanderingStrategy) {
-        // Use a wandering credit.
-        --wanderingCredits;
-        if (wanderingCredits == -1) {
-            // Wandering credits expired.
-            emit wanderingCreditsExpired();
-
-            return movingTo; // During the emitted signal, a new target may be set and a movingTo location can already
-                             // ba calculated, so we must not erase it. We return the current movingTo value.
-        }
-
-        return getNextRandomTile();
-    }
-
-    return MapCoordinates();
-}
-
-
-
-MapCoordinates MotionHandler::getNextRandomTile()
-{
-    auto neighbourNodes(getCurrentRoadNode()->getNeighbourNodeList());
-    if (neighbourNodes.size() == 0) {
-        // Character is on a single road tile.
-        return MapCoordinates();
-    }
-    if (neighbourNodes.size() == 1) {
-        // Dead end, must go back.
-        return neighbourNodes.first()->getCoordinates();
-    }
-    // We remove the node we came from.
-    for (auto node: neighbourNodes) {
-        if (node->getCoordinates() == movingFrom) {
-            neighbourNodes.removeOne(node);
-            break;
+        else {
+            emit pathFailed();
         }
     }
-    if (neighbourNodes.size() == 1) {
-        // Only one choice left
-        return neighbourNodes.first()->getCoordinates();
-    }
-
-    // Choose random.
-    return neighbourNodes.at(randomInt(0, neighbourNodes.size() - 1))->getCoordinates();
 }
 
 
@@ -209,12 +164,15 @@ void MotionHandler::moveToTarget()
 {
     if (movingTo.getX() > location.getX()) {
         location.setX(qMin(location.getX() + speed, movingTo.getX()));
-    } else if (movingTo.getX() < location.getX()) {
+    }
+    else if (movingTo.getX() < location.getX()) {
         location.setX(qMax(location.getX() - speed, movingTo.getX()));
     }
+
     if (movingTo.getY() > location.getY()) {
         location.setY(qMin(location.getY() + speed, movingTo.getY()));
-    } else if (movingTo.getY() < location.getY()) {
+    }
+    else if (movingTo.getY() < location.getY()) {
         location.setY(qMax(location.getY() - speed, movingTo.getY()));
     }
 }

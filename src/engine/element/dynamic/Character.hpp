@@ -14,6 +14,7 @@ class CharacterInformation;
 class ItemInformation;
 class Map;
 class MotionHandler;
+class PathGenerator;
 
 /**
  * @brief A character on the map.
@@ -54,7 +55,7 @@ class Character : public QObject, public AbstractProcessable
     public:
         Character(
             QObject* parent,
-            const Map* map,
+            const PathGenerator& pathGenerator,
             const CharacterInformation* conf,
             ProcessableBuilding* issuer,
             int wanderingCredits = 0,

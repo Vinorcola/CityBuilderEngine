@@ -22,6 +22,22 @@ RandomRoadPath::RandomRoadPath(
 
 MapCoordinates RandomRoadPath::getNextTargetCoordinates()
 {
+    auto nextLocation(getNextRandomCoordinates());
+    if (!nextLocation.isValid()) {
+        return nextLocation;
+    }
+
+    previousLocation = currentLocation;
+    currentLocation = nextLocation;
+    --wanderingCredits;
+
+    return currentLocation;
+}
+
+
+
+MapCoordinates RandomRoadPath::getNextRandomCoordinates() const
+{
     if (wanderingCredits <= 0) {
         // Wandering credits expired.
         return {};
@@ -60,9 +76,5 @@ MapCoordinates RandomRoadPath::getNextTargetCoordinates()
     }
 
     // Choose random.
-    previousLocation = currentLocation;
-    currentLocation = roadNeighbours.at(randomInt(0, roadNeighbours.size() - 1));
-    --wanderingCredits;
-
-    return currentLocation;
+    return roadNeighbours.at(randomInt(0, roadNeighbours.size() - 1));
 }

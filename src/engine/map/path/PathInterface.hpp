@@ -9,6 +9,8 @@ class MapCoordinates;
 class PathInterface
 {
     public:
+        virtual ~PathInterface() {}
+
         virtual MapCoordinates getNextTargetCoordinates() = 0;
 };
 

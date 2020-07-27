@@ -290,6 +290,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             roadGraph->createNode(coordinates);
             processor->registerBuilding(entryPoint);
             buildingList.append(entryPoint);
+            roadLocationCache.registerRoadLocation(area.getLeft());
 
             connect(entryPoint, &CityEntryPoint::requestCharacterCreation, [this](
                 const CharacterInformation* elementConf,
@@ -325,7 +326,7 @@ void Map::createCharacter(
     ProcessableBuilding* issuer,
     std::function<void(Character*)> afterCreation
 ) {
-    auto character(new Character(this, this, conf, issuer, conf->getWanderingCredits()));
+    auto character(new Character(this, pathGenerator, conf, issuer, conf->getWanderingCredits()));
     processor->registerCharacter(character);
     characterList.append(character);
     afterCreation(character);

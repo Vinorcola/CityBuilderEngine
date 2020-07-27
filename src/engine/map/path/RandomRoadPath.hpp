@@ -18,6 +18,9 @@ class RandomRoadPath : public PathInterface
         RandomRoadPath(const MapDetailsInterface& mapDetails, const MapCoordinates& initialLocation, const int wanderingCredits);
 
         virtual MapCoordinates getNextTargetCoordinates() override;
+
+    private:
+        MapCoordinates getNextRandomCoordinates() const;
 };
 
 #endif // RANDOMROADPATH_HPP
