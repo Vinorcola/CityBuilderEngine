@@ -6,8 +6,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
-#include "src/engine/map/pathFinder/MapDetailsInterface.hpp"
-#include "src/engine/map/pathFinder/PathFinder.hpp"
+#include "src/engine/map/path/MapDetailsInterface.hpp"
+#include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/RoadLocationCache.hpp"
 #include "src/engine/map/TraversableLocationCache.hpp"
 
@@ -49,7 +49,7 @@ class Map : public QObject, public MapDetailsInterface
         TraversableLocationCache traversableLocationCache;
         RoadLocationCache roadLocationCache;
         CityEntryPoint* entryPoint;
-        PathFinder pathFinder;
+        PathGenerator pathGenerator;
 
     public:
         Map(const Conf* conf, const MapLoader& loader);

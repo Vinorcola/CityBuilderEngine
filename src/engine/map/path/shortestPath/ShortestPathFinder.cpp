@@ -1,15 +1,15 @@
-#include "PathFinder.hpp"
+#include "ShortestPathFinder.hpp"
 
 #include <QtCore/QHash>
 
+#include "src/engine/map/path/shortestPath/AStarNode.hpp"
+#include "src/engine/map/path/shortestPath/ProcessedAStarNodeList.hpp"
+#include "src/engine/map/path/shortestPath/UnprocessedAStarNodeList.hpp"
 #include "src/engine/map/path/MapDetailsInterface.hpp"
-#include "src/engine/map/path/aStar/AStarNode.hpp"
-#include "src/engine/map/path/aStar/ProcessedAStarNodeList.hpp"
-#include "src/engine/map/path/aStar/UnprocessedAStarNodeList.hpp"
 
 
 
-PathFinder::PathFinder(const MapDetailsInterface& mapDetails) :
+ShortestPathFinder::ShortestPathFinder(const MapDetailsInterface& mapDetails) :
     mapDetails(mapDetails)
 {
 
@@ -17,7 +17,7 @@ PathFinder::PathFinder(const MapDetailsInterface& mapDetails) :
 
 
 
-QList<MapCoordinates> PathFinder::getShortestPath(
+QList<MapCoordinates> ShortestPathFinder::getShortestPath(
     const MapCoordinates& origin,
     const MapCoordinates& destination,
     const bool restrictedToRoads

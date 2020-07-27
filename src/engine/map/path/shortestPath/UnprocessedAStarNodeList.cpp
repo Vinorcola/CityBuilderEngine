@@ -1,6 +1,6 @@
 #include "UnprocessedAStarNodeList.hpp"
 
-#include "src/engine/map/path/aStar/AStarNode.hpp"
+#include "src/engine/map/path/shortestPath/AStarNode.hpp"
 
 
 

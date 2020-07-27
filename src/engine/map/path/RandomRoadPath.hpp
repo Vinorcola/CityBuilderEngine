@@ -12,9 +12,10 @@ class RandomRoadPath : public PathInterface
         const MapDetailsInterface& mapDetails;
         MapCoordinates previousLocation;
         MapCoordinates currentLocation;
+        int wanderingCredits;
 
     public:
-        RandomRoadPath(const MapDetailsInterface& mapDetails, const MapCoordinates& initialLocation);
+        RandomRoadPath(const MapDetailsInterface& mapDetails, const MapCoordinates& initialLocation, const int wanderingCredits);
 
         virtual MapCoordinates getNextTargetCoordinates() override;
 };

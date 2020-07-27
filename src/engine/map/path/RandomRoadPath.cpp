@@ -5,10 +5,15 @@
 
 
 
-RandomRoadPath::RandomRoadPath(const MapDetailsInterface& mapDetails, const MapCoordinates& initialLocation) :
+RandomRoadPath::RandomRoadPath(
+    const MapDetailsInterface& mapDetails,
+    const MapCoordinates& initialLocation,
+    const int wanderingCredits
+) :
     mapDetails(mapDetails),
     previousLocation(),
-    currentLocation(initialLocation.getRounded())
+    currentLocation(initialLocation.getRounded()),
+    wanderingCredits(wanderingCredits)
 {
 
 }
@@ -17,6 +22,11 @@ RandomRoadPath::RandomRoadPath(const MapDetailsInterface& mapDetails, const MapC
 
 MapCoordinates RandomRoadPath::getNextTargetCoordinates()
 {
+    if (wanderingCredits <= 0) {
+        // Wandering credits expired.
+        return {};
+    }
+
     QList<MapCoordinates> neighbours({
         currentLocation.getNorth(),
         currentLocation.getEast(),
@@ -52,6 +62,7 @@ MapCoordinates RandomRoadPath::getNextTargetCoordinates()
     // Choose random.
     previousLocation = currentLocation;
     currentLocation = roadNeighbours.at(randomInt(0, roadNeighbours.size() - 1));
+    --wanderingCredits;
 
     return currentLocation;
 }

@@ -1,23 +1,17 @@
 #include "TargetedPath.hpp"
 
 #include "src/engine/map/path/MapDetailsInterface.hpp"
-#include "src/engine/map/path/PathFinder.hpp"
 
 
 
 TargetedPath::TargetedPath(
     const MapDetailsInterface& mapDetails,
-    const PathFinder& pathFinder,
-    const MapCoordinates& initialLocation,
-    const MapCoordinates& destination,
-    const bool restrictedToRoads
+    const bool restrictedToRoads,
+    const QList<MapCoordinates>& path
 ) :
     mapDetails(mapDetails),
-    pathFinder(pathFinder),
-    currentLocation(initialLocation.getRounded()),
-    destination(destination),
     restrictedToRoads(restrictedToRoads),
-    path(pathFinder.getShortestPath(initialLocation, destination, restrictedToRoads))
+    path(path)
 {
 
 }
@@ -26,24 +20,17 @@ TargetedPath::TargetedPath(
 
 MapCoordinates TargetedPath::getNextTargetCoordinates()
 {
+    if (path.isEmpty()) {
+        return {};
+    }
+
     auto nextLocation(path.takeFirst());
     if (!mapDetails.isLocationTraversable(nextLocation)) {
-        recalculatePath();
-        nextLocation = path.takeFirst();
+        return {};
     }
-    else if (restrictedToRoads && !mapDetails.isLocationARoad(nextLocation)) {
-        recalculatePath();
-        nextLocation = path.takeFirst();
+    if (restrictedToRoads && !mapDetails.isLocationARoad(nextLocation)) {
+        return {};
     }
-
-    currentLocation = nextLocation;
 
     return nextLocation;
-}
-
-
-
-void TargetedPath::recalculatePath()
-{
-    path = pathFinder.getShortestPath(currentLocation, destination, restrictedToRoads);
 }

@@ -41,7 +41,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     traversableLocationCache(),
     roadLocationCache(),
     entryPoint(),
-    pathFinder(*this)
+    pathGenerator(*this)
 {
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
