@@ -2,7 +2,6 @@
 #define MOTIONHANDLER_HPP
 
 #include <QtCore/QList>
-#include <QtCore/QObject>
 #include <QtCore/QPointer>
 
 #include "src/engine/map/MapCoordinates.hpp"
@@ -27,10 +26,8 @@ class RoadGraphNode;
  * allow the character to move through a road node). Once all the wandering credits are used, it will emit
  * `wanderingCreditsExpired()` signal.
  */
-class MotionHandler: public QObject
+class MotionHandler
 {
-        Q_OBJECT
-
     private:
         const PathGenerator& pathGenerator;
         const qreal speed;
@@ -50,7 +47,6 @@ class MotionHandler: public QObject
          * @param randomWalkingCredits The wandering credits.
          */
         MotionHandler(
-            QObject* parent,
             const PathGenerator& pathGenerator,
             qreal speed,
             const MapCoordinates& initialLocation,
@@ -66,7 +62,6 @@ class MotionHandler: public QObject
          * @param restrictedToRoads The wandering credits.
          */
         MotionHandler(
-            QObject* parent,
             const PathGenerator& pathGenerator,
             qreal speed,
             const MapCoordinates& initialLocation,
@@ -74,7 +69,7 @@ class MotionHandler: public QObject
             bool restrictedToRoads
         );
 
-        virtual ~MotionHandler();
+        ~MotionHandler();
 
         /**
          * @brief Set a road target.

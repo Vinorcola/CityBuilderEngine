@@ -10,14 +10,11 @@
 
 
 
-MotionHandler::MotionHandler(
-    QObject* parent,
-    const PathGenerator& pathGenerator,
+MotionHandler::MotionHandler(const PathGenerator& pathGenerator,
     qreal speed,
     const MapCoordinates& initialLocation,
     int wanderingCredits
 ) :
-    QObject(parent),
     pathGenerator(pathGenerator),
     speed(speed),
     restrictedToRoads(true),
@@ -32,14 +29,13 @@ MotionHandler::MotionHandler(
 
 
 
-MotionHandler::MotionHandler(QObject* parent,
+MotionHandler::MotionHandler(
     const PathGenerator& pathGenerator,
     qreal speed,
     const MapCoordinates& initialLocation,
     const MapCoordinates& destination,
     bool restrictedToRoads
 ) :
-    QObject(parent),
     pathGenerator(pathGenerator),
     speed(speed),
     restrictedToRoads(restrictedToRoads),
