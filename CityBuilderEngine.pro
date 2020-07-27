@@ -26,6 +26,8 @@ SOURCES += \
     src/engine/element/static/NatureElement.cpp \
     src/engine/element/static/ProcessableBuilding.cpp \
     src/engine/element/static/Road.cpp \
+    src/engine/map/path/RandomRoadPath.cpp \
+    src/engine/map/path/TargetedPath.cpp \
     src/engine/map/pathFinder/PathFinder.cpp \
     src/engine/map/pathFinder/PathFinderNode.cpp \
     src/engine/map/pathFinder/ProcessedPathFinderNodeList.cpp \
@@ -100,7 +102,10 @@ HEADERS += \
     src/engine/element/static/NatureElement.hpp \
     src/engine/element/static/ProcessableBuilding.hpp \
     src/engine/element/static/Road.hpp \
-    src/engine/map/pathFinder/MapDetailsInterface.hpp \
+    src/engine/map/path/MapDetailsInterface.hpp \
+    src/engine/map/path/PathInterface.hpp \
+    src/engine/map/path/RandomRoadPath.hpp \
+    src/engine/map/path/TargetedPath.hpp \
     src/engine/map/pathFinder/PathFinder.hpp \
     src/engine/map/pathFinder/PathFinderNode.hpp \
     src/engine/map/pathFinder/ProcessedPathFinderNodeList.hpp \

@@ -49,6 +49,13 @@ class MapCoordinates
         MapCoordinates(const qreal x, const qreal y);
 
         /**
+         * @brief Assign the other coordinates to this one.
+         *
+         * @param other The coordinates to copy.
+         */
+        void operator =(const MapCoordinates& other);
+
+        /**
          * @brief Indicate if the two coordinates are equal.
          *
          * @param other Other coordinates to compare to.
