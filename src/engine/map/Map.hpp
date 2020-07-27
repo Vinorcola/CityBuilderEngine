@@ -26,8 +26,6 @@ class MapLoader;
 class NatureElement;
 class NatureElementInformation;
 class ProcessableBuilding;
-class RoadGraph;
-class RoadGraphNode;
 class SearchEngine;
 class TimeCycleProcessor;
 
@@ -39,7 +37,6 @@ class Map : public QObject, public MapDetailsInterface
         const Conf* conf;
         QSize size;
         CityStatus* cityStatus;
-        RoadGraph* roadGraph;
         TimeCycleProcessor* processor;
         SearchEngine* searchEngine;
         BehaviorFactory* behaviorFactory;
@@ -82,29 +79,6 @@ class Map : public QObject, public MapDetailsInterface
          * @brief Indicate if the given area is free of any kind of static element.
          */
         bool isFreeArea(const MapArea& area) const;
-
-        /**
-         * @brief Resolve the road graph node corresponding to the given coordinates.
-         *
-         * It returns `nullptr` if there is no road at those coordinates.
-         */
-        const RoadGraphNode* resolveRoad(const MapCoordinates& coordinates) const;
-
-        /**
-         * @brief Get shortest road path between two coordinates.
-         *
-         * It returns a list of road nodes to go through or an empty list if there is not path available between the
-         * given coordinates.
-         */
-        QList<const RoadGraphNode*> getShortestRoadPathBetween(
-            const MapCoordinates& origin,
-            const MapCoordinates& destination
-        ) const;
-
-        /**
-         * @brief Get the auto entry point around the given area.
-         */
-        MapCoordinates getAutoEntryPoint(const MapArea& area) const;
 
         /**
          * @brief Return a const reference to the time cycle processor.
