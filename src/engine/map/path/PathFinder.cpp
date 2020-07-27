@@ -2,10 +2,10 @@
 
 #include <QtCore/QHash>
 
-#include "src/engine/map/pathFinder/MapDetailsInterface.hpp"
-#include "src/engine/map/pathFinder/PathFinderNode.hpp"
-#include "src/engine/map/pathFinder/ProcessedPathFinderNodeList.hpp"
-#include "src/engine/map/pathFinder/UnprocessedPathFinderNodeList.hpp"
+#include "src/engine/map/path/MapDetailsInterface.hpp"
+#include "src/engine/map/path/aStar/AStarNode.hpp"
+#include "src/engine/map/path/aStar/ProcessedAStarNodeList.hpp"
+#include "src/engine/map/path/aStar/UnprocessedAStarNodeList.hpp"
 
 
 
@@ -24,18 +24,18 @@ QList<MapCoordinates> PathFinder::getShortestPath(
 ) const {
 
     QList<MapCoordinates> path;
-    ProcessedPathFinderNodeList closedPathNodes;
-    UnprocessedPathFinderNodeList openedPathNodes;
-    QHash<PathFinderNode*, PathFinderNode*> parents;
+    ProcessedAStarNodeList closedPathNodes;
+    UnprocessedAStarNodeList openedPathNodes;
+    QHash<AStarNode*, AStarNode*> parents;
 
     // Initialize.
     if (origin.isRounded()) {
-        openedPathNodes.insertNodeToProcess(new PathFinderNode(origin, destination, 0.0, !restrictedToRoads));
+        openedPathNodes.insertNodeToProcess(new AStarNode(origin, destination, 0.0, !restrictedToRoads));
     }
     else {
         // We get here the both nodes around the origin coordinates and initialize them with cost according to origin.
         for (auto originRoundedCoordinates : origin.getClosestRounded()) {
-            openedPathNodes.insertNodeToProcess(new PathFinderNode(
+            openedPathNodes.insertNodeToProcess(new AStarNode(
                 originRoundedCoordinates,
                 destination,
                 originRoundedCoordinates.getManhattanDistanceTo(origin),
@@ -78,7 +78,7 @@ QList<MapCoordinates> PathFinder::getShortestPath(
             }
             else {
                 // Create neighbour node and insert it in the opened path nodes.
-                neighbour = new PathFinderNode(neighbourLocation, destination, neighboursCostFromOrigin, !restrictedToRoads);
+                neighbour = new AStarNode(neighbourLocation, destination, neighboursCostFromOrigin, !restrictedToRoads);
                 parents[neighbour] = current;
                 openedPathNodes.insertNodeToProcess(neighbour);
             }

@@ -1,5 +1,5 @@
-#ifndef PATHFINDERNODE_HPP
-#define PATHFINDERNODE_HPP
+#ifndef ASTARNODE_HPP
+#define ASTARNODE_HPP
 
 #include "src/engine/map/MapCoordinates.hpp"
 
@@ -9,7 +9,7 @@
  * Note that cost from origin and the Manhattan distance may be a real number if the path is calculated once the
  * character has start to move (it does not have rounded coordinates).
  */
-class PathFinderNode
+class AStarNode
 {
     private:
         const MapCoordinates location;
@@ -19,7 +19,7 @@ class PathFinderNode
         const bool useDiagonals;
 
     public:
-        PathFinderNode(
+        AStarNode(
             const MapCoordinates& location,
             const MapCoordinates& destination,
             const qreal cost,
@@ -54,7 +54,7 @@ class PathFinderNode
         /**
          * @brief Indicate if this node is closer to the destination compared to the other node.
          */
-        bool isTheoreticallyCloserToDestinationThan(const PathFinderNode& other) const;
+        bool isTheoreticallyCloserToDestinationThan(const AStarNode& other) const;
 };
 
-#endif // PATHFINDERNODE_HPP
+#endif // ASTARNODE_HPP

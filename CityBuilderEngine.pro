@@ -26,12 +26,12 @@ SOURCES += \
     src/engine/element/static/NatureElement.cpp \
     src/engine/element/static/ProcessableBuilding.cpp \
     src/engine/element/static/Road.cpp \
+    src/engine/map/path/aStar/AStarNode.cpp \
+    src/engine/map/path/aStar/ProcessedAStarNodeList.cpp \
+    src/engine/map/path/aStar/UnprocessedAStarNodeList.cpp \
+    src/engine/map/path/PathFinder.cpp \
     src/engine/map/path/RandomRoadPath.cpp \
     src/engine/map/path/TargetedPath.cpp \
-    src/engine/map/pathFinder/PathFinder.cpp \
-    src/engine/map/pathFinder/PathFinderNode.cpp \
-    src/engine/map/pathFinder/ProcessedPathFinderNodeList.cpp \
-    src/engine/map/pathFinder/UnprocessedPathFinderNodeList.cpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinder.cpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNode.cpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.cpp \
@@ -102,14 +102,14 @@ HEADERS += \
     src/engine/element/static/NatureElement.hpp \
     src/engine/element/static/ProcessableBuilding.hpp \
     src/engine/element/static/Road.hpp \
+    src/engine/map/path/aStar/AStarNode.hpp \
+    src/engine/map/path/aStar/ProcessedAStarNodeList.hpp \
+    src/engine/map/path/aStar/UnprocessedAStarNodeList.hpp \
     src/engine/map/path/MapDetailsInterface.hpp \
+    src/engine/map/path/PathFinder.hpp \
     src/engine/map/path/PathInterface.hpp \
     src/engine/map/path/RandomRoadPath.hpp \
     src/engine/map/path/TargetedPath.hpp \
-    src/engine/map/pathFinder/PathFinder.hpp \
-    src/engine/map/pathFinder/PathFinderNode.hpp \
-    src/engine/map/pathFinder/ProcessedPathFinderNodeList.hpp \
-    src/engine/map/pathFinder/UnprocessedPathFinderNodeList.hpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinder.hpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNode.hpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.hpp \

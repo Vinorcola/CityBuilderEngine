@@ -1,8 +1,8 @@
-#include "PathFinderNode.hpp"
+#include "AStarNode.hpp"
 
 
 
-PathFinderNode::PathFinderNode(
+AStarNode::AStarNode(
     const MapCoordinates& location,
     const MapCoordinates& destination,
     const qreal cost,
@@ -23,7 +23,7 @@ PathFinderNode::PathFinderNode(
 
 
 
-void PathFinderNode::updateCostIfBetter(const qreal cost)
+void AStarNode::updateCostIfBetter(const qreal cost)
 {
     if (cost < costFromOrigin) {
         costFromOrigin = cost;
@@ -32,28 +32,28 @@ void PathFinderNode::updateCostIfBetter(const qreal cost)
 
 
 
-const MapCoordinates& PathFinderNode::getLocation() const
+const MapCoordinates& AStarNode::getLocation() const
 {
     return location;
 }
 
 
 
-bool PathFinderNode::isDestination() const
+bool AStarNode::isDestination() const
 {
     return straightDistanceToDestination == 0.0;
 }
 
 
 
-qreal PathFinderNode::getCostFromOrigin() const
+qreal AStarNode::getCostFromOrigin() const
 {
     return costFromOrigin;
 }
 
 
 
-QList<MapCoordinates> PathFinderNode::getNeighbours() const
+QList<MapCoordinates> AStarNode::getNeighbours() const
 {
     QList<MapCoordinates> list;
     list.append(location.getNorth());
@@ -72,7 +72,7 @@ QList<MapCoordinates> PathFinderNode::getNeighbours() const
 
 
 
-bool PathFinderNode::isTheoreticallyCloserToDestinationThan(const PathFinderNode& other) const
+bool AStarNode::isTheoreticallyCloserToDestinationThan(const AStarNode& other) const
 {
     auto thisBestCost(costFromOrigin + theoreticalBestDistanceToDestination);
     auto otherBestCost(other.costFromOrigin + other.theoreticalBestDistanceToDestination);
