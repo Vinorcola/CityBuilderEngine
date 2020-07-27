@@ -9,7 +9,6 @@
 
 class PathGenerator;
 class PathInterface;
-class RoadGraphNode;
 
 /**
  * @brief Handle the motion of characters on the map.
@@ -70,12 +69,6 @@ class MotionHandler
         );
 
         ~MotionHandler();
-
-        /**
-         * @brief Set a road target.
-         * @deprecated
-         */
-        void changeDestination(const RoadGraphNode* location);
 
         /**
          * @brief Set a target.
