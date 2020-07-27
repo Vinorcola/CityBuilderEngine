@@ -228,7 +228,7 @@ bool Map::isLocationTraversable(const MapCoordinates& location) const
 
 
 
-bool Map::isLocationARoad(const MapCoordinates& location) const
+bool Map::hasRoadAtLocation(const MapCoordinates& location) const
 {
     return isValidCoordinates(location) && roadLocationCache.hasRoadAtLocation(location);
 }

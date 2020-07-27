@@ -64,7 +64,7 @@ QList<MapCoordinates> ShortestPathFinder::getShortestPath(
             if (!mapDetails.isLocationTraversable(neighbourLocation)) {
                 continue;
             }
-            if (restrictedToRoads && !mapDetails.isLocationARoad(neighbourLocation)) {
+            if (restrictedToRoads && !mapDetails.hasRoadAtLocation(neighbourLocation)) {
                 continue;
             }
 

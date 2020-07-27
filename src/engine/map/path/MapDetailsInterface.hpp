@@ -14,7 +14,7 @@ class MapDetailsInterface
         /**
          * @brief Indicate if there is a road on the given location.
          */
-        virtual bool isLocationARoad(const MapCoordinates& location) const = 0;
+        virtual bool hasRoadAtLocation(const MapCoordinates& location) const = 0;
 };
 
 #endif // MAPDETAILSINTERFACE_HPP

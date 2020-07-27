@@ -28,7 +28,7 @@ MapCoordinates TargetedPath::getNextTargetCoordinates()
     if (!mapDetails.isLocationTraversable(nextLocation)) {
         return {};
     }
-    if (restrictedToRoads && !mapDetails.isLocationARoad(nextLocation)) {
+    if (restrictedToRoads && !mapDetails.hasRoadAtLocation(nextLocation)) {
         return {};
     }
 

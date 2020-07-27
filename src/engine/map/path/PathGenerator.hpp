@@ -1,9 +1,8 @@
 #ifndef PATHGENERATOR_HPP
 #define PATHGENERATOR_HPP
 
-#include "src/defines.hpp"
-
 #include "src/engine/map/path/shortestPath/ShortestPathFinder.hpp"
+#include "src/defines.hpp"
 
 class MapCoordinates;
 class MapDetailsInterface;

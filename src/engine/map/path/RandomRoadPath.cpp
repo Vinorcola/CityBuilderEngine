@@ -51,7 +51,7 @@ MapCoordinates RandomRoadPath::getNextRandomCoordinates() const
     });
     QList<MapCoordinates> roadNeighbours;
     for (auto neighbour : neighbours) {
-        if (mapDetails.isLocationARoad(neighbour)) {
+        if (mapDetails.hasRoadAtLocation(neighbour)) {
             roadNeighbours.append(neighbour);
         }
     }

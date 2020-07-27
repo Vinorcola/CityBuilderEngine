@@ -143,7 +143,7 @@ class Map : public QObject, public MapDetailsInterface
 
         virtual bool isLocationTraversable(const MapCoordinates& location) const;
 
-        virtual bool isLocationARoad(const MapCoordinates& location) const;
+        virtual bool hasRoadAtLocation(const MapCoordinates& location) const;
 
     public slots:
         /**
