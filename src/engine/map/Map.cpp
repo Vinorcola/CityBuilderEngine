@@ -39,7 +39,9 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     buildingList(),
     natureElementList(),
     traversableLocationCache(),
-    entryPoint()
+    roadLocationCache(),
+    entryPoint(),
+    pathFinder(*this)
 {
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
@@ -228,7 +230,7 @@ bool Map::isLocationTraversable(const MapCoordinates& location) const
 
 bool Map::isLocationARoad(const MapCoordinates& location) const
 {
-    return roadGraph->fetchNodeAt(location) != nullptr;
+    return roadLocationCache.hasRoadAtLocation(location);
 }
 
 
@@ -304,6 +306,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             pointer = element;
             roadGraph->createNode(coordinates);
             buildingList.append(element);
+            roadLocationCache.registerRoadLocation(area.getLeft());
             break;
         }
 
@@ -358,6 +361,10 @@ void Map::destroyBuilding(Building* building, std::function<void()> afterDestruc
     for (auto fromList : buildingList) {
         if (fromList == building) {
             buildingList.removeOne(building);
+            auto roadBuilding(dynamic_cast<Road*>(building));
+            if (roadBuilding) {
+                roadLocationCache.unregisterRoadLocation(building->getArea().getLeft());
+            }
             delete building;
             afterDestruction();
             return;
