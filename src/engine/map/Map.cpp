@@ -223,14 +223,14 @@ const CycleDate& Map::getCurrentDate() const
 
 bool Map::isLocationTraversable(const MapCoordinates& location) const
 {
-    return traversableLocationCache.isLocationTraversable(location);
+    return isValidCoordinates(location) && traversableLocationCache.isLocationTraversable(location);
 }
 
 
 
 bool Map::isLocationARoad(const MapCoordinates& location) const
 {
-    return roadLocationCache.hasRoadAtLocation(location);
+    return isValidCoordinates(location) && roadLocationCache.hasRoadAtLocation(location);
 }
 
 
@@ -272,6 +272,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             pointer = element;
             processor->registerBuilding(element);
             buildingList.append(element);
+            traversableLocationCache.registerNonTraversableArea(area);
 
             connect(element, &ProcessableBuilding::requestCharacterCreation, [this, element](
                 const CharacterInformation* elementConf,
@@ -314,7 +315,6 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
         default:
             throw UnexpectedException("Try to create a static element of unknown type.");
     }
-    traversableLocationCache.registerNonTraversableArea(area);
 
     emit buildingCreated(pointer);
 }

@@ -87,7 +87,6 @@ void MotionHandler::changeDestination(const MapCoordinates& destination)
         pathGenerator.generateShortestPathTo(location, destination);
     movingFrom = location;
     movingTo = path->getNextTargetCoordinates();
-
 }
 
 
@@ -108,6 +107,13 @@ void MotionHandler::resetDestination()
 bool MotionHandler::isPathCompleted() const
 {
     return !movingTo.isValid() && (!destination.isValid() || location == destination);
+}
+
+
+
+bool MotionHandler::isWanderingMotion() const
+{
+    return !destination.isValid();
 }
 
 
@@ -145,17 +151,8 @@ const MapCoordinates& MotionHandler::move()
 
 void MotionHandler::configureNextMovingStep()
 {
-    // Fetch next tile on the path.
     movingFrom = location;
     movingTo = path->getNextTargetCoordinates();
-    if (!movingTo.isValid()) {
-        if (location == destination) {
-            emit pathCompleted();
-        }
-        else {
-            emit pathFailed();
-        }
-    }
 }
 
 

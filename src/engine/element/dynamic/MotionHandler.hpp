@@ -99,6 +99,11 @@ class MotionHandler: public QObject
          */
         bool isPathCompleted() const;
 
+        /**
+         * @brief Indicate if the current motion follow the wandering strategy.
+         */
+        bool isWanderingMotion() const;
+
         const MapCoordinates& getCurrentLocation() const;
 
         MapCoordinates getCurrentTileCoordinates() const;
@@ -107,17 +112,6 @@ class MotionHandler: public QObject
          * @brief Move and return the new location.
          */
         const MapCoordinates& move();
-
-    signals:
-        /**
-         * @brief Emited when the wandering motion has used all the credits or when the destination as been reached.
-         */
-        void pathCompleted();
-
-        /**
-         * @brief Emited when tha path cannot be followed anymore.
-         */
-        void pathFailed();
 
     private:
         void configureNextMovingStep();
