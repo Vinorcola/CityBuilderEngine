@@ -6,7 +6,7 @@
 
 
 Character::Character(QObject* parent,
-    const Map* map,
+    const PathGenerator& pathGenerator,
     const CharacterInformation* conf,
     ProcessableBuilding* issuer,
     int wanderingCredits,
@@ -17,13 +17,10 @@ Character::Character(QObject* parent,
     conf(conf),
     issuer(issuer),
     target(),
-    motionHandler(new MotionHandler(this, map, conf->getSpeed(), issuer->getEntryPoint(), wanderingCredits)),
+    motionHandler(pathGenerator, conf->getSpeed(), issuer->getEntryPoint(), wanderingCredits),
     carriedItem(carriedItem)
 {
-    connect(motionHandler, &MotionHandler::wanderingCreditsExpired, [this]() {
-        target = this->issuer;
-        motionHandler->setTarget(this->issuer->getEntryPoint());
-    });
+
 }
 
 
@@ -40,7 +37,7 @@ Character::~Character()
 void Character::assignTarget(ProcessableBuilding* target)
 {
     this->target = target;
-    motionHandler->setTarget(target->getEntryPoint());
+    motionHandler.changeDestination(target->getEntryPoint());
 }
 
 
@@ -70,7 +67,7 @@ const CharacterInformation* Character::getConf() const
 
 const MapCoordinates& Character::getCurrentLocation() const
 {
-    return motionHandler->getCurrentLocation();
+    return motionHandler.getCurrentLocation();
 }
 
 
@@ -84,12 +81,15 @@ ProcessableBuilding* Character::getIssuer() const
 
 void Character::process(const CycleDate& date)
 {
-    motionHandler->move();
+    motionHandler.move();
 
-    if (motionHandler->hasReachedTarget()) {
-        motionHandler->resetTarget();
+    if (motionHandler.isPathCompleted()) {
         if (target) {
+            motionHandler.resetDestination();
             target->processInteraction(date, this);
+        }
+        else {
+            assignTarget(issuer);
         }
     }
 }

@@ -12,10 +12,24 @@ NatureElementInformation::NatureElementInformation(QObject* parent, const QStrin
     type(resolveType(key)),
     key(key),
     title(model["title"].as<QString>()),
-    convertible(model["convertible"].as<bool>()),
+    traversable(model["traversable"].as<bool>()),
     image("assets/img/static/nature/" + key + ".png")
 {
 
+}
+
+
+
+bool NatureElementInformation::isTraversable() const
+{
+    return traversable;
+}
+
+
+
+const QPixmap& NatureElementInformation::getImage() const
+{
+    return image;
 }
 
 
@@ -25,16 +39,9 @@ void NatureElementInformation::checkModel(const QString& key, const YAML::Node& 
     if (!model["title"]) {
         throw BadConfigurationException("Missing \"title\" parameter in configuration for node \"" + key + "\".");
     }
-    if (!model["convertible"]) {
-        throw BadConfigurationException("Missing \"convertible\" parameter in configuration for node \"" + key + "\".");
+    if (!model["traversable"]) {
+        throw BadConfigurationException("Missing \"traversable\" parameter in configuration for node \"" + key + "\".");
     }
-}
-
-
-
-const QPixmap& NatureElementInformation::getImage() const
-{
-    return image;
 }
 
 

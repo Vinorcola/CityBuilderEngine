@@ -2,13 +2,13 @@
 #define MOTIONHANDLER_HPP
 
 #include <QtCore/QList>
-#include <QtCore/QObject>
 #include <QtCore/QPointer>
 
 #include "src/engine/map/MapCoordinates.hpp"
+#include "src/defines.hpp"
 
-class Character;
-class Map;
+class PathGenerator;
+class PathInterface;
 class RoadGraphNode;
 
 /**
@@ -26,65 +26,78 @@ class RoadGraphNode;
  * allow the character to move through a road node). Once all the wandering credits are used, it will emit
  * `wanderingCreditsExpired()` signal.
  */
-class MotionHandler: public QObject
+class MotionHandler
 {
-        Q_OBJECT
-
     private:
-        const Map* map;
-        qreal speed;
-        bool restrictedToRoads;
-        bool isWanderingStrategy;
-        int wanderingCredits;
+        const PathGenerator& pathGenerator;
+        const qreal speed;
+        const bool restrictedToRoads;
+        MapCoordinates destination;///< The coordinates of the target.
+        owner<PathInterface*> path;///< The path to follow.
         MapCoordinates location;///< The current coordinates of the element.
         MapCoordinates movingFrom;///< The coordinates of the tile the element is moving from.
         MapCoordinates movingTo;///< The coordinates of the tile the element is moving to.
-        const RoadGraphNode* targetRoadNode;///< The target road node (or nullptr if target is not on roads).
-        MapCoordinates target;///< The coordinates of the target.
-        QList<const RoadGraphNode*> roadPath;///< The current path to follow.
 
     public:
         /**
-         * @brief Construct a new motion handler.
+         * @brief Construct a new motion handler for a wandering character.
          *
-         * @param map                  The map.
          * @param speed                The speed of the character.
          * @param initialLocation      The initial location of the character.
          * @param randomWalkingCredits The wandering credits.
-         * @param restrictedToRoads    Indicates if the motion is restricted to roads.
          */
         MotionHandler(
-            QObject* parent,
-            const Map* map,
+            const PathGenerator& pathGenerator,
             qreal speed,
             const MapCoordinates& initialLocation,
-            int wanderingCredits = 0,
-            bool restrictedToRoads = true
+            int wanderingCredits
         );
 
         /**
-         * @brief Set a road target.
+         * @brief Construct a new motion handler for a targeted character.
+         *
+         * @param speed             The speed of the character.
+         * @param initialLocation   The initial location of the character.
+         * @param destination       The idestination of the character.
+         * @param restrictedToRoads The wandering credits.
          */
-        void setTarget(const RoadGraphNode* location);
+        MotionHandler(
+            const PathGenerator& pathGenerator,
+            qreal speed,
+            const MapCoordinates& initialLocation,
+            const MapCoordinates& destination,
+            bool restrictedToRoads
+        );
+
+        ~MotionHandler();
+
+        /**
+         * @brief Set a road target.
+         * @deprecated
+         */
+        void changeDestination(const RoadGraphNode* location);
 
         /**
          * @brief Set a target.
-         *
-         * Prefer setTarget() with a road node if available.
          */
-        void setTarget(const MapCoordinates& location);
+        void changeDestination(const MapCoordinates& destination);
 
         /**
-         * @brief Reset the target information.
+         * @brief Reset the destination.
          *
          * The motion will stop at the current location unless another target is set.
          */
-        void resetTarget();
+        void resetDestination();
 
         /**
-         * @brief Indicate if the motion as reached the target.
+         * @brief Indicate if the motion has used all its wandering credits or has reached the destination.
          */
-        bool hasReachedTarget() const;
+        bool isPathCompleted() const;
+
+        /**
+         * @brief Indicate if the current motion follow the wandering strategy.
+         */
+        bool isWanderingMotion() const;
 
         const MapCoordinates& getCurrentLocation() const;
 
@@ -95,32 +108,8 @@ class MotionHandler: public QObject
          */
         const MapCoordinates& move();
 
-    signals:
-        /**
-         * @brief Emited when the wandering motion has used all the credits.
-         */
-        void wanderingCreditsExpired();
-
     private:
-        /**
-         * @brief Resolve the road node linked to the current location.
-         */
-        const RoadGraphNode* getCurrentRoadNode() const;
-
-        /**
-         * @brief Reset the road path to follow. Must be called each time the target change or that the path is broken.
-         */
-        void calculatePath();
-
-        /**
-         * @brief Resolve the next tile to move to.
-         */
-        MapCoordinates getNextPathTile();
-
-        /**
-         * @brief Select the next tile to wander to.
-         */
-        MapCoordinates getNextRandomTile();
+        void configureNextMovingStep();
 
         /**
          * @brief Execute the motion.

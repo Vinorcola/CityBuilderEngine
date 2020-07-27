@@ -4,6 +4,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
 
+#include "src/engine/element/dynamic/MotionHandler.hpp"
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
@@ -13,7 +14,7 @@ class CycleDate;
 class CharacterInformation;
 class ItemInformation;
 class Map;
-class MotionHandler;
+class PathGenerator;
 
 /**
  * @brief A character on the map.
@@ -48,13 +49,13 @@ class Character : public QObject, public AbstractProcessable
         const CharacterInformation* conf;
         QPointer<ProcessableBuilding> issuer;///< The issuer building.
         QPointer<ProcessableBuilding> target;///< The target building.
-        MotionHandler* motionHandler;///< A helper that will handle character's motion.
+        MotionHandler motionHandler;///< A helper that will handle character's motion.
         owner<CarriedItem*> carriedItem;
 
     public:
         Character(
             QObject* parent,
-            const Map* map,
+            const PathGenerator& pathGenerator,
             const CharacterInformation* conf,
             ProcessableBuilding* issuer,
             int wanderingCredits = 0,

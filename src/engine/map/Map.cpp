@@ -21,6 +21,7 @@
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
+#include "src/global/conf/NatureElementInformation.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
 
 
@@ -37,7 +38,10 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     characterList(),
     buildingList(),
     natureElementList(),
-    entryPoint()
+    traversableLocationCache(),
+    roadLocationCache(),
+    entryPoint(),
+    pathGenerator(*this)
 {
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
@@ -217,6 +221,20 @@ const CycleDate& Map::getCurrentDate() const
 
 
 
+bool Map::isLocationTraversable(const MapCoordinates& location) const
+{
+    return isValidCoordinates(location) && traversableLocationCache.isLocationTraversable(location);
+}
+
+
+
+bool Map::hasRoadAtLocation(const MapCoordinates& location) const
+{
+    return isValidCoordinates(location) && roadLocationCache.hasRoadAtLocation(location);
+}
+
+
+
 void Map::pause(const bool pause)
 {
     processor->pause(pause);
@@ -254,6 +272,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             pointer = element;
             processor->registerBuilding(element);
             buildingList.append(element);
+            traversableLocationCache.registerNonTraversableArea(area);
 
             connect(element, &ProcessableBuilding::requestCharacterCreation, [this, element](
                 const CharacterInformation* elementConf,
@@ -272,6 +291,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             roadGraph->createNode(coordinates);
             processor->registerBuilding(entryPoint);
             buildingList.append(entryPoint);
+            roadLocationCache.registerRoadLocation(area.getLeft());
 
             connect(entryPoint, &CityEntryPoint::requestCharacterCreation, [this](
                 const CharacterInformation* elementConf,
@@ -288,6 +308,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             pointer = element;
             roadGraph->createNode(coordinates);
             buildingList.append(element);
+            roadLocationCache.registerRoadLocation(area.getLeft());
             break;
         }
 
@@ -305,7 +326,7 @@ void Map::createCharacter(
     ProcessableBuilding* issuer,
     std::function<void(Character*)> afterCreation
 ) {
-    auto character(new Character(this, this, conf, issuer, conf->getWanderingCredits()));
+    auto character(new Character(this, pathGenerator, conf, issuer, conf->getWanderingCredits()));
     processor->registerCharacter(character);
     characterList.append(character);
     afterCreation(character);
@@ -327,6 +348,9 @@ void Map::createNatureElement(const NatureElementInformation* conf, const MapAre
 
     auto natureElement(new NatureElement(this, conf, area));
     natureElementList.append(natureElement);
+    if (!conf->isTraversable()) {
+        traversableLocationCache.registerNonTraversableArea(area);
+    }
 
     emit natureElementCreated(natureElement);
 }
@@ -338,6 +362,10 @@ void Map::destroyBuilding(Building* building, std::function<void()> afterDestruc
     for (auto fromList : buildingList) {
         if (fromList == building) {
             buildingList.removeOne(building);
+            auto roadBuilding(dynamic_cast<Road*>(building));
+            if (roadBuilding) {
+                roadLocationCache.unregisterRoadLocation(building->getArea().getLeft());
+            }
             delete building;
             afterDestruction();
             return;

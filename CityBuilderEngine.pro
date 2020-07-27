@@ -26,6 +26,13 @@ SOURCES += \
     src/engine/element/static/NatureElement.cpp \
     src/engine/element/static/ProcessableBuilding.cpp \
     src/engine/element/static/Road.cpp \
+    src/engine/map/path/shortestPath/AStarNode.cpp \
+    src/engine/map/path/shortestPath/ProcessedAStarNodeList.cpp \
+    src/engine/map/path/shortestPath/ShortestPathFinder.cpp \
+    src/engine/map/path/shortestPath/UnprocessedAStarNodeList.cpp \
+    src/engine/map/path/PathGenerator.cpp \
+    src/engine/map/path/RandomRoadPath.cpp \
+    src/engine/map/path/TargetedPath.cpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinder.cpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNode.cpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.cpp \
@@ -40,6 +47,8 @@ SOURCES += \
     src/engine/map/MapCoordinates.cpp \
     src/engine/map/MapLoader.cpp \
     src/engine/map/MapSize.cpp \
+    src/engine/map/RoadLocationCache.cpp \
+    src/engine/map/TraversableLocationCache.cpp \
     src/engine/processing/AbstractProcessable.cpp \
     src/engine/processing/BuildingProcessor.cpp \
     src/engine/processing/CharacterProcessor.cpp \
@@ -50,6 +59,7 @@ SOURCES += \
     src/exceptions/EngineException.cpp \
     src/exceptions/Exception.cpp \
     src/exceptions/InvalidMapElementException.cpp \
+    src/exceptions/NotImplementedException.cpp \
     src/exceptions/OutOfRangeException.cpp \
     src/exceptions/UnexpectedException.cpp \
     src/global/conf/BehaviorInformation.cpp \
@@ -93,6 +103,15 @@ HEADERS += \
     src/engine/element/static/NatureElement.hpp \
     src/engine/element/static/ProcessableBuilding.hpp \
     src/engine/element/static/Road.hpp \
+    src/engine/map/path/shortestPath/AStarNode.hpp \
+    src/engine/map/path/shortestPath/ProcessedAStarNodeList.hpp \
+    src/engine/map/path/shortestPath/ShortestPathFinder.hpp \
+    src/engine/map/path/shortestPath/UnprocessedAStarNodeList.hpp \
+    src/engine/map/path/MapDetailsInterface.hpp \
+    src/engine/map/path/PathGenerator.hpp \
+    src/engine/map/path/PathInterface.hpp \
+    src/engine/map/path/RandomRoadPath.hpp \
+    src/engine/map/path/TargetedPath.hpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinder.hpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNode.hpp \
     src/engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.hpp \
@@ -107,6 +126,8 @@ HEADERS += \
     src/engine/map/MapCoordinates.hpp \
     src/engine/map/MapLoader.hpp \
     src/engine/map/MapSize.hpp \
+    src/engine/map/RoadLocationCache.hpp \
+    src/engine/map/TraversableLocationCache.hpp \
     src/engine/processing/AbstractProcessable.hpp \
     src/engine/processing/BuildingProcessor.hpp \
     src/engine/processing/CharacterProcessor.hpp \
@@ -117,6 +138,7 @@ HEADERS += \
     src/exceptions/EngineException.hpp \
     src/exceptions/Exception.hpp \
     src/exceptions/InvalidMapElementException.hpp \
+    src/exceptions/NotImplementedException.hpp \
     src/exceptions/OutOfRangeException.hpp \
     src/exceptions/UnexpectedException.hpp \
     src/global/conf/BehaviorInformation.hpp \
