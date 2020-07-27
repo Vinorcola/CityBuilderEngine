@@ -3,48 +3,47 @@
 #include "src/engine/map/MapArea.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/exceptions/NotImplementedException.hpp"
+#include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/conf/NatureElementInformation.hpp"
 
 
 
 MapDetailsCache::MapDetailsCache() :
-    nonTraversableCoordinates()
+    nonTraversableCoordinates(),
+    nonConstructibleCoordinates(),
+    roadCoordinates()
 {
 
 }
 
 
 
-void MapDetailsCache::registerNonTraversableLocation(const MapCoordinates& location)
+void MapDetailsCache::registerBuildingConstruction(const BuildingInformation& conf, const MapArea& area)
 {
-    nonTraversableCoordinates << hashCoordinates(location);
-}
-
-
-
-void MapDetailsCache::registerNonTraversableArea(const MapArea& area)
-{
-    switch (area.getSize().getValue()) {
-        case 1:
-            registerNonTraversableLocation(area.getLeft());
-            break;
-
-        case 2:
-            registerNonTraversableLocation(area.getTop());
-            registerNonTraversableLocation(area.getRight());
-            registerNonTraversableLocation(area.getBottom());
-            registerNonTraversableLocation(area.getLeft());
+    switch (conf.getType()) {
+        case BuildingInformation::Type::CityEntryPoint:
+        case BuildingInformation::Type::Road:
+            registerRoadLocation(area.getLeft());
             break;
 
         default:
-            auto left(area.getLeft());
-            auto right(area.getRight());
-            int xMax(right.getX());
-            int yMax(right.getY());
-            for (int x(left.getX()); x <= xMax; ++x) {
-                for (int y(left.getY()); y <= yMax; ++y) {
-                    registerNonTraversableLocation(MapCoordinates(x, y));
-                }
-            }
+            registerNonTraversableAndNonConstructibleArea(area);
+            break;
+    }
+}
+
+
+
+void MapDetailsCache::registerNatureElement(const NatureElementInformation& conf, const MapArea& area)
+{
+    if (area.getSize().getValue() != 1) {
+        throw NotImplementedException("Registering nature elements with size higher than 1 is not implemented in map detail cache.");
+    }
+
+    auto hash(hashCoordinates(area.getLeft()));
+    nonConstructibleCoordinates << hash;
+    if (!conf.isTraversable()) {
+        nonTraversableCoordinates << hash;
     }
 }
 
@@ -57,16 +56,9 @@ bool MapDetailsCache::isLocationTraversable(const MapCoordinates& location) cons
 
 
 
-void MapDetailsCache::registerRoadLocation(const MapCoordinates& location)
+bool MapDetailsCache::isLocationConstructible(const MapCoordinates& location) const
 {
-    roadCoordinates << hashCoordinates(location);
-}
-
-
-
-void MapDetailsCache::unregisterRoadLocation(const MapCoordinates& location)
-{
-    roadCoordinates.remove(hashCoordinates(location));
+    return !nonConstructibleCoordinates.contains(hashCoordinates(location));
 }
 
 
@@ -115,6 +107,58 @@ MapCoordinates MapDetailsCache::getBestEntryPointForArea(const MapArea& area) co
     }
 
     return coordinates;
+}
+
+
+
+void MapDetailsCache::registerRoadLocation(const MapCoordinates& location)
+{
+    roadCoordinates << hashCoordinates(location);
+}
+
+
+
+void MapDetailsCache::registerNonTraversableAndNonConstructibleArea(const MapArea& area)
+{
+    switch (area.getSize().getValue()) {
+        case 1:
+            registerNonTraversableAndNonConstructibleLocation(area.getLeft());
+            break;
+
+        case 2:
+            registerNonTraversableAndNonConstructibleLocation(area.getLeft());
+            registerNonTraversableAndNonConstructibleLocation(area.getTop());
+            registerNonTraversableAndNonConstructibleLocation(area.getRight());
+            registerNonTraversableAndNonConstructibleLocation(area.getBottom());
+            break;
+
+        default:
+            auto left(area.getLeft());
+            auto right(area.getRight());
+            int xMax(right.getX());
+            int yMax(right.getY());
+            for (int x(left.getX()); x <= xMax; ++x) {
+                for (int y(left.getY()); y <= yMax; ++y) {
+                    registerNonTraversableAndNonConstructibleLocation({ x, y });
+                }
+            }
+    }
+}
+
+
+
+void MapDetailsCache::registerNonTraversableAndNonConstructibleLocation(const MapCoordinates& location)
+{
+    auto hash(hashCoordinates(location));
+    nonTraversableCoordinates << hash;
+    nonConstructibleCoordinates << hash;
+}
+
+
+
+void MapDetailsCache::unregisterRoadLocation(const MapCoordinates& location)
+{
+    roadCoordinates.remove(hashCoordinates(location));
 }
 
 

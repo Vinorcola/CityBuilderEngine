@@ -103,13 +103,7 @@ bool Map::isValidArea(const MapArea& area) const
 
 bool Map::isFreeCoordinates(const MapCoordinates& coordinates) const
 {
-    for (auto element : buildingList) {
-        if (element->getArea().isInside(coordinates)) {
-            return false;
-        }
-    }
-
-    return true;
+    return mapDetailsCache.isLocationConstructible(coordinates);
 }
 
 
@@ -240,7 +234,6 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             pointer = element;
             processor->registerBuilding(element);
             buildingList.append(element);
-            mapDetailsCache.registerNonTraversableArea(area);
 
             connect(element, &ProcessableBuilding::requestCharacterCreation, [this, element](
                 const CharacterInformation* elementConf,
@@ -258,7 +251,6 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             pointer = entryPoint;
             processor->registerBuilding(entryPoint);
             buildingList.append(entryPoint);
-            mapDetailsCache.registerRoadLocation(area.getLeft());
 
             connect(entryPoint, &CityEntryPoint::requestCharacterCreation, [this](
                 const CharacterInformation* elementConf,
@@ -274,13 +266,13 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             auto element(new Road(this, conf, coordinates));
             pointer = element;
             buildingList.append(element);
-            mapDetailsCache.registerRoadLocation(area.getLeft());
             break;
         }
 
         default:
             throw UnexpectedException("Try to create a static element of unknown type.");
     }
+    mapDetailsCache.registerBuildingConstruction(*conf, area);
 
     emit buildingCreated(pointer);
 }
@@ -314,9 +306,7 @@ void Map::createNatureElement(const NatureElementInformation* conf, const MapAre
 
     auto natureElement(new NatureElement(this, conf, area));
     natureElementList.append(natureElement);
-    if (!conf->isTraversable()) {
-        mapDetailsCache.registerNonTraversableArea(area);
-    }
+    mapDetailsCache.registerNatureElement(*conf, area);
 
     emit natureElementCreated(natureElement);
 }
@@ -328,10 +318,7 @@ void Map::destroyBuilding(Building* building, std::function<void()> afterDestruc
     for (auto fromList : buildingList) {
         if (fromList == building) {
             buildingList.removeOne(building);
-            auto roadBuilding(dynamic_cast<Road*>(building));
-            if (roadBuilding) {
-                mapDetailsCache.unregisterRoadLocation(building->getArea().getLeft());
-            }
+            // TODO: mapDetailsCache.unregister
             delete building;
             afterDestruction();
             return;
