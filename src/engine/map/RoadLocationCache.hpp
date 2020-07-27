@@ -4,6 +4,7 @@
 #include <QtCore/QSet>
 #include <QtCore/QString>
 
+class MapArea;
 class MapCoordinates;
 
 class RoadLocationCache
@@ -19,6 +20,8 @@ class RoadLocationCache
         void unregisterRoadLocation(const MapCoordinates& location);
 
         bool hasRoadAtLocation(const MapCoordinates& location) const;
+
+        MapCoordinates getBestEntryPointForArea(const MapArea& area) const;
 
     private:
         QString hashCoordinates(const MapCoordinates& coordinates) const;

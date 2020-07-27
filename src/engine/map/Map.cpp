@@ -9,8 +9,6 @@
 #include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/engine/element/static/Road.hpp"
-#include "src/engine/map/roadGraph/RoadGraph.hpp"
-#include "src/engine/map/roadGraph/RoadGraphNode.hpp"
 #include "src/engine/map/searchEngine/SearchEngine.hpp"
 #include "src/engine/map/CityStatus.hpp"
 #include "src/engine/map/MapArea.hpp"
@@ -31,7 +29,6 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     conf(conf),
     size(loader.getSize()),
     cityStatus(new CityStatus(this, loader.getBudget())),
-    roadGraph(new RoadGraph(this)),
     processor(new TimeCycleProcessor(this, loader.getDate())),
     searchEngine(new SearchEngine(this, buildingList)),
     behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
@@ -143,35 +140,6 @@ bool Map::isFreeArea(const MapArea& area) const
 
 
 
-const RoadGraphNode* Map::resolveRoad(const MapCoordinates& coordinates) const
-{
-    return roadGraph->fetchNodeAt(coordinates);
-}
-
-
-
-QList<const RoadGraphNode*> Map::getShortestRoadPathBetween(
-    const MapCoordinates& origin,
-    const MapCoordinates& destination
-) const {
-
-    return roadGraph->getShortestPathBetween(origin, destination);
-}
-
-
-
-MapCoordinates Map::getAutoEntryPoint(const MapArea& area) const
-{
-    auto node(roadGraph->fetchNodeArround(area));
-    if (node) {
-        return node->getCoordinates();
-    }
-
-    return MapCoordinates();
-}
-
-
-
 const TimeCycleProcessor* Map::getProcessor() const
 {
     return processor;
@@ -268,7 +236,8 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             throw UnexpectedException("Try to create a static element of type None.");
 
         case BuildingInformation::Type::Building: {
-            auto element(new ProcessableBuilding(this, behaviorFactory, conf, area, getAutoEntryPoint(area)));
+            auto entryPoint(roadLocationCache.getBestEntryPointForArea(area));
+            auto element(new ProcessableBuilding(this, behaviorFactory, conf, area, entryPoint));
             pointer = element;
             processor->registerBuilding(element);
             buildingList.append(element);
@@ -288,7 +257,6 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             auto coordinates(area.getLeft());
             entryPoint = new CityEntryPoint(this, behaviorFactory, conf, coordinates);
             pointer = entryPoint;
-            roadGraph->createNode(coordinates);
             processor->registerBuilding(entryPoint);
             buildingList.append(entryPoint);
             roadLocationCache.registerRoadLocation(area.getLeft());
@@ -306,7 +274,6 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             auto coordinates(area.getLeft());
             auto element(new Road(this, conf, coordinates));
             pointer = element;
-            roadGraph->createNode(coordinates);
             buildingList.append(element);
             roadLocationCache.registerRoadLocation(area.getLeft());
             break;

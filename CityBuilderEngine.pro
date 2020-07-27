@@ -33,12 +33,6 @@ SOURCES += \
     src/engine/map/path/PathGenerator.cpp \
     src/engine/map/path/RandomRoadPath.cpp \
     src/engine/map/path/TargetedPath.cpp \
-    src/engine/map/roadGraph/pathFinder/RoadPathFinder.cpp \
-    src/engine/map/roadGraph/pathFinder/RoadPathFinderNode.cpp \
-    src/engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.cpp \
-    src/engine/map/roadGraph/pathFinder/RoadPathFinderOrderedNodeList.cpp \
-    src/engine/map/roadGraph/RoadGraph.cpp \
-    src/engine/map/roadGraph/RoadGraphNode.cpp \
     src/engine/map/searchEngine/BuildingSearchCriteria.cpp \
     src/engine/map/searchEngine/SearchEngine.cpp \
     src/engine/map/CityStatus.cpp \
@@ -112,12 +106,6 @@ HEADERS += \
     src/engine/map/path/PathInterface.hpp \
     src/engine/map/path/RandomRoadPath.hpp \
     src/engine/map/path/TargetedPath.hpp \
-    src/engine/map/roadGraph/pathFinder/RoadPathFinder.hpp \
-    src/engine/map/roadGraph/pathFinder/RoadPathFinderNode.hpp \
-    src/engine/map/roadGraph/pathFinder/RoadPathFinderNodeList.hpp \
-    src/engine/map/roadGraph/pathFinder/RoadPathFinderOrderedNodeList.hpp \
-    src/engine/map/roadGraph/RoadGraph.hpp \
-    src/engine/map/roadGraph/RoadGraphNode.hpp \
     src/engine/map/searchEngine/BuildingSearchCriteria.hpp \
     src/engine/map/searchEngine/SearchEngine.hpp \
     src/engine/map/CityStatus.hpp \

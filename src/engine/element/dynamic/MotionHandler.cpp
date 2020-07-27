@@ -4,7 +4,6 @@
 
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/path/PathInterface.hpp"
-#include "src/engine/map/roadGraph/RoadGraphNode.hpp"
 #include "src/engine/random.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
 
@@ -59,15 +58,6 @@ MotionHandler::~MotionHandler()
     if (path) {
         delete path;
     }
-}
-
-
-
-void MotionHandler::changeDestination(const RoadGraphNode* location)
-{
-    assert(location != nullptr);
-
-    changeDestination(location->getCoordinates());
 }
 
 
