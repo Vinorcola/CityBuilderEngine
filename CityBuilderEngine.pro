@@ -26,7 +26,6 @@ SOURCES += \
     src/engine/element/static/NatureElement.cpp \
     src/engine/element/static/ProcessableBuilding.cpp \
     src/engine/element/static/Road.cpp \
-    src/engine/map/pathFinder/MapDetailsInterface.cpp \
     src/engine/map/pathFinder/PathFinder.cpp \
     src/engine/map/pathFinder/PathFinderNode.cpp \
     src/engine/map/pathFinder/ProcessedPathFinderNodeList.cpp \

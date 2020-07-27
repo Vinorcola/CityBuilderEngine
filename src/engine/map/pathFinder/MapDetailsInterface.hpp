@@ -6,8 +6,6 @@ class MapCoordinates;
 class MapDetailsInterface
 {
     public:
-        virtual ~MapDetailsInterface();
-
         /**
          * @brief Indicate if the given location is traversable.
          */
