@@ -36,7 +36,15 @@ void TraversableLocationCache::registerNonTraversableArea(const MapArea& area)
             break;
 
         default:
-            throw NotImplementedException();
+            auto left(area.getLeft());
+            auto right(area.getRight());
+            int xMax(right.getX());
+            int yMax(right.getY());
+            for (int x(left.getX()); x <= xMax; ++x) {
+                for (int y(left.getY()); y <= yMax; ++y) {
+                    registerNonTraversableLocation(MapCoordinates(x, y));
+                }
+            }
     }
 }
 
