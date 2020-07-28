@@ -73,7 +73,21 @@ bool MapArea::isInside(const MapCoordinates& coordinates) const
 {
     auto right(getRight());
     return coordinates.getX() >= left.getX() && coordinates.getX() <= right.getX()
-            && coordinates.getY() >= left.getY() && coordinates.getY() <= right.getY();
+        && coordinates.getY() >= left.getY() && coordinates.getY() <= right.getY();
+}
+
+
+
+MapArea::ConstIterator MapArea::begin() const
+{
+    return { left, getRight() };
+}
+
+
+
+MapArea::ConstIterator MapArea::end() const
+{
+    return ConstIterator(left, getRight()).toEnd();
 }
 
 
@@ -81,4 +95,57 @@ bool MapArea::isInside(const MapCoordinates& coordinates) const
 QString MapArea::toString() const
 {
     return '{' + left.toString() + ';' + QString::number(size.getValue()) + '}';
+}
+
+
+
+MapArea::ConstIterator::ConstIterator(const MapCoordinates& left, const MapCoordinates& right) :
+    xMin(left.getX()),
+    xMax(right.getX()),
+    yMin(left.getY()),
+    yMax(right.getY()),
+    x(xMin),
+    y(yMin)
+{
+
+}
+
+
+
+const MapArea::ConstIterator& MapArea::ConstIterator::operator ++()
+{
+    ++x;
+    if (x > xMax) {
+        x = xMin;
+        ++y;
+    }
+
+    return *this;
+}
+
+
+
+MapCoordinates MapArea::ConstIterator::operator *() const
+{
+    return { x, y };
+}
+
+
+
+bool MapArea::ConstIterator::operator !=(const MapArea::ConstIterator& other) const
+{
+    return
+        xMin != other.xMin || xMax != other.xMax ||
+        yMin != other.yMin || yMax != other.yMax ||
+        x != other.x || y != other.y;
+}
+
+
+
+const MapArea::ConstIterator& MapArea::ConstIterator::toEnd()
+{
+    x = xMin;
+    y = yMax + 1;
+
+    return *this;
 }

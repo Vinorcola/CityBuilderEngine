@@ -13,6 +13,25 @@
  */
 class MapArea
 {
+    public:
+        class ConstIterator
+        {
+            private:
+                const int xMin;
+                const int xMax;
+                const int yMin;
+                const int yMax;
+                int x;
+                int y;
+
+            public:
+                ConstIterator(const MapCoordinates& left, const MapCoordinates& right);
+                const ConstIterator& operator ++();
+                MapCoordinates operator *() const;
+                bool operator !=(const ConstIterator& other) const;
+                const ConstIterator& toEnd();
+        };
+
     private:
         MapSize size;
         MapCoordinates left;
@@ -35,6 +54,10 @@ class MapArea
         MapCoordinates getBottom() const;
 
         bool isInside(const MapCoordinates& coordinates) const;
+
+        // Coordinates iterator
+        ConstIterator begin() const;
+        ConstIterator end() const;
 
         // DEBUG //
         QString toString() const;

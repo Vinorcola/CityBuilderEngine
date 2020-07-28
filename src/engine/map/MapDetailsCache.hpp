@@ -21,6 +21,8 @@ class MapDetailsCache
 
         void registerBuildingConstruction(const BuildingInformation& conf, const MapArea& area);
 
+        void registerBuildingDestruction(const MapArea& area);
+
         void registerNatureElement(const NatureElementInformation& conf, const MapArea& area);
 
         bool isLocationTraversable(const MapCoordinates& location) const;
@@ -32,14 +34,6 @@ class MapDetailsCache
         MapCoordinates getBestEntryPointForArea(const MapArea& area) const;
 
     private:
-        void registerRoadLocation(const MapCoordinates& location);
-
-        void registerNonTraversableAndNonConstructibleArea(const MapArea& area);
-
-        void registerNonTraversableAndNonConstructibleLocation(const MapCoordinates& location);
-
-        void unregisterRoadLocation(const MapCoordinates& location);
-
         QString hashCoordinates(const MapCoordinates& coordinates) const;
 };
 

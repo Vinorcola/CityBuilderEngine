@@ -318,7 +318,7 @@ void Map::destroyBuilding(Building* building, std::function<void()> afterDestruc
     for (auto fromList : buildingList) {
         if (fromList == building) {
             buildingList.removeOne(building);
-            // TODO: mapDetailsCache.unregister
+            mapDetailsCache.registerBuildingDestruction(building->getArea());
             delete building;
             afterDestruction();
             return;
