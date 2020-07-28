@@ -6,7 +6,7 @@
 class NotImplementedException : public Exception
 {
     public:
-        NotImplementedException();
+        NotImplementedException(const QString& message);
 };
 
 #endif // NOTIMPLEMENTEDEXCEPTION_HPP

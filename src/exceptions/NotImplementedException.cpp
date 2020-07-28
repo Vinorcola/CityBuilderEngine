@@ -2,8 +2,8 @@
 
 
 
-NotImplementedException::NotImplementedException() :
-    Exception("Feature not implemented yet.")
+NotImplementedException::NotImplementedException(const QString& message) :
+    Exception(message)
 {
 
 }
