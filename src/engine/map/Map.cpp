@@ -45,7 +45,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
         createBuilding(
             buildingConf,
             MapArea(
-                MapCoordinates(buildingInfo["position"]["x"].as<int>(), buildingInfo["position"]["y"].as<int>()),
+                buildingInfo["position"].as<MapCoordinates>(),
                 buildingConf->getSize()
             )
         );
