@@ -2,7 +2,7 @@
 
 
 
-Building::Building(QObject* parent, const BuildingInformation* conf, const MapArea& area) :
+Building::Building(QObject* parent, const BuildingInformation& conf, const MapArea& area) :
     QObject(parent),
     conf(conf),
     area(area)
@@ -12,7 +12,7 @@ Building::Building(QObject* parent, const BuildingInformation* conf, const MapAr
 
 
 
-const BuildingInformation*Building::getConf() const
+const BuildingInformation& Building::getConf() const
 {
     return conf;
 }

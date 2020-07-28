@@ -264,7 +264,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
 
         case BuildingInformation::Type::Road: {
             auto coordinates(area.getLeft());
-            auto element(new Road(this, conf, coordinates));
+            auto element(new Road(this, *conf, coordinates));
             pointer = element;
             buildingList.append(element);
             break;

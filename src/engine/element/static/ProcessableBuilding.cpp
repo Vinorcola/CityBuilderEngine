@@ -3,10 +3,10 @@
 
 
 ProcessableBuilding::ProcessableBuilding(
-        QObject* parent,
-        const BuildingInformation* conf,
-        const MapArea& area,
-        const MapCoordinates& entryPoint
+    QObject* parent,
+    const BuildingInformation& conf,
+    const MapArea& area,
+    const MapCoordinates& entryPoint
 ):
     Building(parent, conf, area),
     entryPoint(entryPoint)
@@ -19,4 +19,11 @@ ProcessableBuilding::ProcessableBuilding(
 const MapCoordinates& ProcessableBuilding::getEntryPoint() const
 {
     return entryPoint;
+}
+
+
+
+bool ProcessableBuilding::processInteraction(const CycleDate& /*date*/, Character* /*actor*/)
+{
+    return false;
 }

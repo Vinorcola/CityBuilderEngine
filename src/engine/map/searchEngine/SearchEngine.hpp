@@ -28,7 +28,7 @@ class SearchEngine : public QObject
 
     private:
         bool isBuildingTypeAllowedByCriteria(
-            const BuildingInformation* buildingType,
+            const BuildingInformation& buildingType,
             const BuildingSearchCriteria& criteria
         ) const;
 

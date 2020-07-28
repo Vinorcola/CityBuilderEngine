@@ -37,8 +37,6 @@ class CityEntryPoint : public ProcessableBuilding
         void requestImmigrant(std::function<void(Character*)> onWalkerCreation);
 
         virtual void process(const CycleDate& date);
-
-        virtual bool processInteraction(const CycleDate& date, Character* actor);
 };
 
 #endif // CITYENTRYPOINT_HPP

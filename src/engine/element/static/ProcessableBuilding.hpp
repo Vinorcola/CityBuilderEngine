@@ -21,14 +21,14 @@ class ProcessableBuilding : public Building, public AbstractProcessable
     public:
         ProcessableBuilding(
             QObject* parent,
-            const BuildingInformation* conf,
+            const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
         );
 
         const MapCoordinates& getEntryPoint() const;
 
-        virtual bool processInteraction(const CycleDate& date, Character* actor) = 0;
+        virtual bool processInteraction(const CycleDate& date, Character* actor);
 };
 
 #endif // PROCESSABLEBUILDING_HPP

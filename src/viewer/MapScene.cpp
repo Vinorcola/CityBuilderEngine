@@ -88,7 +88,7 @@ void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, c
 void MapScene::registerNewBuilding(const Building* element)
 {
     Tile* tile(getTileAt(element->getArea().getLeft()));
-    addStaticElement(tile, element->getConf()->getSize(), element->getConf()->getImage());
+    addStaticElement(tile, element->getConf().getSize(), element->getConf().getImage());
 }
 
 

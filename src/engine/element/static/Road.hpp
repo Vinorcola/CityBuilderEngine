@@ -17,7 +17,7 @@ class Road : public Building
         Q_OBJECT
 
     public:
-        Road(QObject* parent, const BuildingInformation* conf, const MapCoordinates& coordinates);
+        Road(QObject* parent, const BuildingInformation& conf, const MapCoordinates& coordinates);
 };
 
 #endif // ROAD_HPP

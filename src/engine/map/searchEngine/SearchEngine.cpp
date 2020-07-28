@@ -35,12 +35,12 @@ QList<Building*> SearchEngine::search(const BuildingSearchCriteria& criteria) co
 
 
 bool SearchEngine::isBuildingTypeAllowedByCriteria(
-    const BuildingInformation* buildingType,
+    const BuildingInformation& buildingType,
     const BuildingSearchCriteria& criteria
 ) const {
 
     for (auto allowedBuilding : criteria.getAllowedBuildingTypes()) {
-        if (allowedBuilding == buildingType) {
+        if (allowedBuilding == &buildingType) {
             return true;
         }
     }

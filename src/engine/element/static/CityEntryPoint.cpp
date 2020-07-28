@@ -12,7 +12,7 @@ CityEntryPoint::CityEntryPoint(
     const BuildingInformation* conf,
     const MapCoordinates& coordinates
 ) :
-    ProcessableBuilding(parent, conf, MapArea(coordinates), coordinates),
+    ProcessableBuilding(parent, *conf, MapArea(coordinates), coordinates),
     immigrantGenerator()
 {
     // TODO: Disable for now. To review.
@@ -37,11 +37,4 @@ void CityEntryPoint::requestImmigrant(std::function<void(Character*)> onWalkerCr
 void CityEntryPoint::process(const CycleDate& /*date*/)
 {
 
-}
-
-
-
-bool CityEntryPoint::processInteraction(const CycleDate& /*date*/, Character* /*actor*/)
-{
-    return false;
 }

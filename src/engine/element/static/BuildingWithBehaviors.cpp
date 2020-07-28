@@ -15,7 +15,7 @@ BuildingWithBehaviors::BuildingWithBehaviors(
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    ProcessableBuilding(parent, conf, area, entryPoint),
+    ProcessableBuilding(parent, *conf, area, entryPoint),
     behaviors()
 {
     for (auto behaviorConf : conf->getBehaviors()) {
