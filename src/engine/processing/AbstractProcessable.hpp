@@ -21,7 +21,7 @@ class AbstractProcessable
         /**
          * @brief Init the processable element with the current date.
          */
-        virtual void init(const CycleDate& /*date*/) {}
+        virtual void init(const CycleDate& date);
 
         /**
          * @brief Process a single time-cycle.

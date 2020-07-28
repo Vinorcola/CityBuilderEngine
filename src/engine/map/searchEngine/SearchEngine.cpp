@@ -63,5 +63,7 @@ bool SearchEngine::canBuildingAcceptCarriedItem(const Building* building, const 
         return false;
     }
 
-    return processableBuilding->acceptItem(item);
+    // TODO: Disable for now. To review.
+    // return processableBuilding->acceptItem(item);
+    return false;
 }

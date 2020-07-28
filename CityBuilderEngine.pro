@@ -22,6 +22,7 @@ SOURCES += \
     src/engine/element/static/behavior/RandomWalkerGenerator.cpp \
     src/engine/element/static/behavior/TargetedWalkerGenerator.cpp \
     src/engine/element/static/Building.cpp \
+    src/engine/element/static/BuildingWithBehaviors.cpp \
     src/engine/element/static/CityEntryPoint.cpp \
     src/engine/element/static/NatureElement.cpp \
     src/engine/element/static/ProcessableBuilding.cpp \
@@ -92,6 +93,7 @@ HEADERS += \
     src/engine/element/static/behavior/RandomWalkerGenerator.hpp \
     src/engine/element/static/behavior/TargetedWalkerGenerator.hpp \
     src/engine/element/static/Building.hpp \
+    src/engine/element/static/BuildingWithBehaviors.hpp \
     src/engine/element/static/CityEntryPoint.hpp \
     src/engine/element/static/NatureElement.hpp \
     src/engine/element/static/ProcessableBuilding.hpp \

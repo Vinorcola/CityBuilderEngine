@@ -8,6 +8,7 @@
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 
 class Character;
+class CycleDate;
 class BehaviorFactory;
 class MapCoordinates;
 class QueuedWalkerGenerator;
@@ -29,12 +30,15 @@ class CityEntryPoint : public ProcessableBuilding
     public:
         CityEntryPoint(
             QObject* parent,
-            const BehaviorFactory* behaviorFactory,
             const BuildingInformation* conf,
             const MapCoordinates& coordinates
         );
 
         void requestImmigrant(std::function<void(Character*)> onWalkerCreation);
+
+        virtual void process(const CycleDate& date);
+
+        virtual bool processInteraction(const CycleDate& date, Character* actor);
 };
 
 #endif // CITYENTRYPOINT_HPP

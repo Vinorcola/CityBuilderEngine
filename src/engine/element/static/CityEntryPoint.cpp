@@ -9,20 +9,20 @@
 
 CityEntryPoint::CityEntryPoint(
     QObject* parent,
-    const BehaviorFactory* behaviorFactory,
     const BuildingInformation* conf,
     const MapCoordinates& coordinates
 ) :
-    ProcessableBuilding(parent, behaviorFactory, conf, MapArea(coordinates), coordinates),
+    ProcessableBuilding(parent, conf, MapArea(coordinates), coordinates),
     immigrantGenerator()
 {
-    for (auto behavior : getBehaviors()) {
-        auto queuedWalkerGenerator(dynamic_cast<QueuedWalkerGenerator*>(behavior));
-        if (queuedWalkerGenerator && queuedWalkerGenerator->getWalkerConf()->getKey() == "immigrant") {
-            immigrantGenerator = queuedWalkerGenerator;
-            break;
-        }
-    }
+    // TODO: Disable for now. To review.
+//    for (auto behavior : getBehaviors()) {
+//        auto queuedWalkerGenerator(dynamic_cast<QueuedWalkerGenerator*>(behavior));
+//        if (queuedWalkerGenerator && queuedWalkerGenerator->getWalkerConf()->getKey() == "immigrant") {
+//            immigrantGenerator = queuedWalkerGenerator;
+//            break;
+//        }
+//    }
 }
 
 
@@ -30,4 +30,18 @@ CityEntryPoint::CityEntryPoint(
 void CityEntryPoint::requestImmigrant(std::function<void(Character*)> onWalkerCreation)
 {
     immigrantGenerator->registerWalkerRequest(onWalkerCreation);
+}
+
+
+
+void CityEntryPoint::process(const CycleDate& /*date*/)
+{
+
+}
+
+
+
+bool CityEntryPoint::processInteraction(const CycleDate& /*date*/, Character* /*actor*/)
+{
+    return false;
 }

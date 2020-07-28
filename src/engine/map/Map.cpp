@@ -7,7 +7,7 @@
 #include "src/engine/element/static/behavior/BehaviorFactory.hpp"
 #include "src/engine/element/static/CityEntryPoint.hpp"
 #include "src/engine/element/static/NatureElement.hpp"
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/BuildingWithBehaviors.hpp"
 #include "src/engine/element/static/Road.hpp"
 #include "src/engine/map/searchEngine/SearchEngine.hpp"
 #include "src/engine/map/CityStatus.hpp"
@@ -230,34 +230,35 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
 
         case BuildingInformation::Type::Building: {
             auto entryPoint(mapDetailsCache.getBestEntryPointForArea(area));
-            auto element(new ProcessableBuilding(this, behaviorFactory, conf, area, entryPoint));
+            auto element(new BuildingWithBehaviors(this, behaviorFactory, conf, area, entryPoint));
             pointer = element;
             processor->registerBuilding(element);
             buildingList.append(element);
 
-            connect(element, &ProcessableBuilding::requestCharacterCreation, [this, element](
+            connect(element, &BuildingWithBehaviors::requestCharacterCreation, [this, element](
                 const CharacterInformation* elementConf,
                 std::function<void(Character*)> afterCreation
             ) {
                 createCharacter(elementConf, element, afterCreation);
             });
-            connect(element, &ProcessableBuilding::requestCharacterDestruction, this, &Map::destroyCharacter);
+            connect(element, &BuildingWithBehaviors::requestCharacterDestruction, this, &Map::destroyCharacter);
             break;
         }
 
         case BuildingInformation::Type::CityEntryPoint: {
             auto coordinates(area.getLeft());
-            entryPoint = new CityEntryPoint(this, behaviorFactory, conf, coordinates);
+            entryPoint = new CityEntryPoint(this, conf, coordinates);
             pointer = entryPoint;
             processor->registerBuilding(entryPoint);
             buildingList.append(entryPoint);
 
-            connect(entryPoint, &CityEntryPoint::requestCharacterCreation, [this](
-                const CharacterInformation* elementConf,
-                std::function<void(Character*)> afterCreation
-            ) {
-                createCharacter(elementConf, entryPoint, afterCreation);
-            });
+            // TODO: Disable for now. To review.
+//            connect(entryPoint, &CityEntryPoint::requestCharacterCreation, [this](
+//                const CharacterInformation* elementConf,
+//                std::function<void(Character*)> afterCreation
+//            ) {
+//                createCharacter(elementConf, entryPoint, afterCreation);
+//            });
             break;
         }
 

@@ -18,10 +18,11 @@ InhabitantContainer::InhabitantContainer(ProcessableBuilding* issuer) :
 
 void InhabitantContainer::init(const CycleDate& /*date*/)
 {
-    emit freeCapacityChanged(0, housingCapacity, [this](Character* immigrant) {
-        immigrant->assignTarget(issuer);
-        currentImmigrant = immigrant;
-    });
+    // TODO: Disable for now. To review.
+//    emit freeCapacityChanged(0, housingCapacity, [this](Character* immigrant) {
+//        immigrant->assignTarget(issuer);
+//        currentImmigrant = immigrant;
+//    });
 }
 
 
