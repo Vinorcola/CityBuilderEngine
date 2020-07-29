@@ -2,6 +2,7 @@
 buildings:
     cityEntryPoint:
         type: cityEntryPoint
+        title: Road
         behaviors:
             -
                 type: queuedWalkerGenerator

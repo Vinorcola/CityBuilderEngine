@@ -9,10 +9,13 @@
 #include "src/engine/map/MapSize.hpp"
 
 class BehaviorInformation;
-class CharacterInformation;
-class Conf;
 class BuildingAreaPartDescription;
 class BuildingSearchCriteriaDescription;
+class CharacterInformation;
+class Conf;
+class ItemInformation;
+class ModelReader;
+class NatureElementInformation;
 namespace YAML {
     class Node;
 }
@@ -26,29 +29,39 @@ class BuildingInformation : public QObject
             None = 0,
             Building,
             CityEntryPoint,
-            Road,
+            Road
+        };
+
+        struct Common {
+            QString title;
+            MapSize size;
+            int price;
+            int employees;
+            int fireRiskIncrement;
+            int damageRiskIncrement;
+            QList<BuildingAreaPartDescription*> areaDescription;
+
+            explicit Common(const ModelReader& model);
+        };
+
+        struct Graphics {
+            QPixmap image;
+
+            explicit Graphics(const ModelReader& model);
         };
 
     private:
-        Type type;
         QString key;
-        QString title;
-        MapSize size;
-        int price;
-        int employees;
-        int fireRiskIncrement;
-        int damageRiskIncrement;
-        QList<BuildingAreaPartDescription*> areaDescription;
+        Type type;
+        Common common;
+        Graphics graphics;
         QList<BehaviorInformation*> behaviors;
-        QPixmap image;
 
     public:
         /**
-         * @brief Hold the information about a static element.
-         *
-         * @param configurationYamlNode The YAML node corresponding to a static element configuration.
+         * @brief Hold the information about a building.
          */
-        BuildingInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model);
+        BuildingInformation(QObject* parent, const Conf* conf, const ModelReader& model);
 
         void resolveDependencies(const Conf* conf);
 
@@ -61,17 +74,6 @@ class BuildingInformation : public QObject
         const QList<BehaviorInformation*>& getBehaviors() const;
 
         const QPixmap& getImage() const;
-
-        /**
-         * @brief Check if the model for a static element is valid.
-         *
-         * If the model is invalid, it throws an exception.
-         *
-         * @param key
-         * @param model
-         * @throws BadConfigurationException
-         */
-        static void checkModel(const QString& key, const YAML::Node& model);
 
     private:
         static Type resolveType(const QString& type);

@@ -64,6 +64,7 @@ SOURCES += \
     src/global/conf/Conf.cpp \
     src/global/conf/ControlPanelElementInformation.cpp \
     src/global/conf/ItemInformation.cpp \
+    src/global/conf/ModelReader.cpp \
     src/global/conf/NatureElementInformation.cpp \
     src/ui/controlPanel/BuildingButton.cpp \
     src/ui/controlPanel/ControlPanel.cpp \
@@ -137,6 +138,7 @@ HEADERS += \
     src/global/conf/Conf.hpp \
     src/global/conf/ControlPanelElementInformation.hpp \
     src/global/conf/ItemInformation.hpp \
+    src/global/conf/ModelReader.hpp \
     src/global/conf/NatureElementInformation.hpp \
     src/global/yamlLibraryEnhancement.hpp \
     src/ui/controlPanel/BuildingButton.hpp \

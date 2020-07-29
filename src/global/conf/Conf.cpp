@@ -6,6 +6,7 @@
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/ControlPanelElementInformation.hpp"
 #include "src/global/conf/ItemInformation.hpp"
+#include "src/global/conf/ModelReader.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
 
@@ -21,6 +22,13 @@ Conf::Conf(QObject* parent, const QString& filePath) :
 {
     // Load file.
     YAML::Node configurationRoot(YAML::LoadFile(filePath.toStdString()));
+
+    // Load nature elements' configuration.
+    for (auto node : configurationRoot["natureElements"]) {
+        QString key(node.first.as<QString>());
+        NatureElementInformation::checkModel(key, node.second);
+        natureElements.insert(key, new NatureElementInformation(this, key, node.second));
+    }
 
     // Load item's configuration.
     for (auto node : configurationRoot["items"]) {
@@ -38,15 +46,7 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     // Load buildings' configuration.
     for (auto node : configurationRoot["buildings"]) {
         QString key(node.first.as<QString>());
-        BuildingInformation::checkModel(key, node.second);
-        buildings.insert(key, new BuildingInformation(this, this, key, node.second));
-    }
-
-    // Load nature elements' configuration.
-    for (auto node : configurationRoot["natureElements"]) {
-        QString key(node.first.as<QString>());
-        NatureElementInformation::checkModel(key, node.second);
-        natureElements.insert(key, new NatureElementInformation(this, key, node.second));
+        buildings.insert(key, new BuildingInformation(this, this, ModelReader(key, node.second)));
     }
 
     // Resolve dependencies.
