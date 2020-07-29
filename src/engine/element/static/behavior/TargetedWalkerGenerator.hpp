@@ -28,7 +28,7 @@ class TargetedWalkerGenerator : public AbstractWalkerGenerator
             ProcessableBuilding* issuer,
             const SearchEngine* searchEngine,
             const BuildingSearchCriteria* targetSearchCriteria,
-            const CharacterInformation* walkerConf,
+            const CharacterInformation& walkerConf,
             const int generationInterval,
             const int maxWalkers = 1
         );

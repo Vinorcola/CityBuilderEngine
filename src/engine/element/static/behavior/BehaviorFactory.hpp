@@ -26,7 +26,7 @@ class BehaviorFactory : public QObject
     public:
         BehaviorFactory(QObject* parent, const Map* map, const SearchEngine* searchEngine);
 
-        AbstractBehavior* generate(ProcessableBuilding* issuer, const BehaviorInformation* conf) const;
+        AbstractBehavior* generate(ProcessableBuilding* issuer, const BehaviorInformation& conf) const;
 };
 
 #endif // BEHAVIORFACTORY_HPP

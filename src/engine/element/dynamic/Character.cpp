@@ -5,9 +5,10 @@
 
 
 
-Character::Character(QObject* parent,
+Character::Character(
+    QObject* parent,
     const PathGenerator& pathGenerator,
-    const CharacterInformation* conf,
+    const CharacterInformation& conf,
     ProcessableBuilding* issuer,
     int wanderingCredits,
     owner<CarriedItem*> carriedItem
@@ -17,7 +18,7 @@ Character::Character(QObject* parent,
     conf(conf),
     issuer(issuer),
     target(),
-    motionHandler(pathGenerator, conf->getSpeed(), issuer->getEntryPoint(), wanderingCredits),
+    motionHandler(pathGenerator, conf.getSpeed(), issuer->getEntryPoint(), wanderingCredits),
     carriedItem(carriedItem)
 {
 
@@ -58,7 +59,7 @@ owner<Character::CarriedItem*> Character::takeCarriedItems(const int maxQuantity
 
 
 
-const CharacterInformation* Character::getConf() const
+const CharacterInformation& Character::getConf() const
 {
     return conf;
 }

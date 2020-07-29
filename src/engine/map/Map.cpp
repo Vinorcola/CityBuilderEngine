@@ -41,19 +41,19 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
 {
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
-        auto buildingConf(conf->getBuildingConf(buildingInfo["type"].as<QString>()));
+        const BuildingInformation& buildingConf(conf->getBuildingConf(buildingInfo["type"].as<QString>()));
         createBuilding(
             buildingConf,
             MapArea(
                 buildingInfo["position"].as<MapCoordinates>(),
-                buildingConf->getSize()
+                buildingConf.getSize()
             )
         );
     }
 
     // Load nature elements.
     for (auto natureElementInfo : loader.getNatureElements()) {
-        auto natureElementConf(conf->getNatureElementConf(natureElementInfo["type"].as<QString>()));
+        const NatureElementInformation& natureElementConf(conf->getNatureElementConf(natureElementInfo["type"].as<QString>()));
         createNatureElement(
             natureElementConf,
             MapArea(
@@ -210,12 +210,12 @@ void Map::setProcessorSpeedRatio(const qreal speedRatio)
 
 
 
-void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
+void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
 {
     if (!isValidArea(area)) {
         throw UnexpectedException("Try to create a building on an invalid area: " + area.toString() + ".");
     }
-    if (area.getSize() != conf->getSize()) {
+    if (area.getSize() != conf.getSize()) {
         throw UnexpectedException("Try to build a building on a area not matching the configured size.");
     }
     if (!isFreeArea(area)) {
@@ -224,7 +224,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
     }
 
     Building* pointer;
-    switch (conf->getType()) {
+    switch (conf.getType()) {
         case BuildingInformation::Type::None:
             throw UnexpectedException("Try to create a static element of type None.");
 
@@ -236,7 +236,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
             buildingList.append(element);
 
             connect(element, &BuildingWithBehaviors::requestCharacterCreation, [this, element](
-                const CharacterInformation* elementConf,
+                const CharacterInformation& elementConf,
                 std::function<void(Character*)> afterCreation
             ) {
                 createCharacter(elementConf, element, afterCreation);
@@ -264,7 +264,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
 
         case BuildingInformation::Type::Road: {
             auto coordinates(area.getLeft());
-            auto element(new Road(this, *conf, coordinates));
+            auto element(new Road(this, conf, coordinates));
             pointer = element;
             buildingList.append(element);
             break;
@@ -273,7 +273,7 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
         default:
             throw UnexpectedException("Try to create a static element of unknown type.");
     }
-    mapDetailsCache.registerBuildingConstruction(*conf, area);
+    mapDetailsCache.registerBuildingConstruction(conf, area);
 
     emit buildingCreated(pointer);
 }
@@ -281,11 +281,11 @@ void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
 
 
 void Map::createCharacter(
-    const CharacterInformation* conf,
+    const CharacterInformation& conf,
     ProcessableBuilding* issuer,
     std::function<void(Character*)> afterCreation
 ) {
-    auto character(new Character(this, pathGenerator, conf, issuer, conf->getWanderingCredits()));
+    auto character(new Character(this, pathGenerator, conf, issuer, conf.getWanderingCredits()));
     processor->registerCharacter(character);
     characterList.append(character);
     afterCreation(character);
@@ -295,7 +295,7 @@ void Map::createCharacter(
 
 
 
-void Map::createNatureElement(const NatureElementInformation* conf, const MapArea& area)
+void Map::createNatureElement(const NatureElementInformation& conf, const MapArea& area)
 {
     if (!isValidArea(area)) {
         throw UnexpectedException("Try to create a nature element on an invalid area: " + area.toString() + ".");
@@ -307,7 +307,7 @@ void Map::createNatureElement(const NatureElementInformation* conf, const MapAre
 
     auto natureElement(new NatureElement(this, conf, area));
     natureElementList.append(natureElement);
-    mapDetailsCache.registerNatureElement(*conf, area);
+    mapDetailsCache.registerNatureElement(conf, area);
 
     emit natureElementCreated(natureElement);
 }

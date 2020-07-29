@@ -45,13 +45,13 @@ class ItemStorage : public AbstractActivityBehavior
         QHash<QString, ItemStatus*> storage;
 
     public:
-        ItemStorage(ProcessableBuilding* issuer, const BehaviorInformation* behaviorInformation);
+        ItemStorage(ProcessableBuilding* issuer, const BehaviorInformation& behaviorInformation);
 
         virtual ~ItemStorage();
 
         virtual void setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate) override;
 
-        virtual bool acceptItem(const ItemInformation* itemType) const override;
+        virtual bool acceptItem(const ItemInformation& itemType) const override;
 
         virtual void init(const CycleDate& date) override;
 

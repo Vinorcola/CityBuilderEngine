@@ -6,7 +6,7 @@
 
 AbstractWalkerGenerator::AbstractWalkerGenerator(
     ProcessableBuilding* issuer,
-    const CharacterInformation* walkerConf,
+    const CharacterInformation& walkerConf,
     const int generationInterval,
     const int maxWalkers
 ) :
@@ -80,7 +80,7 @@ void AbstractWalkerGenerator::setActivitySpeedRatio(qreal ratio, const CycleDate
 
 
 
-bool AbstractWalkerGenerator::acceptItem(const ItemInformation* /*itemType*/) const
+bool AbstractWalkerGenerator::acceptItem(const ItemInformation& /*itemType*/) const
 {
     return false;
 }

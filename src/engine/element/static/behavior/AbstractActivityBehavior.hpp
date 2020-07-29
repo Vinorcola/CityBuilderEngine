@@ -23,7 +23,7 @@ class AbstractActivityBehavior : public AbstractBehavior
 
         virtual void setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate) = 0;
 
-        virtual bool acceptItem(const ItemInformation* itemType) const = 0;
+        virtual bool acceptItem(const ItemInformation& itemType) const = 0;
 };
 
 #endif // ABSTRACTACTIVITYBEHAVIOR_HPP

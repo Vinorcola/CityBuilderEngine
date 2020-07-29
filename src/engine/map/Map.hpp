@@ -139,7 +139,7 @@ class Map : public QObject, public MapDetailsInterface
          * @param area The location of the element on the map.
          * @throw UnexpectedException Try to create a static element of type None.
          */
-        void createBuilding(const BuildingInformation* conf, const MapArea& area);
+        void createBuilding(const BuildingInformation& conf, const MapArea& area);
 
         /**
          * @brief Create a character on the map.
@@ -149,8 +149,7 @@ class Map : public QObject, public MapDetailsInterface
          * @param afterCreation A callback that will be called with the created character as first argument.
          * @throw UnexpectedException Try to create a dynamic element of type None.
          */
-        void createCharacter(
-            const CharacterInformation* conf,
+        void createCharacter(const CharacterInformation& conf,
             ProcessableBuilding* issuer,
             std::function<void(Character*)> afterCreation
         );
@@ -160,7 +159,7 @@ class Map : public QObject, public MapDetailsInterface
          * @param conf The conf for the new nature element to create.
          * @param area The location of the element on the map.
          */
-        void createNatureElement(const NatureElementInformation* conf, const MapArea& area);
+        void createNatureElement(const NatureElementInformation& conf, const MapArea& area);
 
         /**
          * @brief Destroy a building.

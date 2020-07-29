@@ -77,7 +77,7 @@ class MapScene : public QGraphicsScene
          * @param buildingKey The type of building.
          * @param area        The area of construction.
          */
-        void buildingCreationRequested(const BuildingInformation* elementConf, const MapArea& area);
+        void buildingCreationRequested(const BuildingInformation& elementConf, const MapArea& area);
 };
 
 #endif // MAPSCENE_HPP

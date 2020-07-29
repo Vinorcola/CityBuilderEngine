@@ -18,15 +18,15 @@ class ConditionalRandomWalkerGenerator : public RandomWalkerGenerator
         Q_OBJECT
 
     private:
-        const CharacterInformation* dependencyWalkerConf;
+        const CharacterInformation& dependencyWalkerConf;
         const int activityInterval;
         CycleDate canGenarateWalkerUntilDate;
 
     public:
         ConditionalRandomWalkerGenerator(
             ProcessableBuilding* issuer,
-            const CharacterInformation* walkerConf,
-            const CharacterInformation* dependencyWalkerConf,
+            const CharacterInformation& walkerConf,
+            const CharacterInformation& dependencyWalkerConf,
             const int generationInterval,
             const int maxWalkers = 1
         );

@@ -36,7 +36,7 @@ class BuildingWithBehaviors : public ProcessableBuilding
         BuildingWithBehaviors(
             QObject* parent,
             const BehaviorFactory* behaviorFactory,
-            const BuildingInformation* conf,
+            const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
         );
@@ -55,11 +55,11 @@ class BuildingWithBehaviors : public ProcessableBuilding
 
         void notifyWalkerDestruction();
 
-        bool acceptItem(const ItemInformation* itemType) const;
+        bool acceptItem(const ItemInformation& itemType) const;
 
     signals:
         void requestCharacterCreation(
-            const CharacterInformation* conf,
+            const CharacterInformation& conf,
             std::function<void(Character*)> afterCreation
         );
 

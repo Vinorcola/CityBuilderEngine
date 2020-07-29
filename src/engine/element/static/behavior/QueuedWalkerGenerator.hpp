@@ -26,7 +26,7 @@ class QueuedWalkerGenerator : public AbstractBehavior
 
     private:
         ProcessableBuilding* issuer;
-        const CharacterInformation* walkerConf;
+        const CharacterInformation& walkerConf;
         const int minGenerationInterval;
         const int maxGenerationInterval;
         CycleDate nextWalkerGenerationDate;
@@ -35,12 +35,12 @@ class QueuedWalkerGenerator : public AbstractBehavior
     public:
         QueuedWalkerGenerator(
             ProcessableBuilding* issuer,
-            const CharacterInformation* walkerConf,
+            const CharacterInformation& walkerConf,
             const int minGenerationInterval,
             const int maxGenerationInterval
         );
 
-        const CharacterInformation* getWalkerConf() const;
+        const CharacterInformation& getWalkerConf() const;
 
         virtual void process(const CycleDate& date) override;
 
@@ -53,7 +53,7 @@ class QueuedWalkerGenerator : public AbstractBehavior
 
     signals:
         void requestDynamicElementCreation(
-            const CharacterInformation* conf,
+            const CharacterInformation& conf,
             ProcessableBuilding* issuer,
             std::function<void(Character*)> afterCreation
         );

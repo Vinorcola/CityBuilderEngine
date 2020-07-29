@@ -13,8 +13,8 @@
 BehaviorInformation::BehaviorInformation(QObject* parent, const Conf* conf, const YAML::Node& model) :
     QObject(parent),
     type(resolveType(model["type"].as<QString>())),
-    dependencyWalkerConf(model["dependencyWalker"] ? conf->getCharacterConf(model["dependencyWalker"].as<QString>()) : nullptr),
-    walkerConf(model["walkerType"] ? conf->getCharacterConf(model["walkerType"].as<QString>()) : nullptr),
+    dependencyWalkerConf(model["dependencyWalker"] ? &conf->getCharacterConf(model["dependencyWalker"].as<QString>()) : nullptr),
+    walkerConf(model["walkerType"] ? &conf->getCharacterConf(model["walkerType"].as<QString>()) : nullptr),
     walkerGenerationInterval(model["generationInterval"] ? model["generationInterval"].as<int>() * CYCLE_PER_SECOND : 0),
     minWalkerGenerationInterval(model["minGenerationInterval"] ? model["minGenerationInterval"].as<qreal>() * CYCLE_PER_SECOND : 0),
     maxWalkerGenerationInterval(model["maxGenerationInterval"] ? model["maxGenerationInterval"].as<int>() * CYCLE_PER_SECOND : 0),
@@ -26,11 +26,11 @@ BehaviorInformation::BehaviorInformation(QObject* parent, const Conf* conf, cons
     ),
     targetSearchCriteria(),
     harvestMonth(model["harvestMonth"] ? model["harvestMonth"].as<int>() : 0),
-    producedItem(model["producedItem"] ? conf->getItemConf(model["producedItem"].as<QString>()) : nullptr)
+    producedItem(model["producedItem"] ? &conf->getItemConf(model["producedItem"].as<QString>()) : nullptr)
 {
     if (model["items"]) {
         for (auto node : model["items"]) {
-            items.append(conf->getItemConf(node.as<QString>()));
+            items.append(&conf->getItemConf(node.as<QString>()));
         }
     }
 }
@@ -41,7 +41,7 @@ void BehaviorInformation::resolveDependencies(const Conf* conf)
 {
     if (targetSearchCriteriaDescription) {
         targetSearchCriteria.reset(
-            new BuildingSearchCriteria({ conf->getBuildingConf(targetSearchCriteriaDescription->getTargetKey()) })
+            new BuildingSearchCriteria({ &conf->getBuildingConf(targetSearchCriteriaDescription->getTargetKey()) })
         );
     }
 }

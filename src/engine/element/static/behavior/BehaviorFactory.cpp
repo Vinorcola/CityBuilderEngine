@@ -25,19 +25,16 @@ BehaviorFactory::BehaviorFactory(QObject* parent, const Map* map, const SearchEn
 
 
 
-AbstractBehavior* BehaviorFactory::generate(
-    ProcessableBuilding* issuer,
-    const BehaviorInformation* conf
-) const
+AbstractBehavior* BehaviorFactory::generate(ProcessableBuilding* issuer, const BehaviorInformation& conf) const
 {
-    switch (conf->getType()) {
+    switch (conf.getType()) {
         case BehaviorInformation::Type::ConditionalRandomWalkerGenerator: {
             auto behavior(new ConditionalRandomWalkerGenerator(
                 issuer,
-                conf->getWalkerConf(),
-                conf->getDependencyWalkerConf(),
-                conf->getWalkerGenerationInterval(),
-                conf->getMaxWalkers()
+                *conf.getWalkerConf(),
+                *conf.getDependencyWalkerConf(),
+                conf.getWalkerGenerationInterval(),
+                conf.getMaxWalkers()
             ));
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createCharacter);
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyCharacter);
@@ -46,7 +43,7 @@ AbstractBehavior* BehaviorFactory::generate(
         }
 
         case BehaviorInformation::Type::DeliverymanGenerator: {
-            auto behavior(new DeliverymanGenerator(issuer, conf->getWalkerConf()));
+            auto behavior(new DeliverymanGenerator(issuer, *conf.getWalkerConf()));
 
             return behavior;
         }
@@ -73,7 +70,7 @@ AbstractBehavior* BehaviorFactory::generate(
         }
 
         case BehaviorInformation::Type::QueuedWalkerGenerator: {
-            auto behavior(new QueuedWalkerGenerator(issuer, conf->getWalkerConf(), conf->getMinWalkerGenerationInterval(), conf->getMaxWalkerGenerationInterval()));
+            auto behavior(new QueuedWalkerGenerator(issuer, *conf.getWalkerConf(), conf.getMinWalkerGenerationInterval(), conf.getMaxWalkerGenerationInterval()));
             connect(behavior, &QueuedWalkerGenerator::requestDynamicElementCreation, map, &Map::createCharacter);
 
             return behavior;
@@ -82,9 +79,9 @@ AbstractBehavior* BehaviorFactory::generate(
         case BehaviorInformation::Type::RandomWalkerGenerator:{
             auto behavior(new RandomWalkerGenerator(
                 issuer,
-                conf->getWalkerConf(),
-                conf->getWalkerGenerationInterval(),
-                conf->getMaxWalkers()
+                *conf.getWalkerConf(),
+                conf.getWalkerGenerationInterval(),
+                conf.getMaxWalkers()
             ));
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createCharacter);
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyCharacter);
@@ -96,10 +93,10 @@ AbstractBehavior* BehaviorFactory::generate(
             auto behavior(new TargetedWalkerGenerator(
                 issuer,
                 searchEngine,
-                conf->getTargetSearchCriteria(),
-                conf->getWalkerConf(),
-                conf->getWalkerGenerationInterval(),
-                conf->getMaxWalkers()
+                conf.getTargetSearchCriteria(),
+                *conf.getWalkerConf(),
+                conf.getWalkerGenerationInterval(),
+                conf.getMaxWalkers()
             ));
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementCreation, map, &Map::createCharacter);
             connect(behavior, &ConditionalRandomWalkerGenerator::requestDynamicElementDestruction, map, &Map::destroyCharacter);

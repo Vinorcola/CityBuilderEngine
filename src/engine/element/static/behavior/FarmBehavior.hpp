@@ -11,16 +11,16 @@ class FarmBehavior : public AbstractActivityBehavior
         Q_OBJECT
 
     private:
-        const BehaviorInformation* conf;
+        const BehaviorInformation& conf;
         CycleDate completeGrowingDate;
         int remainingGrowthInterval;///< This is only used to remember the grown percent in case activity ratio goes down to 0.
 
     public:
-        FarmBehavior(QObject* parent, const BehaviorInformation* conf);
+        FarmBehavior(QObject* parent, const BehaviorInformation& conf);
 
         virtual void setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate) override;
 
-        virtual bool acceptItem(const ItemInformation* itemType) const override;
+        virtual bool acceptItem(const ItemInformation& itemType) const override;
 
         virtual void process(const CycleDate& date) override;
 

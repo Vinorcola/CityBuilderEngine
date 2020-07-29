@@ -24,6 +24,13 @@ CharacterInformation::CharacterInformation(QObject* parent, const QString& key, 
 
 
 
+bool CharacterInformation::operator ==(const CharacterInformation& other) const
+{
+    return type == other.type;
+}
+
+
+
 CharacterInformation::Type CharacterInformation::getType() const
 {
     return type;

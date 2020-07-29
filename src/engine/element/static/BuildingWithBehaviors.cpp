@@ -11,15 +11,15 @@
 BuildingWithBehaviors::BuildingWithBehaviors(
     QObject* parent,
     const BehaviorFactory* behaviorFactory,
-    const BuildingInformation* conf,
+    const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    ProcessableBuilding(parent, *conf, area, entryPoint),
+    ProcessableBuilding(parent, conf, area, entryPoint),
     behaviors()
 {
-    for (auto behaviorConf : conf->getBehaviors()) {
-        behaviors.append(behaviorFactory->generate(this, behaviorConf));
+    for (auto behaviorConf : conf.getBehaviors()) {
+        behaviors.append(behaviorFactory->generate(this, *behaviorConf));
     }
 }
 
@@ -72,7 +72,7 @@ void BuildingWithBehaviors::notifyWalkerDestruction()
 
 
 
-bool BuildingWithBehaviors::acceptItem(const ItemInformation* itemType) const
+bool BuildingWithBehaviors::acceptItem(const ItemInformation& itemType) const
 {
     for (auto behavior : behaviors) {
         auto activityBehavior(dynamic_cast<AbstractActivityBehavior*>(behavior));

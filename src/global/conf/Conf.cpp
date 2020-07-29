@@ -2,6 +2,7 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include "src/exceptions/OutOfRangeException.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/ControlPanelElementInformation.hpp"
@@ -63,30 +64,46 @@ Conf::Conf(QObject* parent, const QString& filePath) :
 
 
 
-const ItemInformation* Conf::getItemConf(const QString& key) const
+const ItemInformation& Conf::getItemConf(const QString& key) const
 {
-    return items.value(key);
+    if (!items.contains(key)) {
+        throw OutOfRangeException("Item of type \"" + key + "\" does not exists.");
+    }
+
+    return *items.value(key);
 }
 
 
 
-const BuildingInformation* Conf::getBuildingConf(const QString& key) const
+const BuildingInformation& Conf::getBuildingConf(const QString& key) const
 {
-    return buildings.value(key);
+    if (!buildings.contains(key)) {
+        throw OutOfRangeException("Building of type \"" + key + "\" does not exists.");
+    }
+
+    return *buildings.value(key);
 }
 
 
 
-const CharacterInformation* Conf::getCharacterConf(const QString& key) const
+const CharacterInformation& Conf::getCharacterConf(const QString& key) const
 {
-    return characters.value(key);
+    if (!characters.contains(key)) {
+        throw OutOfRangeException("Character of type \"" + key + "\" does not exists.");
+    }
+
+    return *characters.value(key);
 }
 
 
 
-const NatureElementInformation* Conf::getNatureElementConf(const QString& key) const
+const NatureElementInformation& Conf::getNatureElementConf(const QString& key) const
 {
-    return natureElements.value(key);
+    if (!natureElements.contains(key)) {
+        throw OutOfRangeException("Nature element of type \"" + key + "\" does not exists.");
+    }
+
+    return *natureElements.value(key);
 }
 
 

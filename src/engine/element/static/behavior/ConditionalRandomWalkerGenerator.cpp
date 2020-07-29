@@ -1,13 +1,14 @@
 #include "ConditionalRandomWalkerGenerator.hpp"
 
 #include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/global/conf/CharacterInformation.hpp"
 
 
 
 ConditionalRandomWalkerGenerator::ConditionalRandomWalkerGenerator(
     ProcessableBuilding* issuer,
-    const CharacterInformation* walkerConf,
-    const CharacterInformation* dependencyWalkerConf,
+    const CharacterInformation& walkerConf,
+    const CharacterInformation& dependencyWalkerConf,
     const int generationInterval,
     const int maxWalkers
 ) :

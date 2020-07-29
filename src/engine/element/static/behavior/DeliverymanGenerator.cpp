@@ -2,7 +2,7 @@
 
 
 
-DeliverymanGenerator::DeliverymanGenerator(ProcessableBuilding* issuer, const CharacterInformation* walkerConf) :
+DeliverymanGenerator::DeliverymanGenerator(ProcessableBuilding* issuer, const CharacterInformation& walkerConf) :
     AbstractWalkerGenerator(issuer, walkerConf, 0)
 {
 

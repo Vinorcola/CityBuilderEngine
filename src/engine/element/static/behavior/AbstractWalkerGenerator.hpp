@@ -25,7 +25,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
 
     protected:
         ProcessableBuilding* issuer;
-        const CharacterInformation* walkerConf;
+        const CharacterInformation& walkerConf;
         const int generationInterval;
         const int maxWalkers;
         bool needToSetupNextGenerationDate;
@@ -35,7 +35,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
     public:
         AbstractWalkerGenerator(
             ProcessableBuilding* issuer,
-            const CharacterInformation* walkerConf,
+            const CharacterInformation& walkerConf,
             const int generationInterval,
             const int maxWalkers = 1
         );
@@ -62,7 +62,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
          */
         virtual void setActivitySpeedRatio(qreal ratio, const CycleDate& currentDate) override;
 
-        virtual bool acceptItem(const ItemInformation* itemType) const override;
+        virtual bool acceptItem(const ItemInformation& itemType) const override;
 
         virtual void process(const CycleDate& date) override;
 
@@ -77,7 +77,7 @@ class AbstractWalkerGenerator : public AbstractActivityBehavior
 
     signals:
         void requestDynamicElementCreation(
-            const CharacterInformation* elementConf,
+            const CharacterInformation& elementConf,
             ProcessableBuilding* issuer,
             std::function<void(Character*)> afterCreation
         );

@@ -46,7 +46,7 @@ class Character : public QObject, public AbstractProcessable
         };
 
     private:
-        const CharacterInformation* conf;
+        const CharacterInformation& conf;
         QPointer<ProcessableBuilding> issuer;///< The issuer building.
         QPointer<ProcessableBuilding> target;///< The target building.
         MotionHandler motionHandler;///< A helper that will handle character's motion.
@@ -56,7 +56,7 @@ class Character : public QObject, public AbstractProcessable
         Character(
             QObject* parent,
             const PathGenerator& pathGenerator,
-            const CharacterInformation* conf,
+            const CharacterInformation& conf,
             ProcessableBuilding* issuer,
             int wanderingCredits = 0,
             owner<CarriedItem*> carriedItem = nullptr
@@ -68,7 +68,7 @@ class Character : public QObject, public AbstractProcessable
 
         owner<CarriedItem*> takeCarriedItems(const int maxQuantity);
 
-        const CharacterInformation* getConf() const;
+        const CharacterInformation& getConf() const;
 
         /**
          * @brief The current location of the character.

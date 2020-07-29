@@ -31,6 +31,8 @@ class CharacterInformation : public QObject
     public:
         CharacterInformation(QObject* parent, const QString& key, const YAML::Node& model);
 
+        bool operator ==(const CharacterInformation& other) const;
+
         Type getType() const;
 
         const QString& getKey() const;

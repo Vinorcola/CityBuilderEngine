@@ -80,7 +80,7 @@ void MapScene::requestBuildingPositioning(const BuildingInformation* elementConf
 
 void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area)
 {
-    emit buildingCreationRequested(elementConf, area);
+    emit buildingCreationRequested(*elementConf, area);
 }
 
 
@@ -95,7 +95,7 @@ void MapScene::registerNewBuilding(const Building* element)
 
 void MapScene::registerNewCharacter(const Character* element)
 {
-    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, element->getConf()->getImage()));
+    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, element->getConf().getImage()));
     dynamicElementList.append(graphicsItem);
 
     Tile* tile(getTileAt(element->getCurrentLocation().getRounded()));
@@ -107,7 +107,7 @@ void MapScene::registerNewCharacter(const Character* element)
 void MapScene::registerNewNatureElement(const NatureElement* element)
 {
     Tile* tile(getTileAt(element->getArea().getLeft()));
-    addStaticElement(tile, element->getArea().getSize(), element->getConf()->getImage());
+    addStaticElement(tile, element->getArea().getSize(), element->getConf().getImage());
 }
 
 

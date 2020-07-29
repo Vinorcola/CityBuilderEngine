@@ -5,8 +5,9 @@
 
 
 
-QueuedWalkerGenerator::QueuedWalkerGenerator(ProcessableBuilding* issuer,
-    const CharacterInformation* walkerConf,
+QueuedWalkerGenerator::QueuedWalkerGenerator(
+    ProcessableBuilding* issuer,
+    const CharacterInformation& walkerConf,
     const int minGenerationInterval,
     const int maxGenerationInterval
 ) :
@@ -23,7 +24,7 @@ QueuedWalkerGenerator::QueuedWalkerGenerator(ProcessableBuilding* issuer,
 
 
 
-const CharacterInformation* QueuedWalkerGenerator::getWalkerConf() const
+const CharacterInformation& QueuedWalkerGenerator::getWalkerConf() const
 {
     return walkerConf;
 }

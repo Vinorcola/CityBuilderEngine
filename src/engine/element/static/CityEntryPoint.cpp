@@ -9,10 +9,10 @@
 
 CityEntryPoint::CityEntryPoint(
     QObject* parent,
-    const BuildingInformation* conf,
+    const BuildingInformation& conf,
     const MapCoordinates& coordinates
 ) :
-    ProcessableBuilding(parent, *conf, MapArea(coordinates), coordinates),
+    ProcessableBuilding(parent, conf, MapArea(coordinates), coordinates),
     immigrantGenerator()
 {
     // TODO: Disable for now. To review.

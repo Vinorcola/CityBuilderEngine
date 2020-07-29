@@ -15,7 +15,7 @@ class DeliverymanGenerator : public AbstractWalkerGenerator
         Q_OBJECT
 
     public:
-        DeliverymanGenerator(ProcessableBuilding* issuer, const CharacterInformation* walkerConf);
+        DeliverymanGenerator(ProcessableBuilding* issuer, const CharacterInformation& walkerConf);
 };
 
 #endif // DELIVERYMANGENERATOR_HPP

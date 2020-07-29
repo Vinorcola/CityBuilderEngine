@@ -8,7 +8,7 @@ const int MAX_QUANTITY(8);
 
 
 
-FarmBehavior::FarmBehavior(QObject* parent, const BehaviorInformation* conf) :
+FarmBehavior::FarmBehavior(QObject* parent, const BehaviorInformation& conf) :
     AbstractActivityBehavior(parent),
     conf(conf),
     completeGrowingDate(),
@@ -48,7 +48,7 @@ void FarmBehavior::setActivitySpeedRatio(qreal ratio, const CycleDate& currentDa
 
 
 
-bool FarmBehavior::acceptItem(const ItemInformation* /*itemType*/) const
+bool FarmBehavior::acceptItem(const ItemInformation& /*itemType*/) const
 {
     return false;
 }
@@ -57,7 +57,7 @@ bool FarmBehavior::acceptItem(const ItemInformation* /*itemType*/) const
 
 void FarmBehavior::process(const CycleDate& date)
 {
-    if (date.isFirstCycleOfMonth() && date.getMonth() == conf->getHarvestMonth()) {
+    if (date.isFirstCycleOfMonth() && date.getMonth() == conf.getHarvestMonth()) {
         remainingGrowthInterval = activitySpeedRatio * (completeGrowingDate - date);
         if (remainingGrowthInterval < 0) {
             remainingGrowthInterval = 0;

@@ -8,10 +8,10 @@
 
 
 
-ItemStorage::ItemStorage(ProcessableBuilding* issuer, const BehaviorInformation* behaviorInformation) :
+ItemStorage::ItemStorage(ProcessableBuilding* issuer, const BehaviorInformation& behaviorInformation) :
     AbstractActivityBehavior(issuer),
     issuer(issuer),
-    availableItems(behaviorInformation->getItems()),
+    availableItems(behaviorInformation.getItems()),
     storage()
 {
     for (auto availableItem : availableItems) {
@@ -38,12 +38,12 @@ void ItemStorage::setActivitySpeedRatio(qreal ratio, const CycleDate& /*currentD
 
 
 
-bool ItemStorage::acceptItem(const ItemInformation* itemType) const
+bool ItemStorage::acceptItem(const ItemInformation& itemType) const
 {
     // TODO: Take activity into account.
     // TODO: Take current stock into account.
 
-    return availableItems.contains(itemType);
+    return availableItems.contains(&itemType);
 }
 
 
