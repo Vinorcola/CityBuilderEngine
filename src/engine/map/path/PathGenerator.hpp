@@ -1,6 +1,7 @@
 #ifndef PATHGENERATOR_HPP
 #define PATHGENERATOR_HPP
 
+#include "src/engine/map/path/closestPath/ClosestPathFinder.hpp"
 #include "src/engine/map/path/shortestPath/ShortestPathFinder.hpp"
 #include "src/defines.hpp"
 
@@ -12,6 +13,7 @@ class PathGenerator
 {
     private:
         const MapDetailsInterface& mapDetails;
+        ClosestPathFinder closestPathFinder;
         ShortestPathFinder shortestPathFinder;
 
     public:
@@ -36,6 +38,14 @@ class PathGenerator
         owner<PathInterface*> generateShortestRoadPathTo(
             const MapCoordinates& origin,
             const MapCoordinates& destination
+        ) const;
+
+        /**
+         * @brief Generate shortest path to the closest location matching the given `match` criteria.
+         */
+        owner<PathInterface*> generateShortestPathToClosestMatch(
+            const MapCoordinates& origin,
+            std::function<bool(const MapCoordinates&)> match
         ) const;
 };
 

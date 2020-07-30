@@ -7,6 +7,7 @@
 
 PathGenerator::PathGenerator(const MapDetailsInterface& mapDetails) :
     mapDetails(mapDetails),
+    closestPathFinder(mapDetails),
     shortestPathFinder(mapDetails)
 {
 
@@ -40,4 +41,14 @@ owner<PathInterface*> PathGenerator::generateShortestRoadPathTo(
 ) const {
 
     return new TargetedPath(mapDetails, true, shortestPathFinder.getShortestPath(origin, destination, true));
+}
+
+
+
+owner<PathInterface*> PathGenerator::generateShortestPathToClosestMatch(
+    const MapCoordinates& origin,
+    std::function<bool (const MapCoordinates&)> match
+) const {
+
+    return new TargetedPath(mapDetails, false, closestPathFinder.getShortestPathToClosestMatch(origin, match));
 }
