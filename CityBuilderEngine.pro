@@ -47,6 +47,7 @@ SOURCES += \
     src/engine/map/MapCoordinates.cpp \
     src/engine/map/MapDetailsCache.cpp \
     src/engine/map/MapLoader.cpp \
+    src/engine/map/MapSearchEngine.cpp \
     src/engine/map/MapSize.cpp \
     src/engine/processing/AbstractProcessable.cpp \
     src/engine/processing/BuildingProcessor.cpp \
@@ -126,6 +127,7 @@ HEADERS += \
     src/engine/map/MapCoordinates.hpp \
     src/engine/map/MapDetailsCache.hpp \
     src/engine/map/MapLoader.hpp \
+    src/engine/map/MapSearchEngine.hpp \
     src/engine/map/MapSize.hpp \
     src/engine/processing/AbstractProcessable.hpp \
     src/engine/processing/BuildingProcessor.hpp \
