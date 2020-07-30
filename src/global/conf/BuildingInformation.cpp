@@ -3,6 +3,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/exceptions/BadConfigurationException.hpp"
+#include "src/exceptions/UnexpectedException.hpp"
 #include "src/global/conf/BehaviorInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/BuildingSearchCriteriaDescription.hpp"
@@ -18,13 +19,29 @@ BuildingInformation::BuildingInformation(QObject* parent, const Conf* conf, cons
     type(resolveType(model.getString("type"))),
     common(model),
     graphics(model),
+    producer(nullptr),
     behaviors()
 {
+    switch (type) {
+        case Type::Producer:
+            producer = new Producer(model);
+            break;
+    }
+
     if (model.getNode()["behaviors"]) {
         for (auto node : model.getNode()["behaviors"]) {
             BehaviorInformation::checkModel(model.getKey(), node);
             behaviors.append(new BehaviorInformation(this, conf, node));
         }
+    }
+}
+
+
+
+BuildingInformation::~BuildingInformation()
+{
+    if (producer) {
+        delete producer;
     }
 }
 
@@ -56,6 +73,17 @@ const QString& BuildingInformation::getTitle() const
 const MapSize& BuildingInformation::getSize() const
 {
     return common.size;
+}
+
+
+
+const BuildingInformation::Producer& BuildingInformation::getProducerConf() const
+{
+    if (producer == nullptr) {
+        throw UnexpectedException("This building conf does not have producer information.");
+    }
+
+    return *producer;
 }
 
 
@@ -100,6 +128,20 @@ BuildingInformation::Common::Common(const ModelReader& model) :
 
 BuildingInformation::Graphics::Graphics(const ModelReader& model) :
     image("assets/img/static/building/" + model.getKey() + ".png")
+{
+
+}
+
+
+
+BuildingInformation::Producer::Producer(const ModelReader& model) :
+    producedItemConf(model.getItemConf("producedItem")),
+    rawMaterialConf(model.getNatureElementConf("rawMaterialItem")),
+    minerConf(model.getCharacterConf("minerCharacter")),
+    maxMinerQuantity(model.getOptionalInt("maxMinerQuantity", 2)),
+    miningQuantity(model.getOptionalInt("miningQuantity", 25)),
+    rawMaterialQuantityToproduce(model.getOptionalInt("rawMaterialQUantityToProduce", 100)),
+    maxStoredRawMaterialQuantity(model.getOptionalInt("maxStoredRawMaterialQUantity", 500))
 {
 
 }

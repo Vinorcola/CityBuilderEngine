@@ -29,7 +29,9 @@ class BuildingInformation : public QObject
             None = 0,
             Building,
             CityEntryPoint,
-            Road
+            Road,
+
+            Producer
         };
 
         struct Common {
@@ -50,11 +52,24 @@ class BuildingInformation : public QObject
             explicit Graphics(const ModelReader& model);
         };
 
+        struct Producer {
+            const ItemInformation& producedItemConf;
+            const NatureElementInformation& rawMaterialConf;
+            const CharacterInformation& minerConf;
+            int maxMinerQuantity;
+            int miningQuantity;
+            int rawMaterialQuantityToproduce;
+            int maxStoredRawMaterialQuantity;
+
+            explicit Producer(const ModelReader& model);
+        };
+
     private:
         QString key;
         Type type;
         Common common;
         Graphics graphics;
+        Producer* producer;
         QList<BehaviorInformation*> behaviors;
 
     public:
@@ -63,6 +78,8 @@ class BuildingInformation : public QObject
          */
         BuildingInformation(QObject* parent, const Conf* conf, const ModelReader& model);
 
+        virtual ~BuildingInformation();
+
         void resolveDependencies(const Conf* conf);
 
         Type getType() const;
@@ -70,6 +87,8 @@ class BuildingInformation : public QObject
         const QString& getTitle() const;
 
         const MapSize& getSize() const;
+
+        const Producer& getProducerConf() const;
 
         const QList<BehaviorInformation*>& getBehaviors() const;
 

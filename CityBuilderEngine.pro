@@ -27,6 +27,7 @@ SOURCES += \
     src/engine/element/static/NatureElement.cpp \
     src/engine/element/static/ProcessableBuilding.cpp \
     src/engine/element/static/Road.cpp \
+    src/engine/element/static/building/ProducerBuilding.cpp \
     src/engine/map/path/shortestPath/AStarNode.cpp \
     src/engine/map/path/shortestPath/ProcessedAStarNodeList.cpp \
     src/engine/map/path/shortestPath/ShortestPathFinder.cpp \
@@ -99,6 +100,7 @@ HEADERS += \
     src/engine/element/static/NatureElement.hpp \
     src/engine/element/static/ProcessableBuilding.hpp \
     src/engine/element/static/Road.hpp \
+    src/engine/element/static/building/ProducerBuilding.hpp \
     src/engine/map/path/shortestPath/AStarNode.hpp \
     src/engine/map/path/shortestPath/ProcessedAStarNodeList.hpp \
     src/engine/map/path/shortestPath/ShortestPathFinder.hpp \
