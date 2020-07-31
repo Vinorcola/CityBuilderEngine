@@ -45,10 +45,15 @@ owner<PathInterface*> PathGenerator::generateShortestRoadPathTo(
 
 
 
-owner<PathInterface*> PathGenerator::generateShortestPathToClosestMatch(
+optional<owner<PathInterface*>> PathGenerator::generateShortestPathToClosestMatch(
     const MapCoordinates& origin,
     std::function<bool (const MapCoordinates&)> match
 ) const {
 
-    return new TargetedPath(mapDetails, false, closestPathFinder.getShortestPathToClosestMatch(origin, match));
+    auto path(closestPathFinder.getShortestPathToClosestMatch(origin, match));
+    if (path.isEmpty()) {
+        return nullptr;
+    }
+
+    return new TargetedPath(mapDetails, false, path);
 }

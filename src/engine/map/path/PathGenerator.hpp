@@ -43,7 +43,7 @@ class PathGenerator
         /**
          * @brief Generate shortest path to the closest location matching the given `match` criteria.
          */
-        owner<PathInterface*> generateShortestPathToClosestMatch(
+        optional<owner<PathInterface*>> generateShortestPathToClosestMatch(
             const MapCoordinates& origin,
             std::function<bool(const MapCoordinates&)> match
         ) const;

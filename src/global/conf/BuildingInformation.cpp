@@ -104,9 +104,10 @@ const QPixmap& BuildingInformation::getImage() const
 
 BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
-    if (type == "building")        return Type::Building;
-    if (type == "cityEntryPoint")  return Type::CityEntryPoint;
-    if (type == "road")            return Type::Road;
+    if (type == "building")       return Type::Building;
+    if (type == "cityEntryPoint") return Type::CityEntryPoint;
+    if (type == "producer")       return Type::Producer;
+    if (type == "road")           return Type::Road;
 
     throw BadConfigurationException("Unknown building of type \"" + type + "\".");
 }
@@ -134,13 +135,30 @@ BuildingInformation::Graphics::Graphics(const ModelReader& model) :
 
 
 
+BuildingInformation::WalkerGeneration::WalkerGeneration(
+    const CharacterInformation& conf,
+    const int generationInterval,
+    const int maxSimultaneous
+) :
+    conf(conf),
+    generationInterval(generationInterval),
+    maxSimultaneous(maxSimultaneous)
+{
+
+}
+
+
+
 BuildingInformation::Producer::Producer(const ModelReader& model) :
     producedItemConf(model.getItemConf("producedItem")),
     rawMaterialConf(model.getNatureElementConf("rawMaterialItem")),
-    minerConf(model.getCharacterConf("minerCharacter")),
-    maxMinerQuantity(model.getOptionalInt("maxMinerQuantity", 2)),
+    miner(
+        model.getCharacterConf("minerCharacter"),
+        model.getOptionalInt("maxSimultaneousMiners", 2),
+        model.getOptionalInt("minerGenerationInterval", 1)
+    ),
     miningQuantity(model.getOptionalInt("miningQuantity", 25)),
-    rawMaterialQuantityToproduce(model.getOptionalInt("rawMaterialQUantityToProduce", 100)),
+    rawMaterialQuantityToProduce(model.getOptionalInt("rawMaterialQUantityToProduce", 100)),
     maxStoredRawMaterialQuantity(model.getOptionalInt("maxStoredRawMaterialQUantity", 500))
 {
 

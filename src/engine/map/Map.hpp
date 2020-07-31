@@ -9,6 +9,7 @@
 #include "src/engine/map/path/MapDetailsInterface.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/MapDetailsCache.hpp"
+#include "src/engine/map/MapSearchEngine.hpp"
 
 class BehaviorFactory;
 class Building;
@@ -37,7 +38,7 @@ class Map : public QObject, public MapDetailsInterface
         QSize size;
         CityStatus* cityStatus;
         TimeCycleProcessor* processor;
-        SearchEngine* searchEngine;
+        SearchEngine* legacySearchEngine;
         BehaviorFactory* behaviorFactory;
         QLinkedList<Character*> characterList;
         QLinkedList<Building*> buildingList;
@@ -45,6 +46,7 @@ class Map : public QObject, public MapDetailsInterface
         MapDetailsCache mapDetailsCache;
         CityEntryPoint* entryPoint;
         PathGenerator pathGenerator;
+        MapSearchEngine searchEngine;
 
     public:
         Map(const Conf* conf, const MapLoader& loader);

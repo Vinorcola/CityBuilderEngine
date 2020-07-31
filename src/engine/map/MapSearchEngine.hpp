@@ -20,7 +20,7 @@ class MapSearchEngine
         QHash<const NatureElementInformation*, QSet<QString>> rawMaterialCoordinates;
 
     public:
-        MapSearchEngine(const PathGenerator& pathGenerator);
+        explicit MapSearchEngine(const PathGenerator& pathGenerator);
 
         void registerRawMaterial(const NatureElementInformation& conf, const MapArea& area);
 

@@ -7,6 +7,7 @@
 #include <QtGui/QPixmap>
 
 #include "src/engine/map/MapSize.hpp"
+#include "src/defines.hpp"
 
 class BehaviorInformation;
 class BuildingAreaPartDescription;
@@ -52,13 +53,20 @@ class BuildingInformation : public QObject
             explicit Graphics(const ModelReader& model);
         };
 
+        struct WalkerGeneration {
+            const CharacterInformation& conf;
+            int generationInterval;
+            int maxSimultaneous;
+
+            WalkerGeneration(const CharacterInformation& conf, const int generationInterval, const int maxSimultaneous);
+        };
+
         struct Producer {
             const ItemInformation& producedItemConf;
             const NatureElementInformation& rawMaterialConf;
-            const CharacterInformation& minerConf;
-            int maxMinerQuantity;
+            WalkerGeneration miner;
             int miningQuantity;
-            int rawMaterialQuantityToproduce;
+            int rawMaterialQuantityToProduce;
             int maxStoredRawMaterialQuantity;
 
             explicit Producer(const ModelReader& model);
@@ -69,7 +77,7 @@ class BuildingInformation : public QObject
         Type type;
         Common common;
         Graphics graphics;
-        Producer* producer;
+        optional<Producer*> producer;
         QList<BehaviorInformation*> behaviors;
 
     public:
