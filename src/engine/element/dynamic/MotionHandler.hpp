@@ -52,7 +52,7 @@ class MotionHandler
         /**
          * @brief Move and return the new location.
          */
-        const MapCoordinates& move();
+        void move();
 
     private:
         /**

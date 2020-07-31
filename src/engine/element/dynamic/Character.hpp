@@ -5,16 +5,13 @@
 #include <QtCore/QPointer>
 
 #include "src/engine/element/dynamic/MotionHandler.hpp"
-#include "src/engine/element/static/ProcessableBuilding.hpp"
-#include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
 #include "src/defines.hpp"
 
 class CycleDate;
 class CharacterInformation;
-class ItemInformation;
-class Map;
-class PathGenerator;
+class MapCoordinates;
+class ProcessableBuilding;
 
 /**
  * @brief A character on the map.
@@ -48,14 +45,8 @@ class Character : public QObject, public AbstractProcessable
 
         const CharacterInformation& getConf() const;
 
-        /**
-         * @brief The current location of the character.
-         */
         const MapCoordinates& getCurrentLocation() const;
 
-        /**
-         * @brief Get the issuer.
-         */
         optional<ProcessableBuilding*> getIssuer() const;
 
         /**

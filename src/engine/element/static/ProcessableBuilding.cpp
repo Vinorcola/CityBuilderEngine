@@ -23,7 +23,7 @@ const MapCoordinates& ProcessableBuilding::getEntryPoint() const
 
 
 
-bool ProcessableBuilding::processInteraction(const CycleDate& /*date*/, Character* /*actor*/)
+bool ProcessableBuilding::processInteraction(const CycleDate& /*date*/, Character& /*actor*/)
 {
     return false;
 }

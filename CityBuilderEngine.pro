@@ -7,6 +7,7 @@ CONFIG += c++14
 TEMPLATE = app
 
 SOURCES += \
+    src/engine/element/dynamic/CharacterFactoryInterface.cpp \
     src/engine/element/dynamic/character/MinerCharacter.cpp \
     src/engine/element/dynamic/Character.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
@@ -86,6 +87,7 @@ SOURCES += \
     src/main.cpp
 
 HEADERS += \
+    src/engine/element/dynamic/CharacterFactoryInterface.hpp \
     src/engine/element/dynamic/character/MinerCharacter.hpp \
     src/engine/element/dynamic/Character.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \

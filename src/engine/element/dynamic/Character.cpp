@@ -1,6 +1,7 @@
 #include "Character.hpp"
 
 #include "src/engine/element/dynamic/MotionHandler.hpp"
+#include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 
 

@@ -81,7 +81,7 @@ void MotionHandler::stop()
 
 
 
-const MapCoordinates& MotionHandler::move()
+void MotionHandler::move()
 {
     if (location == movingTo) {
         movingFrom = location;
@@ -89,12 +89,10 @@ const MapCoordinates& MotionHandler::move()
     }
 
     if (!movingTo.isValid()) {
-        return location;
+        return;
     }
 
     moveToTarget();
-
-    return location;
 }
 
 

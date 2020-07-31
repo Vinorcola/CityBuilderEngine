@@ -9,6 +9,7 @@
 #include "src/engine/processing/CycleDate.hpp"
 
 class BuildingInformation;
+class CharacterFactoryInterface;
 class CharacterInformation;
 class ItemInformation;
 class MapArea;
@@ -22,14 +23,16 @@ class ProducerBuilding : public ProcessableBuilding
 
     private:
         const MapSearchEngine& searchEngine;
-        int rawMaterialStock;
+        CharacterFactoryInterface& characterFactory;
         QList<QPointer<Character>> miners;
         CycleDate nextMinerGenerationDate;
+        int rawMaterialStock;
 
     public:
         ProducerBuilding(
             QObject* parent,
             const MapSearchEngine& searchEngine,
+            CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
@@ -56,13 +59,6 @@ class ProducerBuilding : public ProcessableBuilding
          * @brief Setup the next miner generation date.
          */
         void setupNextMinerGenerationDate(const CycleDate& date);
-
-    signals:
-        void requestCharacterCreation(
-            const CharacterInformation& elementConf,
-            ProcessableBuilding* issuer,
-            std::function<void(Character*)> afterCreation
-        );
 };
 
 #endif // PRODUCERBUILDING_HPP
