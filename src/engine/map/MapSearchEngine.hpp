@@ -24,7 +24,7 @@ class MapSearchEngine
 
         void registerRawMaterial(const NatureElementInformation& conf, const MapArea& area);
 
-        owner<PathInterface*> getPathToClosestRawMaterial(
+        optional<owner<PathInterface*>> getPathToClosestRawMaterial(
             const NatureElementInformation& conf,
             const MapCoordinates& origin
         ) const;

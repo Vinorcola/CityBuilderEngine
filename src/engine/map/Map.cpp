@@ -321,6 +321,7 @@ void Map::createNatureElement(const NatureElementInformation& conf, const MapAre
     auto natureElement(new NatureElement(this, conf, area));
     natureElementList.append(natureElement);
     mapDetailsCache.registerNatureElement(conf, area);
+    searchEngine.registerRawMaterial(conf, area);
 
     emit natureElementCreated(natureElement);
 }

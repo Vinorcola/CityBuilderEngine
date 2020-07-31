@@ -17,7 +17,11 @@ MapSearchEngine::MapSearchEngine(const PathGenerator& pathGenerator) :
 
 void MapSearchEngine::registerRawMaterial(const NatureElementInformation& conf, const MapArea& area)
 {
-    auto coordinatesSet(rawMaterialCoordinates[&conf]);
+    if (!rawMaterialCoordinates.contains(&conf)) {
+        rawMaterialCoordinates[&conf] = {};
+    }
+
+    auto& coordinatesSet(rawMaterialCoordinates[&conf]);
     for (auto coordinates : area) {
         coordinatesSet << hashCoordinates(coordinates);
     }
@@ -25,12 +29,21 @@ void MapSearchEngine::registerRawMaterial(const NatureElementInformation& conf, 
 
 
 
-owner<PathInterface*> MapSearchEngine::getPathToClosestRawMaterial(
+optional<owner<PathInterface*>> MapSearchEngine::getPathToClosestRawMaterial(
     const NatureElementInformation& conf,
     const MapCoordinates& origin
 ) const {
 
-    auto coordinatesSet(rawMaterialCoordinates[&conf]);
+    if (!rawMaterialCoordinates.contains(&conf)) {
+        // No elements of that type registered.
+        return nullptr;
+    }
+
+    auto& coordinatesSet(rawMaterialCoordinates[&conf]);
+    if (coordinatesSet.isEmpty()) {
+        // No more elements of that type registered.
+        return nullptr;
+    }
 
     return pathGenerator.generateShortestPathToClosestMatch(
         origin,

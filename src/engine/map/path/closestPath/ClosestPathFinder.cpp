@@ -51,7 +51,8 @@ QList<MapCoordinates> ClosestPathFinder::getShortestPathToClosestMatch(
                 path.prepend(current->getLocation());
                 current = parents.value(current);
             }
-            break;
+
+            return path;
         }
 
         qreal neighboursCostFromOrigin(current->getCostFromOrigin() + 1.0);

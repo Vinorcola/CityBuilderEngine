@@ -154,8 +154,8 @@ BuildingInformation::Producer::Producer(const ModelReader& model) :
     rawMaterialConf(model.getNatureElementConf("rawMaterialItem")),
     miner(
         model.getCharacterConf("minerCharacter"),
-        model.getOptionalInt("maxSimultaneousMiners", 2),
-        model.getOptionalInt("minerGenerationInterval", 1)
+        model.getOptionalInt("minerGenerationInterval", 4) * CYCLE_PER_SECOND,
+        model.getOptionalInt("maxSimultaneousMiners", 2)
     ),
     miningQuantity(model.getOptionalInt("miningQuantity", 25)),
     rawMaterialQuantityToProduce(model.getOptionalInt("rawMaterialQUantityToProduce", 100)),

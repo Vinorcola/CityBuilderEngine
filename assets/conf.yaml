@@ -121,6 +121,17 @@ buildings:
                 walkerType: clerk
                 maxWalkers: 1
                 generationInterval: 8
+    timberMill:
+        type: producer
+        title: Timber Mill
+        size: 2
+        price: 60
+        employees: 0 # TODO: set the value
+        damageRisk: 0 # TODO: set the value
+        fireRisk: 0 # TODO: set the value
+        rawMaterialItem: wood
+        producedItem: wood
+        minerCharacter: lumberjack
     watchpost:
         type: building
         title: Watchpost
@@ -173,6 +184,9 @@ characters:
         speed: 2.0
         wanderingCredits: 26
     immigrant:
+        type: targetedWalker
+        speed: 2.0
+    lumberjack:
         type: targetedWalker
         speed: 2.0
     superintendent:
@@ -254,6 +268,22 @@ controlPanel:
                     type: button
                     building: wheatFarm
         -
+            title: Industry
+            type: panel
+            content:
+                -
+                    title: Timber Mill
+                    type: button
+                    building: timberMill
+        -
+            title: Storage
+            type: panel
+            content:
+                -
+                    title: Granary
+                    type: button
+                    building: granary
+        -
             title: Hygiene/Safety
             type: panel
             content:
@@ -273,14 +303,6 @@ controlPanel:
                     title: Watchpost
                     type: button
                     building: watchpost
-        -
-            title: Storage
-            type: panel
-            content:
-                -
-                    title: Granary
-                    type: button
-                    building: granary
         -
             title: Administration
             type: panel
