@@ -5,6 +5,7 @@
 
 #include "src/engine/element/dynamic/Character.hpp"
 #include "src/engine/element/static/behavior/BehaviorFactory.hpp"
+#include "src/engine/element/static/building/ProducerBuilding.hpp"
 #include "src/engine/element/static/CityEntryPoint.hpp"
 #include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/element/static/BuildingWithBehaviors.hpp"
@@ -30,14 +31,15 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     size(loader.getSize()),
     cityStatus(new CityStatus(this, loader.getBudget())),
     processor(new TimeCycleProcessor(this, loader.getDate())),
-    searchEngine(new SearchEngine(this, buildingList)),
-    behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
+    legacySearchEngine(new SearchEngine(this, buildingList)),
+    behaviorFactory(new BehaviorFactory(this, this, legacySearchEngine)),
     characterList(),
     buildingList(),
     natureElementList(),
     mapDetailsCache(),
     entryPoint(),
-    pathGenerator(*this)
+    pathGenerator(*this),
+    searchEngine(pathGenerator)
 {
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
@@ -262,6 +264,17 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
             break;
         }
 
+        case BuildingInformation::Type::Producer: {
+            auto entryPoint(mapDetailsCache.getBestEntryPointForArea(area));
+            auto building(new ProducerBuilding(this, searchEngine, conf, area, entryPoint));
+            pointer = building;
+            processor->registerBuilding(building);
+            buildingList.append(building);
+
+            connect(building, &ProducerBuilding::requestCharacterCreation, this, &Map::createCharacter);
+            break;
+        }
+
         case BuildingInformation::Type::Road: {
             auto coordinates(area.getLeft());
             auto element(new Road(this, conf, coordinates));
@@ -308,6 +321,7 @@ void Map::createNatureElement(const NatureElementInformation& conf, const MapAre
     auto natureElement(new NatureElement(this, conf, area));
     natureElementList.append(natureElement);
     mapDetailsCache.registerNatureElement(conf, area);
+    searchEngine.registerRawMaterial(conf, area);
 
     emit natureElementCreated(natureElement);
 }

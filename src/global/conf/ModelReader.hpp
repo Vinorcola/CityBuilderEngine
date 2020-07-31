@@ -5,6 +5,11 @@
 
 #include "src/engine/map/MapCoordinates.hpp"
 
+class BuildingInformation;
+class CharacterInformation;
+class Conf;
+class ItemInformation;
+class NatureElementInformation;
 namespace YAML {
     class Node;
 }
@@ -12,11 +17,12 @@ namespace YAML {
 class ModelReader
 {
     private:
+        const Conf& conf;
         const QString& key;
         const YAML::Node& node;
 
     public:
-        ModelReader(const QString& key, const YAML::Node& node);
+        ModelReader(const Conf& conf, const QString& key, const YAML::Node& node);
 
         const QString& getKey() const;
 
@@ -27,6 +33,14 @@ class ModelReader
         QString getString(const char key[]) const;
 
         MapCoordinates getMapCoordinates(const char key[]) const;
+
+        const BuildingInformation& getBuildingConf(const char key[]) const;
+
+        const CharacterInformation& getCharacterConf(const char key[]) const;
+
+        const ItemInformation& getItemConf(const char key[]) const;
+
+        const NatureElementInformation& getNatureElementConf(const char key[]) const;
 
         int getOptionalInt(const char key[], const int defaultValue = 0) const;
 

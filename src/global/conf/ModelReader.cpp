@@ -1,11 +1,13 @@
 #include "ModelReader.hpp"
 
 #include "src/exceptions/BadConfigurationException.hpp"
+#include "src/global/conf/Conf.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
 
 
 
-ModelReader::ModelReader(const QString& key, const YAML::Node& node) :
+ModelReader::ModelReader(const Conf& conf, const QString& key, const YAML::Node& node) :
+    conf(conf),
     key(key),
     node(node)
 {
@@ -57,6 +59,34 @@ MapCoordinates ModelReader::getMapCoordinates(const char key[]) const
     }
 
     return node[key].as<MapCoordinates>();
+}
+
+
+
+const BuildingInformation& ModelReader::getBuildingConf(const char key[]) const
+{
+    return conf.getBuildingConf(getString(key));
+}
+
+
+
+const CharacterInformation& ModelReader::getCharacterConf(const char key[]) const
+{
+    return conf.getCharacterConf(getString(key));
+}
+
+
+
+const ItemInformation& ModelReader::getItemConf(const char key[]) const
+{
+    return conf.getItemConf(getString(key));
+}
+
+
+
+const NatureElementInformation& ModelReader::getNatureElementConf(const char key[]) const
+{
+    return conf.getNatureElementConf(getString(key));
 }
 
 

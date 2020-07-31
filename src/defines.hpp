@@ -4,10 +4,15 @@
 /**
  * An alias that is used to express ownership of a pointer.
  *
- * If a method gets an Owner<T*>, it becomes responsible for deleting the pointed object if necessary. On the contrary,
- * if a method returns an Owner<T*>, it give up the responsability of deleting the pointed object.
+ * If a method gets an owner<T*>, it becomes responsible for deleting the pointed object if necessary. On the contrary,
+ * if a method returns an owner<T*>, it give up the responsability of deleting the pointed object.
  */
 template<class T> using owner = T;
+
+/**
+ * An alias that is used to express the optionality of a pointer (it can be `nullptr`).
+ */
+template<class T> using optional = T;
 
 // <--- Add/Remove start between the slahes to switch.
 

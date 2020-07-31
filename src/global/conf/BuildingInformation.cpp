@@ -3,6 +3,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/exceptions/BadConfigurationException.hpp"
+#include "src/exceptions/UnexpectedException.hpp"
 #include "src/global/conf/BehaviorInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/BuildingSearchCriteriaDescription.hpp"
@@ -18,13 +19,29 @@ BuildingInformation::BuildingInformation(QObject* parent, const Conf* conf, cons
     type(resolveType(model.getString("type"))),
     common(model),
     graphics(model),
+    producer(nullptr),
     behaviors()
 {
+    switch (type) {
+        case Type::Producer:
+            producer = new Producer(model);
+            break;
+    }
+
     if (model.getNode()["behaviors"]) {
         for (auto node : model.getNode()["behaviors"]) {
             BehaviorInformation::checkModel(model.getKey(), node);
             behaviors.append(new BehaviorInformation(this, conf, node));
         }
+    }
+}
+
+
+
+BuildingInformation::~BuildingInformation()
+{
+    if (producer) {
+        delete producer;
     }
 }
 
@@ -60,6 +77,17 @@ const MapSize& BuildingInformation::getSize() const
 
 
 
+const BuildingInformation::Producer& BuildingInformation::getProducerConf() const
+{
+    if (producer == nullptr) {
+        throw UnexpectedException("This building conf does not have producer information.");
+    }
+
+    return *producer;
+}
+
+
+
 const QList<BehaviorInformation*>& BuildingInformation::getBehaviors() const
 {
     return behaviors;
@@ -76,9 +104,10 @@ const QPixmap& BuildingInformation::getImage() const
 
 BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
-    if (type == "building")        return Type::Building;
-    if (type == "cityEntryPoint")  return Type::CityEntryPoint;
-    if (type == "road")            return Type::Road;
+    if (type == "building")       return Type::Building;
+    if (type == "cityEntryPoint") return Type::CityEntryPoint;
+    if (type == "producer")       return Type::Producer;
+    if (type == "road")           return Type::Road;
 
     throw BadConfigurationException("Unknown building of type \"" + type + "\".");
 }
@@ -100,6 +129,37 @@ BuildingInformation::Common::Common(const ModelReader& model) :
 
 BuildingInformation::Graphics::Graphics(const ModelReader& model) :
     image("assets/img/static/building/" + model.getKey() + ".png")
+{
+
+}
+
+
+
+BuildingInformation::WalkerGeneration::WalkerGeneration(
+    const CharacterInformation& conf,
+    const int generationInterval,
+    const int maxSimultaneous
+) :
+    conf(conf),
+    generationInterval(generationInterval),
+    maxSimultaneous(maxSimultaneous)
+{
+
+}
+
+
+
+BuildingInformation::Producer::Producer(const ModelReader& model) :
+    producedItemConf(model.getItemConf("producedItem")),
+    rawMaterialConf(model.getNatureElementConf("rawMaterialItem")),
+    miner(
+        model.getCharacterConf("minerCharacter"),
+        model.getOptionalInt("minerGenerationInterval", 4) * CYCLE_PER_SECOND,
+        model.getOptionalInt("maxSimultaneousMiners", 2)
+    ),
+    miningQuantity(model.getOptionalInt("miningQuantity", 25)),
+    rawMaterialQuantityToProduce(model.getOptionalInt("rawMaterialQUantityToProduce", 100)),
+    maxStoredRawMaterialQuantity(model.getOptionalInt("maxStoredRawMaterialQUantity", 500))
 {
 
 }

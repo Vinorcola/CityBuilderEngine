@@ -27,6 +27,11 @@ SOURCES += \
     src/engine/element/static/NatureElement.cpp \
     src/engine/element/static/ProcessableBuilding.cpp \
     src/engine/element/static/Road.cpp \
+    src/engine/element/static/building/ProducerBuilding.cpp \
+    src/engine/map/path/closestPath/ClosestPathFinder.cpp \
+    src/engine/map/path/closestPath/PathNode.cpp \
+    src/engine/map/path/closestPath/ProcessedPathNodeList.cpp \
+    src/engine/map/path/closestPath/UnprocessedPathNodeList.cpp \
     src/engine/map/path/shortestPath/AStarNode.cpp \
     src/engine/map/path/shortestPath/ProcessedAStarNodeList.cpp \
     src/engine/map/path/shortestPath/ShortestPathFinder.cpp \
@@ -42,6 +47,7 @@ SOURCES += \
     src/engine/map/MapCoordinates.cpp \
     src/engine/map/MapDetailsCache.cpp \
     src/engine/map/MapLoader.cpp \
+    src/engine/map/MapSearchEngine.cpp \
     src/engine/map/MapSize.cpp \
     src/engine/processing/AbstractProcessable.cpp \
     src/engine/processing/BuildingProcessor.cpp \
@@ -99,6 +105,11 @@ HEADERS += \
     src/engine/element/static/NatureElement.hpp \
     src/engine/element/static/ProcessableBuilding.hpp \
     src/engine/element/static/Road.hpp \
+    src/engine/element/static/building/ProducerBuilding.hpp \
+    src/engine/map/path/closestPath/ClosestPathFinder.hpp \
+    src/engine/map/path/closestPath/PathNode.hpp \
+    src/engine/map/path/closestPath/ProcessedPathNodeList.hpp \
+    src/engine/map/path/closestPath/UnprocessedPathNodeList.hpp \
     src/engine/map/path/shortestPath/AStarNode.hpp \
     src/engine/map/path/shortestPath/ProcessedAStarNodeList.hpp \
     src/engine/map/path/shortestPath/ShortestPathFinder.hpp \
@@ -116,6 +127,7 @@ HEADERS += \
     src/engine/map/MapCoordinates.hpp \
     src/engine/map/MapDetailsCache.hpp \
     src/engine/map/MapLoader.hpp \
+    src/engine/map/MapSearchEngine.hpp \
     src/engine/map/MapSize.hpp \
     src/engine/processing/AbstractProcessable.hpp \
     src/engine/processing/BuildingProcessor.hpp \
