@@ -2,51 +2,18 @@
 
 #include <cassert>
 
-#include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/path/PathInterface.hpp"
 #include "src/engine/random.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
 
 
 
-MotionHandler::MotionHandler(const PathGenerator& pathGenerator,
-    qreal speed,
-    const MapCoordinates& initialLocation,
-    int wanderingCredits
-) :
-    pathGenerator(pathGenerator),
+MotionHandler::MotionHandler(const qreal speed, const MapCoordinates& initialLocation) :
     speed(speed),
-    restrictedToRoads(true),
-    destination(),
-    path(pathGenerator.generateWanderingPath(initialLocation, wanderingCredits)),
+    path(nullptr),
     location(initialLocation),
     movingFrom(initialLocation),
-    movingTo(path->getNextTargetCoordinates())
-{
-
-}
-
-
-
-MotionHandler::MotionHandler(
-    const PathGenerator& pathGenerator,
-    qreal speed,
-    const MapCoordinates& initialLocation,
-    const MapCoordinates& destination,
-    bool restrictedToRoads
-) :
-    pathGenerator(pathGenerator),
-    speed(speed),
-    restrictedToRoads(restrictedToRoads),
-    destination(destination),
-    path(
-        restrictedToRoads ?
-            pathGenerator.generateShortestRoadPathTo(initialLocation, destination) :
-            pathGenerator.generateShortestPathTo(initialLocation, destination)
-    ),
-    location(initialLocation),
-    movingFrom(initialLocation),
-    movingTo(path->getNextTargetCoordinates())
+    movingTo()
 {
 
 }
@@ -58,48 +25,6 @@ MotionHandler::~MotionHandler()
     if (path) {
         delete path;
     }
-}
-
-
-
-void MotionHandler::changeDestination(const MapCoordinates& destination)
-{
-    this->destination = destination;
-    if (path) {
-        delete path;
-    }
-    path = restrictedToRoads ?
-        pathGenerator.generateShortestRoadPathTo(location, destination) :
-        pathGenerator.generateShortestPathTo(location, destination);
-    movingFrom = location;
-    movingTo = path->getNextTargetCoordinates();
-}
-
-
-
-void MotionHandler::resetDestination()
-{
-    destination = MapCoordinates();
-    if (path) {
-        delete path;
-        path = nullptr;
-    }
-    movingFrom = location;
-    movingTo = MapCoordinates();
-}
-
-
-
-bool MotionHandler::isPathCompleted() const
-{
-    return !movingTo.isValid() && (!destination.isValid() || location == destination);
-}
-
-
-
-bool MotionHandler::isWanderingMotion() const
-{
-    return !destination.isValid();
 }
 
 
@@ -118,10 +43,49 @@ MapCoordinates MotionHandler::getCurrentTileCoordinates() const
 
 
 
+bool MotionHandler::isPathObsolete() const
+{
+    return path->isObsolete();
+}
+
+
+
+bool MotionHandler::isPathCompleted() const
+{
+    return path->isCompleted();
+}
+
+
+
+void MotionHandler::takePath(owner<PathInterface*> path)
+{
+    if (this->path) {
+        delete this->path;
+    }
+    this->path = path;
+    movingFrom = location;
+    movingTo = path->getNextTargetCoordinates();
+}
+
+
+
+void MotionHandler::stop()
+{
+    if (path) {
+        delete path;
+        path = nullptr;
+    }
+    movingFrom = location;
+    movingTo = {};
+}
+
+
+
 const MapCoordinates& MotionHandler::move()
 {
     if (location == movingTo) {
-        configureNextMovingStep();
+        movingFrom = location;
+        movingTo = path->getNextTargetCoordinates();
     }
 
     if (!movingTo.isValid()) {
@@ -131,14 +95,6 @@ const MapCoordinates& MotionHandler::move()
     moveToTarget();
 
     return location;
-}
-
-
-
-void MotionHandler::configureNextMovingStep()
-{
-    movingFrom = location;
-    movingTo = path->getNextTargetCoordinates();
 }
 
 
