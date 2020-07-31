@@ -34,39 +34,17 @@ class Character : public QObject, public AbstractProcessable
 {
         Q_OBJECT
 
-    public:
-        struct CarriedItem {
-            const ItemInformation* conf;
-            int quantity;
-
-            CarriedItem(const ItemInformation* conf, const int quantity) :
-                conf(conf),
-                quantity(quantity)
-            {}
-        };
-
-    private:
+    protected:
         const CharacterInformation& conf;
+        MotionHandler motionHandler;///< A helper that will handle the character's motion.
         QPointer<ProcessableBuilding> issuer;///< The issuer building.
-        QPointer<ProcessableBuilding> target;///< The target building.
-        MotionHandler motionHandler;///< A helper that will handle character's motion.
-        owner<CarriedItem*> carriedItem;
 
     public:
         Character(
             QObject* parent,
-            const PathGenerator& pathGenerator,
             const CharacterInformation& conf,
-            ProcessableBuilding* issuer,
-            int wanderingCredits = 0,
-            owner<CarriedItem*> carriedItem = nullptr
+            ProcessableBuilding& issuer
         );
-
-        virtual ~Character();
-
-        void assignTarget(ProcessableBuilding* target);
-
-        owner<CarriedItem*> takeCarriedItems(const int maxQuantity);
 
         const CharacterInformation& getConf() const;
 
@@ -78,7 +56,7 @@ class Character : public QObject, public AbstractProcessable
         /**
          * @brief Get the issuer.
          */
-        ProcessableBuilding* getIssuer() const;
+        optional<ProcessableBuilding*> getIssuer() const;
 
         /**
          * @brief Make the charater move.
