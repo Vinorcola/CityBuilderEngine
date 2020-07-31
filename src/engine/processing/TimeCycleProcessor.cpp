@@ -1,5 +1,10 @@
 #include "TimeCycleProcessor.hpp"
 
+#include "src/defines.hpp"
+
+#ifdef DEBUG_TOOLS
+#include <QtCore/QElapsedTimer>
+#endif
 #include <QDebug>
 
 #include "src/engine/processing/BuildingProcessor.hpp"
@@ -113,6 +118,11 @@ void TimeCycleProcessor::timerEvent(QTimerEvent* /*event*/)
 
 void TimeCycleProcessor::processCycle()
 {
+#ifdef DEBUG_TOOLS
+    QElapsedTimer timer;
+    timer.start();
+#endif
+
     auto previousMonth(currentCycleDate.getMonth());
 
     // Increment to cycle date.
@@ -124,6 +134,12 @@ void TimeCycleProcessor::processCycle()
 
     // Process buildings.
     buildingProcessor->process(currentCycleDate);
+
+#ifdef DEBUG_TOOLS
+    if (timer.hasExpired(10)) {
+        qDebug() << "Long process cycle detected: took " << timer.elapsed() << "ms.";
+    }
+#endif
 
     emit processFinished();
     if (previousMonth != currentCycleDate.getMonth()) {
