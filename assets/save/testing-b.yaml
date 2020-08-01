@@ -9,7 +9,7 @@ status:
         cycles: 0
     budget: 15000
 buildings:
-#    - { type: cityEntryPoint, position: { x: -10, y: 10 }}
+    - { type: road, position: { x: -10, y: 10 }}
     - { type: road, position: { x: -9, y: 10 }}
     - { type: road, position: { x: -8, y: 10 }}
     - { type: road, position: { x: -7, y: 10 }}

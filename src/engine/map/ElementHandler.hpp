@@ -14,6 +14,7 @@ class MapSearchEngine;
 class NatureElement;
 class NatureElementInformation;
 class PathGenerator;
+class Road;
 
 class ElementHandler : public QObject, public BuildingFactoryInterface, public CharacterFactoryInterface
 {
@@ -38,6 +39,8 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
             const BuildingInformation& conf,
             const MapArea& area
         ) override;
+
+        Road& generateRoad(const BuildingInformation& conf, const MapCoordinates& location);
 
         // Characters
 

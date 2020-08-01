@@ -4,9 +4,8 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/engine/element/dynamic/Character.hpp"
-#include "src/engine/element/static/building/ProducerBuilding.hpp"
 #include "src/engine/element/static/NatureElement.hpp"
-#include "src/engine/element/static/Road.hpp"
+#include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/engine/map/CityStatus.hpp"
 #include "src/engine/map/MapArea.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
@@ -238,6 +237,10 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
     switch (conf.getType()) {
         case BuildingInformation::Type::Producer:
             elementHandler.generateProducer(conf, area);
+            break;
+
+        case BuildingInformation::Type::Road:
+            elementHandler.generateRoad(conf, area.getLeft());
             break;
     }
 }

@@ -12,11 +12,11 @@ SOURCES += \
     src/engine/element/dynamic/CharacterFactoryInterface.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
     src/engine/element/static/building/ProducerBuilding.cpp \
+    src/engine/element/static/building/Road.cpp \
     src/engine/element/static/Building.cpp \
     src/engine/element/static/BuildingFactoryInterface.cpp \
     src/engine/element/static/NatureElement.cpp \
     src/engine/element/static/ProcessableBuilding.cpp \
-    src/engine/element/static/Road.cpp \
     src/engine/map/path/closestPath/ClosestPathFinder.cpp \
     src/engine/map/path/closestPath/PathNode.cpp \
     src/engine/map/path/closestPath/ProcessedPathNodeList.cpp \
@@ -77,11 +77,11 @@ HEADERS += \
     src/engine/element/dynamic/CharacterFactoryInterface.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \
     src/engine/element/static/building/ProducerBuilding.hpp \
+    src/engine/element/static/building/Road.hpp \
     src/engine/element/static/Building.hpp \
     src/engine/element/static/BuildingFactoryInterface.hpp \
     src/engine/element/static/NatureElement.hpp \
     src/engine/element/static/ProcessableBuilding.hpp \
-    src/engine/element/static/Road.hpp \
     src/engine/map/path/closestPath/ClosestPathFinder.hpp \
     src/engine/map/path/closestPath/PathNode.hpp \
     src/engine/map/path/closestPath/ProcessedPathNodeList.hpp \

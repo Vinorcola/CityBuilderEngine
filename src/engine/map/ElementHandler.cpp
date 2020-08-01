@@ -5,6 +5,7 @@
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/static/building/ProducerBuilding.hpp"
 #include "src/engine/element/static/NatureElement.hpp"
+#include "src/engine/element/static/building/Road.hpp"
 #include "src/engine/map/Map.hpp"
 #include "src/engine/map/MapArea.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
@@ -46,6 +47,18 @@ ProducerBuilding& ElementHandler::generateProducer(
     emit buildingCreated(*building);
 
     return *building;
+}
+
+
+
+Road& ElementHandler::generateRoad(const BuildingInformation& conf, const MapCoordinates& location)
+{
+    auto road(new Road(this, conf, location));
+    buildings.push_back(road);
+
+    emit buildingCreated(*road);
+
+    return *road;
 }
 
 
