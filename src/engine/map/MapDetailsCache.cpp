@@ -21,7 +21,6 @@ MapDetailsCache::MapDetailsCache() :
 void MapDetailsCache::registerBuildingConstruction(const BuildingInformation& conf, const MapArea& area)
 {
     switch (conf.getType()) {
-        case BuildingInformation::Type::CityEntryPoint:
         case BuildingInformation::Type::Road: {
             auto hash(hashCoordinates(area.getLeft()));
             roadCoordinates << hash;

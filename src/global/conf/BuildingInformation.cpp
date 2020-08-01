@@ -4,7 +4,6 @@
 
 #include "src/exceptions/BadConfigurationException.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
-#include "src/global/conf/BehaviorInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/BuildingSearchCriteriaDescription.hpp"
 #include "src/global/conf/ModelReader.hpp"
@@ -19,20 +18,12 @@ BuildingInformation::BuildingInformation(QObject* parent, const Conf* conf, cons
     type(resolveType(model.getString("type"))),
     common(model),
     graphics(model),
-    producer(nullptr),
-    behaviors()
+    producer(nullptr)
 {
     switch (type) {
         case Type::Producer:
             producer = new Producer(model);
             break;
-    }
-
-    if (model.getNode()["behaviors"]) {
-        for (auto node : model.getNode()["behaviors"]) {
-            BehaviorInformation::checkModel(model.getKey(), node);
-            behaviors.append(new BehaviorInformation(this, conf, node));
-        }
     }
 }
 
@@ -42,15 +33,6 @@ BuildingInformation::~BuildingInformation()
 {
     if (producer) {
         delete producer;
-    }
-}
-
-
-
-void BuildingInformation::resolveDependencies(const Conf* conf)
-{
-    for (auto behavior : behaviors) {
-        behavior->resolveDependencies(conf);
     }
 }
 
@@ -88,13 +70,6 @@ const BuildingInformation::Producer& BuildingInformation::getProducerConf() cons
 
 
 
-const QList<BehaviorInformation*>& BuildingInformation::getBehaviors() const
-{
-    return behaviors;
-}
-
-
-
 const QPixmap& BuildingInformation::getImage() const
 {
     return graphics.image;
@@ -104,10 +79,8 @@ const QPixmap& BuildingInformation::getImage() const
 
 BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
-    if (type == "building")       return Type::Building;
-    if (type == "cityEntryPoint") return Type::CityEntryPoint;
-    if (type == "producer")       return Type::Producer;
-    if (type == "road")           return Type::Road;
+    if (type == "producer") return Type::Producer;
+    if (type == "road")     return Type::Road;
 
     throw BadConfigurationException("Unknown building of type \"" + type + "\".");
 }

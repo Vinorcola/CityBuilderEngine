@@ -57,10 +57,10 @@ MapScene::MapScene(const Map& map) :
 
     // Load existing elements.
     for (auto element : map.getBuildings()) {
-        registerNewBuilding(element);
+        registerNewBuilding(*element);
     }
     for (auto element : map.getNatureElements()) {
-        registerNewNatureElement(element);
+        registerNewNatureElement(*element);
     }
 
     connect(this, &MapScene::buildingCreationRequested, &map, &Map::createBuilding);
@@ -85,29 +85,29 @@ void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, c
 
 
 
-void MapScene::registerNewBuilding(const Building* element)
+void MapScene::registerNewBuilding(const Building& element)
 {
-    Tile* tile(getTileAt(element->getArea().getLeft()));
-    addStaticElement(tile, element->getConf().getSize(), element->getConf().getImage());
+    Tile* tile(getTileAt(element.getArea().getLeft()));
+    addStaticElement(tile, element.getConf().getSize(), element.getConf().getImage());
 }
 
 
 
-void MapScene::registerNewCharacter(const Character* element)
+void MapScene::registerNewCharacter(const Character& element)
 {
-    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, element, element->getConf().getImage()));
+    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, &element, element.getConf().getImage()));
     dynamicElementList.append(graphicsItem);
 
-    Tile* tile(getTileAt(element->getCurrentLocation().getRounded()));
+    Tile* tile(getTileAt(element.getCurrentLocation().getRounded()));
     tile->registerDynamicElement(graphicsItem);
 }
 
 
 
-void MapScene::registerNewNatureElement(const NatureElement* element)
+void MapScene::registerNewNatureElement(const NatureElement& element)
 {
-    Tile* tile(getTileAt(element->getArea().getLeft()));
-    addStaticElement(tile, element->getArea().getSize(), element->getConf().getImage());
+    Tile* tile(getTileAt(element.getArea().getLeft()));
+    addStaticElement(tile, element.getArea().getSize(), element.getConf().getImage());
 }
 
 

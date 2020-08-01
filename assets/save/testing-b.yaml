@@ -9,7 +9,7 @@ status:
         cycles: 0
     budget: 15000
 buildings:
-    - { type: cityEntryPoint, position: { x: -10, y: 10 }}
+#    - { type: cityEntryPoint, position: { x: -10, y: 10 }}
     - { type: road, position: { x: -9, y: 10 }}
     - { type: road, position: { x: -8, y: 10 }}
     - { type: road, position: { x: -7, y: 10 }}
@@ -42,12 +42,12 @@ buildings:
     - { type: road, position: { x: 2, y: 20 }}
     - { type: road, position: { x: 1, y: 20 }}
     - { type: road, position: { x: 0, y: 20 }}
-    - { type: maintenance, position: { x: 1, y: 15 }}
-    - { type: house, position: { x: 0, y: 21 }}
-    - { type: house, position: { x: 2, y: 21 }}
-    - { type: house, position: { x: 4, y: 21 }}
-    - { type: house, position: { x: 6, y: 21 }}
-    - { type: house, position: { x: 8, y: 20 }}
+#    - { type: maintenance, position: { x: 1, y: 15 }}
+#    - { type: house, position: { x: 0, y: 21 }}
+#    - { type: house, position: { x: 2, y: 21 }}
+#    - { type: house, position: { x: 4, y: 21 }}
+#    - { type: house, position: { x: 6, y: 21 }}
+#    - { type: house, position: { x: 8, y: 20 }}
 characters: []
 natureElements:
     - { type: wood, position: { x: 0, y: 40 }}

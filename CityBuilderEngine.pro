@@ -7,29 +7,16 @@ CONFIG += c++14
 TEMPLATE = app
 
 SOURCES += \
-    src/engine/element/dynamic/CharacterFactoryInterface.cpp \
     src/engine/element/dynamic/character/MinerCharacter.cpp \
     src/engine/element/dynamic/Character.cpp \
+    src/engine/element/dynamic/CharacterFactoryInterface.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
-    src/engine/element/static/behavior/AbstractActivityBehavior.cpp \
-    src/engine/element/static/behavior/AbstractBehavior.cpp \
-    src/engine/element/static/behavior/AbstractWalkerGenerator.cpp \
-    src/engine/element/static/behavior/BehaviorFactory.cpp \
-    src/engine/element/static/behavior/ConditionalRandomWalkerGenerator.cpp \
-    src/engine/element/static/behavior/DeliverymanGenerator.cpp \
-    src/engine/element/static/behavior/FarmBehavior.cpp \
-    src/engine/element/static/behavior/InhabitantContainer.cpp \
-    src/engine/element/static/behavior/ItemStorage.cpp \
-    src/engine/element/static/behavior/QueuedWalkerGenerator.cpp \
-    src/engine/element/static/behavior/RandomWalkerGenerator.cpp \
-    src/engine/element/static/behavior/TargetedWalkerGenerator.cpp \
+    src/engine/element/static/building/ProducerBuilding.cpp \
     src/engine/element/static/Building.cpp \
-    src/engine/element/static/BuildingWithBehaviors.cpp \
-    src/engine/element/static/CityEntryPoint.cpp \
+    src/engine/element/static/BuildingFactoryInterface.cpp \
     src/engine/element/static/NatureElement.cpp \
     src/engine/element/static/ProcessableBuilding.cpp \
     src/engine/element/static/Road.cpp \
-    src/engine/element/static/building/ProducerBuilding.cpp \
     src/engine/map/path/closestPath/ClosestPathFinder.cpp \
     src/engine/map/path/closestPath/PathNode.cpp \
     src/engine/map/path/closestPath/ProcessedPathNodeList.cpp \
@@ -41,9 +28,8 @@ SOURCES += \
     src/engine/map/path/PathGenerator.cpp \
     src/engine/map/path/RandomRoadPath.cpp \
     src/engine/map/path/TargetedPath.cpp \
-    src/engine/map/searchEngine/BuildingSearchCriteria.cpp \
-    src/engine/map/searchEngine/SearchEngine.cpp \
     src/engine/map/CityStatus.cpp \
+    src/engine/map/ElementHandler.cpp \
     src/engine/map/Map.cpp \
     src/engine/map/MapArea.cpp \
     src/engine/map/MapCoordinates.cpp \
@@ -64,7 +50,6 @@ SOURCES += \
     src/exceptions/NotImplementedException.cpp \
     src/exceptions/OutOfRangeException.cpp \
     src/exceptions/UnexpectedException.cpp \
-    src/global/conf/BehaviorInformation.cpp \
     src/global/conf/BuildingAreaPartDescription.cpp \
     src/global/conf/BuildingInformation.cpp \
     src/global/conf/BuildingSearchCriteriaDescription.cpp \
@@ -87,29 +72,16 @@ SOURCES += \
     src/main.cpp
 
 HEADERS += \
-    src/engine/element/dynamic/CharacterFactoryInterface.hpp \
     src/engine/element/dynamic/character/MinerCharacter.hpp \
     src/engine/element/dynamic/Character.hpp \
+    src/engine/element/dynamic/CharacterFactoryInterface.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \
-    src/engine/element/static/behavior/AbstractActivityBehavior.hpp \
-    src/engine/element/static/behavior/AbstractBehavior.hpp \
-    src/engine/element/static/behavior/AbstractWalkerGenerator.hpp \
-    src/engine/element/static/behavior/BehaviorFactory.hpp \
-    src/engine/element/static/behavior/ConditionalRandomWalkerGenerator.hpp \
-    src/engine/element/static/behavior/DeliverymanGenerator.hpp \
-    src/engine/element/static/behavior/FarmBehavior.hpp \
-    src/engine/element/static/behavior/InhabitantContainer.hpp \
-    src/engine/element/static/behavior/ItemStorage.hpp \
-    src/engine/element/static/behavior/QueuedWalkerGenerator.hpp \
-    src/engine/element/static/behavior/RandomWalkerGenerator.hpp \
-    src/engine/element/static/behavior/TargetedWalkerGenerator.hpp \
+    src/engine/element/static/building/ProducerBuilding.hpp \
     src/engine/element/static/Building.hpp \
-    src/engine/element/static/BuildingWithBehaviors.hpp \
-    src/engine/element/static/CityEntryPoint.hpp \
+    src/engine/element/static/BuildingFactoryInterface.hpp \
     src/engine/element/static/NatureElement.hpp \
     src/engine/element/static/ProcessableBuilding.hpp \
     src/engine/element/static/Road.hpp \
-    src/engine/element/static/building/ProducerBuilding.hpp \
     src/engine/map/path/closestPath/ClosestPathFinder.hpp \
     src/engine/map/path/closestPath/PathNode.hpp \
     src/engine/map/path/closestPath/ProcessedPathNodeList.hpp \
@@ -123,9 +95,8 @@ HEADERS += \
     src/engine/map/path/PathInterface.hpp \
     src/engine/map/path/RandomRoadPath.hpp \
     src/engine/map/path/TargetedPath.hpp \
-    src/engine/map/searchEngine/BuildingSearchCriteria.hpp \
-    src/engine/map/searchEngine/SearchEngine.hpp \
     src/engine/map/CityStatus.hpp \
+    src/engine/map/ElementHandler.hpp \
     src/engine/map/Map.hpp \
     src/engine/map/MapArea.hpp \
     src/engine/map/MapCoordinates.hpp \
@@ -146,7 +117,6 @@ HEADERS += \
     src/exceptions/NotImplementedException.hpp \
     src/exceptions/OutOfRangeException.hpp \
     src/exceptions/UnexpectedException.hpp \
-    src/global/conf/BehaviorInformation.hpp \
     src/global/conf/BuildingAreaPartDescription.hpp \
     src/global/conf/BuildingInformation.hpp \
     src/global/conf/BuildingSearchCriteriaDescription.hpp \

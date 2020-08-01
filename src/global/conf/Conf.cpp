@@ -50,11 +50,6 @@ Conf::Conf(QObject* parent, const QString& filePath) :
         buildings.insert(key, new BuildingInformation(this, this, ModelReader(*this, key, node.second)));
     }
 
-    // Resolve dependencies.
-    for (auto element : buildings) {
-        element->resolveDependencies(this);
-    }
-
     // Load control panel items.
     for (auto node : configurationRoot["controlPanel"]["content"]) {
         ControlPanelElementInformation::checkModel(node);

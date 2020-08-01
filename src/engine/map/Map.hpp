@@ -2,21 +2,20 @@
 #define MAP_HPP
 
 #include <functional>
-#include <QtCore/QLinkedList>
+#include <list>
 #include <QtCore/QObject>
 #include <QtCore/QSize>
 
 #include "src/engine/map/path/MapDetailsInterface.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
+#include "src/engine/map/ElementHandler.hpp"
 #include "src/engine/map/MapDetailsCache.hpp"
 #include "src/engine/map/MapSearchEngine.hpp"
 
-class BehaviorFactory;
 class Building;
 class BuildingInformation;
 class Character;
 class CharacterInformation;
-class CityEntryPoint;
 class CityStatus;
 class Conf;
 class CycleDate;
@@ -26,7 +25,6 @@ class MapLoader;
 class NatureElement;
 class NatureElementInformation;
 class ProcessableBuilding;
-class SearchEngine;
 class TimeCycleProcessor;
 
 class Map : public QObject, public MapDetailsInterface
@@ -38,15 +36,10 @@ class Map : public QObject, public MapDetailsInterface
         QSize size;
         CityStatus* cityStatus;
         TimeCycleProcessor* processor;
-        SearchEngine* legacySearchEngine;
-        BehaviorFactory* behaviorFactory;
-        QLinkedList<Character*> characterList;
-        QLinkedList<Building*> buildingList;
-        QLinkedList<NatureElement*> natureElementList;
         MapDetailsCache mapDetailsCache;
-        CityEntryPoint* entryPoint;
         PathGenerator pathGenerator;
         MapSearchEngine searchEngine;
+        ElementHandler elementHandler;
 
     public:
         Map(const Conf* conf, const MapLoader& loader);
@@ -80,6 +73,8 @@ class Map : public QObject, public MapDetailsInterface
          */
         bool isFreeArea(const MapArea& area) const;
 
+        MapCoordinates getBestEntryPoint(const MapArea& area) const;
+
         /**
          * @brief Return a const reference to the time cycle processor.
          */
@@ -88,17 +83,17 @@ class Map : public QObject, public MapDetailsInterface
         /**
          * @brief Return the list of all buildings.
          */
-        const QLinkedList<Building*>& getBuildings() const;
+        const std::list<Building*>& getBuildings() const;
 
         /**
          * @brief Return the list of all characters.
          */
-        const QLinkedList<Character*>& getCharacters() const;
+        const std::list<Character*>& getCharacters() const;
 
         /**
          * @brief Return the list of all nature elements.
          */
-        const QLinkedList<NatureElement*>& getNatureElements() const;
+        const std::list<NatureElement*>& getNatureElements() const;
 
         /**
          * @brief Get current budget.
@@ -144,36 +139,6 @@ class Map : public QObject, public MapDetailsInterface
         void createBuilding(const BuildingInformation& conf, const MapArea& area);
 
         /**
-         * @brief Create a character on the map.
-         *
-         * @param conf          The conf for the new character to create.
-         * @param issuer        The building issuing the character.
-         * @param afterCreation A callback that will be called with the created character as first argument.
-         * @throw UnexpectedException Try to create a dynamic element of type None.
-         */
-        void createCharacter(const CharacterInformation& conf,
-            ProcessableBuilding* issuer,
-            std::function<void(Character*)> afterCreation
-        );
-
-        /**
-         * @brief Create a nature element on the map.
-         * @param conf The conf for the new nature element to create.
-         * @param area The location of the element on the map.
-         */
-        void createNatureElement(const NatureElementInformation& conf, const MapArea& area);
-
-        /**
-         * @brief Destroy a building.
-         */
-        void destroyBuilding(Building* building, std::function<void()> afterDestruction);
-
-        /**
-         * @brief Destroy a character.
-         */
-        void destroyCharacter(Character* character, std::function<void()> afterDestruction);
-
-        /**
          * @brief Update the total population of the given delta.
          */
         void changePopulation(const int populationDelta);
@@ -189,13 +154,10 @@ class Map : public QObject, public MapDetailsInterface
             std::function<void(Character*)> onImmigrantCreation
         );
 
-    protected:
-        Building* fetchBuilding(const Building* building) const;
-
     signals:
-        void buildingCreated(Building* building);
-        void characterCreated(Character* character);
-        void natureElementCreated(NatureElement* natureElement);
+        void buildingCreated(Building& building);
+        void characterCreated(Character& character);
+        void natureElementCreated(NatureElement& natureElement);
         void budgetChanged(const int budget);
         void populationChanged(const int population);
         void dateChanged(const int year, const int month);

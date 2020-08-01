@@ -44,11 +44,11 @@ class MapScene : public QGraphicsScene
         void requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area);
 
     public slots:
-        void registerNewBuilding(const Building* element);
+        void registerNewBuilding(const Building& element);
 
-        void registerNewCharacter(const Character* element);
+        void registerNewCharacter(const Character& element);
 
-        void registerNewNatureElement(const NatureElement* element);
+        void registerNewNatureElement(const NatureElement& element);
 
         /**
          * @brief Refresh the map.
