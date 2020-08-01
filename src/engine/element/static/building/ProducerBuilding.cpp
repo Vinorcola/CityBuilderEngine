@@ -46,6 +46,16 @@ void ProducerBuilding::process(const CycleDate& date)
 
 
 
+bool ProducerBuilding::processInteraction(const CycleDate& date, Character& actor)
+{
+    if (miners.contains(&actor)) {
+        rawMaterialStock += conf.getProducerConf().miningQuantity;
+        characterFactory.clearCharacter(actor);
+    }
+}
+
+
+
 void ProducerBuilding::cleanMinerList()
 {
     auto iterator(miners.begin());
@@ -79,6 +89,7 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
         connect(&miner, &MinerCharacter::hasFinishedHarvest, [&miner]() {
             miner.goHome();
         });
+        miners.append(&miner);
 
         if (canGenerateNewMiner()) {
             setupNextMinerGenerationDate(date);

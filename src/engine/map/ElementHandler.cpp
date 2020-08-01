@@ -85,6 +85,16 @@ MinerCharacter& ElementHandler::generateMiner(
 
 
 
+void ElementHandler::clearCharacter(Character& character)
+{
+    characters.remove(&character);
+    delete &character;
+
+    emit characterDestroyed(&character);
+}
+
+
+
 const std::list<NatureElement*>& ElementHandler::getNatureElements() const
 {
     return natureElements;

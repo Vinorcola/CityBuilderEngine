@@ -3,6 +3,7 @@
 
 #include "src/defines.hpp"
 
+class Character;
 class CharacterInformation;
 class MinerCharacter;
 class NatureElement;
@@ -19,6 +20,8 @@ class CharacterFactoryInterface
             ProcessableBuilding& issuer,
             owner<PathInterface*> path
         ) = 0;
+
+        virtual void clearCharacter(Character& character) = 0;
 };
 
 #endif // CHARACTERFACTORYINTERFACE_HPP

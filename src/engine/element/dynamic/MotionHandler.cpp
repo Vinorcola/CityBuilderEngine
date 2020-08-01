@@ -52,7 +52,7 @@ bool MotionHandler::isPathObsolete() const
 
 bool MotionHandler::isPathCompleted() const
 {
-    return path->isCompleted();
+    return path->isCompleted() && location == movingTo;
 }
 
 
@@ -65,6 +65,10 @@ void MotionHandler::takePath(owner<PathInterface*> path)
     this->path = path;
     movingFrom = location;
     movingTo = path->getNextTargetCoordinates();
+    if (movingTo == movingFrom) {
+        // Some path may include the current location as the first tile, we just to the next.
+        movingTo = path->getNextTargetCoordinates();
+    }
 }
 
 

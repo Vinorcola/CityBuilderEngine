@@ -42,6 +42,8 @@ class ProducerBuilding : public ProcessableBuilding
 
         virtual void process(const CycleDate& date) override;
 
+        virtual bool processInteraction(const CycleDate& date, Character& actor) override;
+
     private:
         /**
          * @brief Clean the miner list in case a miner has been deleted for any reason.

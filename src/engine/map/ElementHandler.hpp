@@ -52,6 +52,8 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
             owner<PathInterface*> path
         ) override;
 
+        virtual void clearCharacter(Character& character) override;
+
         // Nature elements
 
         const std::list<NatureElement*>& getNatureElements() const;
@@ -62,6 +64,8 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
         void buildingCreated(Building& building);
         void characterCreated(Character& character);
         void natureElementCreated(NatureElement& natureElement);
+
+        void characterDestroyed(Character* invalidPointerToDeletedCharacter);
 
     private:
         void canConstructBuilding(const BuildingInformation& conf, const MapArea& area);

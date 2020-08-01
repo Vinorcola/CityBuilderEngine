@@ -41,7 +41,11 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
 
         emit buildingCreated(building);
     });
-    connect(&elementHandler, &ElementHandler::characterCreated, this, &Map::characterCreated);
+    connect(&elementHandler, &ElementHandler::characterCreated, [this](Character& character) {
+        processor->registerCharacter(&character);
+
+        emit characterCreated(character);
+    });
     connect(&elementHandler, &ElementHandler::natureElementCreated, [this](NatureElement& natureElement) {
         mapDetailsCache.registerNatureElement(natureElement.getConf(), natureElement.getArea());
         searchEngine.registerRawMaterial(natureElement.getConf(), natureElement.getArea());
