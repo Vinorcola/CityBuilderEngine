@@ -28,7 +28,7 @@ class ProcessableBuilding : public Building, public AbstractProcessable
 
         const MapCoordinates& getEntryPoint() const;
 
-        virtual bool processInteraction(const CycleDate& date, Character* actor);
+        virtual bool processInteraction(const CycleDate& date, Character& actor);
 };
 
 #endif // PROCESSABLEBUILDING_HPP

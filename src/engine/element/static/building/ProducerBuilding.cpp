@@ -1,6 +1,8 @@
 #include "ProducerBuilding.hpp"
 
+#include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/map/path/PathInterface.hpp"
 #include "src/engine/map/MapSearchEngine.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
@@ -10,15 +12,17 @@
 ProducerBuilding::ProducerBuilding(
     QObject* parent,
     const MapSearchEngine& searchEngine,
+    CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
     ProcessableBuilding(parent, conf, area, entryPoint),
     searchEngine(searchEngine),
-    rawMaterialStock(0),
+    characterFactory(characterFactory),
     miners(),
-    nextMinerGenerationDate()
+    nextMinerGenerationDate(),
+    rawMaterialStock(0)
 {
 
 }
@@ -38,6 +42,16 @@ void ProducerBuilding::process(const CycleDate& date)
 {
     cleanMinerList();
     handleMinerGeneration(date);
+}
+
+
+
+bool ProducerBuilding::processInteraction(const CycleDate& date, Character& actor)
+{
+    if (miners.contains(&actor)) {
+        rawMaterialStock += conf.getProducerConf().miningQuantity;
+        characterFactory.clearCharacter(actor);
+    }
 }
 
 
@@ -71,9 +85,12 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
             return;
         }
 
-        emit requestCharacterCreation(conf.getProducerConf().miner.conf, this, [this](Character* miner) {
-            miners.append(miner);
+        auto& miner(characterFactory.generateMiner(conf.getProducerConf().miner.conf, *this, path));
+        connect(&miner, &MinerCharacter::hasFinishedHarvest, [&miner]() {
+            miner.goHome();
         });
+        miners.append(&miner);
+
         if (canGenerateNewMiner()) {
             setupNextMinerGenerationDate(date);
         }

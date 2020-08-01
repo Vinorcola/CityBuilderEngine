@@ -137,7 +137,7 @@ void TimeCycleProcessor::processCycle()
 
 #ifdef DEBUG_TOOLS
     if (timer.hasExpired(10)) {
-        qDebug() << "Long process cycle detected: took " << timer.elapsed() << "ms.";
+        qDebug() << "********** Long process cycle detected: took " << timer.elapsed() << "ms. **********";
     }
 #endif
 

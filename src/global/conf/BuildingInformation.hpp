@@ -9,7 +9,6 @@
 #include "src/engine/map/MapSize.hpp"
 #include "src/defines.hpp"
 
-class BehaviorInformation;
 class BuildingAreaPartDescription;
 class BuildingSearchCriteriaDescription;
 class CharacterInformation;
@@ -27,12 +26,8 @@ class BuildingInformation : public QObject
 
     public:
         enum class Type {
-            None = 0,
-            Building,
-            CityEntryPoint,
-            Road,
-
-            Producer
+            Producer,
+            Road
         };
 
         struct Common {
@@ -78,7 +73,6 @@ class BuildingInformation : public QObject
         Common common;
         Graphics graphics;
         optional<Producer*> producer;
-        QList<BehaviorInformation*> behaviors;
 
     public:
         /**
@@ -88,8 +82,6 @@ class BuildingInformation : public QObject
 
         virtual ~BuildingInformation();
 
-        void resolveDependencies(const Conf* conf);
-
         Type getType() const;
 
         const QString& getTitle() const;
@@ -97,8 +89,6 @@ class BuildingInformation : public QObject
         const MapSize& getSize() const;
 
         const Producer& getProducerConf() const;
-
-        const QList<BehaviorInformation*>& getBehaviors() const;
 
         const QPixmap& getImage() const;
 

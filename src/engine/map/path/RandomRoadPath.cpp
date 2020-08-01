@@ -20,6 +20,20 @@ RandomRoadPath::RandomRoadPath(
 
 
 
+bool RandomRoadPath::isObsolete() const
+{
+    return false;
+}
+
+
+
+bool RandomRoadPath::isCompleted() const
+{
+    return wanderingCredits <= 0;
+}
+
+
+
 MapCoordinates RandomRoadPath::getNextTargetCoordinates()
 {
     auto nextLocation(getNextRandomCoordinates());

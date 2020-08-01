@@ -17,6 +17,10 @@ class RandomRoadPath : public PathInterface
     public:
         RandomRoadPath(const MapDetailsInterface& mapDetails, const MapCoordinates& initialLocation, const int wanderingCredits);
 
+        virtual bool isObsolete() const override;
+
+        virtual bool isCompleted() const override;
+
         virtual MapCoordinates getNextTargetCoordinates() override;
 
     private:

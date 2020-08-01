@@ -47,10 +47,10 @@ QList<MapCoordinates> ClosestPathFinder::getShortestPathToClosestMatch(
         closedPathNodes.markNodeAsProcessed(current);
 
         if (match(current->getLocation())) {
-            while (current) {
+            do {
                 path.prepend(current->getLocation());
                 current = parents.value(current);
-            }
+            } while (current);
 
             return path;
         }
