@@ -9,6 +9,13 @@ buildings:
 #                walkerType: immigrant
 #                minGenerationInterval: 0.034
 #                maxGenerationInterval: 3
+    foundry:
+        type: producer
+        title: Foundry
+        size: 2
+        rawMaterialItem: copper
+        producedItem: bronze
+        minerCharacter: copperMiner
 #    fountain:
 #        type: building
 #        title: Fountain
@@ -90,6 +97,14 @@ buildings:
 #                walkerType: superintendent
 #                maxWalkers: 1
 #                generationInterval: 8
+    mint:
+        type: producer
+        title: Mint
+        size: 2
+        rawMaterialItem: silver
+        producedItem: wood # NOT the good value. For testing only.
+        minerCharacter: silverMiner
+        rawMaterialQuantityToProduce: 200
     road:
         type: road
         title: Road
@@ -176,6 +191,9 @@ characters:
         type: randomWalker
         speed: 2.0
         wanderingCredits: 34
+    copperMiner:
+        type: targetedWalker
+        speed: 2.0
     deliveryman:
         type: targetedWalker
         speed: 2.0
@@ -187,6 +205,9 @@ characters:
         type: targetedWalker
         speed: 2.0
     lumberjack:
+        type: targetedWalker
+        speed: 2.0
+    silverMiner:
         type: targetedWalker
         speed: 2.0
     superintendent:
@@ -275,6 +296,14 @@ controlPanel:
                     title: Timber Mill
                     type: button
                     building: timberMill
+                -
+                    title: Foundry
+                    type: button
+                    building: foundry
+                -
+                    title: Mint
+                    type: button
+                    building: mint
         -
             title: Storage
             type: panel
