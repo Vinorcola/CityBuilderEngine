@@ -40,7 +40,11 @@ class ModelReader
 
         const ItemInformation& getItemConf(const char key[]) const;
 
+        QList<const ItemInformation*> getListOfItemConfs(const char key[]) const;
+
         const NatureElementInformation& getNatureElementConf(const char key[]) const;
+
+        bool getOptionalBool(const char key[], const bool defaultValue = true) const;
 
         int getOptionalInt(const char key[], const int defaultValue = 0) const;
 

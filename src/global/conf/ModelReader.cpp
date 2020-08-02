@@ -84,9 +84,36 @@ const ItemInformation& ModelReader::getItemConf(const char key[]) const
 
 
 
+QList<const ItemInformation*> ModelReader::getListOfItemConfs(const char key[]) const
+{
+    if (!node[key]) {
+        throw BadConfigurationException(generateErrorMessage(key, "a list of items"));
+    }
+
+    QList<const ItemInformation*> list;
+    for (auto subNode : node[key]) {
+        list.append(&conf.getItemConf(subNode.as<QString>()));
+    }
+
+    return list;
+}
+
+
+
 const NatureElementInformation& ModelReader::getNatureElementConf(const char key[]) const
 {
     return conf.getNatureElementConf(getString(key));
+}
+
+
+
+bool ModelReader::getOptionalBool(const char key[], const bool defaultValue) const
+{
+    if (!node[key]) {
+        return defaultValue;
+    }
+
+    return node[key].as<bool>();
 }
 
 

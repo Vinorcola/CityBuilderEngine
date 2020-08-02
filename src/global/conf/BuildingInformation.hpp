@@ -26,7 +26,8 @@ class BuildingInformation : public QObject
     public:
         enum class Type {
             Producer,
-            Road
+            Road,
+            Storage
         };
 
         struct Common {
@@ -66,12 +67,22 @@ class BuildingInformation : public QObject
             explicit Producer(const ModelReader& model);
         };
 
+        struct Storage {
+            QList<const ItemInformation*> allowedItems;
+            int maxQuantity;
+            bool autoRedistribute;
+
+            explicit Storage(const ModelReader& model);
+            bool isItemAllowed(const ItemInformation& conf) const;
+        };
+
     private:
         QString key;
         Type type;
         Common common;
         Graphics graphics;
         optional<Producer*> producer;
+        optional<Storage*> storage;
 
     public:
         /**
@@ -88,6 +99,8 @@ class BuildingInformation : public QObject
         const MapSize& getSize() const;
 
         const Producer& getProducerConf() const;
+
+        const Storage& getStorageConf() const;
 
         const QPixmap& getImage() const;
 
