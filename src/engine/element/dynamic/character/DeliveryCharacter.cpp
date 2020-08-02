@@ -1,5 +1,7 @@
 #include "DeliveryCharacter.hpp"
 
+#include <cassert>
+
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 
@@ -19,10 +21,40 @@ DeliveryCharacter::DeliveryCharacter(
     pathGenerator(pathGenerator),
     target(&target),
     transportedItemConf(transportedItemConf),
-    quantity(quantity),
+    transportedQuantity(quantity),
     goingHome(false)
 {
     motionHandler.takePath(path);
+}
+
+
+
+const ItemInformation& DeliveryCharacter::getTransportedItemConf() const
+{
+    return transportedItemConf;
+}
+
+
+
+bool DeliveryCharacter::isEmpty() const
+{
+    return transportedQuantity == 0;
+}
+
+
+
+int DeliveryCharacter::getTransportedQuantity() const
+{
+    return transportedQuantity;
+}
+
+
+
+void DeliveryCharacter::unload(const int quantity)
+{
+    assert(quantity <= transportedQuantity);
+
+    transportedQuantity -= quantity;
 }
 
 
@@ -53,6 +85,12 @@ void DeliveryCharacter::process(const CycleDate& date)
         else {
             if (target) {
                 target->processInteraction(date, *this);
+                if (isEmpty()) {
+                    goHome();
+                }
+                else{
+                    // TODO: Fetch a new target?
+                }
             }
         }
     }

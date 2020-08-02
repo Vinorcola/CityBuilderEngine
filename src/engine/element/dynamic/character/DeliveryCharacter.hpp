@@ -15,7 +15,7 @@ class DeliveryCharacter : public Character
         const PathGenerator& pathGenerator;
         QPointer<ProcessableBuilding> target;
         const ItemInformation& transportedItemConf;
-        int quantity;
+        int transportedQuantity;
         bool goingHome;
 
     public:
@@ -27,8 +27,16 @@ class DeliveryCharacter : public Character
             ProcessableBuilding& target,
             owner<PathInterface*> path,
             const ItemInformation& transportedItemConf,
-            const int quantity = 0
+            const int transportedQuantity = 0
         );
+
+        const ItemInformation& getTransportedItemConf() const;
+
+        bool isEmpty() const;
+
+        int getTransportedQuantity() const;
+
+        void unload(const int quantity);
 
         void goHome();
 
