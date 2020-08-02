@@ -12,7 +12,6 @@
 class BuildingAreaPartDescription;
 class BuildingSearchCriteriaDescription;
 class CharacterInformation;
-class Conf;
 class ItemInformation;
 class ModelReader;
 class NatureElementInformation;
@@ -78,7 +77,7 @@ class BuildingInformation : public QObject
         /**
          * @brief Hold the information about a building.
          */
-        BuildingInformation(QObject* parent, const Conf* conf, const ModelReader& model);
+        BuildingInformation(QObject* parent, const ModelReader& model);
 
         virtual ~BuildingInformation();
 

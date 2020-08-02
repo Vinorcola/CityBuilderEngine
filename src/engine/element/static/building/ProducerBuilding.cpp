@@ -46,12 +46,16 @@ void ProducerBuilding::process(const CycleDate& date)
 
 
 
-bool ProducerBuilding::processInteraction(const CycleDate& date, Character& actor)
+bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
     if (miners.contains(&actor)) {
         rawMaterialStock += conf.getProducerConf().miningQuantity;
         characterFactory.clearCharacter(actor);
+
+        return true;
     }
+
+    return false;
 }
 
 

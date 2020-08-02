@@ -4,7 +4,6 @@
 
 #include "src/exceptions/BadConfigurationException.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
-#include "src/global/conf/Conf.hpp"
 #include "src/global/conf/BuildingSearchCriteriaDescription.hpp"
 #include "src/global/conf/ModelReader.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
@@ -12,7 +11,7 @@
 
 
 
-BuildingInformation::BuildingInformation(QObject* parent, const Conf* conf, const ModelReader& model) :
+BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& model) :
     QObject(parent),
     key(model.getKey()),
     type(resolveType(model.getString("type"))),
@@ -23,6 +22,9 @@ BuildingInformation::BuildingInformation(QObject* parent, const Conf* conf, cons
     switch (type) {
         case Type::Producer:
             producer = new Producer(model);
+            break;
+
+        default:
             break;
     }
 }

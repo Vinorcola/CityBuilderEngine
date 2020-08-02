@@ -47,7 +47,7 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     // Load buildings' configuration.
     for (auto node : configurationRoot["buildings"]) {
         QString key(node.first.as<QString>());
-        buildings.insert(key, new BuildingInformation(this, this, ModelReader(*this, key, node.second)));
+        buildings.insert(key, new BuildingInformation(this, ModelReader(*this, key, node.second)));
     }
 
     // Load control panel items.

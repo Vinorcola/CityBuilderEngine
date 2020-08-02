@@ -5,17 +5,13 @@
 
 
 
-
-
 int main(int argc, char* argv[])
 {
-    QApplication a(argc, argv);
-
-    qsrand(QDateTime::currentDateTime().toTime_t());
+    QApplication application(argc, argv);
 
     MainWindow* window(new MainWindow);
     window->loadMap("assets/save/testing-b.yaml");
     window->showMaximized();
 
-    return a.exec();
+    return application.exec();
 }

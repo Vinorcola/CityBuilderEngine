@@ -42,7 +42,6 @@ SOURCES += \
     src/engine/processing/CharacterProcessor.cpp \
     src/engine/processing/CycleDate.cpp \
     src/engine/processing/TimeCycleProcessor.cpp \
-    src/engine/random.cpp \
     src/exceptions/BadConfigurationException.cpp \
     src/exceptions/EngineException.cpp \
     src/exceptions/Exception.cpp \
@@ -109,7 +108,6 @@ HEADERS += \
     src/engine/processing/CharacterProcessor.hpp \
     src/engine/processing/CycleDate.hpp \
     src/engine/processing/TimeCycleProcessor.hpp \
-    src/engine/random.hpp \
     src/exceptions/BadConfigurationException.hpp \
     src/exceptions/EngineException.hpp \
     src/exceptions/Exception.hpp \
