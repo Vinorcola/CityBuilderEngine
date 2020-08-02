@@ -1,7 +1,7 @@
 #ifndef UNPROCESSEDPATHNODELIST_HPP
 #define UNPROCESSEDPATHNODELIST_HPP
 
-#include <QtCore/QLinkedList>
+#include <list>
 
 #include "src/defines.hpp"
 
@@ -14,7 +14,7 @@ class PathNode;
 class UnprocessedPathNodeList
 {
     private:
-        QLinkedList<owner<PathNode*>> list;
+        std::list<owner<PathNode*>> list;
 
     public:
         UnprocessedPathNodeList();

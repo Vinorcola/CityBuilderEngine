@@ -1,7 +1,7 @@
 #ifndef UNPROCESSEDASTARNODELIST_HPP
 #define UNPROCESSEDASTARNODELIST_HPP
 
-#include <QtCore/QLinkedList>
+#include <list>
 
 #include "src/defines.hpp"
 
@@ -14,7 +14,7 @@ class AStarNode;
 class UnprocessedAStarNodeList
 {
     private:
-        QLinkedList<owner<AStarNode*>> list;
+        std::list<owner<AStarNode*>> list;
 
     public:
         UnprocessedAStarNodeList();

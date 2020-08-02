@@ -1,7 +1,7 @@
 #ifndef BUILDINGPROCESSOR_HPP
 #define BUILDINGPROCESSOR_HPP
 
-#include <QtCore/QLinkedList>
+#include <list>
 #include <QtCore/QList>
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
@@ -19,7 +19,7 @@ class BuildingProcessor: public QObject, public AbstractProcessable
         Q_OBJECT
 
     private:
-        QLinkedList<QPointer<ProcessableBuilding>> processableList;
+        std::list<QPointer<ProcessableBuilding>> processableList;
         QList<QPointer<ProcessableBuilding>> waitingForRegistrationList;
         QList<ProcessableBuilding*> waitingForUnregistrationList;
 

@@ -13,14 +13,16 @@ UnprocessedPathNodeList::UnprocessedPathNodeList()
 
 UnprocessedPathNodeList::~UnprocessedPathNodeList()
 {
-    qDeleteAll(list);
+    for (auto element : list) {
+        delete element;
+    }
 }
 
 
 
 bool UnprocessedPathNodeList::hasNodeToProcess() const
 {
-    return !list.isEmpty();
+    return !list.empty();
 }
 
 
@@ -35,7 +37,7 @@ void UnprocessedPathNodeList::insertNodeToProcess(owner<PathNode*> node)
         }
     }
 
-    list.append(node);
+    list.push_back(node);
 }
 
 
@@ -55,5 +57,8 @@ bool UnprocessedPathNodeList::hasNodeAtLocation(const MapCoordinates& location) 
 
 owner<PathNode*> UnprocessedPathNodeList::takeClosestToDestination()
 {
-    return list.takeFirst();
+    auto first(list.front());
+    list.pop_front();
+
+    return first;
 }

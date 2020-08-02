@@ -43,7 +43,7 @@ void BuildingProcessor::process(const CycleDate& date)
 
     // Process unregistration.
     while (!waitingForUnregistrationList.isEmpty()) {
-        processableList.removeOne(waitingForUnregistrationList.takeFirst());
+        processableList.remove(waitingForUnregistrationList.takeFirst());
     }
 
     // Process registration.
@@ -51,7 +51,7 @@ void BuildingProcessor::process(const CycleDate& date)
         auto processable(waitingForRegistrationList.takeFirst());
         if (processable) {
             processable->init(date);
-            processableList.append(processable);
+            processableList.push_back(processable);
         }
     }
 }

@@ -14,14 +14,16 @@ UnprocessedAStarNodeList::UnprocessedAStarNodeList() :
 
 UnprocessedAStarNodeList::~UnprocessedAStarNodeList()
 {
-    qDeleteAll(list);
+    for (auto element : list) {
+        delete element;
+    }
 }
 
 
 
 bool UnprocessedAStarNodeList::hasNodeToProcess() const
 {
-    return !list.isEmpty();
+    return !list.empty();
 }
 
 
@@ -36,7 +38,7 @@ void UnprocessedAStarNodeList::insertNodeToProcess(owner<AStarNode*> node)
         }
     }
 
-    list.append(node);
+    list.push_back(node);
 }
 
 
@@ -56,5 +58,8 @@ AStarNode* UnprocessedAStarNodeList::findClosestToDestinationAtLocation(const Ma
 
 owner<AStarNode*> UnprocessedAStarNodeList::takeClosestToDestination()
 {
-    return list.takeFirst();
+    auto first(list.front());
+    list.pop_front();
+
+    return first;
 }
