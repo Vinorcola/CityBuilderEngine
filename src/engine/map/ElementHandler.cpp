@@ -4,8 +4,9 @@
 
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/static/building/ProducerBuilding.hpp"
-#include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/element/static/building/Road.hpp"
+#include "src/engine/element/static/building/StorageBuilding.hpp"
+#include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/map/Map.hpp"
 #include "src/engine/map/MapArea.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
@@ -36,12 +37,23 @@ const std::list<Building*>& ElementHandler::getBuildings() const
 
 
 
-ProducerBuilding& ElementHandler::generateProducer(
-    const BuildingInformation& conf,
-    const MapArea& area
-) {
+ProducerBuilding& ElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area)
+{
     auto entryPoint(map.getBestEntryPoint(area));
     auto building(new ProducerBuilding(this, searchEngine, *this, conf, area, entryPoint));
+    buildings.push_back(building);
+
+    emit buildingCreated(*building);
+
+    return *building;
+}
+
+
+
+StorageBuilding& ElementHandler::generateStorage(const BuildingInformation& conf, const MapArea& area)
+{
+    auto entryPoint(map.getBestEntryPoint(area));
+    auto building(new StorageBuilding(this, conf, area, entryPoint));
     buildings.push_back(building);
 
     emit buildingCreated(*building);

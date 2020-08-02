@@ -35,10 +35,9 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         const std::list<Building*>& getBuildings() const;
 
-        virtual ProducerBuilding& generateProducer(
-            const BuildingInformation& conf,
-            const MapArea& area
-        ) override;
+        virtual ProducerBuilding& generateProducer(const BuildingInformation& conf, const MapArea& area) override;
+
+        virtual StorageBuilding& generateStorage(const BuildingInformation& conf, const MapArea& area) override;
 
         Road& generateRoad(const BuildingInformation& conf, const MapCoordinates& location);
 
