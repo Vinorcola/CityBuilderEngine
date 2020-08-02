@@ -29,18 +29,11 @@ buildings:
 #                walkerType: waterBearer
 #                maxWalkers: 1
 #                generationInterval: 8
-#    granary:
-#        type: building
-#        title: Granary
-#        size: 4
-#        price: 0 # TODO: set the value
-#        employees: 0 # TODO: set the value
-#        damageRisk: 0 # TODO: set the value
-#        fireRisk: 0 # TODO: set the value
-#        behaviors:
-#            -
-#                type: itemStorage
-#                items: [ carrots, cheese, fish, meat, onions, urchin, wheat ]
+    granary:
+        type: storage
+        title: Granary
+        size: 4
+        items: [ carrots, cheese, fish, meat, onions, urchin, wheat ]
 #    gymnasium:
 #        type: building
 #        title: Gymnasium
@@ -123,6 +116,22 @@ buildings:
 #                walkerType: competitor
 #                maxWalkers: 1
 #                generationInterval: 8
+    storehouse:
+        type: storage
+        title: Storehouse
+        size: 3
+        items:
+          - armor
+          - bronze
+          - fleece
+          - grapes
+          - marble
+          - oliveOil
+          - olives
+          - sculpture
+          - wheat
+          - wine
+          - wood
 #    taxOffice:
 #        type: building
 #        title: Tax Office
@@ -140,10 +149,6 @@ buildings:
         type: producer
         title: Timber Mill
         size: 2
-        price: 60
-        employees: 0 # TODO: set the value
-        damageRisk: 0 # TODO: set the value
-        fireRisk: 0 # TODO: set the value
         rawMaterialItem: wood
         producedItem: wood
         minerCharacter: lumberjack
@@ -181,45 +186,57 @@ buildings:
 characters:
     athlete:
         type: randomWalker
+        title: Athlete
         speed: 2.0
         wanderingCredits: 34
     clerk:
         type: randomWalker
+        title: Clerk
         speed: 2.0
         wanderingCredits: 34
     competitor:
         type: randomWalker
+        title: Competitor
         speed: 2.0
         wanderingCredits: 34
     copperMiner:
         type: targetedWalker
+        title: Copper miner
         speed: 2.0
     deliveryman:
         type: targetedWalker
+        title: Deliveryman
         speed: 2.0
     healer:
         type: randomWalker
+        title: Healer
         speed: 2.0
         wanderingCredits: 26
     immigrant:
         type: targetedWalker
+        title: Immigrant
         speed: 2.0
     lumberjack:
         type: targetedWalker
+        title: Lumberjack
         speed: 2.0
     silverMiner:
         type: targetedWalker
+        title: Silver miner
         speed: 2.0
     superintendent:
         type: randomWalker
+        title: Superintendent
         speed: 2.0
         wanderingCredits: 43
     watchman:
         type: randomWalker
+        title: Watchman
         speed: 2.0
         wanderingCredits: 43
     waterBearer:
         type: randomWalker
+        title: Water bearer
         speed: 2.0
         wanderingCredits: 26
 
@@ -272,50 +289,44 @@ natureElements:
 
 controlPanel:
     content:
-        -
-            title: Population
-            type: panel
-            content: []
+      - title: Population
+        type: panel
+        content: []
 #                -
 #                    title: Common Housing
 #                    type: button
 #                    building: house
-        -
-            title: Husbandry
-            type: panel
-            content: []
+      - title: Husbandry
+        type: panel
+        content: []
 #                -
 #                    title: Wheat farm
 #                    type: button
 #                    building: wheatFarm
-        -
-            title: Industry
-            type: panel
-            content:
-                -
-                    title: Timber Mill
-                    type: button
-                    building: timberMill
-                -
-                    title: Foundry
-                    type: button
-                    building: foundry
-                -
-                    title: Mint
-                    type: button
-                    building: mint
-        -
-            title: Storage
-            type: panel
-            content: []
-#                -
-#                    title: Granary
-#                    type: button
-#                    building: granary
-        -
-            title: Hygiene/Safety
-            type: panel
-            content: []
+      - title: Industry
+        type: panel
+        content:
+          - title: Timber Mill
+            type: button
+            building: timberMill
+          - title: Foundry
+            type: button
+            building: foundry
+          - title: Mint
+            type: button
+            building: mint
+      - title: Storage
+        type: panel
+        content:
+          - title: Granary
+            type: button
+            building: granary
+          - title: Storehouse
+            type: button
+            building: storehouse
+      - title: Hygiene/Safety
+        type: panel
+        content: []
 #                -
 #                    title: Maintenance Office
 #                    type: button
@@ -332,18 +343,16 @@ controlPanel:
 #                    title: Watchpost
 #                    type: button
 #                    building: watchpost
-        -
-            title: Administration
-            type: panel
-            content: []
+      - title: Administration
+        type: panel
+        content: []
 #                -
 #                    title: Tax Office
 #                    type: button
 #                    building: taxOffice
-        -
-            title: Culture
-            type: panel
-            content: []
+      - title: Culture
+        type: panel
+        content: []
 #            -
 #                title: Gymnasium
 #                type: button
@@ -352,7 +361,6 @@ controlPanel:
 #                title: Stadium
 #                type: button
 #                building: stadium
-        -
-            title: Road
-            type: button
-            building: road
+      - title: Road
+        type: button
+        building: road
