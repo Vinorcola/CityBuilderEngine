@@ -26,7 +26,8 @@ class BuildingInformation : public QObject
     public:
         enum class Type {
             Producer,
-            Road
+            Road,
+            Storage
         };
 
         struct Common {
@@ -62,8 +63,18 @@ class BuildingInformation : public QObject
             int miningQuantity;
             int rawMaterialQuantityToProduce;
             int maxStoredRawMaterialQuantity;
+            const CharacterInformation& deliveryManConf;
 
             explicit Producer(const ModelReader& model);
+        };
+
+        struct Storage {
+            QList<const ItemInformation*> allowedItems;
+            int maxQuantity;
+            bool autoRedistribute;
+
+            explicit Storage(const ModelReader& model);
+            bool isItemAllowed(const ItemInformation& conf) const;
         };
 
     private:
@@ -72,6 +83,7 @@ class BuildingInformation : public QObject
         Common common;
         Graphics graphics;
         optional<Producer*> producer;
+        optional<Storage*> storage;
 
     public:
         /**
@@ -88,6 +100,8 @@ class BuildingInformation : public QObject
         const MapSize& getSize() const;
 
         const Producer& getProducerConf() const;
+
+        const Storage& getStorageConf() const;
 
         const QPixmap& getImage() const;
 

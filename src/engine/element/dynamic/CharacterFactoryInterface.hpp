@@ -5,6 +5,8 @@
 
 class Character;
 class CharacterInformation;
+class DeliveryManCharacter;
+class ItemInformation;
 class MinerCharacter;
 class NatureElement;
 class PathInterface;
@@ -19,6 +21,13 @@ class CharacterFactoryInterface
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
             owner<PathInterface*> path
+        ) = 0;
+
+        virtual DeliveryManCharacter& generateDeliveryMan(
+            const CharacterInformation& conf,
+            ProcessableBuilding& issuer,
+            const ItemInformation& transportedItemConf,
+            const int transportedQuantity = 0
         ) = 0;
 
         virtual void clearCharacter(Character& character) = 0;

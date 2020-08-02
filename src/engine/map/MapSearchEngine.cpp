@@ -1,5 +1,6 @@
 #include "MapSearchEngine.hpp"
 
+#include "src/engine/element/static/building/StorageBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/MapArea.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
@@ -8,7 +9,8 @@
 
 MapSearchEngine::MapSearchEngine(const PathGenerator& pathGenerator) :
     pathGenerator(pathGenerator),
-    rawMaterialCoordinates()
+    rawMaterialCoordinates(),
+    storageBuildings()
 {
 
 }
@@ -25,6 +27,13 @@ void MapSearchEngine::registerRawMaterial(const NatureElementInformation& conf, 
     for (auto coordinates : area) {
         coordinatesSet << hashCoordinates(coordinates);
     }
+}
+
+
+
+void MapSearchEngine::registerStorageBuilding(StorageBuilding& building)
+{
+    storageBuildings.push_back(&building);
 }
 
 
@@ -51,6 +60,19 @@ optional<owner<PathInterface*>> MapSearchEngine::getPathToClosestRawMaterial(
             return coordinatesSet.contains(hashCoordinates(location));
         }
     );
+}
+
+
+
+optional<StorageBuilding*> MapSearchEngine::getStorageThatCanStore(const ItemInformation& itemConf) const
+{
+    for (auto building : storageBuildings) {
+        if (building->storableQuantity(itemConf) > 0) {
+            return building;
+        }
+    }
+
+    return nullptr;
 }
 
 

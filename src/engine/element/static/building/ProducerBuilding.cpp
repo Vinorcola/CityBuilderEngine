@@ -1,5 +1,6 @@
 #include "ProducerBuilding.hpp"
 
+#include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/dynamic/Character.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
@@ -22,7 +23,8 @@ ProducerBuilding::ProducerBuilding(
     characterFactory(characterFactory),
     miners(),
     nextMinerGenerationDate(),
-    rawMaterialStock(0)
+    rawMaterialStock(0),
+    deliveryMan()
 {
 
 }
@@ -42,6 +44,7 @@ void ProducerBuilding::process(const CycleDate& date)
 {
     cleanMinerList();
     handleMinerGeneration(date);
+    handleProduction();
 }
 
 
@@ -121,4 +124,19 @@ bool ProducerBuilding::canGenerateNewMiner() const
 void ProducerBuilding::setupNextMinerGenerationDate(const CycleDate& date)
 {
     nextMinerGenerationDate.reassign(date, conf.getProducerConf().miner.generationInterval);
+}
+
+
+
+void ProducerBuilding::handleProduction()
+{
+    if (deliveryMan.isNull() && rawMaterialStock >= conf.getProducerConf().rawMaterialQuantityToProduce) {
+        deliveryMan = &characterFactory.generateDeliveryMan(
+            conf.getProducerConf().deliveryManConf,
+            *this,
+            conf.getProducerConf().producedItemConf,
+            1
+        );
+        rawMaterialStock -= conf.getProducerConf().rawMaterialQuantityToProduce;
+    }
 }

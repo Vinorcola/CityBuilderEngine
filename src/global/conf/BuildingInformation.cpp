@@ -17,11 +17,16 @@ BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& mod
     type(resolveType(model.getString("type"))),
     common(model),
     graphics(model),
-    producer(nullptr)
+    producer(nullptr),
+    storage(nullptr)
 {
     switch (type) {
         case Type::Producer:
             producer = new Producer(model);
+            break;
+
+        case Type::Storage:
+            storage = new Storage(model);
             break;
 
         default:
@@ -35,6 +40,9 @@ BuildingInformation::~BuildingInformation()
 {
     if (producer) {
         delete producer;
+    }
+    if(storage) {
+        delete storage;
     }
 }
 
@@ -72,6 +80,17 @@ const BuildingInformation::Producer& BuildingInformation::getProducerConf() cons
 
 
 
+const BuildingInformation::Storage& BuildingInformation::getStorageConf() const
+{
+    if (storage == nullptr) {
+        throw UnexpectedException("This building conf does not have storage information.");
+    }
+
+    return *storage;
+}
+
+
+
 const QPixmap& BuildingInformation::getImage() const
 {
     return graphics.image;
@@ -83,6 +102,7 @@ BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
     if (type == "producer") return Type::Producer;
     if (type == "road")     return Type::Road;
+    if (type == "storage")  return Type::Storage;
 
     throw BadConfigurationException("Unknown building of type \"" + type + "\".");
 }
@@ -92,10 +112,10 @@ BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 BuildingInformation::Common::Common(const ModelReader& model) :
     title(model.getString("title")),
     size(model.getOptionalInt("size", 1)),
-    price(model.getOptionalInt("price")),
-    employees(model.getOptionalInt("employees")),
-    fireRiskIncrement(model.getOptionalInt("fireRisk")),
-    damageRiskIncrement(model.getOptionalInt("damageRisk"))
+    price(model.getOptionalInt("price", 0)),
+    employees(model.getOptionalInt("employees", 0)),
+    fireRiskIncrement(model.getOptionalInt("fireRisk", 0)),
+    damageRiskIncrement(model.getOptionalInt("damageRisk", 0))
 {
 
 }
@@ -134,7 +154,25 @@ BuildingInformation::Producer::Producer(const ModelReader& model) :
     ),
     miningQuantity(model.getOptionalInt("miningQuantity", 25)),
     rawMaterialQuantityToProduce(model.getOptionalInt("rawMaterialQuantityToProduce", 100)),
-    maxStoredRawMaterialQuantity(model.getOptionalInt("maxStoredRawMaterialQuantity", 500))
+    maxStoredRawMaterialQuantity(model.getOptionalInt("maxStoredRawMaterialQuantity", 500)),
+    deliveryManConf(model.getOptionalCharacterConf("deliveryMan", "deliveryMan"))
 {
 
+}
+
+
+
+BuildingInformation::Storage::Storage(const ModelReader& model) :
+    allowedItems(model.getListOfItemConfs("items")),
+    maxQuantity(model.getOptionalInt("maxQuantity", 32)),
+    autoRedistribute(model.getOptionalBool("autoRedistribute", true))
+{
+
+}
+
+
+
+bool BuildingInformation::Storage::isItemAllowed(const ItemInformation& conf) const
+{
+    return allowedItems.contains(&conf);
 }

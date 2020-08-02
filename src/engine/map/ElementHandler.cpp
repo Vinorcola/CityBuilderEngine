@@ -2,18 +2,21 @@
 
 #include <QDebug>
 
+#include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/static/building/ProducerBuilding.hpp"
-#include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/element/static/building/Road.hpp"
+#include "src/engine/element/static/building/StorageBuilding.hpp"
+#include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/map/Map.hpp"
 #include "src/engine/map/MapArea.hpp"
+#include "src/engine/map/MapSearchEngine.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
 
-ElementHandler::ElementHandler(const Map& map, const MapSearchEngine& searchEngine, const PathGenerator& pathGenerator) :
+ElementHandler::ElementHandler(const Map& map, MapSearchEngine& searchEngine, const PathGenerator& pathGenerator) :
     QObject(),
     BuildingFactoryInterface(),
     CharacterFactoryInterface(),
@@ -36,13 +39,25 @@ const std::list<Building*>& ElementHandler::getBuildings() const
 
 
 
-ProducerBuilding& ElementHandler::generateProducer(
-    const BuildingInformation& conf,
-    const MapArea& area
-) {
+ProducerBuilding& ElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area)
+{
     auto entryPoint(map.getBestEntryPoint(area));
     auto building(new ProducerBuilding(this, searchEngine, *this, conf, area, entryPoint));
     buildings.push_back(building);
+
+    emit buildingCreated(*building);
+
+    return *building;
+}
+
+
+
+StorageBuilding& ElementHandler::generateStorage(const BuildingInformation& conf, const MapArea& area)
+{
+    auto entryPoint(map.getBestEntryPoint(area));
+    auto building(new StorageBuilding(this, conf, area, entryPoint));
+    buildings.push_back(building);
+    searchEngine.registerStorageBuilding(*building);
 
     emit buildingCreated(*building);
 
@@ -76,6 +91,22 @@ MinerCharacter& ElementHandler::generateMiner(
     owner<PathInterface*> path
 ) {
     auto character(new MinerCharacter(this, pathGenerator, conf, issuer, path));
+    characters.push_back(character);
+
+    emit characterCreated(*character);
+
+    return *character;
+}
+
+
+
+DeliveryManCharacter& ElementHandler::generateDeliveryMan(
+    const CharacterInformation& conf,
+    ProcessableBuilding& issuer,
+    const ItemInformation& transportedItemConf,
+    const int transportedQuantity
+) {
+    auto character(new DeliveryManCharacter(this, searchEngine, pathGenerator, conf, issuer, transportedItemConf, transportedQuantity));
     characters.push_back(character);
 
     emit characterCreated(*character);

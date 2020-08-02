@@ -246,6 +246,10 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
         case BuildingInformation::Type::Road:
             elementHandler.generateRoad(conf, area.getLeft());
             break;
+
+        case BuildingInformation::Type::Storage:
+            elementHandler.generateStorage(conf, area);
+            break;
     }
 }
 

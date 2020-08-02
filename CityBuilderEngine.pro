@@ -7,12 +7,14 @@ CONFIG += c++14
 TEMPLATE = app
 
 SOURCES += \
+    src/engine/element/dynamic/character/DeliveryManCharacter.cpp \
     src/engine/element/dynamic/character/MinerCharacter.cpp \
     src/engine/element/dynamic/Character.cpp \
     src/engine/element/dynamic/CharacterFactoryInterface.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
     src/engine/element/static/building/ProducerBuilding.cpp \
     src/engine/element/static/building/Road.cpp \
+    src/engine/element/static/building/StorageBuilding.cpp \
     src/engine/element/static/Building.cpp \
     src/engine/element/static/BuildingFactoryInterface.cpp \
     src/engine/element/static/NatureElement.cpp \
@@ -71,12 +73,14 @@ SOURCES += \
     src/main.cpp
 
 HEADERS += \
+    src/engine/element/dynamic/character/DeliveryManCharacter.hpp \
     src/engine/element/dynamic/character/MinerCharacter.hpp \
     src/engine/element/dynamic/Character.hpp \
     src/engine/element/dynamic/CharacterFactoryInterface.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \
     src/engine/element/static/building/ProducerBuilding.hpp \
     src/engine/element/static/building/Road.hpp \
+    src/engine/element/static/building/StorageBuilding.hpp \
     src/engine/element/static/Building.hpp \
     src/engine/element/static/BuildingFactoryInterface.hpp \
     src/engine/element/static/NatureElement.hpp \
