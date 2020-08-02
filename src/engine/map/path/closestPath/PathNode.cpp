@@ -32,6 +32,15 @@ QList<MapCoordinates> PathNode::getNeighbours() const
     list.append(location.getEast());
     list.append(location.getSouth());
     list.append(location.getWest());
+
+    return list;
+}
+
+
+
+QList<MapCoordinates> PathNode::getDiagonalNeighbours() const
+{
+    QList<MapCoordinates> list;
     list.append(location.getTop());
     list.append(location.getRight());
     list.append(location.getBottom());

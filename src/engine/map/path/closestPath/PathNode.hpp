@@ -20,6 +20,11 @@ class PathNode
          * @brief Get the list of neighbours' coordinates to this node.
          */
         QList<MapCoordinates> getNeighbours() const;
+
+        /**
+         * @brief Get the list of diagonal neighbours' coordinates to this node.
+         */
+        QList<MapCoordinates> getDiagonalNeighbours() const;
 };
 
 #endif // PATHNODE_HPP

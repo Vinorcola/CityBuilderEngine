@@ -131,8 +131,8 @@ BuildingInformation::Producer::Producer(const ModelReader& model) :
         model.getOptionalInt("maxSimultaneousMiners", 2)
     ),
     miningQuantity(model.getOptionalInt("miningQuantity", 25)),
-    rawMaterialQuantityToProduce(model.getOptionalInt("rawMaterialQUantityToProduce", 100)),
-    maxStoredRawMaterialQuantity(model.getOptionalInt("maxStoredRawMaterialQUantity", 500))
+    rawMaterialQuantityToProduce(model.getOptionalInt("rawMaterialQuantityToProduce", 100)),
+    maxStoredRawMaterialQuantity(model.getOptionalInt("maxStoredRawMaterialQuantity", 500))
 {
 
 }

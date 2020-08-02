@@ -66,7 +66,7 @@ void MotionHandler::takePath(owner<PathInterface*> path)
     movingFrom = location;
     movingTo = path->getNextTargetCoordinates();
     if (movingTo == movingFrom) {
-        // Some path may include the current location as the first tile, we just to the next.
+        // Some path may include the current location as the first step, we switch directly to the next step.
         movingTo = path->getNextTargetCoordinates();
     }
 }

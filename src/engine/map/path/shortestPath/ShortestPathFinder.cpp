@@ -1,11 +1,14 @@
 #include "ShortestPathFinder.hpp"
 
+#include <cmath>
 #include <QtCore/QHash>
 
 #include "src/engine/map/path/shortestPath/AStarNode.hpp"
 #include "src/engine/map/path/shortestPath/ProcessedAStarNodeList.hpp"
 #include "src/engine/map/path/shortestPath/UnprocessedAStarNodeList.hpp"
 #include "src/engine/map/path/MapDetailsInterface.hpp"
+
+const qreal DIAGONAL_LENGTH(sqrt(2.0));
 
 
 
@@ -81,6 +84,36 @@ QList<MapCoordinates> ShortestPathFinder::getShortestPath(
                 neighbour = new AStarNode(neighbourLocation, destination, neighboursCostFromOrigin, !restrictedToRoads);
                 parents[neighbour] = current;
                 openedPathNodes.insertNodeToProcess(neighbour);
+            }
+        }
+
+        if (!restrictedToRoads) {
+            neighboursCostFromOrigin = current->getCostFromOrigin() + DIAGONAL_LENGTH;
+            for (auto neighbourLocation : current->getDiagonalNeighbours()) {
+                if (closedPathNodes.isNodeForLocationAlreadyProcessed(neighbourLocation)) {
+                    continue;
+                }
+                if (!mapDetails.isLocationTraversable(neighbourLocation)) {
+                    continue;
+                }
+                if (restrictedToRoads && !mapDetails.hasRoadAtLocation(neighbourLocation)) {
+                    continue;
+                }
+
+                auto neighbour(openedPathNodes.findClosestToDestinationAtLocation(neighbourLocation));
+                if (neighbour) {
+                    if (neighboursCostFromOrigin < neighbour->getCostFromOrigin()) {
+                        // Update the existing neighbour cost.
+                        parents[neighbour] = current;
+                        neighbour->updateCostIfBetter(neighboursCostFromOrigin);
+                    }
+                }
+                else {
+                    // Create neighbour node and insert it in the opened path nodes.
+                    neighbour = new AStarNode(neighbourLocation, destination, neighboursCostFromOrigin, !restrictedToRoads);
+                    parents[neighbour] = current;
+                    openedPathNodes.insertNodeToProcess(neighbour);
+                }
             }
         }
     }
