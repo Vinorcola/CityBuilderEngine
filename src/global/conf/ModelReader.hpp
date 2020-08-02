@@ -44,9 +44,13 @@ class ModelReader
 
         const NatureElementInformation& getNatureElementConf(const char key[]) const;
 
-        bool getOptionalBool(const char key[], const bool defaultValue = true) const;
+        bool getOptionalBool(const char key[], const bool defaultValue) const;
 
-        int getOptionalInt(const char key[], const int defaultValue = 0) const;
+        int getOptionalInt(const char key[], const int defaultValue) const;
+
+        QString getOptionalString(const char key[], const QString& defaultValue) const;
+
+        const CharacterInformation& getOptionalCharacterConf(const char key[], const QString defaultValue) const;
 
     private:
         const QString generateErrorMessage(const char key[], const char expected[]) const;

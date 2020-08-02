@@ -203,9 +203,9 @@ characters:
         type: targetedWalker
         title: Copper miner
         speed: 2.0
-    deliveryman:
+    deliveryMan:
         type: targetedWalker
-        title: Deliveryman
+        title: Delivery man
         speed: 2.0
     healer:
         type: randomWalker

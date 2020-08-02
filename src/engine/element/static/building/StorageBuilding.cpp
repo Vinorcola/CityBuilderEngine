@@ -2,7 +2,7 @@
 
 #include <QtGlobal>
 
-#include "src/engine/element/dynamic/character/DeliveryCharacter.hpp"
+#include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
@@ -42,7 +42,7 @@ void StorageBuilding::process(const CycleDate& /*date*/)
 
 bool StorageBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
-    auto deliveryCharacter(dynamic_cast<DeliveryCharacter*>(&actor));
+    auto deliveryCharacter(dynamic_cast<DeliveryManCharacter*>(&actor));
     if (deliveryCharacter) {
         auto& item(deliveryCharacter->getTransportedItemConf());
         auto quantity(storableQuantity(item, deliveryCharacter->getTransportedQuantity()));

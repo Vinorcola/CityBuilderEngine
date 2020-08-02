@@ -129,6 +129,24 @@ int ModelReader::getOptionalInt(const char key[], const int defaultValue) const
 
 
 
+QString ModelReader::getOptionalString(const char key[], const QString& defaultValue) const
+{
+    if (!node[key]) {
+        return defaultValue;
+    }
+
+    return node[key].as<QString>();
+}
+
+
+
+const CharacterInformation& ModelReader::getOptionalCharacterConf(const char key[], const QString defaultValue) const
+{
+    return conf.getCharacterConf(getOptionalString(key, defaultValue));
+}
+
+
+
 const QString ModelReader::generateErrorMessage(const char key[], const char expected[]) const
 {
     return QString("Could not found required key \"") + key + "\" in \"" + this->key + "\". Expected " + expected + ".";

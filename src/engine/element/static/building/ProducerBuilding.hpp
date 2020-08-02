@@ -11,6 +11,7 @@
 class BuildingInformation;
 class CharacterFactoryInterface;
 class CharacterInformation;
+class DeliveryManCharacter;
 class ItemInformation;
 class MapArea;
 class MapCoordinates;
@@ -27,6 +28,7 @@ class ProducerBuilding : public ProcessableBuilding
         QList<QPointer<Character>> miners;
         CycleDate nextMinerGenerationDate;
         int rawMaterialStock;
+        QPointer<DeliveryManCharacter> deliveryMan;
 
     public:
         ProducerBuilding(
@@ -61,6 +63,8 @@ class ProducerBuilding : public ProcessableBuilding
          * @brief Setup the next miner generation date.
          */
         void setupNextMinerGenerationDate(const CycleDate& date);
+
+        void handleProduction();
 };
 
 #endif // PRODUCERBUILDING_HPP

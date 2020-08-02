@@ -7,7 +7,7 @@ CONFIG += c++14
 TEMPLATE = app
 
 SOURCES += \
-    src/engine/element/dynamic/character/DeliveryCharacter.cpp \
+    src/engine/element/dynamic/character/DeliveryManCharacter.cpp \
     src/engine/element/dynamic/character/MinerCharacter.cpp \
     src/engine/element/dynamic/Character.cpp \
     src/engine/element/dynamic/CharacterFactoryInterface.cpp \
@@ -73,7 +73,7 @@ SOURCES += \
     src/main.cpp
 
 HEADERS += \
-    src/engine/element/dynamic/character/DeliveryCharacter.hpp \
+    src/engine/element/dynamic/character/DeliveryManCharacter.hpp \
     src/engine/element/dynamic/character/MinerCharacter.hpp \
     src/engine/element/dynamic/Character.hpp \
     src/engine/element/dynamic/CharacterFactoryInterface.hpp \

@@ -1,17 +1,19 @@
-#ifndef DELIVERYCHARACTER_HPP
-#define DELIVERYCHARACTER_HPP
+#ifndef DELIVERYMANCHARACTER_HPP
+#define DELIVERYMANCHARACTER_HPP
 
 #include "src/engine/element/dynamic/Character.hpp"
 
 class ItemInformation;
+class MapSearchEngine;
 class PathGenerator;
 class PathInterface;
 
-class DeliveryCharacter : public Character
+class DeliveryManCharacter : public Character
 {
         Q_OBJECT
 
     private:
+        const MapSearchEngine& searchEngine;
         const PathGenerator& pathGenerator;
         QPointer<ProcessableBuilding> target;
         const ItemInformation& transportedItemConf;
@@ -19,13 +21,12 @@ class DeliveryCharacter : public Character
         bool goingHome;
 
     public:
-        DeliveryCharacter(
+        DeliveryManCharacter(
             QObject* parent,
+            const MapSearchEngine& searchEngine,
             const PathGenerator& pathGenerator,
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
-            ProcessableBuilding& target,
-            owner<PathInterface*> path,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
         );
@@ -43,4 +44,4 @@ class DeliveryCharacter : public Character
         virtual void process(const CycleDate& date) override;
 };
 
-#endif // DELIVERYCHARACTER_HPP
+#endif // DELIVERYMANCHARACTER_HPP

@@ -112,10 +112,10 @@ BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 BuildingInformation::Common::Common(const ModelReader& model) :
     title(model.getString("title")),
     size(model.getOptionalInt("size", 1)),
-    price(model.getOptionalInt("price")),
-    employees(model.getOptionalInt("employees")),
-    fireRiskIncrement(model.getOptionalInt("fireRisk")),
-    damageRiskIncrement(model.getOptionalInt("damageRisk"))
+    price(model.getOptionalInt("price", 0)),
+    employees(model.getOptionalInt("employees", 0)),
+    fireRiskIncrement(model.getOptionalInt("fireRisk", 0)),
+    damageRiskIncrement(model.getOptionalInt("damageRisk", 0))
 {
 
 }
@@ -154,7 +154,8 @@ BuildingInformation::Producer::Producer(const ModelReader& model) :
     ),
     miningQuantity(model.getOptionalInt("miningQuantity", 25)),
     rawMaterialQuantityToProduce(model.getOptionalInt("rawMaterialQuantityToProduce", 100)),
-    maxStoredRawMaterialQuantity(model.getOptionalInt("maxStoredRawMaterialQuantity", 500))
+    maxStoredRawMaterialQuantity(model.getOptionalInt("maxStoredRawMaterialQuantity", 500)),
+    deliveryManConf(model.getOptionalCharacterConf("deliveryMan", "deliveryMan"))
 {
 
 }

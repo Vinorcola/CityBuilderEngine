@@ -22,14 +22,14 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
     private:
         const Map&  map;
-        const MapSearchEngine& searchEngine;
+        MapSearchEngine& searchEngine;
         const PathGenerator& pathGenerator;
         std::list<Building*> buildings;
         std::list<Character*> characters;
         std::list<NatureElement*> natureElements;
 
     public:
-        ElementHandler(const Map& map, const MapSearchEngine& searchEngine, const PathGenerator& pathGenerator);
+        ElementHandler(const Map& map, MapSearchEngine& searchEngine, const PathGenerator& pathGenerator);
 
         // Buildings
 
@@ -49,6 +49,13 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
             owner<PathInterface*> path
+        ) override;
+
+        virtual DeliveryManCharacter& generateDeliveryMan(
+            const CharacterInformation& conf,
+            ProcessableBuilding& issuer,
+            const ItemInformation& transportedItemConf,
+            const int transportedQuantity = 0
         ) override;
 
         virtual void clearCharacter(Character& character) override;

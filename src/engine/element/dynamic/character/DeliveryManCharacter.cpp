@@ -1,56 +1,58 @@
-#include "DeliveryCharacter.hpp"
+#include "DeliveryManCharacter.hpp"
 
 #include <cassert>
 
+#include "src/engine/element/static/building/StorageBuilding.hpp"
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
+#include "src/engine/map/MapSearchEngine.hpp"
 
 
 
-DeliveryCharacter::DeliveryCharacter(
+DeliveryManCharacter::DeliveryManCharacter(
     QObject* parent,
+    const MapSearchEngine& searchEngine,
     const PathGenerator& pathGenerator,
     const CharacterInformation& conf,
     ProcessableBuilding& issuer,
-    ProcessableBuilding& target,
-    owner<PathInterface*> path,
     const ItemInformation& transportedItemConf,
     const int quantity
 ) :
     Character(parent, conf, issuer),
+    searchEngine(searchEngine),
     pathGenerator(pathGenerator),
-    target(&target),
+    target(),
     transportedItemConf(transportedItemConf),
     transportedQuantity(quantity),
     goingHome(false)
 {
-    motionHandler.takePath(path);
+
 }
 
 
 
-const ItemInformation& DeliveryCharacter::getTransportedItemConf() const
+const ItemInformation& DeliveryManCharacter::getTransportedItemConf() const
 {
     return transportedItemConf;
 }
 
 
 
-bool DeliveryCharacter::isEmpty() const
+bool DeliveryManCharacter::isEmpty() const
 {
     return transportedQuantity == 0;
 }
 
 
 
-int DeliveryCharacter::getTransportedQuantity() const
+int DeliveryManCharacter::getTransportedQuantity() const
 {
     return transportedQuantity;
 }
 
 
 
-void DeliveryCharacter::unload(const int quantity)
+void DeliveryManCharacter::unload(const int quantity)
 {
     assert(quantity <= transportedQuantity);
 
@@ -59,7 +61,7 @@ void DeliveryCharacter::unload(const int quantity)
 
 
 
-void DeliveryCharacter::goHome()
+void DeliveryManCharacter::goHome()
 {
     if (issuer) {
         goingHome = true;
@@ -72,8 +74,15 @@ void DeliveryCharacter::goHome()
 
 
 
-void DeliveryCharacter::process(const CycleDate& date)
+void DeliveryManCharacter::process(const CycleDate& date)
 {
+    if (target.isNull()) {
+        target = searchEngine.getStorageThatCanStore(transportedItemConf);
+        if (target) {
+            motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(motionHandler.getCurrentLocation(), target->getEntryPoint()));
+        }
+    }
+
     Character::process(date);
 
     if (motionHandler.isPathCompleted()) {

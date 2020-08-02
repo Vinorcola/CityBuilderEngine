@@ -44,14 +44,14 @@ MapCoordinates MotionHandler::getCurrentTileCoordinates() const
 
 bool MotionHandler::isPathObsolete() const
 {
-    return path->isObsolete();
+    return path != nullptr && path->isObsolete();
 }
 
 
 
 bool MotionHandler::isPathCompleted() const
 {
-    return path->isCompleted() && location == movingTo;
+    return path != nullptr && path->isCompleted() && location == movingTo;
 }
 
 

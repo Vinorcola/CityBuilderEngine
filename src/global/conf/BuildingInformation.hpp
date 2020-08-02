@@ -63,6 +63,7 @@ class BuildingInformation : public QObject
             int miningQuantity;
             int rawMaterialQuantityToProduce;
             int maxStoredRawMaterialQuantity;
+            const CharacterInformation& deliveryManConf;
 
             explicit Producer(const ModelReader& model);
         };
