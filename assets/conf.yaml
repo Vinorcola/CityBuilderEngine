@@ -185,57 +185,45 @@ buildings:
 
 characters:
     athlete:
-        type: randomWalker
         title: Athlete
         speed: 2.0
         wanderingCredits: 34
     clerk:
-        type: randomWalker
         title: Clerk
         speed: 2.0
         wanderingCredits: 34
     competitor:
-        type: randomWalker
         title: Competitor
         speed: 2.0
         wanderingCredits: 34
     copperMiner:
-        type: targetedWalker
         title: Copper miner
         speed: 2.0
     deliveryMan:
-        type: targetedWalker
         title: Delivery man
         speed: 2.0
     healer:
-        type: randomWalker
         title: Healer
         speed: 2.0
         wanderingCredits: 26
     immigrant:
-        type: targetedWalker
         title: Immigrant
         speed: 2.0
     lumberjack:
-        type: targetedWalker
         title: Lumberjack
         speed: 2.0
     silverMiner:
-        type: targetedWalker
         title: Silver miner
         speed: 2.0
     superintendent:
-        type: randomWalker
         title: Superintendent
         speed: 2.0
         wanderingCredits: 43
     watchman:
-        type: randomWalker
         title: Watchman
         speed: 2.0
         wanderingCredits: 43
     waterBearer:
-        type: randomWalker
         title: Water bearer
         speed: 2.0
         wanderingCredits: 26

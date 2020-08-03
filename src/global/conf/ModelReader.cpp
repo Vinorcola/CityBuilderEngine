@@ -41,6 +41,17 @@ int ModelReader::getInt(const char key[]) const
 
 
 
+qreal ModelReader::getReal(const char key[]) const
+{
+    if (!node[key]) {
+        throw BadConfigurationException(generateErrorMessage(key, "a number"));
+    }
+
+    return node[key].as<qreal>();
+}
+
+
+
 QString ModelReader::getString(const char key[]) const
 {
     if (!node[key]) {

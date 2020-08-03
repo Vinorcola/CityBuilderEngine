@@ -41,7 +41,7 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     // Load characters' configuration.
     for (auto node : configurationRoot["characters"]) {
         QString key(node.first.as<QString>());
-        characters.insert(key, new CharacterInformation(this, key, node.second));
+        characters.insert(key, new CharacterInformation(this, ModelReader(*this, key, node.second)));
     }
 
     // Load buildings' configuration.

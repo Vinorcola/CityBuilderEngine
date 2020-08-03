@@ -30,6 +30,8 @@ class ModelReader
 
         int getInt(const char key[]) const;
 
+        qreal getReal(const char key[]) const;
+
         QString getString(const char key[]) const;
 
         MapCoordinates getMapCoordinates(const char key[]) const;
