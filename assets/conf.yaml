@@ -77,19 +77,12 @@ buildings:
 #                walkerType: healer
 #                maxWalkers: 1
 #                generationInterval: 8
-#    maintenance:
-#        type: building
-#        title: Maintenance Office
-#        size: 2
-#        price: 20
-#        employees: 5
-#        fireRisk: 5
-#        behaviors:
-#            -
-#                type: randomWalkerGenerator
-#                walkerType: superintendent
-#                maxWalkers: 1
-#                generationInterval: 8
+    maintenance:
+        type: sanity
+        title: Maintenance Office
+        size: 2
+        walkerCharacter: superintendent
+        walkerGenerationInterval: 8
     mint:
         type: producer
         title: Mint
@@ -314,11 +307,10 @@ controlPanel:
             building: storehouse
       - title: Hygiene/Safety
         type: panel
-        content: []
-#                -
-#                    title: Maintenance Office
-#                    type: button
-#                    building: maintenance
+        content:
+          - title: Maintenance Office
+            type: button
+            building: maintenance
 #                -
 #                    title: Infirmary
 #                    type: button

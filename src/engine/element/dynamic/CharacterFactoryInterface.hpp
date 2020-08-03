@@ -11,6 +11,7 @@ class MinerCharacter;
 class NatureElement;
 class PathInterface;
 class ProcessableBuilding;
+class WanderingCharacter;
 
 class CharacterFactoryInterface
 {
@@ -28,6 +29,11 @@ class CharacterFactoryInterface
             ProcessableBuilding& issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
+        ) = 0;
+
+        virtual WanderingCharacter& generateWanderingCharacter(
+            const CharacterInformation& conf,
+            ProcessableBuilding& issuer
         ) = 0;
 
         virtual void clearCharacter(Character& character) = 0;

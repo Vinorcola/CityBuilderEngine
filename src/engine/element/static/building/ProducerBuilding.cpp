@@ -105,10 +105,8 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
             nextMinerGenerationDate.reset();
         }
     }
-    else {
-        if (canGenerateNewMiner()) {
-            setupNextMinerGenerationDate(date);
-        }
+    else if (canGenerateNewMiner()) {
+        setupNextMinerGenerationDate(date);
     }
 }
 

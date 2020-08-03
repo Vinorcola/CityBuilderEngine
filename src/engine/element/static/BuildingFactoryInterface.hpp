@@ -5,6 +5,7 @@ class BuildingInformation;
 class MapArea;
 class MapCoordinates;
 class ProducerBuilding;
+class SanityBuilding;
 class StorageBuilding;
 
 class BuildingFactoryInterface
@@ -13,6 +14,8 @@ class BuildingFactoryInterface
         virtual ~BuildingFactoryInterface();
 
         virtual ProducerBuilding& generateProducer(const BuildingInformation& conf, const MapArea& area) = 0;
+
+        virtual SanityBuilding& generateSanity(const BuildingInformation& conf, const MapArea& area) = 0;
 
         virtual StorageBuilding& generateStorage(const BuildingInformation& conf, const MapArea& area) = 0;
 };

@@ -4,8 +4,10 @@
 
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
+#include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
 #include "src/engine/element/static/building/ProducerBuilding.hpp"
 #include "src/engine/element/static/building/Road.hpp"
+#include "src/engine/element/static/building/SanityBuilding.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
 #include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/map/Map.hpp"
@@ -43,6 +45,19 @@ ProducerBuilding& ElementHandler::generateProducer(const BuildingInformation& co
 {
     auto entryPoint(map.getBestEntryPoint(area));
     auto building(new ProducerBuilding(this, searchEngine, *this, conf, area, entryPoint));
+    buildings.push_back(building);
+
+    emit buildingCreated(*building);
+
+    return *building;
+}
+
+
+
+SanityBuilding& ElementHandler::generateSanity(const BuildingInformation& conf, const MapArea& area)
+{
+    auto entryPoint(map.getBestEntryPoint(area));
+    auto building(new SanityBuilding(this, *this, conf, area, entryPoint));
     buildings.push_back(building);
 
     emit buildingCreated(*building);
@@ -107,6 +122,20 @@ DeliveryManCharacter& ElementHandler::generateDeliveryMan(
     const int transportedQuantity
 ) {
     auto character(new DeliveryManCharacter(this, searchEngine, pathGenerator, conf, issuer, transportedItemConf, transportedQuantity));
+    characters.push_back(character);
+
+    emit characterCreated(*character);
+
+    return *character;
+}
+
+
+
+WanderingCharacter& ElementHandler::generateWanderingCharacter(
+    const CharacterInformation& conf,
+    ProcessableBuilding& issuer
+) {
+    auto character(new WanderingCharacter(this, pathGenerator, conf, issuer));
     characters.push_back(character);
 
     emit characterCreated(*character);

@@ -27,6 +27,7 @@ class BuildingInformation : public QObject
         enum class Type {
             Producer,
             Road,
+            Sanity,
             Storage
         };
 
@@ -68,6 +69,12 @@ class BuildingInformation : public QObject
             explicit Producer(const ModelReader& model);
         };
 
+        struct Sanity {
+            WalkerGeneration walker;
+
+            explicit Sanity(const ModelReader& model);
+        };
+
         struct Storage {
             QList<const ItemInformation*> allowedItems;
             int maxQuantity;
@@ -83,6 +90,7 @@ class BuildingInformation : public QObject
         Common common;
         Graphics graphics;
         optional<Producer*> producer;
+        optional<Sanity*> sanity;
         optional<Storage*> storage;
 
     public:
@@ -100,6 +108,8 @@ class BuildingInformation : public QObject
         const MapSize& getSize() const;
 
         const Producer& getProducerConf() const;
+
+        const Sanity& getSanityConf() const;
 
         const Storage& getStorageConf() const;
 

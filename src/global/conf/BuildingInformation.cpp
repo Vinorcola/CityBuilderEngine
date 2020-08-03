@@ -1,4 +1,4 @@
-#include "BuildingInformation.hpp"
+﻿#include "BuildingInformation.hpp"
 
 #include <yaml-cpp/yaml.h>
 
@@ -18,11 +18,16 @@ BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& mod
     common(model),
     graphics(model),
     producer(nullptr),
+    sanity(nullptr),
     storage(nullptr)
 {
     switch (type) {
         case Type::Producer:
             producer = new Producer(model);
+            break;
+
+        case Type::Sanity:
+            sanity = new Sanity(model);
             break;
 
         case Type::Storage:
@@ -41,7 +46,10 @@ BuildingInformation::~BuildingInformation()
     if (producer) {
         delete producer;
     }
-    if(storage) {
+    if (sanity) {
+        delete sanity;
+    }
+    if (storage) {
         delete storage;
     }
 }
@@ -80,6 +88,17 @@ const BuildingInformation::Producer& BuildingInformation::getProducerConf() cons
 
 
 
+const BuildingInformation::Sanity& BuildingInformation::getSanityConf() const
+{
+    if (sanity == nullptr) {
+        throw UnexpectedException("This building conf does not have sanity information.");
+    }
+
+    return *sanity;
+}
+
+
+
 const BuildingInformation::Storage& BuildingInformation::getStorageConf() const
 {
     if (storage == nullptr) {
@@ -102,6 +121,7 @@ BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
     if (type == "producer") return Type::Producer;
     if (type == "road")     return Type::Road;
+    if (type == "sanity")   return Type::Sanity;
     if (type == "storage")  return Type::Storage;
 
     throw BadConfigurationException("Unknown building of type \"" + type + "\".");
@@ -159,6 +179,19 @@ BuildingInformation::Producer::Producer(const ModelReader& model) :
 {
 
 }
+
+
+
+BuildingInformation::Sanity::Sanity(const ModelReader& model) :
+    walker(
+        model.getCharacterConf("walkerCharacter"),
+        model.getOptionalInt("walkerGenerationInterval", 8) * CYCLE_PER_SECOND,
+        1
+    )
+{
+
+}
+
 
 
 

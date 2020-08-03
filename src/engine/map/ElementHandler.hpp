@@ -15,6 +15,8 @@ class NatureElement;
 class NatureElementInformation;
 class PathGenerator;
 class Road;
+class SanityBuilding;
+class StorageBuilding;
 
 class ElementHandler : public QObject, public BuildingFactoryInterface, public CharacterFactoryInterface
 {
@@ -37,6 +39,8 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         virtual ProducerBuilding& generateProducer(const BuildingInformation& conf, const MapArea& area) override;
 
+        virtual SanityBuilding& generateSanity(const BuildingInformation& conf, const MapArea& area) override;
+
         virtual StorageBuilding& generateStorage(const BuildingInformation& conf, const MapArea& area) override;
 
         Road& generateRoad(const BuildingInformation& conf, const MapCoordinates& location);
@@ -56,6 +60,11 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
             ProcessableBuilding& issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
+        ) override;
+
+        virtual WanderingCharacter& generateWanderingCharacter(
+            const CharacterInformation& conf,
+            ProcessableBuilding& issuer
         ) override;
 
         virtual void clearCharacter(Character& character) override;
