@@ -57,6 +57,12 @@ bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& 
 
         return true;
     }
+    if (&actor == deliveryMan) {
+        deliveryMan.clear();
+        characterFactory.clearCharacter(actor);
+
+        return true;
+    }
 
     return false;
 }
