@@ -136,23 +136,12 @@ buildings:
         size: 2
         walkerCharacter: watchman
         walkerGenerationInterval: 8
-#    wheatFarm:
-#        type: building
-#        title: Wheat farm
-#        size: 3
-#        price: 45
-#        employees: 10
-#        damageRisk: 5
-#        fireRisk: 10
-#        behaviors:
-#            -
-#                type: farm
-#                harvestMonth: 7
-#                producedItem: wheat
-#            -
-#                type: deliverymanGenerator
-#                walkerType: deliveryman
-#                maxWalker: 1
+    wheatFarm:
+        type: farm
+        title: Wheat farm
+        size: 3
+        producedItem: wheat
+        harvestMonth: 7
 
 characters:
     athlete:
@@ -257,11 +246,10 @@ controlPanel:
 #                    building: house
       - title: Husbandry
         type: panel
-        content: []
-#                -
-#                    title: Wheat farm
-#                    type: button
-#                    building: wheatFarm
+        content:
+          - title: Wheat farm
+            type: button
+            building: wheatFarm
       - title: Industry
         type: panel
         content:

@@ -239,6 +239,10 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
     }
 
     switch (conf.getType()) {
+        case BuildingInformation::Type::Farm:
+            elementHandler.generateFarm(conf, area);
+            break;
+
         case BuildingInformation::Type::Producer:
             elementHandler.generateProducer(conf, area);
             break;

@@ -2,6 +2,7 @@
 #define BUILDINGFACTORYINTERFACE_HPP
 
 class BuildingInformation;
+class FarmBuilding;
 class MapArea;
 class MapCoordinates;
 class ProducerBuilding;
@@ -12,6 +13,8 @@ class BuildingFactoryInterface
 {
     public:
         virtual ~BuildingFactoryInterface();
+
+        virtual FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area) = 0;
 
         virtual ProducerBuilding& generateProducer(const BuildingInformation& conf, const MapArea& area) = 0;
 

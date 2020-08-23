@@ -5,6 +5,7 @@
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
+#include "src/engine/element/static/building/FarmBuilding.hpp"
 #include "src/engine/element/static/building/ProducerBuilding.hpp"
 #include "src/engine/element/static/building/Road.hpp"
 #include "src/engine/element/static/building/SanityBuilding.hpp"
@@ -37,6 +38,19 @@ ElementHandler::ElementHandler(const Map& map, MapSearchEngine& searchEngine, co
 const std::list<Building*>& ElementHandler::getBuildings() const
 {
     return buildings;
+}
+
+
+
+FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, const MapArea& area)
+{
+    auto entryPoint(map.getBestEntryPoint(area));
+    auto building(new FarmBuilding(this, *this, conf, area, entryPoint));
+    buildings.push_back(building);
+
+    emit buildingCreated(*building);
+
+    return *building;
 }
 
 

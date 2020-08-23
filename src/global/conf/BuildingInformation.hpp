@@ -25,6 +25,7 @@ class BuildingInformation : public QObject
 
     public:
         enum class Type {
+            Farm,
             Producer,
             Road,
             Sanity,
@@ -55,6 +56,15 @@ class BuildingInformation : public QObject
             int maxSimultaneous;
 
             WalkerGeneration(const CharacterInformation& conf, const int generationInterval, const int maxSimultaneous);
+        };
+
+        struct Farm {
+            const ItemInformation& producedItemConf;
+            int harvestMonth;
+            int maxQuantityHarvested;
+            const CharacterInformation& deliveryManConf;
+
+            explicit Farm(const ModelReader& model);
         };
 
         struct Producer {
@@ -89,6 +99,7 @@ class BuildingInformation : public QObject
         Type type;
         Common common;
         Graphics graphics;
+        optional<Farm*> farm;
         optional<Producer*> producer;
         optional<Sanity*> sanity;
         optional<Storage*> storage;
@@ -106,6 +117,8 @@ class BuildingInformation : public QObject
         const QString& getTitle() const;
 
         const MapSize& getSize() const;
+
+        const Farm& getFarmConf() const;
 
         const Producer& getProducerConf() const;
 

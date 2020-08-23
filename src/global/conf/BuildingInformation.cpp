@@ -17,11 +17,16 @@ BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& mod
     type(resolveType(model.getString("type"))),
     common(model),
     graphics(model),
+    farm(nullptr),
     producer(nullptr),
     sanity(nullptr),
     storage(nullptr)
 {
     switch (type) {
+        case Type::Farm:
+            farm = new Farm(model);
+            break;
+
         case Type::Producer:
             producer = new Producer(model);
             break;
@@ -43,6 +48,9 @@ BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& mod
 
 BuildingInformation::~BuildingInformation()
 {
+    if (farm) {
+        delete farm;
+    }
     if (producer) {
         delete producer;
     }
@@ -73,6 +81,17 @@ const QString& BuildingInformation::getTitle() const
 const MapSize& BuildingInformation::getSize() const
 {
     return common.size;
+}
+
+
+
+const BuildingInformation::Farm& BuildingInformation::getFarmConf() const
+{
+    if (farm == nullptr) {
+        throw UnexpectedException("This building conf does not have farm information.");
+    }
+
+    return *farm;
 }
 
 
@@ -119,6 +138,7 @@ const QPixmap& BuildingInformation::getImage() const
 
 BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
+    if (type == "farm")     return Type::Farm;
     if (type == "producer") return Type::Producer;
     if (type == "road")     return Type::Road;
     if (type == "sanity")   return Type::Sanity;
@@ -158,6 +178,17 @@ BuildingInformation::WalkerGeneration::WalkerGeneration(
     conf(conf),
     generationInterval(generationInterval),
     maxSimultaneous(maxSimultaneous)
+{
+
+}
+
+
+
+BuildingInformation::Farm::Farm(const ModelReader& model) :
+    producedItemConf(model.getItemConf("producedItem")),
+    harvestMonth(model.getInt("harvestMonth")),
+    maxQuantityHarvested(model.getOptionalInt("maxQuantityHarvested", 8)),
+    deliveryManConf(model.getOptionalCharacterConf("deliveryMan", "deliveryMan"))
 {
 
 }

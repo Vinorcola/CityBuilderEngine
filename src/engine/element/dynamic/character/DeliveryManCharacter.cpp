@@ -65,7 +65,7 @@ void DeliveryManCharacter::goHome()
 {
     if (issuer) {
         goingHome = true;
-        motionHandler.takePath(pathGenerator.generateShortestPathTo(
+        motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(
             motionHandler.getCurrentLocation(),
             issuer->getEntryPoint()
         ));
