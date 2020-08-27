@@ -4,6 +4,7 @@
 
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
+#include "src/engine/element/dynamic/character/StudentCharacter.hpp"
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
 #include "src/engine/element/static/building/FarmBuilding.hpp"
 #include "src/engine/element/static/building/LaboratoryBuilding.hpp"
@@ -62,6 +63,7 @@ LaboratoryBuilding& ElementHandler::generateLaboratory(const BuildingInformation
     auto entryPoint(map.getBestEntryPoint(area));
     auto building(new LaboratoryBuilding(this, conf, area, entryPoint));
     buildings.push_back(building);
+    searchEngine.registerLaboratoryBuilding(*building);
 
     emit buildingCreated(*building);
 
@@ -99,7 +101,7 @@ SanityBuilding& ElementHandler::generateSanity(const BuildingInformation& conf, 
 SchoolBuilding& ElementHandler::generateSchool(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new SchoolBuilding(this, conf, area, entryPoint));
+    auto building(new SchoolBuilding(this, searchEngine, *this, conf, area, entryPoint));
     buildings.push_back(building);
 
     emit buildingCreated(*building);
@@ -142,6 +144,22 @@ const std::list<Character*>& ElementHandler::getCharacters() const
 
 
 
+DeliveryManCharacter& ElementHandler::generateDeliveryMan(
+    const CharacterInformation& conf,
+    ProcessableBuilding& issuer,
+    const ItemInformation& transportedItemConf,
+    const int transportedQuantity
+) {
+    auto character(new DeliveryManCharacter(this, searchEngine, pathGenerator, conf, issuer, transportedItemConf, transportedQuantity));
+    characters.push_back(character);
+
+    emit characterCreated(*character);
+
+    return *character;
+}
+
+
+
 MinerCharacter& ElementHandler::generateMiner(
     const CharacterInformation& conf,
     ProcessableBuilding& issuer,
@@ -157,13 +175,13 @@ MinerCharacter& ElementHandler::generateMiner(
 
 
 
-DeliveryManCharacter& ElementHandler::generateDeliveryMan(
+StudentCharacter& ElementHandler::generateStudent(
     const CharacterInformation& conf,
     ProcessableBuilding& issuer,
-    const ItemInformation& transportedItemConf,
-    const int transportedQuantity
+    ProcessableBuilding& target
 ) {
-    auto character(new DeliveryManCharacter(this, searchEngine, pathGenerator, conf, issuer, transportedItemConf, transportedQuantity));
+    auto path(pathGenerator.generateShortestRoadPathTo(issuer.getEntryPoint(), target.getEntryPoint()));
+    auto character(new StudentCharacter(this, pathGenerator, conf, issuer, target, path));
     characters.push_back(character);
 
     emit characterCreated(*character);

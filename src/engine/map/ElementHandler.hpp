@@ -55,17 +55,23 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         const std::list<Character*>& getCharacters() const;
 
+        virtual DeliveryManCharacter& generateDeliveryMan(
+            const CharacterInformation& conf,
+            ProcessableBuilding& issuer,
+            const ItemInformation& transportedItemConf,
+            const int transportedQuantity = 0
+        ) override;
+
         virtual MinerCharacter& generateMiner(
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
             owner<PathInterface*> path
         ) override;
 
-        virtual DeliveryManCharacter& generateDeliveryMan(
+        virtual StudentCharacter& generateStudent(
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
-            const ItemInformation& transportedItemConf,
-            const int transportedQuantity = 0
+            ProcessableBuilding& target
         ) override;
 
         virtual WanderingCharacter& generateWanderingCharacter(

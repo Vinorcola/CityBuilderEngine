@@ -9,6 +9,7 @@ TEMPLATE = app
 SOURCES += \
     src/engine/element/dynamic/character/DeliveryManCharacter.cpp \
     src/engine/element/dynamic/character/MinerCharacter.cpp \
+    src/engine/element/dynamic/character/StudentCharacter.cpp \
     src/engine/element/dynamic/character/WanderingCharacter.cpp \
     src/engine/element/dynamic/Character.cpp \
     src/engine/element/dynamic/CharacterFactoryInterface.cpp \
@@ -80,6 +81,7 @@ SOURCES += \
 HEADERS += \
     src/engine/element/dynamic/character/DeliveryManCharacter.hpp \
     src/engine/element/dynamic/character/MinerCharacter.hpp \
+    src/engine/element/dynamic/character/StudentCharacter.hpp \
     src/engine/element/dynamic/character/WanderingCharacter.hpp \
     src/engine/element/dynamic/Character.hpp \
     src/engine/element/dynamic/CharacterFactoryInterface.hpp \
