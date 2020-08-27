@@ -21,14 +21,18 @@ namespace YAML {
 
 class BuildingInformation : public QObject
 {
+        friend class Conf;
+
         Q_OBJECT
 
     public:
         enum class Type {
             Farm,
+            Laboratory,
             Producer,
             Road,
             Sanity,
+            School,
             Storage
         };
 
@@ -85,6 +89,13 @@ class BuildingInformation : public QObject
             explicit Sanity(const ModelReader& model);
         };
 
+        struct School {
+            WalkerGeneration student;
+            const BuildingInformation& targetLaboratory;
+
+            explicit School(const ModelReader& model);
+        };
+
         struct Storage {
             QList<const ItemInformation*> allowedItems;
             int maxQuantity;
@@ -102,6 +113,7 @@ class BuildingInformation : public QObject
         optional<Farm*> farm;
         optional<Producer*> producer;
         optional<Sanity*> sanity;
+        optional<School*> school;
         optional<Storage*> storage;
 
     public:
@@ -124,11 +136,15 @@ class BuildingInformation : public QObject
 
         const Sanity& getSanityConf() const;
 
+        const School& getSchoolConf() const;
+
         const Storage& getStorageConf() const;
 
         const QPixmap& getImage() const;
 
     private:
+        void loadSpecificConf(const ModelReader& model);
+
         static Type resolveType(const QString& type);
 };
 

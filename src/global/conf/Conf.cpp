@@ -49,6 +49,12 @@ Conf::Conf(QObject* parent, const QString& filePath) :
         QString key(node.first.as<QString>());
         buildings.insert(key, new BuildingInformation(this, ModelReader(*this, key, node.second)));
     }
+    // We load building's specific configuration later because we may have dependencies between buildings: we need all
+    // the buildings to be defined before loading specifics configuration.
+    for (auto node : configurationRoot["buildings"]) {
+        QString key(node.first.as<QString>());
+        buildings[key]->loadSpecificConf(ModelReader(*this, key, node.second));
+    }
 
     // Load control panel items.
     for (auto node : configurationRoot["controlPanel"]["content"]) {

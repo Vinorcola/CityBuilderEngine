@@ -39,9 +39,13 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         virtual FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area) override;
 
+        virtual LaboratoryBuilding& generateLaboratory(const BuildingInformation& conf, const MapArea& area) override;
+
         virtual ProducerBuilding& generateProducer(const BuildingInformation& conf, const MapArea& area) override;
 
         virtual SanityBuilding& generateSanity(const BuildingInformation& conf, const MapArea& area) override;
+
+        virtual SchoolBuilding& generateSchool(const BuildingInformation& conf, const MapArea& area) override;
 
         virtual StorageBuilding& generateStorage(const BuildingInformation& conf, const MapArea& area) override;
 

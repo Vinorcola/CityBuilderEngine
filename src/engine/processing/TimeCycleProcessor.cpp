@@ -127,7 +127,7 @@ void TimeCycleProcessor::processCycle()
 
     // Increment to cycle date.
     ++currentCycleDate;
-    qDebug() << "Process time-cycle" << currentCycleDate.toString();
+    // qDebug() << "Process time-cycle" << currentCycleDate.toString();
 
     // Process characters.
     characterProcessor->process(currentCycleDate);

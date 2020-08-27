@@ -6,9 +6,11 @@
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
 #include "src/engine/element/static/building/FarmBuilding.hpp"
+#include "src/engine/element/static/building/LaboratoryBuilding.hpp"
 #include "src/engine/element/static/building/ProducerBuilding.hpp"
 #include "src/engine/element/static/building/Road.hpp"
 #include "src/engine/element/static/building/SanityBuilding.hpp"
+#include "src/engine/element/static/building/SchoolBuilding.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
 #include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/map/Map.hpp"
@@ -55,6 +57,19 @@ FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, cons
 
 
 
+LaboratoryBuilding& ElementHandler::generateLaboratory(const BuildingInformation& conf, const MapArea& area)
+{
+    auto entryPoint(map.getBestEntryPoint(area));
+    auto building(new LaboratoryBuilding(this, conf, area, entryPoint));
+    buildings.push_back(building);
+
+    emit buildingCreated(*building);
+
+    return *building;
+}
+
+
+
 ProducerBuilding& ElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
@@ -72,6 +87,19 @@ SanityBuilding& ElementHandler::generateSanity(const BuildingInformation& conf, 
 {
     auto entryPoint(map.getBestEntryPoint(area));
     auto building(new SanityBuilding(this, *this, conf, area, entryPoint));
+    buildings.push_back(building);
+
+    emit buildingCreated(*building);
+
+    return *building;
+}
+
+
+
+SchoolBuilding& ElementHandler::generateSchool(const BuildingInformation& conf, const MapArea& area)
+{
+    auto entryPoint(map.getBestEntryPoint(area));
+    auto building(new SchoolBuilding(this, conf, area, entryPoint));
     buildings.push_back(building);
 
     emit buildingCreated(*building);

@@ -20,28 +20,10 @@ BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& mod
     farm(nullptr),
     producer(nullptr),
     sanity(nullptr),
+    school(nullptr),
     storage(nullptr)
 {
-    switch (type) {
-        case Type::Farm:
-            farm = new Farm(model);
-            break;
 
-        case Type::Producer:
-            producer = new Producer(model);
-            break;
-
-        case Type::Sanity:
-            sanity = new Sanity(model);
-            break;
-
-        case Type::Storage:
-            storage = new Storage(model);
-            break;
-
-        default:
-            break;
-    }
 }
 
 
@@ -56,6 +38,9 @@ BuildingInformation::~BuildingInformation()
     }
     if (sanity) {
         delete sanity;
+    }
+    if (school) {
+        delete school;
     }
     if (storage) {
         delete storage;
@@ -118,6 +103,17 @@ const BuildingInformation::Sanity& BuildingInformation::getSanityConf() const
 
 
 
+const BuildingInformation::School& BuildingInformation::getSchoolConf() const
+{
+    if (school == nullptr) {
+        throw UnexpectedException("This building conf does not have school information.");
+    }
+
+    return *school;
+}
+
+
+
 const BuildingInformation::Storage& BuildingInformation::getStorageConf() const
 {
     if (storage == nullptr) {
@@ -136,13 +132,45 @@ const QPixmap& BuildingInformation::getImage() const
 
 
 
+void BuildingInformation::loadSpecificConf(const ModelReader& model)
+{
+    switch (type) {
+        case Type::Farm:
+            farm = new Farm(model);
+            break;
+
+        case Type::Producer:
+            producer = new Producer(model);
+            break;
+
+        case Type::Sanity:
+            sanity = new Sanity(model);
+            break;
+
+        case Type::School:
+            school = new School(model);
+            break;
+
+        case Type::Storage:
+            storage = new Storage(model);
+            break;
+
+        default:
+            break;
+    }
+}
+
+
+
 BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
-    if (type == "farm")     return Type::Farm;
-    if (type == "producer") return Type::Producer;
-    if (type == "road")     return Type::Road;
-    if (type == "sanity")   return Type::Sanity;
-    if (type == "storage")  return Type::Storage;
+    if (type == "farm")       return Type::Farm;
+    if (type == "laboratory") return Type::Laboratory;
+    if (type == "producer")   return Type::Producer;
+    if (type == "road")       return Type::Road;
+    if (type == "sanity")     return Type::Sanity;
+    if (type == "school")     return Type::School;
+    if (type == "storage")    return Type::Storage;
 
     throw BadConfigurationException("Unknown building of type \"" + type + "\".");
 }
@@ -219,6 +247,19 @@ BuildingInformation::Sanity::Sanity(const ModelReader& model) :
         model.getOptionalInt("walkerGenerationInterval", 8) * CYCLE_PER_SECOND,
         1
     )
+{
+
+}
+
+
+
+BuildingInformation::School::School(const ModelReader& model) :
+    student(
+        model.getCharacterConf("studentCharacter"),
+        model.getOptionalInt("studentGenerationInterval", 8) * CYCLE_PER_SECOND,
+        0 // Unused
+    ),
+    targetLaboratory(model.getBuildingConf("targetLaboratory"))
 {
 
 }

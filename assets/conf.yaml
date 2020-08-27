@@ -27,26 +27,12 @@ buildings:
         title: Granary
         size: 4
         items: [ carrots, cheese, fish, meat, onions, urchin, wheat ]
-#    gymnasium:
-#        type: building
-#        title: Gymnasium
-#        size: 3
-#        price: 75
-#        employees: 7
-#        damageRisk: 5
-#        behaviors:
-#            -
-#                type: randomWalkerGenerator
-#                walkerType: athlete
-#                maxWalkers: 4
-#                generationInterval: 8
-#            -
-#                type: targetedWalkerGenerator
-#                walkerType: competitor
-#                maxWalkers: 1
-#                generationInterval: 34
-#                targetSearchCriteria:
-#                    type: stadium
+    gymnasium:
+        type: school
+        title: Gymnasium
+        size: 3
+        studentCharacter: competitor
+        targetLaboratory: stadium
 #    house:
 #        type: building
 #        title: House
@@ -80,20 +66,10 @@ buildings:
         type: road
         title: Road
         price: 3
-#    stadium:
-#        type: building
-#        title: Stadium
-#        size: 5
-#        price: 400
-#        employees: 45
-#        damageRisk: 8
-#        behaviors:
-#            -
-#                type: conditionalRandomWalkerGenerator
-#                dependencyWalker: competitor
-#                walkerType: competitor
-#                maxWalkers: 1
-#                generationInterval: 8
+    stadium:
+        type: laboratory
+        title: Stadium
+        size: 5
     storehouse:
         type: storage
         title: Storehouse
@@ -295,15 +271,13 @@ controlPanel:
 #                    building: taxOffice
       - title: Culture
         type: panel
-        content: []
-#            -
-#                title: Gymnasium
-#                type: button
-#                building: gymnasium
-#            -
-#                title: Stadium
-#                type: button
-#                building: stadium
+        content:
+          - title: Gymnasium
+            type: button
+            building: gymnasium
+          - title: Stadium
+            type: button
+            building: stadium
       - title: Road
         type: button
         building: road
