@@ -15,8 +15,7 @@ AStarNode::AStarNode(
             location.getChebyshevDistanceTo(destination) :
             location.getManhattanDistanceTo(destination)
     ),
-    straightDistanceToDestination(location.getStraightDistanceTo(destination)),
-    useDiagonals(useDiagonals)
+    straightDistanceToDestination(location.getStraightDistanceTo(destination))
 {
 
 }
@@ -60,12 +59,19 @@ QList<MapCoordinates> AStarNode::getNeighbours() const
     list.append(location.getEast());
     list.append(location.getSouth());
     list.append(location.getWest());
-    if (useDiagonals) {
-        list.append(location.getTop());
-        list.append(location.getRight());
-        list.append(location.getBottom());
-        list.append(location.getLeft());
-    }
+
+    return list;
+}
+
+
+
+QList<MapCoordinates> AStarNode::getDiagonalNeighbours() const
+{
+    QList<MapCoordinates> list;
+    list.append(location.getTop());
+    list.append(location.getRight());
+    list.append(location.getBottom());
+    list.append(location.getLeft());
 
     return list;
 }

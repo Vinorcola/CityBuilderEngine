@@ -5,6 +5,7 @@
 #include <QtCore/QString>
 #include <QtGui/QPixmap>
 
+class ModelReader;
 namespace YAML {
     class Node;
 }
@@ -13,15 +14,7 @@ class CharacterInformation : public QObject
 {
         Q_OBJECT
 
-    public:
-        enum class Type {
-            None = 0,
-            TargetedWalker,
-            RandomWalker,
-        };
-
     private:
-        Type type;
         QString key;
         QString title;
         qreal speed;
@@ -29,9 +22,7 @@ class CharacterInformation : public QObject
         QPixmap image;
 
     public:
-        CharacterInformation(QObject* parent, const QString& key, const YAML::Node& model);
-
-        Type getType() const;
+        CharacterInformation(QObject* parent, const ModelReader& model);
 
         const QString& getKey() const;
 
@@ -49,9 +40,6 @@ class CharacterInformation : public QObject
          * @throws BadConfigurationException Thrown if the model is invalid.
          */
         static void checkModel(const QString& key, const YAML::Node& model);
-
-    private:
-        static Type resolveType(const QString& type);
 };
 
 #endif // CHARACTERINFORMATION_HPP

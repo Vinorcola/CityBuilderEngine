@@ -5,16 +5,13 @@
 #include <QtCore/QPointer>
 
 #include "src/engine/element/dynamic/MotionHandler.hpp"
-#include "src/engine/element/static/ProcessableBuilding.hpp"
-#include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
 #include "src/defines.hpp"
 
 class CycleDate;
 class CharacterInformation;
-class ItemInformation;
-class Map;
-class PathGenerator;
+class MapCoordinates;
+class ProcessableBuilding;
 
 /**
  * @brief A character on the map.
@@ -34,51 +31,25 @@ class Character : public QObject, public AbstractProcessable
 {
         Q_OBJECT
 
-    public:
-        struct CarriedItem {
-            const ItemInformation* conf;
-            int quantity;
-
-            CarriedItem(const ItemInformation* conf, const int quantity) :
-                conf(conf),
-                quantity(quantity)
-            {}
-        };
-
-    private:
-        const CharacterInformation* conf;
+    protected:
+        const CharacterInformation& conf;
+        MotionHandler motionHandler;///< A helper that will handle the character's motion.
         QPointer<ProcessableBuilding> issuer;///< The issuer building.
-        QPointer<ProcessableBuilding> target;///< The target building.
-        MotionHandler motionHandler;///< A helper that will handle character's motion.
-        owner<CarriedItem*> carriedItem;
 
     public:
         Character(
             QObject* parent,
-            const PathGenerator& pathGenerator,
-            const CharacterInformation* conf,
-            ProcessableBuilding* issuer,
-            int wanderingCredits = 0,
-            owner<CarriedItem*> carriedItem = nullptr
+            const CharacterInformation& conf,
+            ProcessableBuilding& issuer
         );
 
-        virtual ~Character();
+        bool isOfType(const CharacterInformation& conf) const;
 
-        void assignTarget(ProcessableBuilding* target);
+        const CharacterInformation& getConf() const;
 
-        owner<CarriedItem*> takeCarriedItems(const int maxQuantity);
-
-        const CharacterInformation* getConf() const;
-
-        /**
-         * @brief The current location of the character.
-         */
         const MapCoordinates& getCurrentLocation() const;
 
-        /**
-         * @brief Get the issuer.
-         */
-        ProcessableBuilding* getIssuer() const;
+        optional<ProcessableBuilding*> getIssuer() const;
 
         /**
          * @brief Make the charater move.

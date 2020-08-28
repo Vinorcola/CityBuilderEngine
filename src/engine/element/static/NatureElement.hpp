@@ -12,13 +12,13 @@ class NatureElement : public QObject
         Q_OBJECT
 
     private:
-        const NatureElementInformation* conf;
+        const NatureElementInformation& conf;
         MapArea area;
 
     public:
-        NatureElement(QObject* parent, const NatureElementInformation* conf, const MapArea& area);
+        NatureElement(QObject* parent, const NatureElementInformation& conf, const MapArea& area);
 
-        const NatureElementInformation* getConf() const;
+        const NatureElementInformation& getConf() const;
 
         const MapArea& getArea() const;
 };

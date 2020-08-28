@@ -4,12 +4,8 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/engine/element/dynamic/Character.hpp"
-#include "src/engine/element/static/behavior/BehaviorFactory.hpp"
-#include "src/engine/element/static/CityEntryPoint.hpp"
 #include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/element/static/ProcessableBuilding.hpp"
-#include "src/engine/element/static/Road.hpp"
-#include "src/engine/map/searchEngine/SearchEngine.hpp"
 #include "src/engine/map/CityStatus.hpp"
 #include "src/engine/map/MapArea.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
@@ -30,41 +26,59 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     size(loader.getSize()),
     cityStatus(new CityStatus(this, loader.getBudget())),
     processor(new TimeCycleProcessor(this, loader.getDate())),
-    searchEngine(new SearchEngine(this, buildingList)),
-    behaviorFactory(new BehaviorFactory(this, this, searchEngine)),
-    characterList(),
-    buildingList(),
-    natureElementList(),
     mapDetailsCache(),
-    entryPoint(),
-    pathGenerator(*this)
+    pathGenerator(*this),
+    searchEngine(pathGenerator),
+    elementHandler(*this, searchEngine, pathGenerator)
 {
+    connect(&elementHandler, &ElementHandler::buildingCreated, [this](Building& building) {
+        auto processableBuilding(dynamic_cast<ProcessableBuilding*>(&building));
+        if (processableBuilding) {
+            processor->registerBuilding(processableBuilding);
+        }
+
+        mapDetailsCache.registerBuildingConstruction(building.getConf(), building.getArea());
+
+        emit buildingCreated(building);
+    });
+    connect(&elementHandler, &ElementHandler::characterCreated, [this](Character& character) {
+        processor->registerCharacter(&character);
+
+        emit characterCreated(character);
+    });
+    connect(&elementHandler, &ElementHandler::natureElementCreated, [this](NatureElement& natureElement) {
+        mapDetailsCache.registerNatureElement(natureElement.getConf(), natureElement.getArea());
+        searchEngine.registerRawMaterial(natureElement.getConf(), natureElement.getArea());
+
+        emit natureElementCreated(natureElement);
+    });
+
+    connect(cityStatus, &CityStatus::populationChanged, this, &Map::populationChanged);
+    connect(processor, &TimeCycleProcessor::dateChanged, this, &Map::dateChanged);
+
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
-        auto buildingConf(conf->getBuildingConf(buildingInfo["type"].as<QString>()));
+        auto& buildingConf(conf->getBuildingConf(buildingInfo["type"].as<QString>()));
         createBuilding(
             buildingConf,
             MapArea(
-                MapCoordinates(buildingInfo["position"]["x"].as<int>(), buildingInfo["position"]["y"].as<int>()),
-                buildingConf->getSize()
+                buildingInfo["position"].as<MapCoordinates>(),
+                buildingConf.getSize()
             )
         );
     }
 
     // Load nature elements.
     for (auto natureElementInfo : loader.getNatureElements()) {
-        auto natureElementConf(conf->getNatureElementConf(natureElementInfo["type"].as<QString>()));
-        createNatureElement(
+        auto& natureElementConf(conf->getNatureElementConf(natureElementInfo["type"].as<QString>()));
+        elementHandler.generateNatureElement(
             natureElementConf,
             MapArea(
-                MapCoordinates(natureElementInfo["position"]["x"].as<int>(), natureElementInfo["position"]["y"].as<int>()),
-                MapSize(1) // For now, only single tiles nature elements are supported.
+                natureElementInfo["position"].as<MapCoordinates>(),
+                MapSize(1) // For now, only single tile nature elements are supported.
             )
         );
     }
-
-    connect(cityStatus, &CityStatus::populationChanged, this, &Map::populationChanged);
-    connect(processor, &TimeCycleProcessor::dateChanged, this, &Map::dateChanged);
 }
 
 
@@ -133,6 +147,13 @@ bool Map::isFreeArea(const MapArea& area) const
 
 
 
+MapCoordinates Map::getBestEntryPoint(const MapArea& area) const
+{
+    return mapDetailsCache.getBestEntryPointForArea(area);
+}
+
+
+
 const TimeCycleProcessor* Map::getProcessor() const
 {
     return processor;
@@ -140,23 +161,23 @@ const TimeCycleProcessor* Map::getProcessor() const
 
 
 
-const QLinkedList<Building*>& Map::getBuildings() const
+const std::list<Building*>& Map::getBuildings() const
 {
-    return buildingList;
+    return elementHandler.getBuildings();
 }
 
 
 
-const QLinkedList<Character*>& Map::getCharacters() const
+const std::list<Character*>& Map::getCharacters() const
 {
-    return characterList;
+    return elementHandler.getCharacters();
 }
 
 
 
-const QLinkedList<NatureElement*>& Map::getNatureElements() const
+const std::list<NatureElement*>& Map::getNatureElements() const
 {
-    return natureElementList;
+    return elementHandler.getNatureElements();
 }
 
 
@@ -210,133 +231,41 @@ void Map::setProcessorSpeedRatio(const qreal speedRatio)
 
 
 
-void Map::createBuilding(const BuildingInformation* conf, const MapArea& area)
+void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
 {
-    if (!isValidArea(area)) {
-        throw UnexpectedException("Try to create a building on an invalid area: " + area.toString() + ".");
-    }
-    if (area.getSize() != conf->getSize()) {
-        throw UnexpectedException("Try to build a building on a area not matching the configured size.");
-    }
     if (!isFreeArea(area)) {
         qDebug() << "WARNING: Try to create a building on an occupyed area " + area.toString() + ". Skiping the creation.";
         return;
     }
 
-    Building* pointer;
-    switch (conf->getType()) {
-        case BuildingInformation::Type::None:
-            throw UnexpectedException("Try to create a static element of type None.");
-
-        case BuildingInformation::Type::Building: {
-            auto entryPoint(mapDetailsCache.getBestEntryPointForArea(area));
-            auto element(new ProcessableBuilding(this, behaviorFactory, conf, area, entryPoint));
-            pointer = element;
-            processor->registerBuilding(element);
-            buildingList.append(element);
-
-            connect(element, &ProcessableBuilding::requestCharacterCreation, [this, element](
-                const CharacterInformation* elementConf,
-                std::function<void(Character*)> afterCreation
-            ) {
-                createCharacter(elementConf, element, afterCreation);
-            });
-            connect(element, &ProcessableBuilding::requestCharacterDestruction, this, &Map::destroyCharacter);
+    switch (conf.getType()) {
+        case BuildingInformation::Type::Farm:
+            elementHandler.generateFarm(conf, area);
             break;
-        }
 
-        case BuildingInformation::Type::CityEntryPoint: {
-            auto coordinates(area.getLeft());
-            entryPoint = new CityEntryPoint(this, behaviorFactory, conf, coordinates);
-            pointer = entryPoint;
-            processor->registerBuilding(entryPoint);
-            buildingList.append(entryPoint);
-
-            connect(entryPoint, &CityEntryPoint::requestCharacterCreation, [this](
-                const CharacterInformation* elementConf,
-                std::function<void(Character*)> afterCreation
-            ) {
-                createCharacter(elementConf, entryPoint, afterCreation);
-            });
+        case BuildingInformation::Type::Laboratory:
+            elementHandler.generateLaboratory(conf, area);
             break;
-        }
 
-        case BuildingInformation::Type::Road: {
-            auto coordinates(area.getLeft());
-            auto element(new Road(this, conf, coordinates));
-            pointer = element;
-            buildingList.append(element);
+        case BuildingInformation::Type::Producer:
+            elementHandler.generateProducer(conf, area);
             break;
-        }
 
-        default:
-            throw UnexpectedException("Try to create a static element of unknown type.");
-    }
-    mapDetailsCache.registerBuildingConstruction(*conf, area);
+        case BuildingInformation::Type::Road:
+            elementHandler.generateRoad(conf, area.getLeft());
+            break;
 
-    emit buildingCreated(pointer);
-}
+        case BuildingInformation::Type::Sanity:
+            elementHandler.generateSanity(conf, area);
+            break;
 
+        case BuildingInformation::Type::School:
+            elementHandler.generateSchool(conf, area);
+            break;
 
-
-void Map::createCharacter(
-    const CharacterInformation* conf,
-    ProcessableBuilding* issuer,
-    std::function<void(Character*)> afterCreation
-) {
-    auto character(new Character(this, pathGenerator, conf, issuer, conf->getWanderingCredits()));
-    processor->registerCharacter(character);
-    characterList.append(character);
-    afterCreation(character);
-
-    emit characterCreated(character);
-}
-
-
-
-void Map::createNatureElement(const NatureElementInformation* conf, const MapArea& area)
-{
-    if (!isValidArea(area)) {
-        throw UnexpectedException("Try to create a nature element on an invalid area: " + area.toString() + ".");
-    }
-    if (!isFreeArea(area)) {
-        qDebug() << "WARNING: Try to create a building on an occupyed area " + area.toString() + ". Skiping the creation.";
-        return;
-    }
-
-    auto natureElement(new NatureElement(this, conf, area));
-    natureElementList.append(natureElement);
-    mapDetailsCache.registerNatureElement(*conf, area);
-
-    emit natureElementCreated(natureElement);
-}
-
-
-
-void Map::destroyBuilding(Building* building, std::function<void()> afterDestruction)
-{
-    for (auto fromList : buildingList) {
-        if (fromList == building) {
-            buildingList.removeOne(building);
-            mapDetailsCache.registerBuildingDestruction(building->getArea());
-            delete building;
-            afterDestruction();
-            return;
-        }
-    }
-}
-
-
-
-void Map::destroyCharacter(Character* character, std::function<void()> afterDestruction)
-{
-    for (auto fromList : characterList) {
-        if (fromList == character) {
-            characterList.removeOne(character);
-            delete character;
-            afterDestruction();
-            return;
-        }
+        case BuildingInformation::Type::Storage:
+            elementHandler.generateStorage(conf, area);
+            break;
     }
 }
 
@@ -356,19 +285,7 @@ void Map::freeHousingCapacityChanged(
 ) {
     cityStatus->updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
     if (newHousingCapacity > 0) {
-        entryPoint->requestImmigrant(onImmigrantCreation);
+        // TODO: Review how to make this.
+        // entryPoint->requestImmigrant(onImmigrantCreation);
     }
-}
-
-
-
-Building* Map::fetchBuilding(const Building* building) const
-{
-    for (auto fromList : buildingList) {
-        if (fromList == building) {
-            return fromList;
-        }
-    }
-
-    return nullptr;
 }

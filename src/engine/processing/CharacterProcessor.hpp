@@ -1,7 +1,7 @@
 #ifndef CHARACTERPROCESSOR_HPP
 #define CHARACTERPROCESSOR_HPP
 
-#include <QtCore/QLinkedList>
+#include <list>
 #include <QtCore/QList>
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
@@ -19,7 +19,7 @@ class CharacterProcessor : public QObject, public AbstractProcessable
         Q_OBJECT
 
     private:
-        QLinkedList<QPointer<Character>> processableList;
+        std::list<QPointer<Character>> processableList;
         QList<QPointer<Character>> waitingForRegistrationList;
         QList<Character*> waitingForUnregistrationList;
 

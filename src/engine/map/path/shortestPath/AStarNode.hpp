@@ -16,7 +16,6 @@ class AStarNode
         qreal costFromOrigin;
         const qreal theoreticalBestDistanceToDestination;
         const qreal straightDistanceToDestination;
-        const bool useDiagonals;
 
     public:
         AStarNode(
@@ -50,6 +49,11 @@ class AStarNode
          * @brief Get the list of neighbours' coordinates to this node.
          */
         QList<MapCoordinates> getNeighbours() const;
+
+        /**
+         * @brief Get the list of diagonal neighbours' coordinates to this node.
+         */
+        QList<MapCoordinates> getDiagonalNeighbours() const;
 
         /**
          * @brief Indicate if this node is closer to the destination compared to the other node.

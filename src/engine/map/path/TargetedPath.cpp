@@ -11,9 +11,24 @@ TargetedPath::TargetedPath(
 ) :
     mapDetails(mapDetails),
     restrictedToRoads(restrictedToRoads),
-    path(path)
+    path(path),
+    obsolete(false)
 {
 
+}
+
+
+
+bool TargetedPath::isObsolete() const
+{
+    return obsolete;
+}
+
+
+
+bool TargetedPath::isCompleted() const
+{
+    return path.isEmpty();
 }
 
 
@@ -26,9 +41,11 @@ MapCoordinates TargetedPath::getNextTargetCoordinates()
 
     auto nextLocation(path.takeFirst());
     if (!mapDetails.isLocationTraversable(nextLocation)) {
+        obsolete = true;
         return {};
     }
     if (restrictedToRoads && !mapDetails.hasRoadAtLocation(nextLocation)) {
+        obsolete = true;
         return {};
     }
 

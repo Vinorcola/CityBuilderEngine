@@ -1,6 +1,6 @@
 #include "CycleDate.hpp"
 
-#include <assert.h>
+#include <cassert>
 
 #include "src/defines.hpp"
 

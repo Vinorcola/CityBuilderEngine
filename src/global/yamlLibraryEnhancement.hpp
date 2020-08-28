@@ -4,21 +4,40 @@
 #include <QtCore/QString>
 #include <yaml-cpp/node/convert.h>
 
+#include "src/engine/map/MapCoordinates.hpp"
+
 namespace YAML {
 
 template<>
 struct convert<QString>
 {
-    static Node encode(const QString& rhs)
+    static Node encode(const QString& string)
     {
-        return Node(rhs.toStdString());
+        return Node(string.toStdString());
     }
 
-    static bool decode(const Node& node, QString& rhs)
+    static bool decode(const Node& node, QString& string)
     {
-        if (!node.IsScalar())
+        if (!node.IsScalar()) {
             return false;
-        rhs = QString::fromStdString(node.Scalar());
+        }
+        string = QString::fromStdString(node.Scalar());
+
+        return true;
+    }
+};
+
+template<>
+struct convert<MapCoordinates>
+{
+    static bool decode(const Node& node, MapCoordinates& coordinates)
+    {
+        if (!node.IsMap() || !node["x"] || !node["y"]) {
+            return false;
+        }
+        coordinates.setX(node["x"].as<qreal>());
+        coordinates.setY(node["y"].as<qreal>());
+
         return true;
     }
 };

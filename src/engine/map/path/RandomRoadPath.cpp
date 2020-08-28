@@ -1,7 +1,8 @@
 #include "RandomRoadPath.hpp"
 
+#include <QRandomGenerator>
+
 #include "src/engine/map/path/MapDetailsInterface.hpp"
-#include "src/engine/random.hpp"
 
 
 
@@ -16,6 +17,20 @@ RandomRoadPath::RandomRoadPath(
     wanderingCredits(wanderingCredits)
 {
 
+}
+
+
+
+bool RandomRoadPath::isObsolete() const
+{
+    return false;
+}
+
+
+
+bool RandomRoadPath::isCompleted() const
+{
+    return wanderingCredits <= 0;
 }
 
 
@@ -76,5 +91,5 @@ MapCoordinates RandomRoadPath::getNextRandomCoordinates() const
     }
 
     // Choose random.
-    return roadNeighbours.at(randomInt(0, roadNeighbours.size() - 1));
+    return roadNeighbours.at(QRandomGenerator::global()->bounded(0, roadNeighbours.size()));
 }

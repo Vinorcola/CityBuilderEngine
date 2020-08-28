@@ -21,7 +21,7 @@ ProcessedAStarNodeList::~ProcessedAStarNodeList()
 
 bool ProcessedAStarNodeList::isNodeForLocationAlreadyProcessed(const MapCoordinates& location) const
 {
-    for (auto node: list) {
+    for (auto node : list) {
         if (node->getLocation() == location) {
             return true;
         }

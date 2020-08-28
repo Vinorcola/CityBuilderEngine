@@ -7,50 +7,131 @@
 #include <QtGui/QPixmap>
 
 #include "src/engine/map/MapSize.hpp"
+#include "src/defines.hpp"
 
-class BehaviorInformation;
-class CharacterInformation;
-class Conf;
 class BuildingAreaPartDescription;
 class BuildingSearchCriteriaDescription;
+class CharacterInformation;
+class ItemInformation;
+class ModelReader;
+class NatureElementInformation;
 namespace YAML {
     class Node;
 }
 
 class BuildingInformation : public QObject
 {
+        friend class Conf;
+
         Q_OBJECT
 
     public:
         enum class Type {
-            None = 0,
-            Building,
-            CityEntryPoint,
+            Farm,
+            Laboratory,
+            Producer,
             Road,
+            Sanity,
+            School,
+            Storage
+        };
+
+        struct Common {
+            QString title;
+            MapSize size;
+            int price;
+            int employees;
+            int fireRiskIncrement;
+            int damageRiskIncrement;
+            QList<BuildingAreaPartDescription*> areaDescription;
+
+            explicit Common(const ModelReader& model);
+        };
+
+        struct Graphics {
+            QPixmap image;
+
+            explicit Graphics(const ModelReader& model);
+        };
+
+        struct WalkerGeneration {
+            const CharacterInformation& conf;
+            int generationInterval;
+            int maxSimultaneous;
+
+            WalkerGeneration(const CharacterInformation& conf, const int generationInterval, const int maxSimultaneous = 0);
+        };
+
+        struct Farm {
+            const ItemInformation& producedItemConf;
+            int harvestMonth;
+            int maxQuantityHarvested;
+            const CharacterInformation& deliveryManConf;
+
+            explicit Farm(const ModelReader& model);
+        };
+
+        struct Laboratory {
+            const CharacterInformation& acceptedStudent;
+            int producingInterval;
+            WalkerGeneration emittedScientist;
+
+            explicit Laboratory(const ModelReader& model);
+        };
+
+        struct Producer {
+            const ItemInformation& producedItemConf;
+            const NatureElementInformation& rawMaterialConf;
+            WalkerGeneration miner;
+            int miningQuantity;
+            int rawMaterialQuantityToProduce;
+            int maxStoredRawMaterialQuantity;
+            const CharacterInformation& deliveryManConf;
+
+            explicit Producer(const ModelReader& model);
+        };
+
+        struct Sanity {
+            WalkerGeneration walker;
+
+            explicit Sanity(const ModelReader& model);
+        };
+
+        struct School {
+            WalkerGeneration student;
+            const BuildingInformation& targetLaboratory;
+
+            explicit School(const ModelReader& model);
+        };
+
+        struct Storage {
+            QList<const ItemInformation*> allowedItems;
+            int maxQuantity;
+            bool autoRedistribute;
+
+            explicit Storage(const ModelReader& model);
+            bool isItemAllowed(const ItemInformation& conf) const;
         };
 
     private:
-        Type type;
         QString key;
-        QString title;
-        MapSize size;
-        int price;
-        int employees;
-        int fireRiskIncrement;
-        int damageRiskIncrement;
-        QList<BuildingAreaPartDescription*> areaDescription;
-        QList<BehaviorInformation*> behaviors;
-        QPixmap image;
+        Type type;
+        Common common;
+        Graphics graphics;
+        optional<Farm*> farm;
+        optional<Laboratory*> laboratory;
+        optional<Producer*> producer;
+        optional<Sanity*> sanity;
+        optional<School*> school;
+        optional<Storage*> storage;
 
     public:
         /**
-         * @brief Hold the information about a static element.
-         *
-         * @param configurationYamlNode The YAML node corresponding to a static element configuration.
+         * @brief Hold the information about a building.
          */
-        BuildingInformation(QObject* parent, const Conf* conf, const QString& key, const YAML::Node& model);
+        BuildingInformation(QObject* parent, const ModelReader& model);
 
-        void resolveDependencies(const Conf* conf);
+        virtual ~BuildingInformation();
 
         Type getType() const;
 
@@ -58,22 +139,23 @@ class BuildingInformation : public QObject
 
         const MapSize& getSize() const;
 
-        const QList<BehaviorInformation*>& getBehaviors() const;
+        const Farm& getFarmConf() const;
+
+        const Laboratory& getLaboratoryConf() const;
+
+        const Producer& getProducerConf() const;
+
+        const Sanity& getSanityConf() const;
+
+        const School& getSchoolConf() const;
+
+        const Storage& getStorageConf() const;
 
         const QPixmap& getImage() const;
 
-        /**
-         * @brief Check if the model for a static element is valid.
-         *
-         * If the model is invalid, it throws an exception.
-         *
-         * @param key
-         * @param model
-         * @throws BadConfigurationException
-         */
-        static void checkModel(const QString& key, const YAML::Node& model);
-
     private:
+        void loadSpecificConf(const ModelReader& model);
+
         static Type resolveType(const QString& type);
 };
 

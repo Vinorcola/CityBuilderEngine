@@ -3,30 +3,23 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/exceptions/BadConfigurationException.hpp"
+#include "src/global/conf/ModelReader.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
 #include "src/defines.hpp"
 
-CharacterInformation::CharacterInformation(QObject* parent, const QString& key, const YAML::Node& model) :
+CharacterInformation::CharacterInformation(QObject* parent, const ModelReader& model) :
     QObject(parent),
-    type(resolveType(model["type"].as<QString>())),
-    key(key),
-    title(model["title"] ? model["title"].as<QString>() : ""),
+    key(model.getKey()),
+    title(model.getString("title")),
 #ifdef SLOW_MOTION
-    speed(model["speed"] ? model["speed"].as<qreal>() / CYCLE_PER_SECOND / 8.0 : 0.0),
+    speed(model.getReal("speed") / CYCLE_PER_SECOND / 8.0),
 #else
-    speed(model["speed"] ? model["speed"].as<qreal>() / CYCLE_PER_SECOND : 0.0),
+    speed(model.getReal("speed") / CYCLE_PER_SECOND),
 #endif
-    wanderingCredits(model["wanderingCredits"] ? model["wanderingCredits"].as<int>() : 0),
+    wanderingCredits(model.getOptionalInt("wanderingCredits", 0)),
     image("assets/img/dynamic/character/" + key + ".png")
 {
 
-}
-
-
-
-CharacterInformation::Type CharacterInformation::getType() const
-{
-    return type;
 }
 
 
@@ -71,14 +64,4 @@ void CharacterInformation::checkModel(const QString& key, const YAML::Node& mode
     if (!model["type"]) {
         throw BadConfigurationException("Missing \"type\" parameter in configuration for node \"" + key + "\".");
     }
-}
-
-
-
-CharacterInformation::Type CharacterInformation::resolveType(const QString& type)
-{
-    if (type == "targetedWalker") return Type::TargetedWalker;
-    if (type == "randomWalker")   return Type::RandomWalker;
-
-    throw BadConfigurationException("Unknown character of type \"" + type + "\"");
 }

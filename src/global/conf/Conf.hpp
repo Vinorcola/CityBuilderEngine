@@ -26,13 +26,13 @@ class Conf : public QObject
     public:
         Conf(QObject* parent, const QString& filePath);
 
-        const ItemInformation* getItemConf(const QString& key) const;
+        const ItemInformation& getItemConf(const QString& key) const;
 
-        const BuildingInformation* getBuildingConf(const QString& key) const;
+        const BuildingInformation& getBuildingConf(const QString& key) const;
 
-        const CharacterInformation* getCharacterConf(const QString& key) const;
+        const CharacterInformation& getCharacterConf(const QString& key) const;
 
-        const NatureElementInformation* getNatureElementConf(const QString& key) const;
+        const NatureElementInformation& getNatureElementConf(const QString& key) const;
 
         const QList<ControlPanelElementInformation*> getControlPanelElements() const;
 };

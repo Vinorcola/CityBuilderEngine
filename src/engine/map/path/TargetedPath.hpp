@@ -14,6 +14,7 @@ class TargetedPath : public PathInterface
         const MapDetailsInterface& mapDetails;
         const bool restrictedToRoads;
         QList<MapCoordinates> path;
+        bool obsolete;
 
     public:
         TargetedPath(
@@ -21,6 +22,10 @@ class TargetedPath : public PathInterface
             const bool restrictedToRoads,
             const QList<MapCoordinates>& path
         );
+
+        virtual bool isObsolete() const override;
+
+        virtual bool isCompleted() const override;
 
         virtual MapCoordinates getNextTargetCoordinates() override;
 };

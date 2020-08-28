@@ -44,11 +44,11 @@ class MapScene : public QGraphicsScene
         void requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area);
 
     public slots:
-        void registerNewBuilding(const Building* element);
+        void registerNewBuilding(const Building& element);
 
-        void registerNewCharacter(const Character* element);
+        void registerNewCharacter(const Character& element);
 
-        void registerNewNatureElement(const NatureElement* element);
+        void registerNewNatureElement(const NatureElement& element);
 
         /**
          * @brief Refresh the map.
@@ -77,7 +77,7 @@ class MapScene : public QGraphicsScene
          * @param buildingKey The type of building.
          * @param area        The area of construction.
          */
-        void buildingCreationRequested(const BuildingInformation* elementConf, const MapArea& area);
+        void buildingCreationRequested(const BuildingInformation& elementConf, const MapArea& area);
 };
 
 #endif // MAPSCENE_HPP

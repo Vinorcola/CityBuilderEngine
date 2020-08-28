@@ -18,13 +18,13 @@ class Building: public QObject
         Q_OBJECT
 
     protected:
-        const BuildingInformation* conf;
+        const BuildingInformation& conf;
         MapArea area;
 
     public:
-        Building(QObject* parent, const BuildingInformation* conf, const MapArea& area);
+        Building(QObject* parent, const BuildingInformation& conf, const MapArea& area);
 
-        const BuildingInformation* getConf() const;
+        const BuildingInformation& getConf() const;
 
         const MapArea& getArea() const;
 };

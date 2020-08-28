@@ -2,10 +2,12 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include "src/exceptions/OutOfRangeException.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/ControlPanelElementInformation.hpp"
 #include "src/global/conf/ItemInformation.hpp"
+#include "src/global/conf/ModelReader.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
 
@@ -22,6 +24,13 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     // Load file.
     YAML::Node configurationRoot(YAML::LoadFile(filePath.toStdString()));
 
+    // Load nature elements' configuration.
+    for (auto node : configurationRoot["natureElements"]) {
+        QString key(node.first.as<QString>());
+        NatureElementInformation::checkModel(key, node.second);
+        natureElements.insert(key, new NatureElementInformation(this, key, node.second));
+    }
+
     // Load item's configuration.
     for (auto node : configurationRoot["items"]) {
         QString key(node.first.as<QString>());
@@ -32,26 +41,19 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     // Load characters' configuration.
     for (auto node : configurationRoot["characters"]) {
         QString key(node.first.as<QString>());
-        characters.insert(key, new CharacterInformation(this, key, node.second));
+        characters.insert(key, new CharacterInformation(this, ModelReader(*this, key, node.second)));
     }
 
     // Load buildings' configuration.
     for (auto node : configurationRoot["buildings"]) {
         QString key(node.first.as<QString>());
-        BuildingInformation::checkModel(key, node.second);
-        buildings.insert(key, new BuildingInformation(this, this, key, node.second));
+        buildings.insert(key, new BuildingInformation(this, ModelReader(*this, key, node.second)));
     }
-
-    // Load nature elements' configuration.
-    for (auto node : configurationRoot["natureElements"]) {
+    // We load building's specific configuration later because we may have dependencies between buildings: we need all
+    // the buildings to be defined before loading specifics configuration.
+    for (auto node : configurationRoot["buildings"]) {
         QString key(node.first.as<QString>());
-        NatureElementInformation::checkModel(key, node.second);
-        natureElements.insert(key, new NatureElementInformation(this, key, node.second));
-    }
-
-    // Resolve dependencies.
-    for (auto element : buildings) {
-        element->resolveDependencies(this);
+        buildings[key]->loadSpecificConf(ModelReader(*this, key, node.second));
     }
 
     // Load control panel items.
@@ -63,30 +65,46 @@ Conf::Conf(QObject* parent, const QString& filePath) :
 
 
 
-const ItemInformation* Conf::getItemConf(const QString& key) const
+const ItemInformation& Conf::getItemConf(const QString& key) const
 {
-    return items.value(key);
+    if (!items.contains(key)) {
+        throw OutOfRangeException("Item of type \"" + key + "\" does not exists.");
+    }
+
+    return *items.value(key);
 }
 
 
 
-const BuildingInformation* Conf::getBuildingConf(const QString& key) const
+const BuildingInformation& Conf::getBuildingConf(const QString& key) const
 {
-    return buildings.value(key);
+    if (!buildings.contains(key)) {
+        throw OutOfRangeException("Building of type \"" + key + "\" does not exists.");
+    }
+
+    return *buildings.value(key);
 }
 
 
 
-const CharacterInformation* Conf::getCharacterConf(const QString& key) const
+const CharacterInformation& Conf::getCharacterConf(const QString& key) const
 {
-    return characters.value(key);
+    if (!characters.contains(key)) {
+        throw OutOfRangeException("Character of type \"" + key + "\" does not exists.");
+    }
+
+    return *characters.value(key);
 }
 
 
 
-const NatureElementInformation* Conf::getNatureElementConf(const QString& key) const
+const NatureElementInformation& Conf::getNatureElementConf(const QString& key) const
 {
-    return natureElements.value(key);
+    if (!natureElements.contains(key)) {
+        throw OutOfRangeException("Nature element of type \"" + key + "\" does not exists.");
+    }
+
+    return *natureElements.value(key);
 }
 
 
