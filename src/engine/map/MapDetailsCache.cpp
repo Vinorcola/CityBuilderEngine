@@ -105,16 +105,19 @@ MapCoordinates MapDetailsCache::getBestEntryPointForArea(const MapArea& area) co
             // Overstep top corner.
             moveX = 0;
             moveY = 1;
+            coordinates.setY(coordinates.getY() + moveY);
         }
         else if (moveY == 1 && coordinates.getY() > right.getY()) {
             // Overstep right corner.
             moveX = -1;
             moveY = 0;
+            coordinates.setX(coordinates.getX() + moveX);
         }
         else if (moveX == -1 && coordinates.getX() < left.getX()) {
             // Overstep bottom corner.
-            moveY = -1;
             moveX = 0;
+            moveY = -1;
+            coordinates.setY(coordinates.getY() + moveY);
         }
         else if (moveY == -1 && coordinates.getY() < left.getY()) {
             // Overstep left corner. No node found.
