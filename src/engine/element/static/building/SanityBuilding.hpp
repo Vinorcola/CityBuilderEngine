@@ -30,6 +30,8 @@ class SanityBuilding : public ProcessableBuilding
 
         virtual void process(const CycleDate& date) override;
 
+        virtual bool processInteraction(const CycleDate& date, Character& actor) override;
+
     private:
         /**
          * @brief Indicate if a new miner can be generated.
