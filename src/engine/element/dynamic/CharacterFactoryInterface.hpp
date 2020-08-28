@@ -11,6 +11,7 @@ class MinerCharacter;
 class NatureElement;
 class PathInterface;
 class ProcessableBuilding;
+class StudentCharacter;
 class WanderingCharacter;
 
 class CharacterFactoryInterface
@@ -18,17 +19,23 @@ class CharacterFactoryInterface
     public:
         virtual ~CharacterFactoryInterface();
 
+        virtual DeliveryManCharacter& generateDeliveryMan(
+            const CharacterInformation& conf,
+            ProcessableBuilding& issuer,
+            const ItemInformation& transportedItemConf,
+            const int transportedQuantity = 0
+        ) = 0;
+
         virtual MinerCharacter& generateMiner(
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
             owner<PathInterface*> path
         ) = 0;
 
-        virtual DeliveryManCharacter& generateDeliveryMan(
+        virtual StudentCharacter& generateStudent(
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
-            const ItemInformation& transportedItemConf,
-            const int transportedQuantity = 0
+            ProcessableBuilding& target
         ) = 0;
 
         virtual WanderingCharacter& generateWanderingCharacter(

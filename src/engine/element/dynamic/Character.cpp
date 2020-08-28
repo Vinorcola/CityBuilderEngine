@@ -22,6 +22,13 @@ Character::Character(
 
 
 
+bool Character::isOfType(const CharacterInformation& conf) const
+{
+    return &conf == &this->conf;
+}
+
+
+
 const CharacterInformation& Character::getConf() const
 {
     return conf;

@@ -20,28 +20,10 @@ BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& mod
     farm(nullptr),
     producer(nullptr),
     sanity(nullptr),
+    school(nullptr),
     storage(nullptr)
 {
-    switch (type) {
-        case Type::Farm:
-            farm = new Farm(model);
-            break;
 
-        case Type::Producer:
-            producer = new Producer(model);
-            break;
-
-        case Type::Sanity:
-            sanity = new Sanity(model);
-            break;
-
-        case Type::Storage:
-            storage = new Storage(model);
-            break;
-
-        default:
-            break;
-    }
 }
 
 
@@ -51,11 +33,17 @@ BuildingInformation::~BuildingInformation()
     if (farm) {
         delete farm;
     }
+    if (laboratory) {
+        delete laboratory;
+    }
     if (producer) {
         delete producer;
     }
     if (sanity) {
         delete sanity;
+    }
+    if (school) {
+        delete school;
     }
     if (storage) {
         delete storage;
@@ -96,6 +84,17 @@ const BuildingInformation::Farm& BuildingInformation::getFarmConf() const
 
 
 
+const BuildingInformation::Laboratory& BuildingInformation::getLaboratoryConf() const
+{
+    if (laboratory == nullptr) {
+        throw UnexpectedException("This building conf does not have laboratory information.");
+    }
+
+    return *laboratory;
+}
+
+
+
 const BuildingInformation::Producer& BuildingInformation::getProducerConf() const
 {
     if (producer == nullptr) {
@@ -118,6 +117,17 @@ const BuildingInformation::Sanity& BuildingInformation::getSanityConf() const
 
 
 
+const BuildingInformation::School& BuildingInformation::getSchoolConf() const
+{
+    if (school == nullptr) {
+        throw UnexpectedException("This building conf does not have school information.");
+    }
+
+    return *school;
+}
+
+
+
 const BuildingInformation::Storage& BuildingInformation::getStorageConf() const
 {
     if (storage == nullptr) {
@@ -136,13 +146,49 @@ const QPixmap& BuildingInformation::getImage() const
 
 
 
+void BuildingInformation::loadSpecificConf(const ModelReader& model)
+{
+    switch (type) {
+        case Type::Farm:
+            farm = new Farm(model);
+            break;
+
+        case Type::Laboratory:
+            laboratory = new Laboratory(model);
+            break;
+
+        case Type::Producer:
+            producer = new Producer(model);
+            break;
+
+        case Type::Sanity:
+            sanity = new Sanity(model);
+            break;
+
+        case Type::School:
+            school = new School(model);
+            break;
+
+        case Type::Storage:
+            storage = new Storage(model);
+            break;
+
+        default:
+            break;
+    }
+}
+
+
+
 BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
-    if (type == "farm")     return Type::Farm;
-    if (type == "producer") return Type::Producer;
-    if (type == "road")     return Type::Road;
-    if (type == "sanity")   return Type::Sanity;
-    if (type == "storage")  return Type::Storage;
+    if (type == "farm")       return Type::Farm;
+    if (type == "laboratory") return Type::Laboratory;
+    if (type == "producer")   return Type::Producer;
+    if (type == "road")       return Type::Road;
+    if (type == "sanity")     return Type::Sanity;
+    if (type == "school")     return Type::School;
+    if (type == "storage")    return Type::Storage;
 
     throw BadConfigurationException("Unknown building of type \"" + type + "\".");
 }
@@ -195,6 +241,20 @@ BuildingInformation::Farm::Farm(const ModelReader& model) :
 
 
 
+BuildingInformation::Laboratory::Laboratory(const ModelReader& model) :
+    acceptedStudent(model.getCharacterConf("acceptedStudent")),
+    producingInterval(model.getOptionalInt("producingCredits", 64) * CYCLE_PER_SECOND),
+    emittedScientist(
+        model.getOptionalCharacterConf("emittedScientist", acceptedStudent),
+        model.getOptionalInt("scientistGenerationInterval", 4) * CYCLE_PER_SECOND,
+        1
+    )
+{
+
+}
+
+
+
 BuildingInformation::Producer::Producer(const ModelReader& model) :
     producedItemConf(model.getItemConf("producedItem")),
     rawMaterialConf(model.getNatureElementConf("rawMaterialItem")),
@@ -219,6 +279,18 @@ BuildingInformation::Sanity::Sanity(const ModelReader& model) :
         model.getOptionalInt("walkerGenerationInterval", 8) * CYCLE_PER_SECOND,
         1
     )
+{
+
+}
+
+
+
+BuildingInformation::School::School(const ModelReader& model) :
+    student(
+        model.getCharacterConf("studentCharacter"),
+        model.getOptionalInt("studentGenerationInterval", 8) * CYCLE_PER_SECOND
+    ),
+    targetLaboratory(model.getBuildingConf("targetLaboratory"))
 {
 
 }

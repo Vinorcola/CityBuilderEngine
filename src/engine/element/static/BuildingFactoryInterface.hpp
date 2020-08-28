@@ -3,10 +3,12 @@
 
 class BuildingInformation;
 class FarmBuilding;
+class LaboratoryBuilding;
 class MapArea;
 class MapCoordinates;
 class ProducerBuilding;
 class SanityBuilding;
+class SchoolBuilding;
 class StorageBuilding;
 
 class BuildingFactoryInterface
@@ -16,9 +18,13 @@ class BuildingFactoryInterface
 
         virtual FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area) = 0;
 
+        virtual LaboratoryBuilding& generateLaboratory(const BuildingInformation& conf, const MapArea& area) = 0;
+
         virtual ProducerBuilding& generateProducer(const BuildingInformation& conf, const MapArea& area) = 0;
 
         virtual SanityBuilding& generateSanity(const BuildingInformation& conf, const MapArea& area) = 0;
+
+        virtual SchoolBuilding& generateSchool(const BuildingInformation& conf, const MapArea& area) = 0;
 
         virtual StorageBuilding& generateStorage(const BuildingInformation& conf, const MapArea& area) = 0;
 };

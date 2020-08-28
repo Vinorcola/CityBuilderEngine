@@ -1,5 +1,6 @@
 #include "MapSearchEngine.hpp"
 
+#include "src/engine/element/static/building/LaboratoryBuilding.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/MapArea.hpp"
@@ -10,7 +11,8 @@
 MapSearchEngine::MapSearchEngine(const PathGenerator& pathGenerator) :
     pathGenerator(pathGenerator),
     rawMaterialCoordinates(),
-    storageBuildings()
+    storageBuildings(),
+    laboratoryBuildings()
 {
 
 }
@@ -34,6 +36,18 @@ void MapSearchEngine::registerRawMaterial(const NatureElementInformation& conf, 
 void MapSearchEngine::registerStorageBuilding(StorageBuilding& building)
 {
     storageBuildings.push_back(&building);
+}
+
+
+
+void MapSearchEngine::registerLaboratoryBuilding(LaboratoryBuilding& building)
+{
+    auto key(&building.getConf());
+    if (!laboratoryBuildings.contains(key)) {
+        laboratoryBuildings.insert(key, {});
+    }
+
+    laboratoryBuildings[key].push_back(&building);
 }
 
 
@@ -73,6 +87,22 @@ optional<StorageBuilding*> MapSearchEngine::getStorageThatCanStore(const ItemInf
     }
 
     return nullptr;
+}
+
+
+
+optional<LaboratoryBuilding*> MapSearchEngine::getLaboratory(const BuildingInformation& buildingConf) const
+{
+    if (!laboratoryBuildings.contains(&buildingConf)) {
+        return nullptr;
+    }
+
+    if (laboratoryBuildings[&buildingConf].size() == 0) {
+        return nullptr;
+    }
+
+    // For now, we return the first laboratory. To review.
+    return laboratoryBuildings[&buildingConf].front();
 }
 
 

@@ -21,14 +21,18 @@ namespace YAML {
 
 class BuildingInformation : public QObject
 {
+        friend class Conf;
+
         Q_OBJECT
 
     public:
         enum class Type {
             Farm,
+            Laboratory,
             Producer,
             Road,
             Sanity,
+            School,
             Storage
         };
 
@@ -55,7 +59,7 @@ class BuildingInformation : public QObject
             int generationInterval;
             int maxSimultaneous;
 
-            WalkerGeneration(const CharacterInformation& conf, const int generationInterval, const int maxSimultaneous);
+            WalkerGeneration(const CharacterInformation& conf, const int generationInterval, const int maxSimultaneous = 0);
         };
 
         struct Farm {
@@ -65,6 +69,14 @@ class BuildingInformation : public QObject
             const CharacterInformation& deliveryManConf;
 
             explicit Farm(const ModelReader& model);
+        };
+
+        struct Laboratory {
+            const CharacterInformation& acceptedStudent;
+            int producingInterval;
+            WalkerGeneration emittedScientist;
+
+            explicit Laboratory(const ModelReader& model);
         };
 
         struct Producer {
@@ -85,6 +97,13 @@ class BuildingInformation : public QObject
             explicit Sanity(const ModelReader& model);
         };
 
+        struct School {
+            WalkerGeneration student;
+            const BuildingInformation& targetLaboratory;
+
+            explicit School(const ModelReader& model);
+        };
+
         struct Storage {
             QList<const ItemInformation*> allowedItems;
             int maxQuantity;
@@ -100,8 +119,10 @@ class BuildingInformation : public QObject
         Common common;
         Graphics graphics;
         optional<Farm*> farm;
+        optional<Laboratory*> laboratory;
         optional<Producer*> producer;
         optional<Sanity*> sanity;
+        optional<School*> school;
         optional<Storage*> storage;
 
     public:
@@ -120,15 +141,21 @@ class BuildingInformation : public QObject
 
         const Farm& getFarmConf() const;
 
+        const Laboratory& getLaboratoryConf() const;
+
         const Producer& getProducerConf() const;
 
         const Sanity& getSanityConf() const;
+
+        const School& getSchoolConf() const;
 
         const Storage& getStorageConf() const;
 
         const QPixmap& getImage() const;
 
     private:
+        void loadSpecificConf(const ModelReader& model);
+
         static Type resolveType(const QString& type);
 };
 

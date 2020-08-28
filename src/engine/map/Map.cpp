@@ -243,6 +243,10 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
             elementHandler.generateFarm(conf, area);
             break;
 
+        case BuildingInformation::Type::Laboratory:
+            elementHandler.generateLaboratory(conf, area);
+            break;
+
         case BuildingInformation::Type::Producer:
             elementHandler.generateProducer(conf, area);
             break;
@@ -253,6 +257,10 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
 
         case BuildingInformation::Type::Sanity:
             elementHandler.generateSanity(conf, area);
+            break;
+
+        case BuildingInformation::Type::School:
+            elementHandler.generateSchool(conf, area);
             break;
 
         case BuildingInformation::Type::Storage:

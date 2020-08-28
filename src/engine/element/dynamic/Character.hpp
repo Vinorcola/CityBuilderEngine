@@ -43,6 +43,8 @@ class Character : public QObject, public AbstractProcessable
             ProcessableBuilding& issuer
         );
 
+        bool isOfType(const CharacterInformation& conf) const;
+
         const CharacterInformation& getConf() const;
 
         const MapCoordinates& getCurrentLocation() const;

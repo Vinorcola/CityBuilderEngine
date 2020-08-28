@@ -9,6 +9,12 @@ buildings:
 #                walkerType: immigrant
 #                minGenerationInterval: 0.034
 #                maxGenerationInterval: 3
+    college:
+        type: school
+        title: College
+        size: 3
+        studentCharacter: philosopher
+        targetLaboratory: podium
     foundry:
         type: producer
         title: Foundry
@@ -27,26 +33,12 @@ buildings:
         title: Granary
         size: 4
         items: [ carrots, cheese, fish, meat, onions, urchin, wheat ]
-#    gymnasium:
-#        type: building
-#        title: Gymnasium
-#        size: 3
-#        price: 75
-#        employees: 7
-#        damageRisk: 5
-#        behaviors:
-#            -
-#                type: randomWalkerGenerator
-#                walkerType: athlete
-#                maxWalkers: 4
-#                generationInterval: 8
-#            -
-#                type: targetedWalkerGenerator
-#                walkerType: competitor
-#                maxWalkers: 1
-#                generationInterval: 34
-#                targetSearchCriteria:
-#                    type: stadium
+    gymnasium:
+        type: school
+        title: Gymnasium
+        size: 3
+        studentCharacter: competitor
+        targetLaboratory: stadium
 #    house:
 #        type: building
 #        title: House
@@ -76,24 +68,20 @@ buildings:
         producedItem: wood # NOT the good value. For testing only.
         minerCharacter: silverMiner
         rawMaterialQuantityToProduce: 200
+    podium:
+        type: laboratory
+        title: Podium
+        size: 2
+        acceptedStudent: philosopher
     road:
         type: road
         title: Road
         price: 3
-#    stadium:
-#        type: building
-#        title: Stadium
-#        size: 5
-#        price: 400
-#        employees: 45
-#        damageRisk: 8
-#        behaviors:
-#            -
-#                type: conditionalRandomWalkerGenerator
-#                dependencyWalker: competitor
-#                walkerType: competitor
-#                maxWalkers: 1
-#                generationInterval: 8
+    stadium:
+        type: laboratory
+        title: Stadium
+        size: 5
+        acceptedStudent: athlete
     storehouse:
         type: storage
         title: Storehouse
@@ -172,6 +160,10 @@ characters:
     lumberjack:
         title: Lumberjack
         speed: 2.0
+    philosopher:
+        title: Philosopher
+        speed: 2.0
+        wanderingCredits: 34
     silverMiner:
         title: Silver miner
         speed: 2.0
@@ -295,15 +287,19 @@ controlPanel:
 #                    building: taxOffice
       - title: Culture
         type: panel
-        content: []
-#            -
-#                title: Gymnasium
-#                type: button
-#                building: gymnasium
-#            -
-#                title: Stadium
-#                type: button
-#                building: stadium
+        content:
+          - title: Gymnasium
+            type: button
+            building: gymnasium
+          - title: Stadium
+            type: button
+            building: stadium
+          - title: College
+            type: button
+            building: college
+          - title: Podium
+            type: button
+            building: podium
       - title: Road
         type: button
         building: road

@@ -39,9 +39,13 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         virtual FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area) override;
 
+        virtual LaboratoryBuilding& generateLaboratory(const BuildingInformation& conf, const MapArea& area) override;
+
         virtual ProducerBuilding& generateProducer(const BuildingInformation& conf, const MapArea& area) override;
 
         virtual SanityBuilding& generateSanity(const BuildingInformation& conf, const MapArea& area) override;
+
+        virtual SchoolBuilding& generateSchool(const BuildingInformation& conf, const MapArea& area) override;
 
         virtual StorageBuilding& generateStorage(const BuildingInformation& conf, const MapArea& area) override;
 
@@ -51,17 +55,23 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         const std::list<Character*>& getCharacters() const;
 
+        virtual DeliveryManCharacter& generateDeliveryMan(
+            const CharacterInformation& conf,
+            ProcessableBuilding& issuer,
+            const ItemInformation& transportedItemConf,
+            const int transportedQuantity = 0
+        ) override;
+
         virtual MinerCharacter& generateMiner(
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
             owner<PathInterface*> path
         ) override;
 
-        virtual DeliveryManCharacter& generateDeliveryMan(
+        virtual StudentCharacter& generateStudent(
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
-            const ItemInformation& transportedItemConf,
-            const int transportedQuantity = 0
+            ProcessableBuilding& target
         ) override;
 
         virtual WanderingCharacter& generateWanderingCharacter(
