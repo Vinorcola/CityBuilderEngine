@@ -1,9 +1,6 @@
 #include <QtTest>
 
-#include "src/engine/map/MapCoordinates.cpp"
-#include "src/exceptions/EngineException.cpp"
-#include "src/exceptions/Exception.cpp"
-#include "src/exceptions/UnexpectedException.cpp"
+#include "src/engine/map/MapCoordinates.hpp"
 
 class MapCoordinatesTest : public QObject
 {
