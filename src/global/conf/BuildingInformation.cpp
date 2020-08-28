@@ -242,7 +242,13 @@ BuildingInformation::Farm::Farm(const ModelReader& model) :
 
 
 BuildingInformation::Laboratory::Laboratory(const ModelReader& model) :
-    acceptedStudent(model.getCharacterConf("acceptedStudent"))
+    acceptedStudent(model.getCharacterConf("acceptedStudent")),
+    producingInterval(model.getOptionalInt("producingCredits", 64) * CYCLE_PER_SECOND),
+    emittedScientist(
+        model.getOptionalCharacterConf("emittedScientist", acceptedStudent),
+        model.getOptionalInt("scientistGenerationInterval", 4) * CYCLE_PER_SECOND,
+        1
+    )
 {
 
 }
@@ -282,8 +288,7 @@ BuildingInformation::Sanity::Sanity(const ModelReader& model) :
 BuildingInformation::School::School(const ModelReader& model) :
     student(
         model.getCharacterConf("studentCharacter"),
-        model.getOptionalInt("studentGenerationInterval", 8) * CYCLE_PER_SECOND,
-        0 // Unused
+        model.getOptionalInt("studentGenerationInterval", 8) * CYCLE_PER_SECOND
     ),
     targetLaboratory(model.getBuildingConf("targetLaboratory"))
 {

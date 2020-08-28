@@ -163,6 +163,7 @@ characters:
     philosopher:
         title: Philosopher
         speed: 2.0
+        wanderingCredits: 34
     silverMiner:
         title: Silver miner
         speed: 2.0

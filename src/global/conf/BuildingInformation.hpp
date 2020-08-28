@@ -59,7 +59,7 @@ class BuildingInformation : public QObject
             int generationInterval;
             int maxSimultaneous;
 
-            WalkerGeneration(const CharacterInformation& conf, const int generationInterval, const int maxSimultaneous);
+            WalkerGeneration(const CharacterInformation& conf, const int generationInterval, const int maxSimultaneous = 0);
         };
 
         struct Farm {
@@ -73,6 +73,8 @@ class BuildingInformation : public QObject
 
         struct Laboratory {
             const CharacterInformation& acceptedStudent;
+            int producingInterval;
+            WalkerGeneration emittedScientist;
 
             explicit Laboratory(const ModelReader& model);
         };

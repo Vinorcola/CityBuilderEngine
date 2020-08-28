@@ -52,6 +52,8 @@ class ModelReader
 
         QString getOptionalString(const char key[], const QString& defaultValue) const;
 
+        const CharacterInformation& getOptionalCharacterConf(const char key[], const CharacterInformation& defaultValue) const;
+
         const CharacterInformation& getOptionalCharacterConf(const char key[], const QString defaultValue) const;
 
     private:

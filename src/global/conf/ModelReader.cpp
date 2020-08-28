@@ -151,6 +151,17 @@ QString ModelReader::getOptionalString(const char key[], const QString& defaultV
 
 
 
+const CharacterInformation& ModelReader::getOptionalCharacterConf(const char key[], const CharacterInformation& defaultValue) const
+{
+    if (!node[key]) {
+        return defaultValue;
+    }
+
+    return conf.getCharacterConf(getString(key));
+}
+
+
+
 const CharacterInformation& ModelReader::getOptionalCharacterConf(const char key[], const QString defaultValue) const
 {
     return conf.getCharacterConf(getOptionalString(key, defaultValue));
