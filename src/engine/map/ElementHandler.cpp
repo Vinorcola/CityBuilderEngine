@@ -61,7 +61,7 @@ FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, cons
 LaboratoryBuilding& ElementHandler::generateLaboratory(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new LaboratoryBuilding(this, conf, area, entryPoint));
+    auto building(new LaboratoryBuilding(this, *this, conf, area, entryPoint));
     buildings.push_back(building);
     searchEngine.registerLaboratoryBuilding(*building);
 

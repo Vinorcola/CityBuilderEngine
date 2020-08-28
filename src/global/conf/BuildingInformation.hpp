@@ -71,6 +71,12 @@ class BuildingInformation : public QObject
             explicit Farm(const ModelReader& model);
         };
 
+        struct Laboratory {
+            const CharacterInformation& acceptedStudent;
+
+            explicit Laboratory(const ModelReader& model);
+        };
+
         struct Producer {
             const ItemInformation& producedItemConf;
             const NatureElementInformation& rawMaterialConf;
@@ -111,6 +117,7 @@ class BuildingInformation : public QObject
         Common common;
         Graphics graphics;
         optional<Farm*> farm;
+        optional<Laboratory*> laboratory;
         optional<Producer*> producer;
         optional<Sanity*> sanity;
         optional<School*> school;
@@ -131,6 +138,8 @@ class BuildingInformation : public QObject
         const MapSize& getSize() const;
 
         const Farm& getFarmConf() const;
+
+        const Laboratory& getLaboratoryConf() const;
 
         const Producer& getProducerConf() const;
 

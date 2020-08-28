@@ -33,6 +33,9 @@ BuildingInformation::~BuildingInformation()
     if (farm) {
         delete farm;
     }
+    if (laboratory) {
+        delete laboratory;
+    }
     if (producer) {
         delete producer;
     }
@@ -77,6 +80,17 @@ const BuildingInformation::Farm& BuildingInformation::getFarmConf() const
     }
 
     return *farm;
+}
+
+
+
+const BuildingInformation::Laboratory& BuildingInformation::getLaboratoryConf() const
+{
+    if (laboratory == nullptr) {
+        throw UnexpectedException("This building conf does not have laboratory information.");
+    }
+
+    return *laboratory;
 }
 
 
@@ -137,6 +151,10 @@ void BuildingInformation::loadSpecificConf(const ModelReader& model)
     switch (type) {
         case Type::Farm:
             farm = new Farm(model);
+            break;
+
+        case Type::Laboratory:
+            laboratory = new Laboratory(model);
             break;
 
         case Type::Producer:
@@ -217,6 +235,14 @@ BuildingInformation::Farm::Farm(const ModelReader& model) :
     harvestMonth(model.getInt("harvestMonth")),
     maxQuantityHarvested(model.getOptionalInt("maxQuantityHarvested", 8)),
     deliveryManConf(model.getOptionalCharacterConf("deliveryMan", "deliveryMan"))
+{
+
+}
+
+
+
+BuildingInformation::Laboratory::Laboratory(const ModelReader& model) :
+    acceptedStudent(model.getCharacterConf("acceptedStudent"))
 {
 
 }

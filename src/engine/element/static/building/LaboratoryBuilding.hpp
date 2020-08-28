@@ -3,19 +3,27 @@
 
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 
+class CharacterFactoryInterface;
+
 class LaboratoryBuilding : public ProcessableBuilding
 {
         Q_OBJECT
 
+    private:
+        CharacterFactoryInterface& characterFactory;
+
     public:
         LaboratoryBuilding(
             QObject* parent,
+            CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
         );
 
         virtual void process(const CycleDate& date) override;
+
+        virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 };
 
 #endif // LABORATORYBUILDING_HPP

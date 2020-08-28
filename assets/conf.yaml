@@ -72,6 +72,7 @@ buildings:
         type: laboratory
         title: Podium
         size: 2
+        acceptedStudent: philosopher
     road:
         type: road
         title: Road
@@ -80,6 +81,7 @@ buildings:
         type: laboratory
         title: Stadium
         size: 5
+        acceptedStudent: athlete
     storehouse:
         type: storage
         title: Storehouse
