@@ -48,7 +48,6 @@ ControlPanel::ControlPanel(const Conf* conf) :
             }
         }
     }
-    contentLayout->addStretch();
 
     setWidget(content);
 }
