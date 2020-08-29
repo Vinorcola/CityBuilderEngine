@@ -88,8 +88,8 @@ bool MapDetailsCache::hasRoadAtLocation(const MapCoordinates& location) const
 
 MapCoordinates MapDetailsCache::getBestEntryPointForArea(const MapArea& area) const
 {
-    // Fetch a location arround the area, starting at the coordinates at north of left point, and turning clockwise
-    // arround the area.
+    // Fetch a location around the area, starting at the coordinates at north of left point, and turning clockwise
+    // around the area.
 
     auto left(area.getLeft());
     auto right(area.getRight());
