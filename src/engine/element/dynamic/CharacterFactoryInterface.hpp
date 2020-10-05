@@ -8,6 +8,7 @@ class CharacterInformation;
 class DeliveryManCharacter;
 class ImmigrantCharacter;
 class ItemInformation;
+class MapCoordinates;
 class MinerCharacter;
 class NatureElement;
 class PathInterface;
@@ -27,7 +28,11 @@ class CharacterFactoryInterface
             const int transportedQuantity = 0
         ) = 0;
 
-        virtual ImmigrantCharacter& generateImmigrant(const CharacterInformation& conf) = 0;
+        virtual ImmigrantCharacter& generateImmigrant(
+            const CharacterInformation& conf,
+            const MapCoordinates& initialLocation,
+            ProcessableBuilding& issuer
+        ) = 0;
 
         virtual MinerCharacter& generateMiner(
             const CharacterInformation& conf,

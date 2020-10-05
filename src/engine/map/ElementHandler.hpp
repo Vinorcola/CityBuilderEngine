@@ -62,7 +62,11 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
             const int transportedQuantity = 0
         ) override;
 
-        virtual ImmigrantCharacter& generateImmigrant(const CharacterInformation& conf) override;
+        virtual ImmigrantCharacter& generateImmigrant(
+            const CharacterInformation& conf,
+            const MapCoordinates& initialLocation,
+            ProcessableBuilding& issuer
+        ) override;
 
         virtual MinerCharacter& generateMiner(
             const CharacterInformation& conf,

@@ -1,5 +1,6 @@
 #include "MapEntryPoint.hpp"
 
+#include <QtCore/QException>
 #include <QtCore/QRandomGenerator>
 
 #include "src/engine/element/dynamic/character/ImmigrantCharacter.hpp"
@@ -23,9 +24,9 @@ MapEntryPoint::MapEntryPoint(
 
 
 
-void MapEntryPoint::requestImmigrant(OnCharacterCreationCallback onImmigrantCreation)
+void MapEntryPoint::requestImmigrant(ProcessableBuilding& issuer)
 {
-    immigrantRequestQueue.append(onImmigrantCreation);
+    immigrantRequestQueue.append(&issuer);
 }
 
 
@@ -37,9 +38,16 @@ void MapEntryPoint::process(const CycleDate& date)
     }
 
     if (date == nextImmigrantGenerationDate) {
-        auto &immigrant(characterFactory.generateImmigrant(immigrantConf));
-        immigrantRequestQueue.front()(immigrant); // Call onImmigrantCreation callback.
-        immigrantRequestQueue.pop_front(); // Remove callback from queue.
+        QPointer<ProcessableBuilding> issuer;
+        do {
+            issuer = immigrantRequestQueue.takeFirst();
+        } while (issuer.isNull() && !immigrantRequestQueue.isEmpty());
+        if (issuer.isNull()) {
+            // No more valid issuers.
+            return;
+        }
+
+        characterFactory.generateImmigrant(immigrantConf, location, *issuer);
         setupNextImmigrantGenerationDate(date);
     } else if (date > nextImmigrantGenerationDate) {
         setupNextImmigrantGenerationDate(date);
@@ -55,6 +63,9 @@ void MapEntryPoint::setupNextImmigrantGenerationDate(const CycleDate& currentDat
     }
 
     if (nextImmigrantGenerationDate <= currentDate) {
-        nextImmigrantGenerationDate.reassign(currentDate, QRandomGenerator::global()->bounded(1, 91));
+        nextImmigrantGenerationDate.reassign(
+            currentDate,
+            QRandomGenerator::global()->bounded(MIN_IMMIGRANT_GENERATION_INTERVAL, MAX_IMMIGRANT_GENERATION_INTERVAL + 1)
+        );
     }
 }

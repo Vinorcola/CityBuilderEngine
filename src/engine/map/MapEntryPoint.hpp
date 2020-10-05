@@ -1,8 +1,8 @@
 #ifndef MAPENTRYPOINT_HPP
 #define MAPENTRYPOINT_HPP
 
-#include <functional>
 #include <QtCore/QList>
+#include <QtCore/QPointer>
 
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/CycleDate.hpp"
@@ -11,8 +11,7 @@
 class Character;
 class CharacterFactoryInterface;
 class CharacterInformation;
-
-using OnCharacterCreationCallback = std::function<void(Character&)>;
+class ProcessableBuilding;
 
 /**
  * A map entry point.
@@ -22,12 +21,15 @@ using OnCharacterCreationCallback = std::function<void(Character&)>;
  */
 class MapEntryPoint : public AbstractProcessable
 {
+        const int MIN_IMMIGRANT_GENERATION_INTERVAL = 1;
+        const int MAX_IMMIGRANT_GENERATION_INTERVAL = 90;
+
     private:
         CharacterFactoryInterface& characterFactory;
         MapCoordinates location;
         const CharacterInformation& immigrantConf;
         CycleDate nextImmigrantGenerationDate;
-        QList<OnCharacterCreationCallback> immigrantRequestQueue;
+        QList<QPointer<ProcessableBuilding>> immigrantRequestQueue;
 
     public:
         MapEntryPoint(
@@ -37,12 +39,9 @@ class MapEntryPoint : public AbstractProcessable
         );
 
         /**
-         * This will generate a new immigrant asynchronously, and will call the given callback.
-         *
-         * The generated immigrant will be unconfigured: it will have no target. It is the responsability on the
-         * callback function to setup correctly the immigrant.
+         * This will asynchronously generate an immigrant.
          */
-        void requestImmigrant(OnCharacterCreationCallback onImmigrantCreation);
+        void requestImmigrant(ProcessableBuilding& issuer);
 
         virtual void process(const CycleDate& date) override;
 

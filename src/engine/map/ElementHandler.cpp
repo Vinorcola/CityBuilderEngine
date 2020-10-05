@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
+#include "src/engine/element/dynamic/character/ImmigrantCharacter.hpp"
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/dynamic/character/StudentCharacter.hpp"
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
@@ -160,9 +161,17 @@ DeliveryManCharacter& ElementHandler::generateDeliveryMan(
 
 
 
-ImmigrantCharacter& ElementHandler::generateImmigrant(const CharacterInformation& conf)
-{
-    // TODO
+ImmigrantCharacter& ElementHandler::generateImmigrant(
+    const CharacterInformation& conf,
+    const MapCoordinates& initialLocation,
+    ProcessableBuilding& issuer
+) {
+    auto character(new ImmigrantCharacter(this, pathGenerator, conf, initialLocation, issuer));
+    characters.push_back(character);
+
+    emit characterCreated(*character);
+
+    return *character;
 }
 
 
