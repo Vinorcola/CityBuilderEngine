@@ -5,7 +5,8 @@
 #include <QtCore/QString>
 #include <yaml-cpp/node/node.h>
 
-class CycleDate;
+#include "src/engine/map/MapCoordinates.hpp"
+#include "src/engine/processing/CycleDate.hpp"
 
 class MapLoader
 {
@@ -20,6 +21,8 @@ class MapLoader
         CycleDate getDate() const;
 
         int getBudget() const;
+
+        MapCoordinates getEntryPoint() const;
 
         YAML::Node getBuildings() const;
 

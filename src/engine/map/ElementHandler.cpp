@@ -160,6 +160,13 @@ DeliveryManCharacter& ElementHandler::generateDeliveryMan(
 
 
 
+ImmigrantCharacter& ElementHandler::generateImmigrant(const CharacterInformation& conf)
+{
+    // TODO
+}
+
+
+
 MinerCharacter& ElementHandler::generateMiner(
     const CharacterInformation& conf,
     ProcessableBuilding& issuer,

@@ -8,6 +8,7 @@ TEMPLATE = app
 
 SOURCES += \
     src/engine/element/dynamic/character/DeliveryManCharacter.cpp \
+    src/engine/element/dynamic/character/ImmigrantCharacter.cpp \
     src/engine/element/dynamic/character/MinerCharacter.cpp \
     src/engine/element/dynamic/character/StudentCharacter.cpp \
     src/engine/element/dynamic/character/WanderingCharacter.cpp \
@@ -42,6 +43,7 @@ SOURCES += \
     src/engine/map/MapArea.cpp \
     src/engine/map/MapCoordinates.cpp \
     src/engine/map/MapDetailsCache.cpp \
+    src/engine/map/MapEntryPoint.cpp \
     src/engine/map/MapLoader.cpp \
     src/engine/map/MapSearchEngine.cpp \
     src/engine/map/MapSize.cpp \
@@ -80,6 +82,7 @@ SOURCES += \
 
 HEADERS += \
     src/engine/element/dynamic/character/DeliveryManCharacter.hpp \
+    src/engine/element/dynamic/character/ImmigrantCharacter.hpp \
     src/engine/element/dynamic/character/MinerCharacter.hpp \
     src/engine/element/dynamic/character/StudentCharacter.hpp \
     src/engine/element/dynamic/character/WanderingCharacter.hpp \
@@ -116,6 +119,7 @@ HEADERS += \
     src/engine/map/MapArea.hpp \
     src/engine/map/MapCoordinates.hpp \
     src/engine/map/MapDetailsCache.hpp \
+    src/engine/map/MapEntryPoint.hpp \
     src/engine/map/MapLoader.hpp \
     src/engine/map/MapSearchEngine.hpp \
     src/engine/map/MapSize.hpp \

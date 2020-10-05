@@ -8,35 +8,35 @@ status:
         month: 1
         cycles: 0
     budget: 10000
+entryPoint: { x: 0, y: 0 }
 buildings:
-    - { type: cityEntryPoint, position: { x: 0, y: 0 }}
-    - { type: road, position: { x: 0, y: 1 }}
-    - { type: road, position: { x: 0, y: 2 }}
-    - { type: road, position: { x: 0, y: 3 }}
-    - { type: road, position: { x: 3, y: 4 }}
-    - { type: road, position: { x: 2, y: 4 }}
-    - { type: road, position: { x: 1, y: 4 }}
-    - { type: road, position: { x: 0, y: 4 }}
-    - { type: road, position: { x: 3, y: 5 }}
-    - { type: road, position: { x: 4, y: 5 }}
-    - { type: road, position: { x: 5, y: 5 }}
-    - { type: road, position: { x: 3, y: 6 }}
-    - { type: road, position: { x: 3, y: 7 }}
-    - { type: road, position: { x: 3, y: 8 }}
-    - { type: road, position: { x: 3, y: 9 }}
-    - { type: road, position: { x: 3, y: 10 }}
-    - { type: road, position: { x: 4, y: 10 }}
-    - { type: road, position: { x: 5, y: 10 }}
-    - { type: road, position: { x: 6, y: 10 }}
-    - { type: road, position: { x: 7, y: 10 }}
-    - { type: road, position: { x: 2, y: 10 }}
-    - { type: road, position: { x: 1, y: 10 }}
-    - { type: road, position: { x: 0, y: 10 }}
-    - { type: maintenance, position: { x: 1, y: 5 }}
-    - { type: house, position: { x: 0, y: 11 }}
-    - { type: house, position: { x: 2, y: 11 }}
-    - { type: house, position: { x: 4, y: 11 }}
-    - { type: house, position: { x: 6, y: 11 }}
-    - { type: house, position: { x: 8, y: 10 }}
+    - { type: road, position: { x: 0, y: 1 } }
+    - { type: road, position: { x: 0, y: 2 } }
+    - { type: road, position: { x: 0, y: 3 } }
+    - { type: road, position: { x: 3, y: 4 } }
+    - { type: road, position: { x: 2, y: 4 } }
+    - { type: road, position: { x: 1, y: 4 } }
+    - { type: road, position: { x: 0, y: 4 } }
+    - { type: road, position: { x: 3, y: 5 } }
+    - { type: road, position: { x: 4, y: 5 } }
+    - { type: road, position: { x: 5, y: 5 } }
+    - { type: road, position: { x: 3, y: 6 } }
+    - { type: road, position: { x: 3, y: 7 } }
+    - { type: road, position: { x: 3, y: 8 } }
+    - { type: road, position: { x: 3, y: 9 } }
+    - { type: road, position: { x: 3, y: 10 } }
+    - { type: road, position: { x: 4, y: 10 } }
+    - { type: road, position: { x: 5, y: 10 } }
+    - { type: road, position: { x: 6, y: 10 } }
+    - { type: road, position: { x: 7, y: 10 } }
+    - { type: road, position: { x: 2, y: 10 } }
+    - { type: road, position: { x: 1, y: 10 } }
+    - { type: road, position: { x: 0, y: 10 } }
+    - { type: maintenance, position: { x: 1, y: 5 } }
+    - { type: house, position: { x: 0, y: 11 } }
+    - { type: house, position: { x: 2, y: 11 } }
+    - { type: house, position: { x: 4, y: 11 } }
+    - { type: house, position: { x: 6, y: 11 } }
+    - { type: house, position: { x: 8, y: 10 } }
 characters: []
 natureElements: []

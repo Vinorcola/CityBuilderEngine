@@ -26,6 +26,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     size(loader.getSize()),
     cityStatus(new CityStatus(this, loader.getBudget())),
     processor(new TimeCycleProcessor(this, loader.getDate())),
+    entryPoint(loader.getEntryPoint()),
     mapDetailsCache(),
     pathGenerator(*this),
     searchEngine(pathGenerator),
@@ -274,18 +275,4 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
 void Map::changePopulation(const int populationDelta)
 {
     cityStatus->updatePopulation(populationDelta);
-}
-
-
-
-void Map::freeHousingCapacityChanged(
-    const int previousHousingCapacity,
-    const int newHousingCapacity,
-    std::function<void(Character*)> onImmigrantCreation
-) {
-    cityStatus->updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
-    if (newHousingCapacity > 0) {
-        // TODO: Review how to make this.
-        // entryPoint->requestImmigrant(onImmigrantCreation);
-    }
 }

@@ -3,6 +3,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/engine/processing/CycleDate.hpp"
+#include "src/global/yamlLibraryEnhancement.hpp"
 
 
 
@@ -35,6 +36,13 @@ CycleDate MapLoader::getDate() const
 int MapLoader::getBudget() const
 {
     return rootNode["status"]["budget"].as<int>();
+}
+
+
+
+MapCoordinates MapLoader::getEntryPoint() const
+{
+    return rootNode["entryPoint"].as<MapCoordinates>();
 }
 
 

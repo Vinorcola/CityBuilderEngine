@@ -8,97 +8,98 @@ status:
         month: 1
         cycles: 0
     budget: 15000
+entryPoint: { x: -10, y: 10 }
 buildings:
-    - { type: road, position: { x: -10, y: 10 }}
-    - { type: road, position: { x: -9, y: 10 }}
-    - { type: road, position: { x: -8, y: 10 }}
-    - { type: road, position: { x: -7, y: 10 }}
-    - { type: road, position: { x: -6, y: 10 }}
-    - { type: road, position: { x: -5, y: 10 }}
-    - { type: road, position: { x: -4, y: 10 }}
-    - { type: road, position: { x: -3, y: 10 }}
-    - { type: road, position: { x: -2, y: 10 }}
-    - { type: road, position: { x: -1, y: 10 }}
-    - { type: road, position: { x: 0, y: 10 }}
-    - { type: road, position: { x: 0, y: 11 }}
-    - { type: road, position: { x: 0, y: 12 }}
-    - { type: road, position: { x: 0, y: 13 }}
-    - { type: road, position: { x: 3, y: 14 }}
-    - { type: road, position: { x: 2, y: 14 }}
-    - { type: road, position: { x: 1, y: 14 }}
-    - { type: road, position: { x: 0, y: 14 }}
-    - { type: road, position: { x: 3, y: 15 }}
-    - { type: road, position: { x: 4, y: 15 }}
-    - { type: road, position: { x: 5, y: 15 }}
-    - { type: road, position: { x: 3, y: 16 }}
-    - { type: road, position: { x: 3, y: 17 }}
-    - { type: road, position: { x: 3, y: 18 }}
-    - { type: road, position: { x: 3, y: 19 }}
-    - { type: road, position: { x: 3, y: 20 }}
-    - { type: road, position: { x: 4, y: 20 }}
-    - { type: road, position: { x: 5, y: 20 }}
-    - { type: road, position: { x: 6, y: 20 }}
-    - { type: road, position: { x: 7, y: 20 }}
-    - { type: road, position: { x: 2, y: 20 }}
-    - { type: road, position: { x: 1, y: 20 }}
-    - { type: road, position: { x: 0, y: 20 }}
-    - { type: road, position: { x: -1, y: 20 }}
-    - { type: road, position: { x: -2, y: 20 }}
-    - { type: road, position: { x: -3, y: 20 }}
-    - { type: road, position: { x: -4, y: 20 }}
-    - { type: road, position: { x: -5, y: 20 }}
-    - { type: road, position: { x: -6, y: 20 }}
-    - { type: road, position: { x: -7, y: 20 }}
-    - { type: road, position: { x: -7, y: 21 }}
-    - { type: road, position: { x: -7, y: 22 }}
-    - { type: road, position: { x: -7, y: 23 }}
-    - { type: road, position: { x: -7, y: 24 }}
-    - { type: road, position: { x: -7, y: 25 }}
-    - { type: road, position: { x: -7, y: 26 }}
-    - { type: road, position: { x: -7, y: 27 }}
-    - { type: road, position: { x: -7, y: 28 }}
-    - { type: road, position: { x: -7, y: 29 }}
-    - { type: road, position: { x: -7, y: 30 }}
-    - { type: road, position: { x: -7, y: 31 }}
-    - { type: road, position: { x: -7, y: 32 }}
-    - { type: road, position: { x: -7, y: 33 }}
-    - { type: road, position: { x: -7, y: 34 }}
-    - { type: road, position: { x: -7, y: 35 }}
-    - { type: road, position: { x: -7, y: 36 }}
-    - { type: road, position: { x: -7, y: 37 }}
-    - { type: road, position: { x: -7, y: 38 }}
-    - { type: road, position: { x: -7, y: 39 }}
-    - { type: road, position: { x: -8, y: 39 }}
-    - { type: road, position: { x: -9, y: 39 }}
-    - { type: road, position: { x: -10, y: 39 }}
-    - { type: road, position: { x: -11, y: 39 }}
-    - { type: road, position: { x: -12, y: 39 }}
-    - { type: road, position: { x: -13, y: 39 }}
-    - { type: road, position: { x: -14, y: 39 }}
-    - { type: road, position: { x: -15, y: 39 }}
-    - { type: road, position: { x: -16, y: 39 }}
-    - { type: road, position: { x: -17, y: 39 }}
-    - { type: road, position: { x: -18, y: 39 }}
-    - { type: road, position: { x: -19, y: 39 }}
-#    - { type: maintenance, position: { x: 1, y: 15 }}
-#    - { type: house, position: { x: 0, y: 21 }}
-#    - { type: house, position: { x: 2, y: 21 }}
-#    - { type: house, position: { x: 4, y: 21 }}
-#    - { type: house, position: { x: 6, y: 21 }}
-#    - { type: house, position: { x: 8, y: 20 }}
+    - { type: road, position: { x: -10, y: 10 } }
+    - { type: road, position: { x: -9, y: 10 } }
+    - { type: road, position: { x: -8, y: 10 } }
+    - { type: road, position: { x: -7, y: 10 } }
+    - { type: road, position: { x: -6, y: 10 } }
+    - { type: road, position: { x: -5, y: 10 } }
+    - { type: road, position: { x: -4, y: 10 } }
+    - { type: road, position: { x: -3, y: 10 } }
+    - { type: road, position: { x: -2, y: 10 } }
+    - { type: road, position: { x: -1, y: 10 } }
+    - { type: road, position: { x: 0, y: 10 } }
+    - { type: road, position: { x: 0, y: 11 } }
+    - { type: road, position: { x: 0, y: 12 } }
+    - { type: road, position: { x: 0, y: 13 } }
+    - { type: road, position: { x: 3, y: 14 } }
+    - { type: road, position: { x: 2, y: 14 } }
+    - { type: road, position: { x: 1, y: 14 } }
+    - { type: road, position: { x: 0, y: 14 } }
+    - { type: road, position: { x: 3, y: 15 } }
+    - { type: road, position: { x: 4, y: 15 } }
+    - { type: road, position: { x: 5, y: 15 } }
+    - { type: road, position: { x: 3, y: 16 } }
+    - { type: road, position: { x: 3, y: 17 } }
+    - { type: road, position: { x: 3, y: 18 } }
+    - { type: road, position: { x: 3, y: 19 } }
+    - { type: road, position: { x: 3, y: 20 } }
+    - { type: road, position: { x: 4, y: 20 } }
+    - { type: road, position: { x: 5, y: 20 } }
+    - { type: road, position: { x: 6, y: 20 } }
+    - { type: road, position: { x: 7, y: 20 } }
+    - { type: road, position: { x: 2, y: 20 } }
+    - { type: road, position: { x: 1, y: 20 } }
+    - { type: road, position: { x: 0, y: 20 } }
+    - { type: road, position: { x: -1, y: 20 } }
+    - { type: road, position: { x: -2, y: 20 } }
+    - { type: road, position: { x: -3, y: 20 } }
+    - { type: road, position: { x: -4, y: 20 } }
+    - { type: road, position: { x: -5, y: 20 } }
+    - { type: road, position: { x: -6, y: 20 } }
+    - { type: road, position: { x: -7, y: 20 } }
+    - { type: road, position: { x: -7, y: 21 } }
+    - { type: road, position: { x: -7, y: 22 } }
+    - { type: road, position: { x: -7, y: 23 } }
+    - { type: road, position: { x: -7, y: 24 } }
+    - { type: road, position: { x: -7, y: 25 } }
+    - { type: road, position: { x: -7, y: 26 } }
+    - { type: road, position: { x: -7, y: 27 } }
+    - { type: road, position: { x: -7, y: 28 } }
+    - { type: road, position: { x: -7, y: 29 } }
+    - { type: road, position: { x: -7, y: 30 } }
+    - { type: road, position: { x: -7, y: 31 } }
+    - { type: road, position: { x: -7, y: 32 } }
+    - { type: road, position: { x: -7, y: 33 } }
+    - { type: road, position: { x: -7, y: 34 } }
+    - { type: road, position: { x: -7, y: 35 } }
+    - { type: road, position: { x: -7, y: 36 } }
+    - { type: road, position: { x: -7, y: 37 } }
+    - { type: road, position: { x: -7, y: 38 } }
+    - { type: road, position: { x: -7, y: 39 } }
+    - { type: road, position: { x: -8, y: 39 } }
+    - { type: road, position: { x: -9, y: 39 } }
+    - { type: road, position: { x: -10, y: 39 } }
+    - { type: road, position: { x: -11, y: 39 } }
+    - { type: road, position: { x: -12, y: 39 } }
+    - { type: road, position: { x: -13, y: 39 } }
+    - { type: road, position: { x: -14, y: 39 } }
+    - { type: road, position: { x: -15, y: 39 } }
+    - { type: road, position: { x: -16, y: 39 } }
+    - { type: road, position: { x: -17, y: 39 } }
+    - { type: road, position: { x: -18, y: 39 } }
+    - { type: road, position: { x: -19, y: 39 } }
+#    - { type: maintenance, position: { x: 1, y: 15 } }
+#    - { type: house, position: { x: 0, y: 21 } }
+#    - { type: house, position: { x: 2, y: 21 } }
+#    - { type: house, position: { x: 4, y: 21 } }
+#    - { type: house, position: { x: 6, y: 21 } }
+#    - { type: house, position: { x: 8, y: 20 } }
 characters: []
 natureElements:
-    - { type: wood, position: { x: 0, y: 40 }}
-    - { type: wood, position: { x: 1, y: 40 }}
-    - { type: wood, position: { x: 2, y: 40 }}
-    - { type: wood, position: { x: 3, y: 40 }}
-    - { type: wood, position: { x: 0, y: 41 }}
-    - { type: wood, position: { x: 1, y: 41 }}
-    - { type: wood, position: { x: 1, y: 42 }}
-    - { type: wood, position: { x: 3, y: 42 }}
-    - { type: copper, position: { x: -24, y: 37 }}
-    - { type: copper, position: { x: -25, y: 37 }}
-    - { type: copper, position: { x: -26, y: 36 }}
-    - { type: silver, position: { x: 14, y: 37 }}
-    - { type: silver, position: { x: 15, y: 37 }}
-    - { type: silver, position: { x: 16, y: 36 }}
+    - { type: wood, position: { x: 0, y: 40 } }
+    - { type: wood, position: { x: 1, y: 40 } }
+    - { type: wood, position: { x: 2, y: 40 } }
+    - { type: wood, position: { x: 3, y: 40 } }
+    - { type: wood, position: { x: 0, y: 41 } }
+    - { type: wood, position: { x: 1, y: 41 } }
+    - { type: wood, position: { x: 1, y: 42 } }
+    - { type: wood, position: { x: 3, y: 42 } }
+    - { type: copper, position: { x: -24, y: 37 } }
+    - { type: copper, position: { x: -25, y: 37 } }
+    - { type: copper, position: { x: -26, y: 36 } }
+    - { type: silver, position: { x: 14, y: 37 } }
+    - { type: silver, position: { x: 15, y: 37 } }
+    - { type: silver, position: { x: 16, y: 36 } }

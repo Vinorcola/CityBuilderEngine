@@ -6,6 +6,7 @@
 class Character;
 class CharacterInformation;
 class DeliveryManCharacter;
+class ImmigrantCharacter;
 class ItemInformation;
 class MinerCharacter;
 class NatureElement;
@@ -25,6 +26,8 @@ class CharacterFactoryInterface
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
         ) = 0;
+
+        virtual ImmigrantCharacter& generateImmigrant(const CharacterInformation& conf) = 0;
 
         virtual MinerCharacter& generateMiner(
             const CharacterInformation& conf,
