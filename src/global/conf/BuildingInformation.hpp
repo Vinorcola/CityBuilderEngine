@@ -28,6 +28,7 @@ class BuildingInformation : public QObject
     public:
         enum class Type {
             Farm,
+            House,
             Laboratory,
             Producer,
             Road,
@@ -69,6 +70,13 @@ class BuildingInformation : public QObject
             const CharacterInformation& deliveryManConf;
 
             explicit Farm(const ModelReader& model);
+        };
+
+        struct House {
+            int populationPerImmigrant;
+            int populationCapacity;
+
+            explicit House(const ModelReader& model);
         };
 
         struct Laboratory {
@@ -119,6 +127,7 @@ class BuildingInformation : public QObject
         Common common;
         Graphics graphics;
         optional<Farm*> farm;
+        optional<House*> house;
         optional<Laboratory*> laboratory;
         optional<Producer*> producer;
         optional<Sanity*> sanity;
@@ -140,6 +149,8 @@ class BuildingInformation : public QObject
         const MapSize& getSize() const;
 
         const Farm& getFarmConf() const;
+
+        const House& getHouseConf() const;
 
         const Laboratory& getLaboratoryConf() const;
 

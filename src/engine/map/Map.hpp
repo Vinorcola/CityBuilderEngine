@@ -37,11 +37,11 @@ class Map : public QObject, public MapDetailsInterface
         QSize size;
         CityStatus* cityStatus;
         TimeCycleProcessor* processor;
-        MapEntryPoint entryPoint;
         MapDetailsCache mapDetailsCache;
         PathGenerator pathGenerator;
         MapSearchEngine searchEngine;
         ElementHandler elementHandler;
+        MapEntryPoint entryPoint;
 
     public:
         Map(const Conf* conf, const MapLoader& loader);

@@ -26,11 +26,11 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     size(loader.getSize()),
     cityStatus(new CityStatus(this, loader.getBudget())),
     processor(new TimeCycleProcessor(this, loader.getDate())),
-    entryPoint(loader.getEntryPoint()),
     mapDetailsCache(),
     pathGenerator(*this),
     searchEngine(pathGenerator),
-    elementHandler(*this, searchEngine, pathGenerator)
+    elementHandler(*this, searchEngine, pathGenerator),
+    entryPoint(elementHandler, loader.getEntryPoint(), conf->getCharacterConf("immigrant"))
 {
     connect(&elementHandler, &ElementHandler::buildingCreated, [this](Building& building) {
         auto processableBuilding(dynamic_cast<ProcessableBuilding*>(&building));

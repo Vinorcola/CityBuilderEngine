@@ -18,6 +18,7 @@ BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& mod
     common(model),
     graphics(model),
     farm(nullptr),
+    house(nullptr),
     producer(nullptr),
     sanity(nullptr),
     school(nullptr),
@@ -32,6 +33,9 @@ BuildingInformation::~BuildingInformation()
 {
     if (farm) {
         delete farm;
+    }
+    if (house) {
+        delete house;
     }
     if (laboratory) {
         delete laboratory;
@@ -80,6 +84,17 @@ const BuildingInformation::Farm& BuildingInformation::getFarmConf() const
     }
 
     return *farm;
+}
+
+
+
+const BuildingInformation::House& BuildingInformation::getHouseConf() const
+{
+    if (house == nullptr) {
+        throw UnexpectedException("This building conf does not have house information.");
+    }
+
+    return *house;
 }
 
 
@@ -153,6 +168,10 @@ void BuildingInformation::loadSpecificConf(const ModelReader& model)
             farm = new Farm(model);
             break;
 
+        case Type::House:
+            house = new House(model);
+            break;
+
         case Type::Laboratory:
             laboratory = new Laboratory(model);
             break;
@@ -183,6 +202,7 @@ void BuildingInformation::loadSpecificConf(const ModelReader& model)
 BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
     if (type == "farm")       return Type::Farm;
+    if (type == "house")      return Type::House;
     if (type == "laboratory") return Type::Laboratory;
     if (type == "producer")   return Type::Producer;
     if (type == "road")       return Type::Road;
@@ -235,6 +255,15 @@ BuildingInformation::Farm::Farm(const ModelReader& model) :
     harvestMonth(model.getInt("harvestMonth")),
     maxQuantityHarvested(model.getOptionalInt("maxQuantityHarvested", 8)),
     deliveryManConf(model.getOptionalCharacterConf("deliveryMan", "deliveryMan"))
+{
+
+}
+
+
+
+BuildingInformation::House::House(const ModelReader& model) :
+    populationPerImmigrant(model.getInt("populationPerImmigrant")),
+    populationCapacity(model.getInt("populationCapacity"))
 {
 
 }

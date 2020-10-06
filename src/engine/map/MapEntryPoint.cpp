@@ -5,6 +5,7 @@
 
 #include "src/engine/element/dynamic/character/ImmigrantCharacter.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
+#include "src/engine/element/static/ProcessableBuilding.hpp"
 
 
 

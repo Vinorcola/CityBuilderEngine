@@ -16,6 +16,7 @@ SOURCES += \
     src/engine/element/dynamic/CharacterFactoryInterface.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
     src/engine/element/static/building/FarmBuilding.cpp \
+    src/engine/element/static/building/HouseBuilding.cpp \
     src/engine/element/static/building/LaboratoryBuilding.cpp \
     src/engine/element/static/building/ProducerBuilding.cpp \
     src/engine/element/static/building/Road.cpp \
@@ -90,6 +91,7 @@ HEADERS += \
     src/engine/element/dynamic/CharacterFactoryInterface.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \
     src/engine/element/static/building/FarmBuilding.hpp \
+    src/engine/element/static/building/HouseBuilding.hpp \
     src/engine/element/static/building/LaboratoryBuilding.hpp \
     src/engine/element/static/building/ProducerBuilding.hpp \
     src/engine/element/static/building/Road.hpp \
