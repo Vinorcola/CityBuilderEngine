@@ -4,8 +4,8 @@
 
 
 
-BuildingButton::BuildingButton(const BuildingInformation* elementConf) :
-    QPushButton(elementConf->getTitle()),
+BuildingButton::BuildingButton(const QString& title, const BuildingInformation* elementConf) :
+    QPushButton(title),
     elementConf(elementConf)
 {
 

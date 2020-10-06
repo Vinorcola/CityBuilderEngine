@@ -40,7 +40,8 @@ class Character : public QObject, public AbstractProcessable
         Character(
             QObject* parent,
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer
+            ProcessableBuilding& issuer,
+            const MapCoordinates& initialLocation
         );
 
         bool isOfType(const CharacterInformation& conf) const;

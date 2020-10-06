@@ -12,7 +12,7 @@ WanderingCharacter::WanderingCharacter(
     const CharacterInformation& conf,
     ProcessableBuilding& issuer
 ) :
-    Character(parent, conf, issuer),
+    Character(parent, conf, issuer, issuer.getEntryPoint()),
     pathGenerator(pathGenerator),
     goingHome(false)
 {

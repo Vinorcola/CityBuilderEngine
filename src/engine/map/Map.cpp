@@ -29,7 +29,8 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     mapDetailsCache(),
     pathGenerator(*this),
     searchEngine(pathGenerator),
-    elementHandler(*this, searchEngine, pathGenerator)
+    elementHandler(*this, searchEngine, pathGenerator),
+    entryPoint(elementHandler, loader.getEntryPoint(), conf->getCharacterConf("immigrant"))
 {
     connect(&elementHandler, &ElementHandler::buildingCreated, [this](Building& building) {
         auto processableBuilding(dynamic_cast<ProcessableBuilding*>(&building));
@@ -55,6 +56,9 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
 
     connect(cityStatus, &CityStatus::populationChanged, this, &Map::populationChanged);
     connect(processor, &TimeCycleProcessor::dateChanged, this, &Map::dateChanged);
+
+    // Register map entry point.
+    processor->registerEntryPoint(entryPoint);
 
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
@@ -182,6 +186,13 @@ const std::list<NatureElement*>& Map::getNatureElements() const
 
 
 
+MapEntryPoint& Map::getImmigrantGenerator()
+{
+    return entryPoint;
+}
+
+
+
 int Map::getCurrentBudget() const
 {
     return cityStatus->getBudget();
@@ -243,6 +254,10 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
             elementHandler.generateFarm(conf, area);
             break;
 
+        case BuildingInformation::Type::House:
+            elementHandler.generateHouse(conf, area);
+            break;
+
         case BuildingInformation::Type::Laboratory:
             elementHandler.generateLaboratory(conf, area);
             break;
@@ -274,18 +289,4 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
 void Map::changePopulation(const int populationDelta)
 {
     cityStatus->updatePopulation(populationDelta);
-}
-
-
-
-void Map::freeHousingCapacityChanged(
-    const int previousHousingCapacity,
-    const int newHousingCapacity,
-    std::function<void(Character*)> onImmigrantCreation
-) {
-    cityStatus->updateFreeHousingPlaces(newHousingCapacity - previousHousingCapacity);
-    if (newHousingCapacity > 0) {
-        // TODO: Review how to make this.
-        // entryPoint->requestImmigrant(onImmigrantCreation);
-    }
 }

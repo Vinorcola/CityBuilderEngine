@@ -10,6 +10,7 @@
 class Building;
 class Character;
 class Map;
+class MapEntryPoint;
 class MapSearchEngine;
 class NatureElement;
 class NatureElementInformation;
@@ -23,7 +24,7 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
         Q_OBJECT
 
     private:
-        const Map&  map;
+        Map& map;
         MapSearchEngine& searchEngine;
         const PathGenerator& pathGenerator;
         std::list<Building*> buildings;
@@ -31,13 +32,15 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
         std::list<NatureElement*> natureElements;
 
     public:
-        ElementHandler(const Map& map, MapSearchEngine& searchEngine, const PathGenerator& pathGenerator);
+        ElementHandler(Map& map, MapSearchEngine& searchEngine, const PathGenerator& pathGenerator);
 
         // Buildings
 
         const std::list<Building*>& getBuildings() const;
 
         virtual FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area) override;
+
+        virtual HouseBuilding& generateHouse(const BuildingInformation& conf, const MapArea& area) override;
 
         virtual LaboratoryBuilding& generateLaboratory(const BuildingInformation& conf, const MapArea& area) override;
 
@@ -60,6 +63,12 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
             ProcessableBuilding& issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
+        ) override;
+
+        virtual ImmigrantCharacter& generateImmigrant(
+            const CharacterInformation& conf,
+            const MapCoordinates& initialLocation,
+            ProcessableBuilding& issuer
         ) override;
 
         virtual MinerCharacter& generateMiner(

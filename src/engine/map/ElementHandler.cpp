@@ -3,10 +3,12 @@
 #include <QDebug>
 
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
+#include "src/engine/element/dynamic/character/ImmigrantCharacter.hpp"
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/dynamic/character/StudentCharacter.hpp"
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
 #include "src/engine/element/static/building/FarmBuilding.hpp"
+#include "src/engine/element/static/building/HouseBuilding.hpp"
 #include "src/engine/element/static/building/LaboratoryBuilding.hpp"
 #include "src/engine/element/static/building/ProducerBuilding.hpp"
 #include "src/engine/element/static/building/Road.hpp"
@@ -22,7 +24,7 @@
 
 
 
-ElementHandler::ElementHandler(const Map& map, MapSearchEngine& searchEngine, const PathGenerator& pathGenerator) :
+ElementHandler::ElementHandler(Map& map, MapSearchEngine& searchEngine, const PathGenerator& pathGenerator) :
     QObject(),
     BuildingFactoryInterface(),
     CharacterFactoryInterface(),
@@ -49,6 +51,19 @@ FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, cons
 {
     auto entryPoint(map.getBestEntryPoint(area));
     auto building(new FarmBuilding(this, *this, conf, area, entryPoint));
+    buildings.push_back(building);
+
+    emit buildingCreated(*building);
+
+    return *building;
+}
+
+
+
+HouseBuilding& ElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
+{
+    auto entryPoint(map.getBestEntryPoint(area));
+    auto building(new HouseBuilding(this, *this, conf, area, entryPoint, map.getImmigrantGenerator()));
     buildings.push_back(building);
 
     emit buildingCreated(*building);
@@ -151,6 +166,21 @@ DeliveryManCharacter& ElementHandler::generateDeliveryMan(
     const int transportedQuantity
 ) {
     auto character(new DeliveryManCharacter(this, searchEngine, pathGenerator, conf, issuer, transportedItemConf, transportedQuantity));
+    characters.push_back(character);
+
+    emit characterCreated(*character);
+
+    return *character;
+}
+
+
+
+ImmigrantCharacter& ElementHandler::generateImmigrant(
+    const CharacterInformation& conf,
+    const MapCoordinates& initialLocation,
+    ProcessableBuilding& issuer
+) {
+    auto character(new ImmigrantCharacter(this, pathGenerator, conf, initialLocation, issuer));
     characters.push_back(character);
 
     emit characterCreated(*character);

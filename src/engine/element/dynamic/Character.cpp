@@ -9,12 +9,13 @@
 Character::Character(
     QObject* parent,
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer
+    ProcessableBuilding& issuer,
+    const MapCoordinates& initialLocation
 ) :
     QObject(parent),
     AbstractProcessable(),
     conf(conf),
-    motionHandler(conf.getSpeed(), issuer.getEntryPoint()),
+    motionHandler(conf.getSpeed(), initialLocation),
     issuer(&issuer)
 {
 

@@ -18,7 +18,7 @@ DeliveryManCharacter::DeliveryManCharacter(
     const ItemInformation& transportedItemConf,
     const int quantity
 ) :
-    Character(parent, conf, issuer),
+    Character(parent, conf, issuer, issuer.getEntryPoint()),
     searchEngine(searchEngine),
     pathGenerator(pathGenerator),
     target(),

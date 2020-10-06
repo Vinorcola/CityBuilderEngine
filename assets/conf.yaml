@@ -39,15 +39,12 @@ buildings:
         size: 3
         studentCharacter: competitor
         targetLaboratory: stadium
-#    house:
-#        type: building
-#        title: House
-#        size: 2
-#        price: 20
-#        fireRisk: 15
-#        behaviors:
-#            -
-#                type: inhabitantContainer
+    house:
+        type: house
+        title: House
+        size: 2
+        populationPerImmigrant: 4
+        populationCapacity: 8
     infirmary:
         type: sanity
         title: Infirmary
@@ -231,11 +228,10 @@ controlPanel:
     content:
       - title: Population
         type: panel
-        content: []
-#                -
-#                    title: Common Housing
-#                    type: button
-#                    building: house
+        content:
+          - title: Common Housing
+            type: button
+            building: house
       - title: Husbandry
         type: panel
         content:

@@ -9,6 +9,7 @@
 #include "src/engine/map/path/MapDetailsInterface.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/ElementHandler.hpp"
+#include "src/engine/map/MapEntryPoint.hpp"
 #include "src/engine/map/MapDetailsCache.hpp"
 #include "src/engine/map/MapSearchEngine.hpp"
 
@@ -40,6 +41,7 @@ class Map : public QObject, public MapDetailsInterface
         PathGenerator pathGenerator;
         MapSearchEngine searchEngine;
         ElementHandler elementHandler;
+        MapEntryPoint entryPoint;
 
     public:
         Map(const Conf* conf, const MapLoader& loader);
@@ -96,6 +98,11 @@ class Map : public QObject, public MapDetailsInterface
         const std::list<NatureElement*>& getNatureElements() const;
 
         /**
+         * @brief Return the map immigrant generator.
+         */
+        MapEntryPoint& getImmigrantGenerator();
+
+        /**
          * @brief Get current budget.
          */
         int getCurrentBudget() const;
@@ -142,17 +149,6 @@ class Map : public QObject, public MapDetailsInterface
          * @brief Update the total population of the given delta.
          */
         void changePopulation(const int populationDelta);
-
-        /**
-         * @brief Update the free housing capacity.
-         *
-         * Also requires some immigrants from the city entry point if the house still have some housing capacity.
-         */
-        void freeHousingCapacityChanged(
-            const int previousHousingCapacity,
-            const int newHousingCapacity,
-            std::function<void(Character*)> onImmigrantCreation
-        );
 
     signals:
         void buildingCreated(Building& building);

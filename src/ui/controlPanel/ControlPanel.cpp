@@ -56,7 +56,7 @@ ControlPanel::ControlPanel(const Conf* conf) :
 
 BuildingButton* ControlPanel::createButton(const ControlPanelElementInformation* elementConf)
 {
-    BuildingButton* currentButton(new BuildingButton(elementConf->getStaticElementConf()));
+    BuildingButton* currentButton(new BuildingButton(elementConf->getTitle(), elementConf->getStaticElementConf()));
     buttonList.append(currentButton);
     connect(currentButton, &BuildingButton::clicked, [this, currentButton]() {
         emit buildingRequested(currentButton->getAssociatedBuilding());

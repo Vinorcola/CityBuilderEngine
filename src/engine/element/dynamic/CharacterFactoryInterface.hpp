@@ -6,7 +6,9 @@
 class Character;
 class CharacterInformation;
 class DeliveryManCharacter;
+class ImmigrantCharacter;
 class ItemInformation;
+class MapCoordinates;
 class MinerCharacter;
 class NatureElement;
 class PathInterface;
@@ -24,6 +26,12 @@ class CharacterFactoryInterface
             ProcessableBuilding& issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
+        ) = 0;
+
+        virtual ImmigrantCharacter& generateImmigrant(
+            const CharacterInformation& conf,
+            const MapCoordinates& initialLocation,
+            ProcessableBuilding& issuer
         ) = 0;
 
         virtual MinerCharacter& generateMiner(

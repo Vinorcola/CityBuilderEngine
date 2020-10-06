@@ -13,7 +13,7 @@ MinerCharacter::MinerCharacter(
     ProcessableBuilding& issuer,
     owner<PathInterface*> path
 ) :
-    Character(parent, conf, issuer),
+    Character(parent, conf, issuer, issuer.getEntryPoint()),
     pathGenerator(pathGenerator),
     goingHome(false)
 {
