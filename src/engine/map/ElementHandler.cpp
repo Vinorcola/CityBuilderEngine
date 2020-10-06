@@ -63,7 +63,7 @@ FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, cons
 HouseBuilding& ElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new HouseBuilding(this, conf, area, entryPoint, map.getImmigrantGenerator()));
+    auto building(new HouseBuilding(this, *this, conf, area, entryPoint, map.getImmigrantGenerator()));
     buildings.push_back(building);
 
     emit buildingCreated(*building);

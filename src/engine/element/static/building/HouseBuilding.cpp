@@ -1,19 +1,24 @@
 #include "HouseBuilding.hpp"
 
+#include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/element/dynamic/character/ImmigrantCharacter.hpp"
 #include "src/engine/map/MapEntryPoint.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
 
-HouseBuilding::HouseBuilding(QObject* parent,
+HouseBuilding::HouseBuilding(
+    QObject* parent,
+    CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint,
     MapEntryPoint& immigrantGenerator
 ) :
     ProcessableBuilding(parent, conf, area, entryPoint),
-    immigrantGenerator(immigrantGenerator)
+    characterFactory(characterFactory),
+    immigrantGenerator(immigrantGenerator),
+    population(0)
 {
 
 }
@@ -42,6 +47,7 @@ bool HouseBuilding::processInteraction(const CycleDate& /*date*/, Character& act
         if (population < conf.getHouseConf().populationCapacity) {
             immigrantGenerator.requestImmigrant(*this);
         }
+        characterFactory.clearCharacter(actor);
 
         return true;
     }

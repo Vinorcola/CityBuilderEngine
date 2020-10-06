@@ -12,7 +12,7 @@ StudentCharacter::StudentCharacter(
     ProcessableBuilding& target,
     owner<PathInterface*> path
 ) :
-    Character(parent, conf, issuer),
+    Character(parent, conf, issuer, issuer.getEntryPoint()),
     pathGenerator(pathGenerator),
     target(&target)
 {

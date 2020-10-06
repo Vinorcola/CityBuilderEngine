@@ -20,6 +20,8 @@ class ImmigrantCharacter : public Character
             const MapCoordinates& initialLocation,
             ProcessableBuilding& issuer
         );
+
+        virtual void process(const CycleDate& date) override;
 };
 
 #endif // IMMIGRANTCHARACTER_HPP

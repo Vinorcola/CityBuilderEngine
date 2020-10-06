@@ -3,6 +3,7 @@
 
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 
+class CharacterFactoryInterface;
 class MapEntryPoint;
 
 class HouseBuilding : public ProcessableBuilding
@@ -10,12 +11,14 @@ class HouseBuilding : public ProcessableBuilding
         Q_OBJECT
 
     private:
+        CharacterFactoryInterface& characterFactory;
         MapEntryPoint& immigrantGenerator;
         int population;
 
     public:
         HouseBuilding(
             QObject* parent,
+            CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint,

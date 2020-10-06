@@ -12,7 +12,22 @@ ImmigrantCharacter::ImmigrantCharacter(
     const MapCoordinates& initialLocation,
     ProcessableBuilding& issuer
 ) :
-    Character(parent, conf, issuer)
+    Character(parent, conf, issuer, initialLocation)
 {
     motionHandler.takePath(pathGenerator.generateShortestPathTo(initialLocation, issuer.getEntryPoint()));
+}
+
+
+
+void ImmigrantCharacter::process(const CycleDate& date)
+{
+    Character::process(date);
+
+    if (motionHandler.isPathCompleted()) {
+        if (issuer) {
+            issuer->processInteraction(date, *this);
+        } else {
+            // TODO: Destroy the character.
+        }
+    }
 }
