@@ -57,6 +57,9 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     connect(cityStatus, &CityStatus::populationChanged, this, &Map::populationChanged);
     connect(processor, &TimeCycleProcessor::dateChanged, this, &Map::dateChanged);
 
+    // Register map entry point.
+    processor->registerEntryPoint(entryPoint);
+
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
         auto& buildingConf(conf->getBuildingConf(buildingInfo["type"].as<QString>()));
