@@ -8,6 +8,7 @@
 #include "src/engine/element/dynamic/character/StudentCharacter.hpp"
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
 #include "src/engine/element/static/building/FarmBuilding.hpp"
+#include "src/engine/element/static/building/HouseBuilding.hpp"
 #include "src/engine/element/static/building/LaboratoryBuilding.hpp"
 #include "src/engine/element/static/building/ProducerBuilding.hpp"
 #include "src/engine/element/static/building/Road.hpp"
@@ -23,7 +24,7 @@
 
 
 
-ElementHandler::ElementHandler(const Map& map, MapSearchEngine& searchEngine, const PathGenerator& pathGenerator) :
+ElementHandler::ElementHandler(Map& map, MapSearchEngine& searchEngine, const PathGenerator& pathGenerator) :
     QObject(),
     BuildingFactoryInterface(),
     CharacterFactoryInterface(),
@@ -50,6 +51,19 @@ FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, cons
 {
     auto entryPoint(map.getBestEntryPoint(area));
     auto building(new FarmBuilding(this, *this, conf, area, entryPoint));
+    buildings.push_back(building);
+
+    emit buildingCreated(*building);
+
+    return *building;
+}
+
+
+
+HouseBuilding& ElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
+{
+    auto entryPoint(map.getBestEntryPoint(area));
+    auto building(new HouseBuilding(this, conf, area, entryPoint, map.getImmigrantGenerator()));
     buildings.push_back(building);
 
     emit buildingCreated(*building);

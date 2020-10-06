@@ -98,6 +98,11 @@ class Map : public QObject, public MapDetailsInterface
         const std::list<NatureElement*>& getNatureElements() const;
 
         /**
+         * @brief Return the map immigrant generator.
+         */
+        MapEntryPoint& getImmigrantGenerator();
+
+        /**
          * @brief Get current budget.
          */
         int getCurrentBudget() const;

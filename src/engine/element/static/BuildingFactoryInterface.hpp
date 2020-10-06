@@ -3,6 +3,7 @@
 
 class BuildingInformation;
 class FarmBuilding;
+class HouseBuilding;
 class LaboratoryBuilding;
 class MapArea;
 class MapCoordinates;
@@ -17,6 +18,8 @@ class BuildingFactoryInterface
         virtual ~BuildingFactoryInterface();
 
         virtual FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area) = 0;
+
+        virtual HouseBuilding& generateHouse(const BuildingInformation& conf, const MapArea& area) = 0;
 
         virtual LaboratoryBuilding& generateLaboratory(const BuildingInformation& conf, const MapArea& area) = 0;
 

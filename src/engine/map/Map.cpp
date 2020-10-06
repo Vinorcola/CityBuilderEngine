@@ -183,6 +183,13 @@ const std::list<NatureElement*>& Map::getNatureElements() const
 
 
 
+MapEntryPoint& Map::getImmigrantGenerator()
+{
+    return entryPoint;
+}
+
+
+
 int Map::getCurrentBudget() const
 {
     return cityStatus->getBudget();
@@ -242,6 +249,10 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
     switch (conf.getType()) {
         case BuildingInformation::Type::Farm:
             elementHandler.generateFarm(conf, area);
+            break;
+
+        case BuildingInformation::Type::House:
+            elementHandler.generateHouse(conf, area);
             break;
 
         case BuildingInformation::Type::Laboratory:
