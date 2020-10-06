@@ -13,7 +13,7 @@ class BuildingButton : public QPushButton
         const BuildingInformation* elementConf;
 
     public:
-        BuildingButton(const BuildingInformation* elementConf);
+        BuildingButton(const QString& title, const BuildingInformation* elementConf);
 
         const BuildingInformation* getAssociatedBuilding() const;
 };
