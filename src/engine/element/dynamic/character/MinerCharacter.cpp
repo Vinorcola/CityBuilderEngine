@@ -49,7 +49,7 @@ void MinerCharacter::process(const CycleDate& date)
         }
         else {
             // TODO: Interaction with nature element.
-            emit hasFinishedHarvest();
+            goHome();
         }
     }
 }

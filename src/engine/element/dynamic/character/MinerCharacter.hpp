@@ -26,9 +26,6 @@ class MinerCharacter : public Character
         void goHome();
 
         virtual void process(const CycleDate& date) override;
-
-    signals:
-        void hasFinishedHarvest();
 };
 
 #endif // MINERCHARACTER_HPP

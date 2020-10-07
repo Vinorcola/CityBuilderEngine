@@ -97,9 +97,6 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
         }
 
         auto& miner(characterFactory.generateMiner(conf.getProducerConf().miner.conf, *this, path));
-        connect(&miner, &MinerCharacter::hasFinishedHarvest, [&miner]() {
-            miner.goHome();
-        });
         miners.append(&miner);
 
         if (canGenerateNewMiner()) {
