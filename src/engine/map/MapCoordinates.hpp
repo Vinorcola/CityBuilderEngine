@@ -212,6 +212,9 @@ class MapCoordinates
 
         // DEBUG //
         QString toString() const;
+
+    private:
+        qreal roundDecimal(qreal coordinate) const;
 };
 
 #endif // MAPCOORDINATES_HPP

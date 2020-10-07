@@ -32,7 +32,7 @@ MapCoordinates::MapCoordinates(const int x, const int y) :
 
 
 MapCoordinates::MapCoordinates(const qreal x, const qreal y) :
-    coordinates(x, y)
+    coordinates(roundDecimal(x), roundDecimal(y))
 {
 
 }
@@ -90,14 +90,14 @@ bool MapCoordinates::isRounded() const
 
 void MapCoordinates::setX(const qreal x)
 {
-    coordinates.setX(x);
+    coordinates.setX(roundDecimal(x));
 }
 
 
 
 void MapCoordinates::setY(const qreal y)
 {
-    coordinates.setY(y);
+    coordinates.setY(roundDecimal(y));
 }
 
 
@@ -221,4 +221,11 @@ qreal MapCoordinates::getStraightDistanceTo(const MapCoordinates& other) const
 QString MapCoordinates::toString() const
 {
     return '(' + QString::number(coordinates.x()) + ';' + QString::number(coordinates.y()) + ')';
+}
+
+
+
+qreal MapCoordinates::roundDecimal(qreal coordinate) const
+{
+    return qRound(1000.0 * coordinate) / 1000.0;
 }

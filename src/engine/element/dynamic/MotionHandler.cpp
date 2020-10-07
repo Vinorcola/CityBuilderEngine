@@ -1,7 +1,5 @@
 #include "MotionHandler.hpp"
 
-#include <cassert>
-
 #include "src/engine/map/path/PathInterface.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
 
@@ -87,7 +85,9 @@ void MotionHandler::stop()
 void MotionHandler::move()
 {
     if (location == movingTo) {
-        movingFrom = location;
+        // We use `movingTo` rather than `location` to set the coordinates of `movingFrom`, because `movingTo` is sure
+        // to be rounded coordinates when `location` is not.
+        movingFrom = movingTo;
         movingTo = path->getNextTargetCoordinates();
     }
 
