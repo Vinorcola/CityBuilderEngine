@@ -6,21 +6,18 @@
 #include "src/engine/element/dynamic/Character.hpp"
 #include "src/defines.hpp"
 
-class NatureElement;
-class PathGenerator;
-
 class MinerCharacter : public Character
 {
         Q_OBJECT
 
     private:
-        const PathGenerator& pathGenerator;
         bool goingHome;
 
     public:
         MinerCharacter(
             QObject* parent,
-            const PathGenerator& pathGenerator,
+            CharacterManagerInterface& characterManager,
+            const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
             owner<PathInterface*> path

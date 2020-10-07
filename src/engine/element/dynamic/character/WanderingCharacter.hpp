@@ -3,20 +3,18 @@
 
 #include "src/engine/element/dynamic/Character.hpp"
 
-class PathGenerator;
-
 class WanderingCharacter : public Character
 {
         Q_OBJECT
 
     private:
-        const PathGenerator& pathGenerator;
         bool goingHome;
 
     public:
         WanderingCharacter(
             QObject* parent,
-            const PathGenerator& pathGenerator,
+            CharacterManagerInterface& characterManager,
+            const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
             ProcessableBuilding& issuer
         );

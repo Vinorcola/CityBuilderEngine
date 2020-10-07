@@ -13,7 +13,6 @@ SOURCES += \
     src/engine/element/dynamic/character/StudentCharacter.cpp \
     src/engine/element/dynamic/character/WanderingCharacter.cpp \
     src/engine/element/dynamic/Character.cpp \
-    src/engine/element/dynamic/CharacterFactoryInterface.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
     src/engine/element/static/building/FarmBuilding.cpp \
     src/engine/element/static/building/HouseBuilding.cpp \
@@ -89,9 +88,12 @@ HEADERS += \
     src/engine/element/dynamic/character/WanderingCharacter.hpp \
     src/engine/element/dynamic/Character.hpp \
     src/engine/element/dynamic/CharacterFactoryInterface.hpp \
+    src/engine/element/dynamic/CharacterManagerInterface.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \
+    src/engine/element/dynamic/PathGeneratorInterface.hpp \
     src/engine/element/static/building/FarmBuilding.hpp \
     src/engine/element/static/building/HouseBuilding.hpp \
+    src/engine/element/static/building/ImmigrantGeneratorInterface.hpp \
     src/engine/element/static/building/LaboratoryBuilding.hpp \
     src/engine/element/static/building/ProducerBuilding.hpp \
     src/engine/element/static/building/Road.hpp \

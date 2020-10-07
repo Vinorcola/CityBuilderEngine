@@ -30,6 +30,7 @@ class BuildingInformation : public QObject
             Farm,
             House,
             Laboratory,
+            MapEntryPoint,
             Producer,
             Road,
             Sanity,

@@ -1,5 +1,6 @@
 #include "ImmigrantCharacter.hpp"
 
+#include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 
@@ -7,14 +8,16 @@
 
 ImmigrantCharacter::ImmigrantCharacter(
     QObject* parent,
-    const PathGenerator& pathGenerator,
+    CharacterManagerInterface& characterManager,
+    const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    const MapCoordinates& initialLocation,
-    ProcessableBuilding& issuer
+    ProcessableBuilding& issuer,
+    ProcessableBuilding& target
 ) :
-    Character(parent, conf, issuer, initialLocation)
+    Character(parent, characterManager, pathGenerator, conf, issuer),
+    target(&target)
 {
-    motionHandler.takePath(pathGenerator.generateShortestPathTo(initialLocation, issuer.getEntryPoint()));
+    motionHandler.takePath(pathGenerator.generateShortestPathTo(issuer.getEntryPoint(), target.getEntryPoint()));
 }
 
 
@@ -26,8 +29,7 @@ void ImmigrantCharacter::process(const CycleDate& date)
     if (motionHandler.isPathCompleted()) {
         if (issuer) {
             issuer->processInteraction(date, *this);
-        } else {
-            // TODO: Destroy the character.
         }
+        characterManager.clearCharacter(*this);
     }
 }

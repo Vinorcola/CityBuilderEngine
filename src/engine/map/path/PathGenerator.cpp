@@ -15,7 +15,7 @@ PathGenerator::PathGenerator(const MapDetailsInterface& mapDetails) :
 
 
 
-owner<PathInterface*> PathGenerator::generateWanderingPath(
+optional<owner<PathInterface*>> PathGenerator::generateWanderingPath(
     const MapCoordinates& origin,
     const int wanderingCredits
 ) const {
@@ -25,7 +25,7 @@ owner<PathInterface*> PathGenerator::generateWanderingPath(
 
 
 
-owner<PathInterface*> PathGenerator::generateShortestPathTo(
+optional<owner<PathInterface*>> PathGenerator::generateShortestPathTo(
     const MapCoordinates& origin,
     const MapCoordinates& destination
 ) const {
@@ -35,12 +35,32 @@ owner<PathInterface*> PathGenerator::generateShortestPathTo(
 
 
 
-owner<PathInterface*> PathGenerator::generateShortestRoadPathTo(
+optional<owner<PathInterface*>> PathGenerator::generateShortestRoadPathTo(
     const MapCoordinates& origin,
     const MapCoordinates& destination
 ) const {
 
     return new TargetedPath(mapDetails, true, shortestPathFinder.getShortestPath(origin, destination, true));
+}
+
+
+
+optional<owner<PathInterface*>> PathGenerator::generatePreferedShortestPathTo(
+    const MapCoordinates& origin,
+    const MapCoordinates& destination,
+    bool restrictedToRoads
+) const {
+
+    auto roadPath(generateShortestRoadPathTo(origin, destination));
+    if (roadPath) {
+        return roadPath;
+    }
+
+    if (restrictedToRoads) {
+        return nullptr;
+    }
+
+    return generateShortestPathTo(origin, destination);
 }
 
 

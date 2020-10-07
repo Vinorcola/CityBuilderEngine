@@ -4,6 +4,7 @@
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 
 class CharacterFactoryInterface;
+class ImmigrantGeneratorInterface;
 class MapEntryPoint;
 
 class HouseBuilding : public ProcessableBuilding
@@ -11,18 +12,16 @@ class HouseBuilding : public ProcessableBuilding
         Q_OBJECT
 
     private:
-        CharacterFactoryInterface& characterFactory;
-        MapEntryPoint& immigrantGenerator;
+        ImmigrantGeneratorInterface& immigrantGenerator;
         int population;
 
     public:
         HouseBuilding(
             QObject* parent,
-            CharacterFactoryInterface& characterFactory,
+            ImmigrantGeneratorInterface& immigrantGenerator,
             const BuildingInformation& conf,
             const MapArea& area,
-            const MapCoordinates& entryPoint,
-            MapEntryPoint& immigrantGenerator
+            const MapCoordinates& entryPoint
         );
 
         virtual void init(const CycleDate& date);

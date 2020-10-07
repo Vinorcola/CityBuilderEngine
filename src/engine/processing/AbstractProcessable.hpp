@@ -1,6 +1,8 @@
 #ifndef ABSTRACTPROCESSABLE
 #define ABSTRACTPROCESSABLE
 
+#include <QtGlobal>
+
 class CycleDate;
 
 /**
@@ -13,6 +15,8 @@ class CycleDate;
  */
 class AbstractProcessable
 {
+        Q_DISABLE_COPY_MOVE(AbstractProcessable)
+
     public:
         AbstractProcessable();
 

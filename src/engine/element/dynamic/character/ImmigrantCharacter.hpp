@@ -5,20 +5,21 @@
 
 #include "src/engine/element/dynamic/Character.hpp"
 
-class CharacterInformation;
-class MapCoordinates;
-class PathGenerator;
 class ProcessableBuilding;
 
 class ImmigrantCharacter : public Character
 {
+    private:
+        QPointer<ProcessableBuilding> target;
+
     public:
         ImmigrantCharacter(
             QObject* parent,
-            const PathGenerator& pathGenerator,
+            CharacterManagerInterface& characterManager,
+            const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            const MapCoordinates& initialLocation,
-            ProcessableBuilding& issuer
+            ProcessableBuilding& issuer,
+            ProcessableBuilding& target
         );
 
         virtual void process(const CycleDate& date) override;

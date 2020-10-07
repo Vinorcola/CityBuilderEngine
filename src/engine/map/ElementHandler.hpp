@@ -5,6 +5,7 @@
 #include <QtCore/QObject>
 
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
+#include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
 #include "src/engine/element/static/BuildingFactoryInterface.hpp"
 
 class Building;
@@ -19,7 +20,7 @@ class Road;
 class SanityBuilding;
 class StorageBuilding;
 
-class ElementHandler : public QObject, public BuildingFactoryInterface, public CharacterFactoryInterface
+class ElementHandler : public QObject, public BuildingFactoryInterface, public CharacterFactoryInterface, public CharacterManagerInterface
 {
         Q_OBJECT
 
@@ -67,8 +68,8 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         virtual ImmigrantCharacter& generateImmigrant(
             const CharacterInformation& conf,
-            const MapCoordinates& initialLocation,
-            ProcessableBuilding& issuer
+            ProcessableBuilding& issuer,
+            ProcessableBuilding& target
         ) override;
 
         virtual MinerCharacter& generateMiner(

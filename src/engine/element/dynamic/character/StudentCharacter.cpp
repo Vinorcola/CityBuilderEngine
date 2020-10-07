@@ -1,19 +1,20 @@
 #include "StudentCharacter.hpp"
 
+#include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 
 
 
 StudentCharacter::StudentCharacter(
     QObject* parent,
-    const PathGenerator& pathGenerator,
+    CharacterManagerInterface& characterManager,
+    const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
     ProcessableBuilding& issuer,
     ProcessableBuilding& target,
     owner<PathInterface*> path
 ) :
-    Character(parent, conf, issuer, issuer.getEntryPoint()),
-    pathGenerator(pathGenerator),
+    Character(parent, characterManager, pathGenerator, conf, issuer),
     target(&target)
 {
     motionHandler.takePath(path);
@@ -28,8 +29,7 @@ void StudentCharacter::process(const CycleDate& date)
     if (motionHandler.isPathCompleted()) {
         if (target) {
             target->processInteraction(date, *this);
-        } else {
-            // TODO: Destroy the character.
         }
+        characterManager.clearCharacter(*this);
     }
 }

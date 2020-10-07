@@ -60,7 +60,6 @@ bool FarmBuilding::processInteraction(const CycleDate& /*date*/, Character& acto
 {
     if (&actor == deliveryMan) {
         deliveryMan.clear();
-        characterFactory.clearCharacter(actor);
 
         return true;
     }

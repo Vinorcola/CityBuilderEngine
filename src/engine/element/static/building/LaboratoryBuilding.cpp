@@ -55,14 +55,12 @@ void LaboratoryBuilding::process(const CycleDate& date)
 bool LaboratoryBuilding::processInteraction(const CycleDate& date, Character& actor)
 {
     if (&actor == scientist) {
-        characterFactory.clearCharacter(actor);
         scientist.clear();
 
         return true;
     }
 
     if (actor.isOfType(conf.getLaboratoryConf().acceptedStudent)) {
-        characterFactory.clearCharacter(actor);
         walkerGenerationLimitDate.reassign(date, conf.getLaboratoryConf().producingInterval);
 
         return true;

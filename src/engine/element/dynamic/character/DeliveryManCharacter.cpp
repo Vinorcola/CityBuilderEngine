@@ -2,6 +2,7 @@
 
 #include <cassert>
 
+#include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
@@ -11,19 +12,19 @@
 
 DeliveryManCharacter::DeliveryManCharacter(
     QObject* parent,
+    CharacterManagerInterface& characterManager,
+    const PathGeneratorInterface& pathGenerator,
     const MapSearchEngine& searchEngine,
-    const PathGenerator& pathGenerator,
     const CharacterInformation& conf,
     ProcessableBuilding& issuer,
     const ItemInformation& transportedItemConf,
-    const int quantity
+    const int transportedQuantity
 ) :
-    Character(parent, conf, issuer, issuer.getEntryPoint()),
+    Character(parent, characterManager, pathGenerator, conf, issuer),
     searchEngine(searchEngine),
-    pathGenerator(pathGenerator),
     target(),
     transportedItemConf(transportedItemConf),
-    transportedQuantity(quantity),
+    transportedQuantity(transportedQuantity),
     goingHome(false)
 {
 
@@ -90,6 +91,12 @@ void DeliveryManCharacter::process(const CycleDate& date)
             if (issuer) {
                 issuer->processInteraction(date, *this);
             }
+            if (transportedQuantity == 0) {
+                characterManager.clearCharacter(*this);
+            }
+            else {
+                // TODO: Fetch a new target?
+            }
         }
         else {
             if (target) {
@@ -97,7 +104,7 @@ void DeliveryManCharacter::process(const CycleDate& date)
                 if (isEmpty()) {
                     goHome();
                 }
-                else{
+                else {
                     // TODO: Fetch a new target?
                 }
             }

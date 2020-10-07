@@ -48,6 +48,10 @@ buildings:
         size: 2
         walkerCharacter: superintendent
         walkerGenerationInterval: 8
+    mapEntryPoint:
+        type: mapEntryPoint
+        title: Map Entry Point
+        size: 1
     mint:
         type: producer
         title: Mint

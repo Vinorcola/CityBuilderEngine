@@ -63,7 +63,7 @@ FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, cons
 HouseBuilding& ElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new HouseBuilding(this, *this, conf, area, entryPoint, map.getImmigrantGenerator()));
+    auto building(new HouseBuilding(this, map.getImmigrantGenerator(), conf, area, entryPoint));
     buildings.push_back(building);
 
     emit buildingCreated(*building);
@@ -165,7 +165,7 @@ DeliveryManCharacter& ElementHandler::generateDeliveryMan(
     const ItemInformation& transportedItemConf,
     const int transportedQuantity
 ) {
-    auto character(new DeliveryManCharacter(this, searchEngine, pathGenerator, conf, issuer, transportedItemConf, transportedQuantity));
+    auto character(new DeliveryManCharacter(this, *this, pathGenerator, searchEngine, conf, issuer, transportedItemConf, transportedQuantity));
     characters.push_back(character);
 
     emit characterCreated(*character);
@@ -177,10 +177,10 @@ DeliveryManCharacter& ElementHandler::generateDeliveryMan(
 
 ImmigrantCharacter& ElementHandler::generateImmigrant(
     const CharacterInformation& conf,
-    const MapCoordinates& initialLocation,
-    ProcessableBuilding& issuer
+    ProcessableBuilding& issuer,
+    ProcessableBuilding& target
 ) {
-    auto character(new ImmigrantCharacter(this, pathGenerator, conf, initialLocation, issuer));
+    auto character(new ImmigrantCharacter(this, *this, pathGenerator, conf, issuer, target));
     characters.push_back(character);
 
     emit characterCreated(*character);
@@ -195,7 +195,7 @@ MinerCharacter& ElementHandler::generateMiner(
     ProcessableBuilding& issuer,
     owner<PathInterface*> path
 ) {
-    auto character(new MinerCharacter(this, pathGenerator, conf, issuer, path));
+    auto character(new MinerCharacter(this, *this, pathGenerator, conf, issuer, path));
     characters.push_back(character);
 
     emit characterCreated(*character);
@@ -211,7 +211,7 @@ StudentCharacter& ElementHandler::generateStudent(
     ProcessableBuilding& target
 ) {
     auto path(pathGenerator.generateShortestRoadPathTo(issuer.getEntryPoint(), target.getEntryPoint()));
-    auto character(new StudentCharacter(this, pathGenerator, conf, issuer, target, path));
+    auto character(new StudentCharacter(this, *this, pathGenerator, conf, issuer, target, path));
     characters.push_back(character);
 
     emit characterCreated(*character);
@@ -225,7 +225,7 @@ WanderingCharacter& ElementHandler::generateWanderingCharacter(
     const CharacterInformation& conf,
     ProcessableBuilding& issuer
 ) {
-    auto character(new WanderingCharacter(this, pathGenerator, conf, issuer));
+    auto character(new WanderingCharacter(this, *this, pathGenerator, conf, issuer));
     characters.push_back(character);
 
     emit characterCreated(*character);

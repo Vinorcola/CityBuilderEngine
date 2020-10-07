@@ -30,7 +30,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     pathGenerator(*this),
     searchEngine(pathGenerator),
     elementHandler(*this, searchEngine, pathGenerator),
-    entryPoint(elementHandler, loader.getEntryPoint(), conf->getCharacterConf("immigrant"))
+    entryPoint(this, elementHandler, conf->getBuildingConf("mapEntryPoint"), loader.getEntryPoint(), conf->getCharacterConf("immigrant"))
 {
     connect(&elementHandler, &ElementHandler::buildingCreated, [this](Building& building) {
         auto processableBuilding(dynamic_cast<ProcessableBuilding*>(&building));
@@ -186,7 +186,7 @@ const std::list<NatureElement*>& Map::getNatureElements() const
 
 
 
-MapEntryPoint& Map::getImmigrantGenerator()
+ImmigrantGeneratorInterface& Map::getImmigrantGenerator()
 {
     return entryPoint;
 }

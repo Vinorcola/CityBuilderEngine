@@ -1,5 +1,6 @@
 #include "MinerCharacter.hpp"
 
+#include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
 #include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
@@ -8,13 +9,13 @@
 
 MinerCharacter::MinerCharacter(
     QObject* parent,
-    const PathGenerator& pathGenerator,
+    CharacterManagerInterface& characterManager,
+    const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
     ProcessableBuilding& issuer,
     owner<PathInterface*> path
 ) :
-    Character(parent, conf, issuer, issuer.getEntryPoint()),
-    pathGenerator(pathGenerator),
+    Character(parent, characterManager, pathGenerator, conf, issuer),
     goingHome(false)
 {
     motionHandler.takePath(path);
@@ -44,6 +45,7 @@ void MinerCharacter::process(const CycleDate& date)
             if (issuer) {
                 issuer->processInteraction(date, *this);
             }
+            characterManager.clearCharacter(*this);
         }
         else {
             // TODO: Interaction with nature element.

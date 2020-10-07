@@ -8,14 +8,17 @@
 
 Character::Character(
     QObject* parent,
+    CharacterManagerInterface& characterManager,
+    const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer,
-    const MapCoordinates& initialLocation
+    ProcessableBuilding& issuer
 ) :
     QObject(parent),
     AbstractProcessable(),
+    characterManager(characterManager),
+    pathGenerator(pathGenerator),
     conf(conf),
-    motionHandler(conf.getSpeed(), initialLocation),
+    motionHandler(conf.getSpeed(), issuer.getEntryPoint()),
     issuer(&issuer)
 {
 

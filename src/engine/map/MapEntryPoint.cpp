@@ -5,17 +5,19 @@
 
 #include "src/engine/element/dynamic/character/ImmigrantCharacter.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/HouseBuilding.hpp"
 
 
 
 MapEntryPoint::MapEntryPoint(
+    QObject* parent,
     CharacterFactoryInterface& characterFactory,
+    const BuildingInformation& conf,
     const MapCoordinates& location,
     const CharacterInformation& immigrantConf
 ) :
+    ProcessableBuilding(parent, conf, MapArea(location), location),
     characterFactory(characterFactory),
-    location(location),
     immigrantConf(immigrantConf),
     nextImmigrantGenerationDate(),
     immigrantRequestQueue()
@@ -25,9 +27,9 @@ MapEntryPoint::MapEntryPoint(
 
 
 
-void MapEntryPoint::requestImmigrant(ProcessableBuilding& issuer)
+void MapEntryPoint::requestImmigrant(HouseBuilding& requester)
 {
-    immigrantRequestQueue.append(&issuer);
+    immigrantRequestQueue.append(&requester);
 }
 
 
@@ -48,7 +50,7 @@ void MapEntryPoint::process(const CycleDate& date)
             return;
         }
 
-        characterFactory.generateImmigrant(immigrantConf, location, *issuer);
+        characterFactory.generateImmigrant(immigrantConf, *this, *issuer);
         setupNextImmigrantGenerationDate(date);
     } else if (date > nextImmigrantGenerationDate) {
         setupNextImmigrantGenerationDate(date);

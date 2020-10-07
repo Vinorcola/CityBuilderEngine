@@ -53,13 +53,11 @@ bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& 
 {
     if (miners.contains(&actor)) {
         rawMaterialStock += conf.getProducerConf().miningQuantity;
-        characterFactory.clearCharacter(actor);
 
         return true;
     }
     if (&actor == deliveryMan) {
         deliveryMan.clear();
-        characterFactory.clearCharacter(actor);
 
         return true;
     }

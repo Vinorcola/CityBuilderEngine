@@ -20,6 +20,7 @@ class CharacterInformation;
 class CityStatus;
 class Conf;
 class CycleDate;
+class ImmigranteGeneratorInterface;
 class MapArea;
 class MapCoordinates;
 class MapLoader;
@@ -100,7 +101,7 @@ class Map : public QObject, public MapDetailsInterface
         /**
          * @brief Return the map immigrant generator.
          */
-        MapEntryPoint& getImmigrantGenerator();
+        ImmigrantGeneratorInterface& getImmigrantGenerator();
 
         /**
          * @brief Get current budget.

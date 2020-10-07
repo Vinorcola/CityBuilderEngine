@@ -201,14 +201,15 @@ void BuildingInformation::loadSpecificConf(const ModelReader& model)
 
 BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
-    if (type == "farm")       return Type::Farm;
-    if (type == "house")      return Type::House;
-    if (type == "laboratory") return Type::Laboratory;
-    if (type == "producer")   return Type::Producer;
-    if (type == "road")       return Type::Road;
-    if (type == "sanity")     return Type::Sanity;
-    if (type == "school")     return Type::School;
-    if (type == "storage")    return Type::Storage;
+    if (type == "farm")          return Type::Farm;
+    if (type == "house")         return Type::House;
+    if (type == "laboratory")    return Type::Laboratory;
+    if (type == "mapEntryPoint") return Type::MapEntryPoint;
+    if (type == "producer")      return Type::Producer;
+    if (type == "road")          return Type::Road;
+    if (type == "sanity")        return Type::Sanity;
+    if (type == "school")        return Type::School;
+    if (type == "storage")       return Type::Storage;
 
     throw BadConfigurationException("Unknown building of type \"" + type + "\".");
 }

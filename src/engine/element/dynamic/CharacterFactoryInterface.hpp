@@ -19,7 +19,7 @@ class WanderingCharacter;
 class CharacterFactoryInterface
 {
     public:
-        virtual ~CharacterFactoryInterface();
+        virtual ~CharacterFactoryInterface() {};
 
         virtual DeliveryManCharacter& generateDeliveryMan(
             const CharacterInformation& conf,
@@ -30,8 +30,8 @@ class CharacterFactoryInterface
 
         virtual ImmigrantCharacter& generateImmigrant(
             const CharacterInformation& conf,
-            const MapCoordinates& initialLocation,
-            ProcessableBuilding& issuer
+            ProcessableBuilding& issuer,
+            ProcessableBuilding& target
         ) = 0;
 
         virtual MinerCharacter& generateMiner(
@@ -50,8 +50,6 @@ class CharacterFactoryInterface
             const CharacterInformation& conf,
             ProcessableBuilding& issuer
         ) = 0;
-
-        virtual void clearCharacter(Character& character) = 0;
 };
 
 #endif // CHARACTERFACTORYINTERFACE_HPP

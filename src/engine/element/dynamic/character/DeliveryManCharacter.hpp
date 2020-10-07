@@ -5,8 +5,7 @@
 
 class ItemInformation;
 class MapSearchEngine;
-class PathGenerator;
-class PathInterface;
+class ProcessableBuilding;
 
 class DeliveryManCharacter : public Character
 {
@@ -14,7 +13,6 @@ class DeliveryManCharacter : public Character
 
     private:
         const MapSearchEngine& searchEngine;
-        const PathGenerator& pathGenerator;
         QPointer<ProcessableBuilding> target;
         const ItemInformation& transportedItemConf;
         int transportedQuantity;
@@ -23,8 +21,9 @@ class DeliveryManCharacter : public Character
     public:
         DeliveryManCharacter(
             QObject* parent,
+            CharacterManagerInterface& characterManager,
+            const PathGeneratorInterface& pathGenerator,
             const MapSearchEngine& searchEngine,
-            const PathGenerator& pathGenerator,
             const CharacterInformation& conf,
             ProcessableBuilding& issuer,
             const ItemInformation& transportedItemConf,
