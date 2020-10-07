@@ -41,7 +41,10 @@ bool HouseBuilding::processInteraction(const CycleDate& /*date*/, Character& act
 {
     auto immigrant(dynamic_cast<ImmigrantCharacter*>(&actor));
     if (immigrant) {
-        population = qMin(population + conf.getHouseConf().populationPerImmigrant, conf.getHouseConf().populationCapacity);
+        int populationDelta(qMin(conf.getHouseConf().populationPerImmigrant, conf.getHouseConf().populationCapacity - population));
+        population += populationDelta;
+        emit populationChanged(populationDelta);
+
         if (population < conf.getHouseConf().populationCapacity) {
             immigrantGenerator.requestImmigrant(*this);
         }

@@ -10,7 +10,6 @@ class CityStatus : public QObject
     private:
         int budget;
         int population;
-        int freeHousingPlaces;
 
     public:
         CityStatus(QObject* parent, const int initialBudget);
@@ -18,12 +17,6 @@ class CityStatus : public QObject
         int getBudget() const;
 
         int getPopulation() const;
-
-        /**
-         * @brief Update the number of free housing of the given delta.
-         * @param delta A positive number for increasing, a negative number for decreasing.
-         */
-        void updateFreeHousingPlaces(const int delta);
 
         /**
          * @brief Update the population of the given delta.

@@ -29,6 +29,9 @@ class HouseBuilding : public ProcessableBuilding
         virtual void process(const CycleDate& date);
 
         virtual bool processInteraction(const CycleDate& date, Character& actor);
+
+    signals:
+        void populationChanged(const int populationDelta);
 };
 
 #endif // HOUSEBUILDING_HPP

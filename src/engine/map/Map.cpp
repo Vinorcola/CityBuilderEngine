@@ -4,6 +4,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/static/building/HouseBuilding.hpp"
 #include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/engine/map/CityStatus.hpp"
@@ -36,6 +37,11 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
         auto processableBuilding(dynamic_cast<ProcessableBuilding*>(&building));
         if (processableBuilding) {
             processor->registerBuilding(processableBuilding);
+
+            auto houseBuilding(dynamic_cast<HouseBuilding*>(processableBuilding));
+            if (houseBuilding) {
+                connect(houseBuilding, &HouseBuilding::populationChanged, this, &Map::changePopulation);
+            }
         }
 
         mapDetailsCache.registerBuildingConstruction(building.getConf(), building.getArea());

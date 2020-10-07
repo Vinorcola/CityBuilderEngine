@@ -27,8 +27,8 @@ void ImmigrantCharacter::process(const CycleDate& date)
     Character::process(date);
 
     if (motionHandler.isPathCompleted()) {
-        if (issuer) {
-            issuer->processInteraction(date, *this);
+        if (target) {
+            target->processInteraction(date, *this);
         }
         characterManager.clearCharacter(*this);
     }
