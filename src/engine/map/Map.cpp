@@ -64,7 +64,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     connect(processor, &TimeCycleProcessor::dateChanged, this, &Map::dateChanged);
 
     // Register map entry point.
-    processor->registerEntryPoint(entryPoint);
+    processor->registerBuilding(&entryPoint);
 
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {

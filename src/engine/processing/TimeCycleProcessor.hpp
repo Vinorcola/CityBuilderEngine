@@ -1,7 +1,6 @@
 #ifndef TIMECYCLEPROCESSOR_HPP
 #define TIMECYCLEPROCESSOR_HPP
 
-#include <list>
 #include <QtCore/QBasicTimer>
 #include <QtCore/QObject>
 
@@ -10,7 +9,6 @@
 class BuildingProcessor;
 class Character;
 class CharacterProcessor;
-class MapEntryPoint;
 class ProcessableBuilding;
 
 /**
@@ -31,7 +29,6 @@ class TimeCycleProcessor : public QObject
         qreal speedRatio;
         QBasicTimer clock;
         CycleDate currentCycleDate;
-        std::list<MapEntryPoint*> mapEntryPoints;
         BuildingProcessor* buildingProcessor;
         CharacterProcessor* characterProcessor;
 
@@ -48,11 +45,6 @@ class TimeCycleProcessor : public QObject
          * register method.
          */
         const CycleDate& getCurrentDate() const;
-
-        /**
-         * @brief Register a map entry point to be process each time cycle.
-         */
-        void registerEntryPoint(MapEntryPoint& entryPoint);
 
         /**
          * @brief Register a building to be process each time cycle.

@@ -22,7 +22,6 @@ TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const CycleDate& startin
     speedRatio(speedRatio),
     clock(),
     currentCycleDate(startingDate),
-    mapEntryPoints(),
     buildingProcessor(new BuildingProcessor(this)),
     characterProcessor(new CharacterProcessor(this))
 {
@@ -41,13 +40,6 @@ qreal TimeCycleProcessor::getSpeedRatio() const
 const CycleDate& TimeCycleProcessor::getCurrentDate() const
 {
     return currentCycleDate;
-}
-
-
-
-void TimeCycleProcessor::registerEntryPoint(MapEntryPoint& entryPoint)
-{
-    mapEntryPoints.push_back(&entryPoint);
 }
 
 
@@ -143,11 +135,6 @@ void TimeCycleProcessor::processCycle()
 
     // Process buildings.
     buildingProcessor->process(currentCycleDate);
-
-    // Process map entry points.
-    for (auto mapEntryPoint : mapEntryPoints) {
-        mapEntryPoint->process(currentCycleDate);
-    }
 
 #ifdef DEBUG_TOOLS
     if (timer.hasExpired(10)) {
