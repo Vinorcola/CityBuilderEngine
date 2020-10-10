@@ -1,6 +1,7 @@
 #ifndef YAMLLIBRARYENHANCEMENT_HPP
 #define YAMLLIBRARYENHANCEMENT_HPP
 
+#include <QtCore/QPoint>
 #include <QtCore/QString>
 #include <yaml-cpp/node/convert.h>
 
@@ -37,6 +38,21 @@ struct convert<MapCoordinates>
         }
         coordinates.setX(node["x"].as<qreal>());
         coordinates.setY(node["y"].as<qreal>());
+
+        return true;
+    }
+};
+
+template<>
+struct convert<QPoint>
+{
+    static bool decode(const Node& node, QPoint& coordinates)
+    {
+        if (!node.IsMap() || !node["x"] || !node["y"]) {
+            return false;
+        }
+        coordinates.setX(node["x"].as<int>());
+        coordinates.setY(node["y"].as<int>());
 
         return true;
     }

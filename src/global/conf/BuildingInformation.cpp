@@ -154,9 +154,16 @@ const BuildingInformation::Storage& BuildingInformation::getStorageConf() const
 
 
 
-const QPixmap& BuildingInformation::getImage() const
+const QString& BuildingInformation::getImageFolderPath() const
 {
-    return graphics.image;
+    return graphics.imageFolderPath;
+}
+
+
+
+const QPoint& BuildingInformation::getAnimationAnchorPoint() const
+{
+    return graphics.animationAnchorPoint;
 }
 
 
@@ -230,7 +237,8 @@ BuildingInformation::Common::Common(const ModelReader& model) :
 
 
 BuildingInformation::Graphics::Graphics(const ModelReader& model) :
-    image("assets/img/static/building/" + model.getKey() + ".png")
+    imageFolderPath("assets/img/static/building/" + model.getKey()),
+    animationAnchorPoint(model.getOptionalPoint("animationAnchorPoint", { 0, 0 }))
 {
 
 }

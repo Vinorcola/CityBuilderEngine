@@ -72,6 +72,11 @@ SOURCES += \
     src/ui/controlPanel/ControlPanel.cpp \
     src/ui/InformationWidget.cpp \
     src/ui/MainWindow.cpp \
+    src/viewer/image/BuildingImage.cpp \
+    src/viewer/image/Image.cpp \
+    src/viewer/image/ImageLibrary.cpp \
+    src/viewer/image/ImageSequence.cpp \
+    src/viewer/image/NatureElementImage.cpp \
     src/viewer/DynamicElement.cpp \
     src/viewer/MapScene.cpp \
     src/viewer/MapViewer.cpp \
@@ -153,6 +158,11 @@ HEADERS += \
     src/ui/controlPanel/ControlPanel.hpp \
     src/ui/InformationWidget.hpp \
     src/ui/MainWindow.hpp \
+    src/viewer/image/BuildingImage.hpp \
+    src/viewer/image/Image.hpp \
+    src/viewer/image/ImageLibrary.hpp \
+    src/viewer/image/ImageSequence.hpp \
+    src/viewer/image/NatureElementImage.hpp \
     src/viewer/DynamicElement.hpp \
     src/viewer/MapScene.hpp \
     src/viewer/MapViewer.hpp \

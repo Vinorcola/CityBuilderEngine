@@ -76,6 +76,13 @@ const ItemInformation& Conf::getItemConf(const QString& key) const
 
 
 
+QList<QString> Conf::getAllBuildingKeys() const
+{
+    return buildings.keys();
+}
+
+
+
 const BuildingInformation& Conf::getBuildingConf(const QString& key) const
 {
     if (!buildings.contains(key)) {
@@ -94,6 +101,13 @@ const CharacterInformation& Conf::getCharacterConf(const QString& key) const
     }
 
     return *characters.value(key);
+}
+
+
+
+QList<QString> Conf::getAllNatureElementKeys() const
+{
+    return natureElements.keys();
 }
 
 

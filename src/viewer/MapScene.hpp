@@ -6,7 +6,9 @@
 class Building;
 class BuildingInformation;
 class Character;
+class Conf;
 class DynamicElement;
+class ImageLibrary;
 class Map;
 class MapArea;
 class MapCoordinates;
@@ -21,12 +23,13 @@ class MapScene : public QGraphicsScene
 
     private:
         const Map& map;
+        const ImageLibrary& imageLibrary;
         QList<Tile*> tileList;
         QList<DynamicElement*> dynamicElementList;
         SelectionElement* selectionElement;
 
     public:
-        MapScene(const Map& map);
+        MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLibrary);
 
         /**
          * @brief Request the positioning of a building (trigger selection element).

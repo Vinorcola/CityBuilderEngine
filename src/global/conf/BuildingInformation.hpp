@@ -3,8 +3,8 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtCore/QPoint>
 #include <QtCore/QString>
-#include <QtGui/QPixmap>
 
 #include "src/engine/map/MapSize.hpp"
 #include "src/defines.hpp"
@@ -51,7 +51,8 @@ class BuildingInformation : public QObject
         };
 
         struct Graphics {
-            QPixmap image;
+            QString imageFolderPath;
+            QPoint animationAnchorPoint;
 
             explicit Graphics(const ModelReader& model);
         };
@@ -163,7 +164,9 @@ class BuildingInformation : public QObject
 
         const Storage& getStorageConf() const;
 
-        const QPixmap& getImage() const;
+        const QString& getImageFolderPath() const;
+
+        const QPoint& getAnimationAnchorPoint() const;
 
     private:
         void loadSpecificConf(const ModelReader& model);

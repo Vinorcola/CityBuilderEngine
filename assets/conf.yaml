@@ -205,6 +205,9 @@ natureElements:
     copper:
         title: Copper
         traversable: false
+    grass:
+        title: Grass
+        traversable: true
     silver:
         title: Silver
         traversable: false

@@ -66,10 +66,21 @@ QString ModelReader::getString(const char key[]) const
 MapCoordinates ModelReader::getMapCoordinates(const char key[]) const
 {
     if (!node[key]) {
-        throw BadConfigurationException(generateErrorMessage(key, "some coordinates"));
+        throw BadConfigurationException(generateErrorMessage(key, "some map coordinates"));
     }
 
     return node[key].as<MapCoordinates>();
+}
+
+
+
+QPoint ModelReader::getPoint(const char key[]) const
+{
+    if (!node[key]) {
+        throw BadConfigurationException(generateErrorMessage(key, "some point coordinates"));
+    }
+
+    return node[key].as<QPoint>();
 }
 
 
@@ -147,6 +158,17 @@ QString ModelReader::getOptionalString(const char key[], const QString& defaultV
     }
 
     return node[key].as<QString>();
+}
+
+
+
+QPoint ModelReader::getOptionalPoint(const char key[], const QPoint& defaultValue) const
+{
+    if (!node[key]) {
+        return defaultValue;
+    }
+
+    return node[key].as<QPoint>();
 }
 
 

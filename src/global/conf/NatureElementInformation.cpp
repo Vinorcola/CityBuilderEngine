@@ -13,9 +13,16 @@ NatureElementInformation::NatureElementInformation(QObject* parent, const QStrin
     key(key),
     title(model["title"].as<QString>()),
     traversable(model["traversable"].as<bool>()),
-    image("assets/img/static/nature/" + key + ".png")
+    imagePath("assets/img/static/nature/" + key + ".png")
 {
 
+}
+
+
+
+const QString& NatureElementInformation::getTitle() const
+{
+    return title;
 }
 
 
@@ -27,9 +34,9 @@ bool NatureElementInformation::isTraversable() const
 
 
 
-const QPixmap& NatureElementInformation::getImage() const
+const QString& NatureElementInformation::getImagePath() const
 {
-    return image;
+    return imagePath;
 }
 
 
@@ -49,6 +56,7 @@ void NatureElementInformation::checkModel(const QString& key, const YAML::Node& 
 NatureElementInformation::Type NatureElementInformation::resolveType(const QString& type)
 {
     if (type == "copper") return Type::Copper;
+    if (type == "grass")  return Type::Grass;
     if (type == "silver") return Type::Silver;
     if (type == "wood")   return Type::Wood;
 

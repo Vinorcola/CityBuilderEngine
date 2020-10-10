@@ -7,7 +7,11 @@
 #include "src/engine/processing/TimeCycleProcessor.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
+#include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
+#include "src/viewer/image/BuildingImage.hpp"
+#include "src/viewer/image/ImageLibrary.hpp"
+#include "src/viewer/image/NatureElementImage.hpp"
 #include "src/viewer/DynamicElement.hpp"
 #include "src/viewer/SelectionElement.hpp"
 #include "src/viewer/StaticElement.hpp"
@@ -17,17 +21,19 @@ const QSizeF BASE_TILE_SIZE(58, 30);
 
 
 
-MapScene::MapScene(const Map& map) :
+MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLibrary) :
     QGraphicsScene(),
     map(map),
+    imageLibrary(imageLibrary),
     tileList(),
     dynamicElementList(),
     selectionElement(new SelectionElement(BASE_TILE_SIZE))
 {
     setBackgroundBrush(QBrush(Qt::black));
 
-    // Load the grass image.
-    QPixmap grassImage("assets/img/grass.png");
+    // Get the grass conf.
+    auto& grassConf(conf.getNatureElementConf("grass"));
+    auto& grassImage(imageLibrary.getNatureElementImage(grassConf));
 
     // Create the tiles and their graphics item.
     int line(0);
@@ -40,7 +46,7 @@ MapScene::MapScene(const Map& map) :
         int adjust(line > mapSize.width() ? 1 : 2);
         while (column < (mapSize.width() - line + adjust) / 2) {
             Tile* tile(new Tile(MapCoordinates(column, line + column), BASE_TILE_SIZE));
-            tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, MapSize(1), grassImage));
+            tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, MapSize(1), grassImage.getImage()));
 
             addItem(tile);
             tileList.append(tile);
@@ -88,7 +94,8 @@ void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, c
 void MapScene::registerNewBuilding(const Building& element)
 {
     Tile* tile(getTileAt(element.getArea().getLeft()));
-    addStaticElement(tile, element.getConf().getSize(), element.getConf().getImage());
+    auto& buildingImage(imageLibrary.getBuildingImage(element.getConf()));
+    addStaticElement(tile, element.getConf().getSize(), buildingImage.getInactiveImage());
 }
 
 
@@ -107,7 +114,8 @@ void MapScene::registerNewCharacter(const Character& element)
 void MapScene::registerNewNatureElement(const NatureElement& element)
 {
     Tile* tile(getTileAt(element.getArea().getLeft()));
-    addStaticElement(tile, element.getArea().getSize(), element.getConf().getImage());
+    auto& natureElementImage(imageLibrary.getNatureElementImage(element.getConf()));
+    addStaticElement(tile, element.getArea().getSize(), natureElementImage.getImage());
 }
 
 
