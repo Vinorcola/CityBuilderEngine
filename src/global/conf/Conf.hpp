@@ -32,6 +32,8 @@ class Conf : public QObject
 
         const BuildingInformation& getBuildingConf(const QString& key) const;
 
+        QList<QString> getAllCharacterKeys() const;
+
         const CharacterInformation& getCharacterConf(const QString& key) const;
 
         QList<QString> getAllNatureElementKeys() const;

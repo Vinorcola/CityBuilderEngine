@@ -73,6 +73,7 @@ SOURCES += \
     src/ui/InformationWidget.cpp \
     src/ui/MainWindow.cpp \
     src/viewer/image/BuildingImage.cpp \
+    src/viewer/image/CharacterImage.cpp \
     src/viewer/image/Image.cpp \
     src/viewer/image/ImageLibrary.cpp \
     src/viewer/image/ImageSequence.cpp \
@@ -159,6 +160,7 @@ HEADERS += \
     src/ui/InformationWidget.hpp \
     src/ui/MainWindow.hpp \
     src/viewer/image/BuildingImage.hpp \
+    src/viewer/image/CharacterImage.hpp \
     src/viewer/image/Image.hpp \
     src/viewer/image/ImageLibrary.hpp \
     src/viewer/image/ImageSequence.hpp \

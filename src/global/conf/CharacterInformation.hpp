@@ -3,7 +3,6 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
-#include <QtGui/QPixmap>
 
 class ModelReader;
 namespace YAML {
@@ -19,7 +18,7 @@ class CharacterInformation : public QObject
         QString title;
         qreal speed;
         int wanderingCredits;
-        QPixmap image;
+        QString imagePath;
 
     public:
         CharacterInformation(QObject* parent, const ModelReader& model);
@@ -32,7 +31,7 @@ class CharacterInformation : public QObject
 
         int getWanderingCredits() const;
 
-        const QPixmap& getImage() const;
+        const QString& getImagePath() const;
 
         /**
          * @brief Check if the model is valid.

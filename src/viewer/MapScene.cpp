@@ -10,6 +10,7 @@
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
+#include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/image/NatureElementImage.hpp"
 #include "src/viewer/DynamicElement.hpp"
@@ -102,7 +103,8 @@ void MapScene::registerNewBuilding(const Building& element)
 
 void MapScene::registerNewCharacter(const Character& element)
 {
-    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, &element, element.getConf().getImage()));
+    auto& characterImage(imageLibrary.getCharacterImage(element.getConf()));
+    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, &element, characterImage.getImage()));
     dynamicElementList.append(graphicsItem);
 
     Tile* tile(getTileAt(element.getCurrentLocation().getRounded()));

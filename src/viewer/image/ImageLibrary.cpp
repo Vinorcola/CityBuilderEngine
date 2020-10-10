@@ -2,21 +2,30 @@
 
 #include "src/exceptions/OutOfRangeException.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
-#include "src/global/conf/NatureElementInformation.hpp"
+#include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
+#include "src/global/conf/NatureElementInformation.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
+#include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/NatureElementImage.hpp"
 
 
 
 ImageLibrary::ImageLibrary(const Conf& conf) :
     buildingImages(),
+    characterImages(),
     natureElementImages()
 {
     // Load building images.
     for (auto buildingKey : conf.getAllBuildingKeys()) {
         auto& buildingConf(conf.getBuildingConf(buildingKey));
         buildingImages.insert(&buildingConf, new BuildingImage(buildingConf.getImageFolderPath(), buildingConf.getAnimationAnchorPoint()));
+    }
+
+    // Load character images.
+    for (auto characterKey : conf.getAllCharacterKeys()) {
+        auto& characterConf(conf.getCharacterConf(characterKey));
+        characterImages.insert(&characterConf, new CharacterImage(characterConf.getImagePath()));
     }
 
     // Load nature element images.
@@ -31,6 +40,7 @@ ImageLibrary::ImageLibrary(const Conf& conf) :
 ImageLibrary::~ImageLibrary()
 {
     qDeleteAll(buildingImages);
+    qDeleteAll(characterImages);
     qDeleteAll(natureElementImages);
 }
 
@@ -43,6 +53,17 @@ BuildingImage& ImageLibrary::getBuildingImage(const BuildingInformation& buildin
     }
 
     return *buildingImages.value(&buildingConf);
+}
+
+
+
+CharacterImage& ImageLibrary::getCharacterImage(const CharacterInformation& characterConf) const
+{
+    if (!characterImages.contains(&characterConf)) {
+        throw OutOfRangeException("No image in the library for character\"" + characterConf.getTitle() + "\".");
+    }
+
+    return *characterImages.value(&characterConf);
 }
 
 

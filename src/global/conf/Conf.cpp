@@ -94,6 +94,13 @@ const BuildingInformation& Conf::getBuildingConf(const QString& key) const
 
 
 
+QList<QString> Conf::getAllCharacterKeys() const
+{
+    return characters.keys();
+}
+
+
+
 const CharacterInformation& Conf::getCharacterConf(const QString& key) const
 {
     if (!characters.contains(key)) {

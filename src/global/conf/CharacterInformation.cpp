@@ -17,7 +17,7 @@ CharacterInformation::CharacterInformation(QObject* parent, const ModelReader& m
     speed(model.getReal("speed") / CYCLE_PER_SECOND),
 #endif
     wanderingCredits(model.getOptionalInt("wanderingCredits", 0)),
-    image("assets/img/dynamic/character/" + key + ".png")
+    imagePath("assets/img/dynamic/character/" + key + ".png")
 {
 
 }
@@ -52,9 +52,9 @@ int CharacterInformation::getWanderingCredits() const
 
 
 
-const QPixmap& CharacterInformation::getImage() const
+const QString& CharacterInformation::getImagePath() const
 {
-    return image;
+    return imagePath;
 }
 
 

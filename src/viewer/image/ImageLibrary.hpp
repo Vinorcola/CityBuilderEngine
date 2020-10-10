@@ -5,6 +5,8 @@
 
 class BuildingImage;
 class BuildingInformation;
+class CharacterImage;
+class CharacterInformation;
 class Conf;
 class NatureElementImage;
 class NatureElementInformation;
@@ -13,6 +15,7 @@ class ImageLibrary
 {
     private:
         QHash<const BuildingInformation*, BuildingImage*> buildingImages;
+        QHash<const CharacterInformation*, CharacterImage*> characterImages;
         QHash<const NatureElementInformation*, NatureElementImage*> natureElementImages;
 
     public:
@@ -21,6 +24,8 @@ class ImageLibrary
         ~ImageLibrary();
 
         BuildingImage& getBuildingImage(const BuildingInformation& buildingConf) const;
+
+        CharacterImage& getCharacterImage(const CharacterInformation& characterConf) const;
 
         NatureElementImage& getNatureElementImage(const NatureElementInformation& natureElementConf) const;
 };
