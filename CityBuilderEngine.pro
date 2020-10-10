@@ -55,6 +55,7 @@ SOURCES += \
     src/exceptions/BadConfigurationException.cpp \
     src/exceptions/EngineException.cpp \
     src/exceptions/Exception.cpp \
+    src/exceptions/FileNotFoundException.cpp \
     src/exceptions/InvalidMapElementException.cpp \
     src/exceptions/NotImplementedException.cpp \
     src/exceptions/OutOfRangeException.cpp \
@@ -141,6 +142,7 @@ HEADERS += \
     src/exceptions/BadConfigurationException.hpp \
     src/exceptions/EngineException.hpp \
     src/exceptions/Exception.hpp \
+    src/exceptions/FileNotFoundException.hpp \
     src/exceptions/InvalidMapElementException.hpp \
     src/exceptions/NotImplementedException.hpp \
     src/exceptions/OutOfRangeException.hpp \

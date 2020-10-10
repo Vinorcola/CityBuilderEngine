@@ -47,7 +47,7 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
         int adjust(line > mapSize.width() ? 1 : 2);
         while (column < (mapSize.width() - line + adjust) / 2) {
             Tile* tile(new Tile(MapCoordinates(column, line + column), BASE_TILE_SIZE));
-            tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, MapSize(1), grassImage.getImage()));
+            tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, MapSize(1), grassImage));
 
             addItem(tile);
             tileList.append(tile);
@@ -96,7 +96,9 @@ void MapScene::registerNewBuilding(const Building& element)
 {
     Tile* tile(getTileAt(element.getArea().getLeft()));
     auto& buildingImage(imageLibrary.getBuildingImage(element.getConf()));
-    addStaticElement(tile, element.getConf().getSize(), buildingImage.getInactiveImage());
+
+    tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, element.getConf().getSize(), buildingImage));
+    maskCoveredTiles(tile, element.getConf().getSize());
 }
 
 
@@ -117,7 +119,9 @@ void MapScene::registerNewNatureElement(const NatureElement& element)
 {
     Tile* tile(getTileAt(element.getArea().getLeft()));
     auto& natureElementImage(imageLibrary.getNatureElementImage(element.getConf()));
-    addStaticElement(tile, element.getArea().getSize(), natureElementImage.getImage());
+
+    tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, element.getArea().getSize(), natureElementImage));
+    maskCoveredTiles(tile, element.getArea().getSize());
 }
 
 
@@ -167,10 +171,8 @@ Tile* MapScene::getTileAt(const MapCoordinates& location)
 
 
 
-void MapScene::addStaticElement(Tile* tile, const MapSize& elementSize, const QPixmap& elementImage)
+void MapScene::maskCoveredTiles(Tile* tile, const MapSize& elementSize)
 {
-    tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, elementSize, elementImage));
-
     if (elementSize.getValue() > 1) {
         MapArea area(tile->getCoordinates(), elementSize);
         auto left(area.getLeft());

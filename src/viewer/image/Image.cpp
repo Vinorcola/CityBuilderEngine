@@ -3,6 +3,8 @@
 #include <QtGui/QBitmap>
 #include <QtGui/QPainter>
 
+#include "src/exceptions/FileNotFoundException.hpp"
+
 const QBrush Image::GREEN_BRUSH = QBrush(QColor(0, 224, 0, 127), Qt::SolidPattern);
 const QBrush Image::ORANGE_BRUSH = QBrush(QColor(255, 154, 36, 127), Qt::SolidPattern);
 const QBrush Image::RED_BRUSH = QBrush(QColor(244, 0, 0, 127), Qt::SolidPattern);
@@ -17,7 +19,9 @@ Image::Image(const QString& path) :
     orangeColorizedImage(),
     redColorizedImage()
 {
-
+    if (sourceImage.isNull()) {
+        throw FileNotFoundException(path);
+    }
 }
 
 

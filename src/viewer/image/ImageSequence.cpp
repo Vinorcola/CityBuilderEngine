@@ -14,7 +14,7 @@ ImageSequence::ImageSequence(const QString& imagesFolderPath) :
     filePaths.sort();
     for (auto filePath : filePaths) {
         if (ImageSequence::FILE_NAME_PATTERN.match(filePath).hasMatch()) {
-            images.append(new Image(filePath));
+            images.append(new Image(imagesFolderPath + "/" + filePath));
         }
     }
 }

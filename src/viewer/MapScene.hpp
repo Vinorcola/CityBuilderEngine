@@ -61,7 +61,7 @@ class MapScene : public QGraphicsScene
     private:
         Tile* getTileAt(const MapCoordinates& location);
 
-        void addStaticElement(Tile* tile, const MapSize& elementSize, const QPixmap& elementImage);
+        void maskCoveredTiles(Tile* tile, const MapSize& elementSize);
 
         /**
          * @brief Refresh the selection element.

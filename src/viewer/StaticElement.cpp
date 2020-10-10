@@ -1,10 +1,44 @@
 #include "StaticElement.hpp"
 
+#include "src/viewer/image/BuildingImage.hpp"
+#include "src/viewer/image/NatureElementImage.hpp"
+
+
+
+StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, BuildingImage& buildingImage) :
+    StaticElement(baseTileSize, elementSize, buildingImage.getInactiveImage())
+{
+    this->buildingImage = &buildingImage;
+    if (buildingImage.getAnimationSequence().getSequenceLength() > 0) {
+        animationPixmap = new QGraphicsPixmapItem(buildingImage.getAnimationSequence().getImage(0), this);
+        animationPixmap->setVisible(true);
+        animationPixmap->setPos(buildingImage.getAnimationAnchorPoint());
+    }
+}
+
+
+
+StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, NatureElementImage& natureElementImage) :
+    StaticElement(baseTileSize, elementSize, natureElementImage.getImage())
+{
+    this->natureElementImage = &natureElementImage;
+}
+
+
+
+QPainterPath StaticElement::shape() const
+{
+    return shapePath;
+}
+
 
 
 StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, const QPixmap& elementImage) :
     QGraphicsPixmapItem(elementImage),
-    shapePath()
+    buildingImage(nullptr),
+    natureElementImage(nullptr),
+    shapePath(),
+    animationPixmap(nullptr)
 {
     setAcceptedMouseButtons(Qt::RightButton);
 
@@ -28,11 +62,4 @@ StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementS
     shapePath.lineTo( elementSizeValue * halfBaseTileSizeWidth, elementSizeValue * baseTileSizeHeight     );
     shapePath.lineTo( 0                                       , elementSizeValue * halfBaseTileSizeHeight );
     shapePath.closeSubpath();
-}
-
-
-
-QPainterPath StaticElement::shape() const
-{
-    return shapePath;
 }

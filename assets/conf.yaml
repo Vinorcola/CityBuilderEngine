@@ -6,6 +6,7 @@ buildings:
         size: 3
         studentCharacter: philosopher
         targetLaboratory: podium
+        animationAnchorPoint: { x: 49, y: 38 }
     foundry:
         type: producer
         title: Foundry
@@ -30,6 +31,7 @@ buildings:
         size: 3
         studentCharacter: competitor
         targetLaboratory: stadium
+        animationAnchorPoint: { x: 58, y: 10 }
     house:
         type: house
         title: House
