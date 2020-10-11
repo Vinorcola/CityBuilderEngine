@@ -29,7 +29,7 @@ class BuildingProcessor: public QObject, public AbstractProcessable
         /**
          * @brief Register a building to be process each time cycle.
          */
-        void registerBuilding(ProcessableBuilding* building);
+        void registerBuilding(ProcessableBuilding& building);
 
         /**
          * @brief Unregister a building from processor.

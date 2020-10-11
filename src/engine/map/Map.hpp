@@ -86,7 +86,7 @@ class Map : public QObject, public MapDetailsInterface
         /**
          * @brief Return the list of all buildings.
          */
-        const std::list<Building*>& getBuildings() const;
+        const std::list<QSharedPointer<Building>>& getBuildings() const;
 
         /**
          * @brief Return the list of all characters.
@@ -152,7 +152,7 @@ class Map : public QObject, public MapDetailsInterface
         void changePopulation(const int populationDelta);
 
     signals:
-        void buildingCreated(Building& building);
+        void buildingCreated(QSharedPointer<const Building> building);
         void characterCreated(Character& character);
         void natureElementCreated(NatureElement& natureElement);
         void budgetChanged(const int budget);

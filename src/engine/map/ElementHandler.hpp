@@ -3,6 +3,7 @@
 
 #include <list>
 #include <QtCore/QObject>
+#include <QtCore/QSharedPointer>
 
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
@@ -28,7 +29,7 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
         Map& map;
         MapSearchEngine& searchEngine;
         const PathGenerator& pathGenerator;
-        std::list<Building*> buildings;
+        std::list<QSharedPointer<Building>> buildings;
         std::list<Character*> characters;
         std::list<NatureElement*> natureElements;
 
@@ -37,7 +38,7 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         // Buildings
 
-        const std::list<Building*>& getBuildings() const;
+        const std::list<QSharedPointer<Building>>& getBuildings() const;
 
         virtual FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area) override;
 
@@ -98,7 +99,7 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
         NatureElement& generateNatureElement(const NatureElementInformation& conf, const MapArea& area);
 
     signals:
-        void buildingCreated(Building& building);
+        void buildingCreated(QSharedPointer<Building> building);
         void characterCreated(Character& character);
         void natureElementCreated(NatureElement& natureElement);
 

@@ -47,7 +47,7 @@ class MapScene : public QGraphicsScene
         void requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area);
 
     public slots:
-        void registerNewBuilding(const Building& element);
+        void registerNewBuilding(QSharedPointer<const Building> element);
 
         void registerNewCharacter(const Character& element);
 

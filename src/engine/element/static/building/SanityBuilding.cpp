@@ -53,7 +53,7 @@ void SanityBuilding::process(const CycleDate& date)
 
 
 
-bool SanityBuilding::processInteraction(const CycleDate& date, Character& actor)
+bool SanityBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
     if (&actor == walker) {
         walker.clear();

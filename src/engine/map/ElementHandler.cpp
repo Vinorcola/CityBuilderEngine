@@ -40,7 +40,7 @@ ElementHandler::ElementHandler(Map& map, MapSearchEngine& searchEngine, const Pa
 
 
 
-const std::list<Building*>& ElementHandler::getBuildings() const
+const std::list<QSharedPointer<Building>>& ElementHandler::getBuildings() const
 {
     return buildings;
 }
@@ -50,10 +50,10 @@ const std::list<Building*>& ElementHandler::getBuildings() const
 FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new FarmBuilding(this, *this, conf, area, entryPoint));
+    QSharedPointer<FarmBuilding> building(new FarmBuilding(this, *this, conf, area, entryPoint));
     buildings.push_back(building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -63,10 +63,10 @@ FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, cons
 HouseBuilding& ElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new HouseBuilding(this, map.getImmigrantGenerator(), conf, area, entryPoint));
+    QSharedPointer<HouseBuilding> building(new HouseBuilding(this, map.getImmigrantGenerator(), conf, area, entryPoint));
     buildings.push_back(building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -76,11 +76,11 @@ HouseBuilding& ElementHandler::generateHouse(const BuildingInformation& conf, co
 LaboratoryBuilding& ElementHandler::generateLaboratory(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new LaboratoryBuilding(this, *this, conf, area, entryPoint));
+    QSharedPointer<LaboratoryBuilding> building(new LaboratoryBuilding(this, *this, conf, area, entryPoint));
     buildings.push_back(building);
     searchEngine.registerLaboratoryBuilding(*building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -90,10 +90,10 @@ LaboratoryBuilding& ElementHandler::generateLaboratory(const BuildingInformation
 ProducerBuilding& ElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new ProducerBuilding(this, searchEngine, *this, conf, area, entryPoint));
+    QSharedPointer<ProducerBuilding> building(new ProducerBuilding(this, searchEngine, *this, conf, area, entryPoint));
     buildings.push_back(building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -103,10 +103,10 @@ ProducerBuilding& ElementHandler::generateProducer(const BuildingInformation& co
 SanityBuilding& ElementHandler::generateSanity(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new SanityBuilding(this, *this, conf, area, entryPoint));
+    QSharedPointer<SanityBuilding> building(new SanityBuilding(this, *this, conf, area, entryPoint));
     buildings.push_back(building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -116,10 +116,10 @@ SanityBuilding& ElementHandler::generateSanity(const BuildingInformation& conf, 
 SchoolBuilding& ElementHandler::generateSchool(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new SchoolBuilding(this, searchEngine, *this, conf, area, entryPoint));
+    QSharedPointer<SchoolBuilding> building(new SchoolBuilding(this, searchEngine, *this, conf, area, entryPoint));
     buildings.push_back(building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -129,11 +129,11 @@ SchoolBuilding& ElementHandler::generateSchool(const BuildingInformation& conf, 
 StorageBuilding& ElementHandler::generateStorage(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new StorageBuilding(this, conf, area, entryPoint));
+    QSharedPointer<StorageBuilding> building(new StorageBuilding(this, conf, area, entryPoint));
     buildings.push_back(building);
     searchEngine.registerStorageBuilding(*building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -142,10 +142,10 @@ StorageBuilding& ElementHandler::generateStorage(const BuildingInformation& conf
 
 Road& ElementHandler::generateRoad(const BuildingInformation& conf, const MapCoordinates& location)
 {
-    auto road(new Road(this, conf, location));
+    QSharedPointer<Road> road(new Road(this, conf, location));
     buildings.push_back(road);
 
-    emit buildingCreated(*road);
+    emit buildingCreated(road);
 
     return *road;
 }

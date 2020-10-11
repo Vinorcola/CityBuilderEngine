@@ -33,18 +33,18 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     elementHandler(*this, searchEngine, pathGenerator),
     entryPoint(this, elementHandler, conf->getBuildingConf("mapEntryPoint"), loader.getEntryPoint(), conf->getCharacterConf("immigrant"))
 {
-    connect(&elementHandler, &ElementHandler::buildingCreated, [this](Building& building) {
-        auto processableBuilding(dynamic_cast<ProcessableBuilding*>(&building));
+    connect(&elementHandler, &ElementHandler::buildingCreated, [this](QSharedPointer<Building> building) {
+        auto processableBuilding(building.dynamicCast<ProcessableBuilding>());
         if (processableBuilding) {
-            processor->registerBuilding(processableBuilding);
+            processor->registerBuilding(*processableBuilding);
 
-            auto houseBuilding(dynamic_cast<HouseBuilding*>(processableBuilding));
+            auto houseBuilding(processableBuilding.dynamicCast<HouseBuilding>());
             if (houseBuilding) {
-                connect(houseBuilding, &HouseBuilding::populationChanged, this, &Map::changePopulation);
+                connect(houseBuilding.get(), &HouseBuilding::populationChanged, this, &Map::changePopulation);
             }
         }
 
-        mapDetailsCache.registerBuildingConstruction(building.getConf(), building.getArea());
+        mapDetailsCache.registerBuildingConstruction(building->getConf(), building->getArea());
 
         emit buildingCreated(building);
     });
@@ -64,7 +64,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     connect(processor, &TimeCycleProcessor::dateChanged, this, &Map::dateChanged);
 
     // Register map entry point.
-    processor->registerBuilding(&entryPoint);
+    processor->registerBuilding(entryPoint);
 
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
@@ -171,7 +171,7 @@ const TimeCycleProcessor* Map::getProcessor() const
 
 
 
-const std::list<Building*>& Map::getBuildings() const
+const std::list<QSharedPointer<Building>>& Map::getBuildings() const
 {
     return elementHandler.getBuildings();
 }

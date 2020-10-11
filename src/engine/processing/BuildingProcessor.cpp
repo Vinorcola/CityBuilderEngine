@@ -16,9 +16,9 @@ BuildingProcessor::BuildingProcessor(QObject* parent) :
 
 
 
-void BuildingProcessor::registerBuilding(ProcessableBuilding* building)
+void BuildingProcessor::registerBuilding(ProcessableBuilding& building)
 {
-    waitingForRegistrationList.append(building);
+    waitingForRegistrationList.append(&building);
 }
 
 

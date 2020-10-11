@@ -64,7 +64,7 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
 
     // Load existing elements.
     for (auto element : map.getBuildings()) {
-        registerNewBuilding(*element);
+        registerNewBuilding(element);
     }
     for (auto element : map.getNatureElements()) {
         registerNewNatureElement(*element);
@@ -92,13 +92,13 @@ void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, c
 
 
 
-void MapScene::registerNewBuilding(const Building& element)
+void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
 {
-    Tile* tile(getTileAt(element.getArea().getLeft()));
-    auto& buildingImage(imageLibrary.getBuildingImage(element.getConf()));
+    Tile* tile(getTileAt(element->getArea().getLeft()));
+    auto& buildingImage(imageLibrary.getBuildingImage(element->getConf()));
 
-    tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, element.getConf().getSize(), buildingImage));
-    maskCoveredTiles(tile, element.getConf().getSize());
+    tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, element->getConf().getSize(), buildingImage));
+    maskCoveredTiles(tile, element->getConf().getSize());
 }
 
 
