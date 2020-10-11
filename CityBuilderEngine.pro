@@ -73,15 +73,16 @@ SOURCES += \
     src/ui/controlPanel/ControlPanel.cpp \
     src/ui/InformationWidget.cpp \
     src/ui/MainWindow.cpp \
+    src/viewer/element/graphics/DynamicElement.cpp \
     src/viewer/element/graphics/StaticElement.cpp \
     src/viewer/element/BuildingView.cpp \
+    src/viewer/element/CharacterView.cpp \
     src/viewer/image/BuildingImage.cpp \
     src/viewer/image/CharacterImage.cpp \
     src/viewer/image/Image.cpp \
     src/viewer/image/ImageLibrary.cpp \
     src/viewer/image/ImageSequence.cpp \
     src/viewer/image/NatureElementImage.cpp \
-    src/viewer/DynamicElement.cpp \
     src/viewer/MapScene.cpp \
     src/viewer/MapViewer.cpp \
     src/viewer/SelectionElement.cpp \
@@ -162,15 +163,17 @@ HEADERS += \
     src/ui/controlPanel/ControlPanel.hpp \
     src/ui/InformationWidget.hpp \
     src/ui/MainWindow.hpp \
+    src/viewer/element/graphics/DynamicElement.hpp \
     src/viewer/element/graphics/StaticElement.hpp \
     src/viewer/element/BuildingView.hpp \
+    src/viewer/element/CharacterView.hpp \
+    src/viewer/element/TileLocatorInterface.hpp \
     src/viewer/image/BuildingImage.hpp \
     src/viewer/image/CharacterImage.hpp \
     src/viewer/image/Image.hpp \
     src/viewer/image/ImageLibrary.hpp \
     src/viewer/image/ImageSequence.hpp \
     src/viewer/image/NatureElementImage.hpp \
-    src/viewer/DynamicElement.hpp \
     src/viewer/MapScene.hpp \
     src/viewer/MapViewer.hpp \
     src/viewer/SelectionElement.hpp \

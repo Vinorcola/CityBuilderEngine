@@ -19,7 +19,8 @@ Character::Character(
     pathGenerator(pathGenerator),
     conf(conf),
     motionHandler(conf.getSpeed(), issuer.getEntryPoint()),
-    issuer(&issuer)
+    issuer(&issuer),
+    viewVersion(0)
 {
 
 }
@@ -54,7 +55,30 @@ optional<ProcessableBuilding*> Character::getIssuer() const
 
 
 
+bool Character::isViewUpToDate(const int currentViewVersion) const
+{
+    return currentViewVersion == viewVersion;
+}
+
+
+
+int Character::getViewVersion() const
+{
+    return viewVersion;
+}
+
+
+
 void Character::process(const CycleDate& /*date*/)
 {
-    motionHandler.move();
+    if (motionHandler.move()) {
+        notifyViewDataChange();
+    }
+}
+
+
+
+void Character::notifyViewDataChange()
+{
+    ++viewVersion;
 }

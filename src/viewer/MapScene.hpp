@@ -4,10 +4,14 @@
 #include <QtCore/QBasicTimer>
 #include <QtWidgets/QGraphicsScene>
 
+#include "src/viewer/element/TileLocatorInterface.hpp"
+#include "src/defines.hpp"
+
 class Building;
 class BuildingInformation;
 class BuildingView;
 class Character;
+class CharacterView;
 class Conf;
 class DynamicElement;
 class ImageLibrary;
@@ -19,17 +23,17 @@ class NatureElement;
 class SelectionElement;
 class Tile;
 
-class MapScene : public QGraphicsScene
+class MapScene : public QGraphicsScene, public TileLocatorInterface
 {
         Q_OBJECT
 
     private:
         const Map& map;
         const ImageLibrary& imageLibrary;
-        QList<Tile*> tiles;
-        QList<BuildingView*> buildings;
-        QList<DynamicElement*> dynamicElements;
-        SelectionElement* selectionElement;
+        QList<owner<Tile*>> tiles;
+        QList<owner<BuildingView*>> buildings;
+        QList<owner<CharacterView*>> characters;
+        owner<SelectionElement*> selectionElement;
         QBasicTimer animationClock;
 
     public:
@@ -52,10 +56,12 @@ class MapScene : public QGraphicsScene
          */
         void requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area);
 
+        virtual Tile& getTileAt(const MapCoordinates& location) const override;
+
     public slots:
         void registerNewBuilding(QSharedPointer<const Building> element);
 
-        void registerNewCharacter(const Character& element);
+        void registerNewCharacter(QSharedPointer<const Character> element);
 
         void registerNewNatureElement(const NatureElement& element);
 
@@ -65,12 +71,10 @@ class MapScene : public QGraphicsScene
         void refresh();
 
     protected:
-        virtual void timerEvent(QTimerEvent* event);
+        virtual void timerEvent(QTimerEvent* event) override;
 
     private:
-        Tile* getTileAt(const MapCoordinates& location);
-
-        void maskCoveredTiles(Tile* tile, const MapSize& elementSize);
+        void maskCoveredTiles(Tile& tile, const MapSize& elementSize);
 
         /**
          * @brief Refresh the selection element.

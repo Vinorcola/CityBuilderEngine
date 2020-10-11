@@ -152,7 +152,7 @@ Road& ElementHandler::generateRoad(const BuildingInformation& conf, const MapCoo
 
 
 
-const std::list<Character*>& ElementHandler::getCharacters() const
+const std::list<QSharedPointer<Character>>& ElementHandler::getCharacters() const
 {
     return characters;
 }
@@ -165,10 +165,12 @@ DeliveryManCharacter& ElementHandler::generateDeliveryMan(
     const ItemInformation& transportedItemConf,
     const int transportedQuantity
 ) {
-    auto character(new DeliveryManCharacter(this, *this, pathGenerator, searchEngine, conf, issuer, transportedItemConf, transportedQuantity));
+    QSharedPointer<DeliveryManCharacter> character(
+        new DeliveryManCharacter(this, *this, pathGenerator, searchEngine, conf, issuer, transportedItemConf, transportedQuantity)
+    );
     characters.push_back(character);
 
-    emit characterCreated(*character);
+    emit characterCreated(character);
 
     return *character;
 }
@@ -180,10 +182,10 @@ ImmigrantCharacter& ElementHandler::generateImmigrant(
     ProcessableBuilding& issuer,
     ProcessableBuilding& target
 ) {
-    auto character(new ImmigrantCharacter(this, *this, pathGenerator, conf, issuer, target));
+    QSharedPointer<ImmigrantCharacter> character(new ImmigrantCharacter(this, *this, pathGenerator, conf, issuer, target));
     characters.push_back(character);
 
-    emit characterCreated(*character);
+    emit characterCreated(character);
 
     return *character;
 }
@@ -195,10 +197,10 @@ MinerCharacter& ElementHandler::generateMiner(
     ProcessableBuilding& issuer,
     owner<PathInterface*> path
 ) {
-    auto character(new MinerCharacter(this, *this, pathGenerator, conf, issuer, path));
+    QSharedPointer<MinerCharacter> character(new MinerCharacter(this, *this, pathGenerator, conf, issuer, path));
     characters.push_back(character);
 
-    emit characterCreated(*character);
+    emit characterCreated(character);
 
     return *character;
 }
@@ -211,10 +213,10 @@ StudentCharacter& ElementHandler::generateStudent(
     ProcessableBuilding& target
 ) {
     auto path(pathGenerator.generateShortestRoadPathTo(issuer.getEntryPoint(), target.getEntryPoint()));
-    auto character(new StudentCharacter(this, *this, pathGenerator, conf, issuer, target, path));
+    QSharedPointer<StudentCharacter> character(new StudentCharacter(this, *this, pathGenerator, conf, issuer, target, path));
     characters.push_back(character);
 
-    emit characterCreated(*character);
+    emit characterCreated(character);
 
     return *character;
 }
@@ -225,10 +227,10 @@ WanderingCharacter& ElementHandler::generateWanderingCharacter(
     const CharacterInformation& conf,
     ProcessableBuilding& issuer
 ) {
-    auto character(new WanderingCharacter(this, *this, pathGenerator, conf, issuer));
+    QSharedPointer<WanderingCharacter> character(new WanderingCharacter(this, *this, pathGenerator, conf, issuer));
     characters.push_back(character);
 
-    emit characterCreated(*character);
+    emit characterCreated(character);
 
     return *character;
 }
@@ -237,10 +239,12 @@ WanderingCharacter& ElementHandler::generateWanderingCharacter(
 
 void ElementHandler::clearCharacter(Character& character)
 {
-    characters.remove(&character);
-    delete &character;
-
-    emit characterDestroyed(&character);
+    for (auto iterator(characters.begin()); iterator != characters.end(); ++iterator) {
+        if (iterator->get() == &character) {
+            characters.erase(iterator);
+            return;
+        }
+    }
 }
 
 

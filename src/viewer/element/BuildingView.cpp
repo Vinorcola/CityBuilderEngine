@@ -15,7 +15,6 @@ BuildingView::BuildingView(
     const QSharedPointer<const Building>& engineData,
     Tile& tile
 ) :
-    baseTileSize(baseTileSize),
     engineData(engineData),
     tile(tile),
     image(imageLibrary.getBuildingImage(engineData->getConf())),
@@ -74,6 +73,6 @@ void BuildingView::advanceAnimation()
 
 void BuildingView::setDestroyed()
 {
-    this->engineData.clear();
+    engineData.clear();
     tile.dropStaticElement();
 }

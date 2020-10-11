@@ -30,7 +30,7 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
         MapSearchEngine& searchEngine;
         const PathGenerator& pathGenerator;
         std::list<QSharedPointer<Building>> buildings;
-        std::list<Character*> characters;
+        std::list<QSharedPointer<Character>> characters;
         std::list<NatureElement*> natureElements;
 
     public:
@@ -58,7 +58,7 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         // Characters
 
-        const std::list<Character*>& getCharacters() const;
+        const std::list<QSharedPointer<Character>>& getCharacters() const;
 
         virtual DeliveryManCharacter& generateDeliveryMan(
             const CharacterInformation& conf,
@@ -100,10 +100,8 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
     signals:
         void buildingCreated(QSharedPointer<Building> building);
-        void characterCreated(Character& character);
+        void characterCreated(QSharedPointer<Character> character);
         void natureElementCreated(NatureElement& natureElement);
-
-        void characterDestroyed(Character* invalidPointerToDeletedCharacter);
 
     private:
         void canConstructBuilding(const BuildingInformation& conf, const MapArea& area);

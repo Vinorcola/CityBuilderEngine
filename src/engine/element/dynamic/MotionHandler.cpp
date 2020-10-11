@@ -82,7 +82,7 @@ void MotionHandler::stop()
 
 
 
-void MotionHandler::move()
+bool MotionHandler::move()
 {
     if (location == movingTo) {
         // We use `movingTo` rather than `location` to set the coordinates of `movingFrom`, because `movingTo` is sure
@@ -92,27 +92,34 @@ void MotionHandler::move()
     }
 
     if (!movingTo.isValid()) {
-        return;
+        return false;
     }
 
-    moveToTarget();
+    return moveToTarget();
 }
 
 
 
-void MotionHandler::moveToTarget()
+bool MotionHandler::moveToTarget()
 {
+    bool hasMoved(false);
     if (movingTo.getX() > location.getX()) {
         location.setX(qMin(location.getX() + speed, movingTo.getX()));
+        hasMoved = true;
     }
     else if (movingTo.getX() < location.getX()) {
         location.setX(qMax(location.getX() - speed, movingTo.getX()));
+        hasMoved = true;
     }
 
     if (movingTo.getY() > location.getY()) {
         location.setY(qMin(location.getY() + speed, movingTo.getY()));
+        hasMoved = true;
     }
     else if (movingTo.getY() < location.getY()) {
         location.setY(qMax(location.getY() - speed, movingTo.getY()));
+        hasMoved = true;
     }
+
+    return hasMoved;
 }

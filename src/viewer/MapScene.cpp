@@ -5,17 +5,19 @@
 #include "src/engine/element/static/NatureElement.hpp"
 #include "src/engine/map/Map.hpp"
 #include "src/engine/processing/TimeCycleProcessor.hpp"
+#include "src/exceptions/OutOfRangeException.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
+#include "src/viewer/element/graphics/DynamicElement.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
+#include "src/viewer/element/CharacterView.hpp"
 #include "src/viewer/element/BuildingView.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/image/NatureElementImage.hpp"
-#include "src/viewer/DynamicElement.hpp"
 #include "src/viewer/SelectionElement.hpp"
 #include "src/viewer/Tile.hpp"
 
@@ -29,7 +31,7 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
     imageLibrary(imageLibrary),
     tiles(),
     buildings(),
-    dynamicElements(),
+    characters(),
     selectionElement(new SelectionElement(BASE_TILE_SIZE)),
     animationClock()
 {
@@ -89,6 +91,9 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
 MapScene::~MapScene()
 {
     qDeleteAll(buildings);
+    qDeleteAll(characters);
+    delete selectionElement;
+    qDeleteAll(tiles);
 }
 
 
@@ -107,34 +112,45 @@ void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, c
 
 
 
+Tile& MapScene::getTileAt(const MapCoordinates& location) const
+{
+    for (auto tile : tiles) {
+        if (tile->getCoordinates() == location) {
+            return *tile;
+        }
+    }
+
+    throw OutOfRangeException("Unable to find tile located at " + location.toString());
+}
+
+
+
 void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
 {
-    auto tile(getTileAt(element->getArea().getLeft()));
-    auto buildingView(new BuildingView(imageLibrary, BASE_TILE_SIZE, element, *tile));
-    buildings.append(buildingView);
+    auto& tile(getTileAt(element->getArea().getLeft()));
+    buildings.append(
+        new BuildingView(imageLibrary, BASE_TILE_SIZE, element, tile)
+    );
     maskCoveredTiles(tile, element->getConf().getSize());
 }
 
 
 
-void MapScene::registerNewCharacter(const Character& element)
+void MapScene::registerNewCharacter(QSharedPointer<const Character> element)
 {
-    auto& characterImage(imageLibrary.getCharacterImage(element.getConf()));
-    DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, &element, characterImage.getImage()));
-    dynamicElements.append(graphicsItem);
-
-    Tile* tile(getTileAt(element.getCurrentLocation().getRounded()));
-    tile->registerDynamicElement(graphicsItem);
+    characters.append(
+        new CharacterView(imageLibrary, *this, BASE_TILE_SIZE, element)
+    );
 }
 
 
 
 void MapScene::registerNewNatureElement(const NatureElement& element)
 {
-    Tile* tile(getTileAt(element.getArea().getLeft()));
+    auto& tile(getTileAt(element.getArea().getLeft()));
     auto& natureElementImage(imageLibrary.getNatureElementImage(element.getConf()));
 
-    tile->setStaticElement(new StaticElement(BASE_TILE_SIZE, element.getArea().getSize(), natureElementImage.getImage()));
+    tile.setStaticElement(new StaticElement(BASE_TILE_SIZE, element.getArea().getSize(), natureElementImage.getImage()));
     maskCoveredTiles(tile, element.getArea().getSize());
 }
 
@@ -142,25 +158,16 @@ void MapScene::registerNewNatureElement(const NatureElement& element)
 
 void MapScene::refresh()
 {
-    // Refresh all the dynamic elements.
-    auto iterator(dynamicElements.begin());
-    while (iterator != dynamicElements.end()) {
-        auto element(*iterator);
-        if (element->stillExists()) {
-            const MapCoordinates& previousTileLocation(static_cast<Tile*>(element->parentItem())->getCoordinates());
-            MapCoordinates newTileLocation(element->getCoordinates().getRounded());
-            if (newTileLocation != previousTileLocation) {
-                // Dynamic element just switch to another tile.
-                getTileAt(previousTileLocation)->unregisterDynamicElement(element);
-                getTileAt(newTileLocation)->registerDynamicElement(element);
-            }
-
-            element->refresh();
-            ++iterator;
+    // Refresh all the characters.
+    auto iterator(characters.begin());
+    while (iterator != characters.end()) {
+        auto character(*iterator);
+        character->updateFromEngineData();
+        if (character->hasBeenDestroyed()) {
+            iterator = characters.erase(iterator);
+            delete character;
         } else {
-            removeItem(element);
-            delete element;
-            iterator = dynamicElements.erase(iterator);
+            ++iterator;
         }
     }
 
@@ -181,30 +188,17 @@ void MapScene::timerEvent(QTimerEvent* /*event*/)
 
 
 
-Tile* MapScene::getTileAt(const MapCoordinates& location)
-{
-    for (auto tile : tiles) {
-        if (tile->getCoordinates() == location) {
-            return tile;
-        }
-    }
-
-    return nullptr;
-}
-
-
-
-void MapScene::maskCoveredTiles(Tile* tile, const MapSize& elementSize)
+void MapScene::maskCoveredTiles(Tile& tile, const MapSize& elementSize)
 {
     if (elementSize.getValue() > 1) {
-        MapArea area(tile->getCoordinates(), elementSize);
+        MapArea area(tile.getCoordinates(), elementSize);
         auto left(area.getLeft());
         auto right(area.getRight());
         auto current(left.getEast());
 
         while (current.getY() <= right.getY()) {
             while (current.getX() <= right.getX()) {
-                getTileAt(current)->setVisible(false);
+                getTileAt(current).setVisible(false);
                 current = current.getEast();
             }
             current.setX(left.getX());

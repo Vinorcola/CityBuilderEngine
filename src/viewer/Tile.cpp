@@ -1,7 +1,7 @@
 #include "Tile.hpp"
 
+#include "src/viewer/element/graphics/DynamicElement.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
-#include "src/viewer/DynamicElement.hpp"
 
 
 
@@ -53,18 +53,24 @@ void Tile::dropStaticElement()
 
 
 
-void Tile::registerDynamicElement(DynamicElement* element)
+void Tile::registerDynamicElement(QGraphicsItem* element)
 {
     element->setParentItem(this);
     element->setVisible(true);
-    dynamicElementList.append(element);
 }
 
 
 
-void Tile::unregisterDynamicElement(DynamicElement* element)
+void Tile::moveDynamicElementTo(QGraphicsItem* element, Tile& other)
 {
-    dynamicElementList.removeOne(element);
+    element->setParentItem(&other);
+}
+
+
+
+void Tile::unregisterDynamicElement(QGraphicsItem* element)
+{
+    element->setParentItem(nullptr);
 }
 
 

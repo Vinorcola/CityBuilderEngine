@@ -101,6 +101,7 @@ void DeliveryManCharacter::process(const CycleDate& date)
         else {
             if (target) {
                 target->processInteraction(date, *this);
+                notifyViewDataChange();
                 if (isEmpty()) {
                     goHome();
                 }

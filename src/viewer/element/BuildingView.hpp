@@ -5,6 +5,8 @@
 #include <QtCore/QSizeF>
 #include <QtCore/QWeakPointer>
 
+#include "src/defines.hpp"
+
 class Building;
 class BuildingImage;
 class ImageLibrary;
@@ -14,11 +16,10 @@ class Tile;
 class BuildingView
 {
     private:
-        const QSizeF& baseTileSize;
         QWeakPointer<const Building> engineData;
         Tile& tile;
         BuildingImage& image;
-        StaticElement* graphicElement;
+        owner<StaticElement*> graphicElement;
         int currentViewVersion;
         int animationIndex;
 

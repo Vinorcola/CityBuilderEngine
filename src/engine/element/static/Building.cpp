@@ -29,7 +29,7 @@ const MapArea& Building::getArea() const
 
 bool Building::isViewUpToDate(const int currentViewVersion) const
 {
-    return viewVersion == currentViewVersion;
+    return currentViewVersion == viewVersion;
 }
 
 

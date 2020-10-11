@@ -19,7 +19,7 @@ class Tile : public QGraphicsObject
         MapCoordinates location;
         QGraphicsItem* groundElement;///< The ground nature element (grass for example).
         optional<QGraphicsItem*> staticElement;///< The static element (building or nature element).
-        QList<DynamicElement*> dynamicElementList;
+        QList<QGraphicsItem*> dynamicElementList;
 
     public:
         Tile(const MapCoordinates& location, const QSizeF& baseTileSize, QGraphicsItem* groundElement);
@@ -30,9 +30,11 @@ class Tile : public QGraphicsObject
 
         void dropStaticElement();
 
-        void registerDynamicElement(DynamicElement* element);
+        void registerDynamicElement(QGraphicsItem* element);
 
-        void unregisterDynamicElement(DynamicElement* element);
+        void moveDynamicElementTo(QGraphicsItem* element, Tile& other);
+
+        void unregisterDynamicElement(QGraphicsItem* element);
 
         virtual QRectF boundingRect() const;
         virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);

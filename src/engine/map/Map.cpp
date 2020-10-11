@@ -48,8 +48,8 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
 
         emit buildingCreated(building);
     });
-    connect(&elementHandler, &ElementHandler::characterCreated, [this](Character& character) {
-        processor->registerCharacter(&character);
+    connect(&elementHandler, &ElementHandler::characterCreated, [this](QSharedPointer<Character> character) {
+        processor->registerCharacter(character.get());
 
         emit characterCreated(character);
     });
@@ -178,7 +178,7 @@ const std::list<QSharedPointer<Building>>& Map::getBuildings() const
 
 
 
-const std::list<Character*>& Map::getCharacters() const
+const std::list<QSharedPointer<Character>>& Map::getCharacters() const
 {
     return elementHandler.getCharacters();
 }

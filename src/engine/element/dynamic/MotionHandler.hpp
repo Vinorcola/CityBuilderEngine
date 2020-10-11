@@ -51,14 +51,16 @@ class MotionHandler
 
         /**
          * @brief Move and return the new location.
+         * @return `true` if the location has changed.
          */
-        void move();
+        bool move();
 
     private:
         /**
          * @brief Execute the motion.
+         * @return `true` if the location has changed.
          */
-        void moveToTarget();
+        bool moveToTarget();
 };
 
 #endif // MOTIONHANDLER_HPP
