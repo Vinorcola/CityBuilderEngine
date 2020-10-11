@@ -2,8 +2,9 @@
 
 #include "src/engine/element/static/Building.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/viewer/element/graphics/StaticElement.hpp"
+#include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
-#include "src/viewer/StaticElement.hpp"
 #include "src/viewer/Tile.hpp"
 
 
@@ -18,11 +19,11 @@ BuildingView::BuildingView(
     engineData(engineData),
     tile(tile),
     image(imageLibrary.getBuildingImage(engineData->getConf())),
-    graphicElement(new StaticElement(baseTileSize, engineData->getConf().getSize(), image)),
+    graphicElement(new StaticElement(baseTileSize, engineData->getConf().getSize(), image.getInactiveImage())),
     currentViewVersion(engineData->getViewVersion()),
     animationIndex(0)
 {
-    tile.pushStaticElement(graphicElement);
+    tile.setStaticElement(graphicElement);
 }
 
 
@@ -61,5 +62,5 @@ bool BuildingView::hasBeenDestroyed() const
 void BuildingView::setDestroyed()
 {
     this->engineData.clear();
-    tile.popStaticElement();
+    tile.dropStaticElement();
 }

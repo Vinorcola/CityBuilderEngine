@@ -73,6 +73,7 @@ SOURCES += \
     src/ui/controlPanel/ControlPanel.cpp \
     src/ui/InformationWidget.cpp \
     src/ui/MainWindow.cpp \
+    src/viewer/element/graphics/StaticElement.cpp \
     src/viewer/element/BuildingView.cpp \
     src/viewer/image/BuildingImage.cpp \
     src/viewer/image/CharacterImage.cpp \
@@ -84,7 +85,6 @@ SOURCES += \
     src/viewer/MapScene.cpp \
     src/viewer/MapViewer.cpp \
     src/viewer/SelectionElement.cpp \
-    src/viewer/StaticElement.cpp \
     src/viewer/Tile.cpp \
     src/main.cpp
 
@@ -162,6 +162,7 @@ HEADERS += \
     src/ui/controlPanel/ControlPanel.hpp \
     src/ui/InformationWidget.hpp \
     src/ui/MainWindow.hpp \
+    src/viewer/element/graphics/StaticElement.hpp \
     src/viewer/element/BuildingView.hpp \
     src/viewer/image/BuildingImage.hpp \
     src/viewer/image/CharacterImage.hpp \
@@ -173,7 +174,6 @@ HEADERS += \
     src/viewer/MapScene.hpp \
     src/viewer/MapViewer.hpp \
     src/viewer/SelectionElement.hpp \
-    src/viewer/StaticElement.hpp \
     src/viewer/Tile.hpp \
     src/defines.hpp
 

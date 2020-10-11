@@ -9,13 +9,13 @@
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
+#include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/image/NatureElementImage.hpp"
 #include "src/viewer/DynamicElement.hpp"
 #include "src/viewer/SelectionElement.hpp"
-#include "src/viewer/StaticElement.hpp"
 #include "src/viewer/Tile.hpp"
 
 const QSizeF BASE_TILE_SIZE(58, 30);
@@ -46,8 +46,11 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
         // to 0 insted of 1.
         int adjust(line > mapSize.width() ? 1 : 2);
         while (column < (mapSize.width() - line + adjust) / 2) {
-            Tile* tile(new Tile(MapCoordinates(column, line + column), BASE_TILE_SIZE));
-            tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, MapSize(1), grassImage));
+            auto tile(new Tile(
+                MapCoordinates(column, line + column),
+                BASE_TILE_SIZE,
+                new StaticElement(BASE_TILE_SIZE, MapSize(1), grassImage.getImage())
+            ));
 
             addItem(tile);
             tileList.append(tile);
@@ -97,7 +100,7 @@ void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
     Tile* tile(getTileAt(element->getArea().getLeft()));
     auto& buildingImage(imageLibrary.getBuildingImage(element->getConf()));
 
-    tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, element->getConf().getSize(), buildingImage));
+    tile->setStaticElement(new StaticElement(BASE_TILE_SIZE, element->getConf().getSize(), buildingImage.getInactiveImage()));
     maskCoveredTiles(tile, element->getConf().getSize());
 }
 
@@ -120,7 +123,7 @@ void MapScene::registerNewNatureElement(const NatureElement& element)
     Tile* tile(getTileAt(element.getArea().getLeft()));
     auto& natureElementImage(imageLibrary.getNatureElementImage(element.getConf()));
 
-    tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, element.getArea().getSize(), natureElementImage));
+    tile->setStaticElement(new StaticElement(BASE_TILE_SIZE, element.getArea().getSize(), natureElementImage.getImage()));
     maskCoveredTiles(tile, element.getArea().getSize());
 }
 
