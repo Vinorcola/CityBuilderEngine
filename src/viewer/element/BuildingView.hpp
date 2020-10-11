@@ -2,7 +2,7 @@
 #define BUILDINGVIEW_HPP
 
 #include <QtCore/QSharedPointer>
-#include <QtCore/QSize>
+#include <QtCore/QSizeF>
 #include <QtCore/QWeakPointer>
 
 class Building;
@@ -14,7 +14,7 @@ class Tile;
 class BuildingView
 {
     private:
-        const QSize& baseTileSize;
+        const QSizeF& baseTileSize;
         QWeakPointer<const Building> engineData;
         Tile& tile;
         BuildingImage& image;
@@ -24,8 +24,8 @@ class BuildingView
 
     public:
         BuildingView(
-            ImageLibrary& imageLibrary,
-            const QSize& baseTileSize,
+            const ImageLibrary& imageLibrary,
+            const QSizeF& baseTileSize,
             const QSharedPointer<const Building>& engineData,
             Tile& tile
         );

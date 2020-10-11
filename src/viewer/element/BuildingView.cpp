@@ -10,8 +10,8 @@
 
 
 BuildingView::BuildingView(
-    ImageLibrary& imageLibrary,
-    const QSize& baseTileSize,
+    const ImageLibrary& imageLibrary,
+    const QSizeF& baseTileSize,
     const QSharedPointer<const Building>& engineData,
     Tile& tile
 ) :

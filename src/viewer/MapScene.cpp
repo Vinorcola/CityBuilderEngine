@@ -10,6 +10,7 @@
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
+#include "src/viewer/element/BuildingView.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
@@ -26,8 +27,9 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
     QGraphicsScene(),
     map(map),
     imageLibrary(imageLibrary),
-    tileList(),
-    dynamicElementList(),
+    tiles(),
+    buildings(),
+    dynamicElements(),
     selectionElement(new SelectionElement(BASE_TILE_SIZE))
 {
     setBackgroundBrush(QBrush(Qt::black));
@@ -53,7 +55,7 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
             ));
 
             addItem(tile);
-            tileList.append(tile);
+            tiles.append(tile);
             connect(tile, &Tile::isCurrentTile, this, &MapScene::currentTileChanged);
 
             ++column;
@@ -81,6 +83,13 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
 
 
 
+MapScene::~MapScene()
+{
+    qDeleteAll(buildings);
+}
+
+
+
 void MapScene::requestBuildingPositioning(const BuildingInformation* elementConf)
 {
     selectionElement->setBuildingType(elementConf);
@@ -97,10 +106,9 @@ void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, c
 
 void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
 {
-    Tile* tile(getTileAt(element->getArea().getLeft()));
-    auto& buildingImage(imageLibrary.getBuildingImage(element->getConf()));
-
-    tile->setStaticElement(new StaticElement(BASE_TILE_SIZE, element->getConf().getSize(), buildingImage.getInactiveImage()));
+    auto tile(getTileAt(element->getArea().getLeft()));
+    auto buildingView(new BuildingView(imageLibrary, BASE_TILE_SIZE, element, *tile));
+    buildings.append(buildingView);
     maskCoveredTiles(tile, element->getConf().getSize());
 }
 
@@ -110,7 +118,7 @@ void MapScene::registerNewCharacter(const Character& element)
 {
     auto& characterImage(imageLibrary.getCharacterImage(element.getConf()));
     DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, &element, characterImage.getImage()));
-    dynamicElementList.append(graphicsItem);
+    dynamicElements.append(graphicsItem);
 
     Tile* tile(getTileAt(element.getCurrentLocation().getRounded()));
     tile->registerDynamicElement(graphicsItem);
@@ -132,8 +140,8 @@ void MapScene::registerNewNatureElement(const NatureElement& element)
 void MapScene::refresh()
 {
     // Refresh all the dynamic elements.
-    auto iterator(dynamicElementList.begin());
-    while (iterator != dynamicElementList.end()) {
+    auto iterator(dynamicElements.begin());
+    while (iterator != dynamicElements.end()) {
         auto element(*iterator);
         if (element->stillExists()) {
             const MapCoordinates& previousTileLocation(static_cast<Tile*>(element->parentItem())->getCoordinates());
@@ -149,7 +157,7 @@ void MapScene::refresh()
         } else {
             removeItem(element);
             delete element;
-            iterator = dynamicElementList.erase(iterator);
+            iterator = dynamicElements.erase(iterator);
         }
     }
 
@@ -163,7 +171,7 @@ void MapScene::refresh()
 
 Tile* MapScene::getTileAt(const MapCoordinates& location)
 {
-    for (auto tile : tileList) {
+    for (auto tile : tiles) {
         if (tile->getCoordinates() == location) {
             return tile;
         }
