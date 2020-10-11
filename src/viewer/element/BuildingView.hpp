@@ -10,13 +10,17 @@
 class Building;
 class BuildingImage;
 class ImageLibrary;
+class MapSize;
 class StaticElement;
 class Tile;
+class TileLocatorInterface;
 
 class BuildingView
 {
     private:
+        const TileLocatorInterface& tileLocator;
         QWeakPointer<const Building> engineData;
+        const MapSize& buildingSize;
         Tile& tile;
         BuildingImage& image;
         owner<StaticElement*> graphicElement;
@@ -25,10 +29,10 @@ class BuildingView
 
     public:
         BuildingView(
+            const TileLocatorInterface& tileLocator,
             const ImageLibrary& imageLibrary,
             const QSizeF& baseTileSize,
-            const QSharedPointer<const Building>& engineData,
-            Tile& tile
+            const QSharedPointer<const Building>& engineData
         );
 
         ~BuildingView();
@@ -40,6 +44,10 @@ class BuildingView
         void advanceAnimation();
 
     private:
+        void maskCoveredTiles();
+
+        void revealCoveredTiles();
+
         void setDestroyed();
 };
 

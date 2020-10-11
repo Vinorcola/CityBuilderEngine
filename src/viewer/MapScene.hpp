@@ -74,8 +74,6 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         virtual void timerEvent(QTimerEvent* event) override;
 
     private:
-        void maskCoveredTiles(Tile& tile, const MapSize& elementSize);
-
         /**
          * @brief Refresh the selection element.
          *

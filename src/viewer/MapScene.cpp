@@ -127,11 +127,9 @@ Tile& MapScene::getTileAt(const MapCoordinates& location) const
 
 void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
 {
-    auto& tile(getTileAt(element->getArea().getLeft()));
     buildings.append(
-        new BuildingView(imageLibrary, BASE_TILE_SIZE, element, tile)
+        new BuildingView(*this, imageLibrary, BASE_TILE_SIZE, element)
     );
-    maskCoveredTiles(tile, element->getConf().getSize());
 }
 
 
@@ -139,7 +137,7 @@ void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
 void MapScene::registerNewCharacter(QSharedPointer<const Character> element)
 {
     characters.append(
-        new CharacterView(imageLibrary, *this, BASE_TILE_SIZE, element)
+        new CharacterView(*this, imageLibrary, BASE_TILE_SIZE, element)
     );
 }
 
@@ -151,7 +149,7 @@ void MapScene::registerNewNatureElement(const NatureElement& element)
     auto& natureElementImage(imageLibrary.getNatureElementImage(element.getConf()));
 
     tile.setStaticElement(new StaticElement(BASE_TILE_SIZE, element.getArea().getSize(), natureElementImage.getImage()));
-    maskCoveredTiles(tile, element.getArea().getSize());
+    // TODO: Handle higher size of nature elements by hiding covered tiles (se BuildingView).
 }
 
 
@@ -183,27 +181,6 @@ void MapScene::timerEvent(QTimerEvent* /*event*/)
 {
     for (auto building : buildings) {
         building->advanceAnimation();
-    }
-}
-
-
-
-void MapScene::maskCoveredTiles(Tile& tile, const MapSize& elementSize)
-{
-    if (elementSize.getValue() > 1) {
-        MapArea area(tile.getCoordinates(), elementSize);
-        auto left(area.getLeft());
-        auto right(area.getRight());
-        auto current(left.getEast());
-
-        while (current.getY() <= right.getY()) {
-            while (current.getX() <= right.getX()) {
-                getTileAt(current).setVisible(false);
-                current = current.getEast();
-            }
-            current.setX(left.getX());
-            current = current.getSouth();
-        }
     }
 }
 

@@ -10,8 +10,8 @@
 
 
 CharacterView::CharacterView(
-    const ImageLibrary& imageLibrary,
     const TileLocatorInterface& tileLocator,
+    const ImageLibrary& imageLibrary,
     const QSizeF& baseTileSize,
     const QSharedPointer<const Character>& engineData
 ) :

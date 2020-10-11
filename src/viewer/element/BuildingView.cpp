@@ -3,6 +3,7 @@
 #include "src/engine/element/static/Building.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
+#include "src/viewer/element/TileLocatorInterface.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/Tile.hpp"
@@ -10,19 +11,22 @@
 
 
 BuildingView::BuildingView(
+    const TileLocatorInterface& tileLocator,
     const ImageLibrary& imageLibrary,
     const QSizeF& baseTileSize,
-    const QSharedPointer<const Building>& engineData,
-    Tile& tile
+    const QSharedPointer<const Building>& engineData
 ) :
+    tileLocator(tileLocator),
     engineData(engineData),
-    tile(tile),
+    buildingSize(engineData->getConf().getSize()),
+    tile(tileLocator.getTileAt(engineData->getArea().getLeft())),
     image(imageLibrary.getBuildingImage(engineData->getConf())),
     graphicElement(new StaticElement(baseTileSize, engineData->getConf().getSize(), image.getInactiveImage())),
     currentViewVersion(engineData->getViewVersion()),
     animationIndex(0)
 {
     tile.setStaticElement(graphicElement);
+    maskCoveredTiles();
 }
 
 
@@ -71,8 +75,51 @@ void BuildingView::advanceAnimation()
 
 
 
+void BuildingView::maskCoveredTiles()
+{
+    if (buildingSize.getValue() > 1) {
+        MapArea area(tile.getCoordinates(), buildingSize);
+        auto left(area.getLeft());
+        auto right(area.getRight());
+        auto current(left.getEast());
+
+        while (current.getY() <= right.getY()) {
+            while (current.getX() <= right.getX()) {
+                tileLocator.getTileAt(current).setVisible(false);
+                current = current.getEast();
+            }
+            current.setX(left.getX());
+            current = current.getSouth();
+        }
+    }
+}
+
+
+
+void BuildingView::revealCoveredTiles()
+{
+    if (buildingSize.getValue() > 1) {
+        MapArea area(tile.getCoordinates(), buildingSize);
+        auto left(area.getLeft());
+        auto right(area.getRight());
+        auto current(left.getEast());
+
+        while (current.getY() <= right.getY()) {
+            while (current.getX() <= right.getX()) {
+                tileLocator.getTileAt(current).setVisible(true);
+                current = current.getEast();
+            }
+            current.setX(left.getX());
+            current = current.getSouth();
+        }
+    }
+}
+
+
+
 void BuildingView::setDestroyed()
 {
     engineData.clear();
     tile.dropStaticElement();
+    revealCoveredTiles();
 }
