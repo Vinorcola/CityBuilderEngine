@@ -36,6 +36,8 @@ class BuildingView
 
         bool hasBeenDestroyed() const;
 
+        void advanceAnimation();
+
     private:
         void setDestroyed();
 };

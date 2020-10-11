@@ -59,6 +59,19 @@ bool BuildingView::hasBeenDestroyed() const
 
 
 
+void BuildingView::advanceAnimation()
+{
+    auto& animation(image.getAnimationSequence());
+    if (animation.getSequenceLength() == 0) {
+        return;
+    }
+
+    animationIndex = (animationIndex + 1) % animation.getSequenceLength();
+    graphicElement->setAnimationImage(animation.getImage(animationIndex), image.getAnimationAnchorPoint());
+}
+
+
+
 void BuildingView::setDestroyed()
 {
     this->engineData.clear();
