@@ -1,14 +1,15 @@
 #include "Tile.hpp"
 
+#include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/viewer/DynamicElement.hpp"
-#include "src/viewer/StaticElement.hpp"
 
 
 
-Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize) :
+Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize, QGraphicsItem* groundElement) :
     QGraphicsObject(),
     location(location),
-    staticElementList(),
+    groundElement(groundElement),
+    staticElement(nullptr),
     dynamicElementList()
 {
     setAcceptHoverEvents(true);
@@ -16,6 +17,7 @@ Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize) :
         (location.getY() + location.getX()) * baseTileSize.width() / 2.0,
         (location.getY() - location.getX()) * baseTileSize.height() / 2.0
     );
+    groundElement->setParentItem(this);
 }
 
 
@@ -27,31 +29,26 @@ const MapCoordinates& Tile::getCoordinates() const
 
 
 
-void Tile::pushStaticElement(StaticElement* element)
+void Tile::setStaticElement(QGraphicsItem* staticElement)
 {
-    if (staticElementList.size() > 0) {
-        // Hide previous graphics item.
-        staticElementList.last()->setVisible(false);
+    if (this->staticElement) {
+        staticElement->setParentItem(nullptr);
     }
 
-    element->setParentItem(this);
-    element->setVisible(true);
-    staticElementList.push(element);
+    this->staticElement = staticElement;
+    staticElement->setParentItem(this);
+
+    groundElement->setVisible(false);
 }
 
 
 
-StaticElement* Tile::popStaticElement()
+void Tile::dropStaticElement()
 {
-    auto element(staticElementList.pop());
-    element->setParentItem(nullptr);
+    staticElement->setParentItem(nullptr);
+    staticElement = nullptr;
 
-    if (staticElementList.size() > 0) {
-        // Show last item.
-        staticElementList.last()->setVisible(true);
-    }
-
-    return element;
+    groundElement->setVisible(true);
 }
 
 
@@ -74,11 +71,11 @@ void Tile::unregisterDynamicElement(DynamicElement* element)
 
 QRectF Tile::boundingRect() const
 {
-    if (staticElementList.size() > 0) {
-        return staticElementList.last()->boundingRect();
+    if (staticElement) {
+        return staticElement->boundingRect();
     }
 
-    return QRectF();
+    return groundElement->boundingRect();
 }
 
 
@@ -92,11 +89,11 @@ void Tile::paint(QPainter* /*painter*/, const QStyleOptionGraphicsItem* /*option
 
 QPainterPath Tile::shape() const
 {
-    if (staticElementList.size() > 0) {
-        return staticElementList.last()->shape();
+    if (staticElement) {
+        return staticElement->shape();
     }
 
-    return QGraphicsObject::shape();
+    return groundElement->shape();
 }
 
 

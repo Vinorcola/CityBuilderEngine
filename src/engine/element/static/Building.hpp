@@ -20,6 +20,7 @@ class Building: public QObject
     protected:
         const BuildingInformation& conf;
         MapArea area;
+        int viewVersion;///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
 
     public:
         Building(QObject* parent, const BuildingInformation& conf, const MapArea& area);
@@ -27,6 +28,13 @@ class Building: public QObject
         const BuildingInformation& getConf() const;
 
         const MapArea& getArea() const;
+
+        bool isViewUpToDate(const int currentViewVersion) const;
+
+        int getViewVersion() const;
+
+    protected:
+        void notifyViewDataChange();
 };
 
 #endif // BUILDING_HPP

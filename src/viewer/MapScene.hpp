@@ -1,10 +1,12 @@
 #ifndef MAPSCENE_HPP
 #define MAPSCENE_HPP
 
+#include <QtCore/QBasicTimer>
 #include <QtWidgets/QGraphicsScene>
 
 class Building;
 class BuildingInformation;
+class BuildingView;
 class Character;
 class Conf;
 class DynamicElement;
@@ -24,12 +26,16 @@ class MapScene : public QGraphicsScene
     private:
         const Map& map;
         const ImageLibrary& imageLibrary;
-        QList<Tile*> tileList;
-        QList<DynamicElement*> dynamicElementList;
+        QList<Tile*> tiles;
+        QList<BuildingView*> buildings;
+        QList<DynamicElement*> dynamicElements;
         SelectionElement* selectionElement;
+        QBasicTimer animationClock;
 
     public:
         MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLibrary);
+
+        ~MapScene();
 
         /**
          * @brief Request the positioning of a building (trigger selection element).
@@ -57,6 +63,9 @@ class MapScene : public QGraphicsScene
          * @brief Refresh the map.
          */
         void refresh();
+
+    protected:
+        virtual void timerEvent(QTimerEvent* event);
 
     private:
         Tile* getTileAt(const MapCoordinates& location);

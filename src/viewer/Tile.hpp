@@ -6,6 +6,7 @@
 #include <QtWidgets/QGraphicsObject>
 
 #include "src/engine/map/MapCoordinates.hpp"
+#include "src/defines.hpp"
 
 class DynamicElement;
 class StaticElement;
@@ -16,22 +17,18 @@ class Tile : public QGraphicsObject
 
     private:
         MapCoordinates location;
-        QStack<StaticElement*> staticElementList;
+        QGraphicsItem* groundElement;///< The ground nature element (grass for example).
+        optional<QGraphicsItem*> staticElement;///< The static element (building or nature element).
         QList<DynamicElement*> dynamicElementList;
 
     public:
-        Tile(const MapCoordinates& location, const QSizeF& baseTileSize);
+        Tile(const MapCoordinates& location, const QSizeF& baseTileSize, QGraphicsItem* groundElement);
 
         const MapCoordinates& getCoordinates() const;
 
-        void pushStaticElement(StaticElement* element);
+        void setStaticElement(QGraphicsItem* staticElement);
 
-        /**
-         * @brief Pop the last graphics item displayed on the tile.
-         *
-         * The graphics item's parent is reset so make sure you delete the object if you don't use it anymore.
-         */
-        StaticElement* popStaticElement();
+        void dropStaticElement();
 
         void registerDynamicElement(DynamicElement* element);
 

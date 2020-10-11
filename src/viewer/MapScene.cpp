@@ -9,13 +9,14 @@
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
+#include "src/viewer/element/graphics/StaticElement.hpp"
+#include "src/viewer/element/BuildingView.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/image/NatureElementImage.hpp"
 #include "src/viewer/DynamicElement.hpp"
 #include "src/viewer/SelectionElement.hpp"
-#include "src/viewer/StaticElement.hpp"
 #include "src/viewer/Tile.hpp"
 
 const QSizeF BASE_TILE_SIZE(58, 30);
@@ -26,9 +27,11 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
     QGraphicsScene(),
     map(map),
     imageLibrary(imageLibrary),
-    tileList(),
-    dynamicElementList(),
-    selectionElement(new SelectionElement(BASE_TILE_SIZE))
+    tiles(),
+    buildings(),
+    dynamicElements(),
+    selectionElement(new SelectionElement(BASE_TILE_SIZE)),
+    animationClock()
 {
     setBackgroundBrush(QBrush(Qt::black));
 
@@ -46,11 +49,14 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
         // to 0 insted of 1.
         int adjust(line > mapSize.width() ? 1 : 2);
         while (column < (mapSize.width() - line + adjust) / 2) {
-            Tile* tile(new Tile(MapCoordinates(column, line + column), BASE_TILE_SIZE));
-            tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, MapSize(1), grassImage));
+            auto tile(new Tile(
+                MapCoordinates(column, line + column),
+                BASE_TILE_SIZE,
+                new StaticElement(BASE_TILE_SIZE, MapSize(1), grassImage.getImage())
+            ));
 
             addItem(tile);
-            tileList.append(tile);
+            tiles.append(tile);
             connect(tile, &Tile::isCurrentTile, this, &MapScene::currentTileChanged);
 
             ++column;
@@ -74,6 +80,15 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
     connect(&map, &Map::buildingCreated, this, &MapScene::registerNewBuilding);
     connect(&map, &Map::characterCreated, this, &MapScene::registerNewCharacter);
     connect(map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
+
+    animationClock.start(100, this);
+}
+
+
+
+MapScene::~MapScene()
+{
+    qDeleteAll(buildings);
 }
 
 
@@ -94,10 +109,9 @@ void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, c
 
 void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
 {
-    Tile* tile(getTileAt(element->getArea().getLeft()));
-    auto& buildingImage(imageLibrary.getBuildingImage(element->getConf()));
-
-    tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, element->getConf().getSize(), buildingImage));
+    auto tile(getTileAt(element->getArea().getLeft()));
+    auto buildingView(new BuildingView(imageLibrary, BASE_TILE_SIZE, element, *tile));
+    buildings.append(buildingView);
     maskCoveredTiles(tile, element->getConf().getSize());
 }
 
@@ -107,7 +121,7 @@ void MapScene::registerNewCharacter(const Character& element)
 {
     auto& characterImage(imageLibrary.getCharacterImage(element.getConf()));
     DynamicElement* graphicsItem(new DynamicElement(BASE_TILE_SIZE, &element, characterImage.getImage()));
-    dynamicElementList.append(graphicsItem);
+    dynamicElements.append(graphicsItem);
 
     Tile* tile(getTileAt(element.getCurrentLocation().getRounded()));
     tile->registerDynamicElement(graphicsItem);
@@ -120,7 +134,7 @@ void MapScene::registerNewNatureElement(const NatureElement& element)
     Tile* tile(getTileAt(element.getArea().getLeft()));
     auto& natureElementImage(imageLibrary.getNatureElementImage(element.getConf()));
 
-    tile->pushStaticElement(new StaticElement(BASE_TILE_SIZE, element.getArea().getSize(), natureElementImage));
+    tile->setStaticElement(new StaticElement(BASE_TILE_SIZE, element.getArea().getSize(), natureElementImage.getImage()));
     maskCoveredTiles(tile, element.getArea().getSize());
 }
 
@@ -129,8 +143,8 @@ void MapScene::registerNewNatureElement(const NatureElement& element)
 void MapScene::refresh()
 {
     // Refresh all the dynamic elements.
-    auto iterator(dynamicElementList.begin());
-    while (iterator != dynamicElementList.end()) {
+    auto iterator(dynamicElements.begin());
+    while (iterator != dynamicElements.end()) {
         auto element(*iterator);
         if (element->stillExists()) {
             const MapCoordinates& previousTileLocation(static_cast<Tile*>(element->parentItem())->getCoordinates());
@@ -146,7 +160,7 @@ void MapScene::refresh()
         } else {
             removeItem(element);
             delete element;
-            iterator = dynamicElementList.erase(iterator);
+            iterator = dynamicElements.erase(iterator);
         }
     }
 
@@ -158,9 +172,18 @@ void MapScene::refresh()
 
 
 
+void MapScene::timerEvent(QTimerEvent* /*event*/)
+{
+    for (auto building : buildings) {
+        building->advanceAnimation();
+    }
+}
+
+
+
 Tile* MapScene::getTileAt(const MapCoordinates& location)
 {
-    for (auto tile : tileList) {
+    for (auto tile : tiles) {
         if (tile->getCoordinates() == location) {
             return tile;
         }
