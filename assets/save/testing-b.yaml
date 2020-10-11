@@ -81,13 +81,6 @@ buildings:
     - { type: road, position: { x: -17, y: 39 } }
     - { type: road, position: { x: -18, y: 39 } }
     - { type: road, position: { x: -19, y: 39 } }
-#    - { type: maintenance, position: { x: 1, y: 15 } }
-#    - { type: house, position: { x: 0, y: 21 } }
-#    - { type: house, position: { x: 2, y: 21 } }
-#    - { type: house, position: { x: 4, y: 21 } }
-#    - { type: house, position: { x: 6, y: 21 } }
-#    - { type: house, position: { x: 8, y: 20 } }
-characters: []
 natureElements:
     - { type: wood, position: { x: 0, y: 40 } }
     - { type: wood, position: { x: 1, y: 40 } }

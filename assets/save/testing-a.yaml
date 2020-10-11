@@ -32,11 +32,4 @@ buildings:
     - { type: road, position: { x: 2, y: 10 } }
     - { type: road, position: { x: 1, y: 10 } }
     - { type: road, position: { x: 0, y: 10 } }
-    - { type: maintenance, position: { x: 1, y: 5 } }
-    - { type: house, position: { x: 0, y: 11 } }
-    - { type: house, position: { x: 2, y: 11 } }
-    - { type: house, position: { x: 4, y: 11 } }
-    - { type: house, position: { x: 6, y: 11 } }
-    - { type: house, position: { x: 8, y: 10 } }
-characters: []
 natureElements: []
