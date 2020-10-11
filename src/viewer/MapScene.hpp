@@ -1,6 +1,7 @@
 #ifndef MAPSCENE_HPP
 #define MAPSCENE_HPP
 
+#include <QtCore/QBasicTimer>
 #include <QtWidgets/QGraphicsScene>
 
 class Building;
@@ -29,6 +30,7 @@ class MapScene : public QGraphicsScene
         QList<BuildingView*> buildings;
         QList<DynamicElement*> dynamicElements;
         SelectionElement* selectionElement;
+        QBasicTimer animationClock;
 
     public:
         MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLibrary);
@@ -61,6 +63,9 @@ class MapScene : public QGraphicsScene
          * @brief Refresh the map.
          */
         void refresh();
+
+    protected:
+        virtual void timerEvent(QTimerEvent* event);
 
     private:
         Tile* getTileAt(const MapCoordinates& location);

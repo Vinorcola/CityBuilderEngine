@@ -30,7 +30,8 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
     tiles(),
     buildings(),
     dynamicElements(),
-    selectionElement(new SelectionElement(BASE_TILE_SIZE))
+    selectionElement(new SelectionElement(BASE_TILE_SIZE)),
+    animationClock()
 {
     setBackgroundBrush(QBrush(Qt::black));
 
@@ -79,6 +80,8 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
     connect(&map, &Map::buildingCreated, this, &MapScene::registerNewBuilding);
     connect(&map, &Map::characterCreated, this, &MapScene::registerNewCharacter);
     connect(map.getProcessor(), &TimeCycleProcessor::processFinished, this, &MapScene::refresh);
+
+    animationClock.start(100, this);
 }
 
 
@@ -164,6 +167,15 @@ void MapScene::refresh()
     // Refresh the selection element.
     if (selectionElement->isVisible()) {
         refreshSelectionElement();
+    }
+}
+
+
+
+void MapScene::timerEvent(QTimerEvent* /*event*/)
+{
+    for (auto building : buildings) {
+        building->advanceAnimation();
     }
 }
 
