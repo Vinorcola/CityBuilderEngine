@@ -73,6 +73,7 @@ SOURCES += \
     src/ui/controlPanel/ControlPanel.cpp \
     src/ui/InformationWidget.cpp \
     src/ui/MainWindow.cpp \
+    src/viewer/element/BuildingView.cpp \
     src/viewer/image/BuildingImage.cpp \
     src/viewer/image/CharacterImage.cpp \
     src/viewer/image/Image.cpp \
@@ -161,6 +162,7 @@ HEADERS += \
     src/ui/controlPanel/ControlPanel.hpp \
     src/ui/InformationWidget.hpp \
     src/ui/MainWindow.hpp \
+    src/viewer/element/BuildingView.hpp \
     src/viewer/image/BuildingImage.hpp \
     src/viewer/image/CharacterImage.hpp \
     src/viewer/image/Image.hpp \
