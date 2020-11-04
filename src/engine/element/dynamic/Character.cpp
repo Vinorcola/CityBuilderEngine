@@ -48,6 +48,13 @@ const MapCoordinates& Character::getCurrentLocation() const
 
 
 
+Direction Character::getCurrentDirection() const
+{
+    return motionHandler.getCurrentDirection();
+}
+
+
+
 optional<ProcessableBuilding*> Character::getIssuer() const
 {
     return issuer;

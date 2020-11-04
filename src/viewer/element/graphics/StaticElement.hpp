@@ -3,11 +3,10 @@
 
 #include <QtWidgets/QGraphicsPixmapItem>
 
-#include "src/engine/map/MapSize.hpp"
 #include "src/defines.hpp"
 
-class BuildingImage;
-class NatureElementImage;
+class Image;
+class MapSize;
 
 class StaticElement : public QGraphicsPixmapItem
 {
@@ -16,9 +15,9 @@ class StaticElement : public QGraphicsPixmapItem
         optional<QGraphicsPixmapItem*> animationItem;
 
     public:
-        StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, const QPixmap& elementImage);
+        StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, const Image& elementImage);
 
-        void setAnimationImage(const QPixmap& image, const QPoint& anchor);
+        void setAnimationImage(const Image& image);
 
         void dropAnimationImage();
 

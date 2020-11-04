@@ -10,50 +10,30 @@
 /**
  * @brief A low-level class that handle an image.
  *
- * An Image is loaded from a file path and can be get via the `getImage` method. Optionally, a colorized filter can be
- * applied on it. The available colors are green, orange or red.
+ * An Image is loaded from a file path and provide a pixmap and a position.
  */
 class Image
 {
         Q_DISABLE_COPY_MOVE(Image)
 
-        static const QBrush GREEN_BRUSH;
-        static const QBrush ORANGE_BRUSH;
-        static const QBrush RED_BRUSH;
+    private:
+        QPixmap pixmap;
+        QPoint position;
 
     public:
-        enum class ColorFilter {
-            None,
-            Green,
-            Orange,
-            Red,
-        };
+        /**
+         * @brief Load an image from a file.
+         */
+        Image(const QString& path, const QPoint& position);
 
-    private:
-        QImage sourceImage;
-        QPixmap mainImage;
-        QRegion imageMask;
-        QPixmap greenColorizedImage;
-        QPixmap orangeColorizedImage;
-        QPixmap redColorizedImage;
+        /**
+         * @brief Create a colorized filter image using the source image as a shape pattern.
+         */
+        Image(const Image& source, const QBrush& brush);
 
-    public:
-        explicit Image(const QString& path);
+        const QPixmap& getPixmap() const;
 
-        const QPixmap& getImage(ColorFilter filter = ColorFilter::None);
-
-    private:
-        const QPixmap& getMainImage();
-
-        const QPixmap& getGreenColorizedImage();
-
-        const QPixmap& getOrangeColorizedImage();
-
-        const QPixmap& getRedColorizedImage();
-
-        void generateColoredImage(QPixmap& image, const QBrush& brush);
-
-        const QRegion& getImageMask();
+        const QPoint& getPosition() const;
 };
 
 #endif // COLORABLEIMAGE_HPP

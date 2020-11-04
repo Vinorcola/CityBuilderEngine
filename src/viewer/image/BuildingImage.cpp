@@ -2,38 +2,35 @@
 
 
 
-BuildingImage::BuildingImage(const QString& buildingFolderPath, const QPoint& animationAnchorPoint) :
-    mainImage(buildingFolderPath + "/main.png"),
-    animationAnchorPoint(animationAnchorPoint),
-    animationImageSequence(buildingFolderPath)
+BuildingImage::BuildingImage(
+    const QString& buildingFolderPath,
+    const QPoint& animationAnchorPoint,
+    const QBrush& constructionBrush
+) :
+    mainImage(buildingFolderPath + "/main.png", {}),
+    constructionImage(mainImage, constructionBrush),
+    animationImageSequence(buildingFolderPath, animationAnchorPoint)
 {
 
 }
 
 
 
-const QPixmap& BuildingImage::getConstructionImage()
+const Image& BuildingImage::getConstructionImage() const
 {
-    return mainImage.getImage(Image::ColorFilter::Green);
+    return constructionImage;
 }
 
 
 
-const QPixmap& BuildingImage::getInactiveImage()
+const Image& BuildingImage::getInactiveImage() const
 {
-    return mainImage.getImage();
+    return mainImage;
 }
 
 
 
-const QPoint& BuildingImage::getAnimationAnchorPoint() const
-{
-    return animationAnchorPoint;
-}
-
-
-
-ImageSequence& BuildingImage::getAnimationSequence()
+const ImageSequence& BuildingImage::getAnimationSequence() const
 {
     return animationImageSequence;
 }

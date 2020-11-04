@@ -1,0 +1,201 @@
+character:
+    east:
+      - file: 1.png
+        position: { x: 18, y: -16 }
+      - file: 2.png
+        position: { x: 19, y: -16 }
+      - file: 3.png
+        position: { x: 20, y: -16 }
+      - file: 4.png
+        position: { x: 22, y: -16 }
+      - file: 5.png
+        position: { x: 22, y: -16 }
+      - file: 6.png
+        position: { x: 22, y: -16 }
+      - file: 7.png
+        position: { x: 21, y: -16 }
+      - file: 8.png
+        position: { x: 22, y: -16 }
+      - file: 9.png
+        position: { x: 22, y: -16 }
+      - file: 10.png
+        position: { x: 22, y: -16 }
+      - file: 11.png
+        position: { x: 20, y: -16 }
+      - file: 12.png
+        position: { x: 19, y: -16 }
+    right:
+      - file: 1.png
+        position: { x: 19, y: -15 }
+      - file: 2.png
+        position: { x: 19, y: -15 }
+      - file: 3.png
+        position: { x: 20, y: -15 }
+      - file: 4.png
+        position: { x: 22, y: -15 }
+      - file: 5.png
+        position: { x: 20, y: -15 }
+      - file: 6.png
+        position: { x: 19, y: -15 }
+      - file: 7.png
+        position: { x: 19, y: -15 }
+      - file: 8.png
+        position: { x: 19, y: -15 }
+      - file: 9.png
+        position: { x: 20, y: -15 }
+      - file: 10.png
+        position: { x: 22, y: -15 }
+      - file: 11.png
+        position: { x: 22, y: -15 }
+      - file: 12.png
+        position: { x: 20, y: -15 }
+    south:
+      - file: 1.png
+        position: { x: 20, y: -14 }
+      - file: 2.png
+        position: { x: 20, y: -14 }
+      - file: 3.png
+        position: { x: 21, y: -14 }
+      - file: 4.png
+        position: { x: 21, y: -14 }
+      - file: 5.png
+        position: { x: 20, y: -14 }
+      - file: 6.png
+        position: { x: 19, y: -14 }
+      - file: 7.png
+        position: { x: 19, y: -14 }
+      - file: 8.png
+        position: { x: 19, y: -14 }
+      - file: 9.png
+        position: { x: 20, y: -14 }
+      - file: 10.png
+        position: { x: 21, y: -14 }
+      - file: 11.png
+        position: { x: 22, y: -14 }
+      - file: 12.png
+        position: { x: 21, y: -14 }
+    bottom:
+      - file: 1.png
+        position: { x: 20, y: -13 }
+      - file: 2.png
+        position: { x: 20, y: -13 }
+      - file: 3.png
+        position: { x: 20, y: -13 }
+      - file: 4.png
+        position: { x: 20, y: -13 }
+      - file: 5.png
+        position: { x: 19, y: -14 }
+      - file: 6.png
+        position: { x: 19, y: -13 }
+      - file: 7.png
+        position: { x: 19, y: -13 }
+      - file: 8.png
+        position: { x: 19, y: -13 }
+      - file: 9.png
+        position: { x: 19, y: -14 }
+      - file: 10.png
+        position: { x: 20, y: -13 }
+      - file: 11.png
+        position: { x: 20, y: -13 }
+      - file: 12.png
+        position: { x: 20, y: -13 }
+    west:
+      - file: 1.png
+        position: { x: 25, y: -14 }
+      - file: 2.png
+        position: { x: 25, y: -14 }
+      - file: 3.png
+        position: { x: 25, y: -14 }
+      - file: 4.png
+        position: { x: 25, y: -14 }
+      - file: 5.png
+        position: { x: 25, y: -14 }
+      - file: 6.png
+        position: { x: 24, y: -14 }
+      - file: 7.png
+        position: { x: 24, y: -14 }
+      - file: 8.png
+        position: { x: 24, y: -14 }
+      - file: 9.png
+        position: { x: 25, y: -14 }
+      - file: 10.png
+        position: { x: 25, y: -14 }
+      - file: 11.png
+        position: { x: 25, y: -14 }
+      - file: 12.png
+        position: { x: 25, y: -14 }
+    left:
+      - file: 1.png
+        position: { x: 21, y: -15 }
+      - file: 2.png
+        position: { x: 22, y: -15 }
+      - file: 3.png
+        position: { x: 23, y: -15 }
+      - file: 4.png
+        position: { x: 24, y: -15 }
+      - file: 5.png
+        position: { x: 24, y: -15 }
+      - file: 6.png
+        position: { x: 24, y: -15 }
+      - file: 7.png
+        position: { x: 24, y: -15 }
+      - file: 8.png
+        position: { x: 24, y: -15 }
+      - file: 9.png
+        position: { x: 24, y: -15 }
+      - file: 10.png
+        position: { x: 24, y: -15 }
+      - file: 11.png
+        position: { x: 23, y: -15 }
+      - file: 12.png
+        position: { x: 22, y: -15 }
+    north:
+      - file: 1.png
+        position: { x: 22, y: -16 }
+      - file: 2.png
+        position: { x: 22, y: -16 }
+      - file: 3.png
+        position: { x: 22, y: -16 }
+      - file: 4.png
+        position: { x: 23, y: -16 }
+      - file: 5.png
+        position: { x: 24, y: -16 }
+      - file: 6.png
+        position: { x: 25, y: -16 }
+      - file: 7.png
+        position: { x: 25, y: -16 }
+      - file: 8.png
+        position: { x: 25, y: -16 }
+      - file: 9.png
+        position: { x: 24, y: -16 }
+      - file: 10.png
+        position: { x: 22, y: -16 }
+      - file: 11.png
+        position: { x: 21, y: -16 }
+      - file: 12.png
+        position: { x: 21, y: -16 }
+    top:
+      - file: 1.png
+        position: { x: 21, y: -16 }
+      - file: 2.png
+        position: { x: 21, y: -16 }
+      - file: 3.png
+        position: { x: 21, y: -16 }
+      - file: 4.png
+        position: { x: 21, y: -16 }
+      - file: 5.png
+        position: { x: 21, y: -16 }
+      - file: 6.png
+        position: { x: 22, y: -16 }
+      - file: 7.png
+        position: { x: 22, y: -16 }
+      - file: 8.png
+        position: { x: 22, y: -16 }
+      - file: 9.png
+        position: { x: 21, y: -16 }
+      - file: 10.png
+        position: { x: 20, y: -16 }
+      - file: 11.png
+        position: { x: 20, y: -16 }
+      - file: 12.png
+        position: { x: 21, y: -16 }

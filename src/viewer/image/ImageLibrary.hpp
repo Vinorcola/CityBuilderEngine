@@ -2,6 +2,7 @@
 #define IMAGELIBRARY_HPP
 
 #include <QtCore/QHash>
+#include <QtGui/QBrush>
 
 class BuildingImage;
 class BuildingInformation;
@@ -13,21 +14,27 @@ class NatureElementInformation;
 
 class ImageLibrary
 {
+        Q_DISABLE_COPY_MOVE(ImageLibrary)
+
+        static const QBrush GREEN_BRUSH;
+        static const QBrush ORANGE_BRUSH;
+        static const QBrush RED_BRUSH;
+
     private:
-        QHash<const BuildingInformation*, BuildingImage*> buildingImages;
-        QHash<const CharacterInformation*, CharacterImage*> characterImages;
-        QHash<const NatureElementInformation*, NatureElementImage*> natureElementImages;
+        QHash<const BuildingInformation*, const BuildingImage*> buildingImages;
+        QHash<const CharacterInformation*, const CharacterImage*> characterImages;
+        QHash<const NatureElementInformation*, const NatureElementImage*> natureElementImages;
 
     public:
         ImageLibrary(const Conf& conf);
 
         ~ImageLibrary();
 
-        BuildingImage& getBuildingImage(const BuildingInformation& buildingConf) const;
+        const BuildingImage& getBuildingImage(const BuildingInformation& buildingConf) const;
 
-        CharacterImage& getCharacterImage(const CharacterInformation& characterConf) const;
+        const CharacterImage& getCharacterImage(const CharacterInformation& characterConf) const;
 
-        NatureElementImage& getNatureElementImage(const NatureElementInformation& natureElementConf) const;
+        const NatureElementImage& getNatureElementImage(const NatureElementInformation& natureElementConf) const;
 };
 
 #endif // IMAGELIBRARY_HPP

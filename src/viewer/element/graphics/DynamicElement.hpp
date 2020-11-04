@@ -2,21 +2,28 @@
 #define DYNAMICELEMENT_HPP
 
 #include <QtCore/QPointer>
-#include <QtWidgets/QGraphicsPixmapItem>
+#include <QtWidgets/QGraphicsItem>
 
 #include "src/engine/map/MapCoordinates.hpp"
 
 class Character;
+class Image;
 
-class DynamicElement : public QGraphicsPixmapItem
+class DynamicElement : public QGraphicsItem
 {
     private:
         const QSizeF& baseTileSize;
+        QGraphicsPixmapItem imageItem;
 
     public:
-        DynamicElement(const QSizeF& baseTileSize, const QPixmap& elementImage, const MapCoordinates& location);
+        DynamicElement(const QSizeF& baseTileSize, const Image& elementImage, const QPointF& positionOnTile);
 
-        void updateLocation(const MapCoordinates& location);
+        void setImage(const Image& image);
+
+        void updateLocation(const QPointF& positionOnTile);
+
+        virtual QRectF boundingRect() const;
+        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
 };
 
 #endif // DYNAMICELEMENT_HPP

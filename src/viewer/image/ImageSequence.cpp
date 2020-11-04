@@ -1,20 +1,26 @@
 #include "ImageSequence.hpp"
 
-#include <cassert>
 #include <QtCore/QDir>
 
-const QRegularExpression ImageSequence::FILE_NAME_PATTERN("\\d\\d\\.png");
 
 
-
-ImageSequence::ImageSequence(const QString& imagesFolderPath) :
+ImageSequence::ImageSequence(const QList<const ImageSequenceInformation*>& imagesSequenceInformations) :
     images()
+{
+    for (auto imageSequenceInformation : imagesSequenceInformations) {
+        images.append(new Image(imageSequenceInformation->path, imageSequenceInformation->position));
+    }
+}
+
+
+const QRegularExpression FILE_NAME_PATTERN("\\d\\d\\.png");
+ImageSequence::ImageSequence(const QString& imagesFolderPath, const QPoint& imagesPosition)
 {
     auto filePaths(QDir(imagesFolderPath).entryList());
     filePaths.sort();
     for (auto filePath : filePaths) {
-        if (ImageSequence::FILE_NAME_PATTERN.match(filePath).hasMatch()) {
-            images.append(new Image(imagesFolderPath + "/" + filePath));
+        if (FILE_NAME_PATTERN.match(filePath).hasMatch()) {
+            images.append(new Image(imagesFolderPath + "/" + filePath, imagesPosition));
         }
     }
 }
@@ -35,10 +41,7 @@ int ImageSequence::getSequenceLength() const
 
 
 
-const QPixmap& ImageSequence::getImage(int sequenceIndex, Image::ColorFilter filter)
+const Image& ImageSequence::getImage(int sequenceIndex) const
 {
-    assert(sequenceIndex < images.length());
-    auto image(images.at(sequenceIndex));
-
-    return image->getImage(filter);
+    return *images.at(sequenceIndex % images.length());
 }

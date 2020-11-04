@@ -22,7 +22,7 @@ class BuildingView
         QWeakPointer<const Building> engineData;
         const MapSize& buildingSize;
         Tile& tile;
-        BuildingImage& image;
+        const BuildingImage& image;
         owner<StaticElement*> graphicElement;
         int currentViewVersion;
         int animationIndex;

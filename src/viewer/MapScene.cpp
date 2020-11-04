@@ -149,7 +149,7 @@ void MapScene::registerNewNatureElement(const NatureElement& element)
     auto& natureElementImage(imageLibrary.getNatureElementImage(element.getConf()));
 
     tile.setStaticElement(new StaticElement(BASE_TILE_SIZE, element.getArea().getSize(), natureElementImage.getImage()));
-    // TODO: Handle higher size of nature elements by hiding covered tiles (se BuildingView).
+    // TODO: Handle higher size of nature elements by hiding covered tiles (see BuildingView).
 }
 
 

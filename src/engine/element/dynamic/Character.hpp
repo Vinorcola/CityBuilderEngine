@@ -55,6 +55,8 @@ class Character : public QObject, public AbstractProcessable
 
         const MapCoordinates& getCurrentLocation() const;
 
+        Direction getCurrentDirection() const;
+
         optional<ProcessableBuilding*> getIssuer() const;
 
         bool isViewUpToDate(const int currentViewVersion) const;

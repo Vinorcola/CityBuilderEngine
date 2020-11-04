@@ -8,13 +8,15 @@
 
 class NatureElementImage
 {
+        Q_DISABLE_COPY_MOVE(NatureElementImage)
+
     private:
-        Image image;
+        const Image image;
 
     public:
         NatureElementImage(const QString& imagePath);
 
-        const QPixmap& getImage();
+        const Image& getImage() const;
 };
 
 #endif // NATUREELEMENTIMAGE_HPP

@@ -9,6 +9,10 @@
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/NatureElementImage.hpp"
 
+const QBrush ImageLibrary::GREEN_BRUSH = QBrush(QColor(0, 224, 0, 127), Qt::SolidPattern);
+const QBrush ImageLibrary::ORANGE_BRUSH = QBrush(QColor(255, 154, 36, 127), Qt::SolidPattern);
+const QBrush ImageLibrary::RED_BRUSH = QBrush(QColor(244, 0, 0, 127), Qt::SolidPattern);
+
 
 
 ImageLibrary::ImageLibrary(const Conf& conf) :
@@ -19,13 +23,17 @@ ImageLibrary::ImageLibrary(const Conf& conf) :
     // Load building images.
     for (auto buildingKey : conf.getAllBuildingKeys()) {
         auto& buildingConf(conf.getBuildingConf(buildingKey));
-        buildingImages.insert(&buildingConf, new BuildingImage(buildingConf.getImageFolderPath(), buildingConf.getAnimationAnchorPoint()));
+        buildingImages.insert(&buildingConf, new BuildingImage(
+            buildingConf.getImageFolderPath(),
+            buildingConf.getAnimationAnchorPoint(),
+            GREEN_BRUSH
+        ));
     }
 
     // Load character images.
     for (auto characterKey : conf.getAllCharacterKeys()) {
         auto& characterConf(conf.getCharacterConf(characterKey));
-        characterImages.insert(&characterConf, new CharacterImage(characterConf.getImagePath()));
+        characterImages.insert(&characterConf, new CharacterImage(characterConf));
     }
 
     // Load nature element images.
@@ -46,7 +54,7 @@ ImageLibrary::~ImageLibrary()
 
 
 
-BuildingImage& ImageLibrary::getBuildingImage(const BuildingInformation& buildingConf) const
+const BuildingImage& ImageLibrary::getBuildingImage(const BuildingInformation& buildingConf) const
 {
     if (!buildingImages.contains(&buildingConf)) {
         throw OutOfRangeException("No image in the library for building \"" + buildingConf.getTitle() + "\".");
@@ -57,7 +65,7 @@ BuildingImage& ImageLibrary::getBuildingImage(const BuildingInformation& buildin
 
 
 
-CharacterImage& ImageLibrary::getCharacterImage(const CharacterInformation& characterConf) const
+const CharacterImage& ImageLibrary::getCharacterImage(const CharacterInformation& characterConf) const
 {
     if (!characterImages.contains(&characterConf)) {
         throw OutOfRangeException("No image in the library for character\"" + characterConf.getTitle() + "\".");
@@ -68,7 +76,7 @@ CharacterImage& ImageLibrary::getCharacterImage(const CharacterInformation& char
 
 
 
-NatureElementImage& ImageLibrary::getNatureElementImage(const NatureElementInformation& natureElementConf) const
+const NatureElementImage& ImageLibrary::getNatureElementImage(const NatureElementInformation& natureElementConf) const
 {
     if (!natureElementImages.contains(&natureElementConf)) {
         throw OutOfRangeException("No image in the library for nature element \"" + natureElementConf.getTitle() + "\".");

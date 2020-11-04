@@ -5,6 +5,7 @@
 #include <QtCore/QPointer>
 
 #include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
 class PathInterface;
@@ -20,6 +21,7 @@ class MotionHandler
         MapCoordinates location;///< The current coordinates of the element.
         MapCoordinates movingFrom;///< The coordinates of the tile the element is moving from.
         MapCoordinates movingTo;///< The coordinates of the tile the element is moving to.
+        Direction direction;///< The direction the character is going to.
 
     public:
         /**
@@ -33,6 +35,8 @@ class MotionHandler
         ~MotionHandler();
 
         const MapCoordinates& getCurrentLocation() const;
+
+        Direction getCurrentDirection() const;
 
         MapCoordinates getCurrentTileCoordinates() const;
 
@@ -61,6 +65,8 @@ class MotionHandler
          * @return `true` if the location has changed.
          */
         bool moveToTarget();
+
+        void updateDirection();
 };
 
 #endif // MOTIONHANDLER_HPP

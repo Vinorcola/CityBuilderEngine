@@ -5,6 +5,7 @@
 #include <QtCore/QString>
 #include <QtCore/QList>
 
+#include "src/global/conf/ImageSequenceInformation.hpp"
 #include "src/viewer/image/Image.hpp"
 
 /**
@@ -12,25 +13,24 @@
  */
 class ImageSequence
 {
-        static const QRegularExpression FILE_NAME_PATTERN;
+        Q_DISABLE_COPY_MOVE(ImageSequence)
 
     private:
-        QList<Image*> images;
+        QList<const Image*> images;
 
     public:
         /**
          * @brief Load all the images of a sequence.
-         *
-         * The files must be named `XX.png` where X is a digit. Those images will be loaded in the alphabetical order
-         * to build the sequence.
          */
-        ImageSequence(const QString& imagesFolderPath);
+        ImageSequence(const QList<const ImageSequenceInformation*>& imagesSequenceInformations);
+
+        ImageSequence(const QString& imagesFolderPath, const QPoint& imagesPosition);
 
         ~ImageSequence();
 
         int getSequenceLength() const;
 
-        const QPixmap& getImage(int sequenceIndex, Image::ColorFilter filter = Image::ColorFilter::None);
+        const Image& getImage(int sequenceIndex) const;
 };
 
 #endif // IMAGESEQUENCE_HPP

@@ -1,20 +1,29 @@
 #ifndef CHARACTERIMAGE_HPP
 #define CHARACTERIMAGE_HPP
 
-#include <QtCore/QString>
-#include <QtGui/QPixmap>
+#include <QtCore/QHash>
 
+#include "src/global/Direction.hpp"
 #include "src/viewer/image/Image.hpp"
+
+class CharacterInformation;
+class ImageSequence;
 
 class CharacterImage
 {
+        Q_DISABLE_COPY_MOVE(CharacterImage)
+
     private:
-        Image image;
+        QHash<Direction, const ImageSequence*> movingImageSequences;
 
     public:
-        CharacterImage(const QString& imagePath);
+        CharacterImage(const CharacterInformation& characterConf);
 
-        const QPixmap& getImage();
+        ~CharacterImage();
+
+        int getAnimationSequenceLength() const;
+
+        const Image& getAnimationImage(int sequenceIndex, Direction direction) const;
 };
 
 #endif // CHARACTERIMAGE_HPP

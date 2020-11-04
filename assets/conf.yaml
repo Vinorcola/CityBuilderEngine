@@ -53,7 +53,7 @@ buildings:
         title: Maintenance Office
         size: 2
         walkerCharacter: superintendent
-        walkerGenerationInterval: 8
+        walkerGenerationInterval: 1
         animationAnchorPoint: { x: 15, y: -30 }
     mapEntryPoint:
         type: mapEntryPoint

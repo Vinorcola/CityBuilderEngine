@@ -19,9 +19,10 @@ class CharacterView
 {
     private:
         const TileLocatorInterface& tileLocator;
+        const QSizeF& baseTileSize;
         QWeakPointer<const Character> engineData;
         Tile* currentTile;
-        CharacterImage& image;
+        const CharacterImage& image;
         owner<DynamicElement*> graphicElement;
         int currentViewVersion;
         int animationIndex;
@@ -46,6 +47,8 @@ class CharacterView
         void advanceAnimation();
 
         void setDestroyed();
+
+        QPointF getPositionOnTile(const MapCoordinates& globalLocation);
 };
 
 #endif // CHARACTERVIEW_HPP

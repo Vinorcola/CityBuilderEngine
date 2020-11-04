@@ -15,10 +15,12 @@
  */
 class BuildingImage
 {
+        Q_DISABLE_COPY_MOVE(BuildingImage)
+
     private:
-        Image mainImage;
-        QPoint animationAnchorPoint;
-        ImageSequence animationImageSequence;
+        const Image mainImage;
+        const Image constructionImage;
+        const ImageSequence animationImageSequence;
 
     public:
         /**
@@ -28,15 +30,17 @@ class BuildingImage
          * additional images named `XX.png` where X is a digit. Those images will be loaded in the alphabetical order
          * to build the animation.
          */
-        BuildingImage(const QString& buildingFolderPath, const QPoint& animationAnchorPoint);
+        BuildingImage(
+            const QString& buildingFolderPath,
+            const QPoint& animationAnchorPoint,
+            const QBrush& constructionBrush
+        );
 
-        const QPixmap& getConstructionImage();
+        const Image& getConstructionImage() const;
 
-        const QPixmap& getInactiveImage();
+        const Image& getInactiveImage() const;
 
-        const QPoint& getAnimationAnchorPoint() const;
-
-        ImageSequence& getAnimationSequence();
+        const ImageSequence& getAnimationSequence() const;
 };
 
 #endif // BUILDINGIMAGE_HPP

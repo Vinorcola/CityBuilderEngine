@@ -1,50 +1,46 @@
 #include "StaticElement.hpp"
 
-#include "src/viewer/image/BuildingImage.hpp"
-#include "src/viewer/image/NatureElementImage.hpp"
+#include "src/engine/map/MapSize.hpp"
+#include "src/viewer/image/Image.hpp"
 
 
-
-StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, const QPixmap& elementImage) :
-    QGraphicsPixmapItem(elementImage),
+StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, const Image& elementImage) :
+    QGraphicsPixmapItem(elementImage.getPixmap()),
     shapePath(),
     animationItem(nullptr)
 {
     setAcceptedMouseButtons(Qt::RightButton);
 
     qreal elementSizeValue(elementSize.getValue());
-    qreal baseTileSizeHeight(baseTileSize.height());
-    qreal baseTileSizeWidth(baseTileSize.width());
-    qreal halfBaseTileSizeHeight(baseTileSizeHeight / 2.0);
-    qreal halfBaseTileSizeWidth(baseTileSizeWidth / 2.0);
+    qreal halfBaseTileSizeHeight(baseTileSize.height()/ 2.0);
+    qreal halfBaseTileSizeWidth(baseTileSize.width() / 2.0);
 
     // Move the image at the right place.
-    qreal zoneHeight(elementSizeValue * baseTileSizeHeight);
-    qreal zoneWidth(elementSizeValue * baseTileSizeWidth);
-    qreal extraImageHeight(qMax(0.0, elementImage.height() - zoneHeight));
-    qreal extraImageWidth(qMax(0.0, elementImage.width() - zoneWidth));
-    setPos(-extraImageWidth / 2.0, -(elementSizeValue - 1) * halfBaseTileSizeHeight - extraImageHeight);
+    // NOTE: A static element is attached to the tile located at the left corner of it's area. The height will depends
+    // on the element size, since we must align it with the bottom tile of it's area.
+    setPos(0, (elementSizeValue + 1) * halfBaseTileSizeHeight - elementImage.getPixmap().height());
 
     // Create shape path.
-    // NOTE: The shape path must represent the element base on the map. It must not take the element extra height.
-    shapePath.moveTo(elementSizeValue * halfBaseTileSizeWidth, 0                                        );
-    shapePath.lineTo(elementSizeValue * baseTileSizeWidth    , elementSizeValue * halfBaseTileSizeHeight);
-    shapePath.lineTo(elementSizeValue * halfBaseTileSizeWidth, elementSizeValue * baseTileSizeHeight    );
-    shapePath.lineTo(0                                       , elementSizeValue * halfBaseTileSizeHeight);
+    // NOTE: The shape path must represent the element base on the map (the zone that covers the tiles). It must not
+    // take the element extra height into account.
+    shapePath.moveTo(0                                       , halfBaseTileSizeHeight                            ); // Left corner
+    shapePath.lineTo(elementSizeValue * halfBaseTileSizeWidth, -(elementSizeValue - 1.0) * halfBaseTileSizeHeight); // Top corner
+    shapePath.lineTo(elementSizeValue * baseTileSize.width() , halfBaseTileSizeHeight                            ); // Right corner
+    shapePath.lineTo(elementSizeValue * halfBaseTileSizeWidth, (elementSizeValue + 1.0) * halfBaseTileSizeHeight ); // Bottom corner
     shapePath.closeSubpath();
 }
 
 
 
-void StaticElement::setAnimationImage(const QPixmap& image, const QPoint& anchor)
+void StaticElement::setAnimationImage(const Image& image)
 {
     if (!animationItem) {
         animationItem = new QGraphicsPixmapItem(this);
         animationItem->setParentItem(this);
     }
     animationItem->setVisible(true);
-    animationItem->setPixmap(image);
-    animationItem->setPos(anchor);
+    animationItem->setPixmap(image.getPixmap());
+    animationItem->setPos(image.getPosition());
 }
 
 

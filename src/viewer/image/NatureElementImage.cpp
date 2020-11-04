@@ -3,14 +3,14 @@
 
 
 NatureElementImage::NatureElementImage(const QString& imagePath) :
-    image(imagePath)
+    image(imagePath, {})
 {
 
 }
 
 
 
-const QPixmap& NatureElementImage::getImage()
+const Image& NatureElementImage::getImage() const
 {
-    return image.getImage();
+    return image;
 }

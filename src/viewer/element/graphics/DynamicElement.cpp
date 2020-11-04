@@ -1,34 +1,47 @@
 #include "DynamicElement.hpp"
 
+#include <QtGui/QPainter>
+
 #include "src/engine/element/dynamic/Character.hpp"
+#include "src/viewer/image/Image.hpp"
 #include "src/viewer/SelectionElement.hpp"
 
-const qreal BASE_DYNAMIC_ELEMENT_IMAGE_PADDING(5.0);
 
 
-
-DynamicElement::DynamicElement(const QSizeF& baseTileSize, const QPixmap& elementImage, const MapCoordinates& location) :
-    QGraphicsPixmapItem(elementImage),
-    baseTileSize(baseTileSize)
+DynamicElement::DynamicElement(const QSizeF& baseTileSize, const Image& elementImage, const QPointF& positionOnTile) :
+    QGraphicsItem(),
+    baseTileSize(baseTileSize),
+    imageItem(elementImage.getPixmap(), this)
 {
-    setAcceptedMouseButtons(Qt::RightButton);
-    updateLocation(location);
+    setPos(positionOnTile);
+    imageItem.setPos(elementImage.getPosition());
 }
 
 
 
-void DynamicElement::updateLocation(const MapCoordinates& location)
+void DynamicElement::setImage(const Image& image)
 {
-    auto tileLocation(location.getRounded());
+    imageItem.setPixmap(image.getPixmap());
+    imageItem.setPos(image.getPosition());
+}
 
-    qreal xBase(baseTileSize.width() / 2.0 - pixmap().width() / 2.0);
-    qreal yBase(-pixmap().height() + baseTileSize.height() / 2.0 + BASE_DYNAMIC_ELEMENT_IMAGE_PADDING);
 
-    qreal xDiff(location.getX() - tileLocation.getX());
-    qreal yDiff(location.getY() - tileLocation.getY());
 
-    qreal xNew(xBase + xDiff * baseTileSize.width() / 2.0 + yDiff * baseTileSize.width() / 2.0);
-    qreal yNew(yBase - xDiff * baseTileSize.height() / 2.0 + yDiff * baseTileSize.height() / 2.0);
+void DynamicElement::updateLocation(const QPointF& positionOnTile)
+{
+    setPos(positionOnTile);
+}
 
-    setPos(xNew, yNew);
+
+
+QRectF DynamicElement::boundingRect() const
+{
+    return {};
+}
+
+
+
+void DynamicElement::paint(QPainter* /*painter*/, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/)
+{
+    // Nothing to draw here.
 }

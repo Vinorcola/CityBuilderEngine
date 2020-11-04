@@ -14,7 +14,7 @@ Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize, QGraphics
 {
     setAcceptHoverEvents(true);
     setPos(
-        (location.getY() + location.getX()) * baseTileSize.width() / 2.0,
+        (location.getY() + location.getX()) * (1.0 + baseTileSize.width() / 2.0),
         (location.getY() - location.getX()) * baseTileSize.height() / 2.0
     );
     groundElement->setParentItem(this);

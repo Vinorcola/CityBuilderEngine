@@ -66,9 +66,11 @@ SOURCES += \
     src/global/conf/CharacterInformation.cpp \
     src/global/conf/Conf.cpp \
     src/global/conf/ControlPanelElementInformation.cpp \
+    src/global/conf/ImageSequenceInformation.cpp \
     src/global/conf/ItemInformation.cpp \
     src/global/conf/ModelReader.cpp \
     src/global/conf/NatureElementInformation.cpp \
+    src/global/Direction.cpp \
     src/ui/controlPanel/BuildingButton.cpp \
     src/ui/controlPanel/ControlPanel.cpp \
     src/ui/InformationWidget.cpp \
@@ -155,9 +157,11 @@ HEADERS += \
     src/global/conf/CharacterInformation.hpp \
     src/global/conf/Conf.hpp \
     src/global/conf/ControlPanelElementInformation.hpp \
+    src/global/conf/ImageSequenceInformation.hpp \
     src/global/conf/ItemInformation.hpp \
     src/global/conf/ModelReader.hpp \
     src/global/conf/NatureElementInformation.hpp \
+    src/global/Direction.hpp \
     src/global/yamlLibraryEnhancement.hpp \
     src/ui/controlPanel/BuildingButton.hpp \
     src/ui/controlPanel/ControlPanel.hpp \

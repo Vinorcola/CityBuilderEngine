@@ -70,7 +70,7 @@ void BuildingView::advanceAnimation()
     }
 
     animationIndex = (animationIndex + 1) % animation.getSequenceLength();
-    graphicElement->setAnimationImage(animation.getImage(animationIndex), image.getAnimationAnchorPoint());
+    graphicElement->setAnimationImage(animation.getImage(animationIndex));
 }
 
 
