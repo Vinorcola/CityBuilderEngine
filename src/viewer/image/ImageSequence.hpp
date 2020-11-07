@@ -24,8 +24,6 @@ class ImageSequence
          */
         ImageSequence(const QList<const ImageSequenceInformation*>& imagesSequenceInformations);
 
-        ImageSequence(const QString& imagesFolderPath, const QPoint& imagesPosition);
-
         ~ImageSequence();
 
         int getSequenceLength() const;

@@ -1,0 +1,23 @@
+building:
+    mainImage: main.png
+    animation:
+      - file: 1.png
+        position: { x: -1, y: -39 }
+      - file: 2.png
+        position: { x: -1, y: -39 }
+      - file: 3.png
+        position: { x: -1, y: -39 }
+      - file: 4.png
+        position: { x: -1, y: -39 }
+      - file: 5.png
+        position: { x: -1, y: -39 }
+      - file: 6.png
+        position: { x: -1, y: -39 }
+      - file: 7.png
+        position: { x: -1, y: -39 }
+      - file: 8.png
+        position: { x: -1, y: -39 }
+      - file: 9.png
+        position: { x: -1, y: -39 }
+      - file: 10.png
+        position: { x: -1, y: -39 }

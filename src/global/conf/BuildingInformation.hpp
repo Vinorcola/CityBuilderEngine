@@ -12,6 +12,7 @@
 class BuildingAreaPartDescription;
 class BuildingSearchCriteriaDescription;
 class CharacterInformation;
+class ImageSequenceInformation;
 class ItemInformation;
 class ModelReader;
 class NatureElementInformation;
@@ -51,10 +52,10 @@ class BuildingInformation : public QObject
         };
 
         struct Graphics {
-            QString imageFolderPath;
-            QPoint animationAnchorPoint;
+            QString mainImagePath;
+            QList<owner<const ImageSequenceInformation*>> activeAnimation;
 
-            explicit Graphics(const ModelReader& model);
+            ~Graphics();
         };
 
         struct WalkerGeneration {
@@ -164,9 +165,7 @@ class BuildingInformation : public QObject
 
         const Storage& getStorageConf() const;
 
-        const QString& getImageFolderPath() const;
-
-        const QPoint& getAnimationAnchorPoint() const;
+        const Graphics& getGraphicsData() const;
 
     private:
         void loadSpecificConf(const ModelReader& model);

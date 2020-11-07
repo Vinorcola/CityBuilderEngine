@@ -13,19 +13,6 @@ ImageSequence::ImageSequence(const QList<const ImageSequenceInformation*>& image
 }
 
 
-const QRegularExpression FILE_NAME_PATTERN("\\d\\d\\.png");
-ImageSequence::ImageSequence(const QString& imagesFolderPath, const QPoint& imagesPosition)
-{
-    auto filePaths(QDir(imagesFolderPath).entryList());
-    filePaths.sort();
-    for (auto filePath : filePaths) {
-        if (FILE_NAME_PATTERN.match(filePath).hasMatch()) {
-            images.append(new Image(imagesFolderPath + "/" + filePath, imagesPosition));
-        }
-    }
-}
-
-
 
 ImageSequence::~ImageSequence()
 {

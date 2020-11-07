@@ -64,7 +64,7 @@ bool BuildingView::hasBeenDestroyed() const
 
 void BuildingView::advanceAnimation()
 {
-    auto& animation(image.getAnimationSequence());
+    auto& animation(image.getActiveAnimationSequence());
     if (animation.getSequenceLength() == 0) {
         return;
     }

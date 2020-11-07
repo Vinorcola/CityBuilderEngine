@@ -1,0 +1,39 @@
+building:
+    mainImage: main.png
+    animation:
+      - file: 1.png
+        position: { x: 55, y: 40 }
+      - file: 2.png
+        position: { x: 55, y: 40 }
+      - file: 3.png
+        position: { x: 55, y: 40 }
+      - file: 4.png
+        position: { x: 55, y: 40 }
+      - file: 5.png
+        position: { x: 55, y: 40 }
+      - file: 6.png
+        position: { x: 55, y: 40 }
+      - file: 7.png
+        position: { x: 55, y: 40 }
+      - file: 8.png
+        position: { x: 55, y: 40 }
+      - file: 9.png
+        position: { x: 55, y: 40 }
+      - file: 10.png
+        position: { x: 55, y: 40 }
+      - file: 11.png
+        position: { x: 55, y: 40 }
+      - file: 12.png
+        position: { x: 55, y: 40 }
+      - file: 13.png
+        position: { x: 55, y: 40 }
+      - file: 14.png
+        position: { x: 55, y: 40 }
+      - file: 15.png
+        position: { x: 55, y: 40 }
+      - file: 16.png
+        position: { x: 55, y: 40 }
+      - file: 17.png
+        position: { x: 55, y: 40 }
+      - file: 18.png
+        position: { x: 55, y: 40 }

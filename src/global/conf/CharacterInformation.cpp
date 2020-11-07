@@ -9,6 +9,15 @@
 
 
 
+CharacterInformation::Graphics::~Graphics()
+{
+    for (auto animationImages : walkingAnimation) {
+        qDeleteAll(animationImages);
+    }
+}
+
+
+
 CharacterInformation::CharacterInformation(QObject* parent, const ModelReader& model) :
     QObject(parent),
     key(model.getKey()),
@@ -81,14 +90,5 @@ void CharacterInformation::checkModel(const QString& key, const YAML::Node& mode
 {
     if (!model["type"]) {
         throw BadConfigurationException("Missing \"type\" parameter in configuration for node \"" + key + "\".");
-    }
-}
-
-
-
-CharacterInformation::Graphics::~Graphics()
-{
-    for (auto animationImages : walkingAnimation) {
-        qDeleteAll(animationImages);
     }
 }

@@ -23,17 +23,13 @@ ImageLibrary::ImageLibrary(const Conf& conf) :
     // Load building images.
     for (auto buildingKey : conf.getAllBuildingKeys()) {
         auto& buildingConf(conf.getBuildingConf(buildingKey));
-        buildingImages.insert(&buildingConf, new BuildingImage(
-            buildingConf.getImageFolderPath(),
-            buildingConf.getAnimationAnchorPoint(),
-            GREEN_BRUSH
-        ));
+        buildingImages.insert(&buildingConf, new BuildingImage(buildingConf.getGraphicsData(), GREEN_BRUSH));
     }
 
     // Load character images.
     for (auto characterKey : conf.getAllCharacterKeys()) {
         auto& characterConf(conf.getCharacterConf(characterKey));
-        characterImages.insert(&characterConf, new CharacterImage(characterConf));
+        characterImages.insert(&characterConf, new CharacterImage(characterConf.getGraphicsData()));
     }
 
     // Load nature element images.

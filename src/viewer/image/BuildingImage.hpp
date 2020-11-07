@@ -1,12 +1,10 @@
 #ifndef BUILDINGIMAGE_HPP
 #define BUILDINGIMAGE_HPP
 
-#include <QtCore/QPoint>
-#include <QtCore/QString>
-#include <QtGui/QPixmap>
-
+#include "src/global/conf/BuildingInformation.hpp"
 #include "src/viewer/image/Image.hpp"
 #include "src/viewer/image/ImageSequence.hpp"
+#include "src/defines.hpp"
 
 /**
  * @brief A handler for a building images.
@@ -23,24 +21,13 @@ class BuildingImage
         const ImageSequence animationImageSequence;
 
     public:
-        /**
-         * @brief Load all the image from a folder.
-         *
-         * Note that the folder must contains at least one image named `main.png`. Optionally, it can contains
-         * additional images named `XX.png` where X is a digit. Those images will be loaded in the alphabetical order
-         * to build the animation.
-         */
-        BuildingImage(
-            const QString& buildingFolderPath,
-            const QPoint& animationAnchorPoint,
-            const QBrush& constructionBrush
-        );
+        BuildingImage(const BuildingInformation::Graphics& graphicsData, const QBrush& constructionBrush);
 
         const Image& getConstructionImage() const;
 
         const Image& getInactiveImage() const;
 
-        const ImageSequence& getAnimationSequence() const;
+        const ImageSequence& getActiveAnimationSequence() const;
 };
 
 #endif // BUILDINGIMAGE_HPP

@@ -20,9 +20,9 @@ class CharacterInformation : public QObject
 {
         Q_OBJECT
 
-    private:
+    public:
         struct Graphics {
-            QHash<Direction, QList<const owner<ImageSequenceInformation>*>> walkingAnimation;
+            QHash<Direction, QList<owner<const ImageSequenceInformation*>>> walkingAnimation;
 
             ~Graphics();
         };

@@ -3,10 +3,11 @@
 
 #include <QtCore/QHash>
 
+#include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/Direction.hpp"
 #include "src/viewer/image/Image.hpp"
+#include "src/defines.hpp"
 
-class CharacterInformation;
 class ImageSequence;
 
 class CharacterImage
@@ -14,10 +15,10 @@ class CharacterImage
         Q_DISABLE_COPY_MOVE(CharacterImage)
 
     private:
-        QHash<Direction, const ImageSequence*> movingImageSequences;
+        QHash<Direction, owner<const ImageSequence*>> movingImageSequences;
 
     public:
-        CharacterImage(const CharacterInformation& characterConf);
+        CharacterImage(const CharacterInformation::Graphics& graphicsData);
 
         ~CharacterImage();
 

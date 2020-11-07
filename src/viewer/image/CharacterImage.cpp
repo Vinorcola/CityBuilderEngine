@@ -1,14 +1,12 @@
 #include "CharacterImage.hpp"
 
-#include "src/global/conf/CharacterInformation.hpp"
 #include "src/viewer/image/ImageSequence.hpp"
 
 
 
-CharacterImage::CharacterImage(const CharacterInformation& characterConf) :
+CharacterImage::CharacterImage(const CharacterInformation::Graphics& graphicsData) :
     movingImageSequences()
 {
-    auto& graphicsData(characterConf.getGraphicsData());
     movingImageSequences.insert(Direction::Top, new ImageSequence(graphicsData.walkingAnimation.value(Direction::Top)));
     movingImageSequences.insert(Direction::Right, new ImageSequence(graphicsData.walkingAnimation.value(Direction::Right)));
     movingImageSequences.insert(Direction::Bottom, new ImageSequence(graphicsData.walkingAnimation.value(Direction::Bottom)));

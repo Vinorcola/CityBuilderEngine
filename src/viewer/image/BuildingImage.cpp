@@ -1,15 +1,13 @@
 #include "BuildingImage.hpp"
 
+#include "src/viewer/image/ImageSequence.hpp"
 
 
-BuildingImage::BuildingImage(
-    const QString& buildingFolderPath,
-    const QPoint& animationAnchorPoint,
-    const QBrush& constructionBrush
-) :
-    mainImage(buildingFolderPath + "/main.png", {}),
+
+BuildingImage::BuildingImage(const BuildingInformation::Graphics& graphicsData, const QBrush& constructionBrush) :
+    mainImage(graphicsData.mainImagePath),
     constructionImage(mainImage, constructionBrush),
-    animationImageSequence(buildingFolderPath, animationAnchorPoint)
+    animationImageSequence(graphicsData.activeAnimation)
 {
 
 }
@@ -30,7 +28,7 @@ const Image& BuildingImage::getInactiveImage() const
 
 
 
-const ImageSequence& BuildingImage::getAnimationSequence() const
+const ImageSequence& BuildingImage::getActiveAnimationSequence() const
 {
     return animationImageSequence;
 }
