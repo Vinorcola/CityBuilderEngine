@@ -1,10 +1,11 @@
 
 QT += core gui widgets
-
-TARGET = CityBuilderEngine
 CONFIG += c++14
 
 TEMPLATE = app
+TARGET = CityBuilderEngine
+OBJECTS_DIR = objects
+MOC_DIR = moc
 
 SOURCES += \
     src/engine/element/dynamic/character/DeliveryManCharacter.cpp \
