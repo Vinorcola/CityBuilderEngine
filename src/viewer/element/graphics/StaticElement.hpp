@@ -7,6 +7,7 @@
 
 class Image;
 class MapSize;
+class Positioning;
 
 class StaticElement : public QGraphicsPixmapItem
 {
@@ -15,7 +16,7 @@ class StaticElement : public QGraphicsPixmapItem
         optional<QGraphicsPixmapItem*> animationItem;
 
     public:
-        StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, const Image& elementImage);
+        StaticElement(const Positioning& positioning, const MapSize& elementSize, const Image& elementImage);
 
         void setAnimationImage(const Image& image);
 

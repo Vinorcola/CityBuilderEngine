@@ -2,6 +2,7 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include "src/exceptions/BadConfigurationException.hpp"
 #include "src/exceptions/OutOfRangeException.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
@@ -15,6 +16,7 @@
 
 Conf::Conf(QObject* parent, const QString& filePath) :
     QObject(parent),
+    tileSize(),
     items(),
     buildings(),
     characters(),
@@ -23,6 +25,13 @@ Conf::Conf(QObject* parent, const QString& filePath) :
 {
     // Load file.
     YAML::Node configurationRoot(YAML::LoadFile(filePath.toStdString()));
+
+    // Load graphics' configuration.
+    if (!configurationRoot["graphics"] || !configurationRoot["graphics"]["tileHeight"]) {
+        throw BadConfigurationException("Expected the tile height to be configured in \"graphics.tileHeight\".");
+    }
+    tileSize.setHeight(configurationRoot["graphics"]["tileHeight"].as<int>());
+    tileSize.setWidth((tileSize.height() - 1) * 2);
 
     // Load nature elements' configuration.
     for (auto node : configurationRoot["natureElements"]) {
@@ -61,6 +70,13 @@ Conf::Conf(QObject* parent, const QString& filePath) :
         ControlPanelElementInformation::checkModel(node);
         controlPanelElements.append(new ControlPanelElementInformation(this, this, node));
     }
+}
+
+
+
+const QSize& Conf::getTileSize() const
+{
+    return tileSize;
 }
 
 

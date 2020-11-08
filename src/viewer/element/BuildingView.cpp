@@ -11,9 +11,9 @@
 
 
 BuildingView::BuildingView(
+    const Positioning& positioning,
     const TileLocatorInterface& tileLocator,
     const ImageLibrary& imageLibrary,
-    const QSizeF& baseTileSize,
     const QSharedPointer<const Building>& engineData
 ) :
     tileLocator(tileLocator),
@@ -21,7 +21,7 @@ BuildingView::BuildingView(
     buildingSize(engineData->getConf().getSize()),
     tile(tileLocator.getTileAt(engineData->getArea().getLeft())),
     image(imageLibrary.getBuildingImage(engineData->getConf())),
-    graphicElement(new StaticElement(baseTileSize, engineData->getConf().getSize(), image.getInactiveImage())),
+    graphicElement(new StaticElement(positioning, engineData->getConf().getSize(), image.getInactiveImage())),
     currentViewVersion(engineData->getViewVersion()),
     animationIndex(0)
 {

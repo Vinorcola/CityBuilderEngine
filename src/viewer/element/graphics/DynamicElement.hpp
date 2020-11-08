@@ -5,15 +5,16 @@
 #include <QtWidgets/QGraphicsPixmapItem>
 
 class Image;
+class MapCoordinates;
+class Positioning;
 
 class DynamicElement : public QGraphicsItem
 {
     private:
-        const QSizeF& baseTileSize;
         QGraphicsPixmapItem imageItem;
 
     public:
-        DynamicElement(const QSizeF& baseTileSize, const Image& elementImage, const QPointF& positionOnTile);
+        DynamicElement(const Positioning& positioning, const Image& elementImage, const MapCoordinates& location);
 
         void setImage(const Image& image);
 

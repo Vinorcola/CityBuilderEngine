@@ -10,13 +10,14 @@
 class AreaChecker;
 class BuildingImage;
 class MapCoordinates;
+class Positioning;
 
 class ConstructionCursor : public QGraphicsObject
 {
         Q_OBJECT
 
     private:
-        const QSizeF baseTileSize;
+        const Positioning& positioning;
         const AreaChecker& areaChecker;
         MapArea coveredArea;
         bool isCoveredAreaFree;
@@ -25,7 +26,7 @@ class ConstructionCursor : public QGraphicsObject
 
     public:
         ConstructionCursor(
-            const QSizeF& baseTileSize,
+            const Positioning& positioning,
             const AreaChecker& areaChecker,
             const BuildingImage& buildingImage,
             const MapSize& buildingSize

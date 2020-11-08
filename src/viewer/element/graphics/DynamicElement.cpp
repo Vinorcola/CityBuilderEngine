@@ -1,15 +1,15 @@
 #include "DynamicElement.hpp"
 
 #include "src/viewer/image/Image.hpp"
+#include "src/viewer/Positioning.hpp"
 
 
 
-DynamicElement::DynamicElement(const QSizeF& baseTileSize, const Image& elementImage, const QPointF& positionOnTile) :
+DynamicElement::DynamicElement(const Positioning& positioning, const Image& elementImage, const MapCoordinates& location) :
     QGraphicsItem(),
-    baseTileSize(baseTileSize),
     imageItem(elementImage.getPixmap(), this)
 {
-    setPos(positionOnTile);
+    setPos(positioning.getDynamicElementPositionInTile(location));
     imageItem.setPos(elementImage.getPosition());
 }
 

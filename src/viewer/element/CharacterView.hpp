@@ -12,14 +12,15 @@ class CharacterImage;
 class ImageLibrary;
 class DynamicElement;
 class MapCoordinates;
+class Positioning;
 class Tile;
 class TileLocatorInterface;
 
 class CharacterView
 {
     private:
+        const Positioning& positioning;
         const TileLocatorInterface& tileLocator;
-        const QSizeF& baseTileSize;
         QWeakPointer<const Character> engineData;
         Tile* currentTile;
         const CharacterImage& image;
@@ -29,9 +30,9 @@ class CharacterView
 
     public:
         CharacterView(
+            const Positioning& positioning,
             const TileLocatorInterface& tileLocator,
             const ImageLibrary& imageLibrary,
-            const QSizeF& baseTileSize,
             const QSharedPointer<const Character>& engineData
         );
 
@@ -47,8 +48,6 @@ class CharacterView
         void advanceAnimation();
 
         void setDestroyed();
-
-        QPointF getPositionOnTile(const MapCoordinates& globalLocation);
 };
 
 #endif // CHARACTERVIEW_HPP

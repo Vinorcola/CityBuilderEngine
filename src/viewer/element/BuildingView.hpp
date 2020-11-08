@@ -11,6 +11,7 @@ class Building;
 class BuildingImage;
 class ImageLibrary;
 class MapSize;
+class Positioning;
 class StaticElement;
 class Tile;
 class TileLocatorInterface;
@@ -29,9 +30,9 @@ class BuildingView
 
     public:
         BuildingView(
+            const Positioning& positioning,
             const TileLocatorInterface& tileLocator,
             const ImageLibrary& imageLibrary,
-            const QSizeF& baseTileSize,
             const QSharedPointer<const Building>& engineData
         );
 

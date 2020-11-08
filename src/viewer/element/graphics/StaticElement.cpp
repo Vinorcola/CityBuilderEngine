@@ -2,32 +2,16 @@
 
 #include "src/engine/map/MapSize.hpp"
 #include "src/viewer/image/Image.hpp"
+#include "src/viewer/Positioning.hpp"
 
 
-StaticElement::StaticElement(const QSizeF& baseTileSize, const MapSize& elementSize, const Image& elementImage) :
+
+StaticElement::StaticElement(const Positioning& positioning, const MapSize& elementSize, const Image& elementImage) :
     QGraphicsPixmapItem(elementImage.getPixmap()),
-    shapePath(),
+    shapePath(positioning.getTileAreaPainterPath(elementSize)),
     animationItem(nullptr)
 {
-    setAcceptedMouseButtons(Qt::RightButton);
-
-    qreal sizeRatio(elementSize.getValue());
-    qreal halfBaseTileSizeHeight(baseTileSize.height()/ 2.0);
-    qreal halfBaseTileSizeWidth(1.0 + baseTileSize.width() / 2.0);
-
-    // Move the image at the right place.
-    // NOTE: A static element is attached to the tile located at the left corner of it's area. The height will depends
-    // on the element size, since we must align it with the bottom tile of it's area.
-    setPos(0, (sizeRatio + 1.0) * halfBaseTileSizeHeight - elementImage.getPixmap().height());
-
-    // Create shape path.
-    // NOTE: The shape path must represent the element base on the map (the zone that covers the tiles). It must not
-    // take the element extra height into account.
-    shapePath.moveTo(0                                       , halfBaseTileSizeHeight                     ); // Left corner
-    shapePath.lineTo(sizeRatio * halfBaseTileSizeWidth       , -(sizeRatio - 1.0) * halfBaseTileSizeHeight); // Top corner
-    shapePath.lineTo(sizeRatio * (2.0 + baseTileSize.width()), halfBaseTileSizeHeight                     ); // Right corner
-    shapePath.lineTo(sizeRatio * halfBaseTileSizeWidth       , (sizeRatio + 1.0) * halfBaseTileSizeHeight ); // Bottom corner
-    shapePath.closeSubpath();
+    setPos(positioning.getStaticElementPositionInTile(elementSize, elementImage.getPixmap().height()));
 }
 
 

@@ -1,5 +1,7 @@
 #include "MapSize.hpp"
 
+#include <cassert>
+
 
 
 MapSize::MapSize() :
@@ -12,7 +14,7 @@ MapSize::MapSize() :
 MapSize::MapSize(const int value) :
     value(value)
 {
-
+    assert(value > 0);
 }
 
 

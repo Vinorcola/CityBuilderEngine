@@ -21,14 +21,13 @@
 #include "src/viewer/image/NatureElementImage.hpp"
 #include "src/viewer/Tile.hpp"
 
-const QSizeF BASE_TILE_SIZE(58, 30);
-
 
 
 MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLibrary) :
     QGraphicsScene(),
     map(map),
     imageLibrary(imageLibrary),
+    positioning(conf.getTileSize()),
     tiles(),
     buildings(),
     characters(),
@@ -52,9 +51,9 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
         int adjust(line > mapSize.width() ? 1 : 2);
         while (column < (mapSize.width() - line + adjust) / 2) {
             auto tile(new Tile(
+                positioning,
                 MapCoordinates(column, line + column),
-                BASE_TILE_SIZE,
-                new StaticElement(BASE_TILE_SIZE, MapSize(1), grassImage.getImage())
+                *new StaticElement(positioning, MapSize(), grassImage.getImage())
             ));
 
             addItem(tile);
@@ -102,7 +101,7 @@ void MapScene::requestBuildingPositioning(const BuildingInformation* elementConf
     if (selectionElement) {
         delete selectionElement;
     }
-    selectionElement = new ConstructionCursor(BASE_TILE_SIZE, map, imageLibrary.getBuildingImage(*elementConf), elementConf->getSize());
+    selectionElement = new ConstructionCursor(positioning, map, imageLibrary.getBuildingImage(*elementConf), elementConf->getSize());
     addItem(selectionElement);
     connect(selectionElement, &ConstructionCursor::cancel, [this]() {
         delete selectionElement;
@@ -131,7 +130,7 @@ Tile& MapScene::getTileAt(const MapCoordinates& location) const
 void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
 {
     buildings.append(
-        new BuildingView(*this, imageLibrary, BASE_TILE_SIZE, element)
+        new BuildingView(positioning, *this, imageLibrary, element)
     );
     if (selectionElement) {
         selectionElement->refresh();
@@ -143,7 +142,7 @@ void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
 void MapScene::registerNewCharacter(QSharedPointer<const Character> element)
 {
     characters.append(
-        new CharacterView(*this, imageLibrary, BASE_TILE_SIZE, element)
+        new CharacterView(positioning, *this, imageLibrary, element)
     );
 }
 
@@ -154,7 +153,7 @@ void MapScene::registerNewNatureElement(const NatureElement& element)
     auto& tile(getTileAt(element.getArea().getLeft()));
     auto& natureElementImage(imageLibrary.getNatureElementImage(element.getConf()));
 
-    tile.setStaticElement(new StaticElement(BASE_TILE_SIZE, element.getArea().getSize(), natureElementImage.getImage()));
+    tile.setStaticElement(new StaticElement(positioning, element.getArea().getSize(), natureElementImage.getImage()));
     // TODO: Handle higher size of nature elements by hiding covered tiles (see BuildingView).
 }
 

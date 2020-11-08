@@ -4,6 +4,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QList>
 #include <QtCore/QObject>
+#include <QtCore/QSize>
 #include <QtCore/QString>
 
 class BuildingInformation;
@@ -17,6 +18,7 @@ class Conf : public QObject
         Q_OBJECT
 
     private:
+        QSize tileSize;
         QHash<QString, ItemInformation*> items;
         QHash<QString, BuildingInformation*> buildings;
         QHash<QString, CharacterInformation*> characters;
@@ -25,6 +27,8 @@ class Conf : public QObject
 
     public:
         Conf(QObject* parent, const QString& filePath);
+
+        const QSize& getTileSize() const;
 
         const ItemInformation& getItemConf(const QString& key) const;
 

@@ -6,6 +6,7 @@
 
 #include "src/engine/map/MapArea.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
+#include "src/viewer/Positioning.hpp"
 #include "src/defines.hpp"
 
 class Building;
@@ -31,6 +32,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
     private:
         const Map& map;
         const ImageLibrary& imageLibrary;
+        Positioning positioning;
         QList<owner<Tile*>> tiles;
         QList<owner<BuildingView*>> buildings;
         QList<owner<CharacterView*>> characters;

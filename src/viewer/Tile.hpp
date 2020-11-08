@@ -7,6 +7,7 @@
 #include "src/defines.hpp"
 
 class DynamicElement;
+class Positioning;
 class StaticElement;
 
 class Tile : public QGraphicsObject
@@ -15,11 +16,11 @@ class Tile : public QGraphicsObject
 
     private:
         MapCoordinates location;
-        QGraphicsItem* groundElement; ///< The ground nature element (grass for example).
+        QGraphicsItem& groundElement; ///< The ground nature element (grass for example).
         optional<QGraphicsItem*> staticElement; ///< The static element (building or nature element).
 
     public:
-        Tile(const MapCoordinates& location, const QSizeF& baseTileSize, QGraphicsItem* groundElement);
+        Tile(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement);
 
         const MapCoordinates& getCoordinates() const;
 

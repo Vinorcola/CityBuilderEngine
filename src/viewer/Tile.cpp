@@ -1,19 +1,18 @@
 #include "Tile.hpp"
 
+#include "src/viewer/Positioning.hpp"
 
 
-Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize, QGraphicsItem* groundElement) :
+
+Tile::Tile(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement) :
     QGraphicsObject(),
     location(location),
     groundElement(groundElement),
     staticElement(nullptr)
 {
     setAcceptHoverEvents(true);
-    setPos(
-        (location.getY() + location.getX()) * (1.0 + baseTileSize.width() / 2.0),
-        (location.getY() - location.getX()) * baseTileSize.height() / 2.0
-    );
-    groundElement->setParentItem(this);
+    setPos(positioning.getTilePosition(location));
+    groundElement.setParentItem(this);
 }
 
 
@@ -34,7 +33,7 @@ void Tile::setStaticElement(QGraphicsItem* staticElement)
     this->staticElement = staticElement;
     staticElement->setParentItem(this);
 
-    groundElement->setVisible(false);
+    groundElement.setVisible(false);
 }
 
 
@@ -44,7 +43,7 @@ void Tile::dropStaticElement()
     staticElement->setParentItem(nullptr);
     staticElement = nullptr;
 
-    groundElement->setVisible(true);
+    groundElement.setVisible(true);
 }
 
 
@@ -77,7 +76,7 @@ QRectF Tile::boundingRect() const
         return staticElement->boundingRect();
     }
 
-    return groundElement->boundingRect();
+    return groundElement.boundingRect();
 }
 
 
@@ -95,7 +94,7 @@ QPainterPath Tile::shape() const
         return staticElement->shape();
     }
 
-    return groundElement->shape();
+    return groundElement.shape();
 }
 
 

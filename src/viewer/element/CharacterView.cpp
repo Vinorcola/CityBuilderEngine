@@ -5,25 +5,26 @@
 #include "src/viewer/element/TileLocatorInterface.hpp"
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
+#include "src/viewer/Positioning.hpp"
 #include "src/viewer/Tile.hpp"
 
 
 
 CharacterView::CharacterView(
+    const Positioning& positioning,
     const TileLocatorInterface& tileLocator,
     const ImageLibrary& imageLibrary,
-    const QSizeF& baseTileSize,
     const QSharedPointer<const Character>& engineData
 ) :
+    positioning(positioning),
     tileLocator(tileLocator),
-    baseTileSize(baseTileSize),
     engineData(engineData),
     currentTile(&tileLocator.getTileAt(engineData->getCurrentLocation())),
     image(imageLibrary.getCharacterImage(engineData->getConf())),
     graphicElement(new DynamicElement(
-        baseTileSize,
+        positioning,
         image.getAnimationImage(0, engineData->getCurrentDirection()),
-        getPositionOnTile(engineData->getCurrentLocation())
+        engineData->getCurrentLocation()
     )),
     currentViewVersion(0), // TODO
     animationIndex(0)
@@ -78,7 +79,7 @@ void CharacterView::move(const MapCoordinates& newLocation)
         currentTile = &newTile;
     }
 
-    graphicElement->updateLocation(getPositionOnTile(newLocation));
+    graphicElement->updateLocation(positioning.getDynamicElementPositionInTile(newLocation));
 }
 
 
@@ -94,17 +95,4 @@ void CharacterView::setDestroyed()
 {
     engineData.clear();
     currentTile->unregisterDynamicElement(graphicElement);
-}
-
-
-
-QPointF CharacterView::getPositionOnTile(const MapCoordinates& globalLocation)
-{
-    qreal xDiff(globalLocation.getX() - currentTile->getCoordinates().getX());
-    qreal yDiff(globalLocation.getY() - currentTile->getCoordinates().getY());
-
-    return {
-        xDiff * baseTileSize.width() / 2.0 + yDiff * baseTileSize.width() / 2.0,
-        -xDiff * baseTileSize.height() / 2.0 + yDiff * baseTileSize.height() / 2.0
-    };
 }

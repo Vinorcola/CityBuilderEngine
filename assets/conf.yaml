@@ -1,4 +1,7 @@
 
+graphics:
+    tileHeight: 30
+
 buildings:
     college:
         type: school
