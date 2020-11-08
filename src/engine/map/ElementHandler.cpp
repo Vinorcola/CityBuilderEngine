@@ -276,7 +276,7 @@ void ElementHandler::canConstructBuilding(const BuildingInformation& conf, const
     if (area.getSize() != conf.getSize()) {
         throw UnexpectedException("Try to build a building on a area not matching the configured size.");
     }
-    if (!map.isFreeArea(area)) {
+    if (!map.isConstructible(area)) {
         qDebug() << "WARNING: Try to create a building on an occupyed area " + area.toString() + ". Skiping the creation.";
         return;
     }

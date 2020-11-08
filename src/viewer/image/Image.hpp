@@ -24,7 +24,7 @@ class Image
         /**
          * @brief Load an image from a file.
          */
-        Image(const QString& path, const QPoint& position = {});
+        explicit Image(const QString& path, const QPoint& position = {});
 
         /**
          * @brief Create a colorized filter image using the source image as a shape pattern.

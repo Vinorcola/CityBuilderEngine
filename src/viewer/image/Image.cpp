@@ -19,7 +19,7 @@ Image::Image(const QString& path, const QPoint& position) :
 
 
 Image::Image(const Image& source, const QBrush& brush) :
-    pixmap(source.pixmap.size()),
+    pixmap(source.pixmap),
     position(source.position)
 {
     QRegion mask(QBitmap(QPixmap::fromImage(pixmap.toImage().createAlphaMask())));

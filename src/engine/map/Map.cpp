@@ -125,14 +125,14 @@ bool Map::isValidArea(const MapArea& area) const
 
 
 
-bool Map::isFreeCoordinates(const MapCoordinates& coordinates) const
+bool Map::isConstructible(const MapCoordinates& coordinates) const
 {
     return mapDetailsCache.isLocationConstructible(coordinates);
 }
 
 
 
-bool Map::isFreeArea(const MapArea& area) const
+bool Map::isConstructible(const MapArea& area) const
 {
     if (!isValidArea(area)) {
         return false;
@@ -144,7 +144,7 @@ bool Map::isFreeArea(const MapArea& area) const
     MapCoordinates coordinates(left);
     while (coordinates.getY() <= right.getY()) {
         while (coordinates.getX() <= right.getX()) {
-            if (!isFreeCoordinates(coordinates)) {
+            if (!isConstructible(coordinates)) {
                 return false;
             }
             coordinates = coordinates.getEast();
@@ -250,7 +250,7 @@ void Map::setProcessorSpeedRatio(const qreal speedRatio)
 
 void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
 {
-    if (!isFreeArea(area)) {
+    if (!isConstructible(area)) {
         qDebug() << "WARNING: Try to create a building on an occupyed area " + area.toString() + ". Skiping the creation.";
         return;
     }

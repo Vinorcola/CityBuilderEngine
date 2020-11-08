@@ -1,16 +1,12 @@
 #include "Tile.hpp"
 
-#include "src/viewer/element/graphics/DynamicElement.hpp"
-#include "src/viewer/element/graphics/StaticElement.hpp"
-
 
 
 Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize, QGraphicsItem* groundElement) :
     QGraphicsObject(),
     location(location),
     groundElement(groundElement),
-    staticElement(nullptr),
-    dynamicElementList()
+    staticElement(nullptr)
 {
     setAcceptHoverEvents(true);
     setPos(

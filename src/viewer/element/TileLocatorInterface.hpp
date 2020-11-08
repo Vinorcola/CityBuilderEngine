@@ -7,8 +7,6 @@ class Tile;
 class TileLocatorInterface
 {
     public:
-        virtual ~TileLocatorInterface() {};
-
         /**
          * @brief Return the tile at the given location.
          */

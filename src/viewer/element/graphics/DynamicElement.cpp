@@ -1,10 +1,6 @@
 #include "DynamicElement.hpp"
 
-#include <QtGui/QPainter>
-
-#include "src/engine/element/dynamic/Character.hpp"
 #include "src/viewer/image/Image.hpp"
-#include "src/viewer/SelectionElement.hpp"
 
 
 

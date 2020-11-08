@@ -16,6 +16,7 @@ class ImageLibrary
 {
         Q_DISABLE_COPY_MOVE(ImageLibrary)
 
+    public:
         static const QBrush GREEN_BRUSH;
         static const QBrush ORANGE_BRUSH;
         static const QBrush RED_BRUSH;

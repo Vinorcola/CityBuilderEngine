@@ -1,8 +1,6 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
-#include <QtCore/QList>
-#include <QtCore/QStack>
 #include <QtWidgets/QGraphicsObject>
 
 #include "src/engine/map/MapCoordinates.hpp"
@@ -17,9 +15,8 @@ class Tile : public QGraphicsObject
 
     private:
         MapCoordinates location;
-        QGraphicsItem* groundElement;///< The ground nature element (grass for example).
-        optional<QGraphicsItem*> staticElement;///< The static element (building or nature element).
-        QList<QGraphicsItem*> dynamicElementList;
+        QGraphicsItem* groundElement; ///< The ground nature element (grass for example).
+        optional<QGraphicsItem*> staticElement; ///< The static element (building or nature element).
 
     public:
         Tile(const MapCoordinates& location, const QSizeF& baseTileSize, QGraphicsItem* groundElement);
@@ -36,15 +33,15 @@ class Tile : public QGraphicsObject
 
         void unregisterDynamicElement(QGraphicsItem* element);
 
-        virtual QRectF boundingRect() const;
-        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
-        virtual QPainterPath shape() const;
+        virtual QRectF boundingRect() const override;
+        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+        virtual QPainterPath shape() const override;
 
     signals:
         void isCurrentTile(Tile* tile);
 
     protected:
-        virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+        virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
 };
 
 #endif // TILE_HPP

@@ -4,6 +4,7 @@
 #include <QtCore/QBasicTimer>
 #include <QtWidgets/QGraphicsScene>
 
+#include "src/engine/map/MapArea.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
 #include "src/defines.hpp"
 
@@ -13,10 +14,10 @@ class BuildingView;
 class Character;
 class CharacterView;
 class Conf;
+class ConstructionCursor;
 class DynamicElement;
 class ImageLibrary;
 class Map;
-class MapArea;
 class MapCoordinates;
 class MapSize;
 class NatureElement;
@@ -33,7 +34,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         QList<owner<Tile*>> tiles;
         QList<owner<BuildingView*>> buildings;
         QList<owner<CharacterView*>> characters;
-        owner<SelectionElement*> selectionElement;
+        optional<owner<ConstructionCursor*>> selectionElement;
         QBasicTimer animationClock;
 
     public:
@@ -47,14 +48,6 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
          * @param type The type of building the user wants to create.
          */
         void requestBuildingPositioning(const BuildingInformation* elementConf);
-
-        /**
-         * @brief Request a building creation.
-         *
-         * @param buildingKey The type of building.
-         * @param area        The area of construction.
-         */
-        void requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area);
 
         virtual Tile& getTileAt(const MapCoordinates& location) const override;
 
@@ -73,14 +66,6 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
     protected:
         virtual void timerEvent(QTimerEvent* event) override;
 
-    private:
-        /**
-         * @brief Refresh the selection element.
-         *
-         * @note Please call only if element is visible.
-         */
-        void refreshSelectionElement();
-
     private slots:
         void currentTileChanged(Tile* currentTile);
 
@@ -91,7 +76,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
          * @param buildingKey The type of building.
          * @param area        The area of construction.
          */
-        void buildingCreationRequested(const BuildingInformation& elementConf, const MapArea& area);
+        void buildingCreationRequested(const BuildingInformation& elementConf, MapArea area);
 };
 
 #endif // MAPSCENE_HPP

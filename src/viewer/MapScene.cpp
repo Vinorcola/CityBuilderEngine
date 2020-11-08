@@ -10,6 +10,7 @@
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
+#include "src/viewer/construction/ConstructionCursor.hpp"
 #include "src/viewer/element/graphics/DynamicElement.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/viewer/element/CharacterView.hpp"
@@ -18,7 +19,6 @@
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/image/NatureElementImage.hpp"
-#include "src/viewer/SelectionElement.hpp"
 #include "src/viewer/Tile.hpp"
 
 const QSizeF BASE_TILE_SIZE(58, 30);
@@ -32,7 +32,7 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
     tiles(),
     buildings(),
     characters(),
-    selectionElement(new SelectionElement(BASE_TILE_SIZE)),
+    selectionElement(nullptr),
     animationClock()
 {
     setBackgroundBrush(QBrush(Qt::black));
@@ -67,9 +67,6 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
         column = -line / 2;
     }
 
-    // Attach the selection element.
-    addItem(selectionElement);
-
     // Load existing elements.
     for (auto element : map.getBuildings()) {
         registerNewBuilding(element);
@@ -92,7 +89,9 @@ MapScene::~MapScene()
 {
     qDeleteAll(buildings);
     qDeleteAll(characters);
-    delete selectionElement;
+    if (selectionElement) {
+        delete selectionElement;
+    }
     qDeleteAll(tiles);
 }
 
@@ -100,14 +99,18 @@ MapScene::~MapScene()
 
 void MapScene::requestBuildingPositioning(const BuildingInformation* elementConf)
 {
-    selectionElement->setBuildingType(elementConf);
-}
-
-
-
-void MapScene::requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area)
-{
-    emit buildingCreationRequested(*elementConf, area);
+    if (selectionElement) {
+        delete selectionElement;
+    }
+    selectionElement = new ConstructionCursor(BASE_TILE_SIZE, map, imageLibrary.getBuildingImage(*elementConf), elementConf->getSize());
+    addItem(selectionElement);
+    connect(selectionElement, &ConstructionCursor::cancel, [this]() {
+        delete selectionElement;
+        selectionElement = nullptr;
+    });
+    connect(selectionElement, &ConstructionCursor::construct, [this, elementConf](const MapArea& area) {
+        emit buildingCreationRequested(*elementConf, area);
+    });
 }
 
 
@@ -130,6 +133,9 @@ void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
     buildings.append(
         new BuildingView(*this, imageLibrary, BASE_TILE_SIZE, element)
     );
+    if (selectionElement) {
+        selectionElement->refresh();
+    }
 }
 
 
@@ -168,11 +174,6 @@ void MapScene::refresh()
             ++iterator;
         }
     }
-
-    // Refresh the selection element.
-    if (selectionElement->isVisible()) {
-        refreshSelectionElement();
-    }
 }
 
 
@@ -186,21 +187,9 @@ void MapScene::timerEvent(QTimerEvent* /*event*/)
 
 
 
-void MapScene::refreshSelectionElement()
-{
-    if (map.isFreeArea(selectionElement->getCoveredArea())) {
-        selectionElement->setGood();
-    } else {
-        selectionElement->setBad();
-    }
-}
-
-
-
 void MapScene::currentTileChanged(Tile* currentTile)
 {
-    if (selectionElement->isVisible()) {
-        selectionElement->attachToTile(*currentTile);
-        refreshSelectionElement();
+    if (selectionElement) {
+        selectionElement->displayAtLocation(currentTile->getCoordinates());
     }
 }

@@ -1,12 +1,9 @@
 #ifndef DYNAMICELEMENT_HPP
 #define DYNAMICELEMENT_HPP
 
-#include <QtCore/QPointer>
 #include <QtWidgets/QGraphicsItem>
+#include <QtWidgets/QGraphicsPixmapItem>
 
-#include "src/engine/map/MapCoordinates.hpp"
-
-class Character;
 class Image;
 
 class DynamicElement : public QGraphicsItem
@@ -22,8 +19,8 @@ class DynamicElement : public QGraphicsItem
 
         void updateLocation(const QPointF& positionOnTile);
 
-        virtual QRectF boundingRect() const;
-        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
+        virtual QRectF boundingRect() const override;
+        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 };
 
 #endif // DYNAMICELEMENT_HPP

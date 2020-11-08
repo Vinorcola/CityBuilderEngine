@@ -12,6 +12,7 @@
 #include "src/engine/map/MapEntryPoint.hpp"
 #include "src/engine/map/MapDetailsCache.hpp"
 #include "src/engine/map/MapSearchEngine.hpp"
+#include "src/viewer/construction/AreaChecker.hpp"
 
 class Building;
 class BuildingInformation;
@@ -29,7 +30,7 @@ class NatureElementInformation;
 class ProcessableBuilding;
 class TimeCycleProcessor;
 
-class Map : public QObject, public MapDetailsInterface
+class Map : public QObject, public MapDetailsInterface, public AreaChecker
 {
         Q_OBJECT
 
@@ -69,12 +70,12 @@ class Map : public QObject, public MapDetailsInterface
         /**
          * @brief Indicate if the given coordinates are free of any king of static element.
          */
-        bool isFreeCoordinates(const MapCoordinates& coordinates) const;
+        bool isConstructible(const MapCoordinates& coordinates) const;
 
         /**
          * @brief Indicate if the given area is free of any kind of static element.
          */
-        bool isFreeArea(const MapArea& area) const;
+        virtual bool isConstructible(const MapArea& area) const override;
 
         MapCoordinates getBestEntryPoint(const MapArea& area) const;
 
