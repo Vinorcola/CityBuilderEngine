@@ -49,7 +49,7 @@ class TimeCycleProcessor : public QObject
         /**
          * @brief Register a building to be process each time cycle.
          */
-        void registerBuilding(ProcessableBuilding* building);
+        void registerBuilding(ProcessableBuilding& building);
 
         /**
          * @brief Register a character to be process each time cycle.

@@ -1,9 +1,15 @@
 #ifndef CHARACTERINFORMATION_HPP
 #define CHARACTERINFORMATION_HPP
 
+#include <QtCore/QHash>
+#include <QtCore/QList>
 #include <QtCore/QObject>
+#include <QtCore/QPoint>
 #include <QtCore/QString>
-#include <QtGui/QPixmap>
+
+#include "src/global/conf/ImageSequenceInformation.hpp"
+#include "src/global/Direction.hpp"
+#include "src/defines.hpp"
 
 class ModelReader;
 namespace YAML {
@@ -14,12 +20,19 @@ class CharacterInformation : public QObject
 {
         Q_OBJECT
 
+    public:
+        struct Graphics {
+            QHash<Direction, QList<owner<const ImageSequenceInformation*>>> walkingAnimation;
+
+            ~Graphics();
+        };
+
     private:
         QString key;
         QString title;
         qreal speed;
         int wanderingCredits;
-        QPixmap image;
+        Graphics graphics;
 
     public:
         CharacterInformation(QObject* parent, const ModelReader& model);
@@ -32,7 +45,7 @@ class CharacterInformation : public QObject
 
         int getWanderingCredits() const;
 
-        const QPixmap& getImage() const;
+        const Graphics& getGraphicsData() const;
 
         /**
          * @brief Check if the model is valid.

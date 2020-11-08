@@ -3,8 +3,8 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtCore/QPoint>
 #include <QtCore/QString>
-#include <QtGui/QPixmap>
 
 #include "src/engine/map/MapSize.hpp"
 #include "src/defines.hpp"
@@ -12,6 +12,7 @@
 class BuildingAreaPartDescription;
 class BuildingSearchCriteriaDescription;
 class CharacterInformation;
+class ImageSequenceInformation;
 class ItemInformation;
 class ModelReader;
 class NatureElementInformation;
@@ -51,9 +52,10 @@ class BuildingInformation : public QObject
         };
 
         struct Graphics {
-            QPixmap image;
+            QString mainImagePath;
+            QList<owner<const ImageSequenceInformation*>> activeAnimation;
 
-            explicit Graphics(const ModelReader& model);
+            ~Graphics();
         };
 
         struct WalkerGeneration {
@@ -163,7 +165,7 @@ class BuildingInformation : public QObject
 
         const Storage& getStorageConf() const;
 
-        const QPixmap& getImage() const;
+        const Graphics& getGraphicsData() const;
 
     private:
         void loadSpecificConf(const ModelReader& model);

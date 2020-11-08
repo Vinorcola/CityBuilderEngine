@@ -3,7 +3,6 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
-#include <QtGui/QPixmap>
 
 namespace YAML {
     class Node;
@@ -16,6 +15,7 @@ class NatureElementInformation : public QObject
     public:
         enum class Type {
             Copper,
+            Grass,
             Silver,
             Wood
         };
@@ -25,14 +25,16 @@ class NatureElementInformation : public QObject
         QString key;
         QString title;
         bool traversable;
-        QPixmap image;
+        QString imagePath;
 
     public:
         NatureElementInformation(QObject* parent, const QString& key, const YAML::Node& model);
 
+        const QString& getTitle() const;
+
         bool isTraversable() const;
 
-        const QPixmap& getImage() const;
+        const QString& getImagePath() const;
 
         /**
          * @brief Check if the model is valid.

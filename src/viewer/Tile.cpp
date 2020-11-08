@@ -1,21 +1,18 @@
 #include "Tile.hpp"
 
-#include "src/viewer/DynamicElement.hpp"
-#include "src/viewer/StaticElement.hpp"
+#include "src/viewer/Positioning.hpp"
 
 
 
-Tile::Tile(const MapCoordinates& location, const QSizeF& baseTileSize) :
+Tile::Tile(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement) :
     QGraphicsObject(),
     location(location),
-    staticElementList(),
-    dynamicElementList()
+    groundElement(groundElement),
+    staticElement(nullptr)
 {
     setAcceptHoverEvents(true);
-    setPos(
-        (location.getY() + location.getX()) * baseTileSize.width() / 2.0,
-        (location.getY() - location.getX()) * baseTileSize.height() / 2.0
-    );
+    setPos(positioning.getTilePosition(location));
+    groundElement.setParentItem(this);
 }
 
 
@@ -27,58 +24,59 @@ const MapCoordinates& Tile::getCoordinates() const
 
 
 
-void Tile::pushStaticElement(StaticElement* element)
+void Tile::setStaticElement(QGraphicsItem* staticElement)
 {
-    if (staticElementList.size() > 0) {
-        // Hide previous graphics item.
-        staticElementList.last()->setVisible(false);
+    if (this->staticElement) {
+        staticElement->setParentItem(nullptr);
     }
 
-    element->setParentItem(this);
-    element->setVisible(true);
-    staticElementList.push(element);
+    this->staticElement = staticElement;
+    staticElement->setParentItem(this);
+
+    groundElement.setVisible(false);
 }
 
 
 
-StaticElement* Tile::popStaticElement()
+void Tile::dropStaticElement()
 {
-    auto element(staticElementList.pop());
+    staticElement->setParentItem(nullptr);
+    staticElement = nullptr;
+
+    groundElement.setVisible(true);
+}
+
+
+
+void Tile::registerDynamicElement(QGraphicsItem* element)
+{
+    element->setParentItem(this);
+    element->setVisible(true);
+}
+
+
+
+void Tile::moveDynamicElementTo(QGraphicsItem* element, Tile& other)
+{
+    element->setParentItem(&other);
+}
+
+
+
+void Tile::unregisterDynamicElement(QGraphicsItem* element)
+{
     element->setParentItem(nullptr);
-
-    if (staticElementList.size() > 0) {
-        // Show last item.
-        staticElementList.last()->setVisible(true);
-    }
-
-    return element;
-}
-
-
-
-void Tile::registerDynamicElement(DynamicElement* element)
-{
-    element->setParentItem(this);
-    element->setVisible(true);
-    dynamicElementList.append(element);
-}
-
-
-
-void Tile::unregisterDynamicElement(DynamicElement* element)
-{
-    dynamicElementList.removeOne(element);
 }
 
 
 
 QRectF Tile::boundingRect() const
 {
-    if (staticElementList.size() > 0) {
-        return staticElementList.last()->boundingRect();
+    if (staticElement) {
+        return staticElement->boundingRect();
     }
 
-    return QRectF();
+    return groundElement.boundingRect();
 }
 
 
@@ -92,11 +90,11 @@ void Tile::paint(QPainter* /*painter*/, const QStyleOptionGraphicsItem* /*option
 
 QPainterPath Tile::shape() const
 {
-    if (staticElementList.size() > 0) {
-        return staticElementList.last()->shape();
+    if (staticElement) {
+        return staticElement->shape();
     }
 
-    return QGraphicsObject::shape();
+    return groundElement.shape();
 }
 
 

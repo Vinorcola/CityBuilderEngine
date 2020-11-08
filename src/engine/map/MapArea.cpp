@@ -73,7 +73,14 @@ bool MapArea::isInside(const MapCoordinates& coordinates) const
 {
     auto right(getRight());
     return coordinates.getX() >= left.getX() && coordinates.getX() <= right.getX()
-        && coordinates.getY() >= left.getY() && coordinates.getY() <= right.getY();
+            && coordinates.getY() >= left.getY() && coordinates.getY() <= right.getY();
+}
+
+
+
+void MapArea::moveTo(const MapCoordinates& left)
+{
+    this->left = left;
 }
 
 

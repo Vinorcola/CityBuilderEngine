@@ -99,7 +99,7 @@ void MainWindow::loadMap(const QString& filePath)
     connect(currentMap, &Map::populationChanged, informationWidget, &InformationWidget::updatePopulation);
     connect(currentMap, &Map::dateChanged, informationWidget, &InformationWidget::updateDate);
 
-    MapViewer* viewer(new MapViewer(*currentMap));
+    MapViewer* viewer(new MapViewer(*conf, *currentMap));
     setCentralWidget(viewer);
     connect(controlPanel, &ControlPanel::buildingRequested, viewer, &MapViewer::buildingRequest);
 }

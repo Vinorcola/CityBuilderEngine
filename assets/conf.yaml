@@ -1,4 +1,7 @@
 
+graphics:
+    tileHeight: 30
+
 buildings:
     college:
         type: school
@@ -6,6 +9,7 @@ buildings:
         size: 3
         studentCharacter: philosopher
         targetLaboratory: podium
+        animationAnchorPoint: { x: 49, y: 38 }
     foundry:
         type: producer
         title: Foundry
@@ -13,23 +17,27 @@ buildings:
         rawMaterialItem: copper
         producedItem: bronze
         minerCharacter: copperMiner
+        animationAnchorPoint: { x: -1, y: -29 }
     fountain:
         type: sanity
         title: Fountain
         size: 2
         walkerCharacter: waterBearer
         walkerGenerationInterval: 8
+        animationAnchorPoint: { x: 36, y: 41 }
     granary:
         type: storage
         title: Granary
         size: 4
         items: [ carrots, cheese, fish, meat, onions, urchin, wheat ]
+        animationAnchorPoint: { x: 125, y: 129 }
     gymnasium:
         type: school
         title: Gymnasium
         size: 3
         studentCharacter: competitor
         targetLaboratory: stadium
+        animationAnchorPoint: { x: 58, y: 10 }
     house:
         type: house
         title: House
@@ -42,12 +50,14 @@ buildings:
         size: 4
         walkerCharacter: healer
         walkerGenerationInterval: 8
+        animationAnchorPoint: { x: 80, y: 43 }
     maintenance:
         type: sanity
         title: Maintenance Office
         size: 2
         walkerCharacter: superintendent
-        walkerGenerationInterval: 8
+        walkerGenerationInterval: 1
+        animationAnchorPoint: { x: 15, y: -30 }
     mapEntryPoint:
         type: mapEntryPoint
         title: Map Entry Point
@@ -60,11 +70,13 @@ buildings:
         producedItem: wood # NOT the good value. For testing only.
         minerCharacter: silverMiner
         rawMaterialQuantityToProduce: 200
+        animationAnchorPoint: { x: -1, y: -39 }
     podium:
         type: laboratory
         title: Podium
         size: 2
         acceptedStudent: philosopher
+        animationAnchorPoint: { x: 45, y: 40 }
     road:
         type: road
         title: Road
@@ -96,6 +108,7 @@ buildings:
         size: 2
         walkerCharacter: clerk
         walkerGenerationInterval: 8
+        animationAnchorPoint: { x: 55, y: 40 }
     timberMill:
         type: producer
         title: Timber Mill
@@ -103,6 +116,7 @@ buildings:
         rawMaterialItem: wood
         producedItem: wood
         minerCharacter: lumberjack
+        animationAnchorPoint: { x: -1, y: -7 }
     watchpost:
         type: sanity
         title: Watchpost
@@ -205,6 +219,9 @@ natureElements:
     copper:
         title: Copper
         traversable: false
+    grass:
+        title: Grass
+        traversable: true
     silver:
         title: Silver
         traversable: false

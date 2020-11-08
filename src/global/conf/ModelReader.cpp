@@ -30,6 +30,17 @@ const YAML::Node& ModelReader::getNode() const
 
 
 
+const ModelReader ModelReader::getSubModel(const char key[]) const
+{
+    if (!node[key] || !node[key].IsMap()) {
+        throw BadConfigurationException(generateErrorMessage(key, "an object"));
+    }
+
+    return { conf, key, node[key] };
+}
+
+
+
 int ModelReader::getInt(const char key[]) const
 {
     if (!node[key]) {
@@ -66,10 +77,37 @@ QString ModelReader::getString(const char key[]) const
 MapCoordinates ModelReader::getMapCoordinates(const char key[]) const
 {
     if (!node[key]) {
-        throw BadConfigurationException(generateErrorMessage(key, "some coordinates"));
+        throw BadConfigurationException(generateErrorMessage(key, "some map coordinates"));
     }
 
     return node[key].as<MapCoordinates>();
+}
+
+
+
+QPoint ModelReader::getPoint(const char key[]) const
+{
+    if (!node[key]) {
+        throw BadConfigurationException(generateErrorMessage(key, "some point coordinates"));
+    }
+
+    return node[key].as<QPoint>();
+}
+
+
+
+QList<QPoint> ModelReader::getPointList(const char key[]) const
+{
+    if (!node[key] || !node[key].IsSequence()) {
+        throw BadConfigurationException(generateErrorMessage(key, "a list of point coordinates"));
+    }
+
+    QList<QPoint> list;
+    for (auto subNode: node[key]) {
+        list.append(subNode.as<QPoint>());
+    }
+
+    return list;
 }
 
 
@@ -102,7 +140,7 @@ QList<const ItemInformation*> ModelReader::getListOfItemConfs(const char key[]) 
     }
 
     QList<const ItemInformation*> list;
-    for (auto subNode : node[key]) {
+    for (auto subNode: node[key]) {
         list.append(&conf.getItemConf(subNode.as<QString>()));
     }
 
@@ -147,6 +185,33 @@ QString ModelReader::getOptionalString(const char key[], const QString& defaultV
     }
 
     return node[key].as<QString>();
+}
+
+
+
+QPoint ModelReader::getOptionalPoint(const char key[], const QPoint& defaultValue) const
+{
+    if (!node[key]) {
+        return defaultValue;
+    }
+
+    return node[key].as<QPoint>();
+}
+
+
+
+QList<QPoint> ModelReader::getOptionalPointList(const char key[]) const
+{
+    QList<QPoint> list;
+    if (!node[key] || !node[key].IsSequence()) {
+        return list;
+    }
+
+    for (auto subNode: node[key]) {
+        list.append(subNode.as<QPoint>());
+    }
+
+    return list;
 }
 
 

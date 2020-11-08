@@ -1,0 +1,67 @@
+building:
+    mainImage: main.png
+    animation:
+      - file: 1.png
+        position: { x: 58, y: 10 }
+      - file: 2.png
+        position: { x: 58, y: 10 }
+      - file: 3.png
+        position: { x: 58, y: 10 }
+      - file: 4.png
+        position: { x: 58, y: 10 }
+      - file: 5.png
+        position: { x: 58, y: 10 }
+      - file: 6.png
+        position: { x: 58, y: 10 }
+      - file: 7.png
+        position: { x: 58, y: 10 }
+      - file: 8.png
+        position: { x: 58, y: 10 }
+      - file: 9.png
+        position: { x: 58, y: 10 }
+      - file: 10.png
+        position: { x: 58, y: 10 }
+      - file: 11.png
+        position: { x: 58, y: 10 }
+      - file: 12.png
+        position: { x: 58, y: 10 }
+      - file: 13.png
+        position: { x: 58, y: 10 }
+      - file: 14.png
+        position: { x: 58, y: 10 }
+      - file: 15.png
+        position: { x: 58, y: 10 }
+      - file: 16.png
+        position: { x: 58, y: 10 }
+      - file: 17.png
+        position: { x: 58, y: 10 }
+      - file: 18.png
+        position: { x: 58, y: 10 }
+      - file: 19.png
+        position: { x: 58, y: 10 }
+      - file: 20.png
+        position: { x: 58, y: 10 }
+      - file: 21.png
+        position: { x: 58, y: 10 }
+      - file: 22.png
+        position: { x: 58, y: 10 }
+      - file: 23.png
+        position: { x: 58, y: 10 }
+      - file: 24.png
+        position: { x: 58, y: 10 }
+      - file: 25.png
+        position: { x: 58, y: 10 }
+      - file: 26.png
+        position: { x: 58, y: 10 }
+      - file: 27.png
+        position: { x: 58, y: 10 }
+      - file: 28.png
+        position: { x: 58, y: 10 }
+      - file: 29.png
+        position: { x: 58, y: 10 }
+      - file: 30.png
+        position: { x: 58, y: 10 }
+      - file: 31.png
+        position: { x: 58, y: 10 }
+      - file: 32.png
+        position: { x: 58, y: 10 }

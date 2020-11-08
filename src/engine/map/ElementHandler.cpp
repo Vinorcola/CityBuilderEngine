@@ -40,7 +40,7 @@ ElementHandler::ElementHandler(Map& map, MapSearchEngine& searchEngine, const Pa
 
 
 
-const std::list<Building*>& ElementHandler::getBuildings() const
+const std::list<QSharedPointer<Building>>& ElementHandler::getBuildings() const
 {
     return buildings;
 }
@@ -50,10 +50,10 @@ const std::list<Building*>& ElementHandler::getBuildings() const
 FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new FarmBuilding(this, *this, conf, area, entryPoint));
+    QSharedPointer<FarmBuilding> building(new FarmBuilding(this, *this, conf, area, entryPoint));
     buildings.push_back(building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -63,10 +63,10 @@ FarmBuilding& ElementHandler::generateFarm(const BuildingInformation& conf, cons
 HouseBuilding& ElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new HouseBuilding(this, map.getImmigrantGenerator(), conf, area, entryPoint));
+    QSharedPointer<HouseBuilding> building(new HouseBuilding(this, map.getImmigrantGenerator(), conf, area, entryPoint));
     buildings.push_back(building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -76,11 +76,11 @@ HouseBuilding& ElementHandler::generateHouse(const BuildingInformation& conf, co
 LaboratoryBuilding& ElementHandler::generateLaboratory(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new LaboratoryBuilding(this, *this, conf, area, entryPoint));
+    QSharedPointer<LaboratoryBuilding> building(new LaboratoryBuilding(this, *this, conf, area, entryPoint));
     buildings.push_back(building);
     searchEngine.registerLaboratoryBuilding(*building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -90,10 +90,10 @@ LaboratoryBuilding& ElementHandler::generateLaboratory(const BuildingInformation
 ProducerBuilding& ElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new ProducerBuilding(this, searchEngine, *this, conf, area, entryPoint));
+    QSharedPointer<ProducerBuilding> building(new ProducerBuilding(this, searchEngine, *this, conf, area, entryPoint));
     buildings.push_back(building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -103,10 +103,10 @@ ProducerBuilding& ElementHandler::generateProducer(const BuildingInformation& co
 SanityBuilding& ElementHandler::generateSanity(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new SanityBuilding(this, *this, conf, area, entryPoint));
+    QSharedPointer<SanityBuilding> building(new SanityBuilding(this, *this, conf, area, entryPoint));
     buildings.push_back(building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -116,10 +116,10 @@ SanityBuilding& ElementHandler::generateSanity(const BuildingInformation& conf, 
 SchoolBuilding& ElementHandler::generateSchool(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new SchoolBuilding(this, searchEngine, *this, conf, area, entryPoint));
+    QSharedPointer<SchoolBuilding> building(new SchoolBuilding(this, searchEngine, *this, conf, area, entryPoint));
     buildings.push_back(building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -129,11 +129,11 @@ SchoolBuilding& ElementHandler::generateSchool(const BuildingInformation& conf, 
 StorageBuilding& ElementHandler::generateStorage(const BuildingInformation& conf, const MapArea& area)
 {
     auto entryPoint(map.getBestEntryPoint(area));
-    auto building(new StorageBuilding(this, conf, area, entryPoint));
+    QSharedPointer<StorageBuilding> building(new StorageBuilding(this, conf, area, entryPoint));
     buildings.push_back(building);
     searchEngine.registerStorageBuilding(*building);
 
-    emit buildingCreated(*building);
+    emit buildingCreated(building);
 
     return *building;
 }
@@ -142,17 +142,17 @@ StorageBuilding& ElementHandler::generateStorage(const BuildingInformation& conf
 
 Road& ElementHandler::generateRoad(const BuildingInformation& conf, const MapCoordinates& location)
 {
-    auto road(new Road(this, conf, location));
+    QSharedPointer<Road> road(new Road(this, conf, location));
     buildings.push_back(road);
 
-    emit buildingCreated(*road);
+    emit buildingCreated(road);
 
     return *road;
 }
 
 
 
-const std::list<Character*>& ElementHandler::getCharacters() const
+const std::list<QSharedPointer<Character>>& ElementHandler::getCharacters() const
 {
     return characters;
 }
@@ -165,10 +165,12 @@ DeliveryManCharacter& ElementHandler::generateDeliveryMan(
     const ItemInformation& transportedItemConf,
     const int transportedQuantity
 ) {
-    auto character(new DeliveryManCharacter(this, *this, pathGenerator, searchEngine, conf, issuer, transportedItemConf, transportedQuantity));
+    QSharedPointer<DeliveryManCharacter> character(
+        new DeliveryManCharacter(this, *this, pathGenerator, searchEngine, conf, issuer, transportedItemConf, transportedQuantity)
+    );
     characters.push_back(character);
 
-    emit characterCreated(*character);
+    emit characterCreated(character);
 
     return *character;
 }
@@ -180,10 +182,10 @@ ImmigrantCharacter& ElementHandler::generateImmigrant(
     ProcessableBuilding& issuer,
     ProcessableBuilding& target
 ) {
-    auto character(new ImmigrantCharacter(this, *this, pathGenerator, conf, issuer, target));
+    QSharedPointer<ImmigrantCharacter> character(new ImmigrantCharacter(this, *this, pathGenerator, conf, issuer, target));
     characters.push_back(character);
 
-    emit characterCreated(*character);
+    emit characterCreated(character);
 
     return *character;
 }
@@ -195,10 +197,10 @@ MinerCharacter& ElementHandler::generateMiner(
     ProcessableBuilding& issuer,
     owner<PathInterface*> path
 ) {
-    auto character(new MinerCharacter(this, *this, pathGenerator, conf, issuer, path));
+    QSharedPointer<MinerCharacter> character(new MinerCharacter(this, *this, pathGenerator, conf, issuer, path));
     characters.push_back(character);
 
-    emit characterCreated(*character);
+    emit characterCreated(character);
 
     return *character;
 }
@@ -211,10 +213,10 @@ StudentCharacter& ElementHandler::generateStudent(
     ProcessableBuilding& target
 ) {
     auto path(pathGenerator.generateShortestRoadPathTo(issuer.getEntryPoint(), target.getEntryPoint()));
-    auto character(new StudentCharacter(this, *this, pathGenerator, conf, issuer, target, path));
+    QSharedPointer<StudentCharacter> character(new StudentCharacter(this, *this, pathGenerator, conf, issuer, target, path));
     characters.push_back(character);
 
-    emit characterCreated(*character);
+    emit characterCreated(character);
 
     return *character;
 }
@@ -225,10 +227,10 @@ WanderingCharacter& ElementHandler::generateWanderingCharacter(
     const CharacterInformation& conf,
     ProcessableBuilding& issuer
 ) {
-    auto character(new WanderingCharacter(this, *this, pathGenerator, conf, issuer));
+    QSharedPointer<WanderingCharacter> character(new WanderingCharacter(this, *this, pathGenerator, conf, issuer));
     characters.push_back(character);
 
-    emit characterCreated(*character);
+    emit characterCreated(character);
 
     return *character;
 }
@@ -237,10 +239,12 @@ WanderingCharacter& ElementHandler::generateWanderingCharacter(
 
 void ElementHandler::clearCharacter(Character& character)
 {
-    characters.remove(&character);
-    delete &character;
-
-    emit characterDestroyed(&character);
+    for (auto iterator(characters.begin()); iterator != characters.end(); ++iterator) {
+        if (iterator->get() == &character) {
+            characters.erase(iterator);
+            return;
+        }
+    }
 }
 
 
@@ -272,7 +276,7 @@ void ElementHandler::canConstructBuilding(const BuildingInformation& conf, const
     if (area.getSize() != conf.getSize()) {
         throw UnexpectedException("Try to build a building on a area not matching the configured size.");
     }
-    if (!map.isFreeArea(area)) {
+    if (!map.isConstructible(area)) {
         qDebug() << "WARNING: Try to create a building on an occupyed area " + area.toString() + ". Skiping the creation.";
         return;
     }

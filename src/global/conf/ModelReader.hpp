@@ -28,6 +28,8 @@ class ModelReader
 
         const YAML::Node& getNode() const;
 
+        const ModelReader getSubModel(const char key[]) const;
+
         int getInt(const char key[]) const;
 
         qreal getReal(const char key[]) const;
@@ -35,6 +37,10 @@ class ModelReader
         QString getString(const char key[]) const;
 
         MapCoordinates getMapCoordinates(const char key[]) const;
+
+        QPoint getPoint(const char key[]) const;
+
+        QList<QPoint> getPointList(const char key[]) const;
 
         const BuildingInformation& getBuildingConf(const char key[]) const;
 
@@ -51,6 +57,10 @@ class ModelReader
         int getOptionalInt(const char key[], const int defaultValue) const;
 
         QString getOptionalString(const char key[], const QString& defaultValue) const;
+
+        QPoint getOptionalPoint(const char key[], const QPoint& defaultValue) const;
+
+        QList<QPoint> getOptionalPointList(const char key[]) const;
 
         const CharacterInformation& getOptionalCharacterConf(const char key[], const CharacterInformation& defaultValue) const;
 

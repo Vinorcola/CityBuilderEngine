@@ -55,6 +55,8 @@ class MapArea
 
         bool isInside(const MapCoordinates& coordinates) const;
 
+        void moveTo(const MapCoordinates& left);
+
         // Coordinates iterator
         ConstIterator begin() const;
         ConstIterator end() const;

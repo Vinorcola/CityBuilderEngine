@@ -1,0 +1,13 @@
+
+size:
+    height: 1
+    width: 1
+status:
+    date:
+        year: -1500
+        month: 1
+        cycles: 0
+    budget: 10000
+entryPoint: { x: 0, y: 0 }
+buildings: []
+natureElements: []

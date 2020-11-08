@@ -1,13 +1,13 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
-#include <QtCore/QList>
-#include <QtCore/QStack>
 #include <QtWidgets/QGraphicsObject>
 
 #include "src/engine/map/MapCoordinates.hpp"
+#include "src/defines.hpp"
 
 class DynamicElement;
+class Positioning;
 class StaticElement;
 
 class Tile : public QGraphicsObject
@@ -16,36 +16,33 @@ class Tile : public QGraphicsObject
 
     private:
         MapCoordinates location;
-        QStack<StaticElement*> staticElementList;
-        QList<DynamicElement*> dynamicElementList;
+        QGraphicsItem& groundElement; ///< The ground nature element (grass for example).
+        optional<QGraphicsItem*> staticElement; ///< The static element (building or nature element).
 
     public:
-        Tile(const MapCoordinates& location, const QSizeF& baseTileSize);
+        Tile(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement);
 
         const MapCoordinates& getCoordinates() const;
 
-        void pushStaticElement(StaticElement* element);
+        void setStaticElement(QGraphicsItem* staticElement);
 
-        /**
-         * @brief Pop the last graphics item displayed on the tile.
-         *
-         * The graphics item's parent is reset so make sure you delete the object if you don't use it anymore.
-         */
-        StaticElement* popStaticElement();
+        void dropStaticElement();
 
-        void registerDynamicElement(DynamicElement* element);
+        void registerDynamicElement(QGraphicsItem* element);
 
-        void unregisterDynamicElement(DynamicElement* element);
+        void moveDynamicElementTo(QGraphicsItem* element, Tile& other);
 
-        virtual QRectF boundingRect() const;
-        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
-        virtual QPainterPath shape() const;
+        void unregisterDynamicElement(QGraphicsItem* element);
+
+        virtual QRectF boundingRect() const override;
+        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+        virtual QPainterPath shape() const override;
 
     signals:
         void isCurrentTile(Tile* tile);
 
     protected:
-        virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+        virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
 };
 
 #endif // TILE_HPP

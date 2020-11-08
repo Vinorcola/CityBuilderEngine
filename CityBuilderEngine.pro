@@ -55,6 +55,7 @@ SOURCES += \
     src/exceptions/BadConfigurationException.cpp \
     src/exceptions/EngineException.cpp \
     src/exceptions/Exception.cpp \
+    src/exceptions/FileNotFoundException.cpp \
     src/exceptions/InvalidMapElementException.cpp \
     src/exceptions/NotImplementedException.cpp \
     src/exceptions/OutOfRangeException.cpp \
@@ -65,18 +66,29 @@ SOURCES += \
     src/global/conf/CharacterInformation.cpp \
     src/global/conf/Conf.cpp \
     src/global/conf/ControlPanelElementInformation.cpp \
+    src/global/conf/ImageSequenceInformation.cpp \
     src/global/conf/ItemInformation.cpp \
     src/global/conf/ModelReader.cpp \
     src/global/conf/NatureElementInformation.cpp \
+    src/global/Direction.cpp \
     src/ui/controlPanel/BuildingButton.cpp \
     src/ui/controlPanel/ControlPanel.cpp \
     src/ui/InformationWidget.cpp \
     src/ui/MainWindow.cpp \
-    src/viewer/DynamicElement.cpp \
+    src/viewer/construction/ConstructionCursor.cpp \
+    src/viewer/element/graphics/DynamicElement.cpp \
+    src/viewer/element/graphics/StaticElement.cpp \
+    src/viewer/element/BuildingView.cpp \
+    src/viewer/element/CharacterView.cpp \
+    src/viewer/image/BuildingImage.cpp \
+    src/viewer/image/CharacterImage.cpp \
+    src/viewer/image/Image.cpp \
+    src/viewer/image/ImageLibrary.cpp \
+    src/viewer/image/ImageSequence.cpp \
+    src/viewer/image/NatureElementImage.cpp \
     src/viewer/MapScene.cpp \
     src/viewer/MapViewer.cpp \
-    src/viewer/SelectionElement.cpp \
-    src/viewer/StaticElement.cpp \
+    src/viewer/Positioning.cpp \
     src/viewer/Tile.cpp \
     src/main.cpp
 
@@ -135,6 +147,7 @@ HEADERS += \
     src/exceptions/BadConfigurationException.hpp \
     src/exceptions/EngineException.hpp \
     src/exceptions/Exception.hpp \
+    src/exceptions/FileNotFoundException.hpp \
     src/exceptions/InvalidMapElementException.hpp \
     src/exceptions/NotImplementedException.hpp \
     src/exceptions/OutOfRangeException.hpp \
@@ -145,19 +158,32 @@ HEADERS += \
     src/global/conf/CharacterInformation.hpp \
     src/global/conf/Conf.hpp \
     src/global/conf/ControlPanelElementInformation.hpp \
+    src/global/conf/ImageSequenceInformation.hpp \
     src/global/conf/ItemInformation.hpp \
     src/global/conf/ModelReader.hpp \
     src/global/conf/NatureElementInformation.hpp \
+    src/global/Direction.hpp \
     src/global/yamlLibraryEnhancement.hpp \
     src/ui/controlPanel/BuildingButton.hpp \
     src/ui/controlPanel/ControlPanel.hpp \
     src/ui/InformationWidget.hpp \
     src/ui/MainWindow.hpp \
-    src/viewer/DynamicElement.hpp \
+    src/viewer/construction/AreaChecker.hpp \
+    src/viewer/construction/ConstructionCursor.hpp \
+    src/viewer/element/graphics/DynamicElement.hpp \
+    src/viewer/element/graphics/StaticElement.hpp \
+    src/viewer/element/BuildingView.hpp \
+    src/viewer/element/CharacterView.hpp \
+    src/viewer/element/TileLocatorInterface.hpp \
+    src/viewer/image/BuildingImage.hpp \
+    src/viewer/image/CharacterImage.hpp \
+    src/viewer/image/Image.hpp \
+    src/viewer/image/ImageLibrary.hpp \
+    src/viewer/image/ImageSequence.hpp \
+    src/viewer/image/NatureElementImage.hpp \
     src/viewer/MapScene.hpp \
     src/viewer/MapViewer.hpp \
-    src/viewer/SelectionElement.hpp \
-    src/viewer/StaticElement.hpp \
+    src/viewer/Positioning.hpp \
     src/viewer/Tile.hpp \
     src/defines.hpp
 

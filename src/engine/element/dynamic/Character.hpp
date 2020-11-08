@@ -38,6 +38,7 @@ class Character : public QObject, public AbstractProcessable
         const CharacterInformation& conf;///< The character configuration.
         MotionHandler motionHandler;///< A helper that will handle the character's motion.
         QPointer<ProcessableBuilding> issuer;///< The issuer building.
+        int viewVersion;///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
 
     public:
         Character(
@@ -54,12 +55,21 @@ class Character : public QObject, public AbstractProcessable
 
         const MapCoordinates& getCurrentLocation() const;
 
+        Direction getCurrentDirection() const;
+
         optional<ProcessableBuilding*> getIssuer() const;
+
+        bool isViewUpToDate(const int currentViewVersion) const;
+
+        int getViewVersion() const;
 
         /**
          * @brief Make the charater move.
          */
         virtual void process(const CycleDate& date) override;
+
+    protected:
+        void notifyViewDataChange();
 };
 
 #endif // CHARACTER_HPP

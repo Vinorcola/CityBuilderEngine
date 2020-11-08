@@ -33,23 +33,23 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     elementHandler(*this, searchEngine, pathGenerator),
     entryPoint(this, elementHandler, conf->getBuildingConf("mapEntryPoint"), loader.getEntryPoint(), conf->getCharacterConf("immigrant"))
 {
-    connect(&elementHandler, &ElementHandler::buildingCreated, [this](Building& building) {
-        auto processableBuilding(dynamic_cast<ProcessableBuilding*>(&building));
+    connect(&elementHandler, &ElementHandler::buildingCreated, [this](QSharedPointer<Building> building) {
+        auto processableBuilding(building.dynamicCast<ProcessableBuilding>());
         if (processableBuilding) {
-            processor->registerBuilding(processableBuilding);
+            processor->registerBuilding(*processableBuilding);
 
-            auto houseBuilding(dynamic_cast<HouseBuilding*>(processableBuilding));
+            auto houseBuilding(processableBuilding.dynamicCast<HouseBuilding>());
             if (houseBuilding) {
-                connect(houseBuilding, &HouseBuilding::populationChanged, this, &Map::changePopulation);
+                connect(houseBuilding.get(), &HouseBuilding::populationChanged, this, &Map::changePopulation);
             }
         }
 
-        mapDetailsCache.registerBuildingConstruction(building.getConf(), building.getArea());
+        mapDetailsCache.registerBuildingConstruction(building->getConf(), building->getArea());
 
         emit buildingCreated(building);
     });
-    connect(&elementHandler, &ElementHandler::characterCreated, [this](Character& character) {
-        processor->registerCharacter(&character);
+    connect(&elementHandler, &ElementHandler::characterCreated, [this](QSharedPointer<Character> character) {
+        processor->registerCharacter(character.get());
 
         emit characterCreated(character);
     });
@@ -64,7 +64,7 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     connect(processor, &TimeCycleProcessor::dateChanged, this, &Map::dateChanged);
 
     // Register map entry point.
-    processor->registerBuilding(&entryPoint);
+    processor->registerBuilding(entryPoint);
 
     // Load buildings.
     for (auto buildingInfo : loader.getBuildings()) {
@@ -125,14 +125,14 @@ bool Map::isValidArea(const MapArea& area) const
 
 
 
-bool Map::isFreeCoordinates(const MapCoordinates& coordinates) const
+bool Map::isConstructible(const MapCoordinates& coordinates) const
 {
     return mapDetailsCache.isLocationConstructible(coordinates);
 }
 
 
 
-bool Map::isFreeArea(const MapArea& area) const
+bool Map::isConstructible(const MapArea& area) const
 {
     if (!isValidArea(area)) {
         return false;
@@ -144,7 +144,7 @@ bool Map::isFreeArea(const MapArea& area) const
     MapCoordinates coordinates(left);
     while (coordinates.getY() <= right.getY()) {
         while (coordinates.getX() <= right.getX()) {
-            if (!isFreeCoordinates(coordinates)) {
+            if (!isConstructible(coordinates)) {
                 return false;
             }
             coordinates = coordinates.getEast();
@@ -171,14 +171,14 @@ const TimeCycleProcessor* Map::getProcessor() const
 
 
 
-const std::list<Building*>& Map::getBuildings() const
+const std::list<QSharedPointer<Building>>& Map::getBuildings() const
 {
     return elementHandler.getBuildings();
 }
 
 
 
-const std::list<Character*>& Map::getCharacters() const
+const std::list<QSharedPointer<Character>>& Map::getCharacters() const
 {
     return elementHandler.getCharacters();
 }
@@ -250,7 +250,7 @@ void Map::setProcessorSpeedRatio(const qreal speedRatio)
 
 void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
 {
-    if (!isFreeArea(area)) {
+    if (!isConstructible(area)) {
         qDebug() << "WARNING: Try to create a building on an occupyed area " + area.toString() + ". Skiping the creation.";
         return;
     }

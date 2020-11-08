@@ -5,6 +5,7 @@
 #include "src/exceptions/BadConfigurationException.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
 #include "src/global/conf/BuildingSearchCriteriaDescription.hpp"
+#include "src/global/conf/ImageSequenceInformation.hpp"
 #include "src/global/conf/ModelReader.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
 #include "src/defines.hpp"
@@ -16,7 +17,7 @@ BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& mod
     key(model.getKey()),
     type(resolveType(model.getString("type"))),
     common(model),
-    graphics(model),
+    graphics(),
     farm(nullptr),
     house(nullptr),
     producer(nullptr),
@@ -24,7 +25,20 @@ BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& mod
     school(nullptr),
     storage(nullptr)
 {
+    QString basePath("assets/img/static/building/" + key + "/");
+    QString manifestPath(basePath + "manifest.yaml");
+    YAML::Node manifestRoot(YAML::LoadFile(manifestPath.toStdString()));
 
+    graphics.mainImagePath = basePath + manifestRoot["building"]["mainImage"].as<QString>();
+    if (manifestRoot["building"]["animation"]) {
+        QString animationPath(basePath + "animation/");
+        for (auto imageNode : manifestRoot["building"]["animation"]) {
+            graphics.activeAnimation.append(new ImageSequenceInformation(
+                animationPath + imageNode["file"].as<QString>(),
+                imageNode["position"].as<QPoint>()
+            ));
+        }
+    }
 }
 
 
@@ -154,9 +168,9 @@ const BuildingInformation::Storage& BuildingInformation::getStorageConf() const
 
 
 
-const QPixmap& BuildingInformation::getImage() const
+const BuildingInformation::Graphics& BuildingInformation::getGraphicsData() const
 {
-    return graphics.image;
+    return graphics;
 }
 
 
@@ -229,10 +243,9 @@ BuildingInformation::Common::Common(const ModelReader& model) :
 
 
 
-BuildingInformation::Graphics::Graphics(const ModelReader& model) :
-    image("assets/img/static/building/" + model.getKey() + ".png")
+BuildingInformation::Graphics::~Graphics()
 {
-
+    qDeleteAll(activeAnimation);
 }
 
 

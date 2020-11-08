@@ -1,0 +1,51 @@
+building:
+    mainImage: main.png
+    animation:
+      - file: 1.png
+        position: { x: 49, y: 38 }
+      - file: 2.png
+        position: { x: 49, y: 38 }
+      - file: 3.png
+        position: { x: 49, y: 38 }
+      - file: 4.png
+        position: { x: 49, y: 38 }
+      - file: 5.png
+        position: { x: 49, y: 38 }
+      - file: 6.png
+        position: { x: 49, y: 38 }
+      - file: 7.png
+        position: { x: 49, y: 38 }
+      - file: 8.png
+        position: { x: 49, y: 38 }
+      - file: 9.png
+        position: { x: 49, y: 38 }
+      - file: 10.png
+        position: { x: 49, y: 38 }
+      - file: 11.png
+        position: { x: 49, y: 38 }
+      - file: 12.png
+        position: { x: 49, y: 38 }
+      - file: 13.png
+        position: { x: 49, y: 38 }
+      - file: 14.png
+        position: { x: 49, y: 38 }
+      - file: 15.png
+        position: { x: 49, y: 38 }
+      - file: 16.png
+        position: { x: 49, y: 38 }
+      - file: 17.png
+        position: { x: 49, y: 38 }
+      - file: 18.png
+        position: { x: 49, y: 38 }
+      - file: 19.png
+        position: { x: 49, y: 38 }
+      - file: 20.png
+        position: { x: 49, y: 38 }
+      - file: 21.png
+        position: { x: 49, y: 38 }
+      - file: 22.png
+        position: { x: 49, y: 38 }
+      - file: 23.png
+        position: { x: 49, y: 38 }
+      - file: 24.png
+        position: { x: 49, y: 38 }

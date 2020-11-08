@@ -1,32 +1,48 @@
 #ifndef MAPSCENE_HPP
 #define MAPSCENE_HPP
 
+#include <QtCore/QBasicTimer>
 #include <QtWidgets/QGraphicsScene>
+
+#include "src/engine/map/MapArea.hpp"
+#include "src/viewer/element/TileLocatorInterface.hpp"
+#include "src/viewer/Positioning.hpp"
+#include "src/defines.hpp"
 
 class Building;
 class BuildingInformation;
+class BuildingView;
 class Character;
+class CharacterView;
+class Conf;
+class ConstructionCursor;
 class DynamicElement;
+class ImageLibrary;
 class Map;
-class MapArea;
 class MapCoordinates;
 class MapSize;
 class NatureElement;
 class SelectionElement;
 class Tile;
 
-class MapScene : public QGraphicsScene
+class MapScene : public QGraphicsScene, public TileLocatorInterface
 {
         Q_OBJECT
 
     private:
         const Map& map;
-        QList<Tile*> tileList;
-        QList<DynamicElement*> dynamicElementList;
-        SelectionElement* selectionElement;
+        const ImageLibrary& imageLibrary;
+        Positioning positioning;
+        QList<owner<Tile*>> tiles;
+        QList<owner<BuildingView*>> buildings;
+        QList<owner<CharacterView*>> characters;
+        optional<owner<ConstructionCursor*>> selectionElement;
+        QBasicTimer animationClock;
 
     public:
-        MapScene(const Map& map);
+        MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLibrary);
+
+        ~MapScene();
 
         /**
          * @brief Request the positioning of a building (trigger selection element).
@@ -35,18 +51,12 @@ class MapScene : public QGraphicsScene
          */
         void requestBuildingPositioning(const BuildingInformation* elementConf);
 
-        /**
-         * @brief Request a building creation.
-         *
-         * @param buildingKey The type of building.
-         * @param area        The area of construction.
-         */
-        void requestBuildingCreation(const BuildingInformation* elementConf, const MapArea& area);
+        virtual Tile& getTileAt(const MapCoordinates& location) const override;
 
     public slots:
-        void registerNewBuilding(const Building& element);
+        void registerNewBuilding(QSharedPointer<const Building> element);
 
-        void registerNewCharacter(const Character& element);
+        void registerNewCharacter(QSharedPointer<const Character> element);
 
         void registerNewNatureElement(const NatureElement& element);
 
@@ -55,17 +65,8 @@ class MapScene : public QGraphicsScene
          */
         void refresh();
 
-    private:
-        Tile* getTileAt(const MapCoordinates& location);
-
-        void addStaticElement(Tile* tile, const MapSize& elementSize, const QPixmap& elementImage);
-
-        /**
-         * @brief Refresh the selection element.
-         *
-         * @note Please call only if element is visible.
-         */
-        void refreshSelectionElement();
+    protected:
+        virtual void timerEvent(QTimerEvent* event) override;
 
     private slots:
         void currentTileChanged(Tile* currentTile);
@@ -77,7 +78,7 @@ class MapScene : public QGraphicsScene
          * @param buildingKey The type of building.
          * @param area        The area of construction.
          */
-        void buildingCreationRequested(const BuildingInformation& elementConf, const MapArea& area);
+        void buildingCreationRequested(const BuildingInformation& elementConf, MapArea area);
 };
 
 #endif // MAPSCENE_HPP
