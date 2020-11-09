@@ -4,7 +4,7 @@
 
 
 
-BuildingButton::BuildingButton(const QString& title, const BuildingInformation* elementConf) :
+BuildingButton::BuildingButton(const QString& title, const BuildingInformation& elementConf) :
     QPushButton(title),
     elementConf(elementConf)
 {
@@ -13,7 +13,7 @@ BuildingButton::BuildingButton(const QString& title, const BuildingInformation* 
 
 
 
-const BuildingInformation* BuildingButton::getAssociatedBuilding() const
+const BuildingInformation& BuildingButton::getAssociatedBuilding() const
 {
     return elementConf;
 }

@@ -3,6 +3,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/exceptions/BadConfigurationException.hpp"
+#include "src/exceptions/UnexpectedException.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
 
@@ -39,9 +40,13 @@ const QString& ControlPanelElementInformation::getTitle() const
 
 
 
-const BuildingInformation*ControlPanelElementInformation::getStaticElementConf() const
+const BuildingInformation& ControlPanelElementInformation::getStaticElementConf() const
 {
-    return staticElementConf;
+    if (!staticElementConf) {
+        throw UnexpectedException("This building conf does not have house information.");
+    }
+
+    return *staticElementConf;
 }
 
 

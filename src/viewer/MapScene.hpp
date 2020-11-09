@@ -47,10 +47,8 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
 
         /**
          * @brief Request the positioning of a building (trigger selection element).
-         *
-         * @param type The type of building the user wants to create.
          */
-        void requestBuildingPositioning(const BuildingInformation* elementConf);
+        void requestBuildingPositioning(const BuildingInformation& elementConf);
 
         virtual Tile& getTileAt(const MapCoordinates& location) const override;
 

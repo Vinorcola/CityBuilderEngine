@@ -30,7 +30,7 @@ ControlPanel::ControlPanel(const Conf* conf) :
     for (auto element : conf->getControlPanelElements()) {
         switch (element->getType()) {
             case ControlPanelElementInformation::Type::Button:
-                contentLayout->addWidget(createButton(element));
+                contentLayout->addWidget(createButton(*element));
                 break;
 
             case ControlPanelElementInformation::Type::Panel: {
@@ -39,7 +39,7 @@ ControlPanel::ControlPanel(const Conf* conf) :
                 page->setLayout(pageLayout);
                 for (auto nestedElement : element->getChildren()) {
                     if (nestedElement->getType() == ControlPanelElementInformation::Type::Button) {
-                        pageLayout->addWidget(createButton(nestedElement));
+                        pageLayout->addWidget(createButton(*nestedElement));
                     }
                 }
                 pageLayout->addStretch();
@@ -54,9 +54,9 @@ ControlPanel::ControlPanel(const Conf* conf) :
 
 
 
-BuildingButton* ControlPanel::createButton(const ControlPanelElementInformation* elementConf)
+BuildingButton* ControlPanel::createButton(const ControlPanelElementInformation& elementConf)
 {
-    BuildingButton* currentButton(new BuildingButton(elementConf->getTitle(), elementConf->getStaticElementConf()));
+    BuildingButton* currentButton(new BuildingButton(elementConf.getTitle(), elementConf.getStaticElementConf()));
     buttonList.append(currentButton);
     connect(currentButton, &BuildingButton::clicked, [this, currentButton]() {
         emit buildingRequested(currentButton->getAssociatedBuilding());
