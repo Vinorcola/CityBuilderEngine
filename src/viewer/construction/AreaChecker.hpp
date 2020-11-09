@@ -6,6 +6,8 @@ class MapArea;
 class AreaChecker
 {
     public:
+        virtual ~AreaChecker() {};
+
         virtual bool isConstructible(const MapArea& area) const = 0;
 };
 

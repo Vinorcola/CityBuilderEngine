@@ -28,6 +28,8 @@ class TargetedPath : public PathInterface
         virtual bool isCompleted() const override;
 
         virtual MapCoordinates getNextTargetCoordinates() override;
+
+        const QList<MapCoordinates>& toCoordinatesList() const;
 };
 
 #endif // TARGETEDPATH_HPP

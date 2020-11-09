@@ -234,6 +234,15 @@ bool Map::hasRoadAtLocation(const MapCoordinates& location) const
 
 
 
+bool Map::canConstructRoadAtLocation(const MapCoordinates& location) const
+{
+    return isValidCoordinates(location) && (
+        mapDetailsCache.isLocationConstructible(location) || mapDetailsCache.hasRoadAtLocation(location)
+    );
+}
+
+
+
 void Map::pause(const bool pause)
 {
     processor->pause(pause);
@@ -295,4 +304,11 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
 void Map::changePopulation(const int populationDelta)
 {
     cityStatus->updatePopulation(populationDelta);
+}
+
+
+
+void Map::requestRoadConstructionPath(const MapCoordinates origin, const MapCoordinates destination) const
+{
+    emit roadConstructionPath(pathGenerator.generateShortestPathForRoad(origin, destination));
 }

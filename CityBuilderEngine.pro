@@ -185,6 +185,7 @@ HEADERS += \
     src/viewer/MapScene.hpp \
     src/viewer/MapViewer.hpp \
     src/viewer/Positioning.hpp \
+    src/viewer/RoadPathGeneratorInterface.hpp \
     src/viewer/Tile.hpp \
     src/defines.hpp
 

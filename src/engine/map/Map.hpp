@@ -119,9 +119,11 @@ class Map : public QObject, public MapDetailsInterface, public AreaChecker
          */
         const CycleDate& getCurrentDate() const;
 
-        virtual bool isLocationTraversable(const MapCoordinates& location) const;
+        virtual bool isLocationTraversable(const MapCoordinates& location) const override;
 
-        virtual bool hasRoadAtLocation(const MapCoordinates& location) const;
+        virtual bool hasRoadAtLocation(const MapCoordinates& location) const override;
+
+        virtual bool canConstructRoadAtLocation(const MapCoordinates& location) const override;
 
     public slots:
         /**
@@ -152,6 +154,13 @@ class Map : public QObject, public MapDetailsInterface, public AreaChecker
          */
         void changePopulation(const int populationDelta);
 
+        /**
+         * @brief Request the calculation of a path for a road construction.
+         *
+         * The path will be emitted using `roadConstructionPath` signal.
+         */
+        void requestRoadConstructionPath(const MapCoordinates origin, const MapCoordinates destination) const;
+
     signals:
         void buildingCreated(QSharedPointer<const Building> building);
         void characterCreated(QSharedPointer<const Character> character);
@@ -159,6 +168,7 @@ class Map : public QObject, public MapDetailsInterface, public AreaChecker
         void budgetChanged(const int budget);
         void populationChanged(const int population);
         void dateChanged(const int year, const int month);
+        void roadConstructionPath(QList<MapCoordinates> path) const;
 };
 
 #endif // MAP_HPP
