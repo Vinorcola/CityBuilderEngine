@@ -1,7 +1,7 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
-#include <QtWidgets/QGraphicsObject>
+#include <QtWidgets/QGraphicsItem>
 
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/defines.hpp"
@@ -10,10 +10,8 @@ class DynamicElement;
 class Positioning;
 class StaticElement;
 
-class Tile : public QGraphicsObject
+class Tile : public QGraphicsItem
 {
-        Q_OBJECT
-
     private:
         MapCoordinates location;
         QGraphicsItem& groundElement; ///< The ground nature element (grass for example).
@@ -37,12 +35,6 @@ class Tile : public QGraphicsObject
         virtual QRectF boundingRect() const override;
         virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
         virtual QPainterPath shape() const override;
-
-    signals:
-        void isCurrentTile(Tile* tile);
-
-    protected:
-        virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
 };
 
 #endif // TILE_HPP

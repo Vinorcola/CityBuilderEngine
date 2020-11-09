@@ -1,5 +1,6 @@
 #include "Positioning.hpp"
 
+#include <QtMath>
 #include <QtCore/QPoint>
 #include <QtCore/QPointF>
 #include <QtGui/QPainterPath>
@@ -86,5 +87,18 @@ QPointF Positioning::getDynamicElementPositionInTile(const MapCoordinates& eleme
     return {
         X_DIFF * tileRealSize.width() / 2.0 + Y_DIFF * tileRealSize.width() / 2.0,
         -X_DIFF * tileRealSize.height() / 2.0 + Y_DIFF * tileRealSize.height() / 2.0,
+    };
+}
+
+
+
+MapCoordinates Positioning::getMapCoordinatesFromMouseCoordinates(const QPointF& mouseCoordinates) const
+{
+    const int X(qFloor(mouseCoordinates.x() / 2.0));
+    const int Y(qFloor(mouseCoordinates.y()));
+
+    return {
+        qFloor(static_cast<qreal>(X - Y + halfTileSize.height()) / 30.0),
+        qFloor(static_cast<qreal>(X + Y + halfTileSize.height() + 1) / 30.0) - 1,
     };
 }

@@ -1,5 +1,7 @@
 #include "MapScene.hpp"
 
+#include <QtWidgets/QGraphicsSceneMouseEvent>
+
 #include "src/engine/element/dynamic/Character.hpp"
 #include "src/engine/element/static/Building.hpp"
 #include "src/engine/element/static/NatureElement.hpp"
@@ -32,7 +34,8 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
     buildings(),
     characters(),
     selectionElement(nullptr),
-    animationClock()
+    animationClock(),
+    currentTileLocation()
 {
     setBackgroundBrush(QBrush(Qt::black));
 
@@ -58,7 +61,6 @@ MapScene::MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLi
 
             addItem(tile);
             tiles.append(tile);
-            connect(tile, &Tile::isCurrentTile, this, &MapScene::currentTileChanged);
 
             ++column;
         }
@@ -186,9 +188,13 @@ void MapScene::timerEvent(QTimerEvent* /*event*/)
 
 
 
-void MapScene::currentTileChanged(Tile* currentTile)
+void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    if (selectionElement) {
-        selectionElement->displayAtLocation(currentTile->getCoordinates());
+    auto newMapCoordinates(positioning.getMapCoordinatesFromMouseCoordinates(event->scenePos()));
+    if (newMapCoordinates != currentTileLocation) {
+        currentTileLocation = newMapCoordinates;
+        if (selectionElement) {
+            selectionElement->displayAtLocation(newMapCoordinates);
+        }
     }
 }

@@ -38,6 +38,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         QList<owner<CharacterView*>> characters;
         optional<owner<ConstructionCursor*>> selectionElement;
         QBasicTimer animationClock;
+        MapCoordinates currentTileLocation;
 
     public:
         MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLibrary);
@@ -67,9 +68,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
 
     protected:
         virtual void timerEvent(QTimerEvent* event) override;
-
-    private slots:
-        void currentTileChanged(Tile* currentTile);
+        virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
     signals:
         /**

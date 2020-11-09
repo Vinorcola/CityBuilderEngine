@@ -39,7 +39,12 @@ class Positioning
          */
         QPolygonF getTileAreaPolygon(const MapSize& areaSize) const;
 
+        /**
+         * @brief Get the position of a dynamic element withint a tile.
+         */
         QPointF getDynamicElementPositionInTile(const MapCoordinates& elementLocation) const;
+
+        MapCoordinates getMapCoordinatesFromMouseCoordinates(const QPointF& mouseCoordinates) const;
 };
 
 #endif // POSITIONING_HPP

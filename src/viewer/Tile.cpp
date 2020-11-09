@@ -5,7 +5,7 @@
 
 
 Tile::Tile(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement) :
-    QGraphicsObject(),
+    QGraphicsItem(),
     location(location),
     groundElement(groundElement),
     staticElement(nullptr)
@@ -95,11 +95,4 @@ QPainterPath Tile::shape() const
     }
 
     return groundElement.shape();
-}
-
-
-
-void Tile::hoverEnterEvent(QGraphicsSceneHoverEvent* /*event*/)
-{
-    emit isCurrentTile(this);
 }
