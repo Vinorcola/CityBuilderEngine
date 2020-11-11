@@ -243,6 +243,16 @@ bool Map::canConstructRoadAtLocation(const MapCoordinates& location) const
 
 
 
+QList<MapCoordinates> Map::getShortestPathForRoad(
+    const MapCoordinates& origin,
+    const MapCoordinates& target
+) const {
+
+    return pathGenerator.generateShortestPathForRoad(origin, target);
+}
+
+
+
 void Map::pause(const bool pause)
 {
     processor->pause(pause);
@@ -304,11 +314,4 @@ void Map::createBuilding(const BuildingInformation& conf, const MapArea& area)
 void Map::changePopulation(const int populationDelta)
 {
     cityStatus->updatePopulation(populationDelta);
-}
-
-
-
-void Map::requestRoadConstructionPath(const MapCoordinates origin, const MapCoordinates destination) const
-{
-    emit roadConstructionPath(pathGenerator.generateShortestPathForRoad(origin, destination));
 }

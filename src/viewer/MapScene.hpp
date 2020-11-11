@@ -46,7 +46,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         ~MapScene();
 
         /**
-         * @brief Request the positioning of a building (trigger selection element).
+         * @brief Request the tool for positioning a building.
          */
         void requestBuildingPositioning(const BuildingInformation& elementConf);
 

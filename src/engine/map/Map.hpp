@@ -12,7 +12,8 @@
 #include "src/engine/map/MapEntryPoint.hpp"
 #include "src/engine/map/MapDetailsCache.hpp"
 #include "src/engine/map/MapSearchEngine.hpp"
-#include "src/viewer/construction/AreaChecker.hpp"
+#include "src/viewer/construction/AreaCheckerInterface.hpp"
+#include "src/viewer/construction/RoadPathGeneratorInterface.hpp"
 
 class Building;
 class BuildingInformation;
@@ -30,7 +31,7 @@ class NatureElementInformation;
 class ProcessableBuilding;
 class TimeCycleProcessor;
 
-class Map : public QObject, public MapDetailsInterface, public AreaChecker
+class Map : public QObject, public MapDetailsInterface, public AreaCheckerInterface, public RoadPathGeneratorInterface
 {
         Q_OBJECT
 
@@ -125,6 +126,11 @@ class Map : public QObject, public MapDetailsInterface, public AreaChecker
 
         virtual bool canConstructRoadAtLocation(const MapCoordinates& location) const override;
 
+        virtual QList<MapCoordinates> getShortestPathForRoad(
+            const MapCoordinates& origin,
+            const MapCoordinates& target
+        ) const override;
+
     public slots:
         /**
          * @brief Set (or unset) the pause mode.
@@ -154,13 +160,6 @@ class Map : public QObject, public MapDetailsInterface, public AreaChecker
          */
         void changePopulation(const int populationDelta);
 
-        /**
-         * @brief Request the calculation of a path for a road construction.
-         *
-         * The path will be emitted using `roadConstructionPath` signal.
-         */
-        void requestRoadConstructionPath(const MapCoordinates origin, const MapCoordinates destination) const;
-
     signals:
         void buildingCreated(QSharedPointer<const Building> building);
         void characterCreated(QSharedPointer<const Character> character);
@@ -168,7 +167,6 @@ class Map : public QObject, public MapDetailsInterface, public AreaChecker
         void budgetChanged(const int budget);
         void populationChanged(const int population);
         void dateChanged(const int year, const int month);
-        void roadConstructionPath(QList<MapCoordinates> path) const;
 };
 
 #endif // MAP_HPP

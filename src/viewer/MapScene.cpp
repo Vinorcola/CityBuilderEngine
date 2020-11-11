@@ -103,14 +103,22 @@ void MapScene::requestBuildingPositioning(const BuildingInformation& elementConf
     if (selectionElement) {
         delete selectionElement;
     }
-    selectionElement = new ConstructionCursor(positioning, map, imageLibrary.getBuildingImage(elementConf), elementConf.getSize());
+    selectionElement = new ConstructionCursor(
+        positioning,
+        map,
+        map,
+        elementConf,
+        imageLibrary.getBuildingImage(elementConf)
+    );
     addItem(selectionElement);
     connect(selectionElement, &ConstructionCursor::cancel, [this]() {
         delete selectionElement;
         selectionElement = nullptr;
     });
-    connect(selectionElement, &ConstructionCursor::construct, [this, &elementConf](const MapArea& area) {
-        emit buildingCreationRequested(elementConf, area);
+    connect(selectionElement, &ConstructionCursor::construct, [this](const BuildingInformation& buildingConf, QList<MapArea> area) {
+        for (auto location : area) {
+            emit buildingCreationRequested(buildingConf, location);
+        }
     });
 }
 

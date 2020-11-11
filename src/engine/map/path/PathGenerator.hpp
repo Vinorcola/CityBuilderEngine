@@ -4,14 +4,13 @@
 #include "src/engine/element/dynamic/PathGeneratorInterface.hpp"
 #include "src/engine/map/path/closestPath/ClosestPathFinder.hpp"
 #include "src/engine/map/path/shortestPath/ShortestPathFinder.hpp"
-#include "src/viewer/RoadPathGeneratorInterface.hpp"
 #include "src/defines.hpp"
 
 class MapCoordinates;
 class MapDetailsInterface;
 class PathInterface;
 
-class PathGenerator : public PathGeneratorInterface, public RoadPathGeneratorInterface
+class PathGenerator : public PathGeneratorInterface
 {
     private:
         const MapDetailsInterface& mapDetails;
@@ -47,10 +46,10 @@ class PathGenerator : public PathGeneratorInterface, public RoadPathGeneratorInt
             std::function<bool(const MapCoordinates&)> match
         ) const override;
 
-        virtual QList<MapCoordinates> generateShortestPathForRoad(
+        QList<MapCoordinates> generateShortestPathForRoad(
             const MapCoordinates& origin,
             const MapCoordinates& destination
-        ) const override;
+        ) const;
 };
 
 #endif // PATHGENERATOR_HPP

@@ -1,7 +1,7 @@
 
 size:
     height: 70
-    width: 56
+    width: 50
 status:
     date:
         year: -4500
@@ -93,6 +93,6 @@ natureElements:
     - { type: copper, position: { x: -24, y: 37 } }
     - { type: copper, position: { x: -25, y: 37 } }
     - { type: copper, position: { x: -26, y: 36 } }
-    - { type: silver, position: { x: 14, y: 37 } }
-    - { type: silver, position: { x: 15, y: 37 } }
-    - { type: silver, position: { x: 16, y: 36 } }
+    - { type: silver, position: { x: 12, y: 35 } }
+    - { type: silver, position: { x: 13, y: 35 } }
+    - { type: silver, position: { x: 14, y: 34 } }

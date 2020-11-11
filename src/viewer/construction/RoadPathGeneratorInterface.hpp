@@ -11,7 +11,7 @@ class RoadPathGeneratorInterface
     public:
         virtual ~RoadPathGeneratorInterface() {};
 
-        virtual QList<MapCoordinates> generateShortestPathForRoad(
+        virtual QList<MapCoordinates> getShortestPathForRoad(
             const MapCoordinates& origin,
             const MapCoordinates& target
         ) const = 0;
