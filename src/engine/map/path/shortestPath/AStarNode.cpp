@@ -83,15 +83,5 @@ bool AStarNode::isTheoreticallyCloserToDestinationThan(const AStarNode& other) c
     auto thisBestCost(costFromOrigin + theoreticalBestDistanceToDestination);
     auto otherBestCost(other.costFromOrigin + other.theoreticalBestDistanceToDestination);
 
-    if (thisBestCost < otherBestCost) {
-        return true;
-    }
-
-    if (thisBestCost> otherBestCost) {
-        return false;
-    }
-
-    // Best costs are equals, we use straight distance to decide.
-
-    return straightDistanceToDestination < other.straightDistanceToDestination;
+    return thisBestCost <= otherBestCost;
 }
