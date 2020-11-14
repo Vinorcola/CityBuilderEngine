@@ -9,7 +9,7 @@
 #include "src/viewer/image/Image.hpp"
 
 /**
- * @brief A sequence of images that create an animation.
+ * @brief A sequence of images that creates an animation.
  */
 class ImageSequence
 {

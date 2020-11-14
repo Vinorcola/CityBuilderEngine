@@ -7,9 +7,7 @@
 #include "src/defines.hpp"
 
 /**
- * @brief A handler for a building images.
- *
- * It will load and handle all the images needed to display a building.
+ * @brief Handles all the images required to display a building.
  */
 class BuildingImage
 {

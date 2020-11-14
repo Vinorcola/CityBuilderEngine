@@ -9,6 +9,9 @@ class BuildingInformation;
 class Conf;
 class Map;
 
+/**
+ * @brief The viewer that display the map (MapScene).
+ */
 class MapViewer : public QGraphicsView
 {
         Q_OBJECT

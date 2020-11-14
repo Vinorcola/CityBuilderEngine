@@ -10,6 +10,11 @@ class DynamicElement;
 class Positioning;
 class StaticElement;
 
+/**
+ * @brief Display a tile on the map.
+ *
+ * The tile will hold a nature element, optionaly a building and several characters.
+ */
 class Tile : public QGraphicsItem
 {
     private:

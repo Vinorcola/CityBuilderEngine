@@ -10,6 +10,9 @@
 
 class ImageSequence;
 
+/**
+ * @brief Handles all the images required to display a character.
+ */
 class CharacterImage
 {
         Q_DISABLE_COPY_MOVE(CharacterImage)

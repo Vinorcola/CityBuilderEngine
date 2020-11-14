@@ -12,6 +12,9 @@ class Conf;
 class NatureElementImage;
 class NatureElementInformation;
 
+/**
+ * @brief A library that load all the images needed to display anything on the map.
+ */
 class ImageLibrary
 {
         Q_DISABLE_COPY_MOVE(ImageLibrary)

@@ -11,6 +11,9 @@ class QPoint;
 class QPointF;
 class QPolygonF;
 
+/**
+ * @brief A class for calculating any positioning of graphical elements.
+ */
 class Positioning
 {
     private:

@@ -25,6 +25,9 @@ class NatureElement;
 class SelectionElement;
 class Tile;
 
+/**
+ * @brief The scene used to display all the tiles (and their content).
+ */
 class MapScene : public QGraphicsScene, public TileLocatorInterface
 {
         Q_OBJECT

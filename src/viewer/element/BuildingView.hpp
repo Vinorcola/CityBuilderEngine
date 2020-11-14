@@ -16,6 +16,12 @@ class StaticElement;
 class Tile;
 class TileLocatorInterface;
 
+/**
+ * @brief Handles the graphical representation of a building.
+ *
+ * It keeps a weak pointer to the engine data of the building and knows all the logic needed to update the graphics
+ * according to those data.
+ */
 class BuildingView
 {
     private:

@@ -6,6 +6,9 @@
 
 #include "src/viewer/image/Image.hpp"
 
+/**
+ * @brief Handles all the images required to display a nature element.
+ */
 class NatureElementImage
 {
         Q_DISABLE_COPY_MOVE(NatureElementImage)
