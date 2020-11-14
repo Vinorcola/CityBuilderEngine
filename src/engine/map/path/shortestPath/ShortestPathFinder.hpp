@@ -22,6 +22,11 @@ class ShortestPathFinder
             const MapCoordinates& destination,
             const bool restrictedToRoads
         ) const;
+
+        QList<MapCoordinates> getShortestRoadablePath(
+            const MapCoordinates& origin,
+            const MapCoordinates& destination
+        ) const;
 };
 
 #endif // SHORTESTPATHFINDER_HPP

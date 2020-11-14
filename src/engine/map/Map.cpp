@@ -234,6 +234,25 @@ bool Map::hasRoadAtLocation(const MapCoordinates& location) const
 
 
 
+bool Map::canConstructRoadAtLocation(const MapCoordinates& location) const
+{
+    return isValidCoordinates(location) && (
+        mapDetailsCache.isLocationConstructible(location) || mapDetailsCache.hasRoadAtLocation(location)
+    );
+}
+
+
+
+QList<MapCoordinates> Map::getShortestPathForRoad(
+    const MapCoordinates& origin,
+    const MapCoordinates& target
+) const {
+
+    return pathGenerator.generateShortestPathForRoad(origin, target);
+}
+
+
+
 void Map::pause(const bool pause)
 {
     processor->pause(pause);

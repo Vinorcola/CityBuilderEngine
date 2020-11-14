@@ -20,10 +20,10 @@ class ControlPanel : public QDockWidget
         ControlPanel(const Conf* conf);
 
     private:
-        BuildingButton* createButton(const ControlPanelElementInformation* elementConf);
+        BuildingButton* createButton(const ControlPanelElementInformation& elementConf);
 
     signals:
-        void buildingRequested(const BuildingInformation* elementConf);
+        void buildingRequested(const BuildingInformation& elementConf);
 };
 
 #endif // CONTROLPANEL_HPP

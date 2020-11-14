@@ -10,12 +10,12 @@ class BuildingButton : public QPushButton
         Q_OBJECT
 
     private:
-        const BuildingInformation* elementConf;
+        const BuildingInformation& elementConf;
 
     public:
-        BuildingButton(const QString& title, const BuildingInformation* elementConf);
+        BuildingButton(const QString& title, const BuildingInformation& elementConf);
 
-        const BuildingInformation* getAssociatedBuilding() const;
+        const BuildingInformation& getAssociatedBuilding() const;
 };
 
 #endif // BUILDINGBUTTON_HPP

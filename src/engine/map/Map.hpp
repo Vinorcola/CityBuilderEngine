@@ -12,7 +12,8 @@
 #include "src/engine/map/MapEntryPoint.hpp"
 #include "src/engine/map/MapDetailsCache.hpp"
 #include "src/engine/map/MapSearchEngine.hpp"
-#include "src/viewer/construction/AreaChecker.hpp"
+#include "src/viewer/construction/AreaCheckerInterface.hpp"
+#include "src/viewer/construction/RoadPathGeneratorInterface.hpp"
 
 class Building;
 class BuildingInformation;
@@ -30,7 +31,7 @@ class NatureElementInformation;
 class ProcessableBuilding;
 class TimeCycleProcessor;
 
-class Map : public QObject, public MapDetailsInterface, public AreaChecker
+class Map : public QObject, public MapDetailsInterface, public AreaCheckerInterface, public RoadPathGeneratorInterface
 {
         Q_OBJECT
 
@@ -119,9 +120,16 @@ class Map : public QObject, public MapDetailsInterface, public AreaChecker
          */
         const CycleDate& getCurrentDate() const;
 
-        virtual bool isLocationTraversable(const MapCoordinates& location) const;
+        virtual bool isLocationTraversable(const MapCoordinates& location) const override;
 
-        virtual bool hasRoadAtLocation(const MapCoordinates& location) const;
+        virtual bool hasRoadAtLocation(const MapCoordinates& location) const override;
+
+        virtual bool canConstructRoadAtLocation(const MapCoordinates& location) const override;
+
+        virtual QList<MapCoordinates> getShortestPathForRoad(
+            const MapCoordinates& origin,
+            const MapCoordinates& target
+        ) const override;
 
     public slots:
         /**

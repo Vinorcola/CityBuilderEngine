@@ -45,6 +45,11 @@ class PathGenerator : public PathGeneratorInterface
             const MapCoordinates& origin,
             std::function<bool(const MapCoordinates&)> match
         ) const override;
+
+        QList<MapCoordinates> generateShortestPathForRoad(
+            const MapCoordinates& origin,
+            const MapCoordinates& destination
+        ) const;
 };
 
 #endif // PATHGENERATOR_HPP

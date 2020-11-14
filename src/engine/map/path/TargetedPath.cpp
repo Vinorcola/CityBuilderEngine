@@ -51,3 +51,10 @@ MapCoordinates TargetedPath::getNextTargetCoordinates()
 
     return nextLocation;
 }
+
+
+
+const QList<MapCoordinates>& TargetedPath::toCoordinatesList() const
+{
+    return path;
+}

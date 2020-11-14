@@ -20,7 +20,7 @@ class MapViewer : public QGraphicsView
         MapViewer(const Conf& conf, const Map& map, QWidget* parent = nullptr);
 
     public slots:
-        void buildingRequest(const BuildingInformation* elementConf);
+        void buildingRequest(const BuildingInformation& elementConf);
 };
 
 #endif // MAPVIEWER_HPP

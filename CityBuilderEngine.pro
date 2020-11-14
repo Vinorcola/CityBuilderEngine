@@ -169,8 +169,9 @@ HEADERS += \
     src/ui/controlPanel/ControlPanel.hpp \
     src/ui/InformationWidget.hpp \
     src/ui/MainWindow.hpp \
-    src/viewer/construction/AreaChecker.hpp \
+    src/viewer/construction/AreaCheckerInterface.hpp \
     src/viewer/construction/ConstructionCursor.hpp \
+    src/viewer/construction/RoadPathGeneratorInterface.hpp \
     src/viewer/element/graphics/DynamicElement.hpp \
     src/viewer/element/graphics/StaticElement.hpp \
     src/viewer/element/BuildingView.hpp \

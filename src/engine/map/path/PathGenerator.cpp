@@ -77,3 +77,13 @@ optional<owner<PathInterface*>> PathGenerator::generateShortestPathToClosestMatc
 
     return new TargetedPath(mapDetails, false, path);
 }
+
+
+
+QList<MapCoordinates> PathGenerator::generateShortestPathForRoad(
+    const MapCoordinates& origin,
+    const MapCoordinates& destination
+) const {
+
+    return shortestPathFinder.getShortestRoadablePath(origin, destination);
+}

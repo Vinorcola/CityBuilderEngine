@@ -14,7 +14,7 @@ MapViewer::MapViewer(const Conf& conf, const Map& map, QWidget* parent) :
 
 
 
-void MapViewer::buildingRequest(const BuildingInformation* elementConf)
+void MapViewer::buildingRequest(const BuildingInformation& elementConf)
 {
     static_cast<MapScene*>(scene())->requestBuildingPositioning(elementConf);
 }
