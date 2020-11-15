@@ -8,7 +8,7 @@
 #include "src/engine/element/static/natureElement/NatureElementSearchEngine.hpp"
 #include "src/defines.hpp"
 
-class Building;
+class AbstractBuilding;
 class BuildingInformation;
 class CharacterFactoryInterface;
 class FarmBuilding;
@@ -31,7 +31,7 @@ class StaticElementHandler
 {
     private:
         struct State {
-            std::list<owner<Building*>> buildings;
+            std::list<owner<AbstractBuilding*>> buildings;
             std::list<owner<NatureElement*>> natureElements;
         };
         struct DetailsCache {
@@ -51,7 +51,7 @@ class StaticElementHandler
         DetailsCache detailsCache;
 
     public:
-        explicit StaticElementHandler(
+        StaticElementHandler(
             CharacterFactoryInterface& characterFactory,
             ImmigrantGeneratorInterface& immigrantGenerator,
             PopulationHandler& populationHandler,

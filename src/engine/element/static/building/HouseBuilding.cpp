@@ -9,14 +9,13 @@
 
 
 HouseBuilding::HouseBuilding(
-    QObject* parent,
     ImmigrantGeneratorInterface& immigrantGenerator,
     PopulationRegisterInterface& populationRegister,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    ProcessableBuilding(parent, conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, entryPoint),
     immigrantGenerator(immigrantGenerator),
     populationRegister(populationRegister),
     inhabitants(0)

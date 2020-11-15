@@ -12,7 +12,7 @@ class MapCoordinates;
 class MinerCharacter;
 class NatureElement;
 class PathInterface;
-class ProcessableBuilding;
+class AbstractProcessableBuilding;
 class StudentCharacter;
 class WanderingCharacter;
 
@@ -23,32 +23,32 @@ class CharacterFactoryInterface
 
         virtual DeliveryManCharacter& generateDeliveryMan(
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
+            AbstractProcessableBuilding& issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
         ) = 0;
 
         virtual ImmigrantCharacter& generateImmigrant(
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
-            ProcessableBuilding& target
+            AbstractProcessableBuilding& issuer,
+            AbstractProcessableBuilding& target
         ) = 0;
 
         virtual MinerCharacter& generateMiner(
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
+            AbstractProcessableBuilding& issuer,
             owner<PathInterface*> path
         ) = 0;
 
         virtual StudentCharacter& generateStudent(
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
-            ProcessableBuilding& target
+            AbstractProcessableBuilding& issuer,
+            AbstractProcessableBuilding& target
         ) = 0;
 
         virtual WanderingCharacter& generateWanderingCharacter(
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer
+            AbstractProcessableBuilding& issuer
         ) = 0;
 };
 

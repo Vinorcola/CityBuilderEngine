@@ -1,9 +1,8 @@
-#ifndef BUILDING_HPP
-#define BUILDING_HPP
-
-#include <QtCore/QObject>
+#ifndef ABSTRACTBUILDING_HPP
+#define ABSTRACTBUILDING_HPP
 
 #include "src/engine/map/MapArea.hpp"
+#include "src/global/reference/Referencable.hpp"
 
 class BuildingInformation;
 
@@ -13,17 +12,15 @@ class BuildingInformation;
  * A static element is an element that do not move. It covers an area of the map. This area will be blocked to other static
  * elements (two static elements cannot share a piece of area).
  */
-class Building: public QObject
+class AbstractBuilding : public Referencable
 {
-        Q_OBJECT
-
     protected:
         const BuildingInformation& conf;
         MapArea area;
         int viewVersion;///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
 
     public:
-        Building(QObject* parent, const BuildingInformation& conf, const MapArea& area);
+        AbstractBuilding(const BuildingInformation& conf, const MapArea& area);
 
         const BuildingInformation& getConf() const;
 
@@ -37,4 +34,4 @@ class Building: public QObject
         void notifyViewDataChange();
 };
 
-#endif // BUILDING_HPP
+#endif // ABSTRACTBUILDING_HPP

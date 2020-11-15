@@ -16,12 +16,12 @@ SOURCES += \
     src/engine/element/dynamic/character/StudentCharacter.cpp \
     src/engine/element/dynamic/character/WanderingCharacter.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
-    src/engine/element/static/building/Building.cpp \
+    src/engine/element/static/building/AbstractBuilding.cpp \
+    src/engine/element/static/building/AbstractProcessableBuilding.cpp \
     src/engine/element/static/building/BuildingSearchEngine.cpp \
     src/engine/element/static/building/FarmBuilding.cpp \
     src/engine/element/static/building/HouseBuilding.cpp \
     src/engine/element/static/building/LaboratoryBuilding.cpp \
-    src/engine/element/static/building/ProcessableBuilding.cpp \
     src/engine/element/static/building/ProducerBuilding.cpp \
     src/engine/element/static/building/Road.cpp \
     src/engine/element/static/building/SanityBuilding.cpp \
@@ -74,6 +74,9 @@ SOURCES += \
     src/global/conf/ItemInformation.cpp \
     src/global/conf/ModelReader.cpp \
     src/global/conf/NatureElementInformation.cpp \
+    src/global/reference/OptionalReference.cpp \
+    src/global/reference/Referencable.cpp \
+    src/global/reference/Reference.cpp \
     src/global/Direction.cpp \
     src/ui/controlPanel/BuildingButton.cpp \
     src/ui/controlPanel/ControlPanel.cpp \
@@ -109,13 +112,13 @@ HEADERS += \
     src/engine/element/dynamic/CharacterManagerInterface.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \
     src/engine/element/dynamic/PathGeneratorInterface.hpp \
-    src/engine/element/static/building/Building.hpp \
+    src/engine/element/static/building/AbstractBuilding.hpp \
+    src/engine/element/static/building/AbstractProcessableBuilding.hpp \
     src/engine/element/static/building/BuildingSearchEngine.hpp \
     src/engine/element/static/building/FarmBuilding.hpp \
     src/engine/element/static/building/HouseBuilding.hpp \
     src/engine/element/static/building/ImmigrantGeneratorInterface.hpp \
     src/engine/element/static/building/LaboratoryBuilding.hpp \
-    src/engine/element/static/building/ProcessableBuilding.hpp \
     src/engine/element/static/building/ProducerBuilding.hpp \
     src/engine/element/static/building/Road.hpp \
     src/engine/element/static/building/SanityBuilding.hpp \
@@ -171,6 +174,9 @@ HEADERS += \
     src/global/conf/ItemInformation.hpp \
     src/global/conf/ModelReader.hpp \
     src/global/conf/NatureElementInformation.hpp \
+    src/global/reference/OptionalReference.hpp \
+    src/global/reference/Referencable.hpp \
+    src/global/reference/Reference.hpp \
     src/global/Direction.hpp \
     src/global/yamlLibraryEnhancement.hpp \
     src/ui/controlPanel/BuildingButton.hpp \

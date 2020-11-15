@@ -44,7 +44,7 @@ const CycleDate& TimeCycleProcessor::getCurrentDate() const
 
 
 
-void TimeCycleProcessor::registerBuilding(ProcessableBuilding& building)
+void TimeCycleProcessor::registerBuilding(AbstractProcessableBuilding& building)
 {
     buildingProcessor->registerBuilding(building);
 }
@@ -58,7 +58,7 @@ void TimeCycleProcessor::registerCharacter(Character* character)
 
 
 
-void TimeCycleProcessor::unregisterBuilding(ProcessableBuilding* building)
+void TimeCycleProcessor::unregisterBuilding(AbstractProcessableBuilding* building)
 {
     buildingProcessor->unregisterBuilding(building);
 }

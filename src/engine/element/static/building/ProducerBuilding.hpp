@@ -5,7 +5,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
 
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
 class BuildingInformation;
@@ -18,10 +18,8 @@ class MapCoordinates;
 class NatureElementInformation;
 class NatureElementSearchEngine;
 
-class ProducerBuilding : public ProcessableBuilding
+class ProducerBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         const NatureElementSearchEngine& searchEngine;
         CharacterFactoryInterface& characterFactory;
@@ -32,7 +30,6 @@ class ProducerBuilding : public ProcessableBuilding
 
     public:
         ProducerBuilding(
-            QObject* parent,
             const NatureElementSearchEngine& searchEngine,
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,

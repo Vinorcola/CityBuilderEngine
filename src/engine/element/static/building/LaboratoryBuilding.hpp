@@ -3,16 +3,14 @@
 
 #include <QtCore/QPointer>
 
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
 class Character;
 class CharacterFactoryInterface;
 
-class LaboratoryBuilding : public ProcessableBuilding
+class LaboratoryBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         CharacterFactoryInterface& characterFactory;
         CycleDate walkerGenerationLimitDate;
@@ -21,7 +19,6 @@ class LaboratoryBuilding : public ProcessableBuilding
 
     public:
         LaboratoryBuilding(
-            QObject* parent,
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,

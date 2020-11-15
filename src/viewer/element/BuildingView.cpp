@@ -1,6 +1,6 @@
 #include "BuildingView.hpp"
 
-#include "src/engine/element/static/building/Building.hpp"
+#include "src/engine/element/static/building/AbstractBuilding.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
@@ -14,7 +14,7 @@ BuildingView::BuildingView(
     const Positioning& positioning,
     const TileLocatorInterface& tileLocator,
     const ImageLibrary& imageLibrary,
-    const QSharedPointer<const Building>& engineData
+    const QSharedPointer<const AbstractBuilding>& engineData
 ) :
     tileLocator(tileLocator),
     engineData(engineData),

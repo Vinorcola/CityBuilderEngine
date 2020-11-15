@@ -9,7 +9,7 @@
 class BuildingProcessor;
 class Character;
 class CharacterProcessor;
-class ProcessableBuilding;
+class AbstractProcessableBuilding;
 
 /**
  * @brief An engine processor that process all the processable elements on each time-cycle.
@@ -49,7 +49,7 @@ class TimeCycleProcessor : public QObject
         /**
          * @brief Register a building to be process each time cycle.
          */
-        void registerBuilding(ProcessableBuilding& building);
+        void registerBuilding(AbstractProcessableBuilding& building);
 
         /**
          * @brief Register a character to be process each time cycle.
@@ -59,7 +59,7 @@ class TimeCycleProcessor : public QObject
         /**
          * @brief Unregister a building from processor.
          */
-        void unregisterBuilding(ProcessableBuilding* building);
+        void unregisterBuilding(AbstractProcessableBuilding* building);
 
         /**
          * @brief Unregister a character from processor.

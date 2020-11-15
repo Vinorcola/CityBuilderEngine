@@ -1,6 +1,6 @@
 #include "BuildingProcessor.hpp"
 
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 
 
 
@@ -16,14 +16,14 @@ BuildingProcessor::BuildingProcessor(QObject* parent) :
 
 
 
-void BuildingProcessor::registerBuilding(ProcessableBuilding& building)
+void BuildingProcessor::registerBuilding(AbstractProcessableBuilding& building)
 {
     waitingForRegistrationList.append(&building);
 }
 
 
 
-void BuildingProcessor::unregisterBuilding(ProcessableBuilding* building)
+void BuildingProcessor::unregisterBuilding(AbstractProcessableBuilding* building)
 {
     waitingForUnregistrationList.append(building);
 }

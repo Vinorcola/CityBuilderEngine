@@ -9,7 +9,7 @@
 #include "src/viewer/Positioning.hpp"
 #include "src/defines.hpp"
 
-class Building;
+class AbstractBuilding;
 class BuildingInformation;
 class BuildingView;
 class Character;
@@ -56,7 +56,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         virtual Tile& getTileAt(const MapCoordinates& location) const override;
 
     public slots:
-        void registerNewBuilding(QSharedPointer<const Building> element);
+        void registerNewBuilding(QSharedPointer<const AbstractBuilding> element);
 
         void registerNewCharacter(QSharedPointer<const Character> element);
 

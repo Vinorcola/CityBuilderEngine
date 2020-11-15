@@ -3,14 +3,14 @@
 
 #include "src/engine/element/dynamic/character/Character.hpp"
 
-class ProcessableBuilding;
+class AbstractProcessableBuilding;
 
 class StudentCharacter : public Character
 {
         Q_OBJECT
 
     private:
-        QPointer<ProcessableBuilding> target;
+        Reference<AbstractProcessableBuilding> target;
 
     public:
         StudentCharacter(
@@ -18,8 +18,8 @@ class StudentCharacter : public Character
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
-            ProcessableBuilding& target,
+            AbstractProcessableBuilding& issuer,
+            AbstractProcessableBuilding& target,
             owner<PathInterface*> path
         );
 

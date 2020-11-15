@@ -11,14 +11,13 @@
 
 
 ProducerBuilding::ProducerBuilding(
-    QObject* parent,
     const NatureElementSearchEngine& searchEngine,
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    ProcessableBuilding(parent, conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, entryPoint),
     searchEngine(searchEngine),
     characterFactory(characterFactory),
     miners(),

@@ -34,14 +34,14 @@ void PopulationHandler::unregisterPopulation(int quantity)
 
 
 
-void PopulationHandler::registerWorkingPlace(ProcessableBuilding& building)
+void PopulationHandler::registerWorkingPlace(AbstractProcessableBuilding& building)
 {
     workingPlaces.push_back(&building);
 }
 
 
 
-void PopulationHandler::unregisterWorkingPlace(ProcessableBuilding& building)
+void PopulationHandler::unregisterWorkingPlace(AbstractProcessableBuilding& building)
 {
     workingPlaces.remove(&building);
 }

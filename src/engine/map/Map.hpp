@@ -15,7 +15,7 @@
 #include "src/viewer/construction/AreaCheckerInterface.hpp"
 #include "src/viewer/construction/RoadPathGeneratorInterface.hpp"
 
-class Building;
+class AbstractBuilding;
 class BuildingInformation;
 class Character;
 class CharacterInformation;
@@ -28,7 +28,7 @@ class MapCoordinates;
 class MapLoader;
 class NatureElement;
 class NatureElementInformation;
-class ProcessableBuilding;
+class AbstractProcessableBuilding;
 class TimeCycleProcessor;
 
 class Map : public QObject, public MapDetailsInterface, public AreaCheckerInterface, public RoadPathGeneratorInterface
@@ -88,7 +88,7 @@ class Map : public QObject, public MapDetailsInterface, public AreaCheckerInterf
         /**
          * @brief Return the list of all buildings.
          */
-        const std::list<QSharedPointer<Building>>& getBuildings() const;
+        const std::list<QSharedPointer<AbstractBuilding>>& getBuildings() const;
 
         /**
          * @brief Return the list of all characters.
@@ -161,7 +161,7 @@ class Map : public QObject, public MapDetailsInterface, public AreaCheckerInterf
         void changePopulation(const int populationDelta);
 
     signals:
-        void buildingCreated(QSharedPointer<const Building> building);
+        void buildingCreated(QSharedPointer<const AbstractBuilding> building);
         void characterCreated(QSharedPointer<const Character> character);
         void natureElementCreated(NatureElement& natureElement);
         void budgetChanged(const int budget);

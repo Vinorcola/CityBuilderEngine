@@ -1,7 +1,7 @@
 #include "MinerCharacter.hpp"
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/element/static/natureElement/NatureElement.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 
@@ -12,7 +12,7 @@ MinerCharacter::MinerCharacter(
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer,
+    AbstractProcessableBuilding& issuer,
     owner<PathInterface*> path
 ) :
     Character(parent, characterManager, pathGenerator, conf, issuer),
@@ -25,11 +25,11 @@ MinerCharacter::MinerCharacter(
 
 void MinerCharacter::goHome()
 {
-    if (issuer) {
+    if (issuer.isValid()) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestPathTo(
             motionHandler.getCurrentLocation(),
-            issuer->getEntryPoint()
+            issuer.get().getEntryPoint()
         ));
     }
 }
@@ -42,8 +42,8 @@ void MinerCharacter::process(const CycleDate& date)
 
     if (motionHandler.isPathCompleted()) {
         if (goingHome) {
-            if (issuer) {
-                issuer->processInteraction(date, *this);
+            if (issuer.isValid()) {
+                issuer.get().processInteraction(date, *this);
             }
             characterManager.clearCharacter(*this);
         }

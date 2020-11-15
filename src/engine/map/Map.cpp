@@ -4,8 +4,8 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/engine/element/dynamic/character/Character.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/element/static/building/HouseBuilding.hpp"
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
 #include "src/engine/element/static/natureElement/NatureElement.hpp"
 #include "src/engine/map/CityStatus.hpp"
 #include "src/engine/map/MapArea.hpp"
@@ -33,8 +33,8 @@ Map::Map(const Conf* conf, const MapLoader& loader) :
     elementHandler(*this, searchEngine, pathGenerator),
     entryPoint(this, elementHandler, conf->getBuildingConf("mapEntryPoint"), loader.getEntryPoint(), conf->getCharacterConf("immigrant"))
 {
-    connect(&elementHandler, &ElementHandler::buildingCreated, [this](QSharedPointer<Building> building) {
-        auto processableBuilding(building.dynamicCast<ProcessableBuilding>());
+    connect(&elementHandler, &ElementHandler::buildingCreated, [this](QSharedPointer<AbstractBuilding> building) {
+        auto processableBuilding(building.dynamicCast<AbstractProcessableBuilding>());
         if (processableBuilding) {
             processor->registerBuilding(*processableBuilding);
 
@@ -171,7 +171,7 @@ const TimeCycleProcessor* Map::getProcessor() const
 
 
 
-const std::list<QSharedPointer<Building>>& Map::getBuildings() const
+const std::list<QSharedPointer<AbstractBuilding>>& Map::getBuildings() const
 {
     return elementHandler.getBuildings();
 }

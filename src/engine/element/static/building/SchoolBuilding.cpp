@@ -8,14 +8,13 @@
 
 
 SchoolBuilding::SchoolBuilding(
-    QObject* parent,
     const BuildingSearchEngine& searchEngine,
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    ProcessableBuilding(parent, conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, entryPoint),
     searchEngine(searchEngine),
     characterFactory(characterFactory),
     nextWalkerGenerationDate()

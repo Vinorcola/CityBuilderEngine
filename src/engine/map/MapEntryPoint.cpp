@@ -16,7 +16,7 @@ MapEntryPoint::MapEntryPoint(
     const MapCoordinates& location,
     const CharacterInformation& immigrantConf
 ) :
-    ProcessableBuilding(parent, conf, MapArea(location), location),
+    AbstractProcessableBuilding(parent, conf, MapArea(location), location),
     characterFactory(characterFactory),
     immigrantConf(immigrantConf),
     nextImmigrantGenerationDate(),
@@ -41,7 +41,7 @@ void MapEntryPoint::process(const CycleDate& date)
     }
 
     if (date == nextImmigrantGenerationDate) {
-        QPointer<ProcessableBuilding> issuer;
+        QPointer<AbstractProcessableBuilding> issuer;
         do {
             issuer = immigrantRequestQueue.takeFirst();
         } while (issuer.isNull() && !immigrantRequestQueue.isEmpty());

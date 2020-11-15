@@ -3,7 +3,7 @@
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 
 #include "src/engine/element/dynamic/character/Character.hpp"
-#include "src/engine/element/static/building/Building.hpp"
+#include "src/engine/element/static/building/AbstractBuilding.hpp"
 #include "src/engine/element/static/natureElement/NatureElement.hpp"
 #include "src/engine/map/Map.hpp"
 #include "src/engine/processing/TimeCycleProcessor.hpp"
@@ -137,7 +137,7 @@ Tile& MapScene::getTileAt(const MapCoordinates& location) const
 
 
 
-void MapScene::registerNewBuilding(QSharedPointer<const Building> element)
+void MapScene::registerNewBuilding(QSharedPointer<const AbstractBuilding> element)
 {
     buildings.append(
         new BuildingView(positioning, *this, imageLibrary, element)

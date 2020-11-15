@@ -9,7 +9,7 @@ BuildingSearchEngine::BuildingSearchEngine()
 
 
 
-void BuildingSearchEngine::registerBuilding(ProcessableBuilding& building)
+void BuildingSearchEngine::registerBuilding(AbstractProcessableBuilding& building)
 {
 
 }

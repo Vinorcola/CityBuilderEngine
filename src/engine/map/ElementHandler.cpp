@@ -40,7 +40,7 @@ ElementHandler::ElementHandler(Map& map, MapSearchEngine& searchEngine, const Pa
 
 
 
-const std::list<QSharedPointer<Building>>& ElementHandler::getBuildings() const
+const std::list<QSharedPointer<AbstractBuilding>>& ElementHandler::getBuildings() const
 {
     return buildings;
 }
@@ -161,7 +161,7 @@ const std::list<QSharedPointer<Character>>& ElementHandler::getCharacters() cons
 
 DeliveryManCharacter& ElementHandler::generateDeliveryMan(
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer,
+    AbstractProcessableBuilding& issuer,
     const ItemInformation& transportedItemConf,
     const int transportedQuantity
 ) {
@@ -179,8 +179,8 @@ DeliveryManCharacter& ElementHandler::generateDeliveryMan(
 
 ImmigrantCharacter& ElementHandler::generateImmigrant(
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer,
-    ProcessableBuilding& target
+    AbstractProcessableBuilding& issuer,
+    AbstractProcessableBuilding& target
 ) {
     QSharedPointer<ImmigrantCharacter> character(new ImmigrantCharacter(this, *this, pathGenerator, conf, issuer, target));
     characters.push_back(character);
@@ -194,7 +194,7 @@ ImmigrantCharacter& ElementHandler::generateImmigrant(
 
 MinerCharacter& ElementHandler::generateMiner(
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer,
+    AbstractProcessableBuilding& issuer,
     owner<PathInterface*> path
 ) {
     QSharedPointer<MinerCharacter> character(new MinerCharacter(this, *this, pathGenerator, conf, issuer, path));
@@ -209,8 +209,8 @@ MinerCharacter& ElementHandler::generateMiner(
 
 StudentCharacter& ElementHandler::generateStudent(
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer,
-    ProcessableBuilding& target
+    AbstractProcessableBuilding& issuer,
+    AbstractProcessableBuilding& target
 ) {
     auto path(pathGenerator.generateShortestRoadPathTo(issuer.getEntryPoint(), target.getEntryPoint()));
     QSharedPointer<StudentCharacter> character(new StudentCharacter(this, *this, pathGenerator, conf, issuer, target, path));
@@ -225,7 +225,7 @@ StudentCharacter& ElementHandler::generateStudent(
 
 WanderingCharacter& ElementHandler::generateWanderingCharacter(
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer
+    AbstractProcessableBuilding& issuer
 ) {
     QSharedPointer<WanderingCharacter> character(new WanderingCharacter(this, *this, pathGenerator, conf, issuer));
     characters.push_back(character);

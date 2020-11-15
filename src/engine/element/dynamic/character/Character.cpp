@@ -1,7 +1,7 @@
 #include "Character.hpp"
 
 #include "src/engine/element/dynamic/MotionHandler.hpp"
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 
 
@@ -11,7 +11,7 @@ Character::Character(
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer
+    AbstractProcessableBuilding& issuer
 ) :
     QObject(parent),
     AbstractProcessable(),
@@ -19,7 +19,7 @@ Character::Character(
     pathGenerator(pathGenerator),
     conf(conf),
     motionHandler(conf.getSpeed(), issuer.getEntryPoint()),
-    issuer(&issuer),
+    issuer(issuer.getReference<AbstractProcessableBuilding>()),
     viewVersion(0)
 {
 
@@ -55,7 +55,7 @@ Direction Character::getCurrentDirection() const
 
 
 
-optional<ProcessableBuilding*> Character::getIssuer() const
+Reference<AbstractProcessableBuilding> Character::getIssuer() const
 {
     return issuer;
 }

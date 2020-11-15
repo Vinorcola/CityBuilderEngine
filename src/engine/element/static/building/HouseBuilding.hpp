@@ -1,17 +1,15 @@
 #ifndef HOUSEBUILDING_HPP
 #define HOUSEBUILDING_HPP
 
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 
 class CharacterFactoryInterface;
 class ImmigrantGeneratorInterface;
 class MapEntryPoint;
 class PopulationRegisterInterface;
 
-class HouseBuilding : public ProcessableBuilding
+class HouseBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         ImmigrantGeneratorInterface& immigrantGenerator;
         PopulationRegisterInterface& populationRegister;
@@ -19,7 +17,6 @@ class HouseBuilding : public ProcessableBuilding
 
     public:
         HouseBuilding(
-            QObject* parent,
             ImmigrantGeneratorInterface& immigrantGenerator,
             PopulationRegisterInterface& populationRegister,
             const BuildingInformation& conf,

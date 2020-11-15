@@ -2,8 +2,7 @@
 
 
 
-NatureElement::NatureElement(QObject *parent, const NatureElementInformation& conf, const MapArea& area) :
-    QObject(parent),
+NatureElement::NatureElement(const NatureElementInformation& conf, const MapArea& area) :
     conf(conf),
     area(area)
 {

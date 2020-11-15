@@ -5,7 +5,7 @@
 #include <QtCore/QPointer>
 
 #include "src/engine/element/static/building/ImmigrantGeneratorInterface.hpp"
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
@@ -20,7 +20,7 @@ class HouseBuilding;
  * Map entry points are linked to a location on the border of the map. They can generate different types of characters.
  * Currently, it only supports immigrant charaters.
  */
-class MapEntryPoint : public ProcessableBuilding, public ImmigrantGeneratorInterface
+class MapEntryPoint : public AbstractProcessableBuilding, public ImmigrantGeneratorInterface
 {
         Q_OBJECT
 

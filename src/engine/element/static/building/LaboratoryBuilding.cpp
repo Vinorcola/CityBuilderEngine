@@ -8,13 +8,12 @@
 
 
 LaboratoryBuilding::LaboratoryBuilding(
-    QObject* parent,
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    ProcessableBuilding(parent, conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, entryPoint),
     characterFactory(characterFactory),
     walkerGenerationLimitDate(),
     scientist(),

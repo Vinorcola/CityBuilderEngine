@@ -7,7 +7,7 @@
 
 #include "src/defines.hpp"
 
-class Building;
+class AbstractBuilding;
 class BuildingImage;
 class ImageLibrary;
 class MapSize;
@@ -26,7 +26,7 @@ class BuildingView
 {
     private:
         const TileLocatorInterface& tileLocator;
-        QWeakPointer<const Building> engineData;
+        QWeakPointer<const AbstractBuilding> engineData;
         const MapSize& buildingSize;
         Tile& tile;
         const BuildingImage& image;
@@ -39,7 +39,7 @@ class BuildingView
             const Positioning& positioning,
             const TileLocatorInterface& tileLocator,
             const ImageLibrary& imageLibrary,
-            const QSharedPointer<const Building>& engineData
+            const QSharedPointer<const AbstractBuilding>& engineData
         );
 
         ~BuildingView();

@@ -1,7 +1,7 @@
 #include "WanderingCharacter.hpp"
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 
@@ -12,7 +12,7 @@ WanderingCharacter::WanderingCharacter(
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer
+    AbstractProcessableBuilding& issuer
 ) :
     Character(parent, characterManager, pathGenerator, conf, issuer),
     goingHome(false)
@@ -24,11 +24,11 @@ WanderingCharacter::WanderingCharacter(
 
 void WanderingCharacter::goHome()
 {
-    if (issuer) {
+    if (issuer.isValid()) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(
             motionHandler.getCurrentLocation(),
-            issuer->getEntryPoint()
+            issuer.get().getEntryPoint()
         ));
     }
 }
@@ -41,8 +41,8 @@ void WanderingCharacter::process(const CycleDate& date)
 
     if (motionHandler.isPathCompleted()) {
         if (goingHome) {
-            if (issuer) {
-                issuer->processInteraction(date, *this);
+            if (issuer.isValid()) {
+                issuer.get().processInteraction(date, *this);
             }
             characterManager.clearCharacter(*this);
         }

@@ -6,7 +6,7 @@
 #include "src/engine/city/PopulationRegisterInterface.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
 
-class ProcessableBuilding;
+class AbstractProcessableBuilding;
 
 /**
  * @brief Handles the population and the worker distribution.
@@ -22,7 +22,7 @@ class PopulationHandler : public AbstractProcessable, public PopulationRegisterI
     private:
         State currentState;
         int newPopulation;
-        std::list<ProcessableBuilding*> workingPlaces;
+        std::list<AbstractProcessableBuilding*> workingPlaces;
 
     public:
         PopulationHandler();
@@ -30,8 +30,8 @@ class PopulationHandler : public AbstractProcessable, public PopulationRegisterI
         virtual void registerPopulation(int quantity) override;
         virtual void unregisterPopulation(int quantity) override;
 
-        void registerWorkingPlace(ProcessableBuilding& building);
-        void unregisterWorkingPlace(ProcessableBuilding& building);
+        void registerWorkingPlace(AbstractProcessableBuilding& building);
+        void unregisterWorkingPlace(AbstractProcessableBuilding& building);
 
         virtual void process(const CycleDate& date) override;
 

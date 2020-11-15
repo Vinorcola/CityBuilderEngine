@@ -3,15 +3,13 @@
 
 #include <QtCore/QPointer>
 
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
 class CharacterFactoryInterface;
 
-class SanityBuilding : public ProcessableBuilding
+class SanityBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         CharacterFactoryInterface& characterFactory;
         QPointer<Character> walker;
@@ -19,7 +17,6 @@ class SanityBuilding : public ProcessableBuilding
 
     public:
         SanityBuilding(
-            QObject* parent,
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,

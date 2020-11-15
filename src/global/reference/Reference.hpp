@@ -1,0 +1,42 @@
+#ifndef REFERENCE_HPP
+#define REFERENCE_HPP
+
+#include <functional>
+#include <QtCore/QtGlobal>
+
+class  Referencable;
+
+template<typename Target>
+class Reference
+{
+        static_assert (std::is_base_of<Referencable, Target>::value, "Target must extend Referencable.");
+        friend Referencable;
+
+        typedef std::function<void(Reference<Target>*)> OnDuplicateCallback;
+        typedef std::function<void(Reference<Target>*)> OnDeleteCallback;
+
+    private:
+        bool valid;
+        Target& target;
+
+    protected:
+        OnDuplicateCallback onDuplicate;
+        OnDeleteCallback onDelete;
+
+    public:
+        Reference(Target& target, OnDuplicateCallback onDuplicate, OnDeleteCallback onDelete);
+        Reference(const Reference<Target>& other);
+        Reference(const Reference<Target>&& other);
+        ~Reference();
+
+        void operator= (const Reference<Target>& other) = delete;
+        void operator= (const Reference<Target>&& other) = delete;
+
+        bool isValid() const;
+        Target& get() const;
+
+    private:
+        void unreference();
+};
+
+#endif // REFERENCE_HPP

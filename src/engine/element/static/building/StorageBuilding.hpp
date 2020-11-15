@@ -3,20 +3,17 @@
 
 #include <QtCore/QHash>
 
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 
 class ItemInformation;
 
-class StorageBuilding : public ProcessableBuilding
+class StorageBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         QHash<const ItemInformation*, int> stock;
 
     public:
         StorageBuilding(
-            QObject* parent,
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint

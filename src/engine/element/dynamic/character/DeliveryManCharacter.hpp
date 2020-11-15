@@ -5,7 +5,7 @@
 
 class ItemInformation;
 class MapSearchEngine;
-class ProcessableBuilding;
+class AbstractProcessableBuilding;
 
 class DeliveryManCharacter : public Character
 {
@@ -13,7 +13,7 @@ class DeliveryManCharacter : public Character
 
     private:
         const MapSearchEngine& searchEngine;
-        QPointer<ProcessableBuilding> target;
+        OptionalReference<AbstractProcessableBuilding> target;
         const ItemInformation& transportedItemConf;
         int transportedQuantity;
         bool goingHome;
@@ -25,7 +25,7 @@ class DeliveryManCharacter : public Character
             const PathGeneratorInterface& pathGenerator,
             const MapSearchEngine& searchEngine,
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
+            AbstractProcessableBuilding& issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
         );

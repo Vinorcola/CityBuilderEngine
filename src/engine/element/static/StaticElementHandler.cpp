@@ -3,7 +3,7 @@
 #include <QtCore/QtAlgorithms>
 
 #include "src/engine/city/PopulationHandler.hpp"
-#include "src/engine/element/static/building/Building.hpp"
+#include "src/engine/element/static/building/AbstractBuilding.hpp"
 #include "src/engine/element/static/building/FarmBuilding.hpp"
 #include "src/engine/element/static/building/HouseBuilding.hpp"
 #include "src/engine/element/static/building/LaboratoryBuilding.hpp"
@@ -48,7 +48,7 @@ StaticElementHandler::~StaticElementHandler()
 
 FarmBuilding& StaticElementHandler::generateFarm(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new FarmBuilding(nullptr, characterFactory, conf, area, getBestBuildingEntryPoint(area)));
+    auto building(new FarmBuilding(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
 
     processor.registerBuilding(*building);
@@ -62,7 +62,7 @@ FarmBuilding& StaticElementHandler::generateFarm(const BuildingInformation& conf
 
 HouseBuilding& StaticElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new HouseBuilding(nullptr, immigrantGenerator, populationHandler, conf, area, getBestBuildingEntryPoint(area)));
+    auto building(new HouseBuilding(immigrantGenerator, populationHandler, conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
 
     processor.registerBuilding(*building);
@@ -75,7 +75,7 @@ HouseBuilding& StaticElementHandler::generateHouse(const BuildingInformation& co
 
 LaboratoryBuilding& StaticElementHandler::generateLaboratory(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new LaboratoryBuilding(nullptr, characterFactory, conf, area, getBestBuildingEntryPoint(area)));
+    auto building(new LaboratoryBuilding(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
 
     processor.registerBuilding(*building);
@@ -91,7 +91,6 @@ LaboratoryBuilding& StaticElementHandler::generateLaboratory(const BuildingInfor
 ProducerBuilding& StaticElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area)
 {
     auto building(new ProducerBuilding(
-        nullptr,
         natureElementSearchEngine,
         characterFactory,
         conf,
@@ -111,7 +110,7 @@ ProducerBuilding& StaticElementHandler::generateProducer(const BuildingInformati
 
 SanityBuilding& StaticElementHandler::generateSanity(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new SanityBuilding(nullptr, characterFactory, conf, area, getBestBuildingEntryPoint(area)));
+    auto building(new SanityBuilding(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
 
     processor.registerBuilding(*building);
@@ -126,7 +125,6 @@ SanityBuilding& StaticElementHandler::generateSanity(const BuildingInformation& 
 SchoolBuilding& StaticElementHandler::generateSchool(const BuildingInformation& conf, const MapArea& area)
 {
     auto building(new SchoolBuilding(
-        nullptr,
         buildingSearchEngine,
         characterFactory,
         conf,
@@ -146,7 +144,7 @@ SchoolBuilding& StaticElementHandler::generateSchool(const BuildingInformation& 
 
 StorageBuilding& StaticElementHandler::generateStorage(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new StorageBuilding(nullptr, conf, area, getBestBuildingEntryPoint(area)));
+    auto building(new StorageBuilding(conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
 
     processor.registerBuilding(*building);
@@ -161,7 +159,7 @@ StorageBuilding& StaticElementHandler::generateStorage(const BuildingInformation
 
 Road& StaticElementHandler::generateRoad(const BuildingInformation& conf, const MapCoordinates& location)
 {
-    auto road(new Road(nullptr, conf, location));
+    auto road(new Road(conf, location));
     currentState.buildings.push_back(road);
 
     registerRoadInDetailsCache(location);

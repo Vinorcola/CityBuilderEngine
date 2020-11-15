@@ -7,19 +7,16 @@
 
 class NatureElementInformation;
 
-class NatureElement : public QObject
+class NatureElement
 {
-        Q_OBJECT
-
     private:
         const NatureElementInformation& conf;
         MapArea area;
 
     public:
-        NatureElement(QObject* parent, const NatureElementInformation& conf, const MapArea& area);
+        NatureElement(const NatureElementInformation& conf, const MapArea& area);
 
         const NatureElementInformation& getConf() const;
-
         const MapArea& getArea() const;
 };
 

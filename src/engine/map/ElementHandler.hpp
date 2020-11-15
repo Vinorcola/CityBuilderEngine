@@ -9,7 +9,7 @@
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
 #include "src/engine/element/static/BuildingFactoryInterface.hpp"
 
-class Building;
+class AbstractBuilding;
 class Character;
 class Map;
 class MapEntryPoint;
@@ -29,7 +29,7 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
         Map& map;
         MapSearchEngine& searchEngine;
         const PathGenerator& pathGenerator;
-        std::list<QSharedPointer<Building>> buildings;
+        std::list<QSharedPointer<AbstractBuilding>> buildings;
         std::list<QSharedPointer<Character>> characters;
         std::list<NatureElement*> natureElements;
 
@@ -38,7 +38,7 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         // Buildings
 
-        const std::list<QSharedPointer<Building>>& getBuildings() const;
+        const std::list<QSharedPointer<AbstractBuilding>>& getBuildings() const;
 
         virtual FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area) override;
 
@@ -62,32 +62,32 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
 
         virtual DeliveryManCharacter& generateDeliveryMan(
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
+            AbstractProcessableBuilding& issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
         ) override;
 
         virtual ImmigrantCharacter& generateImmigrant(
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
-            ProcessableBuilding& target
+            AbstractProcessableBuilding& issuer,
+            AbstractProcessableBuilding& target
         ) override;
 
         virtual MinerCharacter& generateMiner(
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
+            AbstractProcessableBuilding& issuer,
             owner<PathInterface*> path
         ) override;
 
         virtual StudentCharacter& generateStudent(
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
-            ProcessableBuilding& target
+            AbstractProcessableBuilding& issuer,
+            AbstractProcessableBuilding& target
         ) override;
 
         virtual WanderingCharacter& generateWanderingCharacter(
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer
+            AbstractProcessableBuilding& issuer
         ) override;
 
         virtual void clearCharacter(Character& character) override;
@@ -99,7 +99,7 @@ class ElementHandler : public QObject, public BuildingFactoryInterface, public C
         NatureElement& generateNatureElement(const NatureElementInformation& conf, const MapArea& area);
 
     signals:
-        void buildingCreated(QSharedPointer<Building> building);
+        void buildingCreated(QSharedPointer<AbstractBuilding> building);
         void characterCreated(QSharedPointer<Character> character);
         void natureElementCreated(NatureElement& natureElement);
 

@@ -3,7 +3,7 @@
 #include <cassert>
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/MapSearchEngine.hpp"
@@ -16,7 +16,7 @@ DeliveryManCharacter::DeliveryManCharacter(
     const PathGeneratorInterface& pathGenerator,
     const MapSearchEngine& searchEngine,
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer,
+    AbstractProcessableBuilding& issuer,
     const ItemInformation& transportedItemConf,
     const int transportedQuantity
 ) :
@@ -64,11 +64,11 @@ void DeliveryManCharacter::unload(const int quantity)
 
 void DeliveryManCharacter::goHome()
 {
-    if (issuer) {
+    if (issuer.isValid()) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(
             motionHandler.getCurrentLocation(),
-            issuer->getEntryPoint()
+            issuer.get().getEntryPoint()
         ));
     }
 }
@@ -78,9 +78,10 @@ void DeliveryManCharacter::goHome()
 void DeliveryManCharacter::process(const CycleDate& date)
 {
     if (target.isNull()) {
-        target = searchEngine.getStorageThatCanStore(transportedItemConf);
-        if (target) {
-            motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(motionHandler.getCurrentLocation(), target->getEntryPoint()));
+        auto storage(searchEngine.getStorageThatCanStore(transportedItemConf));
+        if (storage) {
+            target.reassign(*storage);
+            motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(motionHandler.getCurrentLocation(), storage->getEntryPoint()));
         }
     }
 
@@ -88,8 +89,8 @@ void DeliveryManCharacter::process(const CycleDate& date)
 
     if (motionHandler.isPathCompleted()) {
         if (goingHome) {
-            if (issuer) {
-                issuer->processInteraction(date, *this);
+            if (issuer.isValid()) {
+                issuer.get().processInteraction(date, *this);
             }
             if (transportedQuantity == 0) {
                 characterManager.clearCharacter(*this);
@@ -99,8 +100,8 @@ void DeliveryManCharacter::process(const CycleDate& date)
             }
         }
         else {
-            if (target) {
-                target->processInteraction(date, *this);
+            if (target.isValid()) {
+                target.get().processInteraction(date, *this);
                 notifyViewDataChange();
                 if (isEmpty()) {
                     goHome();

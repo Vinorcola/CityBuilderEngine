@@ -1,9 +1,7 @@
-#ifndef PROCESSABLEBUILDING_HPP
-#define PROCESSABLEBUILDING_HPP
+#ifndef ABSTRACTPROCESSABLEBUILDING_HPP
+#define ABSTRACTPROCESSABLEBUILDING_HPP
 
-#include <QtCore/QObject>
-
-#include "src/engine/element/static/building/Building.hpp"
+#include "src/engine/element/static/building/AbstractBuilding.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
 
@@ -11,16 +9,13 @@ class BuildingInformation;
 class Character;
 class MapAreea;
 
-class ProcessableBuilding : public Building, public AbstractProcessable
+class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProcessable
 {
-        Q_OBJECT
-
     private:
         MapCoordinates entryPoint;
 
     public:
-        ProcessableBuilding(
-            QObject* parent,
+        AbstractProcessableBuilding(
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
@@ -31,4 +26,4 @@ class ProcessableBuilding : public Building, public AbstractProcessable
         virtual bool processInteraction(const CycleDate& date, Character& actor);
 };
 
-#endif // PROCESSABLEBUILDING_HPP
+#endif // ABSTRACTPROCESSABLEBUILDING_HPP

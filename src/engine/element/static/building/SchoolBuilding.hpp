@@ -2,9 +2,8 @@
 #define SCHOOLBUILDING_HPP
 
 #include <list>
-#include <QtCore/QPointer>
 
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
 class BuildingSearchEngine;
@@ -14,10 +13,8 @@ class CharacterFactoryInterface;
 /**
  * @brief A school building will generate student at a regular interval as long as there is a university accepting them.
  */
-class SchoolBuilding : public ProcessableBuilding
+class SchoolBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         const BuildingSearchEngine& searchEngine;
         CharacterFactoryInterface& characterFactory;
@@ -25,7 +22,6 @@ class SchoolBuilding : public ProcessableBuilding
 
     public:
         SchoolBuilding(
-            QObject* parent,
             const BuildingSearchEngine& searchEngine,
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,

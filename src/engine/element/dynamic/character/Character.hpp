@@ -2,8 +2,8 @@
 #define CHARACTER_HPP
 
 #include <QtCore/QObject>
-#include <QtCore/QPointer>
 
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/element/dynamic/MotionHandler.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
 #include "src/defines.hpp"
@@ -12,7 +12,6 @@ class CharacterInformation;
 class CharacterManagerInterface;
 class MapCoordinates;
 class PathGeneratorInterface;
-class ProcessableBuilding;
 
 /**
  * @brief A character on the map.
@@ -37,7 +36,7 @@ class Character : public QObject, public AbstractProcessable
         const PathGeneratorInterface& pathGenerator;///< A service for generating paths.
         const CharacterInformation& conf;///< The character configuration.
         MotionHandler motionHandler;///< A helper that will handle the character's motion.
-        QPointer<ProcessableBuilding> issuer;///< The issuer building.
+        Reference<AbstractProcessableBuilding> issuer;///< The issuer building.
         int viewVersion;///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
 
     public:
@@ -46,7 +45,7 @@ class Character : public QObject, public AbstractProcessable
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer
+            AbstractProcessableBuilding& issuer
         );
 
         bool isOfType(const CharacterInformation& conf) const;
@@ -57,7 +56,7 @@ class Character : public QObject, public AbstractProcessable
 
         Direction getCurrentDirection() const;
 
-        optional<ProcessableBuilding*> getIssuer() const;
+        Reference<AbstractProcessableBuilding> getIssuer() const;
 
         bool isViewUpToDate(const int currentViewVersion) const;
 

@@ -16,7 +16,7 @@ class WanderingCharacter : public Character
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer
+            AbstractProcessableBuilding& issuer
         );
 
         void goHome();

@@ -5,7 +5,7 @@
 
 class BuildingInformation;
 class MapCoordinates;
-class ProcessableBuilding;
+class AbstractProcessableBuilding;
 class StorageBuilding;
 
 class BuildingSearchEngine
@@ -13,10 +13,10 @@ class BuildingSearchEngine
     public:
         BuildingSearchEngine();
 
-        void registerBuilding(ProcessableBuilding& building);
+        void registerBuilding(AbstractProcessableBuilding& building);
         void registerStorageBuilding(StorageBuilding& building);
 
-        optional<ProcessableBuilding*> findClosestBuilding(
+        optional<AbstractProcessableBuilding*> findClosestBuilding(
             const BuildingInformation& buildingConf,
             const MapCoordinates& origin
         ) const;

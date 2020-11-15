@@ -3,17 +3,15 @@
 
 #include <QtCore/QPointer>
 
-#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
 class CharacterFactoryInterface;
 class DeliveryManCharacter;
 class ItemInformation;
 
-class FarmBuilding : public ProcessableBuilding
+class FarmBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         CharacterFactoryInterface& characterFactory;
         CycleDate completeGrowingDate;
@@ -21,7 +19,6 @@ class FarmBuilding : public ProcessableBuilding
 
     public:
         FarmBuilding(
-            QObject* parent,
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
