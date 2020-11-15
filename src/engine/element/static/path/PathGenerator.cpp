@@ -1,7 +1,7 @@
 #include "PathGenerator.hpp"
 
-#include "src/engine/map/path/RandomRoadPath.hpp"
-#include "src/engine/map/path/TargetedPath.hpp"
+#include "src/engine/element/static/path/RandomRoadPath.hpp"
+#include "src/engine/element/static/path/TargetedPath.hpp"
 
 
 

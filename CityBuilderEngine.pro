@@ -8,6 +8,7 @@ OBJECTS_DIR = objects
 MOC_DIR = moc
 
 SOURCES += \
+    src/engine/city/City.cpp \
     src/engine/city/PopulationHandler.cpp \
     src/engine/element/dynamic/character/Character.cpp \
     src/engine/element/dynamic/character/DeliveryManCharacter.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
     src/engine/element/static/building/AbstractBuilding.cpp \
     src/engine/element/static/building/AbstractProcessableBuilding.cpp \
     src/engine/element/static/building/BuildingSearchEngine.cpp \
+    src/engine/element/static/building/CivilianEntryPoint.cpp \
     src/engine/element/static/building/FarmBuilding.cpp \
     src/engine/element/static/building/HouseBuilding.cpp \
     src/engine/element/static/building/LaboratoryBuilding.cpp \
@@ -30,31 +32,29 @@ SOURCES += \
     src/engine/element/static/building/StorageBuilding.cpp \
     src/engine/element/static/natureElement/NatureElement.cpp \
     src/engine/element/static/natureElement/NatureElementSearchEngine.cpp \
+    src/engine/element/static/path/closestPath/ClosestPathFinder.cpp \
+    src/engine/element/static/path/closestPath/PathNode.cpp \
+    src/engine/element/static/path/closestPath/ProcessedPathNodeList.cpp \
+    src/engine/element/static/path/closestPath/UnprocessedPathNodeList.cpp \
+    src/engine/element/static/path/shortestPath/AStarNode.cpp \
+    src/engine/element/static/path/shortestPath/ProcessedAStarNodeList.cpp \
+    src/engine/element/static/path/shortestPath/ShortestPathFinder.cpp \
+    src/engine/element/static/path/shortestPath/UnprocessedAStarNodeList.cpp \
+    src/engine/element/static/path/PathGenerator.cpp \
+    src/engine/element/static/path/RandomRoadPath.cpp \
+    src/engine/element/static/path/TargetedPath.cpp \
     src/engine/element/static/StaticElementHandler.cpp \
-    src/engine/map/path/closestPath/ClosestPathFinder.cpp \
-    src/engine/map/path/closestPath/PathNode.cpp \
-    src/engine/map/path/closestPath/ProcessedPathNodeList.cpp \
-    src/engine/map/path/closestPath/UnprocessedPathNodeList.cpp \
-    src/engine/map/path/shortestPath/AStarNode.cpp \
-    src/engine/map/path/shortestPath/ProcessedAStarNodeList.cpp \
-    src/engine/map/path/shortestPath/ShortestPathFinder.cpp \
-    src/engine/map/path/shortestPath/UnprocessedAStarNodeList.cpp \
-    src/engine/map/path/PathGenerator.cpp \
-    src/engine/map/path/RandomRoadPath.cpp \
-    src/engine/map/path/TargetedPath.cpp \
-    src/engine/map/CityStatus.cpp \
-    src/engine/map/ElementHandler.cpp \
+    src/engine/loader/CityLoader.cpp \
     src/engine/map/Map.cpp \
     src/engine/map/MapArea.cpp \
     src/engine/map/MapCoordinates.cpp \
-    src/engine/map/MapEntryPoint.cpp \
-    src/engine/map/MapLoader.cpp \
     src/engine/map/MapSize.cpp \
     src/engine/processing/AbstractProcessable.cpp \
     src/engine/processing/BuildingProcessor.cpp \
     src/engine/processing/CharacterProcessor.cpp \
     src/engine/processing/CycleDate.cpp \
     src/engine/processing/TimeCycleProcessor.cpp \
+    src/engine/viewerInterface/ViewerInterface.cpp \
     src/exceptions/BadConfigurationException.cpp \
     src/exceptions/EngineException.cpp \
     src/exceptions/Exception.cpp \
@@ -100,6 +100,7 @@ SOURCES += \
     src/main.cpp
 
 HEADERS += \
+    src/engine/city/City.hpp \
     src/engine/city/PopulationHandler.hpp \
     src/engine/city/PopulationRegisterInterface.hpp \
     src/engine/element/dynamic/character/Character.hpp \
@@ -116,6 +117,7 @@ HEADERS += \
     src/engine/element/static/building/AbstractBuilding.hpp \
     src/engine/element/static/building/AbstractProcessableBuilding.hpp \
     src/engine/element/static/building/BuildingSearchEngine.hpp \
+    src/engine/element/static/building/CivilianEntryPoint.hpp \
     src/engine/element/static/building/FarmBuilding.hpp \
     src/engine/element/static/building/HouseBuilding.hpp \
     src/engine/element/static/building/ImmigrantGeneratorInterface.hpp \
@@ -126,35 +128,33 @@ HEADERS += \
     src/engine/element/static/building/SchoolBuilding.hpp \
     src/engine/element/static/building/StorageBuilding.hpp \
     src/engine/element/static/natureElement/NatureElement.hpp \
+    src/engine/element/static/natureElement/NatureElementSearchEngine.hpp \
+    src/engine/element/static/path/closestPath/ClosestPathFinder.hpp \
+    src/engine/element/static/path/closestPath/PathNode.hpp \
+    src/engine/element/static/path/closestPath/ProcessedPathNodeList.hpp \
+    src/engine/element/static/path/closestPath/UnprocessedPathNodeList.hpp \
+    src/engine/element/static/path/shortestPath/AStarNode.hpp \
+    src/engine/element/static/path/shortestPath/ProcessedAStarNodeList.hpp \
+    src/engine/element/static/path/shortestPath/ShortestPathFinder.hpp \
+    src/engine/element/static/path/shortestPath/UnprocessedAStarNodeList.hpp \
+    src/engine/element/static/path/MapDetailsInterface.hpp \
+    src/engine/element/static/path/PathGenerator.hpp \
+    src/engine/element/static/path/PathInterface.hpp \
+    src/engine/element/static/path/RandomRoadPath.hpp \
+    src/engine/element/static/path/TargetedPath.hpp \
     src/engine/element/static/BuildingFactoryInterface.hpp \
     src/engine/element/static/StaticElementHandler.hpp \
-    src/engine/element/static/natureElement/NatureElementSearchEngine.hpp \
-    src/engine/map/path/closestPath/ClosestPathFinder.hpp \
-    src/engine/map/path/closestPath/PathNode.hpp \
-    src/engine/map/path/closestPath/ProcessedPathNodeList.hpp \
-    src/engine/map/path/closestPath/UnprocessedPathNodeList.hpp \
-    src/engine/map/path/shortestPath/AStarNode.hpp \
-    src/engine/map/path/shortestPath/ProcessedAStarNodeList.hpp \
-    src/engine/map/path/shortestPath/ShortestPathFinder.hpp \
-    src/engine/map/path/shortestPath/UnprocessedAStarNodeList.hpp \
-    src/engine/map/path/MapDetailsInterface.hpp \
-    src/engine/map/path/PathGenerator.hpp \
-    src/engine/map/path/PathInterface.hpp \
-    src/engine/map/path/RandomRoadPath.hpp \
-    src/engine/map/path/TargetedPath.hpp \
-    src/engine/map/CityStatus.hpp \
-    src/engine/map/ElementHandler.hpp \
+    src/engine/loader/CityLoader.hpp \
     src/engine/map/Map.hpp \
     src/engine/map/MapArea.hpp \
     src/engine/map/MapCoordinates.hpp \
-    src/engine/map/MapEntryPoint.hpp \
-    src/engine/map/MapLoader.hpp \
     src/engine/map/MapSize.hpp \
     src/engine/processing/AbstractProcessable.hpp \
     src/engine/processing/BuildingProcessor.hpp \
     src/engine/processing/CharacterProcessor.hpp \
     src/engine/processing/CycleDate.hpp \
     src/engine/processing/TimeCycleProcessor.hpp \
+    src/engine/viewerInterface/ViewerInterface.hpp \
     src/exceptions/BadConfigurationException.hpp \
     src/exceptions/EngineException.hpp \
     src/exceptions/Exception.hpp \

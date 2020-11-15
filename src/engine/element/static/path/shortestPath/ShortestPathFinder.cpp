@@ -3,10 +3,10 @@
 #include <cmath>
 #include <QtCore/QHash>
 
-#include "src/engine/map/path/shortestPath/AStarNode.hpp"
-#include "src/engine/map/path/shortestPath/ProcessedAStarNodeList.hpp"
-#include "src/engine/map/path/shortestPath/UnprocessedAStarNodeList.hpp"
-#include "src/engine/map/path/MapDetailsInterface.hpp"
+#include "src/engine/element/static/path/shortestPath/AStarNode.hpp"
+#include "src/engine/element/static/path/shortestPath/ProcessedAStarNodeList.hpp"
+#include "src/engine/element/static/path/shortestPath/UnprocessedAStarNodeList.hpp"
+#include "src/engine/element/static/path/MapDetailsInterface.hpp"
 
 const qreal DIAGONAL_LENGTH(sqrt(2.0));
 

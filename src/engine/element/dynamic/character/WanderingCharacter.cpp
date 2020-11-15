@@ -2,7 +2,7 @@
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
-#include "src/engine/map/path/PathGenerator.hpp"
+#include "src/engine/element/static/path/PathGenerator.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 
 

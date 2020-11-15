@@ -2,8 +2,8 @@
 #define PATHGENERATOR_HPP
 
 #include "src/engine/element/dynamic/PathGeneratorInterface.hpp"
-#include "src/engine/map/path/closestPath/ClosestPathFinder.hpp"
-#include "src/engine/map/path/shortestPath/ShortestPathFinder.hpp"
+#include "src/engine/element/static/path/closestPath/ClosestPathFinder.hpp"
+#include "src/engine/element/static/path/shortestPath/ShortestPathFinder.hpp"
 #include "src/defines.hpp"
 
 class MapCoordinates;

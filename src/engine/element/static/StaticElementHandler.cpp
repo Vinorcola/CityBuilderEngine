@@ -4,6 +4,7 @@
 
 #include "src/engine/city/PopulationHandler.hpp"
 #include "src/engine/element/static/building/AbstractBuilding.hpp"
+#include "src/engine/element/static/building/CivilianEntryPoint.hpp"
 #include "src/engine/element/static/building/FarmBuilding.hpp"
 #include "src/engine/element/static/building/HouseBuilding.hpp"
 #include "src/engine/element/static/building/LaboratoryBuilding.hpp"
@@ -13,26 +14,44 @@
 #include "src/engine/element/static/building/SchoolBuilding.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
 #include "src/engine/element/static/natureElement/NatureElement.hpp"
+#include "src/engine/map/Map.hpp"
 #include "src/engine/processing/TimeCycleProcessor.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/conf/Conf.hpp"
+
+
+
+StaticElementHandler::State::State(
+    CharacterFactoryInterface& characterFactory,
+    const Conf& conf,
+    const MapCoordinates& entryPointLocation
+) :
+    entryPoint(characterFactory, conf.getBuildingConf("mapEntryPoint"), entryPointLocation, conf.getCharacterConf("immigrant")),
+    buildings(),
+    natureElements()
+{
+
+}
 
 
 
 StaticElementHandler::StaticElementHandler(
-    CharacterFactoryInterface& characterFactory,
-    ImmigrantGeneratorInterface& immigrantGenerator,
     PopulationHandler& populationHandler,
     TimeCycleProcessor& processor,
-    const PathGenerator& pathGenerator
+    const Map& map,
+    CharacterFactoryInterface& characterFactory,
+    const Conf& conf,
+    const MapCoordinates& mapEntryPointLocation
 ) :
-    characterFactory(characterFactory),
-    immigrantGenerator(immigrantGenerator),
     populationHandler(populationHandler),
     processor(processor),
+    map(map),
+    characterFactory(characterFactory),
+    currentState(characterFactory, conf, mapEntryPointLocation),
+    detailsCache(),
+    pathGenerator(*this),
     buildingSearchEngine(),
-    natureElementSearchEngine(pathGenerator),
-    currentState(),
-    detailsCache()
+    natureElementSearchEngine(pathGenerator)
 {
 
 }
@@ -43,6 +62,13 @@ StaticElementHandler::~StaticElementHandler()
 {
     qDeleteAll(currentState.buildings);
     qDeleteAll(currentState.natureElements);
+}
+
+
+
+const PathGenerator& StaticElementHandler::getPathGenerator() const
+{
+    return pathGenerator;
 }
 
 
@@ -61,16 +87,20 @@ const NatureElementSearchEngine& StaticElementHandler::getNatureElementSearchEng
 
 
 
-bool StaticElementHandler::isLocationTraversable(const MapCoordinates& location) const
+bool StaticElementHandler::isLocationConstructible(const MapCoordinates& location) const
 {
-    return !detailsCache.nonTraversableCoordinates.contains(hashCoordinates(location));
+    return
+        map.isLocationValid(location) &&
+        !detailsCache.nonConstructibleCoordinates.contains(hashCoordinates(location));
 }
 
 
 
-bool StaticElementHandler::isLocationConstructible(const MapCoordinates& location) const
+bool StaticElementHandler::isLocationTraversable(const MapCoordinates& location) const
 {
-    return !detailsCache.nonConstructibleCoordinates.contains(hashCoordinates(location));
+    return
+        map.isLocationValid(location) &&
+        !detailsCache.nonTraversableCoordinates.contains(hashCoordinates(location));
 }
 
 
@@ -78,6 +108,17 @@ bool StaticElementHandler::isLocationConstructible(const MapCoordinates& locatio
 bool StaticElementHandler::hasRoadAtLocation(const MapCoordinates& location) const
 {
     return detailsCache.roadCoordinates.contains(hashCoordinates(location));
+}
+
+
+
+bool StaticElementHandler::canConstructRoadAtLocation(const MapCoordinates& location) const
+{
+    return
+        map.isLocationValid(location) && (
+            isLocationConstructible(location) ||
+            hasRoadAtLocation(location)
+        );
 }
 
 

@@ -1,6 +1,6 @@
 #include "TargetedPath.hpp"
 
-#include "src/engine/map/path/MapDetailsInterface.hpp"
+#include "src/engine/element/static/path/MapDetailsInterface.hpp"
 
 
 

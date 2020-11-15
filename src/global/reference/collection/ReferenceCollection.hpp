@@ -14,8 +14,6 @@
 template<typename Target>
 class ReferenceCollection
 {
-        Q_DISABLE_COPY_MOVE(ReferenceCollection)
-
         static_assert (std::is_base_of<Referencable, Target>::value, "Target must extend Referencable.");
         using Iterator = typename QHash<Target*, Reference<Target>>::const_iterator;
 

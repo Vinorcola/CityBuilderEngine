@@ -3,10 +3,10 @@
 #include <cmath>
 #include <QtCore/QHash>
 
-#include "src/engine/map/path/closestPath/PathNode.hpp"
-#include "src/engine/map/path/closestPath/ProcessedPathNodeList.hpp"
-#include "src/engine/map/path/closestPath/UnprocessedPathNodeList.hpp"
-#include "src/engine/map/path/MapDetailsInterface.hpp"
+#include "src/engine/element/static/path/closestPath/PathNode.hpp"
+#include "src/engine/element/static/path/closestPath/ProcessedPathNodeList.hpp"
+#include "src/engine/element/static/path/closestPath/UnprocessedPathNodeList.hpp"
+#include "src/engine/element/static/path/MapDetailsInterface.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 
 const qreal DIAGONAL_LENGTH(sqrt(2.0));

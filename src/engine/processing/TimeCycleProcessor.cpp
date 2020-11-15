@@ -7,9 +7,6 @@
 #endif
 #include <QDebug>
 
-#include "src/engine/map/MapEntryPoint.hpp"
-#include "src/engine/processing/BuildingProcessor.hpp"
-#include "src/engine/processing/CharacterProcessor.hpp"
 #include "src/defines.hpp"
 
 const qreal MSEC_PER_SEC(1000);

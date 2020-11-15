@@ -6,7 +6,7 @@
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/element/static/building/BuildingSearchEngine.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
-#include "src/engine/map/path/PathGenerator.hpp"
+#include "src/engine/element/static/path/PathGenerator.hpp"
 
 
 

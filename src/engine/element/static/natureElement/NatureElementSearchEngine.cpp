@@ -1,6 +1,6 @@
 #include "NatureElementSearchEngine.hpp"
 
-#include "src/engine/map/path/PathGenerator.hpp"
+#include "src/engine/element/static/path/PathGenerator.hpp"
 #include "src/engine/map/MapArea.hpp"
 
 

@@ -12,12 +12,12 @@ class CharacterInformation;
 class CycleDate;
 
 /**
- * @brief A map entry point.
+ * @brief A civilian entry point on the map.
  *
  * Map entry points are linked to a location on the border of the map. They can generate different types of characters.
  * Currently, it only supports immigrant charaters.
  */
-class MapEntryPoint : public AbstractProcessableBuilding, public ImmigrantGeneratorInterface
+class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantGeneratorInterface
 {
         const int MIN_IMMIGRANT_GENERATION_INTERVAL = 1;
         const int MAX_IMMIGRANT_GENERATION_INTERVAL = 90;
@@ -29,7 +29,7 @@ class MapEntryPoint : public AbstractProcessableBuilding, public ImmigrantGenera
         QList<Reference<HouseBuilding>> immigrantRequestQueue;
 
     public:
-        MapEntryPoint(
+        CivilianEntryPoint(
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapCoordinates& location,

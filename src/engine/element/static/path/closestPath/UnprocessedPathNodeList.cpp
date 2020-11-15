@@ -1,6 +1,6 @@
 #include "UnprocessedPathNodeList.hpp"
 
-#include "src/engine/map/path/closestPath/PathNode.hpp"
+#include "src/engine/element/static/path/closestPath/PathNode.hpp"
 
 
 

@@ -4,14 +4,14 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 
+#include "src/engine/loader/CityLoader.hpp"
 #include "src/engine/map/Map.hpp"
-#include "src/engine/map/MapLoader.hpp"
 #include "src/engine/processing/TimeCycleProcessor.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
-#include "src/viewer/MapViewer.hpp"
 #include "src/ui/controlPanel/ControlPanel.hpp"
 #include "src/ui/InformationWidget.hpp"
+#include "src/viewer/MapViewer.hpp"
 
 
 
@@ -81,7 +81,7 @@ void MainWindow::loadMap(const QString& filePath)
     if (currentMap) {
         delete currentMap;
     }
-    currentMap = new Map(conf, MapLoader(filePath));
+    currentMap = new Map(conf, CityLoader(filePath));
     speedAction->setEnabled(true);
     pauseAction->setChecked(false);
     connect(pauseAction, &QAction::toggled, currentMap, &Map::pause);

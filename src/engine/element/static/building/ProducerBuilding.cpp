@@ -5,7 +5,7 @@
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/element/static/natureElement/NatureElementSearchEngine.hpp"
-#include "src/engine/map/path/PathInterface.hpp"
+#include "src/engine/element/static/path/PathInterface.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 

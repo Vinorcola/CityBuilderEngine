@@ -1,35 +1,34 @@
 
-size:
-    height: 23
-    width: 23
-status:
-    date:
-        year: -1500
-        month: 1
-        cycles: 0
-    budget: 10000
-entryPoint: { x: 0, y: 0 }
-buildings:
-    - { type: road, position: { x: 0, y: 1 } }
-    - { type: road, position: { x: 0, y: 2 } }
-    - { type: road, position: { x: 0, y: 3 } }
-    - { type: road, position: { x: 3, y: 4 } }
-    - { type: road, position: { x: 2, y: 4 } }
-    - { type: road, position: { x: 1, y: 4 } }
-    - { type: road, position: { x: 0, y: 4 } }
-    - { type: road, position: { x: 3, y: 5 } }
-    - { type: road, position: { x: 4, y: 5 } }
-    - { type: road, position: { x: 5, y: 5 } }
-    - { type: road, position: { x: 3, y: 6 } }
-    - { type: road, position: { x: 3, y: 7 } }
-    - { type: road, position: { x: 3, y: 8 } }
-    - { type: road, position: { x: 3, y: 9 } }
-    - { type: road, position: { x: 3, y: 10 } }
-    - { type: road, position: { x: 4, y: 10 } }
-    - { type: road, position: { x: 5, y: 10 } }
-    - { type: road, position: { x: 6, y: 10 } }
-    - { type: road, position: { x: 7, y: 10 } }
-    - { type: road, position: { x: 2, y: 10 } }
-    - { type: road, position: { x: 1, y: 10 } }
-    - { type: road, position: { x: 0, y: 10 } }
-natureElements: []
+title: Sparte
+date:
+    year: -1500
+    month: 1
+    cycles: 0
+budget: 10000
+map:
+    size: { width: 23, height: 23 }
+    entryPoint: { x: 0, y: 0 }
+    buildings:
+        - { type: road, position: { x: 0, y: 1 } }
+        - { type: road, position: { x: 0, y: 2 } }
+        - { type: road, position: { x: 0, y: 3 } }
+        - { type: road, position: { x: 3, y: 4 } }
+        - { type: road, position: { x: 2, y: 4 } }
+        - { type: road, position: { x: 1, y: 4 } }
+        - { type: road, position: { x: 0, y: 4 } }
+        - { type: road, position: { x: 3, y: 5 } }
+        - { type: road, position: { x: 4, y: 5 } }
+        - { type: road, position: { x: 5, y: 5 } }
+        - { type: road, position: { x: 3, y: 6 } }
+        - { type: road, position: { x: 3, y: 7 } }
+        - { type: road, position: { x: 3, y: 8 } }
+        - { type: road, position: { x: 3, y: 9 } }
+        - { type: road, position: { x: 3, y: 10 } }
+        - { type: road, position: { x: 4, y: 10 } }
+        - { type: road, position: { x: 5, y: 10 } }
+        - { type: road, position: { x: 6, y: 10 } }
+        - { type: road, position: { x: 7, y: 10 } }
+        - { type: road, position: { x: 2, y: 10 } }
+        - { type: road, position: { x: 1, y: 10 } }
+        - { type: road, position: { x: 0, y: 10 } }
+    natureElements: []

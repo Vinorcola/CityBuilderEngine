@@ -1,7 +1,7 @@
 #ifndef RANDOMROADPATH_HPP
 #define RANDOMROADPATH_HPP
 
-#include "src/engine/map/path/PathInterface.hpp"
+#include "src/engine/element/static/path/PathInterface.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 
 class MapDetailsInterface;

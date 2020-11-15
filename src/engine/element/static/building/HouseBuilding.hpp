@@ -5,7 +5,7 @@
 
 class CharacterFactoryInterface;
 class ImmigrantGeneratorInterface;
-class MapEntryPoint;
+class CivilianEntryPoint;
 class PopulationRegisterInterface;
 
 class HouseBuilding : public AbstractProcessableBuilding

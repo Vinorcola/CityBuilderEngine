@@ -1,4 +1,4 @@
-#include "MapEntryPoint.hpp"
+#include "CivilianEntryPoint.hpp"
 
 #include <QtCore/QException>
 #include <QtCore/QRandomGenerator>
@@ -9,7 +9,7 @@
 
 
 
-MapEntryPoint::MapEntryPoint(
+CivilianEntryPoint::CivilianEntryPoint(
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapCoordinates& location,
@@ -26,14 +26,14 @@ MapEntryPoint::MapEntryPoint(
 
 
 
-void MapEntryPoint::requestImmigrant(HouseBuilding& requester)
+void CivilianEntryPoint::requestImmigrant(HouseBuilding& requester)
 {
     immigrantRequestQueue.append(requester.getReference<HouseBuilding>());
 }
 
 
 
-void MapEntryPoint::process(const CycleDate& date)
+void CivilianEntryPoint::process(const CycleDate& date)
 {
     if (immigrantRequestQueue.isEmpty()) {
         return;
@@ -56,7 +56,7 @@ void MapEntryPoint::process(const CycleDate& date)
 
 
 
-void MapEntryPoint::setupNextImmigrantGenerationDate(const CycleDate& currentDate)
+void CivilianEntryPoint::setupNextImmigrantGenerationDate(const CycleDate& currentDate)
 {
     if (immigrantRequestQueue.isEmpty()) {
         return;
