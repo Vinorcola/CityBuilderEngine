@@ -2,9 +2,9 @@
 
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 
-#include "src/engine/element/dynamic/Character.hpp"
-#include "src/engine/element/static/Building.hpp"
-#include "src/engine/element/static/NatureElement.hpp"
+#include "src/engine/element/dynamic/character/Character.hpp"
+#include "src/engine/element/static/building/Building.hpp"
+#include "src/engine/element/static/natureElement/NatureElement.hpp"
 #include "src/engine/map/Map.hpp"
 #include "src/engine/processing/TimeCycleProcessor.hpp"
 #include "src/exceptions/OutOfRangeException.hpp"

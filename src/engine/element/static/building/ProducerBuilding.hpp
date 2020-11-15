@@ -5,7 +5,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
 
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/ProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
 class BuildingInformation;

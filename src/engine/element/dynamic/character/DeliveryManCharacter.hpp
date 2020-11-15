@@ -1,7 +1,7 @@
 #ifndef DELIVERYMANCHARACTER_HPP
 #define DELIVERYMANCHARACTER_HPP
 
-#include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/dynamic/character/Character.hpp"
 
 class ItemInformation;
 class MapSearchEngine;

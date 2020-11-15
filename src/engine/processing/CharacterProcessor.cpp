@@ -1,6 +1,6 @@
 #include "CharacterProcessor.hpp"
 
-#include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/dynamic/character/Character.hpp"
 
 
 

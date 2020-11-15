@@ -1,7 +1,7 @@
 #ifndef STUDENTCHARACTER_HPP
 #define STUDENTCHARACTER_HPP
 
-#include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/dynamic/character/Character.hpp"
 
 class ProcessableBuilding;
 

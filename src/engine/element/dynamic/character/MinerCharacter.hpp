@@ -3,7 +3,7 @@
 
 #include <QtCore/QPointer>
 
-#include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/defines.hpp"
 
 class MinerCharacter : public Character

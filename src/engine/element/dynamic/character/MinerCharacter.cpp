@@ -1,8 +1,8 @@
 #include "MinerCharacter.hpp"
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
-#include "src/engine/element/static/NatureElement.hpp"
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/ProcessableBuilding.hpp"
+#include "src/engine/element/static/natureElement/NatureElement.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 
 

@@ -1,6 +1,6 @@
 #include "ElementHandler.hpp"
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/engine/element/dynamic/character/ImmigrantCharacter.hpp"
@@ -15,7 +15,7 @@
 #include "src/engine/element/static/building/SanityBuilding.hpp"
 #include "src/engine/element/static/building/SchoolBuilding.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
-#include "src/engine/element/static/NatureElement.hpp"
+#include "src/engine/element/static/natureElement/NatureElement.hpp"
 #include "src/engine/map/Map.hpp"
 #include "src/engine/map/MapArea.hpp"
 #include "src/engine/map/MapSearchEngine.hpp"

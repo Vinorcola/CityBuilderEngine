@@ -3,8 +3,8 @@
 #include <cassert>
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
+#include "src/engine/element/static/building/ProcessableBuilding.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
-#include "src/engine/element/static/ProcessableBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/MapSearchEngine.hpp"
 

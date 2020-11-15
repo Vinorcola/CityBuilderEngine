@@ -1,7 +1,7 @@
 #include "LaboratoryBuilding.hpp"
 
+#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
-#include "src/engine/element/dynamic/Character.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 

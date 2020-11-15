@@ -3,7 +3,7 @@
 
 #include <QtCore/QObject>
 
-#include "src/engine/element/static/Building.hpp"
+#include "src/engine/element/static/building/Building.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
 

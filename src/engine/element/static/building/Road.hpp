@@ -1,7 +1,7 @@
 #ifndef ROAD_HPP
 #define ROAD_HPP
 
-#include "src/engine/element/static/Building.hpp"
+#include "src/engine/element/static/building/Building.hpp"
 
 class BuildingInformation;
 class MapCoordinates;

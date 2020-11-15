@@ -1,8 +1,8 @@
 #include "ProducerBuilding.hpp"
 
+#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
-#include "src/engine/element/dynamic/Character.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/map/path/PathInterface.hpp"
 #include "src/engine/map/MapSearchEngine.hpp"

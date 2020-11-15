@@ -3,7 +3,7 @@
 
 #include <QtCore/QHash>
 
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/ProcessableBuilding.hpp"
 
 class ItemInformation;
 

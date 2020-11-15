@@ -1,7 +1,7 @@
 #ifndef HOUSEBUILDING_HPP
 #define HOUSEBUILDING_HPP
 
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/ProcessableBuilding.hpp"
 
 class CharacterFactoryInterface;
 class ImmigrantGeneratorInterface;

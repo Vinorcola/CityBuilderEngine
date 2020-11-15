@@ -3,7 +3,7 @@
 
 #include <QtCore/QObject>
 
-#include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/dynamic/character/Character.hpp"
 
 class ProcessableBuilding;
 

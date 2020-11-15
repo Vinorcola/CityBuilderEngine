@@ -1,6 +1,6 @@
 #include "BuildingView.hpp"
 
-#include "src/engine/element/static/Building.hpp"
+#include "src/engine/element/static/building/Building.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"

@@ -8,25 +8,24 @@ OBJECTS_DIR = objects
 MOC_DIR = moc
 
 SOURCES += \
+    src/engine/element/dynamic/character/Character.cpp \
     src/engine/element/dynamic/character/DeliveryManCharacter.cpp \
     src/engine/element/dynamic/character/ImmigrantCharacter.cpp \
     src/engine/element/dynamic/character/MinerCharacter.cpp \
     src/engine/element/dynamic/character/StudentCharacter.cpp \
     src/engine/element/dynamic/character/WanderingCharacter.cpp \
-    src/engine/element/dynamic/Character.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
+    src/engine/element/static/building/Building.cpp \
     src/engine/element/static/building/FarmBuilding.cpp \
     src/engine/element/static/building/HouseBuilding.cpp \
     src/engine/element/static/building/LaboratoryBuilding.cpp \
+    src/engine/element/static/building/ProcessableBuilding.cpp \
     src/engine/element/static/building/ProducerBuilding.cpp \
     src/engine/element/static/building/Road.cpp \
     src/engine/element/static/building/SanityBuilding.cpp \
     src/engine/element/static/building/SchoolBuilding.cpp \
     src/engine/element/static/building/StorageBuilding.cpp \
-    src/engine/element/static/Building.cpp \
-    src/engine/element/static/BuildingFactoryInterface.cpp \
-    src/engine/element/static/NatureElement.cpp \
-    src/engine/element/static/ProcessableBuilding.cpp \
+    src/engine/element/static/natureElement/NatureElement.cpp \
     src/engine/map/path/closestPath/ClosestPathFinder.cpp \
     src/engine/map/path/closestPath/PathNode.cpp \
     src/engine/map/path/closestPath/ProcessedPathNodeList.cpp \
@@ -94,29 +93,29 @@ SOURCES += \
     src/main.cpp
 
 HEADERS += \
+    src/engine/element/dynamic/character/Character.hpp \
     src/engine/element/dynamic/character/DeliveryManCharacter.hpp \
     src/engine/element/dynamic/character/ImmigrantCharacter.hpp \
     src/engine/element/dynamic/character/MinerCharacter.hpp \
     src/engine/element/dynamic/character/StudentCharacter.hpp \
     src/engine/element/dynamic/character/WanderingCharacter.hpp \
-    src/engine/element/dynamic/Character.hpp \
     src/engine/element/dynamic/CharacterFactoryInterface.hpp \
     src/engine/element/dynamic/CharacterManagerInterface.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \
     src/engine/element/dynamic/PathGeneratorInterface.hpp \
+    src/engine/element/static/building/Building.hpp \
     src/engine/element/static/building/FarmBuilding.hpp \
     src/engine/element/static/building/HouseBuilding.hpp \
     src/engine/element/static/building/ImmigrantGeneratorInterface.hpp \
     src/engine/element/static/building/LaboratoryBuilding.hpp \
+    src/engine/element/static/building/ProcessableBuilding.hpp \
     src/engine/element/static/building/ProducerBuilding.hpp \
     src/engine/element/static/building/Road.hpp \
     src/engine/element/static/building/SanityBuilding.hpp \
     src/engine/element/static/building/SchoolBuilding.hpp \
     src/engine/element/static/building/StorageBuilding.hpp \
-    src/engine/element/static/Building.hpp \
+    src/engine/element/static/natureElement/NatureElement.hpp \
     src/engine/element/static/BuildingFactoryInterface.hpp \
-    src/engine/element/static/NatureElement.hpp \
-    src/engine/element/static/ProcessableBuilding.hpp \
     src/engine/map/path/closestPath/ClosestPathFinder.hpp \
     src/engine/map/path/closestPath/PathNode.hpp \
     src/engine/map/path/closestPath/ProcessedPathNodeList.hpp \

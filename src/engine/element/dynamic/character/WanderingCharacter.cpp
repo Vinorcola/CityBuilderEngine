@@ -1,7 +1,7 @@
 #include "WanderingCharacter.hpp"
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/ProcessableBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 
