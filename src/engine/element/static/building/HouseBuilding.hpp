@@ -6,6 +6,7 @@
 class CharacterFactoryInterface;
 class ImmigrantGeneratorInterface;
 class MapEntryPoint;
+class PopulationRegisterInterface;
 
 class HouseBuilding : public ProcessableBuilding
 {
@@ -13,12 +14,14 @@ class HouseBuilding : public ProcessableBuilding
 
     private:
         ImmigrantGeneratorInterface& immigrantGenerator;
-        int population;
+        PopulationRegisterInterface& populationRegister;
+        int inhabitants;
 
     public:
         HouseBuilding(
             QObject* parent,
             ImmigrantGeneratorInterface& immigrantGenerator,
+            PopulationRegisterInterface& populationRegister,
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
@@ -29,9 +32,6 @@ class HouseBuilding : public ProcessableBuilding
         virtual void process(const CycleDate& date);
 
         virtual bool processInteraction(const CycleDate& date, Character& actor);
-
-    signals:
-        void populationChanged(const int populationDelta);
 };
 
 #endif // HOUSEBUILDING_HPP

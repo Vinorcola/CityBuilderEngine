@@ -1,5 +1,6 @@
 #include "HouseBuilding.hpp"
 
+#include "src/engine/city/PopulationRegisterInterface.hpp"
 #include "src/engine/element/dynamic/character/ImmigrantCharacter.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/element/static/building/ImmigrantGeneratorInterface.hpp"
@@ -10,13 +11,15 @@
 HouseBuilding::HouseBuilding(
     QObject* parent,
     ImmigrantGeneratorInterface& immigrantGenerator,
+    PopulationRegisterInterface& populationRegister,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
     ProcessableBuilding(parent, conf, area, entryPoint),
     immigrantGenerator(immigrantGenerator),
-    population(0)
+    populationRegister(populationRegister),
+    inhabitants(0)
 {
 
 }
@@ -41,11 +44,14 @@ bool HouseBuilding::processInteraction(const CycleDate& /*date*/, Character& act
 {
     auto immigrant(dynamic_cast<ImmigrantCharacter*>(&actor));
     if (immigrant) {
-        int populationDelta(qMin(conf.getHouseConf().populationPerImmigrant, conf.getHouseConf().populationCapacity - population));
-        population += populationDelta;
-        emit populationChanged(populationDelta);
+        int inhabitantsDelta(qMin(
+            conf.getHouseConf().populationPerImmigrant,
+            conf.getHouseConf().populationCapacity - inhabitants
+        ));
+        inhabitants += inhabitantsDelta;
+        populationRegister.registerPopulation(inhabitantsDelta);
 
-        if (population < conf.getHouseConf().populationCapacity) {
+        if (inhabitants < conf.getHouseConf().populationCapacity) {
             immigrantGenerator.requestImmigrant(*this);
         }
 

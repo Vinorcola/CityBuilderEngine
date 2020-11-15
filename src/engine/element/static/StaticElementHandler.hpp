@@ -18,6 +18,7 @@ class LaboratoryBuilding;
 class MapArea;
 class MapCoordinates;
 class NatureElement;
+class PopulationHandler;
 class ProducerBuilding;
 class QString;
 class Road;
@@ -42,6 +43,7 @@ class StaticElementHandler
     private:
         CharacterFactoryInterface& characterFactory;
         ImmigrantGeneratorInterface& immigrantGenerator;
+        PopulationHandler& populationHandler;
         TimeCycleProcessor& processor;
         BuildingSearchEngine buildingSearchEngine;
         NatureElementSearchEngine natureElementSearchEngine;
@@ -52,6 +54,7 @@ class StaticElementHandler
         explicit StaticElementHandler(
             CharacterFactoryInterface& characterFactory,
             ImmigrantGeneratorInterface& immigrantGenerator,
+            PopulationHandler& populationHandler,
             TimeCycleProcessor& processor
         );
         ~StaticElementHandler();
