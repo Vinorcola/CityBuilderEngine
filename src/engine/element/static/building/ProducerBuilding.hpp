@@ -15,15 +15,15 @@ class DeliveryManCharacter;
 class ItemInformation;
 class MapArea;
 class MapCoordinates;
-class MapSearchEngine;
 class NatureElementInformation;
+class NatureElementSearchEngine;
 
 class ProducerBuilding : public ProcessableBuilding
 {
         Q_OBJECT
 
     private:
-        const MapSearchEngine& searchEngine;
+        const NatureElementSearchEngine& searchEngine;
         CharacterFactoryInterface& characterFactory;
         QList<QPointer<Character>> miners;
         CycleDate nextMinerGenerationDate;
@@ -33,7 +33,7 @@ class ProducerBuilding : public ProcessableBuilding
     public:
         ProducerBuilding(
             QObject* parent,
-            const MapSearchEngine& searchEngine,
+            const NatureElementSearchEngine& searchEngine,
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,

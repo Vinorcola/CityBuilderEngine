@@ -1,15 +1,15 @@
 #include "SchoolBuilding.hpp"
 
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
+#include "src/engine/element/static/building/BuildingSearchEngine.hpp"
 #include "src/engine/element/static/building/LaboratoryBuilding.hpp"
-#include "src/engine/map/MapSearchEngine.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
 
 SchoolBuilding::SchoolBuilding(
     QObject* parent,
-    const MapSearchEngine& searchEngine,
+    const BuildingSearchEngine& searchEngine,
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
@@ -38,7 +38,7 @@ void SchoolBuilding::process(const CycleDate& date)
         return;
     }
 
-    auto target(searchEngine.getLaboratory(conf.getSchoolConf().targetLaboratory));
+    auto target(searchEngine.findClosestBuilding(conf.getSchoolConf().targetLaboratory, getEntryPoint()));
     if (target != nullptr) {
         characterFactory.generateStudent(conf.getSchoolConf().student.conf, *this, *target);
     }

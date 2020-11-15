@@ -16,6 +16,7 @@ SOURCES += \
     src/engine/element/dynamic/character/WanderingCharacter.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
     src/engine/element/static/building/Building.cpp \
+    src/engine/element/static/building/BuildingSearchEngine.cpp \
     src/engine/element/static/building/FarmBuilding.cpp \
     src/engine/element/static/building/HouseBuilding.cpp \
     src/engine/element/static/building/LaboratoryBuilding.cpp \
@@ -26,6 +27,8 @@ SOURCES += \
     src/engine/element/static/building/SchoolBuilding.cpp \
     src/engine/element/static/building/StorageBuilding.cpp \
     src/engine/element/static/natureElement/NatureElement.cpp \
+    src/engine/element/static/natureElement/NatureElementSearchEngine.cpp \
+    src/engine/element/static/StaticElementHandler.cpp \
     src/engine/map/path/closestPath/ClosestPathFinder.cpp \
     src/engine/map/path/closestPath/PathNode.cpp \
     src/engine/map/path/closestPath/ProcessedPathNodeList.cpp \
@@ -104,6 +107,7 @@ HEADERS += \
     src/engine/element/dynamic/MotionHandler.hpp \
     src/engine/element/dynamic/PathGeneratorInterface.hpp \
     src/engine/element/static/building/Building.hpp \
+    src/engine/element/static/building/BuildingSearchEngine.hpp \
     src/engine/element/static/building/FarmBuilding.hpp \
     src/engine/element/static/building/HouseBuilding.hpp \
     src/engine/element/static/building/ImmigrantGeneratorInterface.hpp \
@@ -116,6 +120,8 @@ HEADERS += \
     src/engine/element/static/building/StorageBuilding.hpp \
     src/engine/element/static/natureElement/NatureElement.hpp \
     src/engine/element/static/BuildingFactoryInterface.hpp \
+    src/engine/element/static/StaticElementHandler.hpp \
+    src/engine/element/static/natureElement/NatureElementSearchEngine.hpp \
     src/engine/map/path/closestPath/ClosestPathFinder.hpp \
     src/engine/map/path/closestPath/PathNode.hpp \
     src/engine/map/path/closestPath/ProcessedPathNodeList.hpp \

@@ -4,15 +4,15 @@
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/engine/element/dynamic/character/MinerCharacter.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
+#include "src/engine/element/static/natureElement/NatureElementSearchEngine.hpp"
 #include "src/engine/map/path/PathInterface.hpp"
-#include "src/engine/map/MapSearchEngine.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
 
 ProducerBuilding::ProducerBuilding(
     QObject* parent,
-    const MapSearchEngine& searchEngine,
+    const NatureElementSearchEngine& searchEngine,
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,

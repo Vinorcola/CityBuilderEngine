@@ -7,9 +7,9 @@
 #include "src/engine/element/static/building/ProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
+class BuildingSearchEngine;
 class Character;
 class CharacterFactoryInterface;
-class MapSearchEngine;
 
 /**
  * @brief A school building will generate student at a regular interval as long as there is a university accepting them.
@@ -19,14 +19,14 @@ class SchoolBuilding : public ProcessableBuilding
         Q_OBJECT
 
     private:
-        const MapSearchEngine& searchEngine;
+        const BuildingSearchEngine& searchEngine;
         CharacterFactoryInterface& characterFactory;
         CycleDate nextWalkerGenerationDate;
 
     public:
         SchoolBuilding(
             QObject* parent,
-            const MapSearchEngine& searchEngine,
+            const BuildingSearchEngine& searchEngine,
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
