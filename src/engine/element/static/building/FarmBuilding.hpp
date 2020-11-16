@@ -1,13 +1,11 @@
 #ifndef FARMBUILDING_HPP
 #define FARMBUILDING_HPP
 
-#include <QtCore/QPointer>
-
+#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
 class CharacterFactoryInterface;
-class DeliveryManCharacter;
 class ItemInformation;
 
 class FarmBuilding : public AbstractProcessableBuilding
@@ -15,7 +13,7 @@ class FarmBuilding : public AbstractProcessableBuilding
     private:
         CharacterFactoryInterface& characterFactory;
         CycleDate completeGrowingDate;
-        QPointer<DeliveryManCharacter> deliveryMan;
+        OptionalReference<Character> deliveryMan;
 
     public:
         FarmBuilding(

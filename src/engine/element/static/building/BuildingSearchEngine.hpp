@@ -3,9 +3,10 @@
 
 #include "src/defines.hpp"
 
-class BuildingInformation;
-class MapCoordinates;
 class AbstractProcessableBuilding;
+class BuildingInformation;
+class ItemInformation;
+class MapCoordinates;
 class StorageBuilding;
 
 class BuildingSearchEngine
@@ -18,6 +19,10 @@ class BuildingSearchEngine
 
         optional<AbstractProcessableBuilding*> findClosestBuilding(
             const BuildingInformation& buildingConf,
+            const MapCoordinates& origin
+        ) const;
+        optional<StorageBuilding*> findClosestStorageThatCanStore(
+            const ItemInformation& itemConf,
             const MapCoordinates& origin
         ) const;
 };

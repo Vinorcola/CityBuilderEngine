@@ -6,7 +6,6 @@
 
 
 StudentCharacter::StudentCharacter(
-    QObject* parent,
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
@@ -14,7 +13,7 @@ StudentCharacter::StudentCharacter(
     AbstractProcessableBuilding& target,
     owner<PathInterface*> path
 ) :
-    Character(parent, characterManager, pathGenerator, conf, issuer),
+    Character(characterManager, pathGenerator, conf, issuer),
     target(target.getReference<AbstractProcessableBuilding>())
 {
     motionHandler.takePath(path);

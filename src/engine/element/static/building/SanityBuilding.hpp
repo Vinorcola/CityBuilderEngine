@@ -1,8 +1,7 @@
 #ifndef SANITYBUILDING_HPP
 #define SANITYBUILDING_HPP
 
-#include <QtCore/QPointer>
-
+#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
@@ -12,7 +11,7 @@ class SanityBuilding : public AbstractProcessableBuilding
 {
     private:
         CharacterFactoryInterface& characterFactory;
-        QPointer<Character> walker;
+        OptionalReference<Character> walker;
         CycleDate nextWalkerGenerationDate;
 
     public:

@@ -1,11 +1,10 @@
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
 
-#include <QtCore/QObject>
-
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/element/dynamic/MotionHandler.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
+#include "src/global/reference/Referencable.hpp"
 #include "src/defines.hpp"
 
 class CharacterInformation;
@@ -27,10 +26,8 @@ class PathGeneratorInterface;
  * If a character is granted wandering credits, it will use them to wander around (see MotionHandler for more details).
  * Otherwise, the character won't move until a target is assigned to it.
  */
-class Character : public QObject, public AbstractProcessable
+class Character : public AbstractProcessable, public Referencable
 {
-        Q_OBJECT
-
     protected:
         CharacterManagerInterface& characterManager;///< A service for requiring the character destruction.
         const PathGeneratorInterface& pathGenerator;///< A service for generating paths.
@@ -41,7 +38,6 @@ class Character : public QObject, public AbstractProcessable
 
     public:
         Character(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
@@ -56,7 +52,7 @@ class Character : public QObject, public AbstractProcessable
 
         Direction getCurrentDirection() const;
 
-        Reference<AbstractProcessableBuilding> getIssuer() const;
+        const Reference<AbstractProcessableBuilding>& getIssuer() const;
 
         bool isViewUpToDate(const int currentViewVersion) const;
 

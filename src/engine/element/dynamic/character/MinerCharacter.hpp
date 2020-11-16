@@ -8,14 +8,11 @@
 
 class MinerCharacter : public Character
 {
-        Q_OBJECT
-
     private:
         bool goingHome;
 
     public:
         MinerCharacter(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,

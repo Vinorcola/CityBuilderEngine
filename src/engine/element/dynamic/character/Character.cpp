@@ -7,13 +7,11 @@
 
 
 Character::Character(
-    QObject* parent,
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
     AbstractProcessableBuilding& issuer
 ) :
-    QObject(parent),
     AbstractProcessable(),
     characterManager(characterManager),
     pathGenerator(pathGenerator),
@@ -55,7 +53,7 @@ Direction Character::getCurrentDirection() const
 
 
 
-Reference<AbstractProcessableBuilding> Character::getIssuer() const
+const Reference<AbstractProcessableBuilding>& Character::getIssuer() const
 {
     return issuer;
 }

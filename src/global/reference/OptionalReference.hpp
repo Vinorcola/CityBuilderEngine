@@ -30,11 +30,12 @@ class OptionalReference
         OptionalReference(const OptionalReference<Target>&& other);
         ~OptionalReference();
 
-        void operator= (const OptionalReference<Target>& other) = delete;
-        void operator= (const OptionalReference<Target>&& other) = delete;
+        void operator=(const OptionalReference<Target>& other);
+        void operator=(const OptionalReference<Target>&& other) = delete;
 
         bool isNull() const;
         bool isValid() const;
+        bool matches(const Referencable& target) const;
         Target& get() const;
 
         void reassign(Target& target);

@@ -14,7 +14,6 @@ class ImmigrantCharacter : public Character
 
     public:
         ImmigrantCharacter(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,

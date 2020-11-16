@@ -17,7 +17,7 @@ FarmBuilding::FarmBuilding(
     AbstractProcessableBuilding(conf, area, entryPoint),
     characterFactory(characterFactory),
     completeGrowingDate(),
-    deliveryMan(nullptr)
+    deliveryMan()
 {
 
 }
@@ -34,7 +34,7 @@ void FarmBuilding::init(const CycleDate& date)
 void FarmBuilding::process(const CycleDate& date)
 {
     if (date.isFirstCycleOfMonth() && date.getMonth() == conf.getFarmConf().harvestMonth) {
-        if (!deliveryMan.isNull()) {
+        if (deliveryMan.isValid()) {
             // The delivery man is outside. We do not harvest now.
             // Next harvest will occure as soon as the growing is complete and thedelivery man is back.
             return;
@@ -44,7 +44,7 @@ void FarmBuilding::process(const CycleDate& date)
     }
     else if (date > completeGrowingDate) {
         // Case where the delivery man were outside at the begining of the harvest month.
-        if (!deliveryMan.isNull()) {
+        if (deliveryMan.isValid()) {
             // The delivery man is still outside. We do not harvest now.
             return;
         }
@@ -57,8 +57,8 @@ void FarmBuilding::process(const CycleDate& date)
 
 bool FarmBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
-    if (&actor == deliveryMan) {
-        deliveryMan.clear();
+    if (deliveryMan.matches(actor)) {
+        this->deliveryMan.clear();
 
         return true;
     }
@@ -80,12 +80,12 @@ void FarmBuilding::harvest(const CycleDate& date)
     );
     int quantity(productivityRatio * conf.getFarmConf().maxQuantityHarvested);
 
-    deliveryMan = &characterFactory.generateDeliveryMan(
+    deliveryMan.reassign(characterFactory.generateDeliveryMan(
         conf.getFarmConf().deliveryManConf,
         *this,
         conf.getFarmConf().producedItemConf,
         quantity
-    );
+    ));
 
     completeGrowingDate.reassign(date, CycleDate::getCyclesPerYear());
 }

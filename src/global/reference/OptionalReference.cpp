@@ -61,8 +61,27 @@ OptionalReference<Target>::OptionalReference(const OptionalReference<Target>&& o
 template<typename Target>
 OptionalReference<Target>::~OptionalReference()
 {
-    if (target && valid) {
+    if (valid) {
         onDelete(this);
+    }
+}
+
+
+
+template<typename Target>
+void OptionalReference<Target>::operator=(const OptionalReference<Target>& other)
+{
+    if (valid) {
+        onDelete(this);
+    }
+
+    valid = other.valid;
+    this->target = other.target;
+    onDuplicate = other.onDuplicate;
+    onDelete = other.onDelete;
+
+    if (valid) {
+        onDuplicate(this);
     }
 }
 
@@ -79,7 +98,15 @@ bool OptionalReference<Target>::isNull() const
 template<typename Target>
 bool OptionalReference<Target>::isValid() const
 {
-    return target && valid;
+    return valid;
+}
+
+
+
+template<typename Target>
+bool OptionalReference<Target>::matches(const Referencable& target) const
+{
+    return this->target == &target;
 }
 
 
@@ -97,7 +124,7 @@ Target& OptionalReference<Target>::get() const
 template<typename Target>
 void OptionalReference<Target>::reassign(Target& target)
 {
-    if (isValid()) {
+    if (valid) {
         onDelete(this);
     }
 
@@ -106,6 +133,10 @@ void OptionalReference<Target>::reassign(Target& target)
     this->target = &target;
     onDuplicate = newRef.onDuplicate;
     onDelete = newRef.onDelete;
+
+    if (valid) {
+        onDuplicate(this);
+    }
 }
 
 
@@ -113,7 +144,7 @@ void OptionalReference<Target>::reassign(Target& target)
 template<typename Target>
 void OptionalReference<Target>::clear()
 {
-    if (isValid()) {
+    if (valid) {
         onDelete(this);
     }
 

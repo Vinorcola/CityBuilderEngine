@@ -7,14 +7,13 @@
 
 
 ImmigrantCharacter::ImmigrantCharacter(
-    QObject* parent,
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
     AbstractProcessableBuilding& issuer,
     AbstractProcessableBuilding& target
 ) :
-    Character(parent, characterManager, pathGenerator, conf, issuer),
+    Character(characterManager, pathGenerator, conf, issuer),
     target(target.getReference<AbstractProcessableBuilding>())
 {
     motionHandler.takePath(pathGenerator.generateShortestPathTo(issuer.getEntryPoint(), target.getEntryPoint()));

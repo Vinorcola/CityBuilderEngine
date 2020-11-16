@@ -35,7 +35,9 @@ void LaboratoryBuilding::process(const CycleDate& date)
             return;
         }
 
-        scientist = &characterFactory.generateWanderingCharacter(conf.getLaboratoryConf().emittedScientist.conf, *this);
+        scientist.reassign(
+            characterFactory.generateWanderingCharacter(conf.getLaboratoryConf().emittedScientist.conf, *this)
+        );
 
         if (canGenerateNewWalker()) {
             setupNextWalkerGenerationDate(date);
@@ -53,7 +55,7 @@ void LaboratoryBuilding::process(const CycleDate& date)
 
 bool LaboratoryBuilding::processInteraction(const CycleDate& date, Character& actor)
 {
-    if (&actor == scientist) {
+    if (scientist.matches(actor)) {
         scientist.clear();
 
         return true;

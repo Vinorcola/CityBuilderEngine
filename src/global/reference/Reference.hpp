@@ -17,7 +17,7 @@ class Reference
 
     private:
         bool valid;
-        Target& target;
+        Target* target;
 
     protected:
         OnDuplicateCallback onDuplicate;
@@ -29,11 +29,14 @@ class Reference
         Reference(const Reference<Target>&& other);
         ~Reference();
 
-        void operator= (const Reference<Target>& other) = delete;
-        void operator= (const Reference<Target>&& other) = delete;
+        void operator=(const Reference<Target>& other);
+        void operator=(const Reference<Target>&& other) = delete;
 
         bool isValid() const;
+        bool matches(const Referencable& target) const;
         Target& get() const;
+
+        void reassign(Target& target);
 
     private:
         void unreference();

@@ -50,15 +50,21 @@ void ProducerBuilding::process(const CycleDate& date)
 
 bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
-    if (miners.contains(&actor)) {
-        rawMaterialStock += conf.getProducerConf().miningQuantity;
+    auto& issuer(actor.getIssuer());
+    if (issuer.isValid() && issuer.matches(*this)) {
+        auto miner(dynamic_cast<MinerCharacter*>(&actor));
+        if (miner) {
+            rawMaterialStock += conf.getProducerConf().miningQuantity;
 
-        return true;
-    }
-    if (&actor == deliveryMan) {
-        deliveryMan.clear();
+            return true;
+        }
 
-        return true;
+        auto deliveryMan(dynamic_cast<DeliveryManCharacter*>(&actor));
+        if (deliveryMan) {
+            this->deliveryMan.clear();
+
+            return true;
+        }
     }
 
     return false;
@@ -71,7 +77,7 @@ void ProducerBuilding::cleanMinerList()
     auto iterator(miners.begin());
     auto end(miners.end());
     while (iterator != end) {
-        if (iterator->isNull()) {
+        if (!iterator->isValid()) {
             iterator = miners.erase(iterator);
         } else {
             ++iterator;
@@ -96,7 +102,7 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
         }
 
         auto& miner(characterFactory.generateMiner(conf.getProducerConf().miner.conf, *this, path));
-        miners.append(&miner);
+        miners.append(miner.getReference<Character>());
 
         if (canGenerateNewMiner()) {
             setupNextMinerGenerationDate(date);
@@ -129,12 +135,12 @@ void ProducerBuilding::setupNextMinerGenerationDate(const CycleDate& date)
 void ProducerBuilding::handleProduction()
 {
     if (deliveryMan.isNull() && rawMaterialStock >= conf.getProducerConf().rawMaterialQuantityToProduce) {
-        deliveryMan = &characterFactory.generateDeliveryMan(
+        deliveryMan.reassign(characterFactory.generateDeliveryMan(
             conf.getProducerConf().deliveryManConf,
             *this,
             conf.getProducerConf().producedItemConf,
             1
-        );
+        ));
         rawMaterialStock -= conf.getProducerConf().rawMaterialQuantityToProduce;
     }
 }

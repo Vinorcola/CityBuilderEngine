@@ -36,7 +36,7 @@ void SanityBuilding::process(const CycleDate& date)
             return;
         }
 
-        walker = &characterFactory.generateWanderingCharacter(conf.getSanityConf().walker.conf, *this);
+        walker.reassign(characterFactory.generateWanderingCharacter(conf.getSanityConf().walker.conf, *this));
 
         if (canGenerateNewWalker()) {
             setupNextWalkerGenerationDate(date);
@@ -54,7 +54,7 @@ void SanityBuilding::process(const CycleDate& date)
 
 bool SanityBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
-    if (&actor == walker) {
+    if (walker.matches(actor)) {
         walker.clear();
 
         return true;

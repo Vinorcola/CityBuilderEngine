@@ -10,13 +10,12 @@
 
 
 MapEntryPoint::MapEntryPoint(
-    QObject* parent,
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapCoordinates& location,
     const CharacterInformation& immigrantConf
 ) :
-    AbstractProcessableBuilding(parent, conf, MapArea(location), location),
+    AbstractProcessableBuilding(conf, MapArea(location), location),
     characterFactory(characterFactory),
     immigrantConf(immigrantConf),
     nextImmigrantGenerationDate(),
@@ -29,7 +28,7 @@ MapEntryPoint::MapEntryPoint(
 
 void MapEntryPoint::requestImmigrant(HouseBuilding& requester)
 {
-    immigrantRequestQueue.append(&requester);
+    immigrantRequestQueue.append(requester.getReference<HouseBuilding>());
 }
 
 
@@ -41,17 +40,15 @@ void MapEntryPoint::process(const CycleDate& date)
     }
 
     if (date == nextImmigrantGenerationDate) {
-        QPointer<AbstractProcessableBuilding> issuer;
         do {
-            issuer = immigrantRequestQueue.takeFirst();
-        } while (issuer.isNull() && !immigrantRequestQueue.isEmpty());
-        if (issuer.isNull()) {
-            // No more valid issuers.
-            return;
-        }
+            auto issuer(immigrantRequestQueue.takeFirst());
+            if (!issuer.isValid()) {
+                continue;
+            }
 
-        characterFactory.generateImmigrant(immigrantConf, *this, *issuer);
-        setupNextImmigrantGenerationDate(date);
+            characterFactory.generateImmigrant(immigrantConf, *this, issuer.get());
+            setupNextImmigrantGenerationDate(date);
+        } while (!immigrantRequestQueue.isEmpty());
     } else if (date > nextImmigrantGenerationDate) {
         setupNextImmigrantGenerationDate(date);
     }

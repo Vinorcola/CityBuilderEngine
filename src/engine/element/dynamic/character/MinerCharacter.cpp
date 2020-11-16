@@ -8,14 +8,13 @@
 
 
 MinerCharacter::MinerCharacter(
-    QObject* parent,
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
     AbstractProcessableBuilding& issuer,
     owner<PathInterface*> path
 ) :
-    Character(parent, characterManager, pathGenerator, conf, issuer),
+    Character(characterManager, pathGenerator, conf, issuer),
     goingHome(false)
 {
     motionHandler.takePath(path);

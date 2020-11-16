@@ -2,20 +2,12 @@
 #define PRODUCERBUILDING_HPP
 
 #include <QtCore/QList>
-#include <QtCore/QObject>
-#include <QtCore/QPointer>
 
+#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
-class BuildingInformation;
 class CharacterFactoryInterface;
-class CharacterInformation;
-class DeliveryManCharacter;
-class ItemInformation;
-class MapArea;
-class MapCoordinates;
-class NatureElementInformation;
 class NatureElementSearchEngine;
 
 class ProducerBuilding : public AbstractProcessableBuilding
@@ -23,10 +15,10 @@ class ProducerBuilding : public AbstractProcessableBuilding
     private:
         const NatureElementSearchEngine& searchEngine;
         CharacterFactoryInterface& characterFactory;
-        QList<QPointer<Character>> miners;
+        QList<Reference<Character>> miners;
         CycleDate nextMinerGenerationDate;
         int rawMaterialStock;
-        QPointer<DeliveryManCharacter> deliveryMan;
+        OptionalReference<Character> deliveryMan;
 
     public:
         ProducerBuilding(

@@ -15,6 +15,7 @@ SOURCES += \
     src/engine/element/dynamic/character/MinerCharacter.cpp \
     src/engine/element/dynamic/character/StudentCharacter.cpp \
     src/engine/element/dynamic/character/WanderingCharacter.cpp \
+    src/engine/element/dynamic/DynamicElementHandler.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
     src/engine/element/static/building/AbstractBuilding.cpp \
     src/engine/element/static/building/AbstractProcessableBuilding.cpp \
@@ -110,6 +111,7 @@ HEADERS += \
     src/engine/element/dynamic/character/WanderingCharacter.hpp \
     src/engine/element/dynamic/CharacterFactoryInterface.hpp \
     src/engine/element/dynamic/CharacterManagerInterface.hpp \
+    src/engine/element/dynamic/DynamicElementHandler.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \
     src/engine/element/dynamic/PathGeneratorInterface.hpp \
     src/engine/element/static/building/AbstractBuilding.hpp \

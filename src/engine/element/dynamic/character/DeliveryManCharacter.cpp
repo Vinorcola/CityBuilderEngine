@@ -4,23 +4,22 @@
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/engine/element/static/building/BuildingSearchEngine.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
-#include "src/engine/map/MapSearchEngine.hpp"
 
 
 
 DeliveryManCharacter::DeliveryManCharacter(
-    QObject* parent,
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
-    const MapSearchEngine& searchEngine,
+    const BuildingSearchEngine& searchEngine,
     const CharacterInformation& conf,
     AbstractProcessableBuilding& issuer,
     const ItemInformation& transportedItemConf,
     const int transportedQuantity
 ) :
-    Character(parent, characterManager, pathGenerator, conf, issuer),
+    Character(characterManager, pathGenerator, conf, issuer),
     searchEngine(searchEngine),
     target(),
     transportedItemConf(transportedItemConf),
@@ -78,7 +77,7 @@ void DeliveryManCharacter::goHome()
 void DeliveryManCharacter::process(const CycleDate& date)
 {
     if (target.isNull()) {
-        auto storage(searchEngine.getStorageThatCanStore(transportedItemConf));
+        auto storage(searchEngine.findClosestStorageThatCanStore(transportedItemConf, motionHandler.getCurrentLocation()));
         if (storage) {
             target.reassign(*storage);
             motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(motionHandler.getCurrentLocation(), storage->getEntryPoint()));

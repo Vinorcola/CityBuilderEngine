@@ -1,18 +1,15 @@
 #ifndef MAPENTRYPOINT_HPP
 #define MAPENTRYPOINT_HPP
 
-#include <QtCore/QList>
-#include <QtCore/QPointer>
-
-#include "src/engine/element/static/building/ImmigrantGeneratorInterface.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/engine/element/static/building/HouseBuilding.hpp"
+#include "src/engine/element/static/building/ImmigrantGeneratorInterface.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
 class CharacterFactoryInterface;
 class CharacterInformation;
 class CycleDate;
-class HouseBuilding;
 
 /**
  * A map entry point.
@@ -22,8 +19,6 @@ class HouseBuilding;
  */
 class MapEntryPoint : public AbstractProcessableBuilding, public ImmigrantGeneratorInterface
 {
-        Q_OBJECT
-
         const int MIN_IMMIGRANT_GENERATION_INTERVAL = 1;
         const int MAX_IMMIGRANT_GENERATION_INTERVAL = 90;
 
@@ -31,11 +26,10 @@ class MapEntryPoint : public AbstractProcessableBuilding, public ImmigrantGenera
         CharacterFactoryInterface& characterFactory;
         const CharacterInformation& immigrantConf;
         CycleDate nextImmigrantGenerationDate;
-        QList<QPointer<HouseBuilding>> immigrantRequestQueue;
+        QList<Reference<HouseBuilding>> immigrantRequestQueue;
 
     public:
         MapEntryPoint(
-            QObject* parent,
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapCoordinates& location,

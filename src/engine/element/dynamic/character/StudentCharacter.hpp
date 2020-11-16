@@ -7,14 +7,11 @@ class AbstractProcessableBuilding;
 
 class StudentCharacter : public Character
 {
-        Q_OBJECT
-
     private:
         Reference<AbstractProcessableBuilding> target;
 
     public:
         StudentCharacter(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,

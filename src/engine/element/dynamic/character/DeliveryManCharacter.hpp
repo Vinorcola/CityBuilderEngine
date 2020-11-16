@@ -3,16 +3,14 @@
 
 #include "src/engine/element/dynamic/character/Character.hpp"
 
-class ItemInformation;
-class MapSearchEngine;
 class AbstractProcessableBuilding;
+class BuildingSearchEngine;
+class ItemInformation;
 
 class DeliveryManCharacter : public Character
 {
-        Q_OBJECT
-
     private:
-        const MapSearchEngine& searchEngine;
+        const BuildingSearchEngine& searchEngine;
         OptionalReference<AbstractProcessableBuilding> target;
         const ItemInformation& transportedItemConf;
         int transportedQuantity;
@@ -20,10 +18,9 @@ class DeliveryManCharacter : public Character
 
     public:
         DeliveryManCharacter(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
-            const MapSearchEngine& searchEngine,
+            const BuildingSearchEngine& searchEngine,
             const CharacterInformation& conf,
             AbstractProcessableBuilding& issuer,
             const ItemInformation& transportedItemConf,

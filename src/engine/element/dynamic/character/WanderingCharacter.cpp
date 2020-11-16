@@ -8,13 +8,12 @@
 
 
 WanderingCharacter::WanderingCharacter(
-    QObject* parent,
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
     AbstractProcessableBuilding& issuer
 ) :
-    Character(parent, characterManager, pathGenerator, conf, issuer),
+    Character(characterManager, pathGenerator, conf, issuer),
     goingHome(false)
 {
     motionHandler.takePath(pathGenerator.generateWanderingPath(issuer.getEntryPoint(), conf.getWanderingCredits()));

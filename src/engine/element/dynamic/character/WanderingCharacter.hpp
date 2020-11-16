@@ -5,14 +5,11 @@
 
 class WanderingCharacter : public Character
 {
-        Q_OBJECT
-
     private:
         bool goingHome;
 
     public:
         WanderingCharacter(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
