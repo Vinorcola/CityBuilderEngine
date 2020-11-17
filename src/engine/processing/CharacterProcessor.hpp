@@ -1,12 +1,11 @@
 #ifndef CHARACTERPROCESSOR_HPP
 #define CHARACTERPROCESSOR_HPP
 
-#include <list>
 #include <QtCore/QList>
-#include <QtCore/QObject>
-#include <QtCore/QPointer>
 
+#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
+#include "src/global/reference/collection/ReferenceCollection.hpp"
 
 class Character;
 class CycleDate;
@@ -14,27 +13,25 @@ class CycleDate;
 /**
  * @brief A processor for all map's characters.
  */
-class CharacterProcessor : public QObject, public AbstractProcessable
+class CharacterProcessor : public AbstractProcessable
 {
-        Q_OBJECT
-
     private:
-        std::list<QPointer<Character>> processableList;
-        QList<QPointer<Character>> waitingForRegistrationList;
+        ReferenceCollection<Character> processableList;
+        ReferenceCollection<Character> waitingForRegistrationList;
         QList<Character*> waitingForUnregistrationList;
 
     public:
-        explicit CharacterProcessor(QObject* parent);
+        CharacterProcessor();
 
         /**
          * @brief Register a character to be process each time cycle.
          */
-        void registerCharacter(Character* character);
+        void registerCharacter(Character& character);
 
         /**
          * @brief Unregister a character from processor.
          */
-        void unregisterCharacter(Character* character);
+        void unregisterCharacter(Character& character);
 
         virtual void process(const CycleDate& date) override;
 };

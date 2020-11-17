@@ -4,8 +4,7 @@
 
 
 
-BuildingProcessor::BuildingProcessor(QObject* parent) :
-    QObject(parent),
+BuildingProcessor::BuildingProcessor() :
     AbstractProcessable(),
     processableList(),
     waitingForRegistrationList(),
@@ -18,14 +17,14 @@ BuildingProcessor::BuildingProcessor(QObject* parent) :
 
 void BuildingProcessor::registerBuilding(AbstractProcessableBuilding& building)
 {
-    waitingForRegistrationList.append(&building);
+    waitingForRegistrationList.append(building);
 }
 
 
 
-void BuildingProcessor::unregisterBuilding(AbstractProcessableBuilding* building)
+void BuildingProcessor::unregisterBuilding(AbstractProcessableBuilding& building)
 {
-    waitingForUnregistrationList.append(building);
+    waitingForUnregistrationList.append(&building);
 }
 
 
@@ -34,24 +33,17 @@ void BuildingProcessor::process(const CycleDate& date)
 {
     // Process current processable list.
     for (auto processable : processableList) {
-        if (processable) {
-            processable->process(date);
-        } else {
-            waitingForUnregistrationList.append(processable);
+        if (processable.isValid()) {
+            processable.get().process(date);
         }
     }
 
     // Process unregistration.
+    processableList.cleanAllInvalids();
     while (!waitingForUnregistrationList.isEmpty()) {
-        processableList.remove(waitingForUnregistrationList.takeFirst());
+        processableList.remove(*waitingForUnregistrationList.takeFirst());
     }
 
     // Process registration.
-    while (!waitingForRegistrationList.isEmpty()) {
-        auto processable(waitingForRegistrationList.takeFirst());
-        if (processable) {
-            processable->init(date);
-            processableList.push_back(processable);
-        }
-    }
+    waitingForRegistrationList.moveAllContentTo(processableList);
 }

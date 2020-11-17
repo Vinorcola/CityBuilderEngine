@@ -73,6 +73,7 @@ SOURCES += \
     src/global/conf/ItemInformation.cpp \
     src/global/conf/ModelReader.cpp \
     src/global/conf/NatureElementInformation.cpp \
+    src/global/reference/collection/ReferenceCollection.cpp \
     src/global/reference/OptionalReference.cpp \
     src/global/reference/Referencable.cpp \
     src/global/reference/Reference.cpp \
@@ -172,6 +173,7 @@ HEADERS += \
     src/global/conf/ItemInformation.hpp \
     src/global/conf/ModelReader.hpp \
     src/global/conf/NatureElementInformation.hpp \
+    src/global/reference/collection/ReferenceCollection.hpp \
     src/global/reference/OptionalReference.hpp \
     src/global/reference/Referencable.hpp \
     src/global/reference/Reference.hpp \

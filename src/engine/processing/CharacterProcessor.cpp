@@ -4,8 +4,7 @@
 
 
 
-CharacterProcessor::CharacterProcessor(QObject* parent) :
-    QObject(parent),
+CharacterProcessor::CharacterProcessor() :
     AbstractProcessable(),
     processableList(),
     waitingForRegistrationList(),
@@ -16,16 +15,16 @@ CharacterProcessor::CharacterProcessor(QObject* parent) :
 
 
 
-void CharacterProcessor::registerCharacter(Character* character)
+void CharacterProcessor::registerCharacter(Character& character)
 {
-    waitingForRegistrationList.append(character);
+    waitingForRegistrationList.append(character.getReference<Character>());
 }
 
 
 
-void CharacterProcessor::unregisterCharacter(Character* character)
+void CharacterProcessor::unregisterCharacter(Character& character)
 {
-    waitingForUnregistrationList.append(character);
+    waitingForUnregistrationList.append(&character);
 }
 
 
@@ -34,24 +33,17 @@ void CharacterProcessor::process(const CycleDate& date)
 {
     // Process current processable list.
     for (auto processable : processableList) {
-        if (processable) {
-            processable->process(date);
-        } else {
-            waitingForUnregistrationList.append(processable);
+        if (processable.isValid()) {
+            processable.get().process(date);
         }
     }
 
     // Process unregistration.
+    processableList.cleanAllInvalids();
     while (!waitingForUnregistrationList.isEmpty()) {
-        processableList.remove(waitingForUnregistrationList.takeFirst());
+        processableList.remove(*waitingForUnregistrationList.takeFirst());
     }
 
     // Process registration.
-    while (!waitingForRegistrationList.isEmpty()) {
-        auto processable(waitingForRegistrationList.takeFirst());
-        if (processable) {
-            processable->init(date);
-            processableList.push_back(processable);
-        }
-    }
+    waitingForRegistrationList.moveAllContentTo(processableList);
 }

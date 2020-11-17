@@ -6,6 +6,9 @@
 
 class  Referencable;
 
+/**
+ * @brief A smart reference that knows if the target has been deleted or not.
+ */
 template<typename Target>
 class Reference
 {

@@ -16,14 +16,14 @@ const qreal MSEC_PER_SEC(1000);
 
 
 
-TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const CycleDate& startingDate, const qreal speedRatio) :
-    QObject(parent),
+TimeCycleProcessor::TimeCycleProcessor(const CycleDate& startingDate, const qreal speedRatio) :
+    QObject(),
     paused(false),
     speedRatio(speedRatio),
     clock(),
     currentCycleDate(startingDate),
-    buildingProcessor(new BuildingProcessor(this)),
-    characterProcessor(new CharacterProcessor(this))
+    buildingProcessor(),
+    characterProcessor()
 {
     clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * speedRatio), this);
 }
@@ -46,28 +46,28 @@ const CycleDate& TimeCycleProcessor::getCurrentDate() const
 
 void TimeCycleProcessor::registerBuilding(AbstractProcessableBuilding& building)
 {
-    buildingProcessor->registerBuilding(building);
+    buildingProcessor.registerBuilding(building);
 }
 
 
 
-void TimeCycleProcessor::registerCharacter(Character* character)
+void TimeCycleProcessor::registerCharacter(Character& character)
 {
-    characterProcessor->registerCharacter(character);
+    characterProcessor.registerCharacter(character);
 }
 
 
 
-void TimeCycleProcessor::unregisterBuilding(AbstractProcessableBuilding* building)
+void TimeCycleProcessor::unregisterBuilding(AbstractProcessableBuilding& building)
 {
-    buildingProcessor->unregisterBuilding(building);
+    buildingProcessor.unregisterBuilding(building);
 }
 
 
 
-void TimeCycleProcessor::unregisterCharacter(Character* character)
+void TimeCycleProcessor::unregisterCharacter(Character& character)
 {
-    characterProcessor->unregisterCharacter(character);
+    characterProcessor.unregisterCharacter(character);
 }
 
 
@@ -131,10 +131,10 @@ void TimeCycleProcessor::processCycle()
     // qDebug() << "Process time-cycle" << currentCycleDate.toString();
 
     // Process characters.
-    characterProcessor->process(currentCycleDate);
+    characterProcessor.process(currentCycleDate);
 
     // Process buildings.
-    buildingProcessor->process(currentCycleDate);
+    buildingProcessor.process(currentCycleDate);
 
 #ifdef DEBUG_TOOLS
     if (timer.hasExpired(10)) {

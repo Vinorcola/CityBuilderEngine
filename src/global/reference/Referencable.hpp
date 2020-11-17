@@ -7,6 +7,9 @@
 #include "src/global/reference/Reference.hpp"
 #include "src/defines.hpp"
 
+/**
+ * @brief A base class for class that can be referenced by smart references.
+ */
 class Referencable
 {
     private:

@@ -4,12 +4,9 @@
 #include <QtCore/QBasicTimer>
 #include <QtCore/QObject>
 
+#include "src/engine/processing/BuildingProcessor.hpp"
+#include "src/engine/processing/CharacterProcessor.hpp"
 #include "src/engine/processing/CycleDate.hpp"
-
-class BuildingProcessor;
-class Character;
-class CharacterProcessor;
-class AbstractProcessableBuilding;
 
 /**
  * @brief An engine processor that process all the processable elements on each time-cycle.
@@ -29,11 +26,11 @@ class TimeCycleProcessor : public QObject
         qreal speedRatio;
         QBasicTimer clock;
         CycleDate currentCycleDate;
-        BuildingProcessor* buildingProcessor;
-        CharacterProcessor* characterProcessor;
+        BuildingProcessor buildingProcessor;
+        CharacterProcessor characterProcessor;
 
     public:
-        TimeCycleProcessor(QObject* parent, const CycleDate& startingDate, const qreal speedRatio = 1.0);
+        TimeCycleProcessor(const CycleDate& startingDate, const qreal speedRatio = 1.0);
 
         qreal getSpeedRatio() const;
 
@@ -54,19 +51,18 @@ class TimeCycleProcessor : public QObject
         /**
          * @brief Register a character to be process each time cycle.
          */
-        void registerCharacter(Character* character);
+        void registerCharacter(Character& character);
 
         /**
          * @brief Unregister a building from processor.
          */
-        void unregisterBuilding(AbstractProcessableBuilding* building);
+        void unregisterBuilding(AbstractProcessableBuilding& building);
 
         /**
          * @brief Unregister a character from processor.
          */
-        void unregisterCharacter(Character* character);
+        void unregisterCharacter(Character& character);
 
-    public slots:
         /**
          * @brief Pause (or resume) the time-cycle processor.
          */
@@ -79,6 +75,7 @@ class TimeCycleProcessor : public QObject
          */
         void setSpeedRatio(const qreal ratio);
 
+    public slots:
         /**
          * @brief Force the next process to occur.
          *

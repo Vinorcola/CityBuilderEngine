@@ -12,7 +12,7 @@ class CharacterInformation;
 class CycleDate;
 
 /**
- * A map entry point.
+ * @brief A map entry point.
  *
  * Map entry points are linked to a location on the border of the map. They can generate different types of characters.
  * Currently, it only supports immigrant charaters.
