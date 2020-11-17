@@ -55,10 +55,21 @@ class StaticElementHandler
             CharacterFactoryInterface& characterFactory,
             ImmigrantGeneratorInterface& immigrantGenerator,
             PopulationHandler& populationHandler,
-            TimeCycleProcessor& processor
+            TimeCycleProcessor& processor,
+            const PathGenerator& pathGenerator
         );
         ~StaticElementHandler();
 
+        // Search engines.
+        const BuildingSearchEngine& getBuildingSearchEngine() const;
+        const NatureElementSearchEngine& getNatureElementSearchEngine() const;
+
+        // Map details.
+        bool isLocationTraversable(const MapCoordinates& location) const;
+        bool isLocationConstructible(const MapCoordinates& location) const;
+        bool hasRoadAtLocation(const MapCoordinates& location) const;
+
+        // Building generation.
         FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area);
         HouseBuilding& generateHouse(const BuildingInformation& conf, const MapArea& area);
         LaboratoryBuilding& generateLaboratory(const BuildingInformation& conf, const MapArea& area);

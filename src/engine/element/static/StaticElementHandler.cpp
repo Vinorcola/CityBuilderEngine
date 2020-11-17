@@ -22,14 +22,15 @@ StaticElementHandler::StaticElementHandler(
     CharacterFactoryInterface& characterFactory,
     ImmigrantGeneratorInterface& immigrantGenerator,
     PopulationHandler& populationHandler,
-    TimeCycleProcessor& processor
+    TimeCycleProcessor& processor,
+    const PathGenerator& pathGenerator
 ) :
     characterFactory(characterFactory),
     immigrantGenerator(immigrantGenerator),
     populationHandler(populationHandler),
     processor(processor),
     buildingSearchEngine(),
-    natureElementSearchEngine(),
+    natureElementSearchEngine(pathGenerator),
     currentState(),
     detailsCache()
 {
@@ -42,6 +43,41 @@ StaticElementHandler::~StaticElementHandler()
 {
     qDeleteAll(currentState.buildings);
     qDeleteAll(currentState.natureElements);
+}
+
+
+
+const BuildingSearchEngine& StaticElementHandler::getBuildingSearchEngine() const
+{
+    return buildingSearchEngine;
+}
+
+
+
+const NatureElementSearchEngine& StaticElementHandler::getNatureElementSearchEngine() const
+{
+    return natureElementSearchEngine;
+}
+
+
+
+bool StaticElementHandler::isLocationTraversable(const MapCoordinates& location) const
+{
+    return !detailsCache.nonTraversableCoordinates.contains(hashCoordinates(location));
+}
+
+
+
+bool StaticElementHandler::isLocationConstructible(const MapCoordinates& location) const
+{
+    return !detailsCache.nonConstructibleCoordinates.contains(hashCoordinates(location));
+}
+
+
+
+bool StaticElementHandler::hasRoadAtLocation(const MapCoordinates& location) const
+{
+    return detailsCache.roadCoordinates.contains(hashCoordinates(location));
 }
 
 
