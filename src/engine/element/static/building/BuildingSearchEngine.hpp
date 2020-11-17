@@ -1,10 +1,9 @@
 #ifndef BUILDINGSEARCHENGINE_HPP
 #define BUILDINGSEARCHENGINE_HPP
 
-#include <list>
-
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
+#include "src/global/reference/collection/ReferenceCollection.hpp"
 #include "src/defines.hpp"
 
 class AbstractProcessableBuilding;
@@ -13,8 +12,8 @@ class ItemInformation;
 class MapCoordinates;
 class StorageBuilding;
 
-using BuildingList = std::list<Reference<AbstractProcessableBuilding>>;
-using StorageBuildingList = std::list<Reference<StorageBuilding>>;
+using BuildingList = ReferenceCollection<AbstractProcessableBuilding>;
+using StorageBuildingList = ReferenceCollection<StorageBuilding>;
 
 /**
  * @brief A search engine for buildings.

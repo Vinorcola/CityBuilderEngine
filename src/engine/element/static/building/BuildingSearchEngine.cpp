@@ -18,14 +18,14 @@ void BuildingSearchEngine::registerBuilding(AbstractProcessableBuilding& buildin
         buildingsPerType.insert(key, {});
     }
 
-    buildingsPerType[key].push_back(building.getReference<AbstractProcessableBuilding>());
+    buildingsPerType[key].append(building);
 }
 
 
 
 void BuildingSearchEngine::registerStorageBuilding(StorageBuilding& building)
 {
-    storageBuildings.push_back(building.getReference<StorageBuilding>());
+    storageBuildings.append(building);
 }
 
 

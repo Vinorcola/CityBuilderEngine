@@ -41,7 +41,7 @@ void ProducerBuilding::init(const CycleDate& date)
 
 void ProducerBuilding::process(const CycleDate& date)
 {
-    cleanMinerList();
+    miners.cleanAllInvalids();
     handleMinerGeneration(date);
     handleProduction();
 }
@@ -72,21 +72,6 @@ bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& 
 
 
 
-void ProducerBuilding::cleanMinerList()
-{
-    auto iterator(miners.begin());
-    auto end(miners.end());
-    while (iterator != end) {
-        if (!iterator->isValid()) {
-            iterator = miners.erase(iterator);
-        } else {
-            ++iterator;
-        }
-    }
-}
-
-
-
 void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
 {
     if (nextMinerGenerationDate) {
@@ -102,7 +87,7 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
         }
 
         auto& miner(characterFactory.generateMiner(conf.getProducerConf().miner.conf, *this, path));
-        miners.append(miner.getReference<Character>());
+        miners.append(miner);
 
         if (canGenerateNewMiner()) {
             setupNextMinerGenerationDate(date);
@@ -120,7 +105,7 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
 
 bool ProducerBuilding::canGenerateNewMiner() const
 {
-    return miners.size() < conf.getProducerConf().miner.maxSimultaneous;
+    return miners.length() < conf.getProducerConf().miner.maxSimultaneous;
 }
 
 
