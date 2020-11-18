@@ -7,8 +7,7 @@
 
 
 
-ItemInformation::ItemInformation(QObject* parent, const QString& key, const YAML::Node& model) :
-    QObject(parent),
+ItemInformation::ItemInformation(const QString& key, const YAML::Node& model) :
     key(key),
     title(model["title"] ? model["title"].as<QString>() : "")
 {

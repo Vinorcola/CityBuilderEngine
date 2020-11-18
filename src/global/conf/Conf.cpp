@@ -14,8 +14,7 @@
 
 
 
-Conf::Conf(QObject* parent, const QString& filePath) :
-    QObject(parent),
+Conf::Conf(const QString& filePath) :
     tileSize(),
     items(),
     buildings(),
@@ -37,26 +36,26 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     for (auto node : configurationRoot["natureElements"]) {
         QString key(node.first.as<QString>());
         NatureElementInformation::checkModel(key, node.second);
-        natureElements.insert(key, new NatureElementInformation(this, key, node.second));
+        natureElements.insert(key, new NatureElementInformation(key, node.second));
     }
 
     // Load item's configuration.
     for (auto node : configurationRoot["items"]) {
         QString key(node.first.as<QString>());
         ItemInformation::checkModel(key, node.second);
-        items.insert(key, new ItemInformation(this, key, node.second));
+        items.insert(key, new ItemInformation(key, node.second));
     }
 
     // Load characters' configuration.
     for (auto node : configurationRoot["characters"]) {
         QString key(node.first.as<QString>());
-        characters.insert(key, new CharacterInformation(this, ModelReader(*this, key, node.second)));
+        characters.insert(key, new CharacterInformation(ModelReader(*this, key, node.second)));
     }
 
     // Load buildings' configuration.
     for (auto node : configurationRoot["buildings"]) {
         QString key(node.first.as<QString>());
-        buildings.insert(key, new BuildingInformation(this, ModelReader(*this, key, node.second)));
+        buildings.insert(key, new BuildingInformation(ModelReader(*this, key, node.second)));
     }
     // We load building's specific configuration later because we may have dependencies between buildings: we need all
     // the buildings to be defined before loading specifics configuration.
@@ -68,8 +67,19 @@ Conf::Conf(QObject* parent, const QString& filePath) :
     // Load control panel items.
     for (auto node : configurationRoot["controlPanel"]["content"]) {
         ControlPanelElementInformation::checkModel(node);
-        controlPanelElements.append(new ControlPanelElementInformation(this, this, node));
+        controlPanelElements.append(new ControlPanelElementInformation(*this, node));
     }
+}
+
+
+
+Conf::~Conf()
+{
+    qDeleteAll(items);
+    qDeleteAll(buildings);
+    qDeleteAll(characters);
+    qDeleteAll(natureElements);
+    qDeleteAll(controlPanelElements);
 }
 
 

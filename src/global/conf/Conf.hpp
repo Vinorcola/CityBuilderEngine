@@ -3,9 +3,10 @@
 
 #include <QtCore/QHash>
 #include <QtCore/QList>
-#include <QtCore/QObject>
 #include <QtCore/QSize>
 #include <QtCore/QString>
+
+#include "src/defines.hpp"
 
 class BuildingInformation;
 class CharacterInformation;
@@ -13,20 +14,21 @@ class ControlPanelElementInformation;
 class ItemInformation;
 class NatureElementInformation;
 
-class Conf : public QObject
+class Conf
 {
-        Q_OBJECT
+        Q_DISABLE_COPY_MOVE(Conf)
 
     private:
         QSize tileSize;
-        QHash<QString, ItemInformation*> items;
-        QHash<QString, BuildingInformation*> buildings;
-        QHash<QString, CharacterInformation*> characters;
-        QHash<QString, NatureElementInformation*> natureElements;
-        QList<ControlPanelElementInformation*> controlPanelElements;
+        QHash<QString, owner<ItemInformation*>> items;
+        QHash<QString, owner<BuildingInformation*>> buildings;
+        QHash<QString, owner<CharacterInformation*>> characters;
+        QHash<QString, owner<NatureElementInformation*>> natureElements;
+        QList<owner<ControlPanelElementInformation*>> controlPanelElements;
 
     public:
-        Conf(QObject* parent, const QString& filePath);
+        explicit Conf(const QString& filePath);
+        ~Conf();
 
         const QSize& getTileSize() const;
 

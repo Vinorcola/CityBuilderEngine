@@ -3,6 +3,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/exceptions/BadConfigurationException.hpp"
+#include "src/global/conf/ImageSequenceInformation.hpp"
 #include "src/global/conf/ModelReader.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
 #include "src/defines.hpp"
@@ -18,8 +19,7 @@ CharacterInformation::Graphics::~Graphics()
 
 
 
-CharacterInformation::CharacterInformation(QObject* parent, const ModelReader& model) :
-    QObject(parent),
+CharacterInformation::CharacterInformation(const ModelReader& model) :
     key(model.getKey()),
     title(model.getString("title")),
 #ifdef SLOW_MOTION

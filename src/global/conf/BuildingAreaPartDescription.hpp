@@ -1,14 +1,12 @@
 #ifndef BUILDINGAREAPARTDESCRIPTION_HPP
 #define BUILDINGAREAPARTDESCRIPTION_HPP
 
-#include <QtCore/QObject>
-
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/map/MapSize.hpp"
 
-class BuildingAreaPartDescription : public QObject
+class BuildingAreaPartDescription
 {
-        Q_OBJECT
+        Q_DISABLE_COPY_MOVE(BuildingAreaPartDescription)
 
     public:
         enum Type {
@@ -36,7 +34,6 @@ class BuildingAreaPartDescription : public QObject
          * @param altitude          The altitude of the area part.
          */
         BuildingAreaPartDescription(
-            QObject* parent,
             const MapCoordinates& anchorCoordinates,
             const MapSize& areaSize,
             Type type = Classic,

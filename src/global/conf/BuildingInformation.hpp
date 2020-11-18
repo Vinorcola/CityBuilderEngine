@@ -1,9 +1,7 @@
 #ifndef BUILDINGINFORMATION_HPP
 #define BUILDINGINFORMATION_HPP
 
-#include <QtCore/QObject>
 #include <QtCore/QList>
-#include <QtCore/QPoint>
 #include <QtCore/QString>
 
 #include "src/engine/map/MapSize.hpp"
@@ -20,11 +18,10 @@ namespace YAML {
     class Node;
 }
 
-class BuildingInformation : public QObject
+class BuildingInformation
 {
+        Q_DISABLE_COPY_MOVE(BuildingInformation)
         friend class Conf;
-
-        Q_OBJECT
 
     public:
         enum class Type {
@@ -46,9 +43,10 @@ class BuildingInformation : public QObject
             int employees;
             int fireRiskIncrement;
             int damageRiskIncrement;
-            QList<BuildingAreaPartDescription*> areaDescription;
+            QList<owner<BuildingAreaPartDescription*>> areaDescription;
 
             explicit Common(const ModelReader& model);
+            ~Common();
         };
 
         struct Graphics {
@@ -141,9 +139,9 @@ class BuildingInformation : public QObject
         /**
          * @brief Hold the information about a building.
          */
-        BuildingInformation(QObject* parent, const ModelReader& model);
+        explicit BuildingInformation(const ModelReader& model);
 
-        virtual ~BuildingInformation();
+        ~BuildingInformation();
 
         Type getType() const;
 

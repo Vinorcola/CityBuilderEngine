@@ -1,17 +1,14 @@
 #ifndef NATUREELEMENTINFORMATION_HPP
 #define NATUREELEMENTINFORMATION_HPP
 
-#include <QtCore/QObject>
 #include <QtCore/QString>
 
 namespace YAML {
     class Node;
 }
 
-class NatureElementInformation : public QObject
+class NatureElementInformation
 {
-        Q_OBJECT
-
     public:
         enum class Type {
             Copper,
@@ -28,7 +25,7 @@ class NatureElementInformation : public QObject
         QString imagePath;
 
     public:
-        NatureElementInformation(QObject* parent, const QString& key, const YAML::Node& model);
+        NatureElementInformation(const QString& key, const YAML::Node& model);
 
         const QString& getTitle() const;
 

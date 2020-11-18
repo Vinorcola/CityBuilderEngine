@@ -7,8 +7,7 @@
 
 
 
-NatureElementInformation::NatureElementInformation(QObject* parent, const QString& key, const YAML::Node& model) :
-    QObject(parent),
+NatureElementInformation::NatureElementInformation(const QString& key, const YAML::Node& model) :
     type(resolveType(key)),
     key(key),
     title(model["title"].as<QString>()),

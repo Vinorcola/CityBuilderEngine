@@ -66,7 +66,6 @@ SOURCES += \
     src/exceptions/UnexpectedException.cpp \
     src/global/conf/BuildingAreaPartDescription.cpp \
     src/global/conf/BuildingInformation.cpp \
-    src/global/conf/BuildingSearchCriteriaDescription.cpp \
     src/global/conf/CharacterInformation.cpp \
     src/global/conf/Conf.cpp \
     src/global/conf/ControlPanelElementInformation.cpp \
@@ -167,7 +166,6 @@ HEADERS += \
     src/exceptions/UnexpectedException.hpp \
     src/global/conf/BuildingAreaPartDescription.hpp \
     src/global/conf/BuildingInformation.hpp \
-    src/global/conf/BuildingSearchCriteriaDescription.hpp \
     src/global/conf/CharacterInformation.hpp \
     src/global/conf/Conf.hpp \
     src/global/conf/ControlPanelElementInformation.hpp \

@@ -3,22 +3,20 @@
 
 #include <QtCore/QHash>
 #include <QtCore/QList>
-#include <QtCore/QObject>
-#include <QtCore/QPoint>
 #include <QtCore/QString>
 
-#include "src/global/conf/ImageSequenceInformation.hpp"
 #include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
+class ImageSequenceInformation;
 class ModelReader;
 namespace YAML {
     class Node;
 }
 
-class CharacterInformation : public QObject
+class CharacterInformation
 {
-        Q_OBJECT
+        Q_DISABLE_COPY_MOVE(CharacterInformation)
 
     public:
         struct Graphics {
@@ -35,7 +33,7 @@ class CharacterInformation : public QObject
         Graphics graphics;
 
     public:
-        CharacterInformation(QObject* parent, const ModelReader& model);
+        explicit CharacterInformation( const ModelReader& model);
 
         const QString& getKey() const;
 
