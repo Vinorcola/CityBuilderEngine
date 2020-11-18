@@ -22,12 +22,6 @@ class City
 
     public:
         City(const Conf& conf, CityLoader& loader);
-
-        /**
-         * @brief Update the population of the given delta.
-         * @param delta A positive number for increasing, a negative number for decreasing.
-         */
-        void updatePopulation(const int delta);
 };
 
 #endif // CITY_HPP

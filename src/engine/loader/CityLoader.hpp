@@ -19,16 +19,14 @@ class CityLoader
 {
     public:
         struct Building {
+            Building(YAML::Node node);
             QString type;
             MapCoordinates location;
-
-            Building(YAML::Node node);
         };
         struct NatureElement {
+            NatureElement(YAML::Node node);
             QString type;
             MapCoordinates location;
-
-            NatureElement(YAML::Node node);
         };
 
     private:
@@ -43,8 +41,8 @@ class CityLoader
 
         QSize getMapSize() const;
         MapCoordinates getMapEntryPoint() const;
-        QList<const Building> getInitialBuildings() const;
-        QList<const NatureElement> getInitialNatureElements() const;
+        QList<Building> getInitialBuildings() const;
+        QList<NatureElement> getInitialNatureElements() const;
 };
 
 #endif // CITYLOADER_HPP

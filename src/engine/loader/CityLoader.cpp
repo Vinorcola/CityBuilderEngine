@@ -4,6 +4,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "src/engine/processing/CycleDate.hpp"
+#include "src/global/yamlLibraryEnhancement.hpp"
 
 
 
@@ -72,9 +73,9 @@ MapCoordinates CityLoader::getMapEntryPoint() const
 
 
 
-QList<const CityLoader::Building> CityLoader::getInitialBuildings() const
+QList<CityLoader::Building> CityLoader::getInitialBuildings() const
 {
-    QList<const Building> buildings;
+    QList<Building> buildings;
     for (auto node : rootNode["buildings"]) {
         buildings.append(node);
     }
@@ -84,9 +85,9 @@ QList<const CityLoader::Building> CityLoader::getInitialBuildings() const
 
 
 
-QList<const CityLoader::NatureElement> CityLoader::getInitialNatureElements() const
+QList<CityLoader::NatureElement> CityLoader::getInitialNatureElements() const
 {
-    QList<const NatureElement> natureElements;
+    QList<NatureElement> natureElements;
     for (auto node : rootNode["natureElements"]) {
         natureElements.append(node);
     }

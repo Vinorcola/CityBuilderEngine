@@ -3,19 +3,15 @@
 
 #include "src/engine/element/static/building/AbstractBuilding.hpp"
 
-class BuildingInformation;
-class MapCoordinates;
-
 /**
  * @brief A road.
  *
- * Roads are very particular buildings. They constitute a road graph on wich the dynamic elements will move. Check
- * RoadGraph for more information.
+ * Roads are very particular buildings. They constitute a road graph on wich the dynamic elements will move.
  */
 class Road : public AbstractBuilding
 {
     public:
-        Road(const BuildingInformation& conf, const MapCoordinates& coordinates);
+        Road(const BuildingInformation& conf, const MapArea& area);
 };
 
 #endif // ROAD_HPP

@@ -1,5 +1,6 @@
 #include "StaticElementHandler.hpp"
 
+#include <QtCore/QDebug>
 #include <QtCore/QtAlgorithms>
 
 #include "src/engine/city/PopulationHandler.hpp"
@@ -18,6 +19,7 @@
 #include "src/engine/processing/TimeCycleProcessor.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
+#include "src/global/conf/NatureElementInformation.hpp"
 
 
 
@@ -53,7 +55,7 @@ StaticElementHandler::StaticElementHandler(
     buildingSearchEngine(),
     natureElementSearchEngine(pathGenerator)
 {
-
+    processor.registerBuilding(currentState.entryPoint);
 }
 
 
@@ -96,6 +98,19 @@ bool StaticElementHandler::isLocationConstructible(const MapCoordinates& locatio
 
 
 
+bool StaticElementHandler::isAreaConstructible(const MapArea& area) const
+{
+    for (auto coordinates : area) {
+        if (!isLocationConstructible(coordinates)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+
 bool StaticElementHandler::isLocationTraversable(const MapCoordinates& location) const
 {
     return
@@ -123,6 +138,57 @@ bool StaticElementHandler::canConstructRoadAtLocation(const MapCoordinates& loca
 
 
 
+void StaticElementHandler::createBuilding(const BuildingInformation& conf, const MapArea& area)
+{
+    if (!isAreaConstructible(area)) {
+        qDebug() << "WARNING: Try to create a building on an accupyed area " + area.toString() + ". Skipping the creation.";
+        return;
+    }
+    if (area.getSize() != conf.getSize()) {
+        qDebug() << "WARNING: Selected area size does not match the building size. Skipping the creation.";
+        return;
+    }
+
+    switch (conf.getType()) {
+        case BuildingInformation::Type::Farm:
+            generateFarm(conf, area);
+            break;
+
+        case BuildingInformation::Type::House:
+            generateHouse(conf, area);
+            break;
+
+        case BuildingInformation::Type::Laboratory:
+            generateLaboratory(conf, area);
+            break;
+
+        case BuildingInformation::Type::Producer:
+            generateProducer(conf, area);
+            break;
+
+        case BuildingInformation::Type::Road:
+            generateRoad(conf, area);
+            break;
+
+        case BuildingInformation::Type::Sanity:
+            generateSanity(conf, area);
+            break;
+
+        case BuildingInformation::Type::School:
+            generateSchool(conf, area);
+            break;
+
+        case BuildingInformation::Type::Storage:
+            generateStorage(conf, area);
+            break;
+
+        default:
+            qDebug() << "WARNING: Cannot create building of type " + conf.getTitle() + ". Skipping the creation.";
+    }
+}
+
+
+
 FarmBuilding& StaticElementHandler::generateFarm(const BuildingInformation& conf, const MapArea& area)
 {
     auto building(new FarmBuilding(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
@@ -139,7 +205,7 @@ FarmBuilding& StaticElementHandler::generateFarm(const BuildingInformation& conf
 
 HouseBuilding& StaticElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new HouseBuilding(immigrantGenerator, populationHandler, conf, area, getBestBuildingEntryPoint(area)));
+    auto building(new HouseBuilding(currentState.entryPoint, populationHandler, conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
 
     processor.registerBuilding(*building);
@@ -234,14 +300,24 @@ StorageBuilding& StaticElementHandler::generateStorage(const BuildingInformation
 
 
 
-Road& StaticElementHandler::generateRoad(const BuildingInformation& conf, const MapCoordinates& location)
+Road& StaticElementHandler::generateRoad(const BuildingInformation& conf, const MapArea& area)
 {
-    auto road(new Road(conf, location));
+    auto road(new Road(conf, area));
     currentState.buildings.push_back(road);
 
-    registerRoadInDetailsCache(location);
+    registerRoadInDetailsCache(area);
 
     return *road;
+}
+
+
+
+void StaticElementHandler::createNatureElement(const NatureElementInformation& conf, const MapArea& area)
+{
+    auto element(new NatureElement(conf, area));
+    currentState.natureElements.push_back(element);
+
+    registerNatureElementInDetailsCache(conf, area);
 }
 
 
@@ -308,9 +384,26 @@ void StaticElementHandler::registerBuildingInDetailsCache(const MapArea& area)
 
 
 
-void StaticElementHandler::registerRoadInDetailsCache(const MapCoordinates& location)
+void StaticElementHandler::registerRoadInDetailsCache(const MapArea& area)
 {
-    auto hash(hashCoordinates(location));
-    detailsCache.roadCoordinates << hash;
-    detailsCache.nonConstructibleCoordinates << hash;
+    for (auto coordinates : area) {
+        auto hash(hashCoordinates(coordinates));
+        detailsCache.roadCoordinates << hash;
+        detailsCache.nonConstructibleCoordinates << hash;
+    }
+}
+
+
+
+void StaticElementHandler::registerNatureElementInDetailsCache(
+    const NatureElementInformation& conf,
+    const MapArea& area
+) {
+    for (auto coordinates : area) {
+        auto hash(hashCoordinates(coordinates));
+        detailsCache.nonConstructibleCoordinates.insert(hash);
+        if (!conf.isTraversable()) {
+            detailsCache.nonTraversableCoordinates.insert(hash);
+        }
+    }
 }

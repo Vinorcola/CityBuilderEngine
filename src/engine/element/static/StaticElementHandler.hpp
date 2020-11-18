@@ -84,11 +84,13 @@ class StaticElementHandler : public MapDetailsInterface
 
         // Map details.
         bool isLocationConstructible(const MapCoordinates& location) const;
+        bool isAreaConstructible(const MapArea& area) const;
         virtual bool isLocationTraversable(const MapCoordinates& location) const override;
         virtual bool hasRoadAtLocation(const MapCoordinates& location) const override;
         virtual bool canConstructRoadAtLocation(const MapCoordinates& location) const override;
 
         // Building generation.
+        void createBuilding(const BuildingInformation& conf, const MapArea& area);
         FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area);
         HouseBuilding& generateHouse(const BuildingInformation& conf, const MapArea& area);
         LaboratoryBuilding& generateLaboratory(const BuildingInformation& conf, const MapArea& area);
@@ -96,13 +98,17 @@ class StaticElementHandler : public MapDetailsInterface
         SanityBuilding& generateSanity(const BuildingInformation& conf, const MapArea& area);
         SchoolBuilding& generateSchool(const BuildingInformation& conf, const MapArea& area);
         StorageBuilding& generateStorage(const BuildingInformation& conf, const MapArea& area);
-        Road& generateRoad(const BuildingInformation& conf, const MapCoordinates& location);
+        Road& generateRoad(const BuildingInformation& conf, const MapArea& area);
+
+        // Nature element generation.
+        void createNatureElement(const NatureElementInformation& conf, const MapArea& area);
 
     private:
         MapCoordinates getBestBuildingEntryPoint(const MapArea& area) const;
         QString hashCoordinates(const MapCoordinates& coordinates) const;
         void registerBuildingInDetailsCache(const MapArea& area);
-        void registerRoadInDetailsCache(const MapCoordinates& location);
+        void registerRoadInDetailsCache(const MapArea& area);
+        void registerNatureElementInDetailsCache(const NatureElementInformation& conf, const MapArea& area);
 };
 
 #endif // STATICELEMENTHANDLER_HPP

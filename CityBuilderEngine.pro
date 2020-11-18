@@ -8,6 +8,7 @@ OBJECTS_DIR = objects
 MOC_DIR = moc
 
 SOURCES += \
+    src/engine/Engine.cpp \
     src/engine/city/City.cpp \
     src/engine/city/PopulationHandler.cpp \
     src/engine/element/dynamic/character/Character.cpp \
@@ -100,6 +101,7 @@ SOURCES += \
     src/main.cpp
 
 HEADERS += \
+    src/engine/Engine.hpp \
     src/engine/city/City.hpp \
     src/engine/city/PopulationHandler.hpp \
     src/engine/city/PopulationRegisterInterface.hpp \
