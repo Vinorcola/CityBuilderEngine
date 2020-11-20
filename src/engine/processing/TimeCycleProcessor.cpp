@@ -121,8 +121,6 @@ void TimeCycleProcessor::processCycle()
     timer.start();
 #endif
 
-    auto previousMonth(currentCycleDate.getMonth());
-
     // Increment to cycle date.
     ++currentCycleDate;
     // qDebug() << "Process time-cycle" << currentCycleDate.toString();
@@ -140,7 +138,4 @@ void TimeCycleProcessor::processCycle()
 #endif
 
     emit processFinished();
-    if (previousMonth != currentCycleDate.getMonth()) {
-        emit dateChanged(currentCycleDate.getYear(), currentCycleDate.getMonth());
-    }
 }

@@ -34,6 +34,10 @@ void Engine::loadCity(const QString& cityFilePath)
 
     CityLoader loader(cityFilePath);
     city = new City(conf, loader);
+
+    connect(&city->getProcessor(), &TimeCycleProcessor::processFinished, [this]() {
+        emit stateUpdated(getCurrentState());
+    });
 }
 
 
@@ -56,4 +60,40 @@ State Engine::getCurrentState() const
         city->getNatureElementsState(),
         city->getBuildingsState(),
     };
+}
+
+
+
+void Engine::pause(const bool pause)
+{
+    assert(city != nullptr);
+
+    city->getProcessor().pause(pause);
+}
+
+
+
+void Engine::setProcessorSpeedRatio(const qreal speedRatio)
+{
+    assert(city != nullptr);
+
+    city->getProcessor().setSpeedRatio(speedRatio);
+}
+
+
+
+void Engine::forceNextProcess()
+{
+    assert(city != nullptr);
+
+    city->getProcessor().forceNextProcess();
+}
+
+
+
+void Engine::createBuilding(const BuildingInformation& type, const MapArea& area)
+{
+    assert(city != nullptr);
+
+    city->createBuilding(type, area);
 }

@@ -75,7 +75,6 @@ class TimeCycleProcessor : public QObject
          */
         void setSpeedRatio(const qreal ratio);
 
-    public slots:
         /**
          * @brief Force the next process to occur.
          *
@@ -88,8 +87,6 @@ class TimeCycleProcessor : public QObject
          * @brief Indicate when a cycle process is finished.
          */
         void processFinished();
-
-        void dateChanged(const int year, const int month);
 
     protected:
         /**

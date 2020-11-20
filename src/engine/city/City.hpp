@@ -35,6 +35,9 @@ class City
     public:
         City(const Conf& conf, CityLoader& loader);
 
+        TimeCycleProcessor& getProcessor();
+        void createBuilding(const BuildingInformation& conf, const MapArea& area);
+
         const MapState& getMapState() const;
         CityState getCurrentState() const;
         QList<BuildingState> getBuildingsState() const;

@@ -60,6 +60,20 @@ City::City(const Conf& conf, CityLoader& loader) :
 
 
 
+TimeCycleProcessor& City::getProcessor()
+{
+    return processor;
+}
+
+
+
+void City::createBuilding(const BuildingInformation& conf, const MapArea& area)
+{
+    staticElements.createBuilding(conf, area);
+}
+
+
+
 const MapState& City::getMapState() const
 {
     return map.getState();
