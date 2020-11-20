@@ -3,6 +3,8 @@
 
 #include <QtCore/QSize>
 
+#include "src/engine/state/MapState.hpp"
+
 class MapArea;
 class MapCoordinates;
 
@@ -12,13 +14,12 @@ class MapCoordinates;
 class Map
 {
     private:
-        const QSize size;
+        const MapState state;
 
     public:
         explicit Map(const QSize& size);
 
-        // Size
-        const QSize& getSize() const;
+        const MapState& getState() const;
 
         // Map details
         bool isLocationValid(const MapCoordinates& coordinates) const;

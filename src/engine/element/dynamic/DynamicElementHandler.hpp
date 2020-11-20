@@ -2,6 +2,7 @@
 #define DYNAMICELEMENTHANDLER_HPP
 
 #include <list>
+#include <QtCore/QList>
 
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
@@ -10,6 +11,7 @@
 class BuildingSearchEngine;
 class Character;
 class PathGeneratorInterface;
+struct CharacterState;
 
 class DynamicElementHandler : public CharacterFactoryInterface, public CharacterManagerInterface
 {
@@ -57,6 +59,8 @@ class DynamicElementHandler : public CharacterFactoryInterface, public Character
         ) override;
 
         virtual void clearCharacter(Character& character) override;
+
+        QList<CharacterState> getCharactersState() const;
 };
 
 #endif // DYNAMICELEMENTHANDLER_HPP

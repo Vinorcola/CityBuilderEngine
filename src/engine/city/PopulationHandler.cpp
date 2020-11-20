@@ -20,6 +20,13 @@ PopulationHandler::PopulationHandler() :
 
 
 
+int PopulationHandler::getCurrentPopulation() const
+{
+    return currentState.population;
+}
+
+
+
 void PopulationHandler::registerPopulation(int quantity)
 {
     newPopulation += quantity;

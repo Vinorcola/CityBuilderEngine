@@ -6,6 +6,7 @@
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/element/static/natureElement/NatureElementSearchEngine.hpp"
 #include "src/engine/element/static/path/PathInterface.hpp"
+#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
@@ -68,6 +69,13 @@ bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& 
     }
 
     return false;
+}
+
+
+
+BuildingState ProducerBuilding::getCurrentState() const
+{
+    return BuildingState::CreateProducerState(conf, area, stateVersion, rawMaterialStock);
 }
 
 

@@ -17,6 +17,7 @@
 #include "src/engine/element/static/natureElement/NatureElement.hpp"
 #include "src/engine/map/Map.hpp"
 #include "src/engine/processing/TimeCycleProcessor.hpp"
+#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
@@ -138,6 +139,30 @@ bool StaticElementHandler::canConstructRoadAtLocation(const MapCoordinates& loca
 
 
 
+QList<BuildingState> StaticElementHandler::getBuildingsState() const
+{
+    QList<BuildingState> list;
+    for (auto element : currentState.buildings) {
+        list.append(element->getCurrentState());
+    }
+
+    return list;
+}
+
+
+
+QList<NatureElementState> StaticElementHandler::getNatureElementsState() const
+{
+    QList<NatureElementState> list;
+    for (auto element : currentState.natureElements) {
+        list.append(element->getState());
+    }
+
+    return list;
+}
+
+
+
 void StaticElementHandler::createBuilding(const BuildingInformation& conf, const MapArea& area)
 {
     if (!isAreaConstructible(area)) {
@@ -189,7 +214,17 @@ void StaticElementHandler::createBuilding(const BuildingInformation& conf, const
 
 
 
-FarmBuilding& StaticElementHandler::generateFarm(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::createNatureElement(const NatureElementInformation& conf, const MapArea& area)
+{
+    auto element(new NatureElement(conf, area));
+    currentState.natureElements.push_back(element);
+
+    registerNatureElementInDetailsCache(conf, area);
+}
+
+
+
+void StaticElementHandler::generateFarm(const BuildingInformation& conf, const MapArea& area)
 {
     auto building(new FarmBuilding(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
@@ -197,26 +232,22 @@ FarmBuilding& StaticElementHandler::generateFarm(const BuildingInformation& conf
     processor.registerBuilding(*building);
     populationHandler.registerWorkingPlace(*building);
     registerBuildingInDetailsCache(area);
-
-    return *building;
 }
 
 
 
-HouseBuilding& StaticElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
 {
     auto building(new HouseBuilding(currentState.entryPoint, populationHandler, conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
 
     processor.registerBuilding(*building);
     registerBuildingInDetailsCache(area);
-
-    return *building;
 }
 
 
 
-LaboratoryBuilding& StaticElementHandler::generateLaboratory(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateLaboratory(const BuildingInformation& conf, const MapArea& area)
 {
     auto building(new LaboratoryBuilding(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
@@ -225,13 +256,11 @@ LaboratoryBuilding& StaticElementHandler::generateLaboratory(const BuildingInfor
     populationHandler.registerWorkingPlace(*building);
     registerBuildingInDetailsCache(area);
     buildingSearchEngine.registerBuilding(*building);
-
-    return *building;
 }
 
 
 
-ProducerBuilding& StaticElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area)
 {
     auto building(new ProducerBuilding(
         natureElementSearchEngine,
@@ -245,13 +274,11 @@ ProducerBuilding& StaticElementHandler::generateProducer(const BuildingInformati
     processor.registerBuilding(*building);
     populationHandler.registerWorkingPlace(*building);
     registerBuildingInDetailsCache(area);
-
-    return *building;
 }
 
 
 
-SanityBuilding& StaticElementHandler::generateSanity(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateSanity(const BuildingInformation& conf, const MapArea& area)
 {
     auto building(new SanityBuilding(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
@@ -259,13 +286,11 @@ SanityBuilding& StaticElementHandler::generateSanity(const BuildingInformation& 
     processor.registerBuilding(*building);
     populationHandler.registerWorkingPlace(*building);
     registerBuildingInDetailsCache(area);
-
-    return *building;
 }
 
 
 
-SchoolBuilding& StaticElementHandler::generateSchool(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateSchool(const BuildingInformation& conf, const MapArea& area)
 {
     auto building(new SchoolBuilding(
         buildingSearchEngine,
@@ -279,13 +304,11 @@ SchoolBuilding& StaticElementHandler::generateSchool(const BuildingInformation& 
     processor.registerBuilding(*building);
     populationHandler.registerWorkingPlace(*building);
     registerBuildingInDetailsCache(area);
-
-    return *building;
 }
 
 
 
-StorageBuilding& StaticElementHandler::generateStorage(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateStorage(const BuildingInformation& conf, const MapArea& area)
 {
     auto building(new StorageBuilding(conf, area, getBestBuildingEntryPoint(area)));
     currentState.buildings.push_back(building);
@@ -294,30 +317,16 @@ StorageBuilding& StaticElementHandler::generateStorage(const BuildingInformation
     populationHandler.registerWorkingPlace(*building);
     registerBuildingInDetailsCache(area);
     buildingSearchEngine.registerStorageBuilding(*building);
-
-    return *building;
 }
 
 
 
-Road& StaticElementHandler::generateRoad(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateRoad(const BuildingInformation& conf, const MapArea& area)
 {
     auto road(new Road(conf, area));
     currentState.buildings.push_back(road);
 
     registerRoadInDetailsCache(area);
-
-    return *road;
-}
-
-
-
-void StaticElementHandler::createNatureElement(const NatureElementInformation& conf, const MapArea& area)
-{
-    auto element(new NatureElement(conf, area));
-    currentState.natureElements.push_back(element);
-
-    registerNatureElementInDetailsCache(conf, area);
 }
 
 

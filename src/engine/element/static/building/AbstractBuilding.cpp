@@ -1,11 +1,13 @@
 #include "AbstractBuilding.hpp"
 
+#include "src/engine/state/BuildingState.hpp"
+
 
 
 AbstractBuilding::AbstractBuilding(const BuildingInformation& conf, const MapArea& area) :
     conf(conf),
     area(area),
-    viewVersion(0)
+    stateVersion(0)
 {
 
 }
@@ -19,28 +21,14 @@ const BuildingInformation& AbstractBuilding::getConf() const
 
 
 
-const MapArea& AbstractBuilding::getArea() const
+BuildingState AbstractBuilding::getCurrentState() const
 {
-    return area;
-}
-
-
-
-bool AbstractBuilding::isViewUpToDate(const int currentViewVersion) const
-{
-    return currentViewVersion == viewVersion;
-}
-
-
-
-int AbstractBuilding::getViewVersion() const
-{
-    return viewVersion;
+    return { conf, area, stateVersion };
 }
 
 
 
 void AbstractBuilding::notifyViewDataChange()
 {
-    ++viewVersion;
+    ++stateVersion;
 }

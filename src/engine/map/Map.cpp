@@ -6,16 +6,16 @@
 
 
 Map::Map(const QSize& size) :
-    size(size)
+    state(size)
 {
 
 }
 
 
 
-const QSize& Map::getSize() const
+const MapState& Map::getState() const
 {
-    return size;
+    return state;
 }
 
 
@@ -26,8 +26,8 @@ bool Map::isLocationValid(const MapCoordinates& coordinates) const
     int sum(coordinates.getY() + coordinates.getX());
     int diff(coordinates.getY() - coordinates.getX());
     return (
-        diff >= 0 && diff < size.height() &&
-        sum >= 0 && sum <= size.width()
+        diff >= 0 && diff < state.size.height() &&
+        sum >= 0 && sum <= state.size.width()
     );
 }
 

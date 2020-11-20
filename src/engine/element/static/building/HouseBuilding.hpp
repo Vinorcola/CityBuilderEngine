@@ -6,29 +6,29 @@
 class CharacterFactoryInterface;
 class ImmigrantGeneratorInterface;
 class CivilianEntryPoint;
-class PopulationRegisterInterface;
+class PopulationRegistryInterface;
 
 class HouseBuilding : public AbstractProcessableBuilding
 {
     private:
         ImmigrantGeneratorInterface& immigrantGenerator;
-        PopulationRegisterInterface& populationRegister;
+        PopulationRegistryInterface& populationRegister;
         int inhabitants;
 
     public:
         HouseBuilding(
             ImmigrantGeneratorInterface& immigrantGenerator,
-            PopulationRegisterInterface& populationRegister,
+            PopulationRegistryInterface& populationRegister,
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
         );
 
-        virtual void init(const CycleDate& date);
+        virtual void init(const CycleDate& date) override;
+        virtual void process(const CycleDate& date) override;
+        virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 
-        virtual void process(const CycleDate& date);
-
-        virtual bool processInteraction(const CycleDate& date, Character& actor);
+        virtual BuildingState getCurrentState() const override;
 };
 
 #endif // HOUSEBUILDING_HPP

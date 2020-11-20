@@ -2,6 +2,7 @@
 #define STATICELEMENTHANDLER_HPP
 
 #include <list>
+#include <QtCore/QList>
 #include <QtCore/QSet>
 
 #include "src/engine/element/static/building/BuildingSearchEngine.hpp"
@@ -9,6 +10,8 @@
 #include "src/engine/element/static/natureElement/NatureElementSearchEngine.hpp"
 #include "src/engine/element/static/path/MapDetailsInterface.hpp"
 #include "src/engine/element/static/path/PathGenerator.hpp"
+#include "src/engine/state/BuildingState.hpp"
+#include "src/engine/state/NatureElementState.hpp"
 #include "src/defines.hpp"
 
 class BuildingInformation;
@@ -89,21 +92,25 @@ class StaticElementHandler : public MapDetailsInterface
         virtual bool hasRoadAtLocation(const MapCoordinates& location) const override;
         virtual bool canConstructRoadAtLocation(const MapCoordinates& location) const override;
 
+        // State
+        QList<BuildingState> getBuildingsState() const;
+        QList<NatureElementState> getNatureElementsState() const;
+
         // Building generation.
         void createBuilding(const BuildingInformation& conf, const MapArea& area);
-        FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area);
-        HouseBuilding& generateHouse(const BuildingInformation& conf, const MapArea& area);
-        LaboratoryBuilding& generateLaboratory(const BuildingInformation& conf, const MapArea& area);
-        ProducerBuilding& generateProducer(const BuildingInformation& conf, const MapArea& area);
-        SanityBuilding& generateSanity(const BuildingInformation& conf, const MapArea& area);
-        SchoolBuilding& generateSchool(const BuildingInformation& conf, const MapArea& area);
-        StorageBuilding& generateStorage(const BuildingInformation& conf, const MapArea& area);
-        Road& generateRoad(const BuildingInformation& conf, const MapArea& area);
 
         // Nature element generation.
         void createNatureElement(const NatureElementInformation& conf, const MapArea& area);
 
     private:
+        void generateFarm(const BuildingInformation& conf, const MapArea& area);
+        void generateHouse(const BuildingInformation& conf, const MapArea& area);
+        void generateLaboratory(const BuildingInformation& conf, const MapArea& area);
+        void generateProducer(const BuildingInformation& conf, const MapArea& area);
+        void generateSanity(const BuildingInformation& conf, const MapArea& area);
+        void generateSchool(const BuildingInformation& conf, const MapArea& area);
+        void generateStorage(const BuildingInformation& conf, const MapArea& area);
+        void generateRoad(const BuildingInformation& conf, const MapArea& area);
         MapCoordinates getBestBuildingEntryPoint(const MapArea& area) const;
         QString hashCoordinates(const MapCoordinates& coordinates) const;
         void registerBuildingInDetailsCache(const MapArea& area);

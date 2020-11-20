@@ -24,7 +24,6 @@ class LaboratoryBuilding : public AbstractProcessableBuilding
         );
 
         virtual void process(const CycleDate& date) override;
-
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 
     private:

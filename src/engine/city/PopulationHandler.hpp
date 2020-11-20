@@ -3,7 +3,7 @@
 
 #include <list>
 
-#include "src/engine/city/PopulationRegisterInterface.hpp"
+#include "src/engine/city/PopulationRegistryInterface.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
 
 class AbstractProcessableBuilding;
@@ -11,11 +11,12 @@ class AbstractProcessableBuilding;
 /**
  * @brief Handles the population and the worker distribution.
  */
-class PopulationHandler : public AbstractProcessable, public PopulationRegisterInterface
+class PopulationHandler : public AbstractProcessable, public PopulationRegistryInterface
 {
     private:
         struct State{
             State();
+
             int population;
         };
 
@@ -26,6 +27,8 @@ class PopulationHandler : public AbstractProcessable, public PopulationRegisterI
 
     public:
         PopulationHandler();
+
+        int getCurrentPopulation() const;
 
         virtual void registerPopulation(int quantity) override;
         virtual void unregisterPopulation(int quantity) override;

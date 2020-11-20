@@ -1,16 +1,17 @@
 #include "HouseBuilding.hpp"
 
-#include "src/engine/city/PopulationRegisterInterface.hpp"
+#include "src/engine/city/PopulationRegistryInterface.hpp"
 #include "src/engine/element/dynamic/character/ImmigrantCharacter.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/element/static/building/ImmigrantGeneratorInterface.hpp"
+#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
 
 HouseBuilding::HouseBuilding(
     ImmigrantGeneratorInterface& immigrantGenerator,
-    PopulationRegisterInterface& populationRegister,
+    PopulationRegistryInterface& populationRegister,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
@@ -58,4 +59,11 @@ bool HouseBuilding::processInteraction(const CycleDate& /*date*/, Character& act
     }
 
     return false;
+}
+
+
+
+BuildingState HouseBuilding::getCurrentState() const
+{
+    return BuildingState::CreateHouseState(conf, area, stateVersion, inhabitants);
 }

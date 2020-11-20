@@ -22,8 +22,9 @@ class StorageBuilding : public AbstractProcessableBuilding
         int storableQuantity(const ItemInformation& itemConf, const int maxQuantity = 1) const;
 
         virtual void process(const CycleDate& date) override;
-
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
+
+        virtual BuildingState getCurrentState() const override;
 
     private:
         void store(const ItemInformation& itemConf, const int quantity);

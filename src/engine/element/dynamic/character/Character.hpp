@@ -11,6 +11,7 @@ class CharacterInformation;
 class CharacterManagerInterface;
 class MapCoordinates;
 class PathGeneratorInterface;
+struct CharacterState;
 
 /**
  * @brief A character on the map.
@@ -29,12 +30,12 @@ class PathGeneratorInterface;
 class Character : public AbstractProcessable, public Referencable
 {
     protected:
-        CharacterManagerInterface& characterManager;///< A service for requiring the character destruction.
-        const PathGeneratorInterface& pathGenerator;///< A service for generating paths.
-        const CharacterInformation& conf;///< The character configuration.
-        MotionHandler motionHandler;///< A helper that will handle the character's motion.
-        Reference<AbstractProcessableBuilding> issuer;///< The issuer building.
-        int viewVersion;///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
+        CharacterManagerInterface& characterManager; ///< A service for requiring the character destruction.
+        const PathGeneratorInterface& pathGenerator; ///< A service for generating paths.
+        const CharacterInformation& conf; ///< The character configuration.
+        MotionHandler motionHandler; ///< A helper that will handle the character's motion.
+        Reference<AbstractProcessableBuilding> issuer; ///< The issuer building.
+        int stateVersion; ///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
 
     public:
         Character(
@@ -45,18 +46,9 @@ class Character : public AbstractProcessable, public Referencable
         );
 
         bool isOfType(const CharacterInformation& conf) const;
-
-        const CharacterInformation& getConf() const;
-
-        const MapCoordinates& getCurrentLocation() const;
-
-        Direction getCurrentDirection() const;
-
         const Reference<AbstractProcessableBuilding>& getIssuer() const;
 
-        bool isViewUpToDate(const int currentViewVersion) const;
-
-        int getViewVersion() const;
+        CharacterState getCurrentState() const;
 
         /**
          * @brief Make the charater move.

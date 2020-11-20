@@ -4,20 +4,19 @@
 #include <QtCore/QObject>
 
 #include "src/engine/map/MapArea.hpp"
+#include "src/engine/state/NatureElementState.hpp"
 
 class NatureElementInformation;
 
 class NatureElement
 {
     private:
-        const NatureElementInformation& conf;
-        MapArea area;
+        NatureElementState state;
 
     public:
         NatureElement(const NatureElementInformation& conf, const MapArea& area);
 
-        const NatureElementInformation& getConf() const;
-        const MapArea& getArea() const;
+        NatureElementState getState() const;
 };
 
 #endif // NATUREELEMENT_HPP

@@ -3,22 +3,14 @@
 
 
 NatureElement::NatureElement(const NatureElementInformation& conf, const MapArea& area) :
-    conf(conf),
-    area(area)
+    state(conf, area)
 {
 
 }
 
 
 
-const NatureElementInformation& NatureElement::getConf() const
+NatureElementState NatureElement::getState() const
 {
-    return conf;
-}
-
-
-
-const MapArea& NatureElement::getArea() const
-{
-    return area;
+    return state;
 }

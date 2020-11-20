@@ -2,6 +2,7 @@
 
 #include "src/engine/element/dynamic/MotionHandler.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/engine/state/CharacterState.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 
 
@@ -18,7 +19,7 @@ Character::Character(
     conf(conf),
     motionHandler(conf.getSpeed(), issuer.getEntryPoint()),
     issuer(issuer.getReference<AbstractProcessableBuilding>()),
-    viewVersion(0)
+    stateVersion(0)
 {
 
 }
@@ -32,27 +33,6 @@ bool Character::isOfType(const CharacterInformation& conf) const
 
 
 
-const CharacterInformation& Character::getConf() const
-{
-    return conf;
-}
-
-
-
-const MapCoordinates& Character::getCurrentLocation() const
-{
-    return motionHandler.getCurrentLocation();
-}
-
-
-
-Direction Character::getCurrentDirection() const
-{
-    return motionHandler.getCurrentDirection();
-}
-
-
-
 const Reference<AbstractProcessableBuilding>& Character::getIssuer() const
 {
     return issuer;
@@ -60,16 +40,9 @@ const Reference<AbstractProcessableBuilding>& Character::getIssuer() const
 
 
 
-bool Character::isViewUpToDate(const int currentViewVersion) const
+CharacterState Character::getCurrentState() const
 {
-    return currentViewVersion == viewVersion;
-}
-
-
-
-int Character::getViewVersion() const
-{
-    return viewVersion;
+    return { conf, motionHandler.getCurrentLocation(), motionHandler.getCurrentDirection(), stateVersion };
 }
 
 
@@ -85,5 +58,5 @@ void Character::process(const CycleDate& /*date*/)
 
 void Character::notifyViewDataChange()
 {
-    ++viewVersion;
+    ++stateVersion;
 }

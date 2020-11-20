@@ -1,7 +1,10 @@
 #include "Engine.hpp"
 
+#include <cassert>
+
 #include "src/engine/city/City.hpp"
 #include "src/engine/loader/CityLoader.hpp"
+#include "src/engine/state/State.hpp"
 
 
 
@@ -31,4 +34,26 @@ void Engine::loadCity(const QString& cityFilePath)
 
     CityLoader loader(cityFilePath);
     city = new City(conf, loader);
+}
+
+
+
+const MapState& Engine::getMapState() const
+{
+    assert(city != nullptr);
+
+    return city->getMapState();
+}
+
+
+
+State Engine::getCurrentState() const
+{
+    assert(city != nullptr);
+
+    return {
+        city->getCurrentState(),
+        city->getNatureElementsState(),
+        city->getBuildingsState(),
+    };
 }

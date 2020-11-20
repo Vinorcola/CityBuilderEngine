@@ -5,6 +5,7 @@
 #include "src/global/reference/Referencable.hpp"
 
 class BuildingInformation;
+struct BuildingState;
 
 /**
  * @brief The base class for a static element on the map.
@@ -17,18 +18,13 @@ class AbstractBuilding : public Referencable
     protected:
         const BuildingInformation& conf;
         MapArea area;
-        int viewVersion;///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
+        int stateVersion; ///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
 
     public:
         AbstractBuilding(const BuildingInformation& conf, const MapArea& area);
 
         const BuildingInformation& getConf() const;
-
-        const MapArea& getArea() const;
-
-        bool isViewUpToDate(const int currentViewVersion) const;
-
-        int getViewVersion() const;
+        virtual BuildingState getCurrentState() const;
 
     protected:
         void notifyViewDataChange();

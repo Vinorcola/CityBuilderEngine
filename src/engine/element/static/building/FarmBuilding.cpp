@@ -4,6 +4,7 @@
 
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
+#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
@@ -64,6 +65,14 @@ bool FarmBuilding::processInteraction(const CycleDate& /*date*/, Character& acto
     }
 
     return false;
+}
+
+
+
+BuildingState FarmBuilding::getCurrentState() const
+{
+    // TODO: Calculate growth percent.
+    return BuildingState::CreateFarmState(conf, area, stateVersion, 0);
 }
 
 

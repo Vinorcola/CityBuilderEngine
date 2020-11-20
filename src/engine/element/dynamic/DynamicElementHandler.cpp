@@ -8,6 +8,7 @@
 #include "src/engine/element/dynamic/character/StudentCharacter.hpp"
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
 #include "src/engine/element/dynamic/PathGeneratorInterface.hpp"
+#include "src/engine/state/CharacterState.hpp"
 
 
 
@@ -109,4 +110,16 @@ void DynamicElementHandler::clearCharacter(Character& character)
 {
     currentState.characters.remove(&character);
     delete &character;
+}
+
+
+
+QList<CharacterState> DynamicElementHandler::getCharactersState() const
+{
+    QList<CharacterState> list;
+    for (auto element : currentState.characters) {
+        list.append(element->getCurrentState());
+    }
+
+    return list;
 }

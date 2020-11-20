@@ -3,6 +3,7 @@
 #include <QtGlobal>
 
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
+#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
@@ -54,6 +55,13 @@ bool StorageBuilding::processInteraction(const CycleDate& /*date*/, Character& a
     }
 
     return false;
+}
+
+
+
+BuildingState StorageBuilding::getCurrentState() const
+{
+    return BuildingState::CreateStorageState(conf, area, stateVersion, stock);
 }
 
 

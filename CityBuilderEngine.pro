@@ -55,7 +55,6 @@ SOURCES += \
     src/engine/processing/CharacterProcessor.cpp \
     src/engine/processing/CycleDate.cpp \
     src/engine/processing/TimeCycleProcessor.cpp \
-    src/engine/viewerInterface/ViewerInterface.cpp \
     src/exceptions/BadConfigurationException.cpp \
     src/exceptions/EngineException.cpp \
     src/exceptions/Exception.cpp \
@@ -103,7 +102,7 @@ HEADERS += \
     src/engine/Engine.hpp \
     src/engine/city/City.hpp \
     src/engine/city/PopulationHandler.hpp \
-    src/engine/city/PopulationRegisterInterface.hpp \
+    src/engine/city/PopulationRegistryInterface.hpp \
     src/engine/element/dynamic/character/Character.hpp \
     src/engine/element/dynamic/character/DeliveryManCharacter.hpp \
     src/engine/element/dynamic/character/ImmigrantCharacter.hpp \
@@ -155,7 +154,12 @@ HEADERS += \
     src/engine/processing/CharacterProcessor.hpp \
     src/engine/processing/CycleDate.hpp \
     src/engine/processing/TimeCycleProcessor.hpp \
-    src/engine/viewerInterface/ViewerInterface.hpp \
+    src/engine/state/BuildingState.hpp \
+    src/engine/state/CharacterState.hpp \
+    src/engine/state/CityState.hpp \
+    src/engine/state/MapState.hpp \
+    src/engine/state/NatureElementState.hpp \
+    src/engine/state/State.hpp \
     src/exceptions/BadConfigurationException.hpp \
     src/exceptions/EngineException.hpp \
     src/exceptions/Exception.hpp \

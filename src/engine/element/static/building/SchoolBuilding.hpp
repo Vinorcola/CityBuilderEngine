@@ -30,7 +30,6 @@ class SchoolBuilding : public AbstractProcessableBuilding
         );
 
         virtual void init(const CycleDate& date) override;
-
         virtual void process(const CycleDate& date) override;
 
     private:

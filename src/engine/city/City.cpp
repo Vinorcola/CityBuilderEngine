@@ -6,8 +6,16 @@
 
 
 
+City::State::State(const QString& title, int initialBudget) :
+    title(title),
+    budget(initialBudget)
+{
+
+}
+
+
+
 City::City(const Conf& conf, CityLoader& loader) :
-    title(loader.getTitle()),
     map(loader.getMapSize()),
     processor(loader.getStartDate()),
     population(),
@@ -22,7 +30,8 @@ City::City(const Conf& conf, CityLoader& loader) :
     dynamicElements(
         staticElements.getPathGenerator(),
         staticElements.getBuildingSearchEngine()
-    )
+    ),
+    currentState(loader.getTitle(), loader.getInitialBudget())
 {
     // Load nature elements.
     for (const auto& natureElementInfo : loader.getInitialNatureElements()) {
@@ -47,4 +56,38 @@ City::City(const Conf& conf, CityLoader& loader) :
             )
         );
     }
+}
+
+
+
+const MapState& City::getMapState() const
+{
+    return map.getState();
+}
+
+
+
+CityState City::getCurrentState() const
+{
+    auto& date(processor.getCurrentDate());
+
+    return {
+        currentState.budget,
+        population.getCurrentPopulation(),
+        { date.getYear(), date.getMonth() },
+    };
+}
+
+
+
+QList<BuildingState> City::getBuildingsState() const
+{
+    return staticElements.getBuildingsState();
+}
+
+
+
+QList<NatureElementState> City::getNatureElementsState() const
+{
+    return staticElements.getNatureElementsState();
 }
