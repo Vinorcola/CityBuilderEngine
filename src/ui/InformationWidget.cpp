@@ -35,30 +35,23 @@ InformationWidget::InformationWidget(
     setLayout(layout);
 }
 
-void InformationWidget::updateBudget(const int budget)
+
+
+void InformationWidget::updateState(const CityState& state)
 {
-    this->budget = budget;
-
-    budgetLabel->setText(resolveBudgetText());
-}
-
-
-
-void InformationWidget::updatePopulation(const int population)
-{
-    this->population = population;
-
-    populationLabel->setText(resolvePopulationText());
-}
-
-
-
-void InformationWidget::updateDate(const int year, const int month)
-{
-    this->year = year;
-    this->month = month;
-
-    clockLabel->setText(resolveDateText());
+    if (state.budget != budget) {
+        budget = state.budget;
+        budgetLabel->setText(resolveBudgetText());
+    }
+    if (state.population != population) {
+        population = state.population;
+        populationLabel->setText(resolvePopulationText());
+    }
+    if (state.date.year != year || state.date.month != month) {
+        year = state.date.year;
+        month = state.date.month;
+        clockLabel->setText(resolveDateText());
+    }
 }
 
 

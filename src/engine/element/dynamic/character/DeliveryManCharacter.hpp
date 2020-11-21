@@ -1,31 +1,28 @@
 #ifndef DELIVERYMANCHARACTER_HPP
 #define DELIVERYMANCHARACTER_HPP
 
-#include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/dynamic/character/Character.hpp"
 
+class AbstractProcessableBuilding;
+class BuildingSearchEngine;
 class ItemInformation;
-class MapSearchEngine;
-class ProcessableBuilding;
 
 class DeliveryManCharacter : public Character
 {
-        Q_OBJECT
-
     private:
-        const MapSearchEngine& searchEngine;
-        QPointer<ProcessableBuilding> target;
+        const BuildingSearchEngine& searchEngine;
+        QWeakPointer<AbstractProcessableBuilding> target;
         const ItemInformation& transportedItemConf;
         int transportedQuantity;
         bool goingHome;
 
     public:
         DeliveryManCharacter(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
-            const MapSearchEngine& searchEngine,
+            const BuildingSearchEngine& searchEngine,
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
+            const QSharedPointer<AbstractProcessableBuilding>& issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
         );

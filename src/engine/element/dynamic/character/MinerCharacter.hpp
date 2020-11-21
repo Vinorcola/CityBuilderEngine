@@ -3,23 +3,20 @@
 
 #include <QtCore/QPointer>
 
-#include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/defines.hpp"
 
 class MinerCharacter : public Character
 {
-        Q_OBJECT
-
     private:
         bool goingHome;
 
     public:
         MinerCharacter(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
+            const QSharedPointer<AbstractProcessableBuilding>& issuer,
             owner<PathInterface*> path
         );
 

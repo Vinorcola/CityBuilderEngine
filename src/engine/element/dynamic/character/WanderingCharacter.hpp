@@ -1,22 +1,19 @@
 #ifndef WANDERINGCHARACTER_HPP
 #define WANDERINGCHARACTER_HPP
 
-#include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/dynamic/character/Character.hpp"
 
 class WanderingCharacter : public Character
 {
-        Q_OBJECT
-
     private:
         bool goingHome;
 
     public:
         WanderingCharacter(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer
+            const QSharedPointer<AbstractProcessableBuilding>& issuer
         );
 
         void goHome();

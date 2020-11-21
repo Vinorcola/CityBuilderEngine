@@ -1,31 +1,50 @@
 #include "HouseBuilding.hpp"
 
+#include "src/engine/city/PopulationRegistryInterface.hpp"
 #include "src/engine/element/dynamic/character/ImmigrantCharacter.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/element/static/building/ImmigrantGeneratorInterface.hpp"
+#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
 
 HouseBuilding::HouseBuilding(
-    QObject* parent,
     ImmigrantGeneratorInterface& immigrantGenerator,
+    PopulationRegistryInterface& populationRegister,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    ProcessableBuilding(parent, conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, entryPoint),
     immigrantGenerator(immigrantGenerator),
-    population(0)
+    populationRegister(populationRegister),
+    inhabitants(0)
 {
 
 }
 
 
 
+QSharedPointer<AbstractProcessableBuilding> HouseBuilding::Create(
+    ImmigrantGeneratorInterface& immigrantGenerator,
+    PopulationRegistryInterface& populationRegister,
+    const BuildingInformation& conf,
+    const MapArea& area,
+    const MapCoordinates& entryPoint
+) {
+    auto house(new HouseBuilding(immigrantGenerator, populationRegister, conf, area, entryPoint));
+    QSharedPointer<AbstractProcessableBuilding> pointer(house);
+    house->selfReference = pointer;
+
+    return pointer;
+}
+
+
+
 void HouseBuilding::init(const CycleDate& /*date*/)
 {
-    immigrantGenerator.requestImmigrant(*this);
+    immigrantGenerator.requestImmigrant(selfReference);
 }
 
 
@@ -41,16 +60,26 @@ bool HouseBuilding::processInteraction(const CycleDate& /*date*/, Character& act
 {
     auto immigrant(dynamic_cast<ImmigrantCharacter*>(&actor));
     if (immigrant) {
-        int populationDelta(qMin(conf.getHouseConf().populationPerImmigrant, conf.getHouseConf().populationCapacity - population));
-        population += populationDelta;
-        emit populationChanged(populationDelta);
+        int inhabitantsDelta(qMin(
+            conf.getHouseConf().populationPerImmigrant,
+            conf.getHouseConf().populationCapacity - inhabitants
+        ));
+        inhabitants += inhabitantsDelta;
+        populationRegister.registerPopulation(inhabitantsDelta);
 
-        if (population < conf.getHouseConf().populationCapacity) {
-            immigrantGenerator.requestImmigrant(*this);
+        if (inhabitants < conf.getHouseConf().populationCapacity) {
+            immigrantGenerator.requestImmigrant(selfReference);
         }
 
         return true;
     }
 
     return false;
+}
+
+
+
+BuildingState HouseBuilding::getCurrentState() const
+{
+    return BuildingState::CreateHouseState(reinterpret_cast<qintptr>(this), conf, area, stateVersion, inhabitants);
 }

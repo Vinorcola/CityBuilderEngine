@@ -4,12 +4,9 @@
 #include <QtCore/QBasicTimer>
 #include <QtCore/QObject>
 
+#include "src/engine/processing/BuildingProcessor.hpp"
+#include "src/engine/processing/CharacterProcessor.hpp"
 #include "src/engine/processing/CycleDate.hpp"
-
-class BuildingProcessor;
-class Character;
-class CharacterProcessor;
-class ProcessableBuilding;
 
 /**
  * @brief An engine processor that process all the processable elements on each time-cycle.
@@ -29,11 +26,11 @@ class TimeCycleProcessor : public QObject
         qreal speedRatio;
         QBasicTimer clock;
         CycleDate currentCycleDate;
-        BuildingProcessor* buildingProcessor;
-        CharacterProcessor* characterProcessor;
+        BuildingProcessor buildingProcessor;
+        CharacterProcessor characterProcessor;
 
     public:
-        TimeCycleProcessor(QObject* parent, const CycleDate& startingDate, const qreal speedRatio = 1.0);
+        explicit TimeCycleProcessor(const CycleDate& startingDate, const qreal speedRatio = 1.0);
 
         qreal getSpeedRatio() const;
 
@@ -49,24 +46,23 @@ class TimeCycleProcessor : public QObject
         /**
          * @brief Register a building to be process each time cycle.
          */
-        void registerBuilding(ProcessableBuilding& building);
+        void registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
 
         /**
          * @brief Register a character to be process each time cycle.
          */
-        void registerCharacter(Character* character);
+        void registerCharacter(const QSharedPointer<Character>& character);
 
         /**
          * @brief Unregister a building from processor.
          */
-        void unregisterBuilding(ProcessableBuilding* building);
+        void unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
 
         /**
          * @brief Unregister a character from processor.
          */
-        void unregisterCharacter(Character* character);
+        void unregisterCharacter(const QSharedPointer<Character>& character);
 
-    public slots:
         /**
          * @brief Pause (or resume) the time-cycle processor.
          */
@@ -91,8 +87,6 @@ class TimeCycleProcessor : public QObject
          * @brief Indicate when a cycle process is finished.
          */
         void processFinished();
-
-        void dateChanged(const int year, const int month);
 
     protected:
         /**

@@ -3,22 +3,37 @@
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/pointer/SmartPointerUtils.hpp"
 
 
 
 SanityBuilding::SanityBuilding(
-    QObject* parent,
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    ProcessableBuilding(parent, conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, entryPoint),
     characterFactory(characterFactory),
     walker(),
     nextWalkerGenerationDate()
 {
 
+}
+
+
+
+QSharedPointer<AbstractProcessableBuilding> SanityBuilding::Create(
+    CharacterFactoryInterface& characterFactory,
+    const BuildingInformation& conf,
+    const MapArea& area,
+    const MapCoordinates& entryPoint
+) {
+    auto sanity(new SanityBuilding(characterFactory, conf, area, entryPoint));
+    QSharedPointer<AbstractProcessableBuilding> pointer(sanity);
+    sanity->selfReference = pointer;
+
+    return pointer;
 }
 
 
@@ -37,7 +52,7 @@ void SanityBuilding::process(const CycleDate& date)
             return;
         }
 
-        walker = &characterFactory.generateWanderingCharacter(conf.getSanityConf().walker.conf, *this);
+        walker = characterFactory.generateWanderingCharacter(conf.getSanityConf().walker.conf, selfReference);
 
         if (canGenerateNewWalker()) {
             setupNextWalkerGenerationDate(date);
@@ -55,7 +70,7 @@ void SanityBuilding::process(const CycleDate& date)
 
 bool SanityBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
-    if (&actor == walker) {
+    if (matches(walker, actor)) {
         walker.clear();
 
         return true;

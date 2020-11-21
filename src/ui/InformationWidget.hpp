@@ -4,6 +4,8 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QWidget>
 
+#include "src/engine/state/CityState.hpp"
+
 class InformationWidget : public QWidget
 {
         Q_OBJECT
@@ -26,12 +28,7 @@ class InformationWidget : public QWidget
             const int month = 1
         );
 
-    public slots:
-        void updateBudget(const int budget);
-
-        void updatePopulation(const int population);
-
-        void updateDate(const int year, const int month);
+        void updateState(const CityState& state);
 
     private:
         QString resolveBudgetText();

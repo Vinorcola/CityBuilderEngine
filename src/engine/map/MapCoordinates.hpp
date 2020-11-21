@@ -16,6 +16,7 @@ class MapCoordinates
 {
     private:
         QPointF coordinates;
+        QString hash;
 
     public:
         /**
@@ -209,6 +210,13 @@ class MapCoordinates
          * @return The straight distance.
          */
         qreal getStraightDistanceTo(const MapCoordinates& other) const;
+
+        /**
+         * @brief Retourne a hash unique accoridng to the coordinates.
+         *
+         * Two equals instances will give the same hash.
+         */
+        QString getHash() const;
 
         // DEBUG //
         QString toString() const;

@@ -1,11 +1,11 @@
 #include "BuildingProcessor.hpp"
 
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/global/pointer/SmartPointerUtils.hpp"
 
 
 
-BuildingProcessor::BuildingProcessor(QObject* parent) :
-    QObject(parent),
+BuildingProcessor::BuildingProcessor() :
     AbstractProcessable(),
     processableList(),
     waitingForRegistrationList(),
@@ -16,16 +16,16 @@ BuildingProcessor::BuildingProcessor(QObject* parent) :
 
 
 
-void BuildingProcessor::registerBuilding(ProcessableBuilding& building)
+void BuildingProcessor::registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
-    waitingForRegistrationList.append(&building);
+    waitingForRegistrationList.append(building);
 }
 
 
 
-void BuildingProcessor::unregisterBuilding(ProcessableBuilding* building)
+void BuildingProcessor::unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
-    waitingForUnregistrationList.append(building);
+    waitingForUnregistrationList.append(building.get());
 }
 
 
@@ -33,25 +33,21 @@ void BuildingProcessor::unregisterBuilding(ProcessableBuilding* building)
 void BuildingProcessor::process(const CycleDate& date)
 {
     // Process current processable list.
-    for (auto processable : processableList) {
+    for (auto& processableRef : processableList) {
+        auto processable(processableRef.toStrongRef());
         if (processable) {
             processable->process(date);
-        } else {
-            waitingForUnregistrationList.append(processable);
         }
     }
 
     // Process unregistration.
+    cleanInvalids(processableList);
     while (!waitingForUnregistrationList.isEmpty()) {
         processableList.remove(waitingForUnregistrationList.takeFirst());
     }
 
     // Process registration.
-    while (!waitingForRegistrationList.isEmpty()) {
-        auto processable(waitingForRegistrationList.takeFirst());
-        if (processable) {
-            processable->init(date);
-            processableList.push_back(processable);
-        }
+    for (auto& newProcessable : waitingForRegistrationList) {
+        processableList.insert(newProcessable.get(), newProcessable);
     }
 }

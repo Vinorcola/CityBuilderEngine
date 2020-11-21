@@ -1,25 +1,31 @@
 #ifndef SANITYBUILDING_HPP
 #define SANITYBUILDING_HPP
 
-#include <QtCore/QPointer>
+#include <QtCore/QSharedPointer>
 
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
+class Character;
 class CharacterFactoryInterface;
 
-class SanityBuilding : public ProcessableBuilding
+class SanityBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         CharacterFactoryInterface& characterFactory;
-        QPointer<Character> walker;
+        QWeakPointer<Character> walker;
         CycleDate nextWalkerGenerationDate;
 
-    public:
+    private:
         SanityBuilding(
-            QObject* parent,
+            CharacterFactoryInterface& characterFactory,
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
+
+    public:
+        static QSharedPointer<AbstractProcessableBuilding> Create(
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
@@ -27,9 +33,7 @@ class SanityBuilding : public ProcessableBuilding
         );
 
         virtual void init(const CycleDate& date) override;
-
         virtual void process(const CycleDate& date) override;
-
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 
     private:

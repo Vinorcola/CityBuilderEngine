@@ -1,25 +1,22 @@
 #ifndef IMMIGRANTCHARACTER_HPP
 #define IMMIGRANTCHARACTER_HPP
 
-#include <QtCore/QObject>
+#include "src/engine/element/dynamic/character/Character.hpp"
 
-#include "src/engine/element/dynamic/Character.hpp"
-
-class ProcessableBuilding;
+class AbstractProcessableBuilding;
 
 class ImmigrantCharacter : public Character
 {
     private:
-        QPointer<ProcessableBuilding> target;
+        QWeakPointer<AbstractProcessableBuilding> target;
 
     public:
         ImmigrantCharacter(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
-            ProcessableBuilding& target
+            const QSharedPointer<AbstractProcessableBuilding>& issuer,
+            const QSharedPointer<AbstractProcessableBuilding>& target
         );
 
         virtual void process(const CycleDate& date) override;

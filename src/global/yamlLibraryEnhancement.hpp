@@ -2,6 +2,7 @@
 #define YAMLLIBRARYENHANCEMENT_HPP
 
 #include <QtCore/QPoint>
+#include <QtCore/QSize>
 #include <QtCore/QString>
 #include <yaml-cpp/node/convert.h>
 
@@ -53,6 +54,21 @@ struct convert<QPoint>
         }
         coordinates.setX(node["x"].as<int>());
         coordinates.setY(node["y"].as<int>());
+
+        return true;
+    }
+};
+
+template<>
+struct convert<QSize>
+{
+    static bool decode(const Node& node, QSize& size)
+    {
+        if (!node.IsMap() || !node["width"] || !node["height"]) {
+            return false;
+        }
+        size.setWidth(node["width"].as<int>());
+        size.setHeight(node["height"].as<int>());
 
         return true;
     }

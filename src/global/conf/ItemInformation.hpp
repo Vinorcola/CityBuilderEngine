@@ -1,23 +1,22 @@
 #ifndef ITEMINFORMATION_HPP
 #define ITEMINFORMATION_HPP
 
-#include <QtCore/QObject>
 #include <QtCore/QString>
 
 namespace YAML {
     class Node;
 }
 
-class ItemInformation : public QObject
+class ItemInformation
 {
-        Q_OBJECT
+        Q_DISABLE_COPY_MOVE(ItemInformation)
 
     private:
         QString key;
         QString title;
 
     public:
-        ItemInformation(QObject* parent, const QString& key, const YAML::Node& model);
+        ItemInformation(const QString& key, const YAML::Node& model);
 
         const QString& getKey() const;
 

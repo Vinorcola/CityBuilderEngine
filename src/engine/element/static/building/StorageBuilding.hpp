@@ -3,20 +3,24 @@
 
 #include <QtCore/QHash>
 
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 
 class ItemInformation;
 
-class StorageBuilding : public ProcessableBuilding
+class StorageBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         QHash<const ItemInformation*, int> stock;
 
-    public:
+    private:
         StorageBuilding(
-            QObject* parent,
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
+
+    public:
+        static QSharedPointer<StorageBuilding> Create(
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
@@ -25,8 +29,9 @@ class StorageBuilding : public ProcessableBuilding
         int storableQuantity(const ItemInformation& itemConf, const int maxQuantity = 1) const;
 
         virtual void process(const CycleDate& date) override;
-
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
+
+        virtual BuildingState getCurrentState() const override;
 
     private:
         void store(const ItemInformation& itemConf, const int quantity);

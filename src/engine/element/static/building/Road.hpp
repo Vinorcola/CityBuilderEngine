@@ -1,23 +1,17 @@
 #ifndef ROAD_HPP
 #define ROAD_HPP
 
-#include "src/engine/element/static/Building.hpp"
-
-class BuildingInformation;
-class MapCoordinates;
+#include "src/engine/element/static/building/AbstractBuilding.hpp"
 
 /**
  * @brief A road.
  *
- * Roads are very particular buildings. They constitute a road graph on wich the dynamic elements will move. Check
- * RoadGraph for more information.
+ * Roads are very particular buildings. They constitute a road graph on wich the dynamic elements will move.
  */
-class Road : public Building
+class Road : public AbstractBuilding
 {
-        Q_OBJECT
-
     public:
-        Road(QObject* parent, const BuildingInformation& conf, const MapCoordinates& coordinates);
+        Road(const BuildingInformation& conf, const MapArea& area);
 };
 
 #endif // ROAD_HPP

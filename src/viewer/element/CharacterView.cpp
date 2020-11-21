@@ -1,6 +1,6 @@
 #include "CharacterView.hpp"
 
-#include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/state/CharacterState.hpp"
 #include "src/viewer/element/graphics/DynamicElement.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
 #include "src/viewer/image/CharacterImage.hpp"
@@ -14,19 +14,18 @@ CharacterView::CharacterView(
     const Positioning& positioning,
     const TileLocatorInterface& tileLocator,
     const ImageLibrary& imageLibrary,
-    const QSharedPointer<const Character>& engineData
+    const CharacterState& state
 ) :
     positioning(positioning),
     tileLocator(tileLocator),
-    engineData(engineData),
-    currentTile(&tileLocator.getTileAt(engineData->getCurrentLocation())),
-    image(imageLibrary.getCharacterImage(engineData->getConf())),
+    currentTile(&tileLocator.getTileAt(state.position)),
+    image(imageLibrary.getCharacterImage(state.type)),
     graphicElement(new DynamicElement(
         positioning,
-        image.getAnimationImage(0, engineData->getCurrentDirection()),
-        engineData->getCurrentLocation()
+        image.getAnimationImage(0, state.direction),
+        state.position
     )),
-    currentViewVersion(0), // TODO
+    currentStateVersion(state.stateVersion),
     animationIndex(0)
 {
     currentTile->registerDynamicElement(graphicElement);
@@ -41,28 +40,22 @@ CharacterView::~CharacterView()
 
 
 
-void CharacterView::updateFromEngineData()
+void CharacterView::update(const CharacterState& state)
 {
-    auto engineData(this->engineData.toStrongRef());
-    if (engineData.isNull()) {
-        this->setDestroyed();
-        return;
-    }
+    if (state.stateVersion != currentStateVersion) {
+        move(state.position);
+        advanceAnimation();
+        graphicElement->setImage(image.getAnimationImage(animationIndex, state.direction));
 
-    if (engineData->isViewUpToDate(currentViewVersion)) {
-        return;
+        currentStateVersion = state.stateVersion;
     }
-
-    move(engineData->getCurrentLocation());
-    advanceAnimation();
-    graphicElement->setImage(image.getAnimationImage(animationIndex, engineData->getCurrentDirection()));
 }
 
 
 
-bool CharacterView::hasBeenDestroyed() const
+void CharacterView::destroy()
 {
-    return engineData.isNull();
+    currentTile->unregisterDynamicElement(graphicElement);
 }
 
 
@@ -87,12 +80,4 @@ void CharacterView::move(const MapCoordinates& newLocation)
 void CharacterView::advanceAnimation()
 {
     animationIndex = (animationIndex + 1) % image.getAnimationSequenceLength();
-}
-
-
-
-void CharacterView::setDestroyed()
-{
-    engineData.clear();
-    currentTile->unregisterDynamicElement(graphicElement);
 }

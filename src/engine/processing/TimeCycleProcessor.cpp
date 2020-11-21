@@ -7,25 +7,28 @@
 #endif
 #include <QDebug>
 
-#include "src/engine/map/MapEntryPoint.hpp"
-#include "src/engine/processing/BuildingProcessor.hpp"
-#include "src/engine/processing/CharacterProcessor.hpp"
 #include "src/defines.hpp"
 
 const qreal MSEC_PER_SEC(1000);
 
 
 
-TimeCycleProcessor::TimeCycleProcessor(QObject* parent, const CycleDate& startingDate, const qreal speedRatio) :
-    QObject(parent),
-    paused(false),
+TimeCycleProcessor::TimeCycleProcessor(const CycleDate& startingDate, const qreal speedRatio) :
+    QObject(),
+    paused(true),
     speedRatio(speedRatio),
     clock(),
     currentCycleDate(startingDate),
-    buildingProcessor(new BuildingProcessor(this)),
-    characterProcessor(new CharacterProcessor(this))
+    buildingProcessor(),
+    characterProcessor()
 {
-    clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * speedRatio), this);
+    if (speedRatio < 0.1) {
+        this->speedRatio = 0.1;
+    }
+    if (speedRatio > 2.0) {
+        this->speedRatio = 2.0;
+    }
+    clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * this->speedRatio), this);
 }
 
 
@@ -44,30 +47,30 @@ const CycleDate& TimeCycleProcessor::getCurrentDate() const
 
 
 
-void TimeCycleProcessor::registerBuilding(ProcessableBuilding& building)
+void TimeCycleProcessor::registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
-    buildingProcessor->registerBuilding(building);
+    buildingProcessor.registerBuilding(building);
 }
 
 
 
-void TimeCycleProcessor::registerCharacter(Character* character)
+void TimeCycleProcessor::registerCharacter(const QSharedPointer<Character>& character)
 {
-    characterProcessor->registerCharacter(character);
+    characterProcessor.registerCharacter(character);
 }
 
 
 
-void TimeCycleProcessor::unregisterBuilding(ProcessableBuilding* building)
+void TimeCycleProcessor::unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
-    buildingProcessor->unregisterBuilding(building);
+    buildingProcessor.unregisterBuilding(building);
 }
 
 
 
-void TimeCycleProcessor::unregisterCharacter(Character* character)
+void TimeCycleProcessor::unregisterCharacter(const QSharedPointer<Character>& character)
 {
-    characterProcessor->unregisterCharacter(character);
+    characterProcessor.unregisterCharacter(character);
 }
 
 
@@ -124,17 +127,15 @@ void TimeCycleProcessor::processCycle()
     timer.start();
 #endif
 
-    auto previousMonth(currentCycleDate.getMonth());
-
     // Increment to cycle date.
     ++currentCycleDate;
     // qDebug() << "Process time-cycle" << currentCycleDate.toString();
 
     // Process characters.
-    characterProcessor->process(currentCycleDate);
+    characterProcessor.process(currentCycleDate);
 
     // Process buildings.
-    buildingProcessor->process(currentCycleDate);
+    buildingProcessor.process(currentCycleDate);
 
 #ifdef DEBUG_TOOLS
     if (timer.hasExpired(10)) {
@@ -143,7 +144,4 @@ void TimeCycleProcessor::processCycle()
 #endif
 
     emit processFinished();
-    if (previousMonth != currentCycleDate.getMonth()) {
-        emit dateChanged(currentCycleDate.getYear(), currentCycleDate.getMonth());
-    }
 }

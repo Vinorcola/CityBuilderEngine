@@ -2,7 +2,6 @@
 #define CONTROLPANELELEMENTINFORMATION_HPP
 
 #include <QtCore/QList>
-#include <QtCore/QObject>
 #include <QtCore/QString>
 
 #include "src/defines.hpp"
@@ -13,9 +12,9 @@ namespace YAML {
     class Node;
 }
 
-class ControlPanelElementInformation : public QObject
+class ControlPanelElementInformation
 {
-        Q_OBJECT
+        Q_DISABLE_COPY_MOVE(ControlPanelElementInformation)
 
     public:
         enum class Type {
@@ -27,10 +26,11 @@ class ControlPanelElementInformation : public QObject
         Type type;
         QString title;
         optional<const BuildingInformation*> staticElementConf;
-        QList<ControlPanelElementInformation*> children;
+        QList<owner<ControlPanelElementInformation*>> children;
 
     public:
-        ControlPanelElementInformation(QObject* parent, Conf* conf, const YAML::Node& model);
+        ControlPanelElementInformation(Conf& conf, const YAML::Node& model);
+        ~ControlPanelElementInformation();
 
         Type getType() const;
 

@@ -1,10 +1,6 @@
 #ifndef CHARACTERVIEW_HPP
 #define CHARACTERVIEW_HPP
 
-#include <QtCore/QSharedPointer>
-#include <QtCore/QSizeF>
-#include <QtCore/QWeakPointer>
-
 #include "src/defines.hpp"
 
 class Character;
@@ -15,6 +11,7 @@ class MapCoordinates;
 class Positioning;
 class Tile;
 class TileLocatorInterface;
+struct CharacterState;
 
 /**
  * @brief Handles the graphical representation of a character.
@@ -27,11 +24,10 @@ class CharacterView
     private:
         const Positioning& positioning;
         const TileLocatorInterface& tileLocator;
-        QWeakPointer<const Character> engineData;
         Tile* currentTile;
         const CharacterImage& image;
         owner<DynamicElement*> graphicElement;
-        int currentViewVersion;
+        int currentStateVersion;
         int animationIndex;
 
     public:
@@ -39,21 +35,16 @@ class CharacterView
             const Positioning& positioning,
             const TileLocatorInterface& tileLocator,
             const ImageLibrary& imageLibrary,
-            const QSharedPointer<const Character>& engineData
+            const CharacterState& state
         );
-
         ~CharacterView();
 
-        void updateFromEngineData();
-
-        bool hasBeenDestroyed() const;
+        void update(const CharacterState& state);
+        void destroy();
 
     private:
         void move(const MapCoordinates& newLocation);
-
         void advanceAnimation();
-
-        void setDestroyed();
 };
 
 #endif // CHARACTERVIEW_HPP

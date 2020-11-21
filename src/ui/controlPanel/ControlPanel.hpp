@@ -17,7 +17,7 @@ class ControlPanel : public QDockWidget
         QList<BuildingButton*> buttonList;
 
     public:
-        ControlPanel(const Conf* conf);
+        ControlPanel(const Conf& conf);
 
     private:
         BuildingButton* createButton(const ControlPanelElementInformation& elementConf);

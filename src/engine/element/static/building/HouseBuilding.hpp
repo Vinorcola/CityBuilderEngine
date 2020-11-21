@@ -1,37 +1,45 @@
 #ifndef HOUSEBUILDING_HPP
 #define HOUSEBUILDING_HPP
 
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include <QtCore/QSharedPointer>
+
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 
 class CharacterFactoryInterface;
 class ImmigrantGeneratorInterface;
-class MapEntryPoint;
+class CivilianEntryPoint;
+class PopulationRegistryInterface;
 
-class HouseBuilding : public ProcessableBuilding
+class HouseBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         ImmigrantGeneratorInterface& immigrantGenerator;
-        int population;
+        PopulationRegistryInterface& populationRegister;
+        int inhabitants;
 
-    public:
+    private:
         HouseBuilding(
-            QObject* parent,
             ImmigrantGeneratorInterface& immigrantGenerator,
+            PopulationRegistryInterface& populationRegister,
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
         );
 
-        virtual void init(const CycleDate& date);
+    public:
+        static QSharedPointer<AbstractProcessableBuilding> Create(
+            ImmigrantGeneratorInterface& immigrantGenerator,
+            PopulationRegistryInterface& populationRegister,
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
 
-        virtual void process(const CycleDate& date);
+        virtual void init(const CycleDate& date) override;
+        virtual void process(const CycleDate& date) override;
+        virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 
-        virtual bool processInteraction(const CycleDate& date, Character& actor);
-
-    signals:
-        void populationChanged(const int populationDelta);
+        virtual BuildingState getCurrentState() const override;
 };
 
 #endif // HOUSEBUILDING_HPP

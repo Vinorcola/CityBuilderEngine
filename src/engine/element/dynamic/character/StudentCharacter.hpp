@@ -1,25 +1,22 @@
 #ifndef STUDENTCHARACTER_HPP
 #define STUDENTCHARACTER_HPP
 
-#include "src/engine/element/dynamic/Character.hpp"
+#include "src/engine/element/dynamic/character/Character.hpp"
 
-class ProcessableBuilding;
+class AbstractProcessableBuilding;
 
 class StudentCharacter : public Character
 {
-        Q_OBJECT
-
     private:
-        QPointer<ProcessableBuilding> target;
+        QWeakPointer<AbstractProcessableBuilding> target;
 
     public:
         StudentCharacter(
-            QObject* parent,
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            ProcessableBuilding& issuer,
-            ProcessableBuilding& target,
+            const QSharedPointer<AbstractProcessableBuilding>& issuer,
+            const QWeakPointer<AbstractProcessableBuilding>& target,
             owner<PathInterface*> path
         );
 

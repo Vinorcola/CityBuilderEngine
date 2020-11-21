@@ -3,24 +3,23 @@
 #include <cassert>
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/engine/element/static/building/BuildingSearchEngine.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
-#include "src/engine/element/static/ProcessableBuilding.hpp"
-#include "src/engine/map/path/PathGenerator.hpp"
-#include "src/engine/map/MapSearchEngine.hpp"
+#include "src/engine/element/static/path/PathGenerator.hpp"
 
 
 
 DeliveryManCharacter::DeliveryManCharacter(
-    QObject* parent,
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
-    const MapSearchEngine& searchEngine,
+    const BuildingSearchEngine& searchEngine,
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer,
+    const QSharedPointer<AbstractProcessableBuilding>& issuer,
     const ItemInformation& transportedItemConf,
     const int transportedQuantity
 ) :
-    Character(parent, characterManager, pathGenerator, conf, issuer),
+    Character(characterManager, pathGenerator, conf, issuer),
     searchEngine(searchEngine),
     target(),
     transportedItemConf(transportedItemConf),
@@ -64,6 +63,7 @@ void DeliveryManCharacter::unload(const int quantity)
 
 void DeliveryManCharacter::goHome()
 {
+    auto issuer(this->issuer.toStrongRef());
     if (issuer) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(
@@ -78,9 +78,10 @@ void DeliveryManCharacter::goHome()
 void DeliveryManCharacter::process(const CycleDate& date)
 {
     if (target.isNull()) {
-        target = searchEngine.getStorageThatCanStore(transportedItemConf);
-        if (target) {
-            motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(motionHandler.getCurrentLocation(), target->getEntryPoint()));
+        auto storage(searchEngine.findClosestStorageThatCanStore(transportedItemConf, motionHandler.getCurrentLocation()));
+        if (storage) {
+            target = storage;
+            motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(motionHandler.getCurrentLocation(), storage->getEntryPoint()));
         }
     }
 
@@ -88,6 +89,7 @@ void DeliveryManCharacter::process(const CycleDate& date)
 
     if (motionHandler.isPathCompleted()) {
         if (goingHome) {
+            auto issuer(this->issuer.toStrongRef());
             if (issuer) {
                 issuer->processInteraction(date, *this);
             }
@@ -99,6 +101,7 @@ void DeliveryManCharacter::process(const CycleDate& date)
             }
         }
         else {
+            auto target(this->target.toStrongRef());
             if (target) {
                 target->processInteraction(date, *this);
                 notifyViewDataChange();

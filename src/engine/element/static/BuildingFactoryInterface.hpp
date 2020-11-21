@@ -15,7 +15,7 @@ class StorageBuilding;
 class BuildingFactoryInterface
 {
     public:
-        virtual ~BuildingFactoryInterface();
+        virtual ~BuildingFactoryInterface() {};
 
         virtual FarmBuilding& generateFarm(const BuildingInformation& conf, const MapArea& area) = 0;
 

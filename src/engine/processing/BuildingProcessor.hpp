@@ -1,40 +1,36 @@
 #ifndef BUILDINGPROCESSOR_HPP
 #define BUILDINGPROCESSOR_HPP
 
-#include <list>
 #include <QtCore/QList>
-#include <QtCore/QObject>
-#include <QtCore/QPointer>
+#include <QtCore/QSharedPointer>
 
 #include "src/engine/processing/AbstractProcessable.hpp"
 
+class AbstractProcessableBuilding;
 class CycleDate;
-class ProcessableBuilding;
 
 /**
  * @brief A processor for all map's buildings.
  */
-class BuildingProcessor: public QObject, public AbstractProcessable
+class BuildingProcessor : public AbstractProcessable
 {
-        Q_OBJECT
-
     private:
-        std::list<QPointer<ProcessableBuilding>> processableList;
-        QList<QPointer<ProcessableBuilding>> waitingForRegistrationList;
-        QList<ProcessableBuilding*> waitingForUnregistrationList;
+        QHash<const AbstractProcessableBuilding*, QWeakPointer<AbstractProcessableBuilding>> processableList;
+        QList<QSharedPointer<AbstractProcessableBuilding>> waitingForRegistrationList;
+        QList<const AbstractProcessableBuilding*> waitingForUnregistrationList;
 
     public:
-        explicit BuildingProcessor(QObject* parent);
+        BuildingProcessor();
 
         /**
          * @brief Register a building to be process each time cycle.
          */
-        void registerBuilding(ProcessableBuilding& building);
+        void registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
 
         /**
          * @brief Unregister a building from processor.
          */
-        void unregisterBuilding(ProcessableBuilding* building);
+        void unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
 
         virtual void process(const CycleDate& date) override;
 };

@@ -2,14 +2,17 @@
 #define MAPSCENE_HPP
 
 #include <QtCore/QBasicTimer>
+#include <QtCore/QHash>
 #include <QtWidgets/QGraphicsScene>
 
 #include "src/engine/map/MapArea.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
+#include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/Positioning.hpp"
 #include "src/defines.hpp"
 
-class Building;
+class AbstractBuilding;
+class AreaCheckerInterface;
 class BuildingInformation;
 class BuildingView;
 class Character;
@@ -17,13 +20,18 @@ class CharacterView;
 class Conf;
 class ConstructionCursor;
 class DynamicElement;
-class ImageLibrary;
 class Map;
 class MapCoordinates;
 class MapSize;
 class NatureElement;
+class RoadPathGeneratorInterface;
 class SelectionElement;
 class Tile;
+struct BuildingState;
+struct CharacterState;
+struct MapState;
+struct NatureElementState;
+struct State;
 
 /**
  * @brief The scene used to display all the tiles (and their content).
@@ -33,39 +41,43 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         Q_OBJECT
 
     private:
-        const Map& map;
-        const ImageLibrary& imageLibrary;
+        const AreaCheckerInterface& areaChecker;
+        const RoadPathGeneratorInterface& roadPathGenerator;
+        ImageLibrary imageLibrary;
         Positioning positioning;
-        QList<owner<Tile*>> tiles;
-        QList<owner<BuildingView*>> buildings;
-        QList<owner<CharacterView*>> characters;
+        QHash<QString, Tile*> tiles;
+        QHash<qintptr, BuildingView*> buildings;
+        QHash<qintptr, CharacterView*> characters;
         optional<owner<ConstructionCursor*>> selectionElement;
         QBasicTimer animationClock;
         MapCoordinates currentTileLocation;
 
     public:
-        MapScene(const Conf& conf, const Map& map, const ImageLibrary& imageLibrary);
-
+        MapScene(
+            const Conf& conf,
+            const AreaCheckerInterface& areaChecker,
+            const RoadPathGeneratorInterface& roadPathGenerator,
+            const MapState& mapState,
+            const State& initialState
+        );
         ~MapScene();
 
+        virtual Tile& getTileAt(const MapCoordinates& location) const override;
+
+    public slots:
         /**
          * @brief Request the tool for positioning a building.
          */
         void requestBuildingPositioning(const BuildingInformation& elementConf);
 
-        virtual Tile& getTileAt(const MapCoordinates& location) const override;
-
-    public slots:
-        void registerNewBuilding(QSharedPointer<const Building> element);
-
-        void registerNewCharacter(QSharedPointer<const Character> element);
-
-        void registerNewNatureElement(const NatureElement& element);
+        void registerNewBuilding(const BuildingState& buildingState);
+        void registerNewCharacter(const CharacterState& characterState);
+        void registerNewNatureElement(const NatureElementState& natureElementState);
 
         /**
          * @brief Refresh the map.
          */
-        void refresh();
+        void refresh(const State& state);
 
     protected:
         virtual void timerEvent(QTimerEvent* event) override;

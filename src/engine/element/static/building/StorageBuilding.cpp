@@ -3,20 +3,34 @@
 #include <QtGlobal>
 
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
+#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
 
 
 StorageBuilding::StorageBuilding(
-    QObject* parent,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    ProcessableBuilding(parent, conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, entryPoint),
     stock()
 {
 
+}
+
+
+
+QSharedPointer<StorageBuilding> StorageBuilding::Create(
+    const BuildingInformation& conf,
+    const MapArea& area,
+    const MapCoordinates& entryPoint
+) {
+    auto storage(new StorageBuilding(conf, area, entryPoint));
+    QSharedPointer<StorageBuilding> pointer(storage);
+    storage->selfReference = pointer;
+
+    return pointer;
 }
 
 
@@ -55,6 +69,13 @@ bool StorageBuilding::processInteraction(const CycleDate& /*date*/, Character& a
     }
 
     return false;
+}
+
+
+
+BuildingState StorageBuilding::getCurrentState() const
+{
+    return BuildingState::CreateStorageState(reinterpret_cast<qintptr>(this), conf, area, stateVersion, stock);
 }
 
 

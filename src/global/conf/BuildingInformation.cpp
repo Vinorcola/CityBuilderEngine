@@ -4,7 +4,7 @@
 
 #include "src/exceptions/BadConfigurationException.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
-#include "src/global/conf/BuildingSearchCriteriaDescription.hpp"
+#include "src/global/conf/BuildingAreaPartDescription.hpp"
 #include "src/global/conf/ImageSequenceInformation.hpp"
 #include "src/global/conf/ModelReader.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
@@ -12,8 +12,7 @@
 
 
 
-BuildingInformation::BuildingInformation(QObject* parent, const ModelReader& model) :
-    QObject(parent),
+BuildingInformation::BuildingInformation(const ModelReader& model) :
     key(model.getKey()),
     type(resolveType(model.getString("type"))),
     common(model),
@@ -236,9 +235,17 @@ BuildingInformation::Common::Common(const ModelReader& model) :
     price(model.getOptionalInt("price", 0)),
     employees(model.getOptionalInt("employees", 0)),
     fireRiskIncrement(model.getOptionalInt("fireRisk", 0)),
-    damageRiskIncrement(model.getOptionalInt("damageRisk", 0))
+    damageRiskIncrement(model.getOptionalInt("damageRisk", 0)),
+    areaDescription()
 {
 
+}
+
+
+
+BuildingInformation::Common::~Common()
+{
+    qDeleteAll(areaDescription);
 }
 
 

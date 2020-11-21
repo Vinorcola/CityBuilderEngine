@@ -1,26 +1,41 @@
 #include "LaboratoryBuilding.hpp"
 
+#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
-#include "src/engine/element/dynamic/Character.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/pointer/SmartPointerUtils.hpp"
 
 
 
 LaboratoryBuilding::LaboratoryBuilding(
-    QObject* parent,
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     const MapCoordinates& entryPoint
 ) :
-    ProcessableBuilding(parent, conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, entryPoint),
     characterFactory(characterFactory),
     walkerGenerationLimitDate(),
     scientist(),
     nextWalkerGenerationDate()
 {
 
+}
+
+
+
+QSharedPointer<AbstractProcessableBuilding> LaboratoryBuilding::Create(
+    CharacterFactoryInterface& characterFactory,
+    const BuildingInformation& conf,
+    const MapArea& area,
+    const MapCoordinates& entryPoint
+) {
+    auto laboratory(new LaboratoryBuilding(characterFactory, conf, area, entryPoint));
+    QSharedPointer<AbstractProcessableBuilding> pointer(laboratory);
+    laboratory->selfReference = pointer;
+
+    return pointer;
 }
 
 
@@ -36,7 +51,7 @@ void LaboratoryBuilding::process(const CycleDate& date)
             return;
         }
 
-        scientist = &characterFactory.generateWanderingCharacter(conf.getLaboratoryConf().emittedScientist.conf, *this);
+        scientist = characterFactory.generateWanderingCharacter(conf.getLaboratoryConf().emittedScientist.conf, selfReference);
 
         if (canGenerateNewWalker()) {
             setupNextWalkerGenerationDate(date);
@@ -54,7 +69,7 @@ void LaboratoryBuilding::process(const CycleDate& date)
 
 bool LaboratoryBuilding::processInteraction(const CycleDate& date, Character& actor)
 {
-    if (&actor == scientist) {
+    if (matches(scientist, actor)) {
         scientist.clear();
 
         return true;

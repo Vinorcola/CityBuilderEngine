@@ -1,29 +1,29 @@
 #include "WanderingCharacter.hpp"
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
-#include "src/engine/element/static/ProcessableBuilding.hpp"
-#include "src/engine/map/path/PathGenerator.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/engine/element/static/path/PathGenerator.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 
 
 
 WanderingCharacter::WanderingCharacter(
-    QObject* parent,
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer
+    const QSharedPointer<AbstractProcessableBuilding>& issuer
 ) :
-    Character(parent, characterManager, pathGenerator, conf, issuer),
+    Character(characterManager, pathGenerator, conf, issuer),
     goingHome(false)
 {
-    motionHandler.takePath(pathGenerator.generateWanderingPath(issuer.getEntryPoint(), conf.getWanderingCredits()));
+    motionHandler.takePath(pathGenerator.generateWanderingPath(issuer->getEntryPoint(), conf.getWanderingCredits()));
 }
 
 
 
 void WanderingCharacter::goHome()
 {
+    auto issuer(this->issuer.toStrongRef());
     if (issuer) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(
@@ -41,6 +41,7 @@ void WanderingCharacter::process(const CycleDate& date)
 
     if (motionHandler.isPathCompleted()) {
         if (goingHome) {
+            auto issuer(this->issuer.toStrongRef());
             if (issuer) {
                 issuer->processInteraction(date, *this);
             }

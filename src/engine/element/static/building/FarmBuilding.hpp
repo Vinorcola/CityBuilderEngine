@@ -1,27 +1,31 @@
 #ifndef FARMBUILDING_HPP
 #define FARMBUILDING_HPP
 
-#include <QtCore/QPointer>
+#include <QtCore/QWeakPointer>
 
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
 class CharacterFactoryInterface;
-class DeliveryManCharacter;
 class ItemInformation;
 
-class FarmBuilding : public ProcessableBuilding
+class FarmBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         CharacterFactoryInterface& characterFactory;
         CycleDate completeGrowingDate;
-        QPointer<DeliveryManCharacter> deliveryMan;
+        QWeakPointer<Character> deliveryMan;
+
+    private:
+        FarmBuilding(
+            CharacterFactoryInterface& characterFactory,
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
 
     public:
-        FarmBuilding(
-            QObject* parent,
+        static QSharedPointer<AbstractProcessableBuilding> Create(
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
@@ -29,10 +33,10 @@ class FarmBuilding : public ProcessableBuilding
         );
 
         virtual void init(const CycleDate& date) override;
-
         virtual void process(const CycleDate& date) override;
-
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
+
+        virtual BuildingState getCurrentState() const override;
 
     private:
         void harvest(const CycleDate& date);

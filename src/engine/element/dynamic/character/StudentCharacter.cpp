@@ -1,21 +1,20 @@
 #include "StudentCharacter.hpp"
 
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 
 
 
 StudentCharacter::StudentCharacter(
-    QObject* parent,
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    ProcessableBuilding& issuer,
-    ProcessableBuilding& target,
+    const QSharedPointer<AbstractProcessableBuilding>& issuer,
+    const QWeakPointer<AbstractProcessableBuilding>& target,
     owner<PathInterface*> path
 ) :
-    Character(parent, characterManager, pathGenerator, conf, issuer),
-    target(&target)
+    Character(characterManager, pathGenerator, conf, issuer),
+    target(target)
 {
     motionHandler.takePath(path);
 }
@@ -27,6 +26,7 @@ void StudentCharacter::process(const CycleDate& date)
     Character::process(date);
 
     if (motionHandler.isPathCompleted()) {
+        auto target(this->target.toStrongRef());
         if (target) {
             target->processInteraction(date, *this);
         }

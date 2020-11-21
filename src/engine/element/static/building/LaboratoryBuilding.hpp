@@ -1,27 +1,32 @@
 #ifndef LABORATORYBUILDING_HPP
 #define LABORATORYBUILDING_HPP
 
-#include <QtCore/QPointer>
+#include <QtCore/QWeakPointer>
 
-#include "src/engine/element/static/ProcessableBuilding.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
 class Character;
 class CharacterFactoryInterface;
 
-class LaboratoryBuilding : public ProcessableBuilding
+class LaboratoryBuilding : public AbstractProcessableBuilding
 {
-        Q_OBJECT
-
     private:
         CharacterFactoryInterface& characterFactory;
         CycleDate walkerGenerationLimitDate;
-        QPointer<Character> scientist;
+        QWeakPointer<Character> scientist;
         CycleDate nextWalkerGenerationDate;
 
-    public:
+    private:
         LaboratoryBuilding(
-            QObject* parent,
+            CharacterFactoryInterface& characterFactory,
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
+
+    public:
+        static QSharedPointer<AbstractProcessableBuilding> Create(
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
@@ -29,7 +34,6 @@ class LaboratoryBuilding : public ProcessableBuilding
         );
 
         virtual void process(const CycleDate& date) override;
-
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 
     private:
