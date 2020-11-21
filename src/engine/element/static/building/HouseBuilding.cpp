@@ -81,5 +81,13 @@ bool HouseBuilding::processInteraction(const CycleDate& /*date*/, Character& act
 
 BuildingState HouseBuilding::getCurrentState() const
 {
-    return BuildingState::CreateHouseState(reinterpret_cast<qintptr>(this), conf, area, stateVersion, inhabitants);
+    return BuildingState::CreateHouseState(
+        reinterpret_cast<qintptr>(this),
+        conf,
+        area,
+        getWorkingRatio() == 0.0 ? BuildingState::Status::Inactive : BuildingState::Status::Active,
+        getCurrentWorkerQuantity(),
+        stateVersion,
+        inhabitants
+    );
 }

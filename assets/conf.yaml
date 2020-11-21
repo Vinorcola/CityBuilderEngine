@@ -10,6 +10,7 @@ buildings:
         studentCharacter: philosopher
         targetLaboratory: podium
         animationAnchorPoint: { x: 49, y: 38 }
+        workers: 12
     foundry:
         type: producer
         title: Foundry
@@ -18,6 +19,7 @@ buildings:
         producedItem: bronze
         minerCharacter: copperMiner
         animationAnchorPoint: { x: -1, y: -29 }
+        workers: 15
     fountain:
         type: sanity
         title: Fountain
@@ -25,12 +27,14 @@ buildings:
         walkerCharacter: waterBearer
         walkerGenerationInterval: 8
         animationAnchorPoint: { x: 36, y: 41 }
+        workers: 4
     granary:
         type: storage
         title: Granary
         size: 4
         items: [ carrots, cheese, fish, meat, onions, urchin, wheat ]
         animationAnchorPoint: { x: 125, y: 129 }
+        workers: 18
     gymnasium:
         type: school
         title: Gymnasium
@@ -38,6 +42,7 @@ buildings:
         studentCharacter: competitor
         targetLaboratory: stadium
         animationAnchorPoint: { x: 58, y: 10 }
+        workers: 7
     house:
         type: house
         title: House
@@ -51,6 +56,7 @@ buildings:
         walkerCharacter: healer
         walkerGenerationInterval: 8
         animationAnchorPoint: { x: 80, y: 43 }
+        workers: 11
     maintenance:
         type: sanity
         title: Maintenance Office
@@ -58,6 +64,7 @@ buildings:
         walkerCharacter: superintendent
         walkerGenerationInterval: 1
         animationAnchorPoint: { x: 15, y: -30 }
+        workers: 5
     mapEntryPoint:
         type: mapEntryPoint
         title: Map Entry Point
@@ -71,12 +78,14 @@ buildings:
         minerCharacter: silverMiner
         rawMaterialQuantityToProduce: 200
         animationAnchorPoint: { x: -1, y: -39 }
+        workers: 15
     podium:
         type: laboratory
         title: Podium
         size: 2
         acceptedStudent: philosopher
         animationAnchorPoint: { x: 45, y: 40 }
+        workers: 4
     road:
         type: road
         title: Road
@@ -86,6 +95,7 @@ buildings:
         title: Stadium
         size: 5
         acceptedStudent: athlete
+        workers: 45
     storehouse:
         type: storage
         title: Storehouse
@@ -102,6 +112,7 @@ buildings:
           - wheat
           - wine
           - wood
+        workers: 12
     taxOffice:
         type: sanity
         title: Tax Office
@@ -109,6 +120,7 @@ buildings:
         walkerCharacter: clerk
         walkerGenerationInterval: 8
         animationAnchorPoint: { x: 55, y: 40 }
+        workers: 8
     timberMill:
         type: producer
         title: Timber Mill
@@ -117,18 +129,21 @@ buildings:
         producedItem: wood
         minerCharacter: lumberjack
         animationAnchorPoint: { x: -1, y: -7 }
+        workers: 12
     watchpost:
         type: sanity
         title: Watchpost
         size: 2
         walkerCharacter: watchman
         walkerGenerationInterval: 8
+        workers: 6
     wheatFarm:
         type: farm
         title: Wheat farm
         size: 3
         producedItem: wheat
         harvestMonth: 7
+        workers: 10
 
 characters:
     athlete:

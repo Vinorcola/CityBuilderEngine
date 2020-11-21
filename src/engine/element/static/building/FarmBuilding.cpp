@@ -90,7 +90,15 @@ bool FarmBuilding::processInteraction(const CycleDate& /*date*/, Character& acto
 BuildingState FarmBuilding::getCurrentState() const
 {
     // TODO: Calculate growth percent.
-    return BuildingState::CreateFarmState(reinterpret_cast<qintptr>(this), conf, area, stateVersion, 0);
+    return BuildingState::CreateFarmState(
+        reinterpret_cast<qintptr>(this),
+        conf,
+        area,
+        getWorkingRatio() == 0.0 ? BuildingState::Status::Inactive : BuildingState::Status::Active,
+        getCurrentWorkerQuantity(),
+        stateVersion,
+        0
+    );
 }
 
 

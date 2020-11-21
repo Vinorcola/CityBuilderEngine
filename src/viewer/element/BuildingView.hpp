@@ -1,6 +1,7 @@
 #ifndef BUILDINGVIEW_HPP
 #define BUILDINGVIEW_HPP
 
+#include "src/engine/state/BuildingState.hpp"
 #include "src/defines.hpp"
 
 class AbstractBuilding;
@@ -11,7 +12,6 @@ class Positioning;
 class StaticElement;
 class Tile;
 class TileLocatorInterface;
-struct BuildingState;
 
 /**
  * @brief Handles the graphical representation of a building.
@@ -27,6 +27,7 @@ class BuildingView
         const BuildingImage& image;
         owner<StaticElement*> graphicElement;
         int currentStateVersion;
+        BuildingState::Status status;
         int animationIndex;
 
     public:
@@ -46,6 +47,7 @@ class BuildingView
     private:
         void maskCoveredTiles();
         void revealCoveredTiles();
+        void updateStatus(BuildingState::Status newStatus);
 };
 
 #endif // BUILDINGVIEW_HPP

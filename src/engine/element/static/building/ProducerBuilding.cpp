@@ -88,7 +88,15 @@ bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& 
 
 BuildingState ProducerBuilding::getCurrentState() const
 {
-    return BuildingState::CreateProducerState(reinterpret_cast<qintptr>(this), conf, area, stateVersion, rawMaterialStock);
+    return BuildingState::CreateProducerState(
+        reinterpret_cast<qintptr>(this),
+        conf,
+        area,
+        getWorkingRatio() == 0.0 ? BuildingState::Status::Inactive : BuildingState::Status::Active,
+        getCurrentWorkerQuantity(),
+        stateVersion,
+        rawMaterialStock
+    );
 }
 
 

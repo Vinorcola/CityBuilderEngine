@@ -16,7 +16,7 @@ class AbstractBuilding
 {
     protected:
         const BuildingInformation& conf;
-        MapArea area;
+        const MapArea area;
         int stateVersion; ///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
 
     public:

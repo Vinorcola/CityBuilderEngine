@@ -19,7 +19,6 @@ class StaticElement : public QGraphicsPixmapItem
         StaticElement(const Positioning& positioning, const MapSize& elementSize, const Image& elementImage);
 
         void setAnimationImage(const Image& image);
-
         void dropAnimationImage();
 
         virtual QPainterPath shape() const;

@@ -90,6 +90,20 @@ const MapSize& BuildingInformation::getSize() const
 
 
 
+int BuildingInformation::getMaxWorkers() const
+{
+    return common.maxWorkers;
+}
+
+
+
+const BuildingInformation::Graphics& BuildingInformation::getGraphicsData() const
+{
+    return graphics;
+}
+
+
+
 const BuildingInformation::Farm& BuildingInformation::getFarmConf() const
 {
     if (farm == nullptr) {
@@ -167,13 +181,6 @@ const BuildingInformation::Storage& BuildingInformation::getStorageConf() const
 
 
 
-const BuildingInformation::Graphics& BuildingInformation::getGraphicsData() const
-{
-    return graphics;
-}
-
-
-
 void BuildingInformation::loadSpecificConf(const ModelReader& model)
 {
     switch (type) {
@@ -233,7 +240,7 @@ BuildingInformation::Common::Common(const ModelReader& model) :
     title(model.getString("title")),
     size(model.getOptionalInt("size", 1)),
     price(model.getOptionalInt("price", 0)),
-    employees(model.getOptionalInt("employees", 0)),
+    maxWorkers(model.getOptionalInt("workers", 0)),
     fireRiskIncrement(model.getOptionalInt("fireRisk", 0)),
     damageRiskIncrement(model.getOptionalInt("damageRisk", 0)),
     areaDescription()
