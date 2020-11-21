@@ -6,6 +6,8 @@
 
 #include "src/engine/state/CityState.hpp"
 #include "src/engine/state/State.hpp"
+#include "src/viewer/construction/AreaCheckerInterface.hpp"
+#include "src/viewer/construction/RoadPathGeneratorInterface.hpp"
 #include "src/defines.hpp"
 
 class BuildingInformation;
@@ -15,7 +17,7 @@ class MapArea;
 class MapState;
 class QSize;
 
-class Engine : public QObject
+class Engine : public QObject, public AreaCheckerInterface, public RoadPathGeneratorInterface
 {
         Q_OBJECT
 
@@ -32,6 +34,12 @@ class Engine : public QObject
         const MapState& getMapState() const;
         State getCurrentState() const;
 
+        virtual bool isConstructible(const MapArea& area) const override;
+        virtual QList<MapCoordinates> getShortestPathForRoad(
+            const MapCoordinates& origin,
+            const MapCoordinates& target
+        ) const override;
+
     public slots:
         /**
          * @brief Set (or unset) the pause mode.
@@ -42,6 +50,7 @@ class Engine : public QObject
          * @brief Set the time-cycle processor speed ratio.
          */
         void setProcessorSpeedRatio(const qreal speedRatio);
+        qreal getProcessorSpeedRatio() const;
 
         /**
          * @brief Force the next process to occur.

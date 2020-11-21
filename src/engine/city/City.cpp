@@ -74,6 +74,20 @@ void City::createBuilding(const BuildingInformation& conf, const MapArea& area)
 
 
 
+bool City::isAreaConstructible(const MapArea& area) const
+{
+    return staticElements.isAreaConstructible(area);
+}
+
+
+
+QList<MapCoordinates> City::getShortestPathForRoad(const MapCoordinates& origin, const MapCoordinates& target) const
+{
+    return staticElements.getPathGenerator().generateShortestPathForRoad(origin, target);
+}
+
+
+
 const MapState& City::getMapState() const
 {
     return map.getState();
@@ -104,4 +118,11 @@ QList<BuildingState> City::getBuildingsState() const
 QList<NatureElementState> City::getNatureElementsState() const
 {
     return staticElements.getNatureElementsState();
+}
+
+
+
+QList<CharacterState> City::getCharactersState() const
+{
+    return dynamicElements.getCharactersState();
 }

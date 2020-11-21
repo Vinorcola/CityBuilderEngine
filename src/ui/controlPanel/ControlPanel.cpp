@@ -9,7 +9,7 @@
 
 
 
-ControlPanel::ControlPanel(const Conf* conf) :
+ControlPanel::ControlPanel(const Conf& conf) :
     QDockWidget(),
     buttonList()
 {
@@ -27,7 +27,7 @@ ControlPanel::ControlPanel(const Conf* conf) :
     contentLayout->addWidget(nestedContent);
 
     // Load control panel elements.
-    for (auto element : conf->getControlPanelElements()) {
+    for (auto element : conf.getControlPanelElements()) {
         switch (element->getType()) {
             case ControlPanelElementInformation::Type::Button:
                 contentLayout->addWidget(createButton(*element));

@@ -93,7 +93,6 @@ SOURCES += \
     src/viewer/image/ImageSequence.cpp \
     src/viewer/image/NatureElementImage.cpp \
     src/viewer/MapScene.cpp \
-    src/viewer/MapViewer.cpp \
     src/viewer/Positioning.cpp \
     src/viewer/Tile.cpp \
     src/main.cpp
@@ -202,7 +201,6 @@ HEADERS += \
     src/viewer/image/ImageSequence.hpp \
     src/viewer/image/NatureElementImage.hpp \
     src/viewer/MapScene.hpp \
-    src/viewer/MapViewer.hpp \
     src/viewer/Positioning.hpp \
     src/viewer/Tile.hpp \
     src/defines.hpp

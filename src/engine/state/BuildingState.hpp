@@ -47,7 +47,8 @@ struct StorageState
 
 struct BuildingState
 {
-    BuildingState(const BuildingInformation& type, const MapArea& area, int stateVersion) :
+    BuildingState(qintptr id, const BuildingInformation& type, const MapArea& area, int stateVersion) :
+        id(id),
         type(type),
         area(area),
         farm(nullptr),
@@ -58,6 +59,7 @@ struct BuildingState
     {}
 
     BuildingState(const BuildingState& other) :
+        id(other.id),
         type(other.type),
         area(other.area),
         farm(nullptr),
@@ -91,48 +93,52 @@ struct BuildingState
     }
 
     static BuildingState CreateFarmState(
+        qintptr id,
         const BuildingInformation& type,
         const MapArea& area,
         int stateVersion,
         int growthPercent
     ) {
-        BuildingState state(type, area, stateVersion);
+        BuildingState state(id, type, area, stateVersion);
         state.farm = new FarmState(growthPercent);
 
         return state;
     }
 
     static BuildingState CreateHouseState(
+        qintptr id,
         const BuildingInformation& type,
         const MapArea& area,
         int stateVersion,
         int inhabitants
     ) {
-        BuildingState state(type, area, stateVersion);
+        BuildingState state(id, type, area, stateVersion);
         state.house = new HouseState(inhabitants);
 
         return state;
     }
 
     static BuildingState CreateProducerState(
+        qintptr id,
         const BuildingInformation& type,
         const MapArea& area,
         int stateVersion,
         int rawMaterialStock
     ) {
-        BuildingState state(type, area, stateVersion);
+        BuildingState state(id, type, area, stateVersion);
         state.producer = new ProducerState(rawMaterialStock);
 
         return state;
     }
 
     static BuildingState CreateStorageState(
+        qintptr id,
         const BuildingInformation& type,
         const MapArea& area,
         int stateVersion,
         const QHash<const ItemInformation*, int>& stock
     ) {
-        BuildingState state(type, area, stateVersion);
+        BuildingState state(id, type, area, stateVersion);
         state.storage = new StorageState(stock);
 
         return state;
@@ -154,6 +160,7 @@ struct BuildingState
         }
     }
 
+    qintptr id;
     const BuildingInformation& type;
     MapArea area;
     optional<owner<FarmState*>> farm;

@@ -1,25 +1,25 @@
 #include "MainWindow.hpp"
 
 #include <QtWidgets/QInputDialog>
+#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 
-#include "src/engine/loader/CityLoader.hpp"
-#include "src/engine/map/Map.hpp"
-#include "src/engine/processing/TimeCycleProcessor.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/ui/controlPanel/ControlPanel.hpp"
 #include "src/ui/InformationWidget.hpp"
-#include "src/viewer/MapViewer.hpp"
+#include "src/viewer/MapScene.hpp"
 
 
 
 MainWindow::MainWindow() :
     QMainWindow(),
-    conf(new Conf(this, "assets/conf.yaml")),
+    conf("assets/conf.yaml"),
+    engine(conf),
+    viewerScene(nullptr),
+    viewer(nullptr),
     controlPanel(new ControlPanel(conf)),
-    currentMap(nullptr),
     pauseAction(new QAction(tr("Pause"), this)),
     speedAction(new QAction(tr("Speed"), this)),
 #ifdef DEBUG_TOOLS
@@ -63,45 +63,39 @@ MainWindow::MainWindow() :
 
     // Control panel.
     addDockWidget(Qt::RightDockWidgetArea, controlPanel);
-}
 
-
-
-MainWindow::~MainWindow()
-{
-    if (currentMap) {
-        delete currentMap;
-    }
+    // Communication with the engine.
+    connect(pauseAction, &QAction::triggered, &engine, &Engine::pause);
+    connect(this, &MainWindow::requestSpeedRatioChange, &engine, &Engine::setProcessorSpeedRatio);
+#ifdef DEBUG_TOOLS
+    connect(processAction, &QAction::triggered, &engine, &Engine::forceNextProcess);
+#endif
+    connect(&engine, &Engine::stateUpdated, this, &MainWindow::updateState);
 }
 
 
 
 void MainWindow::loadMap(const QString& filePath)
 {
-    if (currentMap) {
-        delete currentMap;
+    if (viewer) {
+        delete viewer;
     }
-    currentMap = new Map(conf, CityLoader(filePath));
+    if (viewerScene) {
+        delete viewerScene;
+    }
+    engine.loadCity(filePath);
+    const auto initialState(engine.getCurrentState());
+    informationWidget->updateState(initialState.city);
+
+    viewerScene = new MapScene(conf, engine, engine, engine.getMapState(), initialState);
+    viewer = new QGraphicsView(viewerScene);
+    setCentralWidget(viewer);
+    connect(controlPanel, &ControlPanel::buildingRequested, viewerScene, &MapScene::requestBuildingPositioning);
+    connect(viewerScene, &MapScene::buildingCreationRequested, &engine, &Engine::createBuilding);
+
     speedAction->setEnabled(true);
     pauseAction->setChecked(false);
-    connect(pauseAction, &QAction::toggled, currentMap, &Map::pause);
-    connect(this, &MainWindow::requestSpeedRatioChange, currentMap, &Map::setProcessorSpeedRatio);
-#ifdef DEBUG_TOOLS
-    connect(processAction, &QAction::triggered, currentMap->getProcessor(), &TimeCycleProcessor::forceNextProcess);
-#endif
-
-    // Setup information display
-    informationWidget->updateBudget(currentMap->getCurrentBudget());
-    informationWidget->updatePopulation(currentMap->getCurrentPopulation());
-    auto currentDate(currentMap->getCurrentDate());
-    informationWidget->updateDate(currentDate.getYear(), currentDate.getMonth());
-    connect(currentMap, &Map::budgetChanged, informationWidget, &InformationWidget::updateBudget);
-    connect(currentMap, &Map::populationChanged, informationWidget, &InformationWidget::updatePopulation);
-    connect(currentMap, &Map::dateChanged, informationWidget, &InformationWidget::updateDate);
-
-    MapViewer* viewer(new MapViewer(*conf, *currentMap));
-    setCentralWidget(viewer);
-    connect(controlPanel, &ControlPanel::buildingRequested, viewer, &MapViewer::buildingRequest);
+    engine.pause(false);
 }
 
 
@@ -112,7 +106,7 @@ void MainWindow::openSpeedDialog()
     if (!isPaused) {
         pauseAction->trigger();
     }
-    int initialSpeed(currentMap->getProcessor()->getSpeedRatio() * 100.0);
+    int initialSpeed(engine.getProcessorSpeedRatio() * 100.0);
     int speed(QInputDialog::getInt(this, tr("Speed"), tr("Game speed"), initialSpeed, 10, 200, 10));
     if (speed != initialSpeed) {
         emit requestSpeedRatioChange(speed / 100.0);
@@ -122,3 +116,10 @@ void MainWindow::openSpeedDialog()
     }
 }
 
+
+
+void MainWindow::updateState(State state)
+{
+    informationWidget->updateState(state.city);
+    // TODO: Update map content.
+}

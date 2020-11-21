@@ -94,7 +94,7 @@ bool StaticElementHandler::isLocationConstructible(const MapCoordinates& locatio
 {
     return
         map.isLocationValid(location) &&
-        !detailsCache.nonConstructibleCoordinates.contains(hashCoordinates(location));
+        !detailsCache.nonConstructibleCoordinates.contains(location.getHash());
 }
 
 
@@ -116,14 +116,14 @@ bool StaticElementHandler::isLocationTraversable(const MapCoordinates& location)
 {
     return
         map.isLocationValid(location) &&
-        !detailsCache.nonTraversableCoordinates.contains(hashCoordinates(location));
+        !detailsCache.nonTraversableCoordinates.contains(location.getHash());
 }
 
 
 
 bool StaticElementHandler::hasRoadAtLocation(const MapCoordinates& location) const
 {
-    return detailsCache.roadCoordinates.contains(hashCoordinates(location));
+    return detailsCache.roadCoordinates.contains(location.getHash());
 }
 
 
@@ -342,7 +342,7 @@ MapCoordinates StaticElementHandler::getBestBuildingEntryPoint(const MapArea& ar
     int moveY(0);
 
     MapCoordinates coordinates(left.getNorth());
-    while (!detailsCache.roadCoordinates.contains(hashCoordinates(coordinates))) {
+    while (!detailsCache.roadCoordinates.contains(coordinates.getHash())) {
         coordinates.setX(coordinates.getX() + moveX);
         coordinates.setY(coordinates.getY() + moveY);
 
@@ -375,17 +375,10 @@ MapCoordinates StaticElementHandler::getBestBuildingEntryPoint(const MapArea& ar
 
 
 
-QString StaticElementHandler::hashCoordinates(const MapCoordinates& coordinates) const
-{
-    return QString::number(coordinates.getX()) + ';' + QString::number(coordinates.getY());
-}
-
-
-
 void StaticElementHandler::registerBuildingInDetailsCache(const MapArea& area)
 {
     for (auto coordinates : area) {
-        auto hash(hashCoordinates(coordinates));
+        auto hash(coordinates.getHash());
         detailsCache.nonTraversableCoordinates << hash;
         detailsCache.nonConstructibleCoordinates << hash;
     }
@@ -396,7 +389,7 @@ void StaticElementHandler::registerBuildingInDetailsCache(const MapArea& area)
 void StaticElementHandler::registerRoadInDetailsCache(const MapArea& area)
 {
     for (auto coordinates : area) {
-        auto hash(hashCoordinates(coordinates));
+        auto hash(coordinates.getHash());
         detailsCache.roadCoordinates << hash;
         detailsCache.nonConstructibleCoordinates << hash;
     }
@@ -409,7 +402,7 @@ void StaticElementHandler::registerNatureElementInDetailsCache(
     const MapArea& area
 ) {
     for (auto coordinates : area) {
-        auto hash(hashCoordinates(coordinates));
+        auto hash(coordinates.getHash());
         detailsCache.nonConstructibleCoordinates.insert(hash);
         if (!conf.isTraversable()) {
             detailsCache.nonTraversableCoordinates.insert(hash);

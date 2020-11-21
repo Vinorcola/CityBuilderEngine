@@ -8,7 +8,8 @@
 
 
 MapCoordinates::MapCoordinates() :
-    coordinates(-1, -1)
+    coordinates(-1, -1),
+    hash()
 {
 
 }
@@ -16,7 +17,8 @@ MapCoordinates::MapCoordinates() :
 
 
 MapCoordinates::MapCoordinates(const MapCoordinates& other) :
-    coordinates(other.coordinates)
+    coordinates(other.coordinates),
+    hash(other.hash)
 {
 
 }
@@ -24,7 +26,8 @@ MapCoordinates::MapCoordinates(const MapCoordinates& other) :
 
 
 MapCoordinates::MapCoordinates(const int x, const int y) :
-    coordinates(x, y)
+    coordinates(x, y),
+    hash()
 {
 
 }
@@ -32,7 +35,8 @@ MapCoordinates::MapCoordinates(const int x, const int y) :
 
 
 MapCoordinates::MapCoordinates(const qreal x, const qreal y) :
-    coordinates(roundDecimal(x), roundDecimal(y))
+    coordinates(roundDecimal(x), roundDecimal(y)),
+    hash()
 {
 
 }
@@ -42,6 +46,7 @@ MapCoordinates::MapCoordinates(const qreal x, const qreal y) :
 void MapCoordinates::operator =(const MapCoordinates& other)
 {
     coordinates = other.coordinates;
+    hash = other.hash;
 }
 
 
@@ -214,6 +219,18 @@ qreal MapCoordinates::getStraightDistanceTo(const MapCoordinates& other) const
     qreal yDiff(coordinates.y() - other.coordinates.y());
 
     return qSqrt(xDiff * xDiff + yDiff * yDiff);
+}
+
+
+
+QString MapCoordinates::getHash() const
+{
+    if (hash.isEmpty()) {
+        // Cache the value to avoid calculating it each time.
+        const_cast<MapCoordinates*>(this)->hash = QString::number(coordinates.x()) + ';' + QString::number(coordinates.y());
+    }
+
+    return hash;
 }
 
 

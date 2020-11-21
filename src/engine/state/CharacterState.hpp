@@ -9,11 +9,13 @@ class CharacterInformation;
 struct CharacterState
 {
     CharacterState(
+        qintptr id,
         const CharacterInformation& type,
         const MapCoordinates& position,
         Direction direction,
         int stateVersion
     ) :
+        id(id),
         type(type),
         position(position),
         direction(direction),
@@ -21,6 +23,7 @@ struct CharacterState
     {}
 
     CharacterState(const CharacterState& other) :
+        id(other.id),
         type(other.type),
         position(other.position),
         direction(other.direction),
@@ -37,6 +40,7 @@ struct CharacterState
         return *this;
     }
 
+    qintptr id;
     const CharacterInformation& type;
     MapCoordinates position;
     Direction direction;

@@ -85,7 +85,8 @@ class ConstructionCursor : public QGraphicsObject
         optional<owner<RoadPath*>> roadPath;
 
     public:
-        ConstructionCursor(const Positioning& positioning,
+        ConstructionCursor(
+            const Positioning& positioning,
             const AreaCheckerInterface& areaChecker,
             const RoadPathGeneratorInterface& roadPathGenerator,
             const BuildingInformation& buildingConf,

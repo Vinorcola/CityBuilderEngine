@@ -42,7 +42,7 @@ const Reference<AbstractProcessableBuilding>& Character::getIssuer() const
 
 CharacterState Character::getCurrentState() const
 {
-    return { conf, motionHandler.getCurrentLocation(), motionHandler.getCurrentDirection(), stateVersion };
+    return { reinterpret_cast<qintptr>(this), conf, motionHandler.getCurrentLocation(), motionHandler.getCurrentDirection(), stateVersion };
 }
 
 

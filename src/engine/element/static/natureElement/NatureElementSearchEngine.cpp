@@ -22,7 +22,7 @@ void NatureElementSearchEngine::registerRawMaterial(const NatureElementInformati
 
     auto& coordinatesSet(rawMaterialCoordinates[&conf]);
     for (auto coordinates : area) {
-        coordinatesSet << hashCoordinates(coordinates);
+        coordinatesSet << coordinates.getHash();
     }
 }
 
@@ -46,15 +46,8 @@ optional<owner<PathInterface*>> NatureElementSearchEngine::getPathToClosestRawMa
 
     return pathGenerator.generateShortestPathToClosestMatch(
         origin,
-        [this, &coordinatesSet](const MapCoordinates& location) {
-            return coordinatesSet.contains(hashCoordinates(location));
+        [&coordinatesSet](const MapCoordinates& location) {
+            return coordinatesSet.contains(location.getHash());
         }
     );
-}
-
-
-
-QString NatureElementSearchEngine::hashCoordinates(const MapCoordinates& coordinates) const
-{
-    return QString::number(coordinates.getX()) + ';' + QString::number(coordinates.getY());
 }

@@ -59,7 +59,26 @@ State Engine::getCurrentState() const
         city->getCurrentState(),
         city->getNatureElementsState(),
         city->getBuildingsState(),
+        city->getCharactersState(),
     };
+}
+
+
+
+bool Engine::isConstructible(const MapArea& area) const
+{
+    assert(city != nullptr);
+
+    return city->isAreaConstructible(area);
+}
+
+
+
+QList<MapCoordinates> Engine::getShortestPathForRoad(const MapCoordinates& origin, const MapCoordinates& target) const
+{
+    assert(city != nullptr);
+
+    return city->getShortestPathForRoad(origin, target);
 }
 
 
@@ -78,6 +97,15 @@ void Engine::setProcessorSpeedRatio(const qreal speedRatio)
     assert(city != nullptr);
 
     city->getProcessor().setSpeedRatio(speedRatio);
+}
+
+
+
+qreal Engine::getProcessorSpeedRatio() const
+{
+    assert(city != nullptr);
+
+    return city->getProcessor().getSpeedRatio();
 }
 
 

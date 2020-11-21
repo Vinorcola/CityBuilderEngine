@@ -15,14 +15,20 @@ const qreal MSEC_PER_SEC(1000);
 
 TimeCycleProcessor::TimeCycleProcessor(const CycleDate& startingDate, const qreal speedRatio) :
     QObject(),
-    paused(false),
+    paused(true),
     speedRatio(speedRatio),
     clock(),
     currentCycleDate(startingDate),
     buildingProcessor(),
     characterProcessor()
 {
-    clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * speedRatio), this);
+    if (speedRatio < 0.1) {
+        this->speedRatio = 0.1;
+    }
+    if (speedRatio > 2.0) {
+        this->speedRatio = 2.0;
+    }
+    clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * this->speedRatio), this);
 }
 
 

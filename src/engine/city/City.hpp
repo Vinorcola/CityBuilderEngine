@@ -38,10 +38,14 @@ class City
         TimeCycleProcessor& getProcessor();
         void createBuilding(const BuildingInformation& conf, const MapArea& area);
 
+        bool isAreaConstructible(const MapArea& area) const;
+        QList<MapCoordinates> getShortestPathForRoad(const MapCoordinates& origin, const MapCoordinates& target) const;
+
         const MapState& getMapState() const;
         CityState getCurrentState() const;
         QList<BuildingState> getBuildingsState() const;
         QList<NatureElementState> getNatureElementsState() const;
+        QList<CharacterState> getCharactersState() const;
 };
 
 #endif // CITY_HPP

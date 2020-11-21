@@ -6,12 +6,12 @@
 
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
+#include "src/engine/state/CharacterState.hpp"
 #include "src/defines.hpp"
 
 class BuildingSearchEngine;
 class Character;
 class PathGeneratorInterface;
-struct CharacterState;
 
 class DynamicElementHandler : public CharacterFactoryInterface, public CharacterManagerInterface
 {

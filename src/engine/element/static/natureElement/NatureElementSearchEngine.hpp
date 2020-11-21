@@ -30,9 +30,6 @@ class NatureElementSearchEngine
             const NatureElementInformation& conf,
             const MapCoordinates& origin
         ) const;
-
-    private:
-        QString hashCoordinates(const MapCoordinates& coordinates) const;
 };
 
 #endif // NATUREELEMENTSEARCHENGINE_HPP

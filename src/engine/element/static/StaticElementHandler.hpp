@@ -112,7 +112,6 @@ class StaticElementHandler : public MapDetailsInterface
         void generateStorage(const BuildingInformation& conf, const MapArea& area);
         void generateRoad(const BuildingInformation& conf, const MapArea& area);
         MapCoordinates getBestBuildingEntryPoint(const MapArea& area) const;
-        QString hashCoordinates(const MapCoordinates& coordinates) const;
         void registerBuildingInDetailsCache(const MapArea& area);
         void registerRoadInDetailsCache(const MapArea& area);
         void registerNatureElementInDetailsCache(const NatureElementInformation& conf, const MapArea& area);

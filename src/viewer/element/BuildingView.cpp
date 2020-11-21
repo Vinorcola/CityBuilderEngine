@@ -1,6 +1,6 @@
 #include "BuildingView.hpp"
 
-#include "src/engine/element/static/building/AbstractBuilding.hpp"
+#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
@@ -14,15 +14,14 @@ BuildingView::BuildingView(
     const Positioning& positioning,
     const TileLocatorInterface& tileLocator,
     const ImageLibrary& imageLibrary,
-    const QSharedPointer<const AbstractBuilding>& engineData
+    const BuildingState& state
 ) :
     tileLocator(tileLocator),
-    engineData(engineData),
-    buildingSize(engineData->getConf().getSize()),
-    tile(tileLocator.getTileAt(engineData->getArea().getLeft())),
-    image(imageLibrary.getBuildingImage(engineData->getConf())),
-    graphicElement(new StaticElement(positioning, engineData->getConf().getSize(), image.getInactiveImage())),
-    currentViewVersion(engineData->getViewVersion()),
+    buildingSize(state.type.getSize()),
+    tile(tileLocator.getTileAt(state.area.getLeft())),
+    image(imageLibrary.getBuildingImage(state.type)),
+    graphicElement(new StaticElement(positioning, state.type.getSize(), image.getInactiveImage())),
+    currentStateVersion(state.stateVersion),
     animationIndex(0)
 {
     tile.setStaticElement(graphicElement);
@@ -38,26 +37,20 @@ BuildingView::~BuildingView()
 
 
 
-void BuildingView::updateFromEngineData()
+void BuildingView::update(const BuildingState& state)
 {
-    auto engineData(this->engineData.toStrongRef());
-    if (engineData.isNull()) {
-        this->setDestroyed();
-        return;
+    if (state.stateVersion != currentStateVersion) {
+        // TODO: Update data and change image if needed.
+        currentStateVersion = state.stateVersion;
     }
-
-    if (engineData->isViewUpToDate(currentViewVersion)) {
-        return;
-    }
-
-    // TODO: Update data and change image if needed.
 }
 
 
 
-bool BuildingView::hasBeenDestroyed() const
+void BuildingView::destroy()
 {
-    return engineData.isNull();
+    tile.dropStaticElement();
+    revealCoveredTiles();
 }
 
 
@@ -113,13 +106,4 @@ void BuildingView::revealCoveredTiles()
             current = current.getSouth();
         }
     }
-}
-
-
-
-void BuildingView::setDestroyed()
-{
-    engineData.clear();
-    tile.dropStaticElement();
-    revealCoveredTiles();
 }

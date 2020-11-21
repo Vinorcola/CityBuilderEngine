@@ -75,7 +75,7 @@ bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& 
 
 BuildingState ProducerBuilding::getCurrentState() const
 {
-    return BuildingState::CreateProducerState(conf, area, stateVersion, rawMaterialStock);
+    return BuildingState::CreateProducerState(reinterpret_cast<qintptr>(this), conf, area, stateVersion, rawMaterialStock);
 }
 
 
