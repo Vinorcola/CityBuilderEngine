@@ -121,5 +121,5 @@ void MainWindow::openSpeedDialog()
 void MainWindow::updateState(State state)
 {
     informationWidget->updateState(state.city);
-    // TODO: Update map content.
+    viewerScene->refresh(state);
 }

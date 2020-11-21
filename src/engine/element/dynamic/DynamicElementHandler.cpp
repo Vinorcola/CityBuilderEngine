@@ -9,14 +9,19 @@
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
 #include "src/engine/element/dynamic/PathGeneratorInterface.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/engine/processing/TimeCycleProcessor.hpp"
 #include "src/engine/state/CharacterState.hpp"
 
 
 
 DynamicElementHandler::DynamicElementHandler(
+    TimeCycleProcessor& processor,
     const PathGeneratorInterface& pathGenerator,
     const BuildingSearchEngine& buildingSearchEngine
 ) :
+    CharacterFactoryInterface(),
+    CharacterManagerInterface(),
+    processor(processor),
     pathGenerator(pathGenerator),
     buildingSearchEngine(buildingSearchEngine),
     currentState()
@@ -43,6 +48,8 @@ QWeakPointer<Character> DynamicElementHandler::generateDeliveryMan(
     ));
     currentState.characters.insert(character.get(), character);
 
+    processor.registerCharacter(character);
+
     return character;
 }
 
@@ -56,6 +63,8 @@ QWeakPointer<Character> DynamicElementHandler::generateImmigrant(
     QSharedPointer<Character> character(new ImmigrantCharacter(*this, pathGenerator, conf, issuer, target));
     currentState.characters.insert(character.get(), character);
 
+    processor.registerCharacter(character);
+
     return character;
 }
 
@@ -68,6 +77,8 @@ QWeakPointer<Character> DynamicElementHandler::generateMiner(
 ) {
     QSharedPointer<Character> character(new MinerCharacter(*this, pathGenerator, conf, issuer, path));
     currentState.characters.insert(character.get(), character);
+
+    processor.registerCharacter(character);
 
     return character;
 }
@@ -94,6 +105,8 @@ QWeakPointer<Character> DynamicElementHandler::generateWanderingCharacter(
 ) {
     QSharedPointer<Character> character(new WanderingCharacter(*this, pathGenerator, conf, issuer));
     currentState.characters.insert(character.get(), character);
+
+    processor.registerCharacter(character);
 
     return character;
 }

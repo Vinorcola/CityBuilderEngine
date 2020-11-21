@@ -96,6 +96,7 @@ bool MapCoordinates::isRounded() const
 void MapCoordinates::setX(const qreal x)
 {
     coordinates.setX(roundDecimal(x));
+    hash = "";
 }
 
 
@@ -103,6 +104,7 @@ void MapCoordinates::setX(const qreal x)
 void MapCoordinates::setY(const qreal y)
 {
     coordinates.setY(roundDecimal(y));
+    hash = "";
 }
 
 

@@ -189,7 +189,7 @@ void MapScene::refresh(const State& state)
     for (auto buildingId : buildingsToDestroy) {
         // Delete not found buildings.
         buildings.value(buildingId)->destroy();
-        buildings.remove(buildingId);
+        delete buildings.take(buildingId);
     }
 
     auto charactersToDestroy(characters.keys());
@@ -207,7 +207,7 @@ void MapScene::refresh(const State& state)
     for (auto characterId : charactersToDestroy) {
         // Delete not found characters.
         characters.value(characterId)->destroy();
-        characters.remove(characterId);
+        delete characters.take(characterId);
     }
 }
 

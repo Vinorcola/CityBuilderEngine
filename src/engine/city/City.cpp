@@ -28,6 +28,7 @@ City::City(const Conf& conf, CityLoader& loader) :
         loader.getMapEntryPoint()
     ),
     dynamicElements(
+        processor,
         staticElements.getPathGenerator(),
         staticElements.getBuildingSearchEngine()
     ),

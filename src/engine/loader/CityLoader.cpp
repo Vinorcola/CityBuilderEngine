@@ -68,7 +68,7 @@ QSize CityLoader::getMapSize() const
 
 MapCoordinates CityLoader::getMapEntryPoint() const
 {
-    return rootNode["entryPoint"].as<MapCoordinates>();
+    return rootNode["map"]["entryPoint"].as<MapCoordinates>();
 }
 
 
@@ -76,7 +76,7 @@ MapCoordinates CityLoader::getMapEntryPoint() const
 QList<CityLoader::Building> CityLoader::getInitialBuildings() const
 {
     QList<Building> buildings;
-    for (auto node : rootNode["buildings"]) {
+    for (auto node : rootNode["map"]["buildings"]) {
         buildings.append(node);
     }
 
@@ -88,7 +88,7 @@ QList<CityLoader::Building> CityLoader::getInitialBuildings() const
 QList<CityLoader::NatureElement> CityLoader::getInitialNatureElements() const
 {
     QList<NatureElement> natureElements;
-    for (auto node : rootNode["natureElements"]) {
+    for (auto node : rootNode["map"]["natureElements"]) {
         natureElements.append(node);
     }
 

@@ -10,6 +10,7 @@
 class BuildingSearchEngine;
 class Character;
 class PathGeneratorInterface;
+class TimeCycleProcessor;
 
 class DynamicElementHandler : public CharacterFactoryInterface, public CharacterManagerInterface
 {
@@ -19,12 +20,14 @@ class DynamicElementHandler : public CharacterFactoryInterface, public Character
         };
 
     private:
+        TimeCycleProcessor& processor;
         const PathGeneratorInterface& pathGenerator;
         const BuildingSearchEngine& buildingSearchEngine;
         State currentState;
 
     public:
         DynamicElementHandler(
+            TimeCycleProcessor& processor,
             const PathGeneratorInterface& pathGenerator,
             const BuildingSearchEngine& buildingSearchEngine
         );

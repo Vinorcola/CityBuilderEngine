@@ -51,6 +51,7 @@ StaticElementHandler::StaticElementHandler(
     const Conf& conf,
     const MapCoordinates& mapEntryPointLocation
 ) :
+    MapDetailsInterface(),
     populationHandler(populationHandler),
     processor(processor),
     map(map),
