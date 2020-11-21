@@ -16,7 +16,7 @@ class MinerCharacter : public Character
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
+            const QSharedPointer<AbstractProcessableBuilding>& issuer,
             owner<PathInterface*> path
         );
 

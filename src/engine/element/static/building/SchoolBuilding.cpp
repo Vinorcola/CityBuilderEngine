@@ -24,6 +24,22 @@ SchoolBuilding::SchoolBuilding(
 
 
 
+QSharedPointer<AbstractProcessableBuilding> SchoolBuilding::Create(
+    const BuildingSearchEngine& searchEngine,
+    CharacterFactoryInterface& characterFactory,
+    const BuildingInformation& conf,
+    const MapArea& area,
+    const MapCoordinates& entryPoint
+) {
+    auto school(new SchoolBuilding(searchEngine, characterFactory, conf, area, entryPoint));
+    QSharedPointer<AbstractProcessableBuilding> pointer(school);
+    school->selfReference = pointer;
+
+    return pointer;
+}
+
+
+
 void SchoolBuilding::init(const CycleDate& date)
 {
     setupNextWalkerGenerationDate(date);
@@ -38,8 +54,8 @@ void SchoolBuilding::process(const CycleDate& date)
     }
 
     auto target(searchEngine.findClosestBuilding(conf.getSchoolConf().targetLaboratory, getEntryPoint()));
-    if (target != nullptr) {
-        characterFactory.generateStudent(conf.getSchoolConf().student.conf, *this, *target);
+    if (target) {
+        characterFactory.generateStudent(conf.getSchoolConf().student.conf, selfReference, target->getSelfReference());
     }
 
     setupNextWalkerGenerationDate(date);

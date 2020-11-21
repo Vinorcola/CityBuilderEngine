@@ -1,6 +1,7 @@
 #include "BuildingProcessor.hpp"
 
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/global/pointer/SmartPointerUtils.hpp"
 
 
 
@@ -15,16 +16,16 @@ BuildingProcessor::BuildingProcessor() :
 
 
 
-void BuildingProcessor::registerBuilding(AbstractProcessableBuilding& building)
+void BuildingProcessor::registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
     waitingForRegistrationList.append(building);
 }
 
 
 
-void BuildingProcessor::unregisterBuilding(AbstractProcessableBuilding& building)
+void BuildingProcessor::unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
-    waitingForUnregistrationList.append(&building);
+    waitingForUnregistrationList.append(building.get());
 }
 
 
@@ -32,18 +33,21 @@ void BuildingProcessor::unregisterBuilding(AbstractProcessableBuilding& building
 void BuildingProcessor::process(const CycleDate& date)
 {
     // Process current processable list.
-    for (auto processable : processableList) {
-        if (processable.isValid()) {
-            processable.get().process(date);
+    for (auto& processableRef : processableList) {
+        auto processable(processableRef.toStrongRef());
+        if (processable) {
+            processable->process(date);
         }
     }
 
     // Process unregistration.
-    processableList.cleanAllInvalids();
+    cleanInvalids(processableList);
     while (!waitingForUnregistrationList.isEmpty()) {
-        processableList.remove(*waitingForUnregistrationList.takeFirst());
+        processableList.remove(waitingForUnregistrationList.takeFirst());
     }
 
     // Process registration.
-    waitingForRegistrationList.moveAllContentTo(processableList);
+    for (auto& newProcessable : waitingForRegistrationList) {
+        processableList.insert(newProcessable.get(), newProcessable);
+    }
 }

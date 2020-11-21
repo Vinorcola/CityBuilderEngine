@@ -1,11 +1,13 @@
 #ifndef PRODUCERBUILDING_HPP
 #define PRODUCERBUILDING_HPP
 
-#include "src/engine/element/dynamic/character/Character.hpp"
+#include <QtCore/QHash>
+#include <QtCore/QWeakPointer>
+
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
-#include "src/global/reference/collection/ReferenceCollection.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
+class Character;
 class CharacterFactoryInterface;
 class NatureElementSearchEngine;
 
@@ -14,13 +16,22 @@ class ProducerBuilding : public AbstractProcessableBuilding
     private:
         const NatureElementSearchEngine& searchEngine;
         CharacterFactoryInterface& characterFactory;
-        ReferenceCollection<Character> miners;
+        QHash<Character*, QWeakPointer<Character>> miners;
         CycleDate nextMinerGenerationDate;
         int rawMaterialStock;
-        OptionalReference<Character> deliveryMan;
+        QWeakPointer<Character> deliveryMan;
+
+    private:
+        ProducerBuilding(
+            const NatureElementSearchEngine& searchEngine,
+            CharacterFactoryInterface& characterFactory,
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
 
     public:
-        ProducerBuilding(
+        static QSharedPointer<AbstractProcessableBuilding> Create(
             const NatureElementSearchEngine& searchEngine,
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,

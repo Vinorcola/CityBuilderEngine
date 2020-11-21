@@ -1,6 +1,8 @@
 #ifndef CHARACTERFACTORYINTERFACE_HPP
 #define CHARACTERFACTORYINTERFACE_HPP
 
+#include <QtCore/QWeakPointer>
+
 #include "src/defines.hpp"
 
 class Character;
@@ -21,34 +23,34 @@ class CharacterFactoryInterface
     public:
         virtual ~CharacterFactoryInterface() {};
 
-        virtual DeliveryManCharacter& generateDeliveryMan(
+        virtual QWeakPointer<Character> generateDeliveryMan(
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
+            QSharedPointer<AbstractProcessableBuilding> issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
         ) = 0;
 
-        virtual ImmigrantCharacter& generateImmigrant(
+        virtual QWeakPointer<Character> generateImmigrant(
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
-            AbstractProcessableBuilding& target
+            QSharedPointer<AbstractProcessableBuilding> issuer,
+            QSharedPointer<AbstractProcessableBuilding> target
         ) = 0;
 
-        virtual MinerCharacter& generateMiner(
+        virtual QWeakPointer<Character> generateMiner(
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
+            QSharedPointer<AbstractProcessableBuilding> issuer,
             owner<PathInterface*> path
         ) = 0;
 
-        virtual StudentCharacter& generateStudent(
+        virtual QWeakPointer<Character> generateStudent(
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
-            AbstractProcessableBuilding& target
+            QSharedPointer<AbstractProcessableBuilding> issuer,
+            QSharedPointer<AbstractProcessableBuilding> target
         ) = 0;
 
-        virtual WanderingCharacter& generateWanderingCharacter(
+        virtual QWeakPointer<Character> generateWanderingCharacter(
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer
+            QSharedPointer<AbstractProcessableBuilding> issuer
         ) = 0;
 };
 

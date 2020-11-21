@@ -1,6 +1,7 @@
 #include "CharacterProcessor.hpp"
 
 #include "src/engine/element/dynamic/character/Character.hpp"
+#include "src/global/pointer/SmartPointerUtils.hpp"
 
 
 
@@ -15,16 +16,16 @@ CharacterProcessor::CharacterProcessor() :
 
 
 
-void CharacterProcessor::registerCharacter(Character& character)
+void CharacterProcessor::registerCharacter(const QSharedPointer<Character>& character)
 {
-    waitingForRegistrationList.append(character.getReference<Character>());
+    waitingForRegistrationList.append(character);
 }
 
 
 
-void CharacterProcessor::unregisterCharacter(Character& character)
+void CharacterProcessor::unregisterCharacter(const QSharedPointer<Character>& character)
 {
-    waitingForUnregistrationList.append(&character);
+    waitingForUnregistrationList.append(character.get());
 }
 
 
@@ -32,18 +33,21 @@ void CharacterProcessor::unregisterCharacter(Character& character)
 void CharacterProcessor::process(const CycleDate& date)
 {
     // Process current processable list.
-    for (auto processable : processableList) {
-        if (processable.isValid()) {
-            processable.get().process(date);
+    for (auto& processableRef : processableList) {
+        auto processable(processableRef.toStrongRef());
+        if (processable) {
+            processable->process(date);
         }
     }
 
     // Process unregistration.
-    processableList.cleanAllInvalids();
+    cleanInvalids(processableList);
     while (!waitingForUnregistrationList.isEmpty()) {
-        processableList.remove(*waitingForUnregistrationList.takeFirst());
+        processableList.remove(waitingForUnregistrationList.takeFirst());
     }
 
     // Process registration.
-    waitingForRegistrationList.moveAllContentTo(processableList);
+    for (auto& newProcessable : waitingForRegistrationList) {
+        processableList.insert(newProcessable.get(), newProcessable);
+    }
 }

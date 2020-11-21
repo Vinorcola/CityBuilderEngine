@@ -11,7 +11,7 @@ MinerCharacter::MinerCharacter(
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer,
+    const QSharedPointer<AbstractProcessableBuilding>& issuer,
     owner<PathInterface*> path
 ) :
     Character(characterManager, pathGenerator, conf, issuer),
@@ -24,11 +24,12 @@ MinerCharacter::MinerCharacter(
 
 void MinerCharacter::goHome()
 {
-    if (issuer.isValid()) {
+    auto issuer(this->issuer.toStrongRef());
+    if (issuer) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestPathTo(
             motionHandler.getCurrentLocation(),
-            issuer.get().getEntryPoint()
+            issuer->getEntryPoint()
         ));
     }
 }
@@ -41,8 +42,9 @@ void MinerCharacter::process(const CycleDate& date)
 
     if (motionHandler.isPathCompleted()) {
         if (goingHome) {
-            if (issuer.isValid()) {
-                issuer.get().processInteraction(date, *this);
+            auto issuer(this->issuer.toStrongRef());
+            if (issuer) {
+                issuer->processInteraction(date, *this);
             }
             characterManager.clearCharacter(*this);
         }

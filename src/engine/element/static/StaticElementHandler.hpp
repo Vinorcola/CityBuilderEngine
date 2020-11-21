@@ -1,12 +1,10 @@
 #ifndef STATICELEMENTHANDLER_HPP
 #define STATICELEMENTHANDLER_HPP
 
-#include <list>
-#include <QtCore/QList>
+#include <QtCore/QHash>
 #include <QtCore/QSet>
 
 #include "src/engine/element/static/building/BuildingSearchEngine.hpp"
-#include "src/engine/element/static/building/CivilianEntryPoint.hpp"
 #include "src/engine/element/static/natureElement/NatureElementSearchEngine.hpp"
 #include "src/engine/element/static/path/MapDetailsInterface.hpp"
 #include "src/engine/element/static/path/PathGenerator.hpp"
@@ -16,6 +14,7 @@
 
 class BuildingInformation;
 class CharacterFactoryInterface;
+class CivilianEntryPoint;
 class Conf;
 class FarmBuilding;
 class HouseBuilding;
@@ -43,9 +42,9 @@ class StaticElementHandler : public MapDetailsInterface
                 const Conf& conf,
                 const MapCoordinates& entryPointLocation
             );
-            CivilianEntryPoint entryPoint;
-            std::list<owner<AbstractBuilding*>> buildings;
-            std::list<owner<NatureElement*>> natureElements;
+            QSharedPointer<CivilianEntryPoint> entryPoint;
+            QHash<AbstractBuilding*, QSharedPointer<AbstractBuilding>> buildings;
+            QHash<NatureElement*, QSharedPointer<NatureElement>> natureElements;
         };
         struct DetailsCache {
             QSet<QString> nonConstructibleCoordinates;
@@ -77,7 +76,6 @@ class StaticElementHandler : public MapDetailsInterface
             const Conf& conf,
             const MapCoordinates& mapEntryPointLocation
         );
-        ~StaticElementHandler();
 
         const PathGenerator& getPathGenerator() const;
 

@@ -2,10 +2,11 @@
 #define BUILDINGPROCESSOR_HPP
 
 #include <QtCore/QList>
+#include <QtCore/QSharedPointer>
 
-#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
-#include "src/global/reference/collection/ReferenceCollection.hpp"
+#include "src/engine/processing/AbstractProcessable.hpp"
 
+class AbstractProcessableBuilding;
 class CycleDate;
 
 /**
@@ -14,9 +15,9 @@ class CycleDate;
 class BuildingProcessor : public AbstractProcessable
 {
     private:
-        ReferenceCollection<AbstractProcessableBuilding> processableList;
-        ReferenceCollection<AbstractProcessableBuilding> waitingForRegistrationList;
-        QList<AbstractProcessableBuilding*> waitingForUnregistrationList;
+        QHash<const AbstractProcessableBuilding*, QWeakPointer<AbstractProcessableBuilding>> processableList;
+        QList<QSharedPointer<AbstractProcessableBuilding>> waitingForRegistrationList;
+        QList<const AbstractProcessableBuilding*> waitingForUnregistrationList;
 
     public:
         BuildingProcessor();
@@ -24,12 +25,12 @@ class BuildingProcessor : public AbstractProcessable
         /**
          * @brief Register a building to be process each time cycle.
          */
-        void registerBuilding(AbstractProcessableBuilding& building);
+        void registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
 
         /**
          * @brief Unregister a building from processor.
          */
-        void unregisterBuilding(AbstractProcessableBuilding& building);
+        void unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
 
         virtual void process(const CycleDate& date) override;
 };

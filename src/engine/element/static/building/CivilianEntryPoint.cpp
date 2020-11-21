@@ -26,9 +26,24 @@ CivilianEntryPoint::CivilianEntryPoint(
 
 
 
-void CivilianEntryPoint::requestImmigrant(HouseBuilding& requester)
+QSharedPointer<CivilianEntryPoint> CivilianEntryPoint::Create(
+    CharacterFactoryInterface& characterFactory,
+    const BuildingInformation& conf,
+    const MapCoordinates& location,
+    const CharacterInformation& immigrantConf
+) {
+    auto entryPoint(new CivilianEntryPoint(characterFactory, conf, location, immigrantConf));
+    QSharedPointer<CivilianEntryPoint> pointer(entryPoint);
+    entryPoint->selfReference = pointer;
+
+    return pointer;
+}
+
+
+
+void CivilianEntryPoint::requestImmigrant(const QWeakPointer<AbstractProcessableBuilding>& requester)
 {
-    immigrantRequestQueue.append(requester.getReference<HouseBuilding>());
+    immigrantRequestQueue.append(requester);
 }
 
 
@@ -41,12 +56,12 @@ void CivilianEntryPoint::process(const CycleDate& date)
 
     if (date == nextImmigrantGenerationDate) {
         do {
-            auto issuer(immigrantRequestQueue.takeFirst());
-            if (!issuer.isValid()) {
+            auto issuer(immigrantRequestQueue.takeFirst().toStrongRef());
+            if (!issuer) {
                 continue;
             }
 
-            characterFactory.generateImmigrant(immigrantConf, *this, issuer.get());
+            characterFactory.generateImmigrant(immigrantConf, selfReference, issuer->getSelfReference());
             setupNextImmigrantGenerationDate(date);
         } while (!immigrantRequestQueue.isEmpty());
     } else if (date > nextImmigrantGenerationDate) {

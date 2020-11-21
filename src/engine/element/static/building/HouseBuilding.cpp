@@ -26,9 +26,25 @@ HouseBuilding::HouseBuilding(
 
 
 
+QSharedPointer<AbstractProcessableBuilding> HouseBuilding::Create(
+    ImmigrantGeneratorInterface& immigrantGenerator,
+    PopulationRegistryInterface& populationRegister,
+    const BuildingInformation& conf,
+    const MapArea& area,
+    const MapCoordinates& entryPoint
+) {
+    auto house(new HouseBuilding(immigrantGenerator, populationRegister, conf, area, entryPoint));
+    QSharedPointer<AbstractProcessableBuilding> pointer(house);
+    house->selfReference = pointer;
+
+    return pointer;
+}
+
+
+
 void HouseBuilding::init(const CycleDate& /*date*/)
 {
-    immigrantGenerator.requestImmigrant(*this);
+    immigrantGenerator.requestImmigrant(selfReference);
 }
 
 
@@ -52,7 +68,7 @@ bool HouseBuilding::processInteraction(const CycleDate& /*date*/, Character& act
         populationRegister.registerPopulation(inhabitantsDelta);
 
         if (inhabitants < conf.getHouseConf().populationCapacity) {
-            immigrantGenerator.requestImmigrant(*this);
+            immigrantGenerator.requestImmigrant(selfReference);
         }
 
         return true;

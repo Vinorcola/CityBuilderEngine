@@ -8,6 +8,7 @@
 #include "src/engine/element/static/path/PathInterface.hpp"
 #include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/pointer/SmartPointerUtils.hpp"
 
 
 
@@ -31,6 +32,22 @@ ProducerBuilding::ProducerBuilding(
 
 
 
+QSharedPointer<AbstractProcessableBuilding> ProducerBuilding::Create(
+    const NatureElementSearchEngine& searchEngine,
+    CharacterFactoryInterface& characterFactory,
+    const BuildingInformation& conf,
+    const MapArea& area,
+    const MapCoordinates& entryPoint
+) {
+    auto producer(new ProducerBuilding(searchEngine, characterFactory, conf, area, entryPoint));
+    QSharedPointer<AbstractProcessableBuilding> pointer(producer);
+    producer->selfReference = pointer;
+
+    return pointer;
+}
+
+
+
 void ProducerBuilding::init(const CycleDate& date)
 {
     if (canGenerateNewMiner()) {
@@ -42,7 +59,7 @@ void ProducerBuilding::init(const CycleDate& date)
 
 void ProducerBuilding::process(const CycleDate& date)
 {
-    miners.cleanAllInvalids();
+    cleanInvalids(miners);
     handleMinerGeneration(date);
     handleProduction();
 }
@@ -51,21 +68,17 @@ void ProducerBuilding::process(const CycleDate& date)
 
 bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
-    auto& issuer(actor.getIssuer());
-    if (issuer.isValid() && issuer.matches(*this)) {
-        auto miner(dynamic_cast<MinerCharacter*>(&actor));
-        if (miner) {
-            rawMaterialStock += conf.getProducerConf().miningQuantity;
+    if (matches(deliveryMan, actor)) {
+        deliveryMan.clear();
 
-            return true;
-        }
+        return true;
+    }
 
-        auto deliveryMan(dynamic_cast<DeliveryManCharacter*>(&actor));
-        if (deliveryMan) {
-            this->deliveryMan.clear();
+    if (miners.contains(&actor)) {
+        rawMaterialStock += conf.getProducerConf().miningQuantity;
+        miners.remove(&actor);
 
-            return true;
-        }
+        return true;
     }
 
     return false;
@@ -94,8 +107,8 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
             return;
         }
 
-        auto& miner(characterFactory.generateMiner(conf.getProducerConf().miner.conf, *this, path));
-        miners.append(miner);
+        auto miner(characterFactory.generateMiner(conf.getProducerConf().miner.conf, selfReference, path));
+        miners.insert(miner.toStrongRef().get(), miner);
 
         if (canGenerateNewMiner()) {
             setupNextMinerGenerationDate(date);
@@ -113,7 +126,7 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
 
 bool ProducerBuilding::canGenerateNewMiner() const
 {
-    return miners.length() < conf.getProducerConf().miner.maxSimultaneous;
+    return miners.size() < conf.getProducerConf().miner.maxSimultaneous;
 }
 
 
@@ -127,13 +140,13 @@ void ProducerBuilding::setupNextMinerGenerationDate(const CycleDate& date)
 
 void ProducerBuilding::handleProduction()
 {
-    if (deliveryMan.isNull() && rawMaterialStock >= conf.getProducerConf().rawMaterialQuantityToProduce) {
-        deliveryMan.reassign(characterFactory.generateDeliveryMan(
+    if (!deliveryMan && rawMaterialStock >= conf.getProducerConf().rawMaterialQuantityToProduce) {
+        deliveryMan = characterFactory.generateDeliveryMan(
             conf.getProducerConf().deliveryManConf,
-            *this,
+            selfReference,
             conf.getProducerConf().producedItemConf,
             1
-        ));
+        );
         rawMaterialStock -= conf.getProducerConf().rawMaterialQuantityToProduce;
     }
 }

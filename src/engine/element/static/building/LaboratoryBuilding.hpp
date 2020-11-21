@@ -1,10 +1,12 @@
 #ifndef LABORATORYBUILDING_HPP
 #define LABORATORYBUILDING_HPP
 
-#include "src/engine/element/dynamic/character/Character.hpp"
+#include <QtCore/QWeakPointer>
+
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
+class Character;
 class CharacterFactoryInterface;
 
 class LaboratoryBuilding : public AbstractProcessableBuilding
@@ -12,11 +14,19 @@ class LaboratoryBuilding : public AbstractProcessableBuilding
     private:
         CharacterFactoryInterface& characterFactory;
         CycleDate walkerGenerationLimitDate;
-        OptionalReference<Character> scientist;
+        QWeakPointer<Character> scientist;
         CycleDate nextWalkerGenerationDate;
 
-    public:
+    private:
         LaboratoryBuilding(
+            CharacterFactoryInterface& characterFactory,
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
+
+    public:
+        static QSharedPointer<AbstractProcessableBuilding> Create(
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,

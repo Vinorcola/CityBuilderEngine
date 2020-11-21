@@ -10,13 +10,13 @@ ImmigrantCharacter::ImmigrantCharacter(
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer,
-    AbstractProcessableBuilding& target
+    const QSharedPointer<AbstractProcessableBuilding>& issuer,
+    const QSharedPointer<AbstractProcessableBuilding>& target
 ) :
     Character(characterManager, pathGenerator, conf, issuer),
-    target(target.getReference<AbstractProcessableBuilding>())
+    target(target)
 {
-    motionHandler.takePath(pathGenerator.generateShortestPathTo(issuer.getEntryPoint(), target.getEntryPoint()));
+    motionHandler.takePath(pathGenerator.generateShortestPathTo(issuer->getEntryPoint(), target->getEntryPoint()));
 }
 
 
@@ -26,8 +26,9 @@ void ImmigrantCharacter::process(const CycleDate& date)
     Character::process(date);
 
     if (motionHandler.isPathCompleted()) {
-        if (target.isValid()) {
-            target.get().processInteraction(date, *this);
+        auto target(this->target.toStrongRef());
+        if (target) {
+            target->processInteraction(date, *this);
         }
         characterManager.clearCharacter(*this);
     }

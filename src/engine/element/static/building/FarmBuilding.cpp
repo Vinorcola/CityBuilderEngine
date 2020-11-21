@@ -6,6 +6,7 @@
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/pointer/SmartPointerUtils.hpp"
 
 
 
@@ -25,6 +26,21 @@ FarmBuilding::FarmBuilding(
 
 
 
+QSharedPointer<AbstractProcessableBuilding> FarmBuilding::Create(
+    CharacterFactoryInterface& characterFactory,
+    const BuildingInformation& conf,
+    const MapArea& area,
+    const MapCoordinates& entryPoint
+) {
+    auto farm(new FarmBuilding(characterFactory, conf, area, entryPoint));
+    QSharedPointer<AbstractProcessableBuilding> pointer(farm);
+    farm->selfReference = pointer;
+
+    return pointer;
+}
+
+
+
 void FarmBuilding::init(const CycleDate& date)
 {
     completeGrowingDate.reassign(date, CycleDate::getCyclesPerYear());
@@ -35,7 +51,8 @@ void FarmBuilding::init(const CycleDate& date)
 void FarmBuilding::process(const CycleDate& date)
 {
     if (date.isFirstCycleOfMonth() && date.getMonth() == conf.getFarmConf().harvestMonth) {
-        if (deliveryMan.isValid()) {
+        auto deliveryMan(this->deliveryMan.toStrongRef());
+        if (deliveryMan) {
             // The delivery man is outside. We do not harvest now.
             // Next harvest will occure as soon as the growing is complete and thedelivery man is back.
             return;
@@ -45,7 +62,8 @@ void FarmBuilding::process(const CycleDate& date)
     }
     else if (date > completeGrowingDate) {
         // Case where the delivery man were outside at the begining of the harvest month.
-        if (deliveryMan.isValid()) {
+        auto deliveryMan(this->deliveryMan.toStrongRef());
+        if (deliveryMan) {
             // The delivery man is still outside. We do not harvest now.
             return;
         }
@@ -58,8 +76,8 @@ void FarmBuilding::process(const CycleDate& date)
 
 bool FarmBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
-    if (deliveryMan.matches(actor)) {
-        this->deliveryMan.clear();
+    if (matches(deliveryMan, actor)) {
+        deliveryMan.clear();
 
         return true;
     }
@@ -89,12 +107,12 @@ void FarmBuilding::harvest(const CycleDate& date)
     );
     int quantity(productivityRatio * conf.getFarmConf().maxQuantityHarvested);
 
-    deliveryMan.reassign(characterFactory.generateDeliveryMan(
+    deliveryMan = characterFactory.generateDeliveryMan(
         conf.getFarmConf().deliveryManConf,
-        *this,
+        selfReference,
         conf.getFarmConf().producedItemConf,
         quantity
-    ));
+    );
 
     completeGrowingDate.reassign(date, CycleDate::getCyclesPerYear());
 }

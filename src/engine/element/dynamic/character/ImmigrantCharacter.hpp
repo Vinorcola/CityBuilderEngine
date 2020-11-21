@@ -1,8 +1,6 @@
 #ifndef IMMIGRANTCHARACTER_HPP
 #define IMMIGRANTCHARACTER_HPP
 
-#include <QtCore/QObject>
-
 #include "src/engine/element/dynamic/character/Character.hpp"
 
 class AbstractProcessableBuilding;
@@ -10,15 +8,15 @@ class AbstractProcessableBuilding;
 class ImmigrantCharacter : public Character
 {
     private:
-        Reference<AbstractProcessableBuilding> target;
+        QWeakPointer<AbstractProcessableBuilding> target;
 
     public:
         ImmigrantCharacter(
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
-            AbstractProcessableBuilding& target
+            const QSharedPointer<AbstractProcessableBuilding>& issuer,
+            const QSharedPointer<AbstractProcessableBuilding>& target
         );
 
         virtual void process(const CycleDate& date) override;

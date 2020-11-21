@@ -1,12 +1,11 @@
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
 
-#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/element/dynamic/MotionHandler.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
-#include "src/global/reference/Referencable.hpp"
 #include "src/defines.hpp"
 
+class AbstractProcessableBuilding;
 class CharacterInformation;
 class CharacterManagerInterface;
 class MapCoordinates;
@@ -27,14 +26,14 @@ struct CharacterState;
  * If a character is granted wandering credits, it will use them to wander around (see MotionHandler for more details).
  * Otherwise, the character won't move until a target is assigned to it.
  */
-class Character : public AbstractProcessable, public Referencable
+class Character : public AbstractProcessable
 {
     protected:
         CharacterManagerInterface& characterManager; ///< A service for requiring the character destruction.
         const PathGeneratorInterface& pathGenerator; ///< A service for generating paths.
         const CharacterInformation& conf; ///< The character configuration.
         MotionHandler motionHandler; ///< A helper that will handle the character's motion.
-        Reference<AbstractProcessableBuilding> issuer; ///< The issuer building.
+        QWeakPointer<AbstractProcessableBuilding> issuer; ///< The issuer building.
         int stateVersion; ///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
 
     public:
@@ -42,11 +41,11 @@ class Character : public AbstractProcessable, public Referencable
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer
+            const QSharedPointer<AbstractProcessableBuilding>& issuer
         );
 
         bool isOfType(const CharacterInformation& conf) const;
-        const Reference<AbstractProcessableBuilding>& getIssuer() const;
+        const QWeakPointer<AbstractProcessableBuilding>& getIssuer() const;
 
         CharacterState getCurrentState() const;
 

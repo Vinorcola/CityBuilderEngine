@@ -14,6 +14,13 @@ AbstractBuilding::AbstractBuilding(const BuildingInformation& conf, const MapAre
 
 
 
+AbstractBuilding::~AbstractBuilding()
+{
+
+}
+
+
+
 const BuildingInformation& AbstractBuilding::getConf() const
 {
     return conf;

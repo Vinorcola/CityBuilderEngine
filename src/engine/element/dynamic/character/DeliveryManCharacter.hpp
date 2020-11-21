@@ -11,7 +11,7 @@ class DeliveryManCharacter : public Character
 {
     private:
         const BuildingSearchEngine& searchEngine;
-        OptionalReference<AbstractProcessableBuilding> target;
+        QWeakPointer<AbstractProcessableBuilding> target;
         const ItemInformation& transportedItemConf;
         int transportedQuantity;
         bool goingHome;
@@ -22,7 +22,7 @@ class DeliveryManCharacter : public Character
             const PathGeneratorInterface& pathGenerator,
             const BuildingSearchEngine& searchEngine,
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
+            const QSharedPointer<AbstractProcessableBuilding>& issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
         );

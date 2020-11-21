@@ -8,9 +8,17 @@ AbstractProcessableBuilding::AbstractProcessableBuilding(
     const MapCoordinates& entryPoint
 ):
     AbstractBuilding(conf, area),
-    entryPoint(entryPoint)
+    entryPoint(entryPoint),
+    selfReference(nullptr)
 {
 
+}
+
+
+
+QWeakPointer<AbstractProcessableBuilding> AbstractProcessableBuilding::getSelfReference() const
+{
+    return selfReference;
 }
 
 

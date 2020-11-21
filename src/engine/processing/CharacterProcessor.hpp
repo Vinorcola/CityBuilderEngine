@@ -2,10 +2,9 @@
 #define CHARACTERPROCESSOR_HPP
 
 #include <QtCore/QList>
+#include <QtCore/QSharedPointer>
 
-#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
-#include "src/global/reference/collection/ReferenceCollection.hpp"
 
 class Character;
 class CycleDate;
@@ -16,9 +15,9 @@ class CycleDate;
 class CharacterProcessor : public AbstractProcessable
 {
     private:
-        ReferenceCollection<Character> processableList;
-        ReferenceCollection<Character> waitingForRegistrationList;
-        QList<Character*> waitingForUnregistrationList;
+        QHash<const Character*, QWeakPointer<Character>> processableList;
+        QList<QSharedPointer<Character>> waitingForRegistrationList;
+        QList<const Character*> waitingForUnregistrationList;
 
     public:
         CharacterProcessor();
@@ -26,12 +25,12 @@ class CharacterProcessor : public AbstractProcessable
         /**
          * @brief Register a character to be process each time cycle.
          */
-        void registerCharacter(Character& character);
+        void registerCharacter(const QSharedPointer<Character>& character);
 
         /**
          * @brief Unregister a character from processor.
          */
-        void unregisterCharacter(Character& character);
+        void unregisterCharacter(const QSharedPointer<Character>& character);
 
         virtual void process(const CycleDate& date) override;
 };

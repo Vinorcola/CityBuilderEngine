@@ -9,12 +9,12 @@ StudentCharacter::StudentCharacter(
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer,
-    AbstractProcessableBuilding& target,
+    const QSharedPointer<AbstractProcessableBuilding>& issuer,
+    const QWeakPointer<AbstractProcessableBuilding>& target,
     owner<PathInterface*> path
 ) :
     Character(characterManager, pathGenerator, conf, issuer),
-    target(target.getReference<AbstractProcessableBuilding>())
+    target(target)
 {
     motionHandler.takePath(path);
 }
@@ -26,8 +26,9 @@ void StudentCharacter::process(const CycleDate& date)
     Character::process(date);
 
     if (motionHandler.isPathCompleted()) {
-        if (target.isValid()) {
-            target.get().processInteraction(date, *this);
+        auto target(this->target.toStrongRef());
+        if (target) {
+            target->processInteraction(date, *this);
         }
         characterManager.clearCharacter(*this);
     }

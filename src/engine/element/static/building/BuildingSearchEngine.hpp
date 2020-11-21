@@ -3,7 +3,6 @@
 
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/element/static/building/StorageBuilding.hpp"
-#include "src/global/reference/collection/ReferenceCollection.hpp"
 #include "src/defines.hpp"
 
 class AbstractProcessableBuilding;
@@ -12,8 +11,8 @@ class ItemInformation;
 class MapCoordinates;
 class StorageBuilding;
 
-using BuildingList = ReferenceCollection<AbstractProcessableBuilding>;
-using StorageBuildingList = ReferenceCollection<StorageBuilding>;
+using BuildingList = QList<QWeakPointer<AbstractProcessableBuilding>>;
+using StorageBuildingList = QList<QWeakPointer<StorageBuilding>>;
 
 /**
  * @brief A search engine for buildings.
@@ -35,14 +34,14 @@ class BuildingSearchEngine
     public:
         BuildingSearchEngine();
 
-        void registerBuilding(AbstractProcessableBuilding& building);
-        void registerStorageBuilding(StorageBuilding& building);
+        void registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
+        void registerStorageBuilding(const QSharedPointer<StorageBuilding>& building);
 
-        optional<AbstractProcessableBuilding*> findClosestBuilding(
+        QSharedPointer<optional<AbstractProcessableBuilding>> findClosestBuilding(
             const BuildingInformation& buildingConf,
             const MapCoordinates& origin
         ) const;
-        optional<StorageBuilding*> findClosestStorageThatCanStore(
+        QSharedPointer<optional<StorageBuilding>> findClosestStorageThatCanStore(
             const ItemInformation& itemConf,
             const MapCoordinates& origin
         ) const;

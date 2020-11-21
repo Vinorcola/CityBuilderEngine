@@ -41,16 +41,16 @@ void PopulationHandler::unregisterPopulation(int quantity)
 
 
 
-void PopulationHandler::registerWorkingPlace(AbstractProcessableBuilding& building)
+void PopulationHandler::registerWorkingPlace(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
-    workingPlaces.push_back(&building);
+    workingPlaces.insert(building.get(), building);
 }
 
 
 
-void PopulationHandler::unregisterWorkingPlace(AbstractProcessableBuilding& building)
+void PopulationHandler::unregisterWorkingPlace(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
-    workingPlaces.remove(&building);
+    workingPlaces.remove(building.get());
 }
 
 

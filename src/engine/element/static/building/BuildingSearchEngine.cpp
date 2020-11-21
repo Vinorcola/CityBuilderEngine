@@ -11,9 +11,9 @@ BuildingSearchEngine::BuildingSearchEngine() :
 
 
 
-void BuildingSearchEngine::registerBuilding(AbstractProcessableBuilding& building)
+void BuildingSearchEngine::registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
-    auto key(&building.getConf());
+    auto key(&building->getConf());
     if (!buildingsPerType.contains(key)) {
         buildingsPerType.insert(key, {});
     }
@@ -23,14 +23,14 @@ void BuildingSearchEngine::registerBuilding(AbstractProcessableBuilding& buildin
 
 
 
-void BuildingSearchEngine::registerStorageBuilding(StorageBuilding& building)
+void BuildingSearchEngine::registerStorageBuilding(const QSharedPointer<StorageBuilding>& building)
 {
     storageBuildings.append(building);
 }
 
 
 
-optional<AbstractProcessableBuilding*> BuildingSearchEngine::findClosestBuilding(
+QSharedPointer<optional<AbstractProcessableBuilding>> BuildingSearchEngine::findClosestBuilding(
     const BuildingInformation& buildingConf,
     const MapCoordinates& /*origin*/
 ) const {
@@ -40,9 +40,10 @@ optional<AbstractProcessableBuilding*> BuildingSearchEngine::findClosestBuilding
     }
 
     // For now, we return the first laboratory. To review.
-    for (auto building : buildingsPerType[&buildingConf]) {
-        if (building.isValid()) {
-            return &building.get();
+    for (auto& buildingRef : buildingsPerType[&buildingConf]) {
+        auto building(buildingRef.toStrongRef());
+        if (building) {
+            return building;
         }
     }
 
@@ -51,14 +52,15 @@ optional<AbstractProcessableBuilding*> BuildingSearchEngine::findClosestBuilding
 
 
 
-optional<StorageBuilding*> BuildingSearchEngine::findClosestStorageThatCanStore(
+QSharedPointer<optional<StorageBuilding>> BuildingSearchEngine::findClosestStorageThatCanStore(
     const ItemInformation& itemConf,
     const MapCoordinates& /*origin*/
 ) const {
 
-    for (auto building : storageBuildings) {
-        if (building.isValid() && building.get().storableQuantity(itemConf) > 0) {
-            return &building.get();
+    for (auto& buildingRef : storageBuildings) {
+        auto building(buildingRef.toStrongRef());
+        if (building && building->storableQuantity(itemConf) > 0) {
+            return building;
         }
     }
 

@@ -1,8 +1,6 @@
 #ifndef SCHOOLBUILDING_HPP
 #define SCHOOLBUILDING_HPP
 
-#include <list>
-
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
@@ -20,8 +18,17 @@ class SchoolBuilding : public AbstractProcessableBuilding
         CharacterFactoryInterface& characterFactory;
         CycleDate nextWalkerGenerationDate;
 
-    public:
+    private:
         SchoolBuilding(
+            const BuildingSearchEngine& searchEngine,
+            CharacterFactoryInterface& characterFactory,
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
+
+    public:
+        static QSharedPointer<AbstractProcessableBuilding> Create(
             const BuildingSearchEngine& searchEngine,
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,

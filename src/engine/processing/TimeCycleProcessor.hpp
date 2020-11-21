@@ -46,22 +46,22 @@ class TimeCycleProcessor : public QObject
         /**
          * @brief Register a building to be process each time cycle.
          */
-        void registerBuilding(AbstractProcessableBuilding& building);
+        void registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
 
         /**
          * @brief Register a character to be process each time cycle.
          */
-        void registerCharacter(Character& character);
+        void registerCharacter(const QSharedPointer<Character>& character);
 
         /**
          * @brief Unregister a building from processor.
          */
-        void unregisterBuilding(AbstractProcessableBuilding& building);
+        void unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
 
         /**
          * @brief Unregister a character from processor.
          */
-        void unregisterCharacter(Character& character);
+        void unregisterCharacter(const QSharedPointer<Character>& character);
 
         /**
          * @brief Pause (or resume) the time-cycle processor.

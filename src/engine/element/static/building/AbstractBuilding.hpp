@@ -2,7 +2,6 @@
 #define ABSTRACTBUILDING_HPP
 
 #include "src/engine/map/MapArea.hpp"
-#include "src/global/reference/Referencable.hpp"
 
 class BuildingInformation;
 struct BuildingState;
@@ -13,7 +12,7 @@ struct BuildingState;
  * A static element is an element that do not move. It covers an area of the map. This area will be blocked to other static
  * elements (two static elements cannot share a piece of area).
  */
-class AbstractBuilding : public Referencable
+class AbstractBuilding
 {
     protected:
         const BuildingInformation& conf;
@@ -22,6 +21,7 @@ class AbstractBuilding : public Referencable
 
     public:
         AbstractBuilding(const BuildingInformation& conf, const MapArea& area);
+        virtual ~AbstractBuilding();
 
         const BuildingInformation& getConf() const;
         virtual BuildingState getCurrentState() const;

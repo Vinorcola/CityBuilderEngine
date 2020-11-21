@@ -1,7 +1,9 @@
 #ifndef IMMIGRANTGENERATORINTERFACE_HPP
 #define IMMIGRANTGENERATORINTERFACE_HPP
 
-class HouseBuilding;
+#include <QtCore/QWeakPointer>
+
+class AbstractProcessableBuilding;
 
 class ImmigrantGeneratorInterface
 {
@@ -13,7 +15,7 @@ class ImmigrantGeneratorInterface
          *
          * The immigrant will be generated at a random moment.
          */
-        virtual void requestImmigrant(HouseBuilding& requester) = 0;
+        virtual void requestImmigrant(const QWeakPointer<AbstractProcessableBuilding>& requester) = 0;
 };
 
 #endif // IMMIGRANTGENERATORINTERFACE_HPP

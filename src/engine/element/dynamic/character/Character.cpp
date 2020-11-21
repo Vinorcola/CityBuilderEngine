@@ -11,14 +11,14 @@ Character::Character(
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer
+    const QSharedPointer<AbstractProcessableBuilding>& issuer
 ) :
     AbstractProcessable(),
     characterManager(characterManager),
     pathGenerator(pathGenerator),
     conf(conf),
-    motionHandler(conf.getSpeed(), issuer.getEntryPoint()),
-    issuer(issuer.getReference<AbstractProcessableBuilding>()),
+    motionHandler(conf.getSpeed(), issuer->getEntryPoint()),
+    issuer(issuer),
     stateVersion(0)
 {
 
@@ -33,7 +33,7 @@ bool Character::isOfType(const CharacterInformation& conf) const
 
 
 
-const Reference<AbstractProcessableBuilding>& Character::getIssuer() const
+const QWeakPointer<AbstractProcessableBuilding>& Character::getIssuer() const
 {
     return issuer;
 }

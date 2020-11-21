@@ -11,23 +11,24 @@ WanderingCharacter::WanderingCharacter(
     CharacterManagerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer
+    const QSharedPointer<AbstractProcessableBuilding>& issuer
 ) :
     Character(characterManager, pathGenerator, conf, issuer),
     goingHome(false)
 {
-    motionHandler.takePath(pathGenerator.generateWanderingPath(issuer.getEntryPoint(), conf.getWanderingCredits()));
+    motionHandler.takePath(pathGenerator.generateWanderingPath(issuer->getEntryPoint(), conf.getWanderingCredits()));
 }
 
 
 
 void WanderingCharacter::goHome()
 {
-    if (issuer.isValid()) {
+    auto issuer(this->issuer.toStrongRef());
+    if (issuer) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(
             motionHandler.getCurrentLocation(),
-            issuer.get().getEntryPoint()
+            issuer->getEntryPoint()
         ));
     }
 }
@@ -40,8 +41,9 @@ void WanderingCharacter::process(const CycleDate& date)
 
     if (motionHandler.isPathCompleted()) {
         if (goingHome) {
-            if (issuer.isValid()) {
-                issuer.get().processInteraction(date, *this);
+            auto issuer(this->issuer.toStrongRef());
+            if (issuer) {
+                issuer->processInteraction(date, *this);
             }
             characterManager.clearCharacter(*this);
         }

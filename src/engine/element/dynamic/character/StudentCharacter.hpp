@@ -8,15 +8,15 @@ class AbstractProcessableBuilding;
 class StudentCharacter : public Character
 {
     private:
-        Reference<AbstractProcessableBuilding> target;
+        QWeakPointer<AbstractProcessableBuilding> target;
 
     public:
         StudentCharacter(
             CharacterManagerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
-            AbstractProcessableBuilding& target,
+            const QSharedPointer<AbstractProcessableBuilding>& issuer,
+            const QWeakPointer<AbstractProcessableBuilding>& target,
             owner<PathInterface*> path
         );
 

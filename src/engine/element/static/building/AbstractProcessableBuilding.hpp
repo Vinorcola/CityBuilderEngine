@@ -1,6 +1,8 @@
 #ifndef ABSTRACTPROCESSABLEBUILDING_HPP
 #define ABSTRACTPROCESSABLEBUILDING_HPP
 
+#include <QtCore/QWeakPointer>
+
 #include "src/engine/element/static/building/AbstractBuilding.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
@@ -14,13 +16,18 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
     private:
         MapCoordinates entryPoint;
 
-    public:
+    protected:
+        QWeakPointer<AbstractProcessableBuilding> selfReference;
+
+    protected:
         AbstractProcessableBuilding(
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint
         );
 
+    public:
+        QWeakPointer<AbstractProcessableBuilding> getSelfReference() const;
         const MapCoordinates& getEntryPoint() const;
 
         virtual bool processInteraction(const CycleDate& date, Character& actor);

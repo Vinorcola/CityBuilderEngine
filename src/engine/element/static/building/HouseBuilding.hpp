@@ -1,6 +1,8 @@
 #ifndef HOUSEBUILDING_HPP
 #define HOUSEBUILDING_HPP
 
+#include <QtCore/QSharedPointer>
+
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 
 class CharacterFactoryInterface;
@@ -15,8 +17,17 @@ class HouseBuilding : public AbstractProcessableBuilding
         PopulationRegistryInterface& populationRegister;
         int inhabitants;
 
-    public:
+    private:
         HouseBuilding(
+            ImmigrantGeneratorInterface& immigrantGenerator,
+            PopulationRegistryInterface& populationRegister,
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
+
+    public:
+        static QSharedPointer<AbstractProcessableBuilding> Create(
             ImmigrantGeneratorInterface& immigrantGenerator,
             PopulationRegistryInterface& populationRegister,
             const BuildingInformation& conf,

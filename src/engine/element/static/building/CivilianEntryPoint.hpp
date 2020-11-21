@@ -1,8 +1,9 @@
 #ifndef MAPENTRYPOINT_HPP
 #define MAPENTRYPOINT_HPP
 
+#include <QtCore/QSharedPointer>
+
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
-#include "src/engine/element/static/building/HouseBuilding.hpp"
 #include "src/engine/element/static/building/ImmigrantGeneratorInterface.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/CycleDate.hpp"
@@ -26,9 +27,9 @@ class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantG
         CharacterFactoryInterface& characterFactory;
         const CharacterInformation& immigrantConf;
         CycleDate nextImmigrantGenerationDate;
-        QList<Reference<HouseBuilding>> immigrantRequestQueue;
+        QList<QWeakPointer<AbstractProcessableBuilding>> immigrantRequestQueue;
 
-    public:
+    private:
         CivilianEntryPoint(
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
@@ -36,7 +37,15 @@ class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantG
             const CharacterInformation& immigrantConf
         );
 
-        virtual void requestImmigrant(HouseBuilding& requester) override;
+    public:
+        static QSharedPointer<CivilianEntryPoint> Create(
+            CharacterFactoryInterface& characterFactory,
+            const BuildingInformation& conf,
+            const MapCoordinates& location,
+            const CharacterInformation& immigrantConf
+        );
+
+        virtual void requestImmigrant(const QWeakPointer<AbstractProcessableBuilding>& requester) override;
 
         virtual void process(const CycleDate& date) override;
 

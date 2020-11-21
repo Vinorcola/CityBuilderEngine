@@ -29,7 +29,12 @@ StaticElementHandler::State::State(
     const Conf& conf,
     const MapCoordinates& entryPointLocation
 ) :
-    entryPoint(characterFactory, conf.getBuildingConf("mapEntryPoint"), entryPointLocation, conf.getCharacterConf("immigrant")),
+    entryPoint(CivilianEntryPoint::Create(
+        characterFactory,
+        conf.getBuildingConf("mapEntryPoint"),
+        entryPointLocation,
+        conf.getCharacterConf("immigrant")
+    )),
     buildings(),
     natureElements()
 {
@@ -57,14 +62,6 @@ StaticElementHandler::StaticElementHandler(
     natureElementSearchEngine(pathGenerator)
 {
     processor.registerBuilding(currentState.entryPoint);
-}
-
-
-
-StaticElementHandler::~StaticElementHandler()
-{
-    qDeleteAll(currentState.buildings);
-    qDeleteAll(currentState.natureElements);
 }
 
 
@@ -216,8 +213,8 @@ void StaticElementHandler::createBuilding(const BuildingInformation& conf, const
 
 void StaticElementHandler::createNatureElement(const NatureElementInformation& conf, const MapArea& area)
 {
-    auto element(new NatureElement(conf, area));
-    currentState.natureElements.push_back(element);
+    QSharedPointer<NatureElement> element(new NatureElement(conf, area));
+    currentState.natureElements.insert(element.get(), element);
 
     registerNatureElementInDetailsCache(conf, area);
 }
@@ -226,11 +223,11 @@ void StaticElementHandler::createNatureElement(const NatureElementInformation& c
 
 void StaticElementHandler::generateFarm(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new FarmBuilding(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
-    currentState.buildings.push_back(building);
+    auto building(FarmBuilding::Create(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
+    currentState.buildings.insert(building.get(), building);
 
-    processor.registerBuilding(*building);
-    populationHandler.registerWorkingPlace(*building);
+    processor.registerBuilding(building);
+    populationHandler.registerWorkingPlace(building);
     registerBuildingInDetailsCache(area);
 }
 
@@ -238,10 +235,10 @@ void StaticElementHandler::generateFarm(const BuildingInformation& conf, const M
 
 void StaticElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new HouseBuilding(currentState.entryPoint, populationHandler, conf, area, getBestBuildingEntryPoint(area)));
-    currentState.buildings.push_back(building);
+    auto building(HouseBuilding::Create(*currentState.entryPoint.get(), populationHandler, conf, area, getBestBuildingEntryPoint(area)));
+    currentState.buildings.insert(building.get(), building);
 
-    processor.registerBuilding(*building);
+    processor.registerBuilding(building);
     registerBuildingInDetailsCache(area);
 }
 
@@ -249,30 +246,30 @@ void StaticElementHandler::generateHouse(const BuildingInformation& conf, const 
 
 void StaticElementHandler::generateLaboratory(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new LaboratoryBuilding(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
-    currentState.buildings.push_back(building);
+    auto building(LaboratoryBuilding::Create(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
+    currentState.buildings.insert(building.get(), building);
 
-    processor.registerBuilding(*building);
-    populationHandler.registerWorkingPlace(*building);
+    processor.registerBuilding(building);
+    populationHandler.registerWorkingPlace(building);
     registerBuildingInDetailsCache(area);
-    buildingSearchEngine.registerBuilding(*building);
+    buildingSearchEngine.registerBuilding(building);
 }
 
 
 
 void StaticElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new ProducerBuilding(
+    auto building(ProducerBuilding::Create(
         natureElementSearchEngine,
         characterFactory,
         conf,
         area,
         getBestBuildingEntryPoint(area)
     ));
-    currentState.buildings.push_back(building);
+    currentState.buildings.insert(building.get(), building);
 
-    processor.registerBuilding(*building);
-    populationHandler.registerWorkingPlace(*building);
+    processor.registerBuilding(building);
+    populationHandler.registerWorkingPlace(building);
     registerBuildingInDetailsCache(area);
 }
 
@@ -280,11 +277,11 @@ void StaticElementHandler::generateProducer(const BuildingInformation& conf, con
 
 void StaticElementHandler::generateSanity(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new SanityBuilding(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
-    currentState.buildings.push_back(building);
+    auto building(SanityBuilding::Create(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
+    currentState.buildings.insert(building.get(), building);
 
-    processor.registerBuilding(*building);
-    populationHandler.registerWorkingPlace(*building);
+    processor.registerBuilding(building);
+    populationHandler.registerWorkingPlace(building);
     registerBuildingInDetailsCache(area);
 }
 
@@ -292,17 +289,17 @@ void StaticElementHandler::generateSanity(const BuildingInformation& conf, const
 
 void StaticElementHandler::generateSchool(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new SchoolBuilding(
+    auto building(SchoolBuilding::Create(
         buildingSearchEngine,
         characterFactory,
         conf,
         area,
         getBestBuildingEntryPoint(area)
     ));
-    currentState.buildings.push_back(building);
+    currentState.buildings.insert(building.get(), building);
 
-    processor.registerBuilding(*building);
-    populationHandler.registerWorkingPlace(*building);
+    processor.registerBuilding(building);
+    populationHandler.registerWorkingPlace(building);
     registerBuildingInDetailsCache(area);
 }
 
@@ -310,21 +307,21 @@ void StaticElementHandler::generateSchool(const BuildingInformation& conf, const
 
 void StaticElementHandler::generateStorage(const BuildingInformation& conf, const MapArea& area)
 {
-    auto building(new StorageBuilding(conf, area, getBestBuildingEntryPoint(area)));
-    currentState.buildings.push_back(building);
+    auto building(StorageBuilding::Create(conf, area, getBestBuildingEntryPoint(area)));
+    currentState.buildings.insert(building.get(), building);
 
-    processor.registerBuilding(*building);
-    populationHandler.registerWorkingPlace(*building);
+    processor.registerBuilding(building);
+    populationHandler.registerWorkingPlace(building);
     registerBuildingInDetailsCache(area);
-    buildingSearchEngine.registerStorageBuilding(*building);
+    buildingSearchEngine.registerStorageBuilding(building);
 }
 
 
 
 void StaticElementHandler::generateRoad(const BuildingInformation& conf, const MapArea& area)
 {
-    auto road(new Road(conf, area));
-    currentState.buildings.push_back(road);
+    QSharedPointer<AbstractBuilding> road(new Road(conf, area));
+    currentState.buildings.insert(road.get(), road);
 
     registerRoadInDetailsCache(area);
 }

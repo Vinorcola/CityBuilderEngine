@@ -47,28 +47,28 @@ const CycleDate& TimeCycleProcessor::getCurrentDate() const
 
 
 
-void TimeCycleProcessor::registerBuilding(AbstractProcessableBuilding& building)
+void TimeCycleProcessor::registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
     buildingProcessor.registerBuilding(building);
 }
 
 
 
-void TimeCycleProcessor::registerCharacter(Character& character)
+void TimeCycleProcessor::registerCharacter(const QSharedPointer<Character>& character)
 {
     characterProcessor.registerCharacter(character);
 }
 
 
 
-void TimeCycleProcessor::unregisterBuilding(AbstractProcessableBuilding& building)
+void TimeCycleProcessor::unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
     buildingProcessor.unregisterBuilding(building);
 }
 
 
 
-void TimeCycleProcessor::unregisterCharacter(Character& character)
+void TimeCycleProcessor::unregisterCharacter(const QSharedPointer<Character>& character)
 {
     characterProcessor.unregisterCharacter(character);
 }

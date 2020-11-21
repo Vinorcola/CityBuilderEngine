@@ -1,7 +1,8 @@
 #ifndef POPULATIONHANDLER_HPP
 #define POPULATIONHANDLER_HPP
 
-#include <list>
+#include <QtCore/QHash>
+#include <QtCore/QSharedPointer>
 
 #include "src/engine/city/PopulationRegistryInterface.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
@@ -23,7 +24,7 @@ class PopulationHandler : public AbstractProcessable, public PopulationRegistryI
     private:
         State currentState;
         int newPopulation;
-        std::list<AbstractProcessableBuilding*> workingPlaces;
+        QHash<AbstractProcessableBuilding*, QSharedPointer<AbstractProcessableBuilding>> workingPlaces;
 
     public:
         PopulationHandler();
@@ -33,8 +34,8 @@ class PopulationHandler : public AbstractProcessable, public PopulationRegistryI
         virtual void registerPopulation(int quantity) override;
         virtual void unregisterPopulation(int quantity) override;
 
-        void registerWorkingPlace(AbstractProcessableBuilding& building);
-        void unregisterWorkingPlace(AbstractProcessableBuilding& building);
+        void registerWorkingPlace(const QSharedPointer<AbstractProcessableBuilding>& building);
+        void unregisterWorkingPlace(const QSharedPointer<AbstractProcessableBuilding>& building);
 
         virtual void process(const CycleDate& date) override;
 

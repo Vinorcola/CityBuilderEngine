@@ -1,13 +1,11 @@
 #ifndef DYNAMICELEMENTHANDLER_HPP
 #define DYNAMICELEMENTHANDLER_HPP
 
-#include <list>
-#include <QtCore/QList>
+#include <QtCore/QHash>
 
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
 #include "src/engine/element/dynamic/CharacterManagerInterface.hpp"
 #include "src/engine/state/CharacterState.hpp"
-#include "src/defines.hpp"
 
 class BuildingSearchEngine;
 class Character;
@@ -17,7 +15,7 @@ class DynamicElementHandler : public CharacterFactoryInterface, public Character
 {
     private:
         struct State {
-            std::list<owner<Character*>> characters;
+            QHash<Character*, QSharedPointer<Character>> characters;
         };
 
     private:
@@ -30,32 +28,31 @@ class DynamicElementHandler : public CharacterFactoryInterface, public Character
             const PathGeneratorInterface& pathGenerator,
             const BuildingSearchEngine& buildingSearchEngine
         );
-        virtual ~DynamicElementHandler();
 
-        virtual DeliveryManCharacter& generateDeliveryMan(
+        virtual QWeakPointer<Character> generateDeliveryMan(
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
+            QSharedPointer<AbstractProcessableBuilding> issuer,
             const ItemInformation& transportedItemConf,
             const int transportedQuantity = 0
         ) override;
-        virtual ImmigrantCharacter& generateImmigrant(
+        virtual QWeakPointer<Character> generateImmigrant(
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
-            AbstractProcessableBuilding& target
+            QSharedPointer<AbstractProcessableBuilding> issuer,
+            QSharedPointer<AbstractProcessableBuilding> target
         ) override;
-        virtual MinerCharacter& generateMiner(
+        virtual QWeakPointer<Character> generateMiner(
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
+            QSharedPointer<AbstractProcessableBuilding> issuer,
             owner<PathInterface*> path
         ) override;
-        virtual StudentCharacter& generateStudent(
+        virtual QWeakPointer<Character> generateStudent(
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer,
-            AbstractProcessableBuilding& target
+            QSharedPointer<AbstractProcessableBuilding> issuer,
+            QSharedPointer<AbstractProcessableBuilding> target
         ) override;
-        virtual WanderingCharacter& generateWanderingCharacter(
+        virtual QWeakPointer<Character> generateWanderingCharacter(
             const CharacterInformation& conf,
-            AbstractProcessableBuilding& issuer
+            QSharedPointer<AbstractProcessableBuilding> issuer
         ) override;
 
         virtual void clearCharacter(Character& character) override;

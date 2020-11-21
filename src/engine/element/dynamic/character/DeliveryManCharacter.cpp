@@ -15,7 +15,7 @@ DeliveryManCharacter::DeliveryManCharacter(
     const PathGeneratorInterface& pathGenerator,
     const BuildingSearchEngine& searchEngine,
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer,
+    const QSharedPointer<AbstractProcessableBuilding>& issuer,
     const ItemInformation& transportedItemConf,
     const int transportedQuantity
 ) :
@@ -63,11 +63,12 @@ void DeliveryManCharacter::unload(const int quantity)
 
 void DeliveryManCharacter::goHome()
 {
-    if (issuer.isValid()) {
+    auto issuer(this->issuer.toStrongRef());
+    if (issuer) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(
             motionHandler.getCurrentLocation(),
-            issuer.get().getEntryPoint()
+            issuer->getEntryPoint()
         ));
     }
 }
@@ -79,7 +80,7 @@ void DeliveryManCharacter::process(const CycleDate& date)
     if (target.isNull()) {
         auto storage(searchEngine.findClosestStorageThatCanStore(transportedItemConf, motionHandler.getCurrentLocation()));
         if (storage) {
-            target.reassign(*storage);
+            target = storage;
             motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(motionHandler.getCurrentLocation(), storage->getEntryPoint()));
         }
     }
@@ -88,8 +89,9 @@ void DeliveryManCharacter::process(const CycleDate& date)
 
     if (motionHandler.isPathCompleted()) {
         if (goingHome) {
-            if (issuer.isValid()) {
-                issuer.get().processInteraction(date, *this);
+            auto issuer(this->issuer.toStrongRef());
+            if (issuer) {
+                issuer->processInteraction(date, *this);
             }
             if (transportedQuantity == 0) {
                 characterManager.clearCharacter(*this);
@@ -99,8 +101,9 @@ void DeliveryManCharacter::process(const CycleDate& date)
             }
         }
         else {
-            if (target.isValid()) {
-                target.get().processInteraction(date, *this);
+            auto target(this->target.toStrongRef());
+            if (target) {
+                target->processInteraction(date, *this);
                 notifyViewDataChange();
                 if (isEmpty()) {
                     goHome();

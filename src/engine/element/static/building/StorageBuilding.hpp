@@ -12,8 +12,15 @@ class StorageBuilding : public AbstractProcessableBuilding
     private:
         QHash<const ItemInformation*, int> stock;
 
-    public:
+    private:
         StorageBuilding(
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
+
+    public:
+        static QSharedPointer<StorageBuilding> Create(
             const BuildingInformation& conf,
             const MapArea& area,
             const MapCoordinates& entryPoint

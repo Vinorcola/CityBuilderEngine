@@ -21,6 +21,20 @@ StorageBuilding::StorageBuilding(
 
 
 
+QSharedPointer<StorageBuilding> StorageBuilding::Create(
+    const BuildingInformation& conf,
+    const MapArea& area,
+    const MapCoordinates& entryPoint
+) {
+    auto storage(new StorageBuilding(conf, area, entryPoint));
+    QSharedPointer<StorageBuilding> pointer(storage);
+    storage->selfReference = pointer;
+
+    return pointer;
+}
+
+
+
 int StorageBuilding::storableQuantity(const ItemInformation& /*itemConf*/, const int maxQuantity) const
 {
     int currentStoredQuantity(0);

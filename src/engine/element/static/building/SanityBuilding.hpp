@@ -1,21 +1,31 @@
 #ifndef SANITYBUILDING_HPP
 #define SANITYBUILDING_HPP
 
-#include "src/engine/element/dynamic/character/Character.hpp"
+#include <QtCore/QSharedPointer>
+
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
+class Character;
 class CharacterFactoryInterface;
 
 class SanityBuilding : public AbstractProcessableBuilding
 {
     private:
         CharacterFactoryInterface& characterFactory;
-        OptionalReference<Character> walker;
+        QWeakPointer<Character> walker;
         CycleDate nextWalkerGenerationDate;
 
-    public:
+    private:
         SanityBuilding(
+            CharacterFactoryInterface& characterFactory,
+            const BuildingInformation& conf,
+            const MapArea& area,
+            const MapCoordinates& entryPoint
+        );
+
+    public:
+        static QSharedPointer<AbstractProcessableBuilding> Create(
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,

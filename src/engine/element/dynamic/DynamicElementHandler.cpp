@@ -8,6 +8,7 @@
 #include "src/engine/element/dynamic/character/StudentCharacter.hpp"
 #include "src/engine/element/dynamic/character/WanderingCharacter.hpp"
 #include "src/engine/element/dynamic/PathGeneratorInterface.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/state/CharacterState.hpp"
 
 
@@ -25,20 +26,13 @@ DynamicElementHandler::DynamicElementHandler(
 
 
 
-DynamicElementHandler::~DynamicElementHandler()
-{
-    qDeleteAll(currentState.characters);
-}
-
-
-
-DeliveryManCharacter& DynamicElementHandler::generateDeliveryMan(
+QWeakPointer<Character> DynamicElementHandler::generateDeliveryMan(
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer,
+    QSharedPointer<AbstractProcessableBuilding> issuer,
     const ItemInformation& transportedItemConf,
     const int transportedQuantity
 ) {
-    auto character(new DeliveryManCharacter(
+    QSharedPointer<Character> character(new DeliveryManCharacter(
         *this,
         pathGenerator,
         buildingSearchEngine,
@@ -47,61 +41,61 @@ DeliveryManCharacter& DynamicElementHandler::generateDeliveryMan(
         transportedItemConf,
         transportedQuantity
     ));
-    currentState.characters.push_back(character);
+    currentState.characters.insert(character.get(), character);
 
-    return *character;
+    return character;
 }
 
 
 
-ImmigrantCharacter& DynamicElementHandler::generateImmigrant(
+QWeakPointer<Character> DynamicElementHandler::generateImmigrant(
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer,
-    AbstractProcessableBuilding& target
+    QSharedPointer<AbstractProcessableBuilding> issuer,
+    QSharedPointer<AbstractProcessableBuilding> target
 ) {
-    auto character(new ImmigrantCharacter(*this, pathGenerator, conf, issuer, target));
-    currentState.characters.push_back(character);
+    QSharedPointer<Character> character(new ImmigrantCharacter(*this, pathGenerator, conf, issuer, target));
+    currentState.characters.insert(character.get(), character);
 
-    return *character;
+    return character;
 }
 
 
 
-MinerCharacter& DynamicElementHandler::generateMiner(
+QWeakPointer<Character> DynamicElementHandler::generateMiner(
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer,
+    QSharedPointer<AbstractProcessableBuilding> issuer,
     owner<PathInterface*> path
 ) {
-    auto character(new MinerCharacter(*this, pathGenerator, conf, issuer, path));
-    currentState.characters.push_back(character);
+    QSharedPointer<Character> character(new MinerCharacter(*this, pathGenerator, conf, issuer, path));
+    currentState.characters.insert(character.get(), character);
 
-    return *character;
+    return character;
 }
 
 
 
-StudentCharacter& DynamicElementHandler::generateStudent(
+QWeakPointer<Character> DynamicElementHandler::generateStudent(
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer,
-    AbstractProcessableBuilding& target
+    QSharedPointer<AbstractProcessableBuilding> issuer,
+    QSharedPointer<AbstractProcessableBuilding> target
 ) {
-    auto path(pathGenerator.generateShortestRoadPathTo(issuer.getEntryPoint(), target.getEntryPoint()));
-    auto character(new StudentCharacter(*this, pathGenerator, conf, issuer, target, path));
-    currentState.characters.push_back(character);
+    auto path(pathGenerator.generateShortestRoadPathTo(issuer->getEntryPoint(), target->getEntryPoint()));
+    QSharedPointer<Character> character(new StudentCharacter(*this, pathGenerator, conf, issuer, target, path));
+    currentState.characters.insert(character.get(), character);
 
-    return *character;
+    return character;
 }
 
 
 
-WanderingCharacter& DynamicElementHandler::generateWanderingCharacter(
+QWeakPointer<Character> DynamicElementHandler::generateWanderingCharacter(
     const CharacterInformation& conf,
-    AbstractProcessableBuilding& issuer
+    QSharedPointer<AbstractProcessableBuilding> issuer
 ) {
-    auto character(new WanderingCharacter(*this, pathGenerator, conf, issuer));
-    currentState.characters.push_back(character);
+    QSharedPointer<Character> character(new WanderingCharacter(*this, pathGenerator, conf, issuer));
+    currentState.characters.insert(character.get(), character);
 
-    return *character;
+    return character;
 }
 
 
@@ -109,7 +103,6 @@ WanderingCharacter& DynamicElementHandler::generateWanderingCharacter(
 void DynamicElementHandler::clearCharacter(Character& character)
 {
     currentState.characters.remove(&character);
-    delete &character;
 }
 
 
