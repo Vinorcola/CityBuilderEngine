@@ -13,13 +13,17 @@ const qreal MSEC_PER_SEC(1000);
 
 
 
-TimeCycleProcessor::TimeCycleProcessor(const CycleDate& startingDate, const qreal speedRatio) :
+TimeCycleProcessor::TimeCycleProcessor(
+    AbstractProcessable& populationHandler,
+    const CycleDate& startingDate,
+    const qreal speedRatio
+) :
     QObject(),
     paused(true),
     speedRatio(speedRatio),
     clock(),
     currentCycleDate(startingDate),
-    buildingProcessor(),
+    buildingProcessor(populationHandler),
     characterProcessor()
 {
     if (speedRatio < 0.1) {

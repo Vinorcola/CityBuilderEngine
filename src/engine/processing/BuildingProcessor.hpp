@@ -15,12 +15,13 @@ class CycleDate;
 class BuildingProcessor : public AbstractProcessable
 {
     private:
+        AbstractProcessable& populationHandler;
         QHash<const AbstractProcessableBuilding*, QWeakPointer<AbstractProcessableBuilding>> processableList;
         QList<QSharedPointer<AbstractProcessableBuilding>> waitingForRegistrationList;
         QList<const AbstractProcessableBuilding*> waitingForUnregistrationList;
 
     public:
-        BuildingProcessor();
+        BuildingProcessor(AbstractProcessable& populationHandler);
 
         /**
          * @brief Register a building to be process each time cycle.
@@ -32,6 +33,7 @@ class BuildingProcessor : public AbstractProcessable
          */
         void unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
 
+        virtual void init(const CycleDate& date) override;
         virtual void process(const CycleDate& date) override;
 };
 

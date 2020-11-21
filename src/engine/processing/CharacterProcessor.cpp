@@ -48,6 +48,8 @@ void CharacterProcessor::process(const CycleDate& date)
 
     // Process registration.
     for (auto& newProcessable : waitingForRegistrationList) {
+        newProcessable->init(date);
         processableList.insert(newProcessable.get(), newProcessable);
     }
+    waitingForRegistrationList.clear();
 }
