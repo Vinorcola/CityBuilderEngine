@@ -79,7 +79,7 @@ BuildingState StorageBuilding::getCurrentState() const
         reinterpret_cast<qintptr>(this),
         conf,
         area,
-        getWorkingRatio() == 0.0 ? BuildingState::Status::Inactive : BuildingState::Status::Active,
+        isActive() ? BuildingState::Status::Active : BuildingState::Status::Inactive,
         getCurrentWorkerQuantity(),
         stateVersion,
         stock

@@ -57,7 +57,7 @@ BuildingState AbstractProcessableBuilding::getCurrentState() const
         reinterpret_cast<qintptr>(this),
         conf,
         area,
-        getWorkingRatio() == 0.0 ? BuildingState::Status::Inactive : BuildingState::Status::Active,
+        isActive() ? BuildingState::Status::Active : BuildingState::Status::Inactive,
         currentWorkerQuantity,
         stateVersion,
     };
@@ -72,12 +72,7 @@ int AbstractProcessableBuilding::getCurrentWorkerQuantity() const
 
 
 
-qreal AbstractProcessableBuilding::getWorkingRatio() const
+bool AbstractProcessableBuilding::isActive() const
 {
-    int maxWorkers(getConf().getMaxWorkers());
-    if (maxWorkers == 0) {
-        return 1.0;
-    }
-
-    return currentWorkerQuantity / getConf().getMaxWorkers();
+    return getConf().getMaxWorkers() == 0 || currentWorkerQuantity > 0;
 }

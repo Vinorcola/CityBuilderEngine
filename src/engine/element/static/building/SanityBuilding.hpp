@@ -3,6 +3,7 @@
 
 #include <QtCore/QSharedPointer>
 
+#include "src/engine/element/static/building/behavior/WalkerGenerationBehavior.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
@@ -13,8 +14,8 @@ class SanityBuilding : public AbstractProcessableBuilding
 {
     private:
         CharacterFactoryInterface& characterFactory;
+        WalkerGenerationBehavior walkerGeneration;
         QWeakPointer<Character> walker;
-        CycleDate nextWalkerGenerationDate;
 
     private:
         SanityBuilding(
@@ -32,20 +33,14 @@ class SanityBuilding : public AbstractProcessableBuilding
             const MapCoordinates& entryPoint
         );
 
-        virtual void init(const CycleDate& date) override;
         virtual void process(const CycleDate& date) override;
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 
     private:
         /**
-         * @brief Indicate if a new miner can be generated.
+         * @brief Indicate if a new walker can be generated.
          */
         bool canGenerateNewWalker() const;
-
-        /**
-         * @brief Setup the next miner generation date.
-         */
-        void setupNextWalkerGenerationDate(const CycleDate& date);
 };
 
 #endif // SANITYBUILDING_HPP

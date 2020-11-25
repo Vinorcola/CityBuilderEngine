@@ -1,18 +1,14 @@
 #include "PopulationHandler.hpp"
 
-
-
-PopulationHandler::State::State() :
-    population(0)
-{
-
-}
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/global/conf/BuildingInformation.hpp"
 
 
 
 PopulationHandler::PopulationHandler() :
-    currentState(),
-    newPopulation(0),
+    previousPopulation(0),
+    population(0),
+    workingPlacesHasChanged(false),
     workingPlaces()
 {
 
@@ -22,21 +18,21 @@ PopulationHandler::PopulationHandler() :
 
 int PopulationHandler::getCurrentPopulation() const
 {
-    return currentState.population;
+    return population;
 }
 
 
 
 void PopulationHandler::registerPopulation(int quantity)
 {
-    newPopulation += quantity;
+    population += quantity;
 }
 
 
 
 void PopulationHandler::unregisterPopulation(int quantity)
 {
-    newPopulation -= quantity;
+    population -= quantity;
 }
 
 
@@ -44,6 +40,7 @@ void PopulationHandler::unregisterPopulation(int quantity)
 void PopulationHandler::registerWorkingPlace(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
     workingPlaces.insert(building.get(), building);
+    workingPlacesHasChanged = true;
 }
 
 
@@ -51,15 +48,18 @@ void PopulationHandler::registerWorkingPlace(const QSharedPointer<AbstractProces
 void PopulationHandler::unregisterWorkingPlace(const QSharedPointer<AbstractProcessableBuilding>& building)
 {
     workingPlaces.remove(building.get());
+    workingPlacesHasChanged = true;
 }
 
 
 
 void PopulationHandler::process(const CycleDate& /*date*/)
 {
-    if (newPopulation != currentState.population) {
+    if (population != previousPopulation && workingPlacesHasChanged) {
         updateWorkerDistribution();
-        currentState.population = newPopulation;
+
+        previousPopulation = population;
+        workingPlacesHasChanged = false;
     }
 }
 
@@ -67,5 +67,14 @@ void PopulationHandler::process(const CycleDate& /*date*/)
 
 void PopulationHandler::updateWorkerDistribution()
 {
-    // TODO
+    // For now, a dummy algorithm that fill up working place randomly.
+    int remainingWorkers(population / 2);
+    for (auto& workingPlace: workingPlaces) {
+        int workPlaceWorkers(qMin(remainingWorkers, workingPlace->getConf().getMaxWorkers()));
+        workingPlace->assignWorkers(workPlaceWorkers);
+        remainingWorkers -= workPlaceWorkers;
+        if (remainingWorkers <= 0) {
+            return;
+        }
+    }
 }

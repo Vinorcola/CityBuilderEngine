@@ -15,15 +15,9 @@ class AbstractProcessableBuilding;
 class PopulationHandler : public AbstractProcessable, public PopulationRegistryInterface
 {
     private:
-        struct State{
-            State();
-
-            int population;
-        };
-
-    private:
-        State currentState;
-        int newPopulation;
+        int previousPopulation;
+        int population;
+        bool workingPlacesHasChanged;
         QHash<AbstractProcessableBuilding*, QSharedPointer<AbstractProcessableBuilding>> workingPlaces;
 
     public:

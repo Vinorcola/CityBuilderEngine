@@ -17,7 +17,7 @@ SchoolBuilding::SchoolBuilding(
     AbstractProcessableBuilding(conf, area, entryPoint),
     searchEngine(searchEngine),
     characterFactory(characterFactory),
-    nextWalkerGenerationDate()
+    walkerGeneration(conf.getMaxWorkers(), conf.getSchoolConf().student.generationInterval)
 {
 
 }
@@ -40,30 +40,21 @@ QSharedPointer<AbstractProcessableBuilding> SchoolBuilding::Create(
 
 
 
-void SchoolBuilding::init(const CycleDate& date)
+void SchoolBuilding::process(const CycleDate& /*date*/)
 {
-    setupNextWalkerGenerationDate(date);
-}
-
-
-
-void SchoolBuilding::process(const CycleDate& date)
-{
-    if (date < nextWalkerGenerationDate) {
+    if (!isActive()) {
         return;
     }
 
-    auto target(searchEngine.findClosestBuilding(conf.getSchoolConf().targetLaboratory, getEntryPoint()));
-    if (target) {
-        characterFactory.generateStudent(conf.getSchoolConf().student.conf, selfReference, target->getSelfReference());
+    walkerGeneration.process(getCurrentWorkerQuantity());
+    if (walkerGeneration.isReadyToGenerateWalker()) {
+        auto target(searchEngine.findClosestBuilding(conf.getSchoolConf().targetLaboratory, getEntryPoint()));
+        if (target) {
+            characterFactory.generateStudent(conf.getSchoolConf().student.conf, selfReference, target);
+            walkerGeneration.reset();
+        }
+        else {
+            walkerGeneration.postpone();
+        }
     }
-
-    setupNextWalkerGenerationDate(date);
-}
-
-
-
-void SchoolBuilding::setupNextWalkerGenerationDate(const CycleDate& date)
-{
-    nextWalkerGenerationDate.reassign(date, conf.getSchoolConf().student.generationInterval);
 }

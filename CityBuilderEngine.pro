@@ -19,6 +19,7 @@ SOURCES += \
     src/engine/element/dynamic/character/WanderingCharacter.cpp \
     src/engine/element/dynamic/DynamicElementHandler.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
+    src/engine/element/static/building/behavior/WalkerGenerationBehavior.cpp \
     src/engine/element/static/building/AbstractBuilding.cpp \
     src/engine/element/static/building/AbstractProcessableBuilding.cpp \
     src/engine/element/static/building/BuildingSearchEngine.cpp \
@@ -109,6 +110,7 @@ HEADERS += \
     src/engine/element/dynamic/DynamicElementHandler.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \
     src/engine/element/dynamic/PathGeneratorInterface.hpp \
+    src/engine/element/static/building/behavior/WalkerGenerationBehavior.hpp \
     src/engine/element/static/building/AbstractBuilding.hpp \
     src/engine/element/static/building/AbstractProcessableBuilding.hpp \
     src/engine/element/static/building/BuildingSearchEngine.hpp \

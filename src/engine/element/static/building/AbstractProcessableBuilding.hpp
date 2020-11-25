@@ -39,7 +39,7 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
 
     protected:
         int getCurrentWorkerQuantity() const;
-        qreal getWorkingRatio() const;
+        bool isActive() const;
 };
 
 #endif // ABSTRACTPROCESSABLEBUILDING_HPP
