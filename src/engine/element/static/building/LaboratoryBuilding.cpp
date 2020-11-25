@@ -17,8 +17,8 @@ LaboratoryBuilding::LaboratoryBuilding(
     AbstractProcessableBuilding(conf, area, entryPoint),
     characterFactory(characterFactory),
     walkerGenerationLimitDate(),
-    scientist(),
-    nextWalkerGenerationDate()
+    scientistGeneration(conf.getMaxWorkers(), conf.getLaboratoryConf().emittedScientist.generationInterval),
+    scientist()
 {
 
 }
@@ -42,26 +42,18 @@ QSharedPointer<AbstractProcessableBuilding> LaboratoryBuilding::Create(
 
 void LaboratoryBuilding::process(const CycleDate& date)
 {
+    if (!isActive()) {
+        return;
+    }
+
     if (!walkerGenerationLimitDate || date > walkerGenerationLimitDate) {
         return;
     }
 
-    if (nextWalkerGenerationDate) {
-        if (date < nextWalkerGenerationDate) {
-            return;
-        }
-
+    scientistGeneration.process(getCurrentWorkerQuantity());
+    if (scientistGeneration.isReadyToGenerateWalker()) {
         scientist = characterFactory.generateWanderingCharacter(conf.getLaboratoryConf().emittedScientist.conf, selfReference);
-
-        if (canGenerateNewWalker()) {
-            setupNextWalkerGenerationDate(date);
-        }
-        else {
-            nextWalkerGenerationDate.reset();
-        }
-    }
-    else if (canGenerateNewWalker()) {
-        setupNextWalkerGenerationDate(date);
+        scientistGeneration.reset();
     }
 }
 
@@ -89,11 +81,4 @@ bool LaboratoryBuilding::processInteraction(const CycleDate& date, Character& ac
 bool LaboratoryBuilding::canGenerateNewWalker() const
 {
     return scientist.isNull();
-}
-
-
-
-void LaboratoryBuilding::setupNextWalkerGenerationDate(const CycleDate& date)
-{
-    nextWalkerGenerationDate.reassign(date, conf.getLaboratoryConf().emittedScientist.generationInterval);
 }

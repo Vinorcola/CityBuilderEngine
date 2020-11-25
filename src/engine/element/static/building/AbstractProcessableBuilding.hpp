@@ -30,6 +30,7 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
     public:
         QWeakPointer<AbstractProcessableBuilding> getSelfReference() const;
         const MapCoordinates& getEntryPoint() const;
+        bool isActive() const;
 
         void assignWorkers(int workerQuantity);
 
@@ -39,7 +40,6 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
 
     protected:
         int getCurrentWorkerQuantity() const;
-        bool isActive() const;
 };
 
 #endif // ABSTRACTPROCESSABLEBUILDING_HPP

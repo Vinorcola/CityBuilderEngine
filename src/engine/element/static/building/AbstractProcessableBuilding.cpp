@@ -34,6 +34,13 @@ const MapCoordinates& AbstractProcessableBuilding::getEntryPoint() const
 
 
 
+bool AbstractProcessableBuilding::isActive() const
+{
+    return getConf().getMaxWorkers() == 0 || currentWorkerQuantity > 0;
+}
+
+
+
 void AbstractProcessableBuilding::assignWorkers(int workerQuantity)
 {
     if (workerQuantity != currentWorkerQuantity) {
@@ -68,11 +75,4 @@ BuildingState AbstractProcessableBuilding::getCurrentState() const
 int AbstractProcessableBuilding::getCurrentWorkerQuantity() const
 {
     return currentWorkerQuantity;
-}
-
-
-
-bool AbstractProcessableBuilding::isActive() const
-{
-    return getConf().getMaxWorkers() == 0 || currentWorkerQuantity > 0;
 }
