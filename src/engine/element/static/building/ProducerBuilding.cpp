@@ -72,6 +72,7 @@ bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& 
     if (miners.contains(&actor)) {
         rawMaterialStock += conf.getProducerConf().miningQuantity;
         miners.remove(&actor);
+        notifyViewDataChange();
 
         return true;
     }
@@ -135,5 +136,6 @@ void ProducerBuilding::handleProduction()
             1
         );
         rawMaterialStock -= conf.getProducerConf().rawMaterialQuantityToProduce;
+        notifyViewDataChange();
     }
 }

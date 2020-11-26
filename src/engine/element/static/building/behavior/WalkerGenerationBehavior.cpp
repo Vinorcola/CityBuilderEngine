@@ -7,7 +7,6 @@
 
 
 WalkerGenerationBehavior::WalkerGenerationBehavior(int maxWorkers, int generationInterval) :
-    MAX_WORKERS(maxWorkers),
     GENERATION_INTERVAL(generationInterval * maxWorkers),
     POSTPONE_INTERVAL(qMin(generationInterval, 2 * CYCLE_PER_SECOND) * maxWorkers),
     generationCountDown(0)
@@ -44,5 +43,5 @@ void WalkerGenerationBehavior::postpone()
 
 void WalkerGenerationBehavior::reset()
 {
-    generationCountDown = GENERATION_INTERVAL * MAX_WORKERS;
+    generationCountDown = GENERATION_INTERVAL;
 }

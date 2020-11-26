@@ -216,6 +216,7 @@ void StaticElementHandler::createNatureElement(const NatureElementInformation& c
 {
     QSharedPointer<NatureElement> element(new NatureElement(conf, area));
     currentState.natureElements.insert(element.get(), element);
+    natureElementSearchEngine.registerRawMaterial(conf, area);
 
     registerNatureElementInDetailsCache(conf, area);
 }

@@ -7,7 +7,6 @@
 class WalkerGenerationBehavior
 {
     private:
-        const int MAX_WORKERS;
         const int GENERATION_INTERVAL;
         const int POSTPONE_INTERVAL;
         int generationCountDown;
