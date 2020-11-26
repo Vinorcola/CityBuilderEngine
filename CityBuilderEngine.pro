@@ -76,6 +76,7 @@ SOURCES += \
     src/global/Direction.cpp \
     src/ui/controlPanel/BuildingButton.cpp \
     src/ui/controlPanel/ControlPanel.cpp \
+    src/ui/BuildingDetailsDialog.cpp \
     src/ui/InformationWidget.cpp \
     src/ui/MainWindow.cpp \
     src/viewer/construction/ConstructionCursor.cpp \
@@ -179,6 +180,8 @@ HEADERS += \
     src/global/yamlLibraryEnhancement.hpp \
     src/ui/controlPanel/BuildingButton.hpp \
     src/ui/controlPanel/ControlPanel.hpp \
+    src/ui/BuildingDetailsDialog.hpp \
+    src/ui/DialogDisplayer.hpp \
     src/ui/InformationWidget.hpp \
     src/ui/MainWindow.hpp \
     src/viewer/construction/AreaCheckerInterface.hpp \

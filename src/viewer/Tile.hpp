@@ -28,13 +28,10 @@ class Tile : public QGraphicsItem
         const MapCoordinates& getCoordinates() const;
 
         void setStaticElement(QGraphicsItem* staticElement);
-
         void dropStaticElement();
 
         void registerDynamicElement(QGraphicsItem* element);
-
         void moveDynamicElementTo(QGraphicsItem* element, Tile& other);
-
         void unregisterDynamicElement(QGraphicsItem* element);
 
         virtual QRectF boundingRect() const override;

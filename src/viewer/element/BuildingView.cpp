@@ -21,8 +21,7 @@ BuildingView::BuildingView(
     tile(tileLocator.getTileAt(state.area.getLeft())),
     image(imageLibrary.getBuildingImage(state.type)),
     graphicElement(new StaticElement(positioning, state.type.getSize(), image.getInactiveImage())),
-    currentStateVersion(state.stateVersion),
-    status(state.status),
+    currentState(state),
     animationIndex(0)
 {
     tile.setStaticElement(graphicElement);
@@ -38,11 +37,18 @@ BuildingView::~BuildingView()
 
 
 
+const BuildingState& BuildingView::getCurrentState() const
+{
+    return currentState;
+}
+
+
+
 void BuildingView::update(const BuildingState& state)
 {
-    if (state.stateVersion != currentStateVersion) {
+    if (state.stateVersion != currentState.stateVersion) {
         updateStatus(state.status);
-        currentStateVersion = state.stateVersion;
+        currentState = state;
     }
 }
 
@@ -58,7 +64,7 @@ void BuildingView::destroy()
 
 void BuildingView::advanceAnimation()
 {
-    if (status != BuildingState::Status::Inactive) {
+    if (currentState.status != BuildingState::Status::Inactive) {
         auto& animation(image.getActiveAnimationSequence());
         if (animation.getSequenceLength() == 0) {
             return;
@@ -115,7 +121,7 @@ void BuildingView::revealCoveredTiles()
 
 void BuildingView::updateStatus(BuildingState::Status newStatus)
 {
-    if (newStatus != status) {
+    if (newStatus != currentState.status) {
         if (newStatus == BuildingState::Status::Inactive) {
             graphicElement->dropAnimationImage();
             animationIndex = 0;
@@ -126,7 +132,5 @@ void BuildingView::updateStatus(BuildingState::Status newStatus)
                 graphicElement->setAnimationImage(animation.getImage(animationIndex));
             }
         }
-
-        status = newStatus;
     }
 }

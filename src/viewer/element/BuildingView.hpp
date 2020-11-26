@@ -26,8 +26,7 @@ class BuildingView
         Tile& tile;
         const BuildingImage& image;
         owner<StaticElement*> graphicElement;
-        int currentStateVersion;
-        BuildingState::Status status;
+        BuildingState currentState;
         int animationIndex;
 
     public:
@@ -38,6 +37,8 @@ class BuildingView
             const BuildingState& state
         );
         ~BuildingView();
+
+        const BuildingState& getCurrentState() const;
 
         void update(const BuildingState& state);
         void destroy();

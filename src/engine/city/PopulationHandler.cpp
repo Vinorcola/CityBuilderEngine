@@ -55,7 +55,7 @@ void PopulationHandler::unregisterWorkingPlace(const QSharedPointer<AbstractProc
 
 void PopulationHandler::process(const CycleDate& /*date*/)
 {
-    if (population != previousPopulation && workingPlacesHasChanged) {
+    if (population != previousPopulation || workingPlacesHasChanged) {
         updateWorkerDistribution();
 
         previousPopulation = population;

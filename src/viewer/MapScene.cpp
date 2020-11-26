@@ -11,6 +11,8 @@
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
+#include "src/ui/BuildingDetailsDialog.hpp"
+#include "src/ui/DialogDisplayer.hpp"
 #include "src/viewer/construction/ConstructionCursor.hpp"
 #include "src/viewer/element/graphics/DynamicElement.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
@@ -28,6 +30,7 @@ MapScene::MapScene(
     const Conf& conf,
     const AreaCheckerInterface& areaChecker,
     const RoadPathGeneratorInterface& roadPathGenerator,
+    DialogDisplayer& dialogDisplayer,
     const MapState& mapState,
     const State& initialState
 ) :
@@ -36,9 +39,11 @@ MapScene::MapScene(
     roadPathGenerator(roadPathGenerator),
     imageLibrary(conf),
     positioning(conf.getTileSize()),
+    dialogDisplayer(dialogDisplayer),
     tiles(),
     buildings(),
     characters(),
+    buildingLocationCache(),
     selectionElement(nullptr),
     animationClock(),
     currentTileLocation()
@@ -140,10 +145,11 @@ void MapScene::requestBuildingPositioning(const BuildingInformation& elementConf
 
 void MapScene::registerNewBuilding(const BuildingState& buildingState)
 {
-    buildings.insert(
-        buildingState.id,
-        new BuildingView(positioning, *this, imageLibrary, buildingState)
-    );
+    auto buildingView(new BuildingView(positioning, *this, imageLibrary, buildingState));
+    buildings.insert(buildingState.id, buildingView);
+    for (auto coordinates : buildingState.area) {
+        buildingLocationCache.insert(coordinates.getHash(), buildingView);
+    }
     if (selectionElement) {
         selectionElement->refresh();
     }
@@ -167,6 +173,8 @@ void MapScene::registerNewNatureElement(const NatureElementState& natureElementS
     auto& natureElementImage(imageLibrary.getNatureElementImage(natureElementState.type));
 
     tile.setStaticElement(new StaticElement(positioning, natureElementState.area.getSize(), natureElementImage.getImage()));
+    // TODO: Deletion of nature elements is not handled. We should handle it the same way as buildings since the player
+    // may be able to see an information dialog.
     // TODO: Handle higher size of nature elements by hiding covered tiles (see BuildingView).
 }
 
@@ -222,6 +230,21 @@ void MapScene::timerEvent(QTimerEvent* /*event*/)
 
 
 
+void MapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (!selectionElement && event->button() == Qt::RightButton) {
+        auto buildingView(buildingLocationCache.value(currentTileLocation.getHash()));
+        if (buildingView && buildingView->getCurrentState().type.getType() != BuildingInformation::Type::Road) {
+            displayBuildingDetailsDialog(buildingView->getCurrentState());
+            return;
+        }
+    }
+
+    QGraphicsScene::mouseReleaseEvent(event);
+}
+
+
+
 void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     auto newMapCoordinates(positioning.getMapCoordinatesFromMouseCoordinates(event->scenePos()));
@@ -231,4 +254,12 @@ void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             selectionElement->displayAtLocation(newMapCoordinates);
         }
     }
+}
+
+
+
+void MapScene::displayBuildingDetailsDialog(const BuildingState& buildingState)
+{
+    BuildingDetailsDialog dialog(buildingState);
+    dialogDisplayer.displayDialog(dialog);
 }

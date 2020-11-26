@@ -19,6 +19,7 @@ class Character;
 class CharacterView;
 class Conf;
 class ConstructionCursor;
+class DialogDisplayer;
 class DynamicElement;
 class Map;
 class MapCoordinates;
@@ -45,9 +46,11 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         const RoadPathGeneratorInterface& roadPathGenerator;
         ImageLibrary imageLibrary;
         Positioning positioning;
-        QHash<QString, Tile*> tiles;
-        QHash<qintptr, BuildingView*> buildings;
-        QHash<qintptr, CharacterView*> characters;
+        DialogDisplayer& dialogDisplayer;
+        QHash<QString, owner<Tile*>> tiles;
+        QHash<qintptr, owner<BuildingView*>> buildings;
+        QHash<qintptr, owner<CharacterView*>> characters;
+        QHash<QString, BuildingView*> buildingLocationCache; ///< A cache where key is a MapCoordinates has value.
         optional<owner<ConstructionCursor*>> selectionElement;
         QBasicTimer animationClock;
         MapCoordinates currentTileLocation;
@@ -57,6 +60,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
             const Conf& conf,
             const AreaCheckerInterface& areaChecker,
             const RoadPathGeneratorInterface& roadPathGenerator,
+            DialogDisplayer& dialogDisplayer,
             const MapState& mapState,
             const State& initialState
         );
@@ -81,7 +85,8 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
 
     protected:
         virtual void timerEvent(QTimerEvent* event) override;
-        virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+        virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+        virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
 
     signals:
         /**
@@ -91,6 +96,9 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
          * @param area        The area of construction.
          */
         void buildingCreationRequested(const BuildingInformation& elementConf, MapArea area);
+
+    private:
+        void displayBuildingDetailsDialog(const BuildingState& buildingState);
 };
 
 #endif // MAPSCENE_HPP
