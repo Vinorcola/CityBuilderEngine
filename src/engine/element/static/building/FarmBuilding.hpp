@@ -4,7 +4,6 @@
 #include <QtCore/QWeakPointer>
 
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
-#include "src/engine/processing/CycleDate.hpp"
 
 class CharacterFactoryInterface;
 class ItemInformation;
@@ -12,8 +11,9 @@ class ItemInformation;
 class FarmBuilding : public AbstractProcessableBuilding
 {
     private:
+        const int GROWING_INTERVAL;
         CharacterFactoryInterface& characterFactory;
-        CycleDate completeGrowingDate;
+        int growingCountDown;
         QWeakPointer<Character> deliveryMan;
 
     private:
@@ -32,14 +32,14 @@ class FarmBuilding : public AbstractProcessableBuilding
             const MapCoordinates& entryPoint
         );
 
-        virtual void init(const CycleDate& date) override;
         virtual void process(const CycleDate& date) override;
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 
         virtual BuildingState getCurrentState() const override;
 
     private:
-        void harvest(const CycleDate& date);
+        qreal getGrowthRatio() const;
+        void harvest();
 };
 
 #endif // FARMBUILDING_HPP

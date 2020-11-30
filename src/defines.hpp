@@ -17,13 +17,15 @@ template<class T> using optional = T;
 // <--- Add/Remove start between the slahes to switch.
 
 // Normal mode.
-#define CYCLE_PER_SECOND 30
+#define CYCLES_PER_SECOND 30
+#define BUILDING_CYCLES_PER_SECOND 30
 #define DEBUG_TOOLS
 
 /*/
 
 // Developping mode.
-#define CYCLE_PER_SECOND 2
+#define CYCLES_PER_SECOND 2
+#define BUILDING_CYCLES_PER_SECOND 1
 #define DEBUG_TOOLS
 #define SLOW_MOTION
 

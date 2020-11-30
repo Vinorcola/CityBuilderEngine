@@ -32,7 +32,7 @@ TimeCycleProcessor::TimeCycleProcessor(
     if (speedRatio > 2.0) {
         this->speedRatio = 2.0;
     }
-    clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * this->speedRatio), this);
+    clock.start(MSEC_PER_SEC / (CYCLES_PER_SECOND * this->speedRatio), this);
 }
 
 
@@ -86,7 +86,7 @@ void TimeCycleProcessor::pause(const bool pause)
         if (pause) {
             clock.stop();
         } else {
-            clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * speedRatio), this);
+            clock.start(MSEC_PER_SEC / (CYCLES_PER_SECOND * speedRatio), this);
         }
     }
 }
@@ -101,7 +101,7 @@ void TimeCycleProcessor::setSpeedRatio(const qreal ratio)
         if (!paused) {
             // Re-launch the timer with the new speed.
             clock.stop();
-            clock.start(MSEC_PER_SEC / (CYCLE_PER_SECOND * ratio), this);
+            clock.start(MSEC_PER_SEC / (CYCLES_PER_SECOND * ratio), this);
         }
     }
 }

@@ -19,16 +19,19 @@ BuildingDetailsDialog::BuildingDetailsDialog(const BuildingState& state) :
         workers->setText("Workers: " + QString::number(state.workers) + "/" + QString::number(state.type.getMaxWorkers()));
     }
 
-    auto stock(new QLabel(this));
+    auto specificDetails(new QLabel(this));
     if (state.producer) {
-        stock->setText("Stock: " + QString::number(state.producer->rawMaterialStock) + " " + state.type.getProducerConf().producedItemConf.getTitle());
+        specificDetails->setText("Stock: " + QString::number(state.producer->rawMaterialStock) + " " + state.type.getProducerConf().producedItemConf.getTitle());
+    }
+    else if (state.farm) {
+        specificDetails->setText("Grownth: " + QString::number(state.farm->growthPercent) + "%");
     }
 
     // Layout
     auto layout(new QVBoxLayout);
     layout->addWidget(title);
     layout->addWidget(workers);
-    layout->addWidget(stock);
+    layout->addWidget(specificDetails);
 
     setLayout(layout);
     setMinimumHeight(120);

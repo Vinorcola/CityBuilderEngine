@@ -108,6 +108,7 @@ class CycleDate
         QString toString() const;
 
         static int getCyclesPerYear();
+        static int getBuildingCyclesPerYear();
 };
 
 #endif // CYCLEDATE_HPP
