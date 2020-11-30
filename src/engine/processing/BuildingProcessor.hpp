@@ -33,7 +33,6 @@ class BuildingProcessor : public AbstractProcessable
          */
         void unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
 
-        virtual void init(const CycleDate& date) override;
         virtual void process(const CycleDate& date) override;
 };
 

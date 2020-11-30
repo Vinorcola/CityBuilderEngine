@@ -19,13 +19,7 @@ class AbstractProcessable
 
     public:
         AbstractProcessable();
-
         virtual ~AbstractProcessable();
-
-        /**
-         * @brief Init the processable element with the current date.
-         */
-        virtual void init(const CycleDate& date);
 
         /**
          * @brief Process a single time-cycle.

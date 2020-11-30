@@ -13,10 +13,3 @@ AbstractProcessable::~AbstractProcessable()
 {
 
 }
-
-
-
-void AbstractProcessable::init(const CycleDate& /*date*/)
-{
-
-}

@@ -31,13 +31,6 @@ void BuildingProcessor::unregisterBuilding(const QSharedPointer<AbstractProcessa
 
 
 
-void BuildingProcessor::init(const CycleDate& date)
-{
-    populationHandler.init(date);
-}
-
-
-
 void BuildingProcessor::process(const CycleDate& date)
 {
     // Process current processable list.
@@ -56,7 +49,6 @@ void BuildingProcessor::process(const CycleDate& date)
 
     // Process registration.
     for (auto& newProcessable : waitingForRegistrationList) {
-        newProcessable->init(date);
         processableList.insert(newProcessable.get(), newProcessable);
     }
     waitingForRegistrationList.clear();

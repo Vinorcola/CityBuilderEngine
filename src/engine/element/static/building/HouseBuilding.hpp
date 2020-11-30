@@ -16,6 +16,7 @@ class HouseBuilding : public AbstractProcessableBuilding
         ImmigrantGeneratorInterface& immigrantGenerator;
         PopulationRegistryInterface& populationRegister;
         int inhabitants;
+        bool hasRequestedInhabitants;
 
     private:
         HouseBuilding(
@@ -35,7 +36,6 @@ class HouseBuilding : public AbstractProcessableBuilding
             const MapCoordinates& entryPoint
         );
 
-        virtual void init(const CycleDate& date) override;
         virtual void process(const CycleDate& date) override;
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 

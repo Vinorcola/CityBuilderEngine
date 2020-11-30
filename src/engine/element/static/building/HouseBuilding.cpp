@@ -19,7 +19,8 @@ HouseBuilding::HouseBuilding(
     AbstractProcessableBuilding(conf, area, entryPoint),
     immigrantGenerator(immigrantGenerator),
     populationRegister(populationRegister),
-    inhabitants(0)
+    inhabitants(0),
+    hasRequestedInhabitants(false)
 {
 
 }
@@ -42,16 +43,12 @@ QSharedPointer<AbstractProcessableBuilding> HouseBuilding::Create(
 
 
 
-void HouseBuilding::init(const CycleDate& /*date*/)
-{
-    immigrantGenerator.requestImmigrant(selfReference);
-}
-
-
-
 void HouseBuilding::process(const CycleDate& /*date*/)
 {
-
+    if (!hasRequestedInhabitants && inhabitants < conf.getHouseConf().populationCapacity) {
+        immigrantGenerator.requestImmigrant(selfReference);
+        hasRequestedInhabitants = true;
+    }
 }
 
 
@@ -69,6 +66,9 @@ bool HouseBuilding::processInteraction(const CycleDate& /*date*/, Character& act
 
         if (inhabitants < conf.getHouseConf().populationCapacity) {
             immigrantGenerator.requestImmigrant(selfReference);
+        }
+        else {
+            hasRequestedInhabitants = false;
         }
 
         return true;
