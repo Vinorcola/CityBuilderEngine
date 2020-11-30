@@ -69,12 +69,9 @@ void PopulationHandler::updateWorkerDistribution()
 {
     // For now, a dummy algorithm that fill up working place randomly.
     int remainingWorkers(population / 2);
-    for (auto& workingPlace: workingPlaces) {
+    for (auto& workingPlace : workingPlaces) {
         int workPlaceWorkers(qMin(remainingWorkers, workingPlace->getConf().getMaxWorkers()));
         workingPlace->assignWorkers(workPlaceWorkers);
         remainingWorkers -= workPlaceWorkers;
-        if (remainingWorkers <= 0) {
-            return;
-        }
     }
 }

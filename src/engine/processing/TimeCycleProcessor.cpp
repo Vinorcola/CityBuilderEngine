@@ -1,5 +1,8 @@
 #include "TimeCycleProcessor.hpp"
 
+#include "src/engine/element/dynamic/character/Character.hpp"
+#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/global/conf/BuildingInformation.hpp"
 #include "src/defines.hpp"
 
 #ifdef DEBUG_TOOLS
@@ -14,16 +17,17 @@ const qreal MSEC_PER_SEC(1000);
 
 
 TimeCycleProcessor::TimeCycleProcessor(
-    AbstractProcessable& populationHandler,
+    AbstractProcessable& workerHandler,
     const CycleDate& startingDate,
     const qreal speedRatio
 ) :
     QObject(),
+    CYCLES_BETWEEN_BUILDING_PROCESSES(CYCLES_PER_SECOND / BUILDING_CYCLES_PER_SECOND),
     paused(true),
     speedRatio(speedRatio),
     clock(),
     currentCycleDate(startingDate),
-    buildingProcessor(populationHandler),
+    buildingProcessor(workerHandler),
     characterProcessor()
 {
     if (speedRatio < 0.1) {
@@ -47,6 +51,13 @@ qreal TimeCycleProcessor::getSpeedRatio() const
 const CycleDate& TimeCycleProcessor::getCurrentDate() const
 {
     return currentCycleDate;
+}
+
+
+
+void TimeCycleProcessor::registerMapEntryPoint(const QSharedPointer<AbstractProcessableBuilding>& entryPoint)
+{
+    buildingProcessor.registerMapEntryPoint(entryPoint);
 }
 
 

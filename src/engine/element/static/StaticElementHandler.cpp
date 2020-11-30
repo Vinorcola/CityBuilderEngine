@@ -62,7 +62,7 @@ StaticElementHandler::StaticElementHandler(
     buildingSearchEngine(),
     natureElementSearchEngine(pathGenerator)
 {
-    processor.registerBuilding(currentState.entryPoint);
+    processor.registerMapEntryPoint(currentState.entryPoint);
 }
 
 

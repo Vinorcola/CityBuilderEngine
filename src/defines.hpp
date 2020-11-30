@@ -18,7 +18,7 @@ template<class T> using optional = T;
 
 // Normal mode.
 #define CYCLES_PER_SECOND 30
-#define BUILDING_CYCLES_PER_SECOND 30
+#define BUILDING_CYCLES_PER_SECOND 1
 #define DEBUG_TOOLS
 
 /*/

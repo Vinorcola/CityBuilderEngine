@@ -1,14 +1,18 @@
 #include "BuildingProcessor.hpp"
 
-#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/engine/processing/CycleDate.hpp"
 #include "src/global/pointer/SmartPointerUtils.hpp"
+#include "src/defines.hpp"
+
+const int CYCLES_BETWEEN_BUILDING_PROCESSES(CYCLES_PER_SECOND / BUILDING_CYCLES_PER_SECOND);
 
 
 
-BuildingProcessor::BuildingProcessor(AbstractProcessable& populationHandler) :
+BuildingProcessor::BuildingProcessor(AbstractProcessable& workerHandler) :
     AbstractProcessable(),
-    populationHandler(populationHandler),
-    processableList(),
+    workerHandler(workerHandler),
+    entryPointList(),
+    buildingList(),
     waitingForRegistrationList(),
     waitingForUnregistrationList()
 {
@@ -17,14 +21,21 @@ BuildingProcessor::BuildingProcessor(AbstractProcessable& populationHandler) :
 
 
 
-void BuildingProcessor::registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
+void BuildingProcessor::registerMapEntryPoint(const QSharedPointer<AbstractProcessable>& entryPoint)
+{
+    entryPointList.append(entryPoint);
+}
+
+
+
+void BuildingProcessor::registerBuilding(const QSharedPointer<AbstractProcessable>& building)
 {
     waitingForRegistrationList.append(building);
 }
 
 
 
-void BuildingProcessor::unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
+void BuildingProcessor::unregisterBuilding(const QSharedPointer<AbstractProcessable>& building)
 {
     waitingForUnregistrationList.append(building.get());
 }
@@ -33,25 +44,39 @@ void BuildingProcessor::unregisterBuilding(const QSharedPointer<AbstractProcessa
 
 void BuildingProcessor::process(const CycleDate& date)
 {
+    // Process mep entry points.
+    for (auto& entryPointRef : entryPointList) {
+        auto entryPoint(entryPointRef.toStrongRef());
+        if (entryPoint) {
+            entryPoint->process(date);
+        }
+    }
+
+    // Other buildings are processed only on a building time cycle.
+    if (!date.isBuildingCycle(CYCLES_BETWEEN_BUILDING_PROCESSES)) {
+        return;
+    }
+
     // Process current processable list.
-    for (auto& processableRef : processableList) {
-        auto processable(processableRef.toStrongRef());
-        if (processable) {
-            processable->process(date);
+    for (auto& buildingRef : buildingList) {
+        auto building(buildingRef.toStrongRef());
+        if (building) {
+            building->process(date);
         }
     }
 
     // Process unregistration.
-    cleanInvalids(processableList);
+    cleanInvalids(buildingList);
     while (!waitingForUnregistrationList.isEmpty()) {
-        processableList.remove(waitingForUnregistrationList.takeFirst());
+        buildingList.remove(waitingForUnregistrationList.takeFirst());
     }
 
     // Process registration.
     for (auto& newProcessable : waitingForRegistrationList) {
-        processableList.insert(newProcessable.get(), newProcessable);
+        buildingList.insert(newProcessable.get(), newProcessable);
     }
     waitingForRegistrationList.clear();
 
-    populationHandler.process(date);
+    // Worker handler is process at the end.
+    workerHandler.process(date);
 }

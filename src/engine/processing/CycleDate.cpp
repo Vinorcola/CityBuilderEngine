@@ -288,6 +288,13 @@ bool CycleDate::isFirstCycleOfMonth() const
 
 
 
+bool CycleDate::isBuildingCycle(int cyclesBetweenBuildingProcesses) const
+{
+    return (cycles % cyclesBetweenBuildingProcesses) == 0;
+}
+
+
+
 QString CycleDate::toString() const
 {
     if (!valid) {
