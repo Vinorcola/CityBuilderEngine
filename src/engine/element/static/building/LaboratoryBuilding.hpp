@@ -3,6 +3,7 @@
 
 #include <QtCore/QWeakPointer>
 
+#include "src/engine/element/static/building/behavior/WalkerGenerationBehavior.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
@@ -14,8 +15,8 @@ class LaboratoryBuilding : public AbstractProcessableBuilding
     private:
         CharacterFactoryInterface& characterFactory;
         CycleDate walkerGenerationLimitDate;
+        WalkerGenerationBehavior scientistGeneration;
         QWeakPointer<Character> scientist;
-        CycleDate nextWalkerGenerationDate;
 
     private:
         LaboratoryBuilding(
@@ -41,11 +42,6 @@ class LaboratoryBuilding : public AbstractProcessableBuilding
          * @brief Indicate if a new miner can be generated.
          */
         bool canGenerateNewWalker() const;
-
-        /**
-         * @brief Setup the next miner generation date.
-         */
-        void setupNextWalkerGenerationDate(const CycleDate& date);
 };
 
 #endif // LABORATORYBUILDING_HPP

@@ -8,6 +8,9 @@
 #include "src/engine/processing/CharacterProcessor.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
+class AbstractProcessableBuilding;
+class Character;
+
 /**
  * @brief An engine processor that process all the processable elements on each time-cycle.
  *
@@ -22,6 +25,7 @@ class TimeCycleProcessor : public QObject
         Q_OBJECT
 
     private:
+        const int CYCLES_BETWEEN_BUILDING_PROCESSES;
         bool paused;
         qreal speedRatio;
         QBasicTimer clock;
@@ -31,7 +35,7 @@ class TimeCycleProcessor : public QObject
 
     public:
         TimeCycleProcessor(
-            AbstractProcessable& populationHandler,
+            AbstractProcessable& workerHandler,
             const CycleDate& startingDate,
             const qreal speedRatio = 1.0
         );
@@ -46,6 +50,11 @@ class TimeCycleProcessor : public QObject
          * register method.
          */
         const CycleDate& getCurrentDate() const;
+
+        /**
+         * @brief Register a map entry point to be process each time cycle.
+         */
+        void registerMapEntryPoint(const QSharedPointer<AbstractProcessableBuilding>& entryPoint);
 
         /**
          * @brief Register a building to be process each time cycle.

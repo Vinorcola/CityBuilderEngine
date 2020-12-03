@@ -4,6 +4,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QWeakPointer>
 
+#include "src/engine/element/static/building/behavior/WalkerGenerationBehavior.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
@@ -16,8 +17,8 @@ class ProducerBuilding : public AbstractProcessableBuilding
     private:
         const NatureElementSearchEngine& searchEngine;
         CharacterFactoryInterface& characterFactory;
+        WalkerGenerationBehavior minerGeneration;
         QHash<Character*, QWeakPointer<Character>> miners;
-        CycleDate nextMinerGenerationDate;
         int rawMaterialStock;
         QWeakPointer<Character> deliveryMan;
 
@@ -39,7 +40,6 @@ class ProducerBuilding : public AbstractProcessableBuilding
             const MapCoordinates& entryPoint
         );
 
-        virtual void init(const CycleDate& date) override;
         virtual void process(const CycleDate& date) override;
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 
@@ -52,11 +52,6 @@ class ProducerBuilding : public AbstractProcessableBuilding
          * @brief Indicate if a new miner can be generated.
          */
         bool canGenerateNewMiner() const;
-
-        /**
-         * @brief Setup the next miner generation date.
-         */
-        void setupNextMinerGenerationDate(const CycleDate& date);
 
         void handleProduction();
 };

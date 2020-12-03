@@ -1,11 +1,11 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
-#include <QtCore/QString>
 #include <QtWidgets/QMainWindow>
 
 #include "src/engine/Engine.hpp"
 #include "src/global/conf/Conf.hpp"
+#include "src/ui/DialogDisplayer.hpp"
 #include "src/defines.hpp"
 
 class ControlPanel;
@@ -14,7 +14,7 @@ class MapScene;
 class QAciton;
 class QGraphicsView;
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public DialogDisplayer
 {
         Q_OBJECT
 
@@ -30,6 +30,7 @@ class MainWindow : public QMainWindow
         QAction* processAction;
 #endif
         InformationWidget* informationWidget;
+        optional<QWidget*> currentDialog;
 
     public:
         MainWindow();
@@ -38,6 +39,7 @@ class MainWindow : public QMainWindow
         void loadMap(const QString& filePath);
 
         void openSpeedDialog();
+        virtual void displayDialog(QDialog& dialog) override;
 
         void updateState(State state);
 

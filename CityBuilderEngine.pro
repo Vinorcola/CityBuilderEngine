@@ -19,6 +19,7 @@ SOURCES += \
     src/engine/element/dynamic/character/WanderingCharacter.cpp \
     src/engine/element/dynamic/DynamicElementHandler.cpp \
     src/engine/element/dynamic/MotionHandler.cpp \
+    src/engine/element/static/building/behavior/WalkerGenerationBehavior.cpp \
     src/engine/element/static/building/AbstractBuilding.cpp \
     src/engine/element/static/building/AbstractProcessableBuilding.cpp \
     src/engine/element/static/building/BuildingSearchEngine.cpp \
@@ -75,6 +76,7 @@ SOURCES += \
     src/global/Direction.cpp \
     src/ui/controlPanel/BuildingButton.cpp \
     src/ui/controlPanel/ControlPanel.cpp \
+    src/ui/BuildingDetailsDialog.cpp \
     src/ui/InformationWidget.cpp \
     src/ui/MainWindow.cpp \
     src/viewer/construction/ConstructionCursor.cpp \
@@ -109,6 +111,7 @@ HEADERS += \
     src/engine/element/dynamic/DynamicElementHandler.hpp \
     src/engine/element/dynamic/MotionHandler.hpp \
     src/engine/element/dynamic/PathGeneratorInterface.hpp \
+    src/engine/element/static/building/behavior/WalkerGenerationBehavior.hpp \
     src/engine/element/static/building/AbstractBuilding.hpp \
     src/engine/element/static/building/AbstractProcessableBuilding.hpp \
     src/engine/element/static/building/BuildingSearchEngine.hpp \
@@ -177,6 +180,8 @@ HEADERS += \
     src/global/yamlLibraryEnhancement.hpp \
     src/ui/controlPanel/BuildingButton.hpp \
     src/ui/controlPanel/ControlPanel.hpp \
+    src/ui/BuildingDetailsDialog.hpp \
+    src/ui/DialogDisplayer.hpp \
     src/ui/InformationWidget.hpp \
     src/ui/MainWindow.hpp \
     src/viewer/construction/AreaCheckerInterface.hpp \

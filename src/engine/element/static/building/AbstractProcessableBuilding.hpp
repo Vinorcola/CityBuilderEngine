@@ -15,6 +15,7 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
 {
     private:
         MapCoordinates entryPoint;
+        int currentWorkerQuantity;
 
     protected:
         QWeakPointer<AbstractProcessableBuilding> selfReference;
@@ -29,8 +30,16 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
     public:
         QWeakPointer<AbstractProcessableBuilding> getSelfReference() const;
         const MapCoordinates& getEntryPoint() const;
+        bool isActive() const;
+
+        void assignWorkers(int workerQuantity);
 
         virtual bool processInteraction(const CycleDate& date, Character& actor);
+
+        virtual BuildingState getCurrentState() const override;
+
+    protected:
+        int getCurrentWorkerQuantity() const;
 };
 
 #endif // ABSTRACTPROCESSABLEBUILDING_HPP

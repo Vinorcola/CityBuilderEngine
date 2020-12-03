@@ -40,7 +40,7 @@ class BuildingInformation
             QString title;
             MapSize size;
             int price;
-            int employees;
+            int maxWorkers;
             int fireRiskIncrement;
             int damageRiskIncrement;
             QList<owner<BuildingAreaPartDescription*>> areaDescription;
@@ -140,34 +140,28 @@ class BuildingInformation
          * @brief Hold the information about a building.
          */
         explicit BuildingInformation(const ModelReader& model);
-
         ~BuildingInformation();
 
+        // Generic information.
         Type getType() const;
-
         const QString& getTitle() const;
-
         const MapSize& getSize() const;
+        int getMaxWorkers() const;
 
-        const Farm& getFarmConf() const;
-
-        const House& getHouseConf() const;
-
-        const Laboratory& getLaboratoryConf() const;
-
-        const Producer& getProducerConf() const;
-
-        const Sanity& getSanityConf() const;
-
-        const School& getSchoolConf() const;
-
-        const Storage& getStorageConf() const;
-
+        // Graphics information.
         const Graphics& getGraphicsData() const;
+
+        // Specific information.
+        const Farm& getFarmConf() const;
+        const House& getHouseConf() const;
+        const Laboratory& getLaboratoryConf() const;
+        const Producer& getProducerConf() const;
+        const Sanity& getSanityConf() const;
+        const School& getSchoolConf() const;
+        const Storage& getStorageConf() const;
 
     private:
         void loadSpecificConf(const ModelReader& model);
-
         static Type resolveType(const QString& type);
 };
 

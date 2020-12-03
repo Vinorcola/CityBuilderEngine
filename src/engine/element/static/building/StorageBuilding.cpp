@@ -75,7 +75,15 @@ bool StorageBuilding::processInteraction(const CycleDate& /*date*/, Character& a
 
 BuildingState StorageBuilding::getCurrentState() const
 {
-    return BuildingState::CreateStorageState(reinterpret_cast<qintptr>(this), conf, area, stateVersion, stock);
+    return BuildingState::CreateStorageState(
+        reinterpret_cast<qintptr>(this),
+        conf,
+        area,
+        isActive() ? BuildingState::Status::Active : BuildingState::Status::Inactive,
+        getCurrentWorkerQuantity(),
+        stateVersion,
+        stock
+    );
 }
 
 

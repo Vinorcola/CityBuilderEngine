@@ -15,8 +15,8 @@ SanityBuilding::SanityBuilding(
 ) :
     AbstractProcessableBuilding(conf, area, entryPoint),
     characterFactory(characterFactory),
-    walker(),
-    nextWalkerGenerationDate()
+    walkerGeneration(conf.getMaxWorkers(), conf.getSanityConf().walker.generationInterval),
+    walker()
 {
 
 }
@@ -38,31 +38,20 @@ QSharedPointer<AbstractProcessableBuilding> SanityBuilding::Create(
 
 
 
-void SanityBuilding::init(const CycleDate& date)
+void SanityBuilding::process(const CycleDate& /*date*/)
 {
-    setupNextWalkerGenerationDate(date);
-}
-
-
-
-void SanityBuilding::process(const CycleDate& date)
-{
-    if (nextWalkerGenerationDate) {
-        if (date < nextWalkerGenerationDate) {
-            return;
-        }
-
-        walker = characterFactory.generateWanderingCharacter(conf.getSanityConf().walker.conf, selfReference);
-
-        if (canGenerateNewWalker()) {
-            setupNextWalkerGenerationDate(date);
-        }
-        else {
-            nextWalkerGenerationDate.reset();
-        }
+    if (!isActive()) {
+        return;
     }
-    else if (canGenerateNewWalker()) {
-        setupNextWalkerGenerationDate(date);
+
+    if (!canGenerateNewWalker()) {
+        return;
+    }
+
+    walkerGeneration.process(getCurrentWorkerQuantity());
+    if (walkerGeneration.isReadyToGenerateWalker()) {
+        walker = characterFactory.generateWanderingCharacter(conf.getSanityConf().walker.conf, selfReference);
+        walkerGeneration.reset();
     }
 }
 
@@ -84,11 +73,4 @@ bool SanityBuilding::processInteraction(const CycleDate& /*date*/, Character& ac
 bool SanityBuilding::canGenerateNewWalker() const
 {
     return walker.isNull();
-}
-
-
-
-void SanityBuilding::setupNextWalkerGenerationDate(const CycleDate& date)
-{
-    nextWalkerGenerationDate.reassign(date, conf.getSanityConf().walker.generationInterval);
 }

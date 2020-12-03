@@ -6,7 +6,6 @@
 
 #include "src/engine/processing/AbstractProcessable.hpp"
 
-class Character;
 class CycleDate;
 
 /**
@@ -15,9 +14,9 @@ class CycleDate;
 class CharacterProcessor : public AbstractProcessable
 {
     private:
-        QHash<const Character*, QWeakPointer<Character>> processableList;
-        QList<QSharedPointer<Character>> waitingForRegistrationList;
-        QList<const Character*> waitingForUnregistrationList;
+        QHash<const AbstractProcessable*, QWeakPointer<AbstractProcessable>> processableList;
+        QList<QSharedPointer<AbstractProcessable>> waitingForRegistrationList;
+        QList<const AbstractProcessable*> waitingForUnregistrationList;
 
     public:
         CharacterProcessor();
@@ -25,12 +24,12 @@ class CharacterProcessor : public AbstractProcessable
         /**
          * @brief Register a character to be process each time cycle.
          */
-        void registerCharacter(const QSharedPointer<Character>& character);
+        void registerCharacter(const QSharedPointer<AbstractProcessable>& character);
 
         /**
          * @brief Unregister a character from processor.
          */
-        void unregisterCharacter(const QSharedPointer<Character>& character);
+        void unregisterCharacter(const QSharedPointer<AbstractProcessable>& character);
 
         virtual void process(const CycleDate& date) override;
 };

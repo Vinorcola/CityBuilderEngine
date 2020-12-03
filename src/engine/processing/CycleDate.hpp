@@ -99,15 +99,15 @@ class CycleDate
         void reset();
 
         int getYear() const;
-
         int getMonth() const;
-
         bool isFirstCycleOfMonth() const;
+        bool isBuildingCycle(int cyclesBetweenBuildingProcesses) const;
 
         // DEBUG //
         QString toString() const;
 
         static int getCyclesPerYear();
+        static int getBuildingCyclesPerYear();
 };
 
 #endif // CYCLEDATE_HPP

@@ -22,8 +22,8 @@ ProducerBuilding::ProducerBuilding(
     AbstractProcessableBuilding(conf, area, entryPoint),
     searchEngine(searchEngine),
     characterFactory(characterFactory),
+    minerGeneration(conf.getMaxWorkers(), conf.getProducerConf().miner.generationInterval),
     miners(),
-    nextMinerGenerationDate(),
     rawMaterialStock(0),
     deliveryMan()
 {
@@ -48,17 +48,12 @@ QSharedPointer<AbstractProcessableBuilding> ProducerBuilding::Create(
 
 
 
-void ProducerBuilding::init(const CycleDate& date)
-{
-    if (canGenerateNewMiner()) {
-        setupNextMinerGenerationDate(date);
-    }
-}
-
-
-
 void ProducerBuilding::process(const CycleDate& date)
 {
+    if (!isActive()) {
+        return;
+    }
+
     cleanInvalids(miners);
     handleMinerGeneration(date);
     handleProduction();
@@ -77,6 +72,7 @@ bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& 
     if (miners.contains(&actor)) {
         rawMaterialStock += conf.getProducerConf().miningQuantity;
         miners.remove(&actor);
+        notifyViewDataChange();
 
         return true;
     }
@@ -88,37 +84,36 @@ bool ProducerBuilding::processInteraction(const CycleDate& /*date*/, Character& 
 
 BuildingState ProducerBuilding::getCurrentState() const
 {
-    return BuildingState::CreateProducerState(reinterpret_cast<qintptr>(this), conf, area, stateVersion, rawMaterialStock);
+    return BuildingState::CreateProducerState(
+        reinterpret_cast<qintptr>(this),
+        conf,
+        area,
+        isActive() ? BuildingState::Status::Active : BuildingState::Status::Inactive,
+        getCurrentWorkerQuantity(),
+        stateVersion,
+        rawMaterialStock
+    );
 }
 
 
 
-void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
+void ProducerBuilding::handleMinerGeneration(const CycleDate& /*date*/)
 {
-    if (nextMinerGenerationDate) {
-        if (date < nextMinerGenerationDate) {
-            return;
-        }
+    if (!canGenerateNewMiner()) {
+        return;
+    }
 
+    minerGeneration.process(getCurrentWorkerQuantity());
+    if (minerGeneration.isReadyToGenerateWalker()) {
         auto path(searchEngine.getPathToClosestRawMaterial(conf.getProducerConf().rawMaterialConf, getEntryPoint()));
-        if (!path) {
-            // We don't have any target free for now.
-            setupNextMinerGenerationDate(date);
-            return;
-        }
-
-        auto miner(characterFactory.generateMiner(conf.getProducerConf().miner.conf, selfReference, path));
-        miners.insert(miner.toStrongRef().get(), miner);
-
-        if (canGenerateNewMiner()) {
-            setupNextMinerGenerationDate(date);
+        if (path) {
+            auto miner(characterFactory.generateMiner(conf.getProducerConf().miner.conf, selfReference, path));
+            miners.insert(miner.toStrongRef().get(), miner);
+            minerGeneration.reset();
         }
         else {
-            nextMinerGenerationDate.reset();
+            minerGeneration.postpone();
         }
-    }
-    else if (canGenerateNewMiner()) {
-        setupNextMinerGenerationDate(date);
     }
 }
 
@@ -127,13 +122,6 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& date)
 bool ProducerBuilding::canGenerateNewMiner() const
 {
     return miners.size() < conf.getProducerConf().miner.maxSimultaneous;
-}
-
-
-
-void ProducerBuilding::setupNextMinerGenerationDate(const CycleDate& date)
-{
-    nextMinerGenerationDate.reassign(date, conf.getProducerConf().miner.generationInterval);
 }
 
 
@@ -148,5 +136,6 @@ void ProducerBuilding::handleProduction()
             1
         );
         rawMaterialStock -= conf.getProducerConf().rawMaterialQuantityToProduce;
+        notifyViewDataChange();
     }
 }

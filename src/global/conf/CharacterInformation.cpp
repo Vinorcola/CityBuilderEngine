@@ -23,9 +23,9 @@ CharacterInformation::CharacterInformation(const ModelReader& model) :
     key(model.getKey()),
     title(model.getString("title")),
 #ifdef SLOW_MOTION
-    speed(model.getReal("speed") / CYCLE_PER_SECOND / 8.0),
+    speed(model.getReal("speed") / CYCLES_PER_SECOND / 8.0),
 #else
-    speed(model.getReal("speed") / CYCLE_PER_SECOND),
+    speed(model.getReal("speed") / CYCLES_PER_SECOND),
 #endif
     wanderingCredits(model.getOptionalInt("wanderingCredits", 0)),
     graphics()

@@ -21,7 +21,7 @@ BuildingView::BuildingView(
     tile(tileLocator.getTileAt(state.area.getLeft())),
     image(imageLibrary.getBuildingImage(state.type)),
     graphicElement(new StaticElement(positioning, state.type.getSize(), image.getInactiveImage())),
-    currentStateVersion(state.stateVersion),
+    currentState(state),
     animationIndex(0)
 {
     tile.setStaticElement(graphicElement);
@@ -37,11 +37,18 @@ BuildingView::~BuildingView()
 
 
 
+const BuildingState& BuildingView::getCurrentState() const
+{
+    return currentState;
+}
+
+
+
 void BuildingView::update(const BuildingState& state)
 {
-    if (state.stateVersion != currentStateVersion) {
-        // TODO: Update data and change image if needed.
-        currentStateVersion = state.stateVersion;
+    if (state.stateVersion != currentState.stateVersion) {
+        updateStatus(state.status);
+        currentState = state;
     }
 }
 
@@ -57,13 +64,15 @@ void BuildingView::destroy()
 
 void BuildingView::advanceAnimation()
 {
-    auto& animation(image.getActiveAnimationSequence());
-    if (animation.getSequenceLength() == 0) {
-        return;
-    }
+    if (currentState.status != BuildingState::Status::Inactive) {
+        auto& animation(image.getActiveAnimationSequence());
+        if (animation.getSequenceLength() == 0) {
+            return;
+        }
 
-    animationIndex = (animationIndex + 1) % animation.getSequenceLength();
-    graphicElement->setAnimationImage(animation.getImage(animationIndex));
+        animationIndex = (animationIndex + 1) % animation.getSequenceLength();
+        graphicElement->setAnimationImage(animation.getImage(animationIndex));
+    }
 }
 
 
@@ -104,6 +113,24 @@ void BuildingView::revealCoveredTiles()
             }
             current.setX(left.getX());
             current = current.getSouth();
+        }
+    }
+}
+
+
+
+void BuildingView::updateStatus(BuildingState::Status newStatus)
+{
+    if (newStatus != currentState.status) {
+        if (newStatus == BuildingState::Status::Inactive) {
+            graphicElement->dropAnimationImage();
+            animationIndex = 0;
+        }
+        else {
+            auto& animation(image.getActiveAnimationSequence());
+            if (animation.getSequenceLength() > 0) {
+                graphicElement->setAnimationImage(animation.getImage(animationIndex));
+            }
         }
     }
 }

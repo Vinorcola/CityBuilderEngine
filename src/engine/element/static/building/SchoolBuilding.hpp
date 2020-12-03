@@ -1,6 +1,7 @@
 #ifndef SCHOOLBUILDING_HPP
 #define SCHOOLBUILDING_HPP
 
+#include "src/engine/element/static/building/behavior/WalkerGenerationBehavior.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
@@ -16,7 +17,7 @@ class SchoolBuilding : public AbstractProcessableBuilding
     private:
         const BuildingSearchEngine& searchEngine;
         CharacterFactoryInterface& characterFactory;
-        CycleDate nextWalkerGenerationDate;
+        WalkerGenerationBehavior walkerGeneration;
 
     private:
         SchoolBuilding(
@@ -36,14 +37,7 @@ class SchoolBuilding : public AbstractProcessableBuilding
             const MapCoordinates& entryPoint
         );
 
-        virtual void init(const CycleDate& date) override;
         virtual void process(const CycleDate& date) override;
-
-    private:
-        /**
-         * @brief Setup the next miner generation date.
-         */
-        void setupNextWalkerGenerationDate(const CycleDate& date);
 };
 
 #endif // SCHOOLBUILDING_HPP

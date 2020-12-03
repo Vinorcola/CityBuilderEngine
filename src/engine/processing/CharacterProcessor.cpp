@@ -1,6 +1,5 @@
 #include "CharacterProcessor.hpp"
 
-#include "src/engine/element/dynamic/character/Character.hpp"
 #include "src/global/pointer/SmartPointerUtils.hpp"
 
 
@@ -16,14 +15,14 @@ CharacterProcessor::CharacterProcessor() :
 
 
 
-void CharacterProcessor::registerCharacter(const QSharedPointer<Character>& character)
+void CharacterProcessor::registerCharacter(const QSharedPointer<AbstractProcessable>& character)
 {
     waitingForRegistrationList.append(character);
 }
 
 
 
-void CharacterProcessor::unregisterCharacter(const QSharedPointer<Character>& character)
+void CharacterProcessor::unregisterCharacter(const QSharedPointer<AbstractProcessable>& character)
 {
     waitingForUnregistrationList.append(character.get());
 }
@@ -48,7 +47,6 @@ void CharacterProcessor::process(const CycleDate& date)
 
     // Process registration.
     for (auto& newProcessable : waitingForRegistrationList) {
-        newProcessable->init(date);
         processableList.insert(newProcessable.get(), newProcessable);
     }
     waitingForRegistrationList.clear();

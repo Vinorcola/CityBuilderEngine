@@ -1,9 +1,10 @@
 #include "FarmBuilding.hpp"
 
-#include <QtGlobal>
+#include <QtCore/QtGlobal>
 
 #include "src/engine/element/dynamic/character/DeliveryManCharacter.hpp"
 #include "src/engine/element/dynamic/CharacterFactoryInterface.hpp"
+#include "src/engine/processing/CycleDate.hpp"
 #include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/pointer/SmartPointerUtils.hpp"
@@ -17,8 +18,9 @@ FarmBuilding::FarmBuilding(
     const MapCoordinates& entryPoint
 ) :
     AbstractProcessableBuilding(conf, area, entryPoint),
+    GROWING_INTERVAL(0.9 * (conf.getMaxWorkers() * CycleDate::getBuildingCyclesPerYear())),
     characterFactory(characterFactory),
-    completeGrowingDate(),
+    growingCountDown(GROWING_INTERVAL),
     deliveryMan()
 {
 
@@ -41,15 +43,17 @@ QSharedPointer<AbstractProcessableBuilding> FarmBuilding::Create(
 
 
 
-void FarmBuilding::init(const CycleDate& date)
-{
-    completeGrowingDate.reassign(date, CycleDate::getCyclesPerYear());
-}
-
-
-
 void FarmBuilding::process(const CycleDate& date)
 {
+    if (!isActive()) {
+        return;
+    }
+
+    if (growingCountDown > 0) {
+        growingCountDown -= getCurrentWorkerQuantity();
+        notifyViewDataChange();
+    }
+
     if (date.isFirstCycleOfMonth() && date.getMonth() == conf.getFarmConf().harvestMonth) {
         auto deliveryMan(this->deliveryMan.toStrongRef());
         if (deliveryMan) {
@@ -58,9 +62,9 @@ void FarmBuilding::process(const CycleDate& date)
             return;
         }
 
-        harvest(date);
+        harvest();
     }
-    else if (date > completeGrowingDate) {
+    else if (growingCountDown <= 0) {
         // Case where the delivery man were outside at the begining of the harvest month.
         auto deliveryMan(this->deliveryMan.toStrongRef());
         if (deliveryMan) {
@@ -68,7 +72,7 @@ void FarmBuilding::process(const CycleDate& date)
             return;
         }
 
-        harvest(date);
+        harvest();
     }
 }
 
@@ -89,22 +93,32 @@ bool FarmBuilding::processInteraction(const CycleDate& /*date*/, Character& acto
 
 BuildingState FarmBuilding::getCurrentState() const
 {
-    // TODO: Calculate growth percent.
-    return BuildingState::CreateFarmState(reinterpret_cast<qintptr>(this), conf, area, stateVersion, 0);
+    return BuildingState::CreateFarmState(
+        reinterpret_cast<qintptr>(this),
+        conf,
+        area,
+        isActive() ? BuildingState::Status::Active : BuildingState::Status::Inactive,
+        getCurrentWorkerQuantity(),
+        stateVersion,
+        static_cast<int>(100.0 * getGrowthRatio())
+    );
 }
 
 
 
-void FarmBuilding::harvest(const CycleDate& date)
+qreal FarmBuilding::getGrowthRatio() const
 {
-    int remainingCyclesToBeComplete(completeGrowingDate - date);
-    qreal productivityRatio(
-        qMin(
-            1.0,
-            static_cast<qreal>(CycleDate::getCyclesPerYear()) /
-            static_cast<qreal>(CycleDate::getCyclesPerYear() + remainingCyclesToBeComplete)
-        )
+    return qMin(
+        1.0,
+        static_cast<qreal>(GROWING_INTERVAL - growingCountDown) / static_cast<qreal>(GROWING_INTERVAL)
     );
+}
+
+
+
+void FarmBuilding::harvest()
+{
+    qreal productivityRatio(getGrowthRatio());
     int quantity(productivityRatio * conf.getFarmConf().maxQuantityHarvested);
 
     deliveryMan = characterFactory.generateDeliveryMan(
@@ -114,5 +128,6 @@ void FarmBuilding::harvest(const CycleDate& date)
         quantity
     );
 
-    completeGrowingDate.reassign(date, CycleDate::getCyclesPerYear());
+    growingCountDown = GROWING_INTERVAL;
+    notifyViewDataChange();
 }

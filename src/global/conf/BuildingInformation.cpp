@@ -90,6 +90,20 @@ const MapSize& BuildingInformation::getSize() const
 
 
 
+int BuildingInformation::getMaxWorkers() const
+{
+    return common.maxWorkers;
+}
+
+
+
+const BuildingInformation::Graphics& BuildingInformation::getGraphicsData() const
+{
+    return graphics;
+}
+
+
+
 const BuildingInformation::Farm& BuildingInformation::getFarmConf() const
 {
     if (farm == nullptr) {
@@ -167,13 +181,6 @@ const BuildingInformation::Storage& BuildingInformation::getStorageConf() const
 
 
 
-const BuildingInformation::Graphics& BuildingInformation::getGraphicsData() const
-{
-    return graphics;
-}
-
-
-
 void BuildingInformation::loadSpecificConf(const ModelReader& model)
 {
     switch (type) {
@@ -233,7 +240,7 @@ BuildingInformation::Common::Common(const ModelReader& model) :
     title(model.getString("title")),
     size(model.getOptionalInt("size", 1)),
     price(model.getOptionalInt("price", 0)),
-    employees(model.getOptionalInt("employees", 0)),
+    maxWorkers(model.getOptionalInt("workers", 0)),
     fireRiskIncrement(model.getOptionalInt("fireRisk", 0)),
     damageRiskIncrement(model.getOptionalInt("damageRisk", 0)),
     areaDescription()
@@ -293,10 +300,10 @@ BuildingInformation::House::House(const ModelReader& model) :
 
 BuildingInformation::Laboratory::Laboratory(const ModelReader& model) :
     acceptedStudent(model.getCharacterConf("acceptedStudent")),
-    producingInterval(model.getOptionalInt("producingCredits", 64) * CYCLE_PER_SECOND),
+    producingInterval(model.getOptionalInt("producingCredits", 64) * BUILDING_CYCLES_PER_SECOND),
     emittedScientist(
         model.getOptionalCharacterConf("emittedScientist", acceptedStudent),
-        model.getOptionalInt("scientistGenerationInterval", 4) * CYCLE_PER_SECOND,
+        model.getOptionalInt("scientistGenerationInterval", 4) * BUILDING_CYCLES_PER_SECOND,
         1
     )
 {
@@ -310,7 +317,7 @@ BuildingInformation::Producer::Producer(const ModelReader& model) :
     rawMaterialConf(model.getNatureElementConf("rawMaterialItem")),
     miner(
         model.getCharacterConf("minerCharacter"),
-        model.getOptionalInt("minerGenerationInterval", 4) * CYCLE_PER_SECOND,
+        model.getOptionalInt("minerGenerationInterval", 4) * BUILDING_CYCLES_PER_SECOND,
         model.getOptionalInt("maxSimultaneousMiners", 2)
     ),
     miningQuantity(model.getOptionalInt("miningQuantity", 25)),
@@ -326,7 +333,7 @@ BuildingInformation::Producer::Producer(const ModelReader& model) :
 BuildingInformation::Sanity::Sanity(const ModelReader& model) :
     walker(
         model.getCharacterConf("walkerCharacter"),
-        model.getOptionalInt("walkerGenerationInterval", 8) * CYCLE_PER_SECOND,
+        model.getOptionalInt("walkerGenerationInterval", 8) * BUILDING_CYCLES_PER_SECOND,
         1
     )
 {
@@ -338,7 +345,7 @@ BuildingInformation::Sanity::Sanity(const ModelReader& model) :
 BuildingInformation::School::School(const ModelReader& model) :
     student(
         model.getCharacterConf("studentCharacter"),
-        model.getOptionalInt("studentGenerationInterval", 8) * CYCLE_PER_SECOND
+        model.getOptionalInt("studentGenerationInterval", 8) * BUILDING_CYCLES_PER_SECOND
     ),
     targetLaboratory(model.getBuildingConf("targetLaboratory"))
 {

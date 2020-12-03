@@ -25,7 +25,8 @@ MainWindow::MainWindow() :
 #ifdef DEBUG_TOOLS
     processAction(new QAction("Process next step", this)),
 #endif
-    informationWidget(new InformationWidget(this))
+    informationWidget(new InformationWidget(this)),
+    currentDialog(nullptr)
 {
     // Game menu.
     QMenu* gameMenu(menuBar()->addMenu(tr("Game")));
@@ -87,7 +88,7 @@ void MainWindow::loadMap(const QString& filePath)
     const auto initialState(engine.getCurrentState());
     informationWidget->updateState(initialState.city);
 
-    viewerScene = new MapScene(conf, engine, engine, engine.getMapState(), initialState);
+    viewerScene = new MapScene(conf, engine, engine, *this, engine.getMapState(), initialState);
     viewer = new QGraphicsView(viewerScene);
     setCentralWidget(viewer);
     connect(controlPanel, &ControlPanel::buildingRequested, viewerScene, &MapScene::requestBuildingPositioning);
@@ -111,6 +112,25 @@ void MainWindow::openSpeedDialog()
     if (speed != initialSpeed) {
         emit requestSpeedRatioChange(speed / 100.0);
     }
+    if (!isPaused) {
+        pauseAction->trigger();
+    }
+}
+
+
+
+void MainWindow::displayDialog(QDialog& dialog)
+{
+    bool isPaused(pauseAction->isChecked());
+    if (!isPaused) {
+        pauseAction->trigger();
+    }
+
+    currentDialog = &dialog;
+    dialog.setParent(this);
+    dialog.setWindowFlag(Qt::Popup);
+    dialog.exec();
+
     if (!isPaused) {
         pauseAction->trigger();
     }
