@@ -83,7 +83,7 @@ void ConstructionCursor::RoadPath::refreshPath(const QList<MapCoordinates>& path
 {
     resetPath();
     for (auto coordinates : path) {
-        this->path.append(MapArea(coordinates));
+        this->path.append(coordinates);
         auto roadItem(new QGraphicsPixmapItem(image, parent));
         auto position(positioning.getTilePosition(coordinates));
         roadItem->setPos(position);
@@ -100,7 +100,7 @@ const MapCoordinates& ConstructionCursor::RoadPath::getOrigin() const
 
 
 
-const QList<MapArea>& ConstructionCursor::RoadPath::getPath() const
+const QList<MapCoordinates>& ConstructionCursor::RoadPath::getPath() const
 {
     return path;
 }
@@ -144,13 +144,6 @@ ConstructionCursor::~ConstructionCursor()
     if (roadPath) {
         delete roadPath;
     }
-}
-
-
-
-const MapArea& ConstructionCursor::getCoveredArea() const
-{
-    return coveredArea;
 }
 
 
@@ -221,14 +214,14 @@ void ConstructionCursor::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
                 switch (selectionType) {
                     case SelectionType::Road:
                         if (roadPath) {
-                            emit construct(buildingConf, roadPath->getPath());
+                            emit construct(buildingConf, roadPath->getPath(), Direction::West); // TODO: Set direction.
                             delete roadPath;
                             roadPath = nullptr;
                         }
                         break;
 
                     case SelectionType::Single:
-                        emit construct(buildingConf, {coveredArea});
+                        emit construct(buildingConf, {coveredArea.getLeft()}, Direction::West); // TODO: Set direction.
                         break;
                 }
             }

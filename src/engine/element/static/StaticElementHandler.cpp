@@ -161,14 +161,14 @@ QList<NatureElementState> StaticElementHandler::getNatureElementsState() const
 
 
 
-void StaticElementHandler::createBuilding(const BuildingInformation& conf, const MapArea& area)
-{
+void StaticElementHandler::createBuilding(
+    const BuildingInformation& conf,
+    const MapCoordinates& leftCorner,
+    Direction /*orientation*/
+) {
+    MapArea area(leftCorner, conf.getSize());
     if (!isAreaConstructible(area)) {
         qDebug() << "WARNING: Try to create a building on an accupyed area " + area.toString() + ". Skipping the creation.";
-        return;
-    }
-    if (area.getSize() != conf.getSize()) {
-        qDebug() << "WARNING: Selected area size does not match the building size. Skipping the creation.";
         return;
     }
 

@@ -5,7 +5,8 @@
 #include <QtCore/QHash>
 #include <QtWidgets/QGraphicsScene>
 
-#include "src/engine/map/MapArea.hpp"
+#include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/Direction.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/Positioning.hpp"
@@ -22,7 +23,6 @@ class ConstructionCursor;
 class DialogDisplayer;
 class DynamicElement;
 class Map;
-class MapCoordinates;
 class MapSize;
 class NatureElement;
 class RoadPathGeneratorInterface;
@@ -92,10 +92,15 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         /**
          * @brief Indicate the user requested a building creation.
          *
-         * @param buildingKey The type of building.
-         * @param area        The area of construction.
+         * @param elementConf The type of building.
+         * @param leftCorner  The location of the left corner of the construction area.
+         * @param orientation The orientation of the building.
          */
-        void buildingCreationRequested(const BuildingInformation& elementConf, MapArea area);
+        void buildingCreationRequested(
+            const BuildingInformation& elementConf,
+            MapCoordinates leftCorner,
+            Direction orientation
+        );
 
     private:
         void displayBuildingDetailsDialog(const BuildingState& buildingState);

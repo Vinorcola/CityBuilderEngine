@@ -10,6 +10,7 @@
 #include "src/engine/element/static/path/PathGenerator.hpp"
 #include "src/engine/state/BuildingState.hpp"
 #include "src/engine/state/NatureElementState.hpp"
+#include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
 class BuildingInformation;
@@ -95,7 +96,7 @@ class StaticElementHandler : public MapDetailsInterface
         QList<NatureElementState> getNatureElementsState() const;
 
         // Building generation.
-        void createBuilding(const BuildingInformation& conf, const MapArea& area);
+        void createBuilding(const BuildingInformation& conf, const MapCoordinates& leftCorner, Direction orientation);
 
         // Nature element generation.
         void createNatureElement(const NatureElementInformation& conf, const MapArea& area);

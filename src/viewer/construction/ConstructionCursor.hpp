@@ -7,6 +7,7 @@
 #include <QtWidgets/QGraphicsPolygonItem>
 
 #include "src/engine/map/MapArea.hpp"
+#include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
 class AreaCheckerInterface;
@@ -51,7 +52,7 @@ class ConstructionCursor : public QGraphicsObject
                 QGraphicsItem* parent;
                 const QPixmap& image;
                 const MapCoordinates origin;
-                QList<MapArea> path;
+                QList<MapCoordinates> path;
                 QList<owner<QGraphicsPixmapItem*>> graphics;
 
             public:
@@ -66,7 +67,7 @@ class ConstructionCursor : public QGraphicsObject
                 void refreshPath(const QList<MapCoordinates>& path);
 
                 const MapCoordinates& getOrigin() const;
-                const QList<MapArea>& getPath() const;
+                const QList<MapCoordinates>& getPath() const;
 
             private:
                 void resetPath();
@@ -94,8 +95,6 @@ class ConstructionCursor : public QGraphicsObject
         );
         virtual ~ConstructionCursor();
 
-        const MapArea& getCoveredArea() const;
-
         void displayAtLocation(const MapCoordinates& location);
         void refresh();
 
@@ -104,7 +103,7 @@ class ConstructionCursor : public QGraphicsObject
 
     signals:
         void cancel();
-        void construct(const BuildingInformation& buildingConf, QList<MapArea> area);
+        void construct(const BuildingInformation& buildingConf, QList<MapCoordinates> locations, Direction direction);
 
     protected:
         virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;

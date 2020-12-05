@@ -134,11 +134,15 @@ void MapScene::requestBuildingPositioning(const BuildingInformation& elementConf
         delete selectionElement;
         selectionElement = nullptr;
     });
-    connect(selectionElement, &ConstructionCursor::construct, [this](const BuildingInformation& buildingConf, QList<MapArea> area) {
-        for (auto location : area) {
-            emit buildingCreationRequested(buildingConf, location);
+    connect(
+        selectionElement,
+        &ConstructionCursor::construct,
+        [this](const BuildingInformation& buildingConf, QList<MapCoordinates> locations, Direction direction) {
+            for (auto location : locations) {
+                emit buildingCreationRequested(buildingConf, location, direction);
+            }
         }
-    });
+    );
 }
 
 
