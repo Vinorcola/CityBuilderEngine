@@ -1,10 +1,10 @@
-﻿#include "BuildingInformation.hpp"
+#include "BuildingInformation.hpp"
 
 #include <yaml-cpp/yaml.h>
 
 #include "src/exceptions/BadConfigurationException.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
-#include "src/global/conf/BuildingAreaPartDescription.hpp"
+#include "src/global/conf/BuildingAreaInformation.hpp"
 #include "src/global/conf/ImageSequenceInformation.hpp"
 #include "src/global/conf/ModelReader.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
@@ -83,9 +83,16 @@ const QString& BuildingInformation::getTitle() const
 
 
 
-const MapSize& BuildingInformation::getSize() const
+const BuildingAreaInformation& BuildingInformation::getAreaDescription() const
 {
-    return common.size;
+    return common.areaDescription;
+}
+
+
+
+MapSize BuildingInformation::getSize() const
+{
+    return common.areaDescription.getSize();
 }
 
 
@@ -238,21 +245,10 @@ BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 
 BuildingInformation::Common::Common(const ModelReader& model) :
     title(model.getString("title")),
-    size(model.getOptionalInt("size", 1)),
-    price(model.getOptionalInt("price", 0)),
-    maxWorkers(model.getOptionalInt("workers", 0)),
-    fireRiskIncrement(model.getOptionalInt("fireRisk", 0)),
-    damageRiskIncrement(model.getOptionalInt("damageRisk", 0)),
-    areaDescription()
+    areaDescription(model),
+    maxWorkers(model.getOptionalInt("workers", 0))
 {
 
-}
-
-
-
-BuildingInformation::Common::~Common()
-{
-    qDeleteAll(areaDescription);
 }
 
 

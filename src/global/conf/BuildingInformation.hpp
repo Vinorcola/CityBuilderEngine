@@ -4,10 +4,10 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-#include "src/engine/map/MapSize.hpp"
+#include "src/global/conf/BuildingAreaInformation.hpp"
 #include "src/defines.hpp"
 
-class BuildingAreaPartDescription;
+class BuildingAreaInformation;
 class BuildingSearchCriteriaDescription;
 class CharacterInformation;
 class ImageSequenceInformation;
@@ -38,15 +38,10 @@ class BuildingInformation
 
         struct Common {
             QString title;
-            MapSize size;
-            int price;
+            BuildingAreaInformation areaDescription;
             int maxWorkers;
-            int fireRiskIncrement;
-            int damageRiskIncrement;
-            QList<owner<BuildingAreaPartDescription*>> areaDescription;
 
             explicit Common(const ModelReader& model);
-            ~Common();
         };
 
         struct Graphics {
@@ -145,7 +140,8 @@ class BuildingInformation
         // Generic information.
         Type getType() const;
         const QString& getTitle() const;
-        const MapSize& getSize() const;
+        const BuildingAreaInformation& getAreaDescription() const;
+        MapSize getSize() const;
         int getMaxWorkers() const;
 
         // Graphics information.

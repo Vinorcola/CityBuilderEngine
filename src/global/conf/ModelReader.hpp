@@ -28,6 +28,8 @@ class ModelReader
         const YAML::Node& getNode() const;
         const ModelReader getSubModel(const char key[]) const;
 
+        bool has(const char key[]) const;
+
         bool getOptionalBool(const char key[], const bool defaultValue) const;
 
         int getInt(const char key[]) const;

@@ -41,6 +41,13 @@ const ModelReader ModelReader::getSubModel(const char key[]) const
 
 
 
+bool ModelReader::has(const char key[]) const
+{
+    return node[key];
+}
+
+
+
 bool ModelReader::getOptionalBool(const char key[], const bool defaultValue) const
 {
     if (!node[key]) {

@@ -64,7 +64,7 @@ SOURCES += \
     src/exceptions/NotImplementedException.cpp \
     src/exceptions/OutOfRangeException.cpp \
     src/exceptions/UnexpectedException.cpp \
-    src/global/conf/BuildingAreaPartDescription.cpp \
+    src/global/conf/BuildingAreaInformation.cpp \
     src/global/conf/BuildingInformation.cpp \
     src/global/conf/CharacterInformation.cpp \
     src/global/conf/Conf.cpp \
@@ -166,7 +166,7 @@ HEADERS += \
     src/exceptions/NotImplementedException.hpp \
     src/exceptions/OutOfRangeException.hpp \
     src/exceptions/UnexpectedException.hpp \
-    src/global/conf/BuildingAreaPartDescription.hpp \
+    src/global/conf/BuildingAreaInformation.hpp \
     src/global/conf/BuildingInformation.hpp \
     src/global/conf/CharacterInformation.hpp \
     src/global/conf/Conf.hpp \
