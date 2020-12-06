@@ -4,6 +4,7 @@
 #include <QtCore/QHash>
 
 #include "src/engine/map/MapArea.hpp"
+#include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
 class BuildingInformation;
@@ -57,6 +58,7 @@ struct BuildingState
         qintptr id,
         const BuildingInformation& type,
         const MapArea& area,
+        Direction orientation,
         Status status,
         int workers,
         int stateVersion
@@ -64,6 +66,7 @@ struct BuildingState
         id(id),
         type(type),
         area(area),
+        orientation(orientation),
         status(status),
         workers(workers),
         farm(nullptr),
@@ -77,6 +80,7 @@ struct BuildingState
         id(other.id),
         type(other.type),
         area(other.area),
+        orientation(other.orientation),
         status(other.status),
         workers(other.workers),
         farm(nullptr),
@@ -113,12 +117,13 @@ struct BuildingState
         qintptr id,
         const BuildingInformation& type,
         const MapArea& area,
+        Direction orientation,
         Status status,
         int workers,
         int stateVersion,
         int growthPercent
     ) {
-        BuildingState state(id, type, area, status, workers, stateVersion);
+        BuildingState state(id, type, area, orientation, status, workers, stateVersion);
         state.farm = new FarmState(growthPercent);
 
         return state;
@@ -128,12 +133,13 @@ struct BuildingState
         qintptr id,
         const BuildingInformation& type,
         const MapArea& area,
+        Direction orientation,
         Status status,
         int workers,
         int stateVersion,
         int inhabitants
     ) {
-        BuildingState state(id, type, area, status, workers, stateVersion);
+        BuildingState state(id, type, area, orientation, status, workers, stateVersion);
         state.house = new HouseState(inhabitants);
 
         return state;
@@ -143,12 +149,13 @@ struct BuildingState
         qintptr id,
         const BuildingInformation& type,
         const MapArea& area,
+        Direction orientation,
         Status status,
         int workers,
         int stateVersion,
         int rawMaterialStock
     ) {
-        BuildingState state(id, type, area, status, workers, stateVersion);
+        BuildingState state(id, type, area, orientation, status, workers, stateVersion);
         state.producer = new ProducerState(rawMaterialStock);
 
         return state;
@@ -158,12 +165,13 @@ struct BuildingState
         qintptr id,
         const BuildingInformation& type,
         const MapArea& area,
+        Direction orientation,
         Status status,
         int workers,
         int stateVersion,
         const QHash<const ItemInformation*, int>& stock
     ) {
-        BuildingState state(id, type, area, status, workers, stateVersion);
+        BuildingState state(id, type, area, orientation, status, workers, stateVersion);
         state.storage = new StorageState(stock);
 
         return state;
@@ -188,6 +196,7 @@ struct BuildingState
     qintptr id;
     const BuildingInformation& type;
     MapArea area;
+    Direction orientation;
     Status status;
     int workers;
     optional<owner<FarmState*>> farm;

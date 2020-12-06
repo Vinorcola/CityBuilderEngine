@@ -32,6 +32,14 @@ class MapCoordinates
         MapCoordinates(const MapCoordinates& other);
 
         /**
+         * @brief Create coordinates from a reference, and apply a relative move.
+         *
+         * @param other
+         * @param applyRelativeMove
+         */
+        MapCoordinates(const MapCoordinates& reference, const QPoint& relativeMove);
+
+        /**
          * @brief Create coordinates from integer abscissa and ordinate.
          *
          * @param x Abscissa

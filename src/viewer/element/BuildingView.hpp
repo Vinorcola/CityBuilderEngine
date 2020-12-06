@@ -2,32 +2,58 @@
 #define BUILDINGVIEW_HPP
 
 #include "src/engine/state/BuildingState.hpp"
+#include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/defines.hpp"
 
 class AbstractBuilding;
-class BuildingImage;
+class BuildingAreaPartImage;
 class ImageLibrary;
 class MapSize;
 class Positioning;
-class StaticElement;
 class Tile;
 class TileLocatorInterface;
 
 /**
  * @brief Handles the graphical representation of a building.
  *
- * It knows all the logic needed to update the graphics according to the given state of the building.
+ * It knows all the logic needed to update the graphics according to the given state of the building. Note that a
+ * building can have several area parts, which each a specific image to display. Each area part is squared, but the
+ * whole building may be a rectangle.
  */
 class BuildingView
 {
     private:
-        const TileLocatorInterface& tileLocator;
-        MapSize buildingSize;
-        Tile& tile;
-        const BuildingImage& image;
-        owner<StaticElement*> graphicElement;
+        class AreaPart
+        {
+            private:
+                const TileLocatorInterface& tileLocator;
+                MapSize size;
+                Tile& tile;
+                const BuildingAreaPartImage& image;
+                StaticElement graphicElement;
+                int animationIndex;
+
+            public:
+                AreaPart(
+                    const Positioning& positioning,
+                    const TileLocatorInterface& tileLocator,
+                    const MapCoordinates& leftCorner,
+                    const MapSize& size,
+                    const BuildingAreaPartImage& image
+                );
+                ~AreaPart();
+
+                void advanceAnimation();
+                void updateStatus(BuildingState::Status status);
+
+            private:
+                void maskCoveredTiles();
+                void revealCoveredTiles();
+        };
+
+    private:
+        QList<owner<AreaPart*>> areaParts;
         BuildingState currentState;
-        int animationIndex;
 
     public:
         BuildingView(
@@ -36,7 +62,6 @@ class BuildingView
             const ImageLibrary& imageLibrary,
             const BuildingState& state
         );
-        ~BuildingView();
 
         const BuildingState& getCurrentState() const;
 
@@ -44,11 +69,6 @@ class BuildingView
         void destroy();
 
         void advanceAnimation();
-
-    private:
-        void maskCoveredTiles();
-        void revealCoveredTiles();
-        void updateStatus(BuildingState::Status newStatus);
 };
 
 #endif // BUILDINGVIEW_HPP
