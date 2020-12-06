@@ -97,12 +97,12 @@ buildings:
             west:
               - position: { x: 0, y: 0 }
                 size: 5
-              - position: { x: 0, y: 5 }
+              - position: { x: 5, y: 0 }
                 size: 5
             south:
               - position: { x: 0, y: 0 }
                 size: 5
-              - position: { x: 5, y: 0 }
+              - position: { x: 0, y: 5 }
                 size: 5
         acceptedStudent: athlete
         workers: 45

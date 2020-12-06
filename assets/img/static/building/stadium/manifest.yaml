@@ -1,12 +1,7 @@
 building:
-    file: main.png # TODO: to delete
     west:
       - file: west/1.png
-        position: { x: 0, y: 0 }
       - file: west/2.png
-        position: { x: 0, y: 5 }
     south:
       - file: south/1.png
-        position: { x: 0, y: 0 }
       - file: south/2.png
-        position: { x: 5, y: 0 }
