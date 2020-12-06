@@ -8,7 +8,11 @@
 #include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
+class ImageSequenceInformation;
 class ModelReader;
+namespace YAML {
+    class Node;
+}
 
 class BuildingAreaInformation
 {
@@ -25,21 +29,39 @@ class BuildingAreaInformation
             Constructible,   // Agora, Sanctuary, etc.
         };
 
+        struct Graphics {
+            QString mainImagePath;
+            QList<owner<const ImageSequenceInformation*>> activeAnimation;
+
+            ~Graphics();
+        };
+
         struct AreaPart {
-            MapCoordinates position;
+            QPoint position;
             MapSize size;
             Type type;
             int altitude;
+            Graphics graphics;
 
-            AreaPart(const MapCoordinates& position, const MapSize& size, Type type = Type::Classic, int altitude = 0);
+            AreaPart(
+                const QPoint& position,
+                const MapSize& size,
+                const QString& graphicsBasePath,
+                YAML::Node manifestNode,
+                Type type = Type::Classic,
+                int altitude = 0
+            );
         };
 
     private:
-        QHash<Direction, QList<owner<AreaPart*>>> area;
+        QHash<Direction, QList<owner<const AreaPart*>>> area;
 
     public:
         BuildingAreaInformation(const ModelReader& model);
         ~BuildingAreaInformation();
+
+        QList<Direction> getAvailableOrientations() const;
+        QList<const AreaPart*> getAreaParts(Direction orientation) const;
 
         /**
          * @brief For backward compatibility. TO DELETE.

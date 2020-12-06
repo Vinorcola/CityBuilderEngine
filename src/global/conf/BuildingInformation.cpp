@@ -28,7 +28,7 @@ BuildingInformation::BuildingInformation(const ModelReader& model) :
     QString manifestPath(basePath + "manifest.yaml");
     YAML::Node manifestRoot(YAML::LoadFile(manifestPath.toStdString()));
 
-    graphics.mainImagePath = basePath + manifestRoot["building"]["mainImage"].as<QString>();
+    graphics.mainImagePath = basePath + manifestRoot["building"]["file"].as<QString>();
     if (manifestRoot["building"]["animation"]) {
         QString animationPath(basePath + "animation/");
         for (auto imageNode : manifestRoot["building"]["animation"]) {
@@ -100,6 +100,20 @@ MapSize BuildingInformation::getSize() const
 int BuildingInformation::getMaxWorkers() const
 {
     return common.maxWorkers;
+}
+
+
+
+QList<Direction> BuildingInformation::getAvailableOrientations() const
+{
+    return common.areaDescription.getAvailableOrientations();
+}
+
+
+
+QList<const BuildingAreaInformation::AreaPart*> BuildingInformation::getAreaParts(Direction orientation) const
+{
+    return common.areaDescription.getAreaParts(orientation);
 }
 
 

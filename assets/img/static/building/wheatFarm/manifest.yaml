@@ -1,5 +1,5 @@
 building:
-    mainImage: main.png
+    file: main.png
     farmGrowth:
         slotPositions:
           - { x: 0, y: 0 }

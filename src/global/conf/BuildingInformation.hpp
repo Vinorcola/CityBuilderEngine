@@ -121,7 +121,7 @@ class BuildingInformation
         QString key;
         Type type;
         Common common;
-        Graphics graphics;
+        Graphics graphics; // TODO: to delete
         optional<Farm*> farm;
         optional<House*> house;
         optional<Laboratory*> laboratory;
@@ -145,6 +145,8 @@ class BuildingInformation
         int getMaxWorkers() const;
 
         // Graphics information.
+        QList<Direction> getAvailableOrientations() const;
+        QList<const BuildingAreaInformation::AreaPart*> getAreaParts(Direction orientation) const;
         const Graphics& getGraphicsData() const;
 
         // Specific information.
