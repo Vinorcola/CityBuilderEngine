@@ -44,13 +44,6 @@ class BuildingInformation
             explicit Common(const ModelReader& model);
         };
 
-        struct Graphics {
-            QString mainImagePath;
-            QList<owner<const ImageSequenceInformation*>> activeAnimation;
-
-            ~Graphics();
-        };
-
         struct WalkerGeneration {
             const CharacterInformation& conf;
             int generationInterval;
@@ -121,7 +114,6 @@ class BuildingInformation
         QString key;
         Type type;
         Common common;
-        Graphics graphics; // TODO: to delete
         optional<Farm*> farm;
         optional<House*> house;
         optional<Laboratory*> laboratory;
@@ -147,7 +139,6 @@ class BuildingInformation
         // Graphics information.
         QList<Direction> getAvailableOrientations() const;
         QList<const BuildingAreaInformation::AreaPart*> getAreaParts(Direction orientation) const;
-        const Graphics& getGraphicsData() const;
 
         // Specific information.
         const Farm& getFarmConf() const;

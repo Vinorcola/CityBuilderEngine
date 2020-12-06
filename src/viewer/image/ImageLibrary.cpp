@@ -1,8 +1,6 @@
 #include "ImageLibrary.hpp"
 
 #include "src/exceptions/OutOfRangeException.hpp"
-#include "src/global/conf/BuildingInformation.hpp"
-#include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
@@ -23,7 +21,7 @@ ImageLibrary::ImageLibrary(const Conf& conf) :
     // Load building images.
     for (auto buildingKey : conf.getAllBuildingKeys()) {
         auto& buildingConf(conf.getBuildingConf(buildingKey));
-        buildingImages.insert(&buildingConf, new BuildingImage(buildingConf.getGraphicsData(), GREEN_BRUSH));
+        buildingImages.insert(&buildingConf, new BuildingImage(buildingConf, GREEN_BRUSH));
     }
 
     // Load character images.

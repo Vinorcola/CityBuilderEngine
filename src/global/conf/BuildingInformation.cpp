@@ -16,7 +16,6 @@ BuildingInformation::BuildingInformation(const ModelReader& model) :
     key(model.getKey()),
     type(resolveType(model.getString("type"))),
     common(model),
-    graphics(),
     farm(nullptr),
     house(nullptr),
     producer(nullptr),
@@ -24,20 +23,7 @@ BuildingInformation::BuildingInformation(const ModelReader& model) :
     school(nullptr),
     storage(nullptr)
 {
-    QString basePath("assets/img/static/building/" + key + "/");
-    QString manifestPath(basePath + "manifest.yaml");
-    YAML::Node manifestRoot(YAML::LoadFile(manifestPath.toStdString()));
 
-    graphics.mainImagePath = basePath + manifestRoot["building"]["file"].as<QString>();
-    if (manifestRoot["building"]["animation"]) {
-        QString animationPath(basePath + "animation/");
-        for (auto imageNode : manifestRoot["building"]["animation"]) {
-            graphics.activeAnimation.append(new ImageSequenceInformation(
-                animationPath + imageNode["file"].as<QString>(),
-                imageNode["position"].as<QPoint>()
-            ));
-        }
-    }
 }
 
 
@@ -114,13 +100,6 @@ QList<Direction> BuildingInformation::getAvailableOrientations() const
 QList<const BuildingAreaInformation::AreaPart*> BuildingInformation::getAreaParts(Direction orientation) const
 {
     return common.areaDescription.getAreaParts(orientation);
-}
-
-
-
-const BuildingInformation::Graphics& BuildingInformation::getGraphicsData() const
-{
-    return graphics;
 }
 
 
@@ -263,13 +242,6 @@ BuildingInformation::Common::Common(const ModelReader& model) :
     maxWorkers(model.getOptionalInt("workers", 0))
 {
 
-}
-
-
-
-BuildingInformation::Graphics::~Graphics()
-{
-    qDeleteAll(activeAnimation);
 }
 
 
