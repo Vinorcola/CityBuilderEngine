@@ -4,9 +4,10 @@
 
 
 
-AbstractBuilding::AbstractBuilding(const BuildingInformation& conf, const MapArea& area) :
+AbstractBuilding::AbstractBuilding(const BuildingInformation& conf, const MapArea& area, Direction orientation) :
     conf(conf),
     area(area),
+    orientation(orientation),
     stateVersion(0)
 {
 
@@ -30,7 +31,7 @@ const BuildingInformation& AbstractBuilding::getConf() const
 
 BuildingState AbstractBuilding::getCurrentState() const
 {
-    return { reinterpret_cast<qintptr>(this), conf, area, BuildingState::Status::Inactive, 0, stateVersion };
+    return { reinterpret_cast<qintptr>(this), conf, area, orientation, BuildingState::Status::Inactive, 0, stateVersion };
 }
 
 

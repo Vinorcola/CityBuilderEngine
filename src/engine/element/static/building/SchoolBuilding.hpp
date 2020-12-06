@@ -25,6 +25,7 @@ class SchoolBuilding : public AbstractProcessableBuilding
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
+            Direction orientation,
             const MapCoordinates& entryPoint
         );
 
@@ -34,6 +35,7 @@ class SchoolBuilding : public AbstractProcessableBuilding
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
+            Direction orientation,
             const MapCoordinates& entryPoint
         );
 

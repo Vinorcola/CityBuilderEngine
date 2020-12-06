@@ -102,14 +102,14 @@ class StaticElementHandler : public MapDetailsInterface
         void createNatureElement(const NatureElementInformation& conf, const MapArea& area);
 
     private:
-        void generateFarm(const BuildingInformation& conf, const MapArea& area);
-        void generateHouse(const BuildingInformation& conf, const MapArea& area);
-        void generateLaboratory(const BuildingInformation& conf, const MapArea& area);
-        void generateProducer(const BuildingInformation& conf, const MapArea& area);
-        void generateSanity(const BuildingInformation& conf, const MapArea& area);
-        void generateSchool(const BuildingInformation& conf, const MapArea& area);
-        void generateStorage(const BuildingInformation& conf, const MapArea& area);
-        void generateRoad(const BuildingInformation& conf, const MapArea& area);
+        void generateFarm(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateHouse(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateLaboratory(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateProducer(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateSanity(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateSchool(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateStorage(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateRoad(const BuildingInformation& conf, const MapArea& area, Direction orientation);
         MapCoordinates getBestBuildingEntryPoint(const MapArea& area) const;
         void registerBuildingInDetailsCache(const MapArea& area);
         void registerRoadInDetailsCache(const MapArea& area);

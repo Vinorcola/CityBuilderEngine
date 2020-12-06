@@ -2,8 +2,8 @@
 
 
 
-Road::Road(const BuildingInformation& conf, const MapArea& area) :
-    AbstractBuilding(conf, area)
+Road::Road(const BuildingInformation& conf, const MapArea& area, Direction orientation) :
+    AbstractBuilding(conf, area, orientation)
 {
 
 }

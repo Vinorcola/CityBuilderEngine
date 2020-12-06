@@ -22,6 +22,7 @@ class SanityBuilding : public AbstractProcessableBuilding
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
+            Direction orientation,
             const MapCoordinates& entryPoint
         );
 
@@ -30,6 +31,7 @@ class SanityBuilding : public AbstractProcessableBuilding
             CharacterFactoryInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
+            Direction orientation,
             const MapCoordinates& entryPoint
         );
 

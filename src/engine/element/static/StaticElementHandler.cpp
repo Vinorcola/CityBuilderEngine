@@ -164,45 +164,45 @@ QList<NatureElementState> StaticElementHandler::getNatureElementsState() const
 void StaticElementHandler::createBuilding(
     const BuildingInformation& conf,
     const MapCoordinates& leftCorner,
-    Direction /*orientation*/
+    Direction orientation
 ) {
     MapArea area(leftCorner, conf.getSize());
     if (!isAreaConstructible(area)) {
-        qDebug() << "WARNING: Try to create a building on an accupyed area " + area.toString() + ". Skipping the creation.";
+        qDebug() << "WARNING: Try to create a building on an occupied area " + area.toString() + ". Skipping the creation.";
         return;
     }
 
     switch (conf.getType()) {
         case BuildingInformation::Type::Farm:
-            generateFarm(conf, area);
+            generateFarm(conf, area, orientation);
             break;
 
         case BuildingInformation::Type::House:
-            generateHouse(conf, area);
+            generateHouse(conf, area, orientation);
             break;
 
         case BuildingInformation::Type::Laboratory:
-            generateLaboratory(conf, area);
+            generateLaboratory(conf, area, orientation);
             break;
 
         case BuildingInformation::Type::Producer:
-            generateProducer(conf, area);
+            generateProducer(conf, area, orientation);
             break;
 
         case BuildingInformation::Type::Road:
-            generateRoad(conf, area);
+            generateRoad(conf, area, orientation);
             break;
 
         case BuildingInformation::Type::Sanity:
-            generateSanity(conf, area);
+            generateSanity(conf, area, orientation);
             break;
 
         case BuildingInformation::Type::School:
-            generateSchool(conf, area);
+            generateSchool(conf, area, orientation);
             break;
 
         case BuildingInformation::Type::Storage:
-            generateStorage(conf, area);
+            generateStorage(conf, area, orientation);
             break;
 
         default:
@@ -223,9 +223,9 @@ void StaticElementHandler::createNatureElement(const NatureElementInformation& c
 
 
 
-void StaticElementHandler::generateFarm(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateFarm(const BuildingInformation& conf, const MapArea& area, Direction orientation)
 {
-    auto building(FarmBuilding::Create(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
+    auto building(FarmBuilding::Create(characterFactory, conf, area, orientation, getBestBuildingEntryPoint(area)));
     currentState.buildings.insert(building.get(), building);
 
     processor.registerBuilding(building);
@@ -235,9 +235,16 @@ void StaticElementHandler::generateFarm(const BuildingInformation& conf, const M
 
 
 
-void StaticElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateHouse(const BuildingInformation& conf, const MapArea& area, Direction orientation)
 {
-    auto building(HouseBuilding::Create(*currentState.entryPoint.get(), populationHandler, conf, area, getBestBuildingEntryPoint(area)));
+    auto building(HouseBuilding::Create(
+        *currentState.entryPoint.get(),
+        populationHandler,
+        conf,
+        area,
+        orientation,
+        getBestBuildingEntryPoint(area)
+    ));
     currentState.buildings.insert(building.get(), building);
 
     processor.registerBuilding(building);
@@ -246,9 +253,9 @@ void StaticElementHandler::generateHouse(const BuildingInformation& conf, const 
 
 
 
-void StaticElementHandler::generateLaboratory(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateLaboratory(const BuildingInformation& conf, const MapArea& area, Direction orientation)
 {
-    auto building(LaboratoryBuilding::Create(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
+    auto building(LaboratoryBuilding::Create(characterFactory, conf, area, orientation, getBestBuildingEntryPoint(area)));
     currentState.buildings.insert(building.get(), building);
 
     processor.registerBuilding(building);
@@ -259,13 +266,14 @@ void StaticElementHandler::generateLaboratory(const BuildingInformation& conf, c
 
 
 
-void StaticElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateProducer(const BuildingInformation& conf, const MapArea& area, Direction orientation)
 {
     auto building(ProducerBuilding::Create(
         natureElementSearchEngine,
         characterFactory,
         conf,
         area,
+        orientation,
         getBestBuildingEntryPoint(area)
     ));
     currentState.buildings.insert(building.get(), building);
@@ -277,9 +285,9 @@ void StaticElementHandler::generateProducer(const BuildingInformation& conf, con
 
 
 
-void StaticElementHandler::generateSanity(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateSanity(const BuildingInformation& conf, const MapArea& area, Direction orientation)
 {
-    auto building(SanityBuilding::Create(characterFactory, conf, area, getBestBuildingEntryPoint(area)));
+    auto building(SanityBuilding::Create(characterFactory, conf, area, orientation, getBestBuildingEntryPoint(area)));
     currentState.buildings.insert(building.get(), building);
 
     processor.registerBuilding(building);
@@ -289,13 +297,14 @@ void StaticElementHandler::generateSanity(const BuildingInformation& conf, const
 
 
 
-void StaticElementHandler::generateSchool(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateSchool(const BuildingInformation& conf, const MapArea& area, Direction orientation)
 {
     auto building(SchoolBuilding::Create(
         buildingSearchEngine,
         characterFactory,
         conf,
         area,
+        orientation,
         getBestBuildingEntryPoint(area)
     ));
     currentState.buildings.insert(building.get(), building);
@@ -307,9 +316,9 @@ void StaticElementHandler::generateSchool(const BuildingInformation& conf, const
 
 
 
-void StaticElementHandler::generateStorage(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateStorage(const BuildingInformation& conf, const MapArea& area, Direction orientation)
 {
-    auto building(StorageBuilding::Create(conf, area, getBestBuildingEntryPoint(area)));
+    auto building(StorageBuilding::Create(conf, area, orientation, getBestBuildingEntryPoint(area)));
     currentState.buildings.insert(building.get(), building);
 
     processor.registerBuilding(building);
@@ -320,9 +329,9 @@ void StaticElementHandler::generateStorage(const BuildingInformation& conf, cons
 
 
 
-void StaticElementHandler::generateRoad(const BuildingInformation& conf, const MapArea& area)
+void StaticElementHandler::generateRoad(const BuildingInformation& conf, const MapArea& area, Direction orientation)
 {
-    QSharedPointer<AbstractBuilding> road(new Road(conf, area));
+    QSharedPointer<AbstractBuilding> road(new Road(conf, area, orientation));
     currentState.buildings.insert(road.get(), road);
 
     registerRoadInDetailsCache(area);

@@ -24,6 +24,7 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
         AbstractProcessableBuilding(
             const BuildingInformation& conf,
             const MapArea& area,
+            Direction orientation,
             const MapCoordinates& entryPoint
         );
 

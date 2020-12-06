@@ -1,6 +1,8 @@
 #include "ImageLibrary.hpp"
 
 #include "src/exceptions/OutOfRangeException.hpp"
+#include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
 #include "src/viewer/image/BuildingImage.hpp"

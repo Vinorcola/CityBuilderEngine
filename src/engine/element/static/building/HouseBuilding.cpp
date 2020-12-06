@@ -14,9 +14,10 @@ HouseBuilding::HouseBuilding(
     PopulationRegistryInterface& populationRegister,
     const BuildingInformation& conf,
     const MapArea& area,
+    Direction orientation,
     const MapCoordinates& entryPoint
 ) :
-    AbstractProcessableBuilding(conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     immigrantGenerator(immigrantGenerator),
     populationRegister(populationRegister),
     inhabitants(0),
@@ -32,9 +33,10 @@ QSharedPointer<AbstractProcessableBuilding> HouseBuilding::Create(
     PopulationRegistryInterface& populationRegister,
     const BuildingInformation& conf,
     const MapArea& area,
+    Direction orientation,
     const MapCoordinates& entryPoint
 ) {
-    auto house(new HouseBuilding(immigrantGenerator, populationRegister, conf, area, entryPoint));
+    auto house(new HouseBuilding(immigrantGenerator, populationRegister, conf, area, orientation, entryPoint));
     QSharedPointer<AbstractProcessableBuilding> pointer(house);
     house->selfReference = pointer;
 
@@ -85,6 +87,7 @@ BuildingState HouseBuilding::getCurrentState() const
         reinterpret_cast<qintptr>(this),
         conf,
         area,
+        orientation,
         isActive() ? BuildingState::Status::Active : BuildingState::Status::Inactive,
         getCurrentWorkerQuantity(),
         stateVersion,

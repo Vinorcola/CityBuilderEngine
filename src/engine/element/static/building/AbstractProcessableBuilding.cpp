@@ -8,9 +8,10 @@
 AbstractProcessableBuilding::AbstractProcessableBuilding(
     const BuildingInformation& conf,
     const MapArea& area,
+    Direction orientation,
     const MapCoordinates& entryPoint
 ):
-    AbstractBuilding(conf, area),
+    AbstractBuilding(conf, area, orientation),
     entryPoint(entryPoint),
     currentWorkerQuantity(0),
     selfReference(nullptr)
@@ -64,6 +65,7 @@ BuildingState AbstractProcessableBuilding::getCurrentState() const
         reinterpret_cast<qintptr>(this),
         conf,
         area,
+        orientation,
         isActive() ? BuildingState::Status::Active : BuildingState::Status::Inactive,
         currentWorkerQuantity,
         stateVersion,
