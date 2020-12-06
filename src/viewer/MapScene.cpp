@@ -176,7 +176,11 @@ void MapScene::registerNewNatureElement(const NatureElementState& natureElementS
     auto& tile(getTileAt(natureElementState.area.getLeft()));
     auto& natureElementImage(imageLibrary.getNatureElementImage(natureElementState.type));
 
-    tile.setStaticElement(new StaticElement(positioning, natureElementState.area.getSize(), natureElementImage.getImage()));
+    tile.setStaticElement(new StaticElement(
+        positioning,
+        natureElementState.area.getSize(),
+        natureElementImage.getImage()
+    ));
     // TODO: Deletion of nature elements is not handled. We should handle it the same way as buildings since the player
     // may be able to see an information dialog.
     // TODO: Handle higher size of nature elements by hiding covered tiles (see BuildingView).

@@ -79,7 +79,7 @@ void BuildingView::advanceAnimation()
 
 void BuildingView::maskCoveredTiles()
 {
-    if (buildingSize.getValue() > 1) {
+    if (buildingSize.getWidth() > 1) {
         MapArea area(tile.getCoordinates(), buildingSize);
         auto left(area.getLeft());
         auto right(area.getRight());
@@ -100,7 +100,7 @@ void BuildingView::maskCoveredTiles()
 
 void BuildingView::revealCoveredTiles()
 {
-    if (buildingSize.getValue() > 1) {
+    if (buildingSize.getWidth() > 1) {
         MapArea area(tile.getCoordinates(), buildingSize);
         auto left(area.getLeft());
         auto right(area.getRight());

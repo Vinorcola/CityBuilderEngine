@@ -1,8 +1,9 @@
 #include "Positioning.hpp"
 
-#include <QtMath>
+#include <cassert>
 #include <QtCore/QPoint>
 #include <QtCore/QPointF>
+#include <QtCore/QtMath>
 #include <QtGui/QPainterPath>
 #include <QtGui/QPolygonF>
 
@@ -36,11 +37,13 @@ QPoint Positioning::getTilePosition(const MapCoordinates& location) const
 
 QPoint Positioning::getStaticElementPositionInTile(const MapSize& elementSize, const int imageHeight) const
 {
+    assert(elementSize.isSquare());
+
     // A static element is attached to the tile located at the left corner of it's area. The height will depends on the
     // element size, since we must align it with the bottom tile of it's area.
     return {
         0,
-        (elementSize.getValue() + 1) * halfTileSize.height() - imageHeight,
+        (elementSize.getHeight() + 1) * halfTileSize.height() - imageHeight,
     };
 }
 
@@ -48,13 +51,14 @@ QPoint Positioning::getStaticElementPositionInTile(const MapSize& elementSize, c
 
 QPainterPath Positioning::getTileAreaPainterPath(const MapSize& areaSize) const
 {
-    const qreal SIZE_RATIO(areaSize.getValue());
+    const qreal WIDTH_RATIO(areaSize.getWidth());
+    const qreal HEIGHT_RATIO(areaSize.getHeight());
 
     QPainterPath path;
-    path.moveTo(-1.0                                           , halfTileSize.height()                      ); // Left corner
-    path.lineTo(SIZE_RATIO * (1.0 + halfTileSize.width()) - 1.0, -(SIZE_RATIO - 1.0) * halfTileSize.height()); // Top corner
-    path.lineTo(SIZE_RATIO * (2.0 + tileSize.width()) - 1.0    , halfTileSize.height()                      ); // Right corner
-    path.lineTo(SIZE_RATIO * (1.0 + halfTileSize.width()) - 1.0, (SIZE_RATIO + 1.0) * halfTileSize.height() ); // Bottom corner
+    path.moveTo(-1.0                                            , halfTileSize.height()                       ); // Left corner
+    path.lineTo(WIDTH_RATIO * (1.0 + halfTileSize.width()) - 1.0, -(WIDTH_RATIO - 1.0) * halfTileSize.height()); // Top corner
+    path.lineTo(HEIGHT_RATIO * (2.0 + tileSize.width()) - 1.0   , halfTileSize.height()                       ); // Right corner
+    path.lineTo(WIDTH_RATIO * (1.0 + halfTileSize.width()) - 1.0, (WIDTH_RATIO + 1.0) * halfTileSize.height() ); // Bottom corner
     path.closeSubpath();
 
     return path;
@@ -64,13 +68,14 @@ QPainterPath Positioning::getTileAreaPainterPath(const MapSize& areaSize) const
 
 QPolygonF Positioning::getTileAreaPolygon(const MapSize& areaSize) const
 {
-    const qreal SIZE_RATIO(areaSize.getValue());
+    const qreal WIDTH_RATIO(areaSize.getWidth());
+    const qreal HEIGHT_RATIO(areaSize.getHeight());
 
     QPolygonF polygon;
-    polygon.append(QPointF(-1.0                                           , halfTileSize.height()                      )); // Left corner
-    polygon.append(QPointF(SIZE_RATIO * (1.0 + halfTileSize.width()) - 1.0, -(SIZE_RATIO - 1.0) * halfTileSize.height())); // Top corner
-    polygon.append(QPointF(SIZE_RATIO * (2.0 + tileSize.width()) - 1.0    , halfTileSize.height()                      )); // Right corner
-    polygon.append(QPointF(SIZE_RATIO * (1.0 + halfTileSize.width()) - 1.0, (SIZE_RATIO + 1.0) * halfTileSize.height() )); // Bottom corner
+    polygon.append(QPointF(-1.0                                            , halfTileSize.height()                       )); // Left corner
+    polygon.append(QPointF(WIDTH_RATIO * (1.0 + halfTileSize.width()) - 1.0, -(WIDTH_RATIO - 1.0) * halfTileSize.height())); // Top corner
+    polygon.append(QPointF(HEIGHT_RATIO * (2.0 + tileSize.width()) - 1.0   , halfTileSize.height()                       )); // Right corner
+    polygon.append(QPointF(WIDTH_RATIO * (1.0 + halfTileSize.width()) - 1.0, (WIDTH_RATIO + 1.0) * halfTileSize.height() )); // Bottom corner
     polygon.append(polygon.first());
 
     return polygon;

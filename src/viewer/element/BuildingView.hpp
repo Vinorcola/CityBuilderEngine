@@ -22,7 +22,7 @@ class BuildingView
 {
     private:
         const TileLocatorInterface& tileLocator;
-        const MapSize& buildingSize;
+        MapSize buildingSize;
         Tile& tile;
         const BuildingImage& image;
         owner<StaticElement*> graphicElement;

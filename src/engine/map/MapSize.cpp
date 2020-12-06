@@ -1,32 +1,49 @@
 #include "MapSize.hpp"
 
 #include <cassert>
+#include <QtCore/QString>
 
 
 
-MapSize::MapSize() :
-    MapSize(1)
+MapSize::MapSize(int size) :
+    size(size, size)
 {
-
-}
-
-
-MapSize::MapSize(const int value) :
-    value(value)
-{
-    assert(value > 0);
+    assert(size > 0);
 }
 
 
 
-bool MapSize::operator !=(const MapSize& other) const
+MapSize::MapSize(int width, int height) :
+    size(width, height)
 {
-    return value != other.value;
+    assert(width > 0);
+    assert(height > 0);
 }
 
 
 
-int MapSize::getValue() const
+bool MapSize::isSquare() const
 {
-    return value;
+    return size.width() == size.height();
+}
+
+
+
+int MapSize::getWidth() const
+{
+    return size.width();
+}
+
+
+
+int MapSize::getHeight() const
+{
+    return size.height();
+}
+
+
+
+QString MapSize::toString() const
+{
+    return '(' + QString::number(size.width()) + 'x' + QString::number(size.height()) + ')';
 }
