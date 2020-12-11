@@ -2,26 +2,51 @@ building:
     file: main.png
     active:
       - file: active/1.png
-        position: { x: -1, y: -29 }
+        position: { x: 54, y: 44 }
       - file: active/2.png
-        position: { x: -1, y: -29 }
+        position: { x: 53, y: 44 }
       - file: active/3.png
-        position: { x: -1, y: -29 }
+        position: { x: 52, y: 44 }
       - file: active/4.png
-        position: { x: -1, y: -29 }
+        position: { x: 50, y: 44 }
       - file: active/5.png
-        position: { x: -1, y: -29 }
+        position: { x: 50, y: 45 }
       - file: active/6.png
-        position: { x: -1, y: -29 }
+        position: { x: 50, y: 45 }
       - file: active/7.png
-        position: { x: -1, y: -29 }
+        position: { x: 50, y: 45 }
       - file: active/8.png
-        position: { x: -1, y: -29 }
+        position: { x: 51, y: 45 }
       - file: active/9.png
-        position: { x: -1, y: -29 }
+        position: { x: 52, y: 45 }
       - file: active/10.png
-        position: { x: -1, y: -29 }
+        position: { x: 53, y: 45 }
       - file: active/11.png
-        position: { x: -1, y: -29 }
+        position: { x: 54, y: 44 }
       - file: active/12.png
+        position: { x: 54, y: 44 }
+    working:
+      - file: working/1.png
+        position: { x: -1, y: -29 }
+      - file: working/2.png
+        position: { x: -1, y: -29 }
+      - file: working/3.png
+        position: { x: -1, y: -29 }
+      - file: working/4.png
+        position: { x: -1, y: -29 }
+      - file: working/5.png
+        position: { x: -1, y: -29 }
+      - file: working/6.png
+        position: { x: -1, y: -29 }
+      - file: working/7.png
+        position: { x: -1, y: -29 }
+      - file: working/8.png
+        position: { x: -1, y: -29 }
+      - file: working/9.png
+        position: { x: -1, y: -29 }
+      - file: working/10.png
+        position: { x: -1, y: -29 }
+      - file: working/11.png
+        position: { x: -1, y: -29 }
+      - file: working/12.png
         position: { x: -1, y: -29 }
