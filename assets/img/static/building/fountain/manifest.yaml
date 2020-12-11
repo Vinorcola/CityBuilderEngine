@@ -1,15 +1,15 @@
 building:
     file: main.png
-    animation:
-      - file: 1.png
+    active:
+      - file: active/1.png
         position: { x: 36, y: 41 }
-      - file: 2.png
+      - file: active/2.png
         position: { x: 36, y: 41 }
-      - file: 3.png
+      - file: active/3.png
         position: { x: 36, y: 41 }
-      - file: 4.png
+      - file: active/4.png
         position: { x: 36, y: 41 }
-      - file: 5.png
+      - file: active/5.png
         position: { x: 36, y: 41 }
-      - file: 6.png
+      - file: active/6.png
         position: { x: 36, y: 41 }

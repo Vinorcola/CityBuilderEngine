@@ -30,11 +30,10 @@ BuildingAreaInformation::AreaPart::AreaPart(
     graphics()
 {
     graphics.mainImagePath = graphicsBasePath + imageNode["file"].as<QString>();
-    if (imageNode["animation"]) {
-        QString animationPath(graphicsBasePath + "animation/");
-        for (auto animationImageNode : imageNode["animation"]) {
+    if (imageNode["active"]) {
+        for (auto animationImageNode : imageNode["active"]) {
             graphics.activeAnimation.append(new ImageSequenceInformation(
-                animationPath + animationImageNode["file"].as<QString>(),
+                graphicsBasePath + animationImageNode["file"].as<QString>(),
                 animationImageNode["position"].as<QPoint>()
             ));
         }

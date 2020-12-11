@@ -1,91 +1,91 @@
 building:
     file: main.png
-    animation:
-      - file: 1.png
+    active:
+      - file: active/1.png
         position: { x: 15, y: -30 }
-      - file: 2.png
+      - file: active/2.png
         position: { x: 15, y: -30 }
-      - file: 3.png
+      - file: active/3.png
         position: { x: 15, y: -30 }
-      - file: 4.png
+      - file: active/4.png
         position: { x: 15, y: -30 }
-      - file: 5.png
+      - file: active/5.png
         position: { x: 15, y: -30 }
-      - file: 6.png
+      - file: active/6.png
         position: { x: 15, y: -30 }
-      - file: 7.png
+      - file: active/7.png
         position: { x: 15, y: -30 }
-      - file: 8.png
+      - file: active/8.png
         position: { x: 15, y: -30 }
-      - file: 9.png
+      - file: active/9.png
         position: { x: 15, y: -30 }
-      - file: 10.png
+      - file: active/10.png
         position: { x: 15, y: -30 }
-      - file: 11.png
+      - file: active/11.png
         position: { x: 15, y: -30 }
-      - file: 12.png
+      - file: active/12.png
         position: { x: 15, y: -30 }
-      - file: 13.png
+      - file: active/13.png
         position: { x: 15, y: -30 }
-      - file: 14.png
+      - file: active/14.png
         position: { x: 15, y: -30 }
-      - file: 15.png
+      - file: active/15.png
         position: { x: 15, y: -30 }
-      - file: 16.png
+      - file: active/16.png
         position: { x: 15, y: -30 }
-      - file: 17.png
+      - file: active/17.png
         position: { x: 15, y: -30 }
-      - file: 18.png
+      - file: active/18.png
         position: { x: 15, y: -30 }
-      - file: 19.png
+      - file: active/19.png
         position: { x: 15, y: -30 }
-      - file: 20.png
+      - file: active/20.png
         position: { x: 15, y: -30 }
-      - file: 21.png
+      - file: active/21.png
         position: { x: 15, y: -30 }
-      - file: 22.png
+      - file: active/22.png
         position: { x: 15, y: -30 }
-      - file: 23.png
+      - file: active/23.png
         position: { x: 15, y: -30 }
-      - file: 24.png
+      - file: active/24.png
         position: { x: 15, y: -30 }
-      - file: 25.png
+      - file: active/25.png
         position: { x: 15, y: -30 }
-      - file: 26.png
+      - file: active/26.png
         position: { x: 15, y: -30 }
-      - file: 27.png
+      - file: active/27.png
         position: { x: 15, y: -30 }
-      - file: 28.png
+      - file: active/28.png
         position: { x: 15, y: -30 }
-      - file: 29.png
+      - file: active/29.png
         position: { x: 15, y: -30 }
-      - file: 30.png
+      - file: active/30.png
         position: { x: 15, y: -30 }
-      - file: 31.png
+      - file: active/31.png
         position: { x: 15, y: -30 }
-      - file: 32.png
+      - file: active/32.png
         position: { x: 15, y: -30 }
-      - file: 33.png
+      - file: active/33.png
         position: { x: 15, y: -30 }
-      - file: 34.png
+      - file: active/34.png
         position: { x: 15, y: -30 }
-      - file: 35.png
+      - file: active/35.png
         position: { x: 15, y: -30 }
-      - file: 36.png
+      - file: active/36.png
         position: { x: 15, y: -30 }
-      - file: 37.png
+      - file: active/37.png
         position: { x: 15, y: -30 }
-      - file: 38.png
+      - file: active/38.png
         position: { x: 15, y: -30 }
-      - file: 39.png
+      - file: active/39.png
         position: { x: 15, y: -30 }
-      - file: 40.png
+      - file: active/40.png
         position: { x: 15, y: -30 }
-      - file: 41.png
+      - file: active/41.png
         position: { x: 15, y: -30 }
-      - file: 42.png
+      - file: active/42.png
         position: { x: 15, y: -30 }
-      - file: 43.png
+      - file: active/43.png
         position: { x: 15, y: -30 }
-      - file: 44.png
+      - file: active/44.png
         position: { x: 15, y: -30 }
