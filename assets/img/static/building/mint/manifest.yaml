@@ -2,22 +2,63 @@ building:
     file: main.png
     active:
       - file: active/1.png
-        position: { x: -1, y: -39 }
+        position: { x: 84, y: 13 }
       - file: active/2.png
-        position: { x: -1, y: -39 }
+        position: { x: 85, y: 13 }
       - file: active/3.png
-        position: { x: -1, y: -39 }
+        position: { x: 85, y: 12 }
       - file: active/4.png
-        position: { x: -1, y: -39 }
+        position: { x: 85, y: 12 }
       - file: active/5.png
-        position: { x: -1, y: -39 }
+        position: { x: 85, y: 12 }
       - file: active/6.png
-        position: { x: -1, y: -39 }
+        position: { x: 84, y: 12 }
       - file: active/7.png
-        position: { x: -1, y: -39 }
+        position: { x: 84, y: 12 }
       - file: active/8.png
-        position: { x: -1, y: -39 }
+        position: { x: 84, y: 12 }
       - file: active/9.png
-        position: { x: -1, y: -39 }
+        position: { x: 84, y: 12 }
       - file: active/10.png
+        position: { x: 85, y: 12 }
+      - file: active/11.png
+        position: { x: 85, y: 12 }
+      - file: active/12.png
+        position: { x: 85, y: 12 }
+      - file: active/13.png
+        position: { x: 84, y: 13 }
+      - file: active/14.png
+        position: { x: 84, y: 13 }
+      - file: active/15.png
+        position: { x: 84, y: 13 }
+      - file: active/16.png
+        position: { x: 84, y: 13 }
+      - file: active/17.png
+        position: { x: 84, y: 13 }
+      - file: active/18.png
+        position: { x: 84, y: 13 }
+      - file: active/19.png
+        position: { x: 84, y: 13 }
+      - file: active/20.png
+        position: { x: 84, y: 13 }
+    working:
+      - file: working/1.png
+        position: { x: -1, y: -39 }
+      - file: working/2.png
+        position: { x: -1, y: -39 }
+      - file: working/3.png
+        position: { x: -1, y: -39 }
+      - file: working/4.png
+        position: { x: -1, y: -39 }
+      - file: working/5.png
+        position: { x: -1, y: -39 }
+      - file: working/6.png
+        position: { x: -1, y: -39 }
+      - file: working/7.png
+        position: { x: -1, y: -39 }
+      - file: working/8.png
+        position: { x: -1, y: -39 }
+      - file: working/9.png
+        position: { x: -1, y: -39 }
+      - file: working/10.png
         position: { x: -1, y: -39 }
