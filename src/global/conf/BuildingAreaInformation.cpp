@@ -44,6 +44,7 @@ BuildingAreaInformation::AreaPart::AreaPart(
 
 
 BuildingAreaInformation::BuildingAreaInformation(const ModelReader& model) :
+    sizes(),
     area()
 {
     QString graphicsBasePath("assets/img/static/building/" + model.getKey() + "/");
@@ -59,6 +60,7 @@ BuildingAreaInformation::BuildingAreaInformation(const ModelReader& model) :
             graphicsBasePath,
             graphicsManifestRootNode["building"]
         ));
+        sizes.insert(Direction::West, MapSize(model.getInt("size")));
         area.insert(Direction::West, areaParts);
     }
     else {
@@ -75,6 +77,7 @@ BuildingAreaInformation::BuildingAreaInformation(const ModelReader& model) :
                     graphicsManifestRootNode["building"][index]
                 ));
             }
+            sizes.insert(Direction::West, resolveSize(areaParts));
             area.insert(Direction::West, areaParts);
         }
         else {
@@ -91,6 +94,7 @@ BuildingAreaInformation::BuildingAreaInformation(const ModelReader& model) :
                         graphicsManifestRootNode["building"][orientationKey][index]
                     ));
                 }
+                sizes.insert(resolveDirection(orientationKey), resolveSize(areaParts));
                 area.insert(resolveDirection(orientationKey), areaParts);
             }
         }
@@ -122,7 +126,28 @@ QList<const BuildingAreaInformation::AreaPart*> BuildingAreaInformation::getArea
 
 
 
-const MapSize& BuildingAreaInformation::getSize() const
+MapSize BuildingAreaInformation::getSize(Direction orientation) const
 {
-    return area.value(Direction::West).first()->size;
+    return sizes.value(orientation);
+}
+
+
+
+MapSize BuildingAreaInformation::resolveSize(const QList<const BuildingAreaInformation::AreaPart*>& areaParts)
+{
+    int maxX(0);
+    int maxY(0);
+
+    for (auto areaPart : areaParts) {
+        int x(areaPart->position.x() + areaPart->size.getWidth());
+        if (x > maxX) {
+            maxX = x;
+        }
+        int y(areaPart->position.y() + areaPart->size.getHeight());
+        if (y > maxY) {
+            maxY = y;
+        }
+    }
+
+    return MapSize(maxX, maxY);
 }

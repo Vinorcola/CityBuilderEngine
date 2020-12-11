@@ -76,9 +76,9 @@ const BuildingAreaInformation& BuildingInformation::getAreaDescription() const
 
 
 
-MapSize BuildingInformation::getSize() const
+MapSize BuildingInformation::getSize(Direction orientation) const
 {
-    return common.areaDescription.getSize();
+    return common.areaDescription.getSize(orientation);
 }
 
 

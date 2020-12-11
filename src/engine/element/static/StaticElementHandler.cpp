@@ -166,7 +166,7 @@ void StaticElementHandler::createBuilding(
     const MapCoordinates& leftCorner,
     Direction orientation
 ) {
-    MapArea area(leftCorner, conf.getSize());
+    MapArea area(leftCorner, conf.getSize(orientation));
     if (!isAreaConstructible(area)) {
         qDebug() << "WARNING: Try to create a building on an occupied area " + area.toString() + ". Skipping the creation.";
         return;

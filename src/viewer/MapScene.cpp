@@ -147,6 +147,15 @@ void MapScene::requestBuildingPositioning(const BuildingInformation& elementConf
 
 
 
+void MapScene::requestBuildingRotation()
+{
+    if (selectionElement) {
+        selectionElement->rotateBuilding();
+    }
+}
+
+
+
 void MapScene::registerNewBuilding(const BuildingState& buildingState)
 {
     auto buildingView(new BuildingView(positioning, *this, imageLibrary, buildingState));

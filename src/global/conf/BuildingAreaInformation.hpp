@@ -54,6 +54,7 @@ class BuildingAreaInformation
         };
 
     private:
+        QHash<Direction, MapSize> sizes;
         QHash<Direction, QList<owner<const AreaPart*>>> area;
 
     public:
@@ -68,7 +69,10 @@ class BuildingAreaInformation
          *
          * Return the size of the first area part for west direction.
          */
-        const MapSize& getSize() const;
+        MapSize getSize(Direction orientation) const;
+
+    private:
+        static MapSize resolveSize(const QList<const AreaPart*>& areaParts);
 };
 
 #endif // BUILDINGAREAINFORMATION_HPP

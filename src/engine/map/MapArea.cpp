@@ -8,7 +8,7 @@
 
 MapArea::MapArea(const MapCoordinates& left, const MapSize& size) :
     left(left),
-    right(left.getX() + size.getHeight() - 1, left.getY() + size.getWidth() - 1)
+    right(left.getX() + size.getWidth() - 1, left.getY() + size.getHeight() - 1)
 {
 
 }
@@ -68,8 +68,8 @@ void MapArea::moveTo(const MapCoordinates& left)
     auto size(getSize());
 
     this->left = left;
-    right.setX(left.getX() + size.getHeight() - 1);
-    right.setY(left.getY() + size.getWidth() - 1);
+    right.setX(left.getX() + size.getWidth() - 1);
+    right.setY(left.getY() + size.getHeight() - 1);
 }
 
 

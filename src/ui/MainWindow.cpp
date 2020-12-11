@@ -4,6 +4,7 @@
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QShortcut>
 
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
@@ -25,6 +26,7 @@ MainWindow::MainWindow() :
 #ifdef DEBUG_TOOLS
     processAction(new QAction("Process next step", this)),
 #endif
+    rotateAction(new QShortcut(Qt::Key_R, this)),
     informationWidget(new InformationWidget(this)),
     currentDialog(nullptr)
 {
@@ -92,6 +94,7 @@ void MainWindow::loadMap(const QString& filePath)
     viewer = new QGraphicsView(viewerScene);
     setCentralWidget(viewer);
     connect(controlPanel, &ControlPanel::buildingRequested, viewerScene, &MapScene::requestBuildingPositioning);
+    connect(rotateAction, &QShortcut::activated, viewerScene, &MapScene::requestBuildingRotation);
     connect(viewerScene, &MapScene::buildingCreationRequested, &engine, &Engine::createBuilding);
 
     speedAction->setEnabled(true);

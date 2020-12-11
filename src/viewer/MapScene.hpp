@@ -73,6 +73,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
          * @brief Request the tool for positioning a building.
          */
         void requestBuildingPositioning(const BuildingInformation& elementConf);
+        void requestBuildingRotation();
 
         void registerNewBuilding(const BuildingState& buildingState);
         void registerNewCharacter(const CharacterState& characterState);

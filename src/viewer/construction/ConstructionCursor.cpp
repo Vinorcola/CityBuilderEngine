@@ -3,8 +3,10 @@
 #include <QtGui/QPen>
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 
+#include "src/global/conf/BuildingInformation.hpp"
 #include "src/viewer/construction/AreaCheckerInterface.hpp"
 #include "src/viewer/construction/RoadPathGeneratorInterface.hpp"
+#include "src/viewer/image/BuildingAreaPartImage.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/Positioning.hpp"
@@ -14,14 +16,26 @@
 ConstructionCursor::Cursor::Cursor(
     QGraphicsItem* parent,
     const Positioning& positioning,
+    Direction orientation,
+    const QList<const BuildingAreaInformation::AreaPart*>& areaInformation,
     const BuildingImage& buildingImage,
     const MapSize& buildingSize
 ) :
     QGraphicsItem(parent),
-    buildingGraphics(buildingImage.getConstructionImage().getPixmap(), this),
-    forbiddenAreaGraphics(this)
+    buildingGraphics(),
+    forbiddenAreaGraphics(this),
+    bounds(positioning.getBoundingRect(buildingSize))
 {
-    buildingGraphics.setPos(positioning.getStaticElementPositionInTile(buildingSize, this->buildingGraphics.pixmap().height()));
+    int areaPartIndex(0);
+    for (auto areaPart : areaInformation) {
+        auto& image(buildingImage.getAreaPartImage(orientation, areaPartIndex).getConstructionImage().getPixmap());
+        auto areaPartGraphics(new QGraphicsPixmapItem(image, this));
+        areaPartGraphics->setPos(
+            positioning.getStaticElementPositionInTile(areaPart->size, image.height(), areaPart->position)
+        );
+        buildingGraphics.append(areaPartGraphics);
+        ++areaPartIndex;
+    }
 
     forbiddenAreaGraphics.setPolygon(positioning.getTileAreaPolygon(buildingSize));
     forbiddenAreaGraphics.setPen(Qt::NoPen);
@@ -32,9 +46,18 @@ ConstructionCursor::Cursor::Cursor(
 
 
 
+ConstructionCursor::Cursor::~Cursor()
+{
+    qDeleteAll(buildingGraphics);
+}
+
+
+
 void ConstructionCursor::Cursor::updateStatus(bool isCoveredAreaFree)
 {
-    buildingGraphics.setVisible(isCoveredAreaFree);
+    for (auto areaPartGraphics : buildingGraphics) {
+        areaPartGraphics->setVisible(isCoveredAreaFree);
+    }
     forbiddenAreaGraphics.setVisible(!isCoveredAreaFree);
 }
 
@@ -42,7 +65,7 @@ void ConstructionCursor::Cursor::updateStatus(bool isCoveredAreaFree)
 
 QRectF ConstructionCursor::Cursor::boundingRect() const
 {
-    return buildingGraphics.boundingRect();
+    return bounds;
 }
 
 
@@ -130,8 +153,16 @@ ConstructionCursor::ConstructionCursor(
     buildingConf(buildingConf),
     buildingImage(buildingImage),
     selectionType(buildingConf.getType() == BuildingInformation::Type::Road ? SelectionType::Road : SelectionType::Single),
-    coveredArea({0, 0}, buildingConf.getSize()),
-    cursor(this, positioning, buildingImage, buildingConf.getSize()),
+    orientation(buildingConf.getAvailableOrientations().first()),
+    coveredArea({0, 0}, buildingConf.getSize(orientation)),
+    cursor(new Cursor(
+        this,
+        positioning,
+        orientation,
+        buildingConf.getAreaParts(orientation),
+        buildingImage,
+        buildingConf.getSize(orientation)
+    )),
     roadPath(nullptr)
 {
     setVisible(false);
@@ -144,6 +175,7 @@ ConstructionCursor::~ConstructionCursor()
     if (roadPath) {
         delete roadPath;
     }
+    delete cursor;
 }
 
 
@@ -151,25 +183,50 @@ ConstructionCursor::~ConstructionCursor()
 void ConstructionCursor::displayAtLocation(const MapCoordinates& location)
 {
     setVisible(true);
-    cursor.setPos(positioning.getTilePosition(location));
+    cursor->setPos(positioning.getTilePosition(location));
 
     coveredArea.moveTo(location);
+    refresh();
+}
 
-    // TODO: Handle road construction for checking area.
-    isCoveredAreaFree = areaChecker.isConstructible(coveredArea);
-    cursor.updateStatus(isCoveredAreaFree);
 
-    if (roadPath) {
-        roadPath->refreshPath(roadPathGenerator.getShortestPathForRoad(roadPath->getOrigin(), location));
+
+void ConstructionCursor::rotateBuilding()
+{
+    auto nextOrientation(resolveNextAvailableOrientation());
+    if (nextOrientation == orientation) {
+        return;
     }
+
+    orientation = nextOrientation;
+
+    // Replace cursor.
+    delete cursor;
+    cursor = new Cursor(
+        this,
+        positioning,
+        orientation,
+        buildingConf.getAreaParts(orientation),
+        buildingImage,
+        buildingConf.getSize(orientation)
+    );
+    cursor->setPos(positioning.getTilePosition(coveredArea.getLeft()));
+
+    coveredArea = MapArea(coveredArea.getLeft(), buildingConf.getSize(orientation));
+    refresh();
 }
 
 
 
 void ConstructionCursor::refresh()
 {
+    // TODO: Handle road construction for checking area: allow finishing on a Road.
     isCoveredAreaFree = areaChecker.isConstructible(coveredArea);
-    cursor.updateStatus(isCoveredAreaFree);
+    cursor->updateStatus(isCoveredAreaFree);
+
+    if (roadPath) {
+        roadPath->refreshPath(roadPathGenerator.getShortestPathForRoad(roadPath->getOrigin(), coveredArea.getLeft()));
+    }
 }
 
 
@@ -177,11 +234,11 @@ void ConstructionCursor::refresh()
 QRectF ConstructionCursor::boundingRect() const
 {
     // Translate cursor bouding rect to it's position.
-    auto cursorBoundingRect(cursor.boundingRect());
+    auto cursorBoundingRect(cursor->boundingRect());
 
     return {
-        cursor.pos().x() + cursorBoundingRect.x(),
-        cursor.pos().y() + cursorBoundingRect.y(),
+        cursor->pos().x() + cursorBoundingRect.x(),
+        cursor->pos().y() + cursorBoundingRect.y(),
         cursorBoundingRect.width(),
         cursorBoundingRect.height(),
     };
@@ -200,7 +257,12 @@ void ConstructionCursor::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     event->accept();
     if (selectionType == SelectionType::Road) {
-        roadPath = new RoadPath(positioning, this, coveredArea.getLeft(), buildingImage.getInactiveImage().getPixmap());
+        roadPath = new RoadPath(
+            positioning,
+            this,
+            coveredArea.getLeft(),
+            buildingImage.getAreaPartImage(orientation, 0).getInactiveImage().getPixmap()
+        );
     }
 }
 
@@ -214,14 +276,14 @@ void ConstructionCursor::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
                 switch (selectionType) {
                     case SelectionType::Road:
                         if (roadPath) {
-                            emit construct(buildingConf, roadPath->getPath(), Direction::West); // TODO: Set direction.
+                            emit construct(buildingConf, roadPath->getPath(), orientation);
                             delete roadPath;
                             roadPath = nullptr;
                         }
                         break;
 
                     case SelectionType::Single:
-                        emit construct(buildingConf, {coveredArea.getLeft()}, Direction::West); // TODO: Set direction.
+                        emit construct(buildingConf, {coveredArea.getLeft()}, orientation);
                         break;
                 }
             }
@@ -238,4 +300,27 @@ void ConstructionCursor::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
         default:
             break;
     }
+}
+
+
+
+Direction ConstructionCursor::resolveNextAvailableOrientation()
+{
+    auto availableOrientations(buildingConf.getAvailableOrientations());
+    if (availableOrientations.length() == 1) {
+        return availableOrientations.first();
+    }
+
+    // Find matching orientation in the list and return the next.
+    bool previousOrientationMatched = false;
+    for (auto availableOrientation : availableOrientations) {
+        if (previousOrientationMatched) {
+            return availableOrientation;
+        }
+        if (availableOrientation == orientation) {
+            previousOrientationMatched = true;
+        }
+    }
+
+    return availableOrientations.first();
 }

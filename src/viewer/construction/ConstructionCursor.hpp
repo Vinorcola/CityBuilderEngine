@@ -7,6 +7,7 @@
 #include <QtWidgets/QGraphicsPolygonItem>
 
 #include "src/engine/map/MapArea.hpp"
+#include "src/global/conf/BuildingAreaInformation.hpp"
 #include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
@@ -29,16 +30,20 @@ class ConstructionCursor : public QGraphicsObject
 
         class Cursor : public QGraphicsItem {
             private:
-                QGraphicsPixmapItem buildingGraphics;
+                QList<owner<QGraphicsPixmapItem*>> buildingGraphics;
                 QGraphicsPolygonItem forbiddenAreaGraphics;
+                QRectF bounds;
 
             public:
                 Cursor(
                     QGraphicsItem* parent,
                     const Positioning& positioning,
+                    Direction orientation,
+                    const QList<const BuildingAreaInformation::AreaPart*>& areaInformation,
                     const BuildingImage& buildingImage,
                     const MapSize& buildingSize
                 );
+                ~Cursor();
 
                 void updateStatus(bool isCoveredAreaFree);
 
@@ -80,9 +85,10 @@ class ConstructionCursor : public QGraphicsObject
         const BuildingInformation& buildingConf;
         const BuildingImage& buildingImage;
         SelectionType selectionType;
+        Direction orientation;
         MapArea coveredArea;
         bool isCoveredAreaFree;
-        Cursor cursor;
+        owner<Cursor*> cursor;
         optional<owner<RoadPath*>> roadPath;
 
     public:
@@ -96,6 +102,7 @@ class ConstructionCursor : public QGraphicsObject
         virtual ~ConstructionCursor();
 
         void displayAtLocation(const MapCoordinates& location);
+        void rotateBuilding();
         void refresh();
 
         virtual QRectF boundingRect() const override;
@@ -108,6 +115,9 @@ class ConstructionCursor : public QGraphicsObject
     protected:
         virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
         virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+
+    private:
+        Direction resolveNextAvailableOrientation();
 };
 
 #endif // CONSTRUCTIONCURSOR_HPP
