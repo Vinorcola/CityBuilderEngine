@@ -1,13 +1,19 @@
 #include "BuildingAreaPartImage.hpp"
 
+#include "src/viewer/image/ImageSequence.hpp"
+
+ImageSequence BuildingAreaPartImage::EMPTY_ANIMATION({});
+
 
 
 BuildingAreaPartImage::BuildingAreaPartImage(const BuildingAreaInformation::Graphics& graphicsConf, const QBrush& constructionBrush) :
     mainImage(graphicsConf.mainImagePath),
     constructionImage(mainImage, constructionBrush),
-    animationImageSequence(graphicsConf.activeAnimation)
+    animations()
 {
-
+    for (auto status : graphicsConf.animations.keys()) {
+        animations.insert(status, new ImageSequence(graphicsConf.animations.value(status)));
+    }
 }
 
 
@@ -26,7 +32,11 @@ const Image& BuildingAreaPartImage::getInactiveImage() const
 
 
 
-const ImageSequence& BuildingAreaPartImage::getActiveAnimationSequence() const
+const ImageSequence& BuildingAreaPartImage::getActiveAnimationSequence(BuildingStatus status) const
 {
-    return animationImageSequence;
+    if (!animations.contains(status)) {
+        return EMPTY_ANIMATION;
+    }
+
+    return *animations.value(status);
 }

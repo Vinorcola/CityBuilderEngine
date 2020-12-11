@@ -4,6 +4,7 @@
 #include <QtCore/QHash>
 
 #include "src/engine/map/MapArea.hpp"
+#include "src/global/BuildingStatus.hpp"
 #include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
@@ -48,18 +49,12 @@ struct StorageState
 
 struct BuildingState
 {
-    enum class Status {
-        Inactive,
-        Active,
-        Working,
-    };
-
     BuildingState(
         qintptr id,
         const BuildingInformation& type,
         const MapArea& area,
         Direction orientation,
-        Status status,
+        BuildingStatus status,
         int workers,
         int stateVersion
     ) :
@@ -118,7 +113,7 @@ struct BuildingState
         const BuildingInformation& type,
         const MapArea& area,
         Direction orientation,
-        Status status,
+        BuildingStatus status,
         int workers,
         int stateVersion,
         int growthPercent
@@ -134,7 +129,7 @@ struct BuildingState
         const BuildingInformation& type,
         const MapArea& area,
         Direction orientation,
-        Status status,
+        BuildingStatus status,
         int workers,
         int stateVersion,
         int inhabitants
@@ -150,7 +145,7 @@ struct BuildingState
         const BuildingInformation& type,
         const MapArea& area,
         Direction orientation,
-        Status status,
+        BuildingStatus status,
         int workers,
         int stateVersion,
         int rawMaterialStock
@@ -166,7 +161,7 @@ struct BuildingState
         const BuildingInformation& type,
         const MapArea& area,
         Direction orientation,
-        Status status,
+        BuildingStatus status,
         int workers,
         int stateVersion,
         const QHash<const ItemInformation*, int>& stock
@@ -197,7 +192,7 @@ struct BuildingState
     const BuildingInformation& type;
     MapArea area;
     Direction orientation;
-    Status status;
+    BuildingStatus status;
     int workers;
     optional<owner<FarmState*>> farm;
     optional<owner<HouseState*>> house;

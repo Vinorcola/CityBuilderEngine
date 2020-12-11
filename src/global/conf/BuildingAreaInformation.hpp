@@ -5,6 +5,7 @@
 
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/map/MapSize.hpp"
+#include "src/global/BuildingStatus.hpp"
 #include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
@@ -13,6 +14,8 @@ class ModelReader;
 namespace YAML {
     class Node;
 }
+
+using AnimationImages = QList<owner<const ImageSequenceInformation*>>;
 
 class BuildingAreaInformation
 {
@@ -31,7 +34,7 @@ class BuildingAreaInformation
 
         struct Graphics {
             QString mainImagePath;
-            QList<owner<const ImageSequenceInformation*>> activeAnimation;
+            QHash<BuildingStatus, AnimationImages> animations;
 
             ~Graphics();
         };
@@ -64,11 +67,6 @@ class BuildingAreaInformation
         QList<Direction> getAvailableOrientations() const;
         QList<const AreaPart*> getAreaParts(Direction orientation) const;
 
-        /**
-         * @brief For backward compatibility. TO DELETE.
-         *
-         * Return the size of the first area part for west direction.
-         */
         MapSize getSize(Direction orientation) const;
 
     private:

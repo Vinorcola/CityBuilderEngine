@@ -31,7 +31,7 @@ const BuildingInformation& AbstractBuilding::getConf() const
 
 BuildingState AbstractBuilding::getCurrentState() const
 {
-    return { reinterpret_cast<qintptr>(this), conf, area, orientation, BuildingState::Status::Inactive, 0, stateVersion };
+    return { reinterpret_cast<qintptr>(this), conf, area, orientation, BuildingStatus::Inactive, 0, stateVersion };
 }
 
 

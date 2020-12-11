@@ -14,7 +14,7 @@ enum class Direction {
     North,
     East,
     South,
-    West
+    West,
 };
 
 uint qHash(const Direction& direction);
