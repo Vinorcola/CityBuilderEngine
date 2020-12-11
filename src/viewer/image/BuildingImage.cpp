@@ -1,34 +1,25 @@
 #include "BuildingImage.hpp"
 
-#include "src/viewer/image/ImageSequence.hpp"
+#include "src/global/conf/BuildingInformation.hpp"
+#include "src/viewer/image/BuildingAreaPartImage.hpp"
 
 
 
-BuildingImage::BuildingImage(const BuildingInformation::Graphics& graphicsData, const QBrush& constructionBrush) :
-    mainImage(graphicsData.mainImagePath),
-    constructionImage(mainImage, constructionBrush),
-    animationImageSequence(graphicsData.activeAnimation)
+BuildingImage::BuildingImage(const BuildingInformation& buildingConf, const QBrush& constructionBrush) :
+    areaParts()
 {
-
+    for (auto orientation : buildingConf.getAvailableOrientations()) {
+        QList<const BuildingAreaPartImage*> areaParts;
+        for (auto areaPartConf : buildingConf.getAreaParts(orientation)) {
+            areaParts.append(new BuildingAreaPartImage(areaPartConf->graphics, constructionBrush));
+        }
+        this->areaParts.insert(orientation, areaParts);
+    }
 }
 
 
 
-const Image& BuildingImage::getConstructionImage() const
+const BuildingAreaPartImage& BuildingImage::getAreaPartImage(Direction orientation, int areaIndex) const
 {
-    return constructionImage;
-}
-
-
-
-const Image& BuildingImage::getInactiveImage() const
-{
-    return mainImage;
-}
-
-
-
-const ImageSequence& BuildingImage::getActiveAnimationSequence() const
-{
-    return animationImageSequence;
+    return *areaParts.value(orientation).at(areaIndex);
 }

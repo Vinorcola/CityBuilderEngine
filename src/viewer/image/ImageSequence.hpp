@@ -23,11 +23,9 @@ class ImageSequence
          * @brief Load all the images of a sequence.
          */
         ImageSequence(const QList<const ImageSequenceInformation*>& imagesSequenceInformations);
-
         ~ImageSequence();
 
         int getSequenceLength() const;
-
         const Image& getImage(int sequenceIndex) const;
 };
 

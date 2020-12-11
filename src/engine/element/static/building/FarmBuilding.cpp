@@ -15,9 +15,10 @@ FarmBuilding::FarmBuilding(
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
+    Direction orientation,
     const MapCoordinates& entryPoint
 ) :
-    AbstractProcessableBuilding(conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     GROWING_INTERVAL(0.9 * (conf.getMaxWorkers() * CycleDate::getBuildingCyclesPerYear())),
     characterFactory(characterFactory),
     growingCountDown(GROWING_INTERVAL),
@@ -32,9 +33,10 @@ QSharedPointer<AbstractProcessableBuilding> FarmBuilding::Create(
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
+    Direction orientation,
     const MapCoordinates& entryPoint
 ) {
-    auto farm(new FarmBuilding(characterFactory, conf, area, entryPoint));
+    auto farm(new FarmBuilding(characterFactory, conf, area, orientation, entryPoint));
     QSharedPointer<AbstractProcessableBuilding> pointer(farm);
     farm->selfReference = pointer;
 
@@ -97,6 +99,7 @@ BuildingState FarmBuilding::getCurrentState() const
         reinterpret_cast<qintptr>(this),
         conf,
         area,
+        orientation,
         isActive() ? BuildingState::Status::Active : BuildingState::Status::Inactive,
         getCurrentWorkerQuantity(),
         stateVersion,

@@ -15,7 +15,7 @@ CivilianEntryPoint::CivilianEntryPoint(
     const MapCoordinates& location,
     const CharacterInformation& immigrantConf
 ) :
-    AbstractProcessableBuilding(conf, MapArea(location), location),
+    AbstractProcessableBuilding(conf, MapArea(location), Direction::West, location),
     characterFactory(characterFactory),
     immigrantConf(immigrantConf),
     nextImmigrantGenerationDate(),

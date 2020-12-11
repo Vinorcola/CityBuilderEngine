@@ -1,60 +1,41 @@
 #include "BuildingView.hpp"
 
+#include <cassert>
+
 #include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
+#include "src/viewer/image/BuildingAreaPartImage.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/Tile.hpp"
 
 
 
-BuildingView::BuildingView(
+BuildingView::AreaPart::AreaPart(
     const Positioning& positioning,
     const TileLocatorInterface& tileLocator,
-    const ImageLibrary& imageLibrary,
-    const BuildingState& state
+    const MapCoordinates& leftCorner,
+    const MapSize& size,
+    const BuildingAreaPartImage& image
 ) :
     tileLocator(tileLocator),
-    buildingSize(state.type.getSize()),
-    tile(tileLocator.getTileAt(state.area.getLeft())),
-    image(imageLibrary.getBuildingImage(state.type)),
-    graphicElement(new StaticElement(positioning, state.type.getSize(), image.getInactiveImage())),
-    currentState(state),
+    size(size),
+    tile(tileLocator.getTileAt(leftCorner)),
+    image(image),
+    graphicElement(positioning, size, image.getInactiveImage()),
     animationIndex(0)
 {
-    tile.setStaticElement(graphicElement);
+    assert(size.isSquare());
+
+    tile.setStaticElement(&graphicElement);
     maskCoveredTiles();
 }
 
 
 
-BuildingView::~BuildingView()
-{
-    delete graphicElement;
-}
-
-
-
-const BuildingState& BuildingView::getCurrentState() const
-{
-    return currentState;
-}
-
-
-
-void BuildingView::update(const BuildingState& state)
-{
-    if (state.stateVersion != currentState.stateVersion) {
-        updateStatus(state.status);
-        currentState = state;
-    }
-}
-
-
-
-void BuildingView::destroy()
+BuildingView::AreaPart::~AreaPart()
 {
     tile.dropStaticElement();
     revealCoveredTiles();
@@ -62,25 +43,39 @@ void BuildingView::destroy()
 
 
 
-void BuildingView::advanceAnimation()
+void BuildingView::AreaPart::advanceAnimation()
 {
-    if (currentState.status != BuildingState::Status::Inactive) {
-        auto& animation(image.getActiveAnimationSequence());
-        if (animation.getSequenceLength() == 0) {
-            return;
-        }
+    auto& animation(image.getActiveAnimationSequence());
+    if (animation.getSequenceLength() == 0) {
+        return;
+    }
 
-        animationIndex = (animationIndex + 1) % animation.getSequenceLength();
-        graphicElement->setAnimationImage(animation.getImage(animationIndex));
+    animationIndex = (animationIndex + 1) % animation.getSequenceLength();
+    graphicElement.setAnimationImage(animation.getImage(animationIndex));
+}
+
+
+
+void BuildingView::AreaPart::updateStatus(BuildingState::Status status)
+{
+    if (status == BuildingState::Status::Inactive) {
+        graphicElement.dropAnimationImage();
+        animationIndex = 0;
+    }
+    else {
+        auto& animation(image.getActiveAnimationSequence());
+        if (animation.getSequenceLength() > 0) {
+            graphicElement.setAnimationImage(animation.getImage(animationIndex));
+        }
     }
 }
 
 
 
-void BuildingView::maskCoveredTiles()
+void BuildingView::AreaPart::maskCoveredTiles()
 {
-    if (buildingSize.getValue() > 1) {
-        MapArea area(tile.getCoordinates(), buildingSize);
+    if (size.getWidth() > 1) {
+        MapArea area(tile.getCoordinates(), size);
         auto left(area.getLeft());
         auto right(area.getRight());
         auto current(left.getEast());
@@ -98,10 +93,10 @@ void BuildingView::maskCoveredTiles()
 
 
 
-void BuildingView::revealCoveredTiles()
+void BuildingView::AreaPart::revealCoveredTiles()
 {
-    if (buildingSize.getValue() > 1) {
-        MapArea area(tile.getCoordinates(), buildingSize);
+    if (size.getWidth() > 1) {
+        MapArea area(tile.getCoordinates(), size);
         auto left(area.getLeft());
         auto right(area.getRight());
         auto current(left.getEast());
@@ -119,18 +114,65 @@ void BuildingView::revealCoveredTiles()
 
 
 
-void BuildingView::updateStatus(BuildingState::Status newStatus)
+BuildingView::BuildingView(
+    const Positioning& positioning,
+    const TileLocatorInterface& tileLocator,
+    const ImageLibrary& imageLibrary,
+    const BuildingState& state
+) :
+    areaParts(),
+    currentState(state)
 {
-    if (newStatus != currentState.status) {
-        if (newStatus == BuildingState::Status::Inactive) {
-            graphicElement->dropAnimationImage();
-            animationIndex = 0;
-        }
-        else {
-            auto& animation(image.getActiveAnimationSequence());
-            if (animation.getSequenceLength() > 0) {
-                graphicElement->setAnimationImage(animation.getImage(animationIndex));
+    auto& buildingImage(imageLibrary.getBuildingImage(state.type));
+    int areaPartIndex(0);
+    for (auto areaPartConf : state.type.getAreaParts(state.orientation)) {
+        areaParts.append(new AreaPart(
+            positioning,
+            tileLocator,
+            { state.area.getLeft(), areaPartConf->position },
+            areaPartConf->size,
+            buildingImage.getAreaPartImage(state.orientation, areaPartIndex)
+        ));
+        ++areaPartIndex;
+    }
+}
+
+
+
+const BuildingState& BuildingView::getCurrentState() const
+{
+    return currentState;
+}
+
+
+
+void BuildingView::update(const BuildingState& state)
+{
+    if (state.stateVersion != currentState.stateVersion) {
+        if (state.status != currentState.status) {
+            for (auto areaPart : areaParts) {
+                areaPart->updateStatus(state.status);
             }
+        }
+        currentState = state;
+    }
+}
+
+
+
+void BuildingView::destroy()
+{
+    qDeleteAll(areaParts);
+    areaParts.clear();
+}
+
+
+
+void BuildingView::advanceAnimation()
+{
+    if (currentState.status != BuildingState::Status::Inactive) {
+        for (auto areaPart : areaParts) {
+            areaPart->advanceAnimation();
         }
     }
 }

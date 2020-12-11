@@ -1,10 +1,10 @@
 #ifndef MAPAREA_HPP
 #define MAPAREA_HPP
 
-#include <QtCore/QString>
-
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/map/MapSize.hpp"
+
+class QString;
 
 /**
  * @brief Represent an area on the map.
@@ -33,27 +33,18 @@ class MapArea
         };
 
     private:
-        MapSize size;
         MapCoordinates left;
+        MapCoordinates right;
 
     public:
-        MapArea();
+        explicit MapArea(const MapCoordinates& left, const MapSize& size = MapSize(1));
+        MapArea(const MapCoordinates& left, const MapCoordinates& right);
 
-        explicit MapArea(const MapCoordinates& left);
-
-        MapArea(const MapCoordinates& left, const MapSize& size);
-
-        const MapSize getSize() const;
-
+        MapSize getSize() const;
         const MapCoordinates& getLeft() const;
-
-        MapCoordinates getRight() const;
-
+        const MapCoordinates& getRight() const;
         MapCoordinates getTop() const;
-
         MapCoordinates getBottom() const;
-
-        bool isInside(const MapCoordinates& coordinates) const;
 
         void moveTo(const MapCoordinates& left);
 

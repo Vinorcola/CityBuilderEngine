@@ -1,10 +1,14 @@
 #ifndef BUILDINGIMAGE_HPP
 #define BUILDINGIMAGE_HPP
 
-#include "src/global/conf/BuildingInformation.hpp"
-#include "src/viewer/image/Image.hpp"
-#include "src/viewer/image/ImageSequence.hpp"
+#include <QtCore/QHash>
+
+#include "src/global/Direction.hpp"
 #include "src/defines.hpp"
+
+class BuildingAreaPartImage;
+class BuildingInformation;
+class QBrush;
 
 /**
  * @brief Handles all the images required to display a building.
@@ -14,18 +18,12 @@ class BuildingImage
         Q_DISABLE_COPY_MOVE(BuildingImage)
 
     private:
-        const Image mainImage;
-        const Image constructionImage;
-        const ImageSequence animationImageSequence;
+        QHash<Direction, QList<owner<const BuildingAreaPartImage*>>> areaParts;
 
     public:
-        BuildingImage(const BuildingInformation::Graphics& graphicsData, const QBrush& constructionBrush);
+        BuildingImage(const BuildingInformation& buildingConf, const QBrush& constructionBrush);
 
-        const Image& getConstructionImage() const;
-
-        const Image& getInactiveImage() const;
-
-        const ImageSequence& getActiveAnimationSequence() const;
+        const BuildingAreaPartImage& getAreaPartImage(Direction orientation, int areaIndex) const;
 };
 
 #endif // BUILDINGIMAGE_HPP

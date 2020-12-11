@@ -11,8 +11,9 @@
 class ControlPanel;
 class InformationWidget;
 class MapScene;
-class QAciton;
+class QAction;
 class QGraphicsView;
+class QShortcut;
 
 class MainWindow : public QMainWindow, public DialogDisplayer
 {
@@ -29,6 +30,7 @@ class MainWindow : public QMainWindow, public DialogDisplayer
 #ifdef DEBUG_TOOLS
         QAction* processAction;
 #endif
+        QShortcut* rotateAction;
         InformationWidget* informationWidget;
         optional<QWidget*> currentDialog;
 

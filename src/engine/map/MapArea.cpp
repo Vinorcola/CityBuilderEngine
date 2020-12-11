@@ -1,39 +1,36 @@
 #include "MapArea.hpp"
 
-#include <QString>
-
-
-
-MapArea::MapArea() :
-    size(),
-    left()
-{
-
-}
-
-
-
-MapArea::MapArea(const MapCoordinates& left) :
-    size(),
-    left(left)
-{
-
-}
+#include <cassert>
+#include <QtCore/QSize>
+#include <QtCore/QString>
 
 
 
 MapArea::MapArea(const MapCoordinates& left, const MapSize& size) :
-    size(size),
-    left(left)
+    left(left),
+    right(left.getX() + size.getWidth() - 1, left.getY() + size.getHeight() - 1)
 {
 
 }
 
 
 
-const MapSize MapArea::getSize() const
+MapArea::MapArea(const MapCoordinates& left, const MapCoordinates& right) :
+    left(left),
+    right(right)
 {
-    return size;
+    assert(right.getX() >= left.getX());
+    assert(right.getY() >= right.getX());
+}
+
+
+
+MapSize MapArea::getSize() const
+{
+    return {
+        static_cast<int>(right.getX()) - static_cast<int>(left.getX()) + 1,
+        static_cast<int>(right.getY()) - static_cast<int>(left.getY()) + 1,
+    };
 }
 
 
@@ -45,42 +42,34 @@ const MapCoordinates& MapArea::getLeft() const
 
 
 
-MapCoordinates MapArea::getRight() const
+const MapCoordinates& MapArea::getRight() const
 {
-    int deltaSize(size.getValue() - 1);
-    return { left.getX() + deltaSize, left.getY() + deltaSize };
+    return right;
 }
 
 
 
 MapCoordinates MapArea::getTop() const
 {
-    int deltaSize(size.getValue() - 1);
-    return { left.getX() + deltaSize, left.getY() };
+    return { right.getY(), left.getY() };
 }
 
 
 
 MapCoordinates MapArea::getBottom() const
 {
-    int deltaSize(size.getValue() - 1);
-    return { left.getX(), left.getY() + deltaSize };
-}
-
-
-
-bool MapArea::isInside(const MapCoordinates& coordinates) const
-{
-    auto right(getRight());
-    return coordinates.getX() >= left.getX() && coordinates.getX() <= right.getX()
-            && coordinates.getY() >= left.getY() && coordinates.getY() <= right.getY();
+    return { left.getX(), right.getY() };
 }
 
 
 
 void MapArea::moveTo(const MapCoordinates& left)
 {
+    auto size(getSize());
+
     this->left = left;
+    right.setX(left.getX() + size.getWidth() - 1);
+    right.setY(left.getY() + size.getHeight() - 1);
 }
 
 
@@ -101,7 +90,9 @@ MapArea::ConstIterator MapArea::end() const
 
 QString MapArea::toString() const
 {
-    return '{' + left.toString() + ';' + QString::number(size.getValue()) + '}';
+    auto size(getSize());
+
+    return '{' + left.toString() + ';' + size.toString() + '}';
 }
 
 

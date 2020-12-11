@@ -51,10 +51,8 @@ City::City(const Conf& conf, CityLoader& loader) :
         auto& buildingConf(conf.getBuildingConf(buildingInfo.type));
         staticElements.createBuilding(
             buildingConf,
-            MapArea(
-                buildingInfo.location,
-                buildingConf.getSize()
-            )
+            buildingInfo.location,
+            Direction::West // TODO: Set direction in YAML file.
         );
     }
 }
@@ -68,9 +66,9 @@ TimeCycleProcessor& City::getProcessor()
 
 
 
-void City::createBuilding(const BuildingInformation& conf, const MapArea& area)
+void City::createBuilding(const BuildingInformation& conf, const MapCoordinates& leftCorner, Direction orientation)
 {
-    staticElements.createBuilding(conf, area);
+    staticElements.createBuilding(conf, leftCorner, orientation);
 }
 
 

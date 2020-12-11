@@ -11,9 +11,10 @@
 StorageBuilding::StorageBuilding(
     const BuildingInformation& conf,
     const MapArea& area,
+    Direction orientation,
     const MapCoordinates& entryPoint
 ) :
-    AbstractProcessableBuilding(conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     stock()
 {
 
@@ -24,9 +25,10 @@ StorageBuilding::StorageBuilding(
 QSharedPointer<StorageBuilding> StorageBuilding::Create(
     const BuildingInformation& conf,
     const MapArea& area,
+    Direction orientation,
     const MapCoordinates& entryPoint
 ) {
-    auto storage(new StorageBuilding(conf, area, entryPoint));
+    auto storage(new StorageBuilding(conf, area, orientation, entryPoint));
     QSharedPointer<StorageBuilding> pointer(storage);
     storage->selfReference = pointer;
 
@@ -79,6 +81,7 @@ BuildingState StorageBuilding::getCurrentState() const
         reinterpret_cast<qintptr>(this),
         conf,
         area,
+        orientation,
         isActive() ? BuildingState::Status::Active : BuildingState::Status::Inactive,
         getCurrentWorkerQuantity(),
         stateVersion,

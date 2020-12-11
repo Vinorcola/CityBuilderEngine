@@ -23,7 +23,7 @@ ImageLibrary::ImageLibrary(const Conf& conf) :
     // Load building images.
     for (auto buildingKey : conf.getAllBuildingKeys()) {
         auto& buildingConf(conf.getBuildingConf(buildingKey));
-        buildingImages.insert(&buildingConf, new BuildingImage(buildingConf.getGraphicsData(), GREEN_BRUSH));
+        buildingImages.insert(&buildingConf, new BuildingImage(buildingConf, GREEN_BRUSH));
     }
 
     // Load character images.

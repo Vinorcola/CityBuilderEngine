@@ -4,10 +4,10 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-#include "src/engine/map/MapSize.hpp"
+#include "src/global/conf/BuildingAreaInformation.hpp"
 #include "src/defines.hpp"
 
-class BuildingAreaPartDescription;
+class BuildingAreaInformation;
 class BuildingSearchCriteriaDescription;
 class CharacterInformation;
 class ImageSequenceInformation;
@@ -38,22 +38,10 @@ class BuildingInformation
 
         struct Common {
             QString title;
-            MapSize size;
-            int price;
+            BuildingAreaInformation areaDescription;
             int maxWorkers;
-            int fireRiskIncrement;
-            int damageRiskIncrement;
-            QList<owner<BuildingAreaPartDescription*>> areaDescription;
 
             explicit Common(const ModelReader& model);
-            ~Common();
-        };
-
-        struct Graphics {
-            QString mainImagePath;
-            QList<owner<const ImageSequenceInformation*>> activeAnimation;
-
-            ~Graphics();
         };
 
         struct WalkerGeneration {
@@ -126,7 +114,6 @@ class BuildingInformation
         QString key;
         Type type;
         Common common;
-        Graphics graphics;
         optional<Farm*> farm;
         optional<House*> house;
         optional<Laboratory*> laboratory;
@@ -145,11 +132,13 @@ class BuildingInformation
         // Generic information.
         Type getType() const;
         const QString& getTitle() const;
-        const MapSize& getSize() const;
+        const BuildingAreaInformation& getAreaDescription() const;
+        MapSize getSize(Direction orientation) const;
         int getMaxWorkers() const;
 
         // Graphics information.
-        const Graphics& getGraphicsData() const;
+        QList<Direction> getAvailableOrientations() const;
+        QList<const BuildingAreaInformation::AreaPart*> getAreaParts(Direction orientation) const;
 
         // Specific information.
         const Farm& getFarmConf() const;

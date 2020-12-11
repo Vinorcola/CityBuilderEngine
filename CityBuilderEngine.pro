@@ -64,7 +64,7 @@ SOURCES += \
     src/exceptions/NotImplementedException.cpp \
     src/exceptions/OutOfRangeException.cpp \
     src/exceptions/UnexpectedException.cpp \
-    src/global/conf/BuildingAreaPartDescription.cpp \
+    src/global/conf/BuildingAreaInformation.cpp \
     src/global/conf/BuildingInformation.cpp \
     src/global/conf/CharacterInformation.cpp \
     src/global/conf/Conf.cpp \
@@ -84,6 +84,7 @@ SOURCES += \
     src/viewer/element/graphics/StaticElement.cpp \
     src/viewer/element/BuildingView.cpp \
     src/viewer/element/CharacterView.cpp \
+    src/viewer/image/BuildingAreaPartImage.cpp \
     src/viewer/image/BuildingImage.cpp \
     src/viewer/image/CharacterImage.cpp \
     src/viewer/image/Image.cpp \
@@ -166,7 +167,7 @@ HEADERS += \
     src/exceptions/NotImplementedException.hpp \
     src/exceptions/OutOfRangeException.hpp \
     src/exceptions/UnexpectedException.hpp \
-    src/global/conf/BuildingAreaPartDescription.hpp \
+    src/global/conf/BuildingAreaInformation.hpp \
     src/global/conf/BuildingInformation.hpp \
     src/global/conf/CharacterInformation.hpp \
     src/global/conf/Conf.hpp \
@@ -192,6 +193,7 @@ HEADERS += \
     src/viewer/element/BuildingView.hpp \
     src/viewer/element/CharacterView.hpp \
     src/viewer/element/TileLocatorInterface.hpp \
+    src/viewer/image/BuildingAreaPartImage.hpp \
     src/viewer/image/BuildingImage.hpp \
     src/viewer/image/CharacterImage.hpp \
     src/viewer/image/Image.hpp \

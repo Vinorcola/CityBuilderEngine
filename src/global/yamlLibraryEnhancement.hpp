@@ -47,13 +47,13 @@ struct convert<MapCoordinates>
 template<>
 struct convert<QPoint>
 {
-    static bool decode(const Node& node, QPoint& coordinates)
+    static bool decode(const Node& node, QPoint& position)
     {
         if (!node.IsMap() || !node["x"] || !node["y"]) {
             return false;
         }
-        coordinates.setX(node["x"].as<int>());
-        coordinates.setY(node["y"].as<int>());
+        position.setX(node["x"].as<int>());
+        position.setY(node["y"].as<int>());
 
         return true;
     }

@@ -1,2 +1,7 @@
 building:
-    mainImage: main.png
+    west:
+      - file: west/1.png
+      - file: west/2.png
+    south:
+      - file: south/1.png
+      - file: south/2.png

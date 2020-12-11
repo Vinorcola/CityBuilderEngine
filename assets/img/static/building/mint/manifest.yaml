@@ -1,5 +1,5 @@
 building:
-    mainImage: main.png
+    file: main.png
     animation:
       - file: 1.png
         position: { x: -1, y: -39 }

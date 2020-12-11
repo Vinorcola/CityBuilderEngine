@@ -10,6 +10,7 @@
 #include "src/engine/element/static/path/PathGenerator.hpp"
 #include "src/engine/state/BuildingState.hpp"
 #include "src/engine/state/NatureElementState.hpp"
+#include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
 class BuildingInformation;
@@ -95,20 +96,20 @@ class StaticElementHandler : public MapDetailsInterface
         QList<NatureElementState> getNatureElementsState() const;
 
         // Building generation.
-        void createBuilding(const BuildingInformation& conf, const MapArea& area);
+        void createBuilding(const BuildingInformation& conf, const MapCoordinates& leftCorner, Direction orientation);
 
         // Nature element generation.
         void createNatureElement(const NatureElementInformation& conf, const MapArea& area);
 
     private:
-        void generateFarm(const BuildingInformation& conf, const MapArea& area);
-        void generateHouse(const BuildingInformation& conf, const MapArea& area);
-        void generateLaboratory(const BuildingInformation& conf, const MapArea& area);
-        void generateProducer(const BuildingInformation& conf, const MapArea& area);
-        void generateSanity(const BuildingInformation& conf, const MapArea& area);
-        void generateSchool(const BuildingInformation& conf, const MapArea& area);
-        void generateStorage(const BuildingInformation& conf, const MapArea& area);
-        void generateRoad(const BuildingInformation& conf, const MapArea& area);
+        void generateFarm(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateHouse(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateLaboratory(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateProducer(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateSanity(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateSchool(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateStorage(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateRoad(const BuildingInformation& conf, const MapArea& area, Direction orientation);
         MapCoordinates getBestBuildingEntryPoint(const MapArea& area) const;
         void registerBuildingInDetailsCache(const MapArea& area);
         void registerRoadInDetailsCache(const MapArea& area);

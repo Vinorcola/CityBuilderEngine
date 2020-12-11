@@ -16,6 +16,7 @@ class StorageBuilding : public AbstractProcessableBuilding
         StorageBuilding(
             const BuildingInformation& conf,
             const MapArea& area,
+            Direction orientation,
             const MapCoordinates& entryPoint
         );
 
@@ -23,6 +24,7 @@ class StorageBuilding : public AbstractProcessableBuilding
         static QSharedPointer<StorageBuilding> Create(
             const BuildingInformation& conf,
             const MapArea& area,
+            Direction orientation,
             const MapCoordinates& entryPoint
         );
 

@@ -119,9 +119,9 @@ void Engine::forceNextProcess()
 
 
 
-void Engine::createBuilding(const BuildingInformation& type, const MapArea& area)
+void Engine::createBuilding(const BuildingInformation& type, const MapCoordinates& leftCorner, Direction orientation)
 {
     assert(city != nullptr);
 
-    city->createBuilding(type, area);
+    city->createBuilding(type, leftCorner, orientation);
 }

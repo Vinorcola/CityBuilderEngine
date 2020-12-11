@@ -1,6 +1,8 @@
 #ifndef MAPSIZE_HPP
 #define MAPSIZE_HPP
 
+#include <QtCore/QSize>
+
 /**
  * @brief Represent a size (typically for an area or a static element) on the map.
  *
@@ -9,16 +11,18 @@
 class MapSize
 {
     private:
-        int value;
+        QSize size;
 
     public:
-        MapSize();
+        explicit MapSize(int size = 1);
+        MapSize(int width, int height);
 
-        explicit MapSize(const int value);
+        bool isSquare() const;
+        int getWidth() const;
+        int getHeight() const;
 
-        bool operator !=(const MapSize& other) const;
-
-        int getValue() const;
+        // DEBUG //
+        QString toString() const;
 };
 
 #endif // MAPSIZE_HPP

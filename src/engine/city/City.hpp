@@ -36,7 +36,7 @@ class City
         City(const Conf& conf, CityLoader& loader);
 
         TimeCycleProcessor& getProcessor();
-        void createBuilding(const BuildingInformation& conf, const MapArea& area);
+        void createBuilding(const BuildingInformation& conf, const MapCoordinates& leftCorner, Direction orientation);
 
         bool isAreaConstructible(const MapArea& area) const;
         QList<MapCoordinates> getShortestPathForRoad(const MapCoordinates& origin, const MapCoordinates& target) const;

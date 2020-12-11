@@ -12,9 +12,10 @@ SchoolBuilding::SchoolBuilding(
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
+    Direction orientation,
     const MapCoordinates& entryPoint
 ) :
-    AbstractProcessableBuilding(conf, area, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     searchEngine(searchEngine),
     characterFactory(characterFactory),
     walkerGeneration(conf.getMaxWorkers(), conf.getSchoolConf().student.generationInterval)
@@ -29,9 +30,10 @@ QSharedPointer<AbstractProcessableBuilding> SchoolBuilding::Create(
     CharacterFactoryInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
+    Direction orientation,
     const MapCoordinates& entryPoint
 ) {
-    auto school(new SchoolBuilding(searchEngine, characterFactory, conf, area, entryPoint));
+    auto school(new SchoolBuilding(searchEngine, characterFactory, conf, area, orientation, entryPoint));
     QSharedPointer<AbstractProcessableBuilding> pointer(school);
     school->selfReference = pointer;
 

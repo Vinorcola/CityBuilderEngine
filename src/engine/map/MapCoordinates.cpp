@@ -25,6 +25,15 @@ MapCoordinates::MapCoordinates(const MapCoordinates& other) :
 
 
 
+MapCoordinates::MapCoordinates(const MapCoordinates& reference, const QPoint& relativeMove) :
+    coordinates(reference.getX() + relativeMove.x(), reference.getY() + relativeMove.y()),
+    hash()
+{
+
+}
+
+
+
 MapCoordinates::MapCoordinates(const int x, const int y) :
     coordinates(x, y),
     hash()

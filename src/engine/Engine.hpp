@@ -66,11 +66,12 @@ class Engine : public QObject, public AreaCheckerInterface, public RoadPathGener
          * be kept silent because it could eventually append in real condition when a static element creation request
          * append while the area get "unfree" during the last time cycle process.
          *
-         * @param type The conf for the new building to create.
-         * @param area The location of the element on the map.
+         * @param type        The conf for the new building to create.
+         * @param leftCorner  The location of the left corner of the construction area.
+         * @param orientation The orientation of the building.
          * @throw UnexpectedException Try to create a static element of type None.
          */
-        void createBuilding(const BuildingInformation& type, const MapArea& area);
+        void createBuilding(const BuildingInformation& type, const MapCoordinates& leftCorner, Direction orientation);
 
     signals:
         void stateUpdated(State);

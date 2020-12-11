@@ -1,10 +1,10 @@
-﻿#include "BuildingInformation.hpp"
+#include "BuildingInformation.hpp"
 
 #include <yaml-cpp/yaml.h>
 
 #include "src/exceptions/BadConfigurationException.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
-#include "src/global/conf/BuildingAreaPartDescription.hpp"
+#include "src/global/conf/BuildingAreaInformation.hpp"
 #include "src/global/conf/ImageSequenceInformation.hpp"
 #include "src/global/conf/ModelReader.hpp"
 #include "src/global/yamlLibraryEnhancement.hpp"
@@ -16,7 +16,6 @@ BuildingInformation::BuildingInformation(const ModelReader& model) :
     key(model.getKey()),
     type(resolveType(model.getString("type"))),
     common(model),
-    graphics(),
     farm(nullptr),
     house(nullptr),
     producer(nullptr),
@@ -24,20 +23,7 @@ BuildingInformation::BuildingInformation(const ModelReader& model) :
     school(nullptr),
     storage(nullptr)
 {
-    QString basePath("assets/img/static/building/" + key + "/");
-    QString manifestPath(basePath + "manifest.yaml");
-    YAML::Node manifestRoot(YAML::LoadFile(manifestPath.toStdString()));
 
-    graphics.mainImagePath = basePath + manifestRoot["building"]["mainImage"].as<QString>();
-    if (manifestRoot["building"]["animation"]) {
-        QString animationPath(basePath + "animation/");
-        for (auto imageNode : manifestRoot["building"]["animation"]) {
-            graphics.activeAnimation.append(new ImageSequenceInformation(
-                animationPath + imageNode["file"].as<QString>(),
-                imageNode["position"].as<QPoint>()
-            ));
-        }
-    }
 }
 
 
@@ -83,9 +69,16 @@ const QString& BuildingInformation::getTitle() const
 
 
 
-const MapSize& BuildingInformation::getSize() const
+const BuildingAreaInformation& BuildingInformation::getAreaDescription() const
 {
-    return common.size;
+    return common.areaDescription;
+}
+
+
+
+MapSize BuildingInformation::getSize(Direction orientation) const
+{
+    return common.areaDescription.getSize(orientation);
 }
 
 
@@ -97,9 +90,16 @@ int BuildingInformation::getMaxWorkers() const
 
 
 
-const BuildingInformation::Graphics& BuildingInformation::getGraphicsData() const
+QList<Direction> BuildingInformation::getAvailableOrientations() const
 {
-    return graphics;
+    return common.areaDescription.getAvailableOrientations();
+}
+
+
+
+QList<const BuildingAreaInformation::AreaPart*> BuildingInformation::getAreaParts(Direction orientation) const
+{
+    return common.areaDescription.getAreaParts(orientation);
 }
 
 
@@ -238,28 +238,10 @@ BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 
 BuildingInformation::Common::Common(const ModelReader& model) :
     title(model.getString("title")),
-    size(model.getOptionalInt("size", 1)),
-    price(model.getOptionalInt("price", 0)),
-    maxWorkers(model.getOptionalInt("workers", 0)),
-    fireRiskIncrement(model.getOptionalInt("fireRisk", 0)),
-    damageRiskIncrement(model.getOptionalInt("damageRisk", 0)),
-    areaDescription()
+    areaDescription(model),
+    maxWorkers(model.getOptionalInt("workers", 0))
 {
 
-}
-
-
-
-BuildingInformation::Common::~Common()
-{
-    qDeleteAll(areaDescription);
-}
-
-
-
-BuildingInformation::Graphics::~Graphics()
-{
-    qDeleteAll(activeAnimation);
 }
 
 

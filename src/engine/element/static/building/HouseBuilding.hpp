@@ -24,6 +24,7 @@ class HouseBuilding : public AbstractProcessableBuilding
             PopulationRegistryInterface& populationRegister,
             const BuildingInformation& conf,
             const MapArea& area,
+            Direction orientation,
             const MapCoordinates& entryPoint
         );
 
@@ -33,6 +34,7 @@ class HouseBuilding : public AbstractProcessableBuilding
             PopulationRegistryInterface& populationRegister,
             const BuildingInformation& conf,
             const MapArea& area,
+            Direction orientation,
             const MapCoordinates& entryPoint
         );
 

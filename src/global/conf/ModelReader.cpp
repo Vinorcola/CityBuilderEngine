@@ -41,10 +41,39 @@ const ModelReader ModelReader::getSubModel(const char key[]) const
 
 
 
+bool ModelReader::has(const char key[]) const
+{
+    return node[key];
+}
+
+
+
+bool ModelReader::getOptionalBool(const char key[], const bool defaultValue) const
+{
+    if (!node[key]) {
+        return defaultValue;
+    }
+
+    return node[key].as<bool>();
+}
+
+
+
 int ModelReader::getInt(const char key[]) const
 {
     if (!node[key]) {
         throw BadConfigurationException(generateErrorMessage(key, "a number"));
+    }
+
+    return node[key].as<int>();
+}
+
+
+
+int ModelReader::getOptionalInt(const char key[], const int defaultValue) const
+{
+    if (!node[key]) {
+        return defaultValue;
     }
 
     return node[key].as<int>();
@@ -74,6 +103,17 @@ QString ModelReader::getString(const char key[]) const
 
 
 
+QString ModelReader::getOptionalString(const char key[], const QString& defaultValue) const
+{
+    if (!node[key]) {
+        return defaultValue;
+    }
+
+    return node[key].as<QString>();
+}
+
+
+
 MapCoordinates ModelReader::getMapCoordinates(const char key[]) const
 {
     if (!node[key]) {
@@ -89,6 +129,17 @@ QPoint ModelReader::getPoint(const char key[]) const
 {
     if (!node[key]) {
         throw BadConfigurationException(generateErrorMessage(key, "some point coordinates"));
+    }
+
+    return node[key].as<QPoint>();
+}
+
+
+
+QPoint ModelReader::getOptionalPoint(const char key[], const QPoint& defaultValue) const
+{
+    if (!node[key]) {
+        return defaultValue;
     }
 
     return node[key].as<QPoint>();
@@ -112,6 +163,22 @@ QList<QPoint> ModelReader::getPointList(const char key[]) const
 
 
 
+QList<QPoint> ModelReader::getOptionalPointList(const char key[]) const
+{
+    QList<QPoint> list;
+    if (!node[key] || !node[key].IsSequence()) {
+        return list;
+    }
+
+    for (auto subNode: node[key]) {
+        list.append(subNode.as<QPoint>());
+    }
+
+    return list;
+}
+
+
+
 const BuildingInformation& ModelReader::getBuildingConf(const char key[]) const
 {
     return conf.getBuildingConf(getString(key));
@@ -122,6 +189,24 @@ const BuildingInformation& ModelReader::getBuildingConf(const char key[]) const
 const CharacterInformation& ModelReader::getCharacterConf(const char key[]) const
 {
     return conf.getCharacterConf(getString(key));
+}
+
+
+
+const CharacterInformation& ModelReader::getOptionalCharacterConf(const char key[], const CharacterInformation& defaultValue) const
+{
+    if (!node[key]) {
+        return defaultValue;
+    }
+
+    return conf.getCharacterConf(getString(key));
+}
+
+
+
+const CharacterInformation& ModelReader::getOptionalCharacterConf(const char key[], const QString defaultValue) const
+{
+    return conf.getCharacterConf(getOptionalString(key, defaultValue));
 }
 
 
@@ -152,84 +237,6 @@ QList<const ItemInformation*> ModelReader::getListOfItemConfs(const char key[]) 
 const NatureElementInformation& ModelReader::getNatureElementConf(const char key[]) const
 {
     return conf.getNatureElementConf(getString(key));
-}
-
-
-
-bool ModelReader::getOptionalBool(const char key[], const bool defaultValue) const
-{
-    if (!node[key]) {
-        return defaultValue;
-    }
-
-    return node[key].as<bool>();
-}
-
-
-
-int ModelReader::getOptionalInt(const char key[], const int defaultValue) const
-{
-    if (!node[key]) {
-        return defaultValue;
-    }
-
-    return node[key].as<int>();
-}
-
-
-
-QString ModelReader::getOptionalString(const char key[], const QString& defaultValue) const
-{
-    if (!node[key]) {
-        return defaultValue;
-    }
-
-    return node[key].as<QString>();
-}
-
-
-
-QPoint ModelReader::getOptionalPoint(const char key[], const QPoint& defaultValue) const
-{
-    if (!node[key]) {
-        return defaultValue;
-    }
-
-    return node[key].as<QPoint>();
-}
-
-
-
-QList<QPoint> ModelReader::getOptionalPointList(const char key[]) const
-{
-    QList<QPoint> list;
-    if (!node[key] || !node[key].IsSequence()) {
-        return list;
-    }
-
-    for (auto subNode: node[key]) {
-        list.append(subNode.as<QPoint>());
-    }
-
-    return list;
-}
-
-
-
-const CharacterInformation& ModelReader::getOptionalCharacterConf(const char key[], const CharacterInformation& defaultValue) const
-{
-    if (!node[key]) {
-        return defaultValue;
-    }
-
-    return conf.getCharacterConf(getString(key));
-}
-
-
-
-const CharacterInformation& ModelReader::getOptionalCharacterConf(const char key[], const QString defaultValue) const
-{
-    return conf.getCharacterConf(getOptionalString(key, defaultValue));
 }
 
 
