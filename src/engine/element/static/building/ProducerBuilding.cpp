@@ -91,7 +91,7 @@ BuildingState ProducerBuilding::getCurrentState() const
         conf,
         area,
         orientation,
-        isActive() ? BuildingState::Status::Active : BuildingState::Status::Inactive,
+        isActive() ? BuildingStatus::Active : BuildingStatus::Inactive,
         getCurrentWorkerQuantity(),
         stateVersion,
         rawMaterialStock

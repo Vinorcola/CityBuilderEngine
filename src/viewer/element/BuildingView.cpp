@@ -56,9 +56,9 @@ void BuildingView::AreaPart::advanceAnimation()
 
 
 
-void BuildingView::AreaPart::updateStatus(BuildingState::Status status)
+void BuildingView::AreaPart::updateStatus(BuildingStatus status)
 {
-    if (status == BuildingState::Status::Inactive) {
+    if (status == BuildingStatus::Inactive) {
         graphicElement.dropAnimationImage();
         animationIndex = 0;
     }
@@ -170,7 +170,7 @@ void BuildingView::destroy()
 
 void BuildingView::advanceAnimation()
 {
-    if (currentState.status != BuildingState::Status::Inactive) {
+    if (currentState.status != BuildingStatus::Inactive) {
         for (auto areaPart : areaParts) {
             areaPart->advanceAnimation();
         }

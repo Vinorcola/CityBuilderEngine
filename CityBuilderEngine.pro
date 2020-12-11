@@ -73,6 +73,7 @@ SOURCES += \
     src/global/conf/ItemInformation.cpp \
     src/global/conf/ModelReader.cpp \
     src/global/conf/NatureElementInformation.cpp \
+    src/global/BuildingStatus.cpp \
     src/global/Direction.cpp \
     src/ui/controlPanel/BuildingButton.cpp \
     src/ui/controlPanel/ControlPanel.cpp \
@@ -177,6 +178,7 @@ HEADERS += \
     src/global/conf/ModelReader.hpp \
     src/global/conf/NatureElementInformation.hpp \
     src/global/pointer/SmartPointerUtils.hpp \
+    src/global/BuildingStatus.hpp \
     src/global/Direction.hpp \
     src/global/yamlLibraryEnhancement.hpp \
     src/ui/controlPanel/BuildingButton.hpp \

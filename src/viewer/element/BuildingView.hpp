@@ -44,7 +44,7 @@ class BuildingView
                 ~AreaPart();
 
                 void advanceAnimation();
-                void updateStatus(BuildingState::Status status);
+                void updateStatus(BuildingStatus status);
 
             private:
                 void maskCoveredTiles();
