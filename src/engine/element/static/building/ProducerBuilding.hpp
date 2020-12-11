@@ -7,6 +7,7 @@
 #include "src/engine/element/static/building/behavior/WalkerGenerationBehavior.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/processing/CycleDate.hpp"
+#include "src/global/BuildingStatus.hpp"
 
 class Character;
 class CharacterFactoryInterface;
@@ -56,6 +57,8 @@ class ProducerBuilding : public AbstractProcessableBuilding
         bool canGenerateNewMiner() const;
 
         void handleProduction();
+
+        BuildingStatus resolveCurrentStatus() const;
 };
 
 #endif // PRODUCERBUILDING_HPP

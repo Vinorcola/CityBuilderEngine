@@ -43,7 +43,7 @@ class BuildingView
                 );
                 ~AreaPart();
 
-                void advanceAnimation();
+                void advanceAnimation(BuildingStatus status);
                 void updateStatus(BuildingStatus status);
 
             private:

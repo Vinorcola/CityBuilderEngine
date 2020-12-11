@@ -9,6 +9,7 @@
 #include "src/viewer/image/BuildingAreaPartImage.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
+#include "src/viewer/image/ImageSequence.hpp"
 #include "src/viewer/Tile.hpp"
 
 
@@ -43,9 +44,9 @@ BuildingView::AreaPart::~AreaPart()
 
 
 
-void BuildingView::AreaPart::advanceAnimation()
+void BuildingView::AreaPart::advanceAnimation(BuildingStatus status)
 {
-    auto& animation(image.getActiveAnimationSequence());
+    auto& animation(image.getActiveAnimationSequence(status));
     if (animation.getSequenceLength() == 0) {
         return;
     }
@@ -58,12 +59,11 @@ void BuildingView::AreaPart::advanceAnimation()
 
 void BuildingView::AreaPart::updateStatus(BuildingStatus status)
 {
-    if (status == BuildingStatus::Inactive) {
-        graphicElement.dropAnimationImage();
-        animationIndex = 0;
-    }
-    else {
-        auto& animation(image.getActiveAnimationSequence());
+    graphicElement.dropAnimationImage();
+    animationIndex = 0;
+
+    if (status != BuildingStatus::Inactive) {
+        auto& animation(image.getActiveAnimationSequence(status));
         if (animation.getSequenceLength() > 0) {
             graphicElement.setAnimationImage(animation.getImage(animationIndex));
         }
@@ -172,7 +172,7 @@ void BuildingView::advanceAnimation()
 {
     if (currentState.status != BuildingStatus::Inactive) {
         for (auto areaPart : areaParts) {
-            areaPart->advanceAnimation();
+            areaPart->advanceAnimation(currentState.status);
         }
     }
 }

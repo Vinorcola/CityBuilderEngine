@@ -91,7 +91,7 @@ BuildingState ProducerBuilding::getCurrentState() const
         conf,
         area,
         orientation,
-        isActive() ? BuildingStatus::Active : BuildingStatus::Inactive,
+        resolveCurrentStatus(),
         getCurrentWorkerQuantity(),
         stateVersion,
         rawMaterialStock
@@ -141,4 +141,18 @@ void ProducerBuilding::handleProduction()
         rawMaterialStock -= conf.getProducerConf().rawMaterialQuantityToProduce;
         notifyViewDataChange();
     }
+}
+
+
+
+BuildingStatus ProducerBuilding::resolveCurrentStatus() const
+{
+    if (!isActive()) {
+        return BuildingStatus::Inactive;
+    }
+    if (rawMaterialStock > 0) {
+        return BuildingStatus::Working;
+    }
+
+    return BuildingStatus::Active;
 }

@@ -10,7 +10,9 @@
 
 BuildingAreaInformation::Graphics::~Graphics()
 {
-    qDeleteAll(activeAnimation);
+    for (auto animation : animations) {
+        qDeleteAll(animation);
+    }
 }
 
 
@@ -31,12 +33,24 @@ BuildingAreaInformation::AreaPart::AreaPart(
 {
     graphics.mainImagePath = graphicsBasePath + imageNode["file"].as<QString>();
     if (imageNode["active"]) {
+        AnimationImages animationImages;
         for (auto animationImageNode : imageNode["active"]) {
-            graphics.activeAnimation.append(new ImageSequenceInformation(
+            animationImages.append(new ImageSequenceInformation(
                 graphicsBasePath + animationImageNode["file"].as<QString>(),
                 animationImageNode["position"].as<QPoint>()
             ));
         }
+        graphics.animations.insert(BuildingStatus::Active, animationImages);
+    }
+    if (imageNode["working"]) {
+        AnimationImages animationImages;
+        for (auto animationImageNode : imageNode["working"]) {
+            animationImages.append(new ImageSequenceInformation(
+                graphicsBasePath + animationImageNode["file"].as<QString>(),
+                animationImageNode["position"].as<QPoint>()
+            ));
+        }
+        graphics.animations.insert(BuildingStatus::Working, animationImages);
     }
 }
 
