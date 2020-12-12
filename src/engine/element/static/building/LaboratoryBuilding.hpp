@@ -5,7 +5,6 @@
 
 #include "src/engine/element/static/building/behavior/WalkerGenerationBehavior.hpp"
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
-#include "src/engine/processing/CycleDate.hpp"
 
 class Character;
 class CharacterFactoryInterface;
@@ -14,7 +13,7 @@ class LaboratoryBuilding : public AbstractProcessableBuilding
 {
     private:
         CharacterFactoryInterface& characterFactory;
-        CycleDate walkerGenerationLimitDate;
+        int workingCountDown;
         WalkerGenerationBehavior scientistGeneration;
         QWeakPointer<Character> scientist;
 
@@ -38,6 +37,9 @@ class LaboratoryBuilding : public AbstractProcessableBuilding
 
         virtual void process(const CycleDate& date) override;
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
+
+    protected:
+        virtual BuildingStatus getCurrentStatus() const override;
 
     private:
         /**

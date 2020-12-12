@@ -100,7 +100,7 @@ BuildingState FarmBuilding::getCurrentState() const
         conf,
         area,
         orientation,
-        isActive() ? BuildingStatus::Active : BuildingStatus::Inactive,
+        getCurrentStatus(),
         getCurrentWorkerQuantity(),
         stateVersion,
         static_cast<int>(100.0 * getGrowthRatio())

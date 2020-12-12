@@ -6,6 +6,7 @@
 #include "src/engine/element/static/building/AbstractBuilding.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
+#include "src/global/BuildingStatus.hpp"
 
 class BuildingInformation;
 class Character;
@@ -41,6 +42,7 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
 
     protected:
         int getCurrentWorkerQuantity() const;
+        virtual BuildingStatus getCurrentStatus() const;
 };
 
 #endif // ABSTRACTPROCESSABLEBUILDING_HPP

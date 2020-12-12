@@ -88,7 +88,7 @@ BuildingState HouseBuilding::getCurrentState() const
         conf,
         area,
         orientation,
-        isActive() ? BuildingStatus::Active : BuildingStatus::Inactive,
+        getCurrentStatus(),
         getCurrentWorkerQuantity(),
         stateVersion,
         inhabitants

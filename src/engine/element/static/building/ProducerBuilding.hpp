@@ -48,6 +48,9 @@ class ProducerBuilding : public AbstractProcessableBuilding
 
         virtual BuildingState getCurrentState() const override;
 
+    protected:
+        virtual BuildingStatus getCurrentStatus() const override;
+
     private:
         void handleMinerGeneration(const CycleDate& date);
 
@@ -57,8 +60,6 @@ class ProducerBuilding : public AbstractProcessableBuilding
         bool canGenerateNewMiner() const;
 
         void handleProduction();
-
-        BuildingStatus resolveCurrentStatus() const;
 };
 
 #endif // PRODUCERBUILDING_HPP

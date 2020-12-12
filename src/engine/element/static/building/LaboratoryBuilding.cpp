@@ -17,7 +17,7 @@ LaboratoryBuilding::LaboratoryBuilding(
 ) :
     AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     characterFactory(characterFactory),
-    walkerGenerationLimitDate(),
+    workingCountDown(0),
     scientistGeneration(conf.getMaxWorkers(), conf.getLaboratoryConf().emittedScientist.generationInterval),
     scientist()
 {
@@ -42,15 +42,16 @@ QSharedPointer<AbstractProcessableBuilding> LaboratoryBuilding::Create(
 
 
 
-void LaboratoryBuilding::process(const CycleDate& date)
+void LaboratoryBuilding::process(const CycleDate& /*date*/)
 {
     if (!isActive()) {
         return;
     }
 
-    if (!walkerGenerationLimitDate || date > walkerGenerationLimitDate) {
+    if (workingCountDown <= 0) {
         return;
     }
+    --workingCountDown;
 
     scientistGeneration.process(getCurrentWorkerQuantity());
     if (scientistGeneration.isReadyToGenerateWalker()) {
@@ -61,7 +62,7 @@ void LaboratoryBuilding::process(const CycleDate& date)
 
 
 
-bool LaboratoryBuilding::processInteraction(const CycleDate& date, Character& actor)
+bool LaboratoryBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
     if (matches(scientist, actor)) {
         scientist.clear();
@@ -70,12 +71,26 @@ bool LaboratoryBuilding::processInteraction(const CycleDate& date, Character& ac
     }
 
     if (actor.isOfType(conf.getLaboratoryConf().acceptedStudent)) {
-        walkerGenerationLimitDate.reassign(date, conf.getLaboratoryConf().producingInterval);
+        workingCountDown = conf.getLaboratoryConf().producingInterval;
 
         return true;
     }
 
     return false;
+}
+
+
+
+BuildingStatus LaboratoryBuilding::getCurrentStatus() const
+{
+    if (!isActive()) {
+        return BuildingStatus::Inactive;
+    }
+    if (workingCountDown > 0) {
+        return BuildingStatus::Working;
+    }
+
+    return BuildingStatus::Active;
 }
 
 

@@ -66,7 +66,7 @@ BuildingState AbstractProcessableBuilding::getCurrentState() const
         conf,
         area,
         orientation,
-        isActive() ? BuildingStatus::Active : BuildingStatus::Inactive,
+        getCurrentStatus(),
         currentWorkerQuantity,
         stateVersion,
     };
@@ -77,4 +77,11 @@ BuildingState AbstractProcessableBuilding::getCurrentState() const
 int AbstractProcessableBuilding::getCurrentWorkerQuantity() const
 {
     return currentWorkerQuantity;
+}
+
+
+
+BuildingStatus AbstractProcessableBuilding::getCurrentStatus() const
+{
+    return isActive() ? BuildingStatus::Active : BuildingStatus::Inactive;
 }
