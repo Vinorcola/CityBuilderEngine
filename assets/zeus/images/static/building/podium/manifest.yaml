@@ -1,51 +1,51 @@
 building:
     file: main.png
-    active:
-      - file: active/1.png
+    working:
+      - file: working/1.png
         position: { x: 44, y: 40 }
-      - file: active/2.png
+      - file: working/2.png
         position: { x: 44, y: 40 }
-      - file: active/3.png
+      - file: working/3.png
         position: { x: 44, y: 40 }
-      - file: active/4.png
+      - file: working/4.png
         position: { x: 44, y: 40 }
-      - file: active/5.png
+      - file: working/5.png
         position: { x: 44, y: 40 }
-      - file: active/6.png
+      - file: working/6.png
         position: { x: 44, y: 40 }
-      - file: active/7.png
+      - file: working/7.png
         position: { x: 44, y: 40 }
-      - file: active/8.png
+      - file: working/8.png
         position: { x: 44, y: 40 }
-      - file: active/9.png
+      - file: working/9.png
         position: { x: 44, y: 40 }
-      - file: active/10.png
+      - file: working/10.png
         position: { x: 44, y: 40 }
-      - file: active/11.png
+      - file: working/11.png
         position: { x: 44, y: 40 }
-      - file: active/12.png
+      - file: working/12.png
         position: { x: 44, y: 40 }
-      - file: active/13.png
+      - file: working/13.png
         position: { x: 44, y: 40 }
-      - file: active/14.png
+      - file: working/14.png
         position: { x: 44, y: 40 }
-      - file: active/15.png
+      - file: working/15.png
         position: { x: 44, y: 40 }
-      - file: active/16.png
+      - file: working/16.png
         position: { x: 44, y: 40 }
-      - file: active/17.png
+      - file: working/17.png
         position: { x: 44, y: 40 }
-      - file: active/18.png
+      - file: working/18.png
         position: { x: 44, y: 40 }
-      - file: active/19.png
+      - file: working/19.png
         position: { x: 44, y: 40 }
-      - file: active/20.png
+      - file: working/20.png
         position: { x: 44, y: 40 }
-      - file: active/21.png
+      - file: working/21.png
         position: { x: 44, y: 40 }
-      - file: active/22.png
+      - file: working/22.png
         position: { x: 44, y: 40 }
-      - file: active/23.png
+      - file: working/23.png
         position: { x: 44, y: 40 }
-      - file: active/24.png
+      - file: working/24.png
         position: { x: 44, y: 40 }
