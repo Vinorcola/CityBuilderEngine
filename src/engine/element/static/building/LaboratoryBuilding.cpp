@@ -52,6 +52,10 @@ void LaboratoryBuilding::process(const CycleDate& /*date*/)
         return;
     }
     --workingCountDown;
+    if (workingCountDown == 0) {
+        notifyViewDataChange();
+        return;
+    }
 
     scientistGeneration.process(getCurrentWorkerQuantity());
     if (scientistGeneration.isReadyToGenerateWalker()) {
@@ -72,6 +76,7 @@ bool LaboratoryBuilding::processInteraction(const CycleDate& /*date*/, Character
 
     if (actor.isOfType(conf.getLaboratoryConf().acceptedStudent)) {
         workingCountDown = conf.getLaboratoryConf().producingInterval;
+        notifyViewDataChange();
 
         return true;
     }

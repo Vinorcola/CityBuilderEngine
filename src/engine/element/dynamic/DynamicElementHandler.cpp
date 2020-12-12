@@ -94,6 +94,8 @@ QWeakPointer<Character> DynamicElementHandler::generateStudent(
     QSharedPointer<Character> character(new StudentCharacter(*this, pathGenerator, conf, issuer, target, path));
     currentState.characters.insert(character.get(), character);
 
+    processor.registerCharacter(character);
+
     return character;
 }
 

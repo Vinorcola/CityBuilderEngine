@@ -73,8 +73,8 @@ void MotionHandler::takePath(owner<PathInterface*> path)
     if (movingTo == movingFrom) {
         // Some path may include the current location as the first step, we switch directly to the next step.
         movingTo = path->getNextTargetCoordinates();
-        updateDirection();
     }
+    updateDirection();
 }
 
 
