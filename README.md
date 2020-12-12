@@ -2,7 +2,7 @@
 
 City Builder Engine is a game that consists in building your own city in an ancient Greek environment. This project is meant to be a fork of the game **Zeus - Master of Olympus**.
 
-City Builder Engine is writen in C++ (C++14) and uses the Qt framework (5.10).
+City Builder Engine is writen in C++ (C++14) and uses the Qt framework (5.15).
 
 **/!\ WARNING:** The project is far from being playable for now. It is under development. You are welcome to participate.
 
