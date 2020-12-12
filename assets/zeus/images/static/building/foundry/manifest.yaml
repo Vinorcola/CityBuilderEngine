@@ -2,29 +2,45 @@ building:
     file: main.png
     active:
       - file: active/1.png
-        position: { x: 54, y: 44 }
+        position: { x: 64, y: 35 }
       - file: active/2.png
-        position: { x: 53, y: 44 }
+        position: { x: 64, y: 35 }
       - file: active/3.png
-        position: { x: 52, y: 44 }
+        position: { x: 65, y: 35 }
       - file: active/4.png
-        position: { x: 50, y: 44 }
+        position: { x: 64, y: 35 }
       - file: active/5.png
-        position: { x: 50, y: 45 }
+        position: { x: 63, y: 35 }
       - file: active/6.png
-        position: { x: 50, y: 45 }
+        position: { x: 63, y: 35 }
       - file: active/7.png
-        position: { x: 50, y: 45 }
+        position: { x: 63, y: 35 }
       - file: active/8.png
-        position: { x: 51, y: 45 }
+        position: { x: 63, y: 35 }
       - file: active/9.png
-        position: { x: 52, y: 45 }
+        position: { x: 63, y: 35 }
       - file: active/10.png
-        position: { x: 53, y: 45 }
+        position: { x: 63, y: 35 }
       - file: active/11.png
-        position: { x: 54, y: 44 }
+        position: { x: 64, y: 35 }
       - file: active/12.png
-        position: { x: 54, y: 44 }
+        position: { x: 65, y: 35 }
+      - file: active/13.png
+        position: { x: 64, y: 35 }
+      - file: active/14.png
+        position: { x: 64, y: 35 }
+      - file: active/15.png
+        position: { x: 64, y: 35 }
+      - file: active/16.png
+        position: { x: 64, y: 35 }
+      - file: active/17.png
+        position: { x: 64, y: 35 }
+      - file: active/18.png
+        position: { x: 64, y: 35 }
+      - file: active/19.png
+        position: { x: 64, y: 35 }
+      - file: active/20.png
+        position: { x: 64, y: 35 }
     working:
       - file: working/1.png
         position: { x: -1, y: -29 }
