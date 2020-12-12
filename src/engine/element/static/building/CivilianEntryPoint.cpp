@@ -18,7 +18,7 @@ CivilianEntryPoint::CivilianEntryPoint(
     AbstractProcessableBuilding(conf, MapArea(location), Direction::West, location),
     characterFactory(characterFactory),
     immigrantConf(immigrantConf),
-    nextImmigrantGenerationDate(),
+    nextImmigrantGenerationCountDown(),
     immigrantRequestQueue()
 {
 
@@ -48,39 +48,37 @@ void CivilianEntryPoint::requestImmigrant(const QWeakPointer<AbstractProcessable
 
 
 
-void CivilianEntryPoint::process(const CycleDate& date)
+void CivilianEntryPoint::process(const CycleDate& /*date*/)
 {
     if (immigrantRequestQueue.isEmpty()) {
         return;
     }
 
-    if (date == nextImmigrantGenerationDate) {
+    --nextImmigrantGenerationCountDown;
+    if (nextImmigrantGenerationCountDown <= 0) {
         do {
             auto issuer(immigrantRequestQueue.takeFirst().toStrongRef());
-            if (!issuer) {
-                continue;
+            if (issuer) {
+                characterFactory.generateImmigrant(immigrantConf, selfReference, issuer->getSelfReference());
+                setupNextImmigrantGenerationDate();
+                break;
             }
-
-            characterFactory.generateImmigrant(immigrantConf, selfReference, issuer->getSelfReference());
-            setupNextImmigrantGenerationDate(date);
         } while (!immigrantRequestQueue.isEmpty());
-    } else if (date > nextImmigrantGenerationDate) {
-        setupNextImmigrantGenerationDate(date);
     }
 }
 
 
 
-void CivilianEntryPoint::setupNextImmigrantGenerationDate(const CycleDate& currentDate)
+void CivilianEntryPoint::setupNextImmigrantGenerationDate()
 {
     if (immigrantRequestQueue.isEmpty()) {
         return;
     }
 
-    if (nextImmigrantGenerationDate <= currentDate) {
-        nextImmigrantGenerationDate.reassign(
-            currentDate,
-            QRandomGenerator::global()->bounded(MIN_IMMIGRANT_GENERATION_INTERVAL, MAX_IMMIGRANT_GENERATION_INTERVAL + 1)
+    if (nextImmigrantGenerationCountDown <= 0) {
+        nextImmigrantGenerationCountDown = QRandomGenerator::global()->bounded(
+            MIN_IMMIGRANT_GENERATION_INTERVAL,
+            MAX_IMMIGRANT_GENERATION_INTERVAL + 1
         );
     }
 }

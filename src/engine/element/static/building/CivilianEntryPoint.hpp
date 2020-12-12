@@ -6,11 +6,9 @@
 #include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/element/static/building/ImmigrantGeneratorInterface.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
-#include "src/engine/processing/CycleDate.hpp"
 
 class CharacterFactoryInterface;
 class CharacterInformation;
-class CycleDate;
 
 /**
  * @brief A civilian entry point on the map.
@@ -20,13 +18,13 @@ class CycleDate;
  */
 class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantGeneratorInterface
 {
-        const int MIN_IMMIGRANT_GENERATION_INTERVAL = 1;
+        const int MIN_IMMIGRANT_GENERATION_INTERVAL = 2;
         const int MAX_IMMIGRANT_GENERATION_INTERVAL = 90;
 
     private:
         CharacterFactoryInterface& characterFactory;
         const CharacterInformation& immigrantConf;
-        CycleDate nextImmigrantGenerationDate;
+        int nextImmigrantGenerationCountDown;
         QList<QWeakPointer<AbstractProcessableBuilding>> immigrantRequestQueue;
 
     private:
@@ -50,7 +48,7 @@ class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantG
         virtual void process(const CycleDate& date) override;
 
     private:
-        void setupNextImmigrantGenerationDate(const CycleDate& currentDate);
+        void setupNextImmigrantGenerationDate();
 };
 
 #endif // MAPENTRYPOINT_HPP
