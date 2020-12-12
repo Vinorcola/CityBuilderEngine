@@ -95,7 +95,7 @@ buildings:
                 size: 5
               - position: { x: 0, y: 5 }
                 size: 5
-        acceptedStudent: athlete
+        acceptedStudent: competitor
         workers: 45
     storehouse:
         type: storage
