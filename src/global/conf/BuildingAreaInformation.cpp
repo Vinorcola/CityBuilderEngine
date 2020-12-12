@@ -56,11 +56,11 @@ BuildingAreaInformation::AreaPart::AreaPart(
 
 
 
-BuildingAreaInformation::BuildingAreaInformation(const ModelReader& model) :
+BuildingAreaInformation::BuildingAreaInformation(const QString& configDirectoryPath, const ModelReader& model) :
     sizes(),
     area()
 {
-    QString graphicsBasePath("assets/img/static/building/" + model.getKey() + "/");
+    QString graphicsBasePath(configDirectoryPath + "/images/static/building/" + model.getKey() + "/");
     QString graphicsManifestPath(graphicsBasePath + "manifest.yaml");
     YAML::Node graphicsManifestRootNode(YAML::LoadFile(graphicsManifestPath.toStdString()));
 

@@ -25,7 +25,7 @@ class NatureElementInformation
         QString imagePath;
 
     public:
-        NatureElementInformation(const QString& key, const YAML::Node& model);
+        NatureElementInformation(const QString& configDirectoryPath, const QString& key, const YAML::Node& model);
 
         const QString& getTitle() const;
 

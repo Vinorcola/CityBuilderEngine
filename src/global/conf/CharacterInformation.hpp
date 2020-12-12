@@ -33,7 +33,7 @@ class CharacterInformation
         Graphics graphics;
 
     public:
-        explicit CharacterInformation( const ModelReader& model);
+        CharacterInformation(const QString& configDirectoryPath, const ModelReader& model);
 
         const QString& getKey() const;
 

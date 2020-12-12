@@ -61,7 +61,7 @@ class BuildingAreaInformation
         QHash<Direction, QList<owner<const AreaPart*>>> area;
 
     public:
-        BuildingAreaInformation(const ModelReader& model);
+        BuildingAreaInformation(const QString& configDirectoryPath, const ModelReader& model);
         ~BuildingAreaInformation();
 
         QList<Direction> getAvailableOrientations() const;

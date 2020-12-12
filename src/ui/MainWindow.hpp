@@ -35,7 +35,7 @@ class MainWindow : public QMainWindow, public DialogDisplayer
         optional<QWidget*> currentDialog;
 
     public:
-        MainWindow();
+        explicit MainWindow(const QString& gameConfigDirectoryPath);
 
     public slots:
         void loadMap(const QString& filePath);

@@ -19,7 +19,7 @@ CharacterInformation::Graphics::~Graphics()
 
 
 
-CharacterInformation::CharacterInformation(const ModelReader& model) :
+CharacterInformation::CharacterInformation(const QString& configDirectoryPath, const ModelReader& model) :
     key(model.getKey()),
     title(model.getString("title")),
 #ifdef SLOW_MOTION
@@ -30,7 +30,7 @@ CharacterInformation::CharacterInformation(const ModelReader& model) :
     wanderingCredits(model.getOptionalInt("wanderingCredits", 0)),
     graphics()
 {
-    QString basePath("assets/img/dynamic/character/" + key + "/");
+    QString basePath(configDirectoryPath + "/images/dynamic/character/" + key + "/");
     QString manifestPath(basePath + "manifest.yaml");
     YAML::Node manifestRoot(YAML::LoadFile(manifestPath.toStdString()));
 

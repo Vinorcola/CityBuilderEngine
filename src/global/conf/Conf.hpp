@@ -27,7 +27,7 @@ class Conf
         QList<owner<ControlPanelElementInformation*>> controlPanelElements;
 
     public:
-        explicit Conf(const QString& filePath);
+        explicit Conf(const QString& directoryPath);
         ~Conf();
 
         const QSize& getTileSize() const;

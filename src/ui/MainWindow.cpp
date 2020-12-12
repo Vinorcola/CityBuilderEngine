@@ -14,9 +14,9 @@
 
 
 
-MainWindow::MainWindow() :
+MainWindow::MainWindow(const QString& gameConfigDirectoryPath) :
     QMainWindow(),
-    conf("assets/conf.yaml"),
+    conf(gameConfigDirectoryPath),
     engine(conf),
     viewerScene(nullptr),
     viewer(nullptr),

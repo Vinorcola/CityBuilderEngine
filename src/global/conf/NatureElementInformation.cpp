@@ -7,12 +7,16 @@
 
 
 
-NatureElementInformation::NatureElementInformation(const QString& key, const YAML::Node& model) :
+NatureElementInformation::NatureElementInformation(
+    const QString& configDirectoryPath,
+    const QString& key,
+    const YAML::Node& model
+) :
     type(resolveType(key)),
     key(key),
     title(model["title"].as<QString>()),
     traversable(model["traversable"].as<bool>()),
-    imagePath("assets/img/static/nature/" + key + ".png")
+    imagePath(configDirectoryPath + "/images/static/nature/" + key + ".png")
 {
 
 }

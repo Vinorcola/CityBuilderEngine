@@ -41,7 +41,7 @@ class BuildingInformation
             BuildingAreaInformation areaDescription;
             int maxWorkers;
 
-            explicit Common(const ModelReader& model);
+            explicit Common(const QString& configDirectoryPath, const ModelReader& model);
         };
 
         struct WalkerGeneration {
@@ -126,7 +126,7 @@ class BuildingInformation
         /**
          * @brief Hold the information about a building.
          */
-        explicit BuildingInformation(const ModelReader& model);
+        BuildingInformation(const QString& configDirectoryPath, const ModelReader& model);
         ~BuildingInformation();
 
         // Generic information.

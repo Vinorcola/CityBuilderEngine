@@ -12,10 +12,10 @@
 
 
 
-BuildingInformation::BuildingInformation(const ModelReader& model) :
+BuildingInformation::BuildingInformation(const QString& configDirectoryPath, const ModelReader& model) :
     key(model.getKey()),
     type(resolveType(model.getString("type"))),
-    common(model),
+    common(configDirectoryPath, model),
     farm(nullptr),
     house(nullptr),
     producer(nullptr),
@@ -236,9 +236,9 @@ BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 
 
 
-BuildingInformation::Common::Common(const ModelReader& model) :
+BuildingInformation::Common::Common(const QString& configDirectoryPath, const ModelReader& model) :
     title(model.getString("title")),
-    areaDescription(model),
+    areaDescription(configDirectoryPath, model),
     maxWorkers(model.getOptionalInt("workers", 0))
 {
 

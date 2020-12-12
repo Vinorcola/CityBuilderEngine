@@ -14,7 +14,7 @@
 
 
 
-Conf::Conf(const QString& filePath) :
+Conf::Conf(const QString& directoryPath) :
     tileSize(),
     items(),
     buildings(),
@@ -23,7 +23,8 @@ Conf::Conf(const QString& filePath) :
     controlPanelElements()
 {
     // Load file.
-    YAML::Node configurationRoot(YAML::LoadFile(filePath.toStdString()));
+    auto configFilePath(directoryPath + "/config.yaml");
+    YAML::Node configurationRoot(YAML::LoadFile(configFilePath.toStdString()));
 
     // Load graphics' configuration.
     if (!configurationRoot["graphics"] || !configurationRoot["graphics"]["tileHeight"]) {
@@ -36,10 +37,10 @@ Conf::Conf(const QString& filePath) :
     for (auto node : configurationRoot["natureElements"]) {
         QString key(node.first.as<QString>());
         NatureElementInformation::checkModel(key, node.second);
-        natureElements.insert(key, new NatureElementInformation(key, node.second));
+        natureElements.insert(key, new NatureElementInformation(directoryPath, key, node.second));
     }
 
-    // Load item's configuration.
+    // Load items' configuration.
     for (auto node : configurationRoot["items"]) {
         QString key(node.first.as<QString>());
         ItemInformation::checkModel(key, node.second);
@@ -49,13 +50,13 @@ Conf::Conf(const QString& filePath) :
     // Load characters' configuration.
     for (auto node : configurationRoot["characters"]) {
         QString key(node.first.as<QString>());
-        characters.insert(key, new CharacterInformation(ModelReader(*this, key, node.second)));
+        characters.insert(key, new CharacterInformation(directoryPath, ModelReader(*this, key, node.second)));
     }
 
     // Load buildings' configuration.
     for (auto node : configurationRoot["buildings"]) {
         QString key(node.first.as<QString>());
-        buildings.insert(key, new BuildingInformation(ModelReader(*this, key, node.second)));
+        buildings.insert(key, new BuildingInformation(directoryPath, ModelReader(*this, key, node.second)));
     }
     // We load building's specific configuration later because we may have dependencies between buildings: we need all
     // the buildings to be defined before loading specifics configuration.
