@@ -10,6 +10,8 @@ class CycleDate;
 
 /**
  * @brief A processor for all map's characters.
+ *
+ * @deprecated Will be deleted in favor of DynamicElementRegistry.
  */
 class CharacterProcessor : public AbstractProcessable
 {

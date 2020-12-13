@@ -18,7 +18,9 @@ SOURCES += \
     src/engine/map/dynamicElement/character/MinerCharacter.cpp \
     src/engine/map/dynamicElement/character/StudentCharacter.cpp \
     src/engine/map/dynamicElement/character/WanderingCharacter.cpp \
+    src/engine/map/dynamicElement/DynamicElementFactory.cpp \
     src/engine/map/dynamicElement/DynamicElementHandler.cpp \
+    src/engine/map/dynamicElement/DynamicElementRegistry.cpp \
     src/engine/map/dynamicElement/MotionHandler.cpp \
     src/engine/map/path/closestPath/ClosestPathFinder.cpp \
     src/engine/map/path/closestPath/PathNode.cpp \
@@ -111,7 +113,9 @@ HEADERS += \
     src/engine/map/dynamicElement/character/WanderingCharacter.hpp \
     src/engine/map/dynamicElement/CharacterDisposerInterface.hpp \
     src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp \
+    src/engine/map/dynamicElement/DynamicElementFactory.hpp \
     src/engine/map/dynamicElement/DynamicElementHandler.hpp \
+    src/engine/map/dynamicElement/DynamicElementRegistry.hpp \
     src/engine/map/dynamicElement/MotionHandler.hpp \
     src/engine/map/path/closestPath/ClosestPathFinder.hpp \
     src/engine/map/path/closestPath/PathNode.hpp \

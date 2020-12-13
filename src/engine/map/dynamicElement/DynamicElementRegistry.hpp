@@ -1,36 +1,23 @@
-#ifndef DYNAMICELEMENTHANDLER_HPP
-#define DYNAMICELEMENTHANDLER_HPP
+#ifndef DYNAMICELEMENTREGISTRY_HPP
+#define DYNAMICELEMENTREGISTRY_HPP
 
 #include <QtCore/QHash>
+#include <QtCore/QList>
+#include <QtCore/QSharedPointer>
 
-#include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/engine/map/dynamicElement/CharacterDisposerInterface.hpp"
-#include "src/engine/state/CharacterState.hpp"
+#include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
+#include "src/engine/map/dynamicElement/DynamicElementFactory.hpp"
+#include "src/engine/processing/AbstractProcessable.hpp"
 
-class BuildingSearchEngine;
 class Character;
-class PathGeneratorInterface;
-class TimeCycleProcessor;
 
-/**
- * @deprecated Will be deleted in favor of DynamicElementRegistry.
- */
-class DynamicElementHandler : public CharacterGeneratorInterface, public CharacterDisposerInterface
+class DynamicElementRegistry : public AbstractProcessable, public CharacterDisposerInterface, public CharacterGeneratorInterface
 {
-    private:
-        struct State {
-            QHash<Character*, QSharedPointer<Character>> characters;
-        };
-
-    private:
-        TimeCycleProcessor& processor;
-        const PathGeneratorInterface& pathGenerator;
-        const BuildingSearchEngine& buildingSearchEngine;
-        State currentState;
+        Q_DISABLE_COPY_MOVE(DynamicElementRegistry)
 
     public:
-        DynamicElementHandler(
-            TimeCycleProcessor& processor,
+        explicit DynamicElementRegistry(
             const PathGeneratorInterface& pathGenerator,
             const BuildingSearchEngine& buildingSearchEngine
         );
@@ -63,7 +50,13 @@ class DynamicElementHandler : public CharacterGeneratorInterface, public Charact
 
         virtual void clearCharacter(Character& character) override;
 
-        QList<CharacterState> getCharactersState() const;
+        virtual void process(const CycleDate& date) override;
+
+    private:
+        DynamicElementFactory factory;
+        QHash<const Character*, QSharedPointer<Character>> characters;
+        QList<QSharedPointer<Character>> waitingForRegistrationList;
+        QList<const Character*> waitingForUnregistrationList;
 };
 
-#endif // DYNAMICELEMENTHANDLER_HPP
+#endif // DYNAMICELEMENTREGISTRY_HPP
