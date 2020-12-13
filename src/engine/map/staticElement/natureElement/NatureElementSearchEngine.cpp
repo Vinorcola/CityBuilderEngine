@@ -1,11 +1,11 @@
 #include "NatureElementSearchEngine.hpp"
 
-#include "src/engine/map/path/PathGenerator.hpp"
+#include "src/engine/map/path/PathGeneratorInterface.hpp"
 #include "src/engine/map/MapArea.hpp"
 
 
 
-NatureElementSearchEngine::NatureElementSearchEngine(const PathGenerator& pathGenerator) :
+NatureElementSearchEngine::NatureElementSearchEngine(const PathGeneratorInterface& pathGenerator) :
     pathGenerator(pathGenerator),
     rawMaterialCoordinates()
 {

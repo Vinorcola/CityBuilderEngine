@@ -36,6 +36,9 @@ class SchoolBuilding;
 class StorageBuilding;
 class TimeCycleProcessor;
 
+/**
+ * @deprecated Will be deleted in favor of DynamicElementRegistry.
+ */
 class StaticElementHandler : public MapDetailsInterface
 {
     private:

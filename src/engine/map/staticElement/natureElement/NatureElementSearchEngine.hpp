@@ -12,18 +12,18 @@ class MapArea;
 class MapCoordinates;
 class NatureElementInformation;
 class PathInterface;
-class PathGenerator;
+class PathGeneratorInterface;
 
 using MapCoordinatesList = QSet<QString>;
 
 class NatureElementSearchEngine
 {
     private:
-        const PathGenerator& pathGenerator;
+        const PathGeneratorInterface& pathGenerator;
         QHash<const NatureElementInformation*, MapCoordinatesList> rawMaterialCoordinates;
 
     public:
-        explicit NatureElementSearchEngine(const PathGenerator& pathGenerator);
+        explicit NatureElementSearchEngine(const PathGeneratorInterface& pathGenerator);
 
         void registerRawMaterial(const NatureElementInformation& conf, const MapArea& area);
 

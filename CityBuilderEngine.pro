@@ -48,7 +48,9 @@ SOURCES += \
     src/engine/map/staticElement/building/StorageBuilding.cpp \
     src/engine/map/staticElement/natureElement/NatureElement.cpp \
     src/engine/map/staticElement/natureElement/NatureElementSearchEngine.cpp \
+    src/engine/map/staticElement/StaticElementFactory.cpp \
     src/engine/map/staticElement/StaticElementHandler.cpp \
+    src/engine/map/staticElement/StaticElementRegistry.cpp \
     src/engine/map/Map.cpp \
     src/engine/map/MapArea.cpp \
     src/engine/map/MapCoordinates.cpp \
@@ -104,6 +106,7 @@ HEADERS += \
     src/engine/city/City.hpp \
     src/engine/city/PopulationHandler.hpp \
     src/engine/city/PopulationRegistryInterface.hpp \
+    src/engine/city/WorkingPlaceRegistryInterface.hpp \
     src/engine/loader/CityLoader.hpp \
     src/engine/map/dynamicElement/character/Character.hpp \
     src/engine/map/dynamicElement/character/DeliveryManCharacter.hpp \
@@ -147,7 +150,9 @@ HEADERS += \
     src/engine/map/staticElement/building/StorageBuilding.hpp \
     src/engine/map/staticElement/natureElement/NatureElement.hpp \
     src/engine/map/staticElement/natureElement/NatureElementSearchEngine.hpp \
+    src/engine/map/staticElement/StaticElementFactory.hpp \
     src/engine/map/staticElement/StaticElementHandler.hpp \
+    src/engine/map/staticElement/StaticElementRegistry.hpp \
     src/engine/map/Map.hpp \
     src/engine/map/MapArea.hpp \
     src/engine/map/MapCoordinates.hpp \

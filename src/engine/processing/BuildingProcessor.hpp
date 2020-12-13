@@ -10,6 +10,8 @@ class CycleDate;
 
 /**
  * @brief A processor for all map's buildings.
+ *
+ * @deprecated Will be deleted in favor of StaticElementRegistry.
  */
 class BuildingProcessor : public AbstractProcessable
 {
