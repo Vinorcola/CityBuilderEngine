@@ -1,5 +1,5 @@
-#ifndef CHARACTERFACTORYINTERFACE_HPP
-#define CHARACTERFACTORYINTERFACE_HPP
+#ifndef CHARACTERGENERATORINTERFACE_HPP
+#define CHARACTERGENERATORINTERFACE_HPP
 
 #include <QtCore/QWeakPointer>
 
@@ -18,10 +18,10 @@ class AbstractProcessableBuilding;
 class StudentCharacter;
 class WanderingCharacter;
 
-class CharacterFactoryInterface
+class CharacterGeneratorInterface
 {
     public:
-        virtual ~CharacterFactoryInterface() {};
+        virtual ~CharacterGeneratorInterface() {};
 
         virtual QWeakPointer<Character> generateDeliveryMan(
             const CharacterInformation& conf,
@@ -54,4 +54,4 @@ class CharacterFactoryInterface
         ) = 0;
 };
 
-#endif // CHARACTERFACTORYINTERFACE_HPP
+#endif // CHARACTERGENERATORINTERFACE_HPP

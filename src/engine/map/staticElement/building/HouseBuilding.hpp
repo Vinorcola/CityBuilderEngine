@@ -5,7 +5,7 @@
 
 #include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
 
-class CharacterFactoryInterface;
+class CharacterGeneratorInterface;
 class ImmigrantGeneratorInterface;
 class CivilianEntryPoint;
 class PopulationRegistryInterface;

@@ -3,7 +3,7 @@
 #include "src/engine/map/dynamicElement/character/Character.hpp"
 #include "src/engine/map/dynamicElement/character/DeliveryManCharacter.hpp"
 #include "src/engine/map/dynamicElement/character/MinerCharacter.hpp"
-#include "src/engine/map/dynamicElement/CharacterFactoryInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/engine/map/path/PathInterface.hpp"
 #include "src/engine/map/staticElement/natureElement/NatureElementSearchEngine.hpp"
 #include "src/engine/state/BuildingState.hpp"
@@ -14,7 +14,7 @@
 
 ProducerBuilding::ProducerBuilding(
     const NatureElementSearchEngine& searchEngine,
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     Direction orientation,
@@ -35,7 +35,7 @@ ProducerBuilding::ProducerBuilding(
 
 QSharedPointer<AbstractProcessableBuilding> ProducerBuilding::Create(
     const NatureElementSearchEngine& searchEngine,
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     Direction orientation,

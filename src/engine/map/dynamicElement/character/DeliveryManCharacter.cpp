@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include "src/engine/map/dynamicElement/CharacterManagerInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterDisposerInterface.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/map/staticElement/building/BuildingSearchEngine.hpp"
@@ -11,7 +11,7 @@
 
 
 DeliveryManCharacter::DeliveryManCharacter(
-    CharacterManagerInterface& characterManager,
+    CharacterDisposerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const BuildingSearchEngine& searchEngine,
     const CharacterInformation& conf,

@@ -8,18 +8,18 @@
 #include "src/engine/processing/CycleDate.hpp"
 
 class Character;
-class CharacterFactoryInterface;
+class CharacterGeneratorInterface;
 
 class SanityBuilding : public AbstractProcessableBuilding
 {
     private:
-        CharacterFactoryInterface& characterFactory;
+        CharacterGeneratorInterface& characterFactory;
         WalkerGenerationBehavior walkerGeneration;
         QWeakPointer<Character> walker;
 
     private:
         SanityBuilding(
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             Direction orientation,
@@ -28,7 +28,7 @@ class SanityBuilding : public AbstractProcessableBuilding
 
     public:
         static QSharedPointer<AbstractProcessableBuilding> Create(
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             Direction orientation,

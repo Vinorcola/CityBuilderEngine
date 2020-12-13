@@ -1,6 +1,6 @@
 #include "SchoolBuilding.hpp"
 
-#include "src/engine/map/dynamicElement/CharacterFactoryInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/engine/map/staticElement/building/BuildingSearchEngine.hpp"
 #include "src/engine/map/staticElement/building/LaboratoryBuilding.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
@@ -9,7 +9,7 @@
 
 SchoolBuilding::SchoolBuilding(
     const BuildingSearchEngine& searchEngine,
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     Direction orientation,
@@ -27,7 +27,7 @@ SchoolBuilding::SchoolBuilding(
 
 QSharedPointer<AbstractProcessableBuilding> SchoolBuilding::Create(
     const BuildingSearchEngine& searchEngine,
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     Direction orientation,

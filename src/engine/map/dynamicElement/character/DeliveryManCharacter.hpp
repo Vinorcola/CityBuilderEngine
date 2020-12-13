@@ -18,7 +18,7 @@ class DeliveryManCharacter : public Character
 
     public:
         DeliveryManCharacter(
-            CharacterManagerInterface& characterManager,
+            CharacterDisposerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const BuildingSearchEngine& searchEngine,
             const CharacterInformation& conf,

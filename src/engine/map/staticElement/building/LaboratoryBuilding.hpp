@@ -7,19 +7,19 @@
 #include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
 
 class Character;
-class CharacterFactoryInterface;
+class CharacterGeneratorInterface;
 
 class LaboratoryBuilding : public AbstractProcessableBuilding
 {
     private:
-        CharacterFactoryInterface& characterFactory;
+        CharacterGeneratorInterface& characterFactory;
         int workingCountDown;
         WalkerGenerationBehavior scientistGeneration;
         QWeakPointer<Character> scientist;
 
     private:
         LaboratoryBuilding(
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             Direction orientation,
@@ -28,7 +28,7 @@ class LaboratoryBuilding : public AbstractProcessableBuilding
 
     public:
         static QSharedPointer<AbstractProcessableBuilding> Create(
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             Direction orientation,

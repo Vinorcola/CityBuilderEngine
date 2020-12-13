@@ -7,7 +7,7 @@
 
 class AbstractProcessableBuilding;
 class CharacterInformation;
-class CharacterManagerInterface;
+class CharacterDisposerInterface;
 class MapCoordinates;
 class PathGeneratorInterface;
 struct CharacterState;
@@ -29,7 +29,7 @@ struct CharacterState;
 class Character : public AbstractProcessable
 {
     protected:
-        CharacterManagerInterface& characterManager; ///< A service for requiring the character destruction.
+        CharacterDisposerInterface& characterManager; ///< A service for requiring the character destruction.
         const PathGeneratorInterface& pathGenerator; ///< A service for generating paths.
         const CharacterInformation& conf; ///< The character configuration.
         MotionHandler motionHandler; ///< A helper that will handle the character's motion.
@@ -38,7 +38,7 @@ class Character : public AbstractProcessable
 
     public:
         Character(
-            CharacterManagerInterface& characterManager,
+            CharacterDisposerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
             const QSharedPointer<AbstractProcessableBuilding>& issuer

@@ -1,6 +1,6 @@
 #include "WanderingCharacter.hpp"
 
-#include "src/engine/map/dynamicElement/CharacterManagerInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterDisposerInterface.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
@@ -8,7 +8,7 @@
 
 
 WanderingCharacter::WanderingCharacter(
-    CharacterManagerInterface& characterManager,
+    CharacterDisposerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
     const QSharedPointer<AbstractProcessableBuilding>& issuer

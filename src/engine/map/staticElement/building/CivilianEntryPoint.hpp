@@ -7,7 +7,7 @@
 #include "src/engine/map/staticElement/building/ImmigrantGeneratorInterface.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 
-class CharacterFactoryInterface;
+class CharacterGeneratorInterface;
 class CharacterInformation;
 
 /**
@@ -22,14 +22,14 @@ class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantG
         const int MAX_IMMIGRANT_GENERATION_INTERVAL = 90;
 
     private:
-        CharacterFactoryInterface& characterFactory;
+        CharacterGeneratorInterface& characterFactory;
         const CharacterInformation& immigrantConf;
         int nextImmigrantGenerationCountDown;
         QList<QWeakPointer<AbstractProcessableBuilding>> immigrantRequestQueue;
 
     private:
         CivilianEntryPoint(
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapCoordinates& location,
             const CharacterInformation& immigrantConf
@@ -37,7 +37,7 @@ class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantG
 
     public:
         static QSharedPointer<CivilianEntryPoint> Create(
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapCoordinates& location,
             const CharacterInformation& immigrantConf

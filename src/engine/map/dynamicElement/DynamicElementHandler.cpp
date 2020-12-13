@@ -19,8 +19,8 @@ DynamicElementHandler::DynamicElementHandler(
     const PathGeneratorInterface& pathGenerator,
     const BuildingSearchEngine& buildingSearchEngine
 ) :
-    CharacterFactoryInterface(),
-    CharacterManagerInterface(),
+    CharacterGeneratorInterface(),
+    CharacterDisposerInterface(),
     processor(processor),
     pathGenerator(pathGenerator),
     buildingSearchEngine(buildingSearchEngine),

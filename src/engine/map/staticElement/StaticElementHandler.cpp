@@ -25,7 +25,7 @@
 
 
 StaticElementHandler::State::State(
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const Conf& conf,
     const MapCoordinates& entryPointLocation
 ) :
@@ -47,7 +47,7 @@ StaticElementHandler::StaticElementHandler(
     PopulationHandler& populationHandler,
     TimeCycleProcessor& processor,
     const Map& map,
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const Conf& conf,
     const MapCoordinates& mapEntryPointLocation
 ) :

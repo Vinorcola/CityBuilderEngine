@@ -3,7 +3,7 @@
 #include <QtCore/QtGlobal>
 
 #include "src/engine/map/dynamicElement/character/DeliveryManCharacter.hpp"
-#include "src/engine/map/dynamicElement/CharacterFactoryInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 #include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
@@ -12,7 +12,7 @@
 
 
 FarmBuilding::FarmBuilding(
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     Direction orientation,
@@ -30,7 +30,7 @@ FarmBuilding::FarmBuilding(
 
 
 QSharedPointer<AbstractProcessableBuilding> FarmBuilding::Create(
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     Direction orientation,

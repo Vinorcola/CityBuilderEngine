@@ -16,7 +16,7 @@
 
 class AbstractBuilding;
 class BuildingInformation;
-class CharacterFactoryInterface;
+class CharacterGeneratorInterface;
 class CivilianEntryPoint;
 class Conf;
 class FarmBuilding;
@@ -41,7 +41,7 @@ class StaticElementHandler : public MapDetailsInterface
     private:
         struct State {
             State(
-                CharacterFactoryInterface& characterFactory,
+                CharacterGeneratorInterface& characterFactory,
                 const Conf& conf,
                 const MapCoordinates& entryPointLocation
             );
@@ -59,7 +59,7 @@ class StaticElementHandler : public MapDetailsInterface
         PopulationHandler& populationHandler;
         TimeCycleProcessor& processor;
         const Map& map;
-        CharacterFactoryInterface& characterFactory;
+        CharacterGeneratorInterface& characterFactory;
         State currentState;
         DetailsCache detailsCache;
         PathGenerator pathGenerator;
@@ -75,7 +75,7 @@ class StaticElementHandler : public MapDetailsInterface
             PopulationHandler& populationHandler,
             TimeCycleProcessor& processor,
             const Map& map,
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const Conf& conf,
             const MapCoordinates& mapEntryPointLocation
         );

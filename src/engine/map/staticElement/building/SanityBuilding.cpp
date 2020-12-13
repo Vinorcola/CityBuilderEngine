@@ -1,14 +1,14 @@
 #include "SanityBuilding.hpp"
 
 #include "src/engine/map/dynamicElement/character/WanderingCharacter.hpp"
-#include "src/engine/map/dynamicElement/CharacterFactoryInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/pointer/SmartPointerUtils.hpp"
 
 
 
 SanityBuilding::SanityBuilding(
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     Direction orientation,
@@ -25,7 +25,7 @@ SanityBuilding::SanityBuilding(
 
 
 QSharedPointer<AbstractProcessableBuilding> SanityBuilding::Create(
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     Direction orientation,

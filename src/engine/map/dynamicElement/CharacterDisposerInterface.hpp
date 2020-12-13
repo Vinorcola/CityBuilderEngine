@@ -1,12 +1,12 @@
-#ifndef CHARACTERMANAGERINTERFACE_HPP
-#define CHARACTERMANAGERINTERFACE_HPP
+#ifndef CHARACTERDISPOSERINTERFACE_HPP
+#define CHARACTERDISPOSERINTERFACE_HPP
 
 class Character;
 
-class CharacterManagerInterface
+class CharacterDisposerInterface
 {
     public:
-        virtual ~CharacterManagerInterface() {};
+        virtual ~CharacterDisposerInterface() {};
 
         /**
          * @brief Clear the given character
@@ -16,4 +16,4 @@ class CharacterManagerInterface
         virtual void clearCharacter(Character& character) = 0;
 };
 
-#endif // CHARACTERMANAGERINTERFACE_HPP
+#endif // CHARACTERDISPOSERINTERFACE_HPP

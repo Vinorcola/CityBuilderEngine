@@ -12,7 +12,7 @@ class ImmigrantCharacter : public Character
 
     public:
         ImmigrantCharacter(
-            CharacterManagerInterface& characterManager,
+            CharacterDisposerInterface& characterManager,
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
             const QSharedPointer<AbstractProcessableBuilding>& issuer,

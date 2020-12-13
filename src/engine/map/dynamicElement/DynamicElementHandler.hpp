@@ -3,8 +3,8 @@
 
 #include <QtCore/QHash>
 
-#include "src/engine/map/dynamicElement/CharacterFactoryInterface.hpp"
-#include "src/engine/map/dynamicElement/CharacterManagerInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterDisposerInterface.hpp"
 #include "src/engine/state/CharacterState.hpp"
 
 class BuildingSearchEngine;
@@ -12,7 +12,7 @@ class Character;
 class PathGeneratorInterface;
 class TimeCycleProcessor;
 
-class DynamicElementHandler : public CharacterFactoryInterface, public CharacterManagerInterface
+class DynamicElementHandler : public CharacterGeneratorInterface, public CharacterDisposerInterface
 {
     private:
         struct State {

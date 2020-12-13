@@ -109,8 +109,8 @@ HEADERS += \
     src/engine/map/dynamicElement/character/MinerCharacter.hpp \
     src/engine/map/dynamicElement/character/StudentCharacter.hpp \
     src/engine/map/dynamicElement/character/WanderingCharacter.hpp \
-    src/engine/map/dynamicElement/CharacterFactoryInterface.hpp \
-    src/engine/map/dynamicElement/CharacterManagerInterface.hpp \
+    src/engine/map/dynamicElement/CharacterDisposerInterface.hpp \
+    src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp \
     src/engine/map/dynamicElement/DynamicElementHandler.hpp \
     src/engine/map/dynamicElement/MotionHandler.hpp \
     src/engine/map/path/closestPath/ClosestPathFinder.hpp \

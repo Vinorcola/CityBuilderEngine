@@ -7,7 +7,7 @@
 
 class BuildingSearchEngine;
 class Character;
-class CharacterFactoryInterface;
+class CharacterGeneratorInterface;
 
 /**
  * @brief A school building will generate student at a regular interval as long as there is a university accepting them.
@@ -16,13 +16,13 @@ class SchoolBuilding : public AbstractProcessableBuilding
 {
     private:
         const BuildingSearchEngine& searchEngine;
-        CharacterFactoryInterface& characterFactory;
+        CharacterGeneratorInterface& characterFactory;
         WalkerGenerationBehavior walkerGeneration;
 
     private:
         SchoolBuilding(
             const BuildingSearchEngine& searchEngine,
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             Direction orientation,
@@ -32,7 +32,7 @@ class SchoolBuilding : public AbstractProcessableBuilding
     public:
         static QSharedPointer<AbstractProcessableBuilding> Create(
             const BuildingSearchEngine& searchEngine,
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             Direction orientation,

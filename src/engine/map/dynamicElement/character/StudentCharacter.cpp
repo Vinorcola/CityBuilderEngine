@@ -1,12 +1,12 @@
 #include "StudentCharacter.hpp"
 
-#include "src/engine/map/dynamicElement/CharacterManagerInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterDisposerInterface.hpp"
 #include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
 
 
 
 StudentCharacter::StudentCharacter(
-    CharacterManagerInterface& characterManager,
+    CharacterDisposerInterface& characterManager,
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
     const QSharedPointer<AbstractProcessableBuilding>& issuer,

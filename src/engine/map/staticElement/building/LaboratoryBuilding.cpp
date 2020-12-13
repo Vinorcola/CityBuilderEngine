@@ -2,14 +2,14 @@
 
 #include "src/engine/map/dynamicElement/character/Character.hpp"
 #include "src/engine/map/dynamicElement/character/WanderingCharacter.hpp"
-#include "src/engine/map/dynamicElement/CharacterFactoryInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/pointer/SmartPointerUtils.hpp"
 
 
 
 LaboratoryBuilding::LaboratoryBuilding(
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     Direction orientation,
@@ -27,7 +27,7 @@ LaboratoryBuilding::LaboratoryBuilding(
 
 
 QSharedPointer<AbstractProcessableBuilding> LaboratoryBuilding::Create(
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapArea& area,
     Direction orientation,

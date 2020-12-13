@@ -4,13 +4,13 @@
 #include <QtCore/QRandomGenerator>
 
 #include "src/engine/map/dynamicElement/character/ImmigrantCharacter.hpp"
-#include "src/engine/map/dynamicElement/CharacterFactoryInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/engine/map/staticElement/building/HouseBuilding.hpp"
 
 
 
 CivilianEntryPoint::CivilianEntryPoint(
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapCoordinates& location,
     const CharacterInformation& immigrantConf
@@ -27,7 +27,7 @@ CivilianEntryPoint::CivilianEntryPoint(
 
 
 QSharedPointer<CivilianEntryPoint> CivilianEntryPoint::Create(
-    CharacterFactoryInterface& characterFactory,
+    CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
     const MapCoordinates& location,
     const CharacterInformation& immigrantConf

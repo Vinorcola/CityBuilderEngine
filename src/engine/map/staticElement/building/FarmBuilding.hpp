@@ -5,20 +5,20 @@
 
 #include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
 
-class CharacterFactoryInterface;
+class CharacterGeneratorInterface;
 class ItemInformation;
 
 class FarmBuilding : public AbstractProcessableBuilding
 {
     private:
         const int GROWING_INTERVAL;
-        CharacterFactoryInterface& characterFactory;
+        CharacterGeneratorInterface& characterFactory;
         int growingCountDown;
         QWeakPointer<Character> deliveryMan;
 
     private:
         FarmBuilding(
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             Direction orientation,
@@ -27,7 +27,7 @@ class FarmBuilding : public AbstractProcessableBuilding
 
     public:
         static QSharedPointer<AbstractProcessableBuilding> Create(
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             Direction orientation,

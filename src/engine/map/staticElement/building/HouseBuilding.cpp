@@ -2,7 +2,7 @@
 
 #include "src/engine/city/PopulationRegistryInterface.hpp"
 #include "src/engine/map/dynamicElement/character/ImmigrantCharacter.hpp"
-#include "src/engine/map/dynamicElement/CharacterFactoryInterface.hpp"
+#include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/engine/map/staticElement/building/ImmigrantGeneratorInterface.hpp"
 #include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"

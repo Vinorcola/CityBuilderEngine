@@ -10,14 +10,14 @@
 #include "src/global/BuildingStatus.hpp"
 
 class Character;
-class CharacterFactoryInterface;
+class CharacterGeneratorInterface;
 class NatureElementSearchEngine;
 
 class ProducerBuilding : public AbstractProcessableBuilding
 {
     private:
         const NatureElementSearchEngine& searchEngine;
-        CharacterFactoryInterface& characterFactory;
+        CharacterGeneratorInterface& characterFactory;
         WalkerGenerationBehavior minerGeneration;
         QHash<Character*, QWeakPointer<Character>> miners;
         int rawMaterialStock;
@@ -26,7 +26,7 @@ class ProducerBuilding : public AbstractProcessableBuilding
     private:
         ProducerBuilding(
             const NatureElementSearchEngine& searchEngine,
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             Direction orientation,
@@ -36,7 +36,7 @@ class ProducerBuilding : public AbstractProcessableBuilding
     public:
         static QSharedPointer<AbstractProcessableBuilding> Create(
             const NatureElementSearchEngine& searchEngine,
-            CharacterFactoryInterface& characterFactory,
+            CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
             const MapArea& area,
             Direction orientation,
