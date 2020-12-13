@@ -11,8 +11,8 @@
 #include "src/engine/map/staticElement/StaticElementRegistry.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
 
-class Conf;
 class CityLoader;
+class Conf;
 class MapArea;
 class MapCoordinates;
 class MapState;
@@ -30,16 +30,27 @@ class Map : public AbstractProcessable, public MapDetailsInterface
             WorkingPlaceRegistryInterface& workingPlaceRegistry
         );
 
+        const PathGenerator& getPathGenerator() const;
+
+        // States.
         MapState getState() const;
+        QList<BuildingState> getBuildingsState() const;
+        QList<NatureElementState> getNatureElementsState() const;
+        QList<CharacterState> getCharactersState() const;
+
+        // Elements
+        void createBuilding(const BuildingInformation& conf, const MapCoordinates& leftCorner, Direction orientation);
+        void createNatureElement(const NatureElementInformation& conf, const MapArea& area);
 
         // Map details
         bool isLocationValid(const MapCoordinates& coordinates) const;
         bool isAreaValid(const MapArea& area) const;
+        bool isAreaConstructible(const MapArea& area) const;
         virtual bool isLocationTraversable(const MapCoordinates& location) const override;
         virtual bool hasRoadAtLocation(const MapCoordinates& location) const override;
         virtual bool canConstructRoadAtLocation(const MapCoordinates& location) const override;
 
-        virtual void process(const CycleDate& date);
+        virtual void process(const CycleDate& date) override;
 
     private:
         const QSize size;

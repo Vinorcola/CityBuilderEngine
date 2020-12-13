@@ -9,6 +9,7 @@
 #include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/engine/map/dynamicElement/DynamicElementFactory.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
+#include "src/engine/state/CharacterState.hpp"
 
 class Character;
 
@@ -49,6 +50,9 @@ class DynamicElementRegistry : public AbstractProcessable, public CharacterDispo
         ) override;
 
         virtual void clearCharacter(Character& character) override;
+
+        // State.
+        QList<CharacterState> getCharactersState() const;
 
         virtual void process(const CycleDate& date) override;
 

@@ -9,6 +9,8 @@
 #include "src/engine/map/staticElement/natureElement/NatureElementSearchEngine.hpp"
 #include "src/engine/map/staticElement/StaticElementFactory.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
+#include "src/engine/state/BuildingState.hpp"
+#include "src/engine/state/NatureElementState.hpp"
 
 class AbstractBuilding;
 class CharacterInformation;
@@ -42,6 +44,10 @@ class StaticElementRegistry : public AbstractProcessable
             const MapCoordinates& entryPoint
         );
         void generateNatureElement(const NatureElementInformation& conf, const MapArea& area);
+
+        // States.
+        QList<BuildingState> getBuildingsState() const;
+        QList<NatureElementState> getNatureElementsState() const;
 
         virtual void process(const CycleDate& date) override;
 

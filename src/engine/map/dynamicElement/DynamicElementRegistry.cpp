@@ -4,6 +4,7 @@
 
 #include "src/engine/map/dynamicElement/character/Character.hpp"
 #include "src/engine/map/dynamicElement/DynamicElementFactory.hpp"
+#include "src/engine/state/CharacterState.hpp"
 
 
 
@@ -94,6 +95,18 @@ QWeakPointer<Character> DynamicElementRegistry::generateWanderingCharacter(
 void DynamicElementRegistry::clearCharacter(Character& character)
 {
     waitingForUnregistrationList.append(&character);
+}
+
+
+
+QList<CharacterState> DynamicElementRegistry::getCharactersState() const
+{
+    QList<CharacterState> list;
+    for (auto character : characters) {
+        list.append(character->getCurrentState());
+    }
+
+    return list;
 }
 
 

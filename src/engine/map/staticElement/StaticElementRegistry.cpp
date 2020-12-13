@@ -5,6 +5,8 @@
 #include "src/engine/city/WorkingPlaceRegistryInterface.hpp"
 #include "src/engine/map/staticElement/building/CivilianEntryPoint.hpp"
 #include "src/engine/map/staticElement/natureElement/NatureElement.hpp"
+#include "src/engine/state/BuildingState.hpp"
+#include "src/engine/state/NatureElementState.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 
@@ -121,6 +123,30 @@ void StaticElementRegistry::generateNatureElement(const NatureElementInformation
 
     // Note: For now, we do not have processable nature elements. But trees will typically become processable in order
     // to grow after cutting.
+}
+
+
+
+QList<BuildingState> StaticElementRegistry::getBuildingsState() const
+{
+    QList<BuildingState> list;
+    for (auto building : buildings) {
+        list.append(building->getCurrentState());
+    }
+
+    return list;
+}
+
+
+
+QList<NatureElementState> StaticElementRegistry::getNatureElementsState() const
+{
+    QList<NatureElementState> list;
+    for (auto natureElement : natureElements) {
+        list.append(natureElement->getState());
+    }
+
+    return list;
 }
 
 
