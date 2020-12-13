@@ -1,6 +1,7 @@
 #include "City.hpp"
 
 #include "src/engine/loader/CityLoader.hpp"
+#include "src/engine/state/MapState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 
@@ -87,7 +88,7 @@ QList<MapCoordinates> City::getShortestPathForRoad(const MapCoordinates& origin,
 
 
 
-const MapState& City::getMapState() const
+MapState City::getMapState() const
 {
     return map.getState();
 }

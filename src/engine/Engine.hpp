@@ -31,7 +31,7 @@ class Engine : public QObject, public AreaCheckerInterface, public RoadPathGener
 
         void loadCity(const QString& cityFilePath);
 
-        const MapState& getMapState() const;
+        MapState getMapState() const;
         State getCurrentState() const;
 
         virtual bool isConstructible(const MapArea& area) const override;

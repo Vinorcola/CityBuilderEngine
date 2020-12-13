@@ -6,6 +6,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QShortcut>
 
+#include "src/engine/state/MapState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/ui/controlPanel/ControlPanel.hpp"
