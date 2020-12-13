@@ -16,7 +16,7 @@ class MapCoordinates
 {
     private:
         QPointF coordinates;
-        QString hash;
+        mutable QString hash;
 
     public:
         /**

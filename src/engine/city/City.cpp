@@ -2,7 +2,6 @@
 
 #include "src/engine/loader/CityLoader.hpp"
 #include "src/engine/state/CityState.hpp"
-#include "src/engine/state/MapState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 

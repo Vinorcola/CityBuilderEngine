@@ -238,7 +238,7 @@ QString MapCoordinates::getHash() const
 {
     if (hash.isEmpty()) {
         // Cache the value to avoid calculating it each time.
-        const_cast<MapCoordinates*>(this)->hash = QString::number(coordinates.x()) + ';' + QString::number(coordinates.y());
+        hash = QString::number(coordinates.x()) + ';' + QString::number(coordinates.y());
     }
 
     return hash;

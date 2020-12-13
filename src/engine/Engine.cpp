@@ -4,7 +4,6 @@
 
 #include "src/engine/city/City.hpp"
 #include "src/engine/loader/CityLoader.hpp"
-#include "src/engine/state/MapState.hpp"
 #include "src/engine/state/State.hpp"
 
 

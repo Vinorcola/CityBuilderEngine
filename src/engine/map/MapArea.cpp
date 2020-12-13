@@ -51,7 +51,7 @@ const MapCoordinates& MapArea::getRight() const
 
 MapCoordinates MapArea::getTop() const
 {
-    return { right.getY(), left.getY() };
+    return { right.getX(), left.getY() };
 }
 
 

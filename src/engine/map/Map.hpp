@@ -10,12 +10,12 @@
 #include "src/engine/map/staticElement/building/CivilianEntryPoint.hpp"
 #include "src/engine/map/staticElement/StaticElementRegistry.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
+#include "src/engine/state/MapState.hpp"
 
 class CityLoader;
 class Conf;
 class MapArea;
 class MapCoordinates;
-class MapState;
 
 /**
  * @brief The city map.
@@ -53,11 +53,21 @@ class Map : public AbstractProcessable, public MapDetailsInterface
         virtual void process(const CycleDate& date) override;
 
     private:
+        MapCoordinates getBestBuildingEntryPoint(const MapArea& area) const;
+
+    private:
+        struct DetailsCache {
+            QSet<QString> nonConstructibleCoordinates;
+            QSet<QString> nonTraversableCoordinates;
+            QSet<QString> roadCoordinates;
+        };
+
         const QSize size;
         QSharedPointer<CivilianEntryPoint> civilianEntryPoint;
         PathGenerator pathGenerator;
         StaticElementRegistry staticElements;
         DynamicElementRegistry dynamicElements;
+        DetailsCache detailsCache;
 };
 
 #endif // MAP_HPP

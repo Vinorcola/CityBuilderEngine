@@ -6,9 +6,9 @@
 #include "src/engine/map/MapArea.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/CycleDate.hpp"
-#include "src/engine/state/MapState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
+#include "src/global/conf/NatureElementInformation.hpp"
 
 
 
@@ -27,7 +27,8 @@ Map::Map(
     )),
     pathGenerator(*this),
     staticElements(dynamicElements, populationRegistry, workingPlaceRegistry, pathGenerator, *civilianEntryPoint.get()),
-    dynamicElements(pathGenerator, staticElements.getBuildingSearchEngine())
+    dynamicElements(pathGenerator, staticElements.getBuildingSearchEngine()),
+    detailsCache()
 {
 
 }
@@ -79,13 +80,18 @@ void Map::createBuilding(const BuildingInformation& conf, const MapCoordinates& 
 
     if (conf.getType() == BuildingInformation::Type::Road) {
         staticElements.generateBuilding(conf, area, orientation);
+        for (auto location : area) {
+            detailsCache.roadCoordinates.insert(location.getHash());
+            detailsCache.nonConstructibleCoordinates.insert(location.getHash());
+        }
     }
     else {
-        MapCoordinates entryPoint; // TODO
-        staticElements.generateProcessableBuilding(conf, area, orientation, entryPoint);
+        staticElements.generateProcessableBuilding(conf, area, orientation, getBestBuildingEntryPoint(area));
+        for (auto location : area) {
+            detailsCache.nonTraversableCoordinates.insert(location.getHash());
+            detailsCache.nonConstructibleCoordinates.insert(location.getHash());
+        }
     }
-
-    // TODO: Register in details cache.
 }
 
 
@@ -93,8 +99,12 @@ void Map::createBuilding(const BuildingInformation& conf, const MapCoordinates& 
 void Map::createNatureElement(const NatureElementInformation& conf, const MapArea& area)
 {
     staticElements.generateNatureElement(conf, area);
-
-    // TODO: Register in details cache.
+    for (auto location : area) {
+        detailsCache.nonConstructibleCoordinates.insert(location.getHash());
+        if (!conf.isTraversable()) {
+            detailsCache.nonTraversableCoordinates.insert(location.getHash());
+        }
+    }
 }
 
 
@@ -103,6 +113,7 @@ bool Map::isLocationValid(const MapCoordinates& coordinates) const
 {
     int sum(coordinates.getY() + coordinates.getX());
     int diff(coordinates.getY() - coordinates.getX());
+
     return (
         diff >= 0 && diff < size.height() &&
         sum >= 0 && sum <= size.width()
@@ -113,6 +124,10 @@ bool Map::isLocationValid(const MapCoordinates& coordinates) const
 
 bool Map::isAreaValid(const MapArea& area) const
 {
+    if (area.getLeft().getX() == -7 && area.getLeft().getY() == 26) {
+        auto top(area.getTop());
+    }
+
     return (
         isLocationValid(area.getLeft()) &&
         isLocationValid(area.getRight()) &&
@@ -125,7 +140,16 @@ bool Map::isAreaValid(const MapArea& area) const
 
 bool Map::isAreaConstructible(const MapArea& area) const
 {
-    // TODO
+    if (!isAreaValid(area)) {
+        return false;
+    }
+
+    for (auto location : area) {
+        if (detailsCache.nonConstructibleCoordinates.contains(location.getHash())) {
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -133,24 +157,24 @@ bool Map::isAreaConstructible(const MapArea& area) const
 
 bool Map::isLocationTraversable(const MapCoordinates& location) const
 {
-    // TODO
-    return true;
+    return isLocationValid(location) && !detailsCache.nonTraversableCoordinates.contains(location.getHash());
 }
 
 
 
 bool Map::hasRoadAtLocation(const MapCoordinates& location) const
 {
-    // TODO
-    return true;
+    return detailsCache.roadCoordinates.contains(location.getHash());
 }
 
 
 
 bool Map::canConstructRoadAtLocation(const MapCoordinates& location) const
 {
-    // TODO
-    return true;
+    return isLocationValid(location) && (
+        !detailsCache.nonConstructibleCoordinates.contains(location.getHash()) ||
+        detailsCache.roadCoordinates.contains(location.getHash())
+    );
 }
 
 
@@ -163,4 +187,48 @@ void Map::process(const CycleDate& date)
     if (date.isBuildingCycle()) {
         staticElements.process(date);
     }
+}
+
+
+
+MapCoordinates Map::getBestBuildingEntryPoint(const MapArea& area) const
+{
+    // Fetch a location around the area, starting at the coordinates at north of left point, and turning clockwise
+    // around the area.
+
+    auto left(area.getLeft());
+    auto right(area.getRight());
+    int moveX(1);
+    int moveY(0);
+
+    MapCoordinates coordinates(left.getNorth());
+    while (!detailsCache.roadCoordinates.contains(coordinates.getHash())) {
+        coordinates.setX(coordinates.getX() + moveX);
+        coordinates.setY(coordinates.getY() + moveY);
+
+        if (moveX == 1 && coordinates.getX() > right.getX()) {
+            // Overstep top corner.
+            moveX = 0;
+            moveY = 1;
+            coordinates.setY(coordinates.getY() + moveY);
+        }
+        else if (moveY == 1 && coordinates.getY() > right.getY()) {
+            // Overstep right corner.
+            moveX = -1;
+            moveY = 0;
+            coordinates.setX(coordinates.getX() + moveX);
+        }
+        else if (moveX == -1 && coordinates.getX() < left.getX()) {
+            // Overstep bottom corner.
+            moveX = 0;
+            moveY = -1;
+            coordinates.setY(coordinates.getY() + moveY);
+        }
+        else if (moveY == -1 && coordinates.getY() < left.getY()) {
+            // Overstep left corner. No road nodefound.
+            return MapCoordinates();
+        }
+    }
+
+    return coordinates;
 }
