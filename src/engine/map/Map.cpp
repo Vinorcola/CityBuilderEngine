@@ -5,6 +5,7 @@
 #include "src/engine/loader/CityLoader.hpp"
 #include "src/engine/map/MapArea.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
+#include "src/engine/map/Tile.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
@@ -19,6 +20,7 @@ Map::Map(
     WorkingPlaceRegistryInterface& workingPlaceRegistry
 ) :
     size(loader.getMapSize()),
+    tiles(),
     civilianEntryPoint(CivilianEntryPoint::Create(
         dynamicElements,
         conf.getBuildingConf("mapEntryPoint"),
@@ -27,10 +29,32 @@ Map::Map(
     )),
     pathGenerator(*this),
     staticElements(dynamicElements, populationRegistry, workingPlaceRegistry, pathGenerator, *civilianEntryPoint.get()),
-    dynamicElements(pathGenerator, staticElements.getBuildingSearchEngine()),
-    detailsCache()
+    dynamicElements(pathGenerator, staticElements.getBuildingSearchEngine())
 {
+    // Create the tiles and their graphics item.
+    int line(0);
+    int column(0);
+    while (line < size.height()) {
+        // NOTE: Because we divide by 2 and casting as integer, we deliberately remove floating precision. However, the
+        // adjustment needs to be 1 higher when "mapSize.width() - line" become negative. This is because -0.5 is cast
+        // to 0 insted of -1.
+        int adjust(line > size.width() ? 1 : 2);
+        while (column < (size.width() - line + adjust) / 2) {
+            auto tile(new Tile(column, line + column));
+            tiles.insert(tile->getHash(), tile);
 
+            ++column;
+        }
+        ++line;
+        column = -line / 2;
+    }
+}
+
+
+
+Map::~Map()
+{
+    qDeleteAll(tiles);
 }
 
 
@@ -80,17 +104,13 @@ void Map::createBuilding(const BuildingInformation& conf, const MapCoordinates& 
 
     if (conf.getType() == BuildingInformation::Type::Road) {
         staticElements.generateBuilding(conf, area, orientation);
-        for (auto location : area) {
-            detailsCache.roadCoordinates.insert(location.getHash());
-            detailsCache.nonConstructibleCoordinates.insert(location.getHash());
-        }
     }
     else {
         staticElements.generateProcessableBuilding(conf, area, orientation, getBestBuildingEntryPoint(area));
-        for (auto location : area) {
-            detailsCache.nonTraversableCoordinates.insert(location.getHash());
-            detailsCache.nonConstructibleCoordinates.insert(location.getHash());
-        }
+    }
+
+    for (auto location : area) {
+        tiles.value(location.getHash())->registerBuildingConstruction(conf);
     }
 }
 
@@ -100,10 +120,7 @@ void Map::createNatureElement(const NatureElementInformation& conf, const MapAre
 {
     staticElements.generateNatureElement(conf, area);
     for (auto location : area) {
-        detailsCache.nonConstructibleCoordinates.insert(location.getHash());
-        if (!conf.isTraversable()) {
-            detailsCache.nonTraversableCoordinates.insert(location.getHash());
-        }
+        tiles.value(location.getHash())->registerNatureElement(conf);
     }
 }
 
@@ -111,21 +128,16 @@ void Map::createNatureElement(const NatureElementInformation& conf, const MapAre
 
 bool Map::isLocationValid(const MapCoordinates& coordinates) const
 {
-    int sum(coordinates.getY() + coordinates.getX());
-    int diff(coordinates.getY() - coordinates.getX());
-
-    return (
-        diff >= 0 && diff < size.height() &&
-        sum >= 0 && sum <= size.width()
-    );
+    return tiles.contains(coordinates.getHash());
 }
 
 
 
 bool Map::isAreaValid(const MapArea& area) const
 {
-    if (area.getLeft().getX() == -7 && area.getLeft().getY() == 26) {
-        auto top(area.getTop());
+    auto size(area.getSize());
+    if (size.isSquare() && size.getHeight() == 1) {
+        return isLocationValid(area.getLeft());
     }
 
     return (
@@ -145,7 +157,7 @@ bool Map::isAreaConstructible(const MapArea& area) const
     }
 
     for (auto location : area) {
-        if (detailsCache.nonConstructibleCoordinates.contains(location.getHash())) {
+        if (!tiles.value(location.getHash())->isConstructible()) {
             return false;
         }
     }
@@ -157,24 +169,35 @@ bool Map::isAreaConstructible(const MapArea& area) const
 
 bool Map::isLocationTraversable(const MapCoordinates& location) const
 {
-    return isLocationValid(location) && !detailsCache.nonTraversableCoordinates.contains(location.getHash());
+    if (!tiles.contains(location.getHash())) {
+        return false;
+    }
+
+    return tiles.value(location.getHash())->isTraversable();
 }
 
 
 
 bool Map::hasRoadAtLocation(const MapCoordinates& location) const
 {
-    return detailsCache.roadCoordinates.contains(location.getHash());
+    if (!tiles.contains(location.getHash())) {
+        return false;
+    }
+
+    return tiles.value(location.getHash())->isRoad();
 }
 
 
 
 bool Map::canConstructRoadAtLocation(const MapCoordinates& location) const
 {
-    return isLocationValid(location) && (
-        !detailsCache.nonConstructibleCoordinates.contains(location.getHash()) ||
-        detailsCache.roadCoordinates.contains(location.getHash())
-    );
+    if (!tiles.contains(location.getHash())) {
+        return false;
+    }
+
+    auto tile(tiles.value(location.getHash()));
+
+    return tile->isConstructible() || tile->isRoad();
 }
 
 
@@ -202,7 +225,7 @@ MapCoordinates Map::getBestBuildingEntryPoint(const MapArea& area) const
     int moveY(0);
 
     MapCoordinates coordinates(left.getNorth());
-    while (!detailsCache.roadCoordinates.contains(coordinates.getHash())) {
+    while (!tiles.value(coordinates.getHash())->isRoad()) {
         coordinates.setX(coordinates.getX() + moveX);
         coordinates.setY(coordinates.getY() + moveY);
 

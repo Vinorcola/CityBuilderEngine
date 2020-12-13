@@ -11,11 +11,13 @@
 #include "src/engine/map/staticElement/StaticElementRegistry.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
 #include "src/global/state/MapState.hpp"
+#include "src/defines.hpp"
 
 class CityLoader;
 class Conf;
 class MapArea;
 class MapCoordinates;
+class Tile;
 
 /**
  * @brief The city map.
@@ -29,6 +31,7 @@ class Map : public AbstractProcessable, public MapDetailsInterface
             PopulationRegistryInterface& populationRegistry,
             WorkingPlaceRegistryInterface& workingPlaceRegistry
         );
+        ~Map();
 
         const PathGenerator& getPathGenerator() const;
 
@@ -56,18 +59,12 @@ class Map : public AbstractProcessable, public MapDetailsInterface
         MapCoordinates getBestBuildingEntryPoint(const MapArea& area) const;
 
     private:
-        struct DetailsCache {
-            QSet<QString> nonConstructibleCoordinates;
-            QSet<QString> nonTraversableCoordinates;
-            QSet<QString> roadCoordinates;
-        };
-
         const QSize size;
+        QHash<QString, owner<Tile*>> tiles;
         QSharedPointer<CivilianEntryPoint> civilianEntryPoint;
         PathGenerator pathGenerator;
         StaticElementRegistry staticElements;
         DynamicElementRegistry dynamicElements;
-        DetailsCache detailsCache;
 };
 
 #endif // MAP_HPP

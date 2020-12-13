@@ -53,6 +53,7 @@ SOURCES += \
     src/engine/map/MapArea.cpp \
     src/engine/map/MapCoordinates.cpp \
     src/engine/map/MapSize.cpp \
+    src/engine/map/Tile.cpp \
     src/engine/processing/AbstractProcessable.cpp \
     src/engine/processing/CycleDate.cpp \
     src/engine/processing/TimeCycleProcessor.cpp \
@@ -151,6 +152,7 @@ HEADERS += \
     src/engine/map/MapArea.hpp \
     src/engine/map/MapCoordinates.hpp \
     src/engine/map/MapSize.hpp \
+    src/engine/map/Tile.hpp \
     src/engine/processing/AbstractProcessable.hpp \
     src/engine/processing/CycleDate.hpp \
     src/engine/processing/TimeCycleProcessor.hpp \
