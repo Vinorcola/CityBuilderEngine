@@ -16,19 +16,14 @@ const qreal MSEC_PER_SEC(1000);
 
 
 
-TimeCycleProcessor::TimeCycleProcessor(
-    AbstractProcessable& workerHandler,
-    const CycleDate& startingDate,
+TimeCycleProcessor::TimeCycleProcessor(const CycleDate& startingDate,
     const qreal speedRatio
 ) :
     QObject(),
-    CYCLES_BETWEEN_BUILDING_PROCESSES(CYCLES_PER_SECOND / BUILDING_CYCLES_PER_SECOND),
     paused(true),
     speedRatio(speedRatio),
     clock(),
-    currentCycleDate(startingDate),
-    buildingProcessor(workerHandler),
-    characterProcessor()
+    currentCycleDate(startingDate)
 {
     if (speedRatio < 0.1) {
         this->speedRatio = 0.1;
@@ -55,37 +50,9 @@ const CycleDate& TimeCycleProcessor::getCurrentDate() const
 
 
 
-void TimeCycleProcessor::registerMapEntryPoint(const QSharedPointer<AbstractProcessableBuilding>& entryPoint)
+void TimeCycleProcessor::registerProcessable(AbstractProcessable& processable)
 {
-    buildingProcessor.registerMapEntryPoint(entryPoint);
-}
-
-
-
-void TimeCycleProcessor::registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
-{
-    buildingProcessor.registerBuilding(building);
-}
-
-
-
-void TimeCycleProcessor::registerCharacter(const QSharedPointer<Character>& character)
-{
-    characterProcessor.registerCharacter(character);
-}
-
-
-
-void TimeCycleProcessor::unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building)
-{
-    buildingProcessor.unregisterBuilding(building);
-}
-
-
-
-void TimeCycleProcessor::unregisterCharacter(const QSharedPointer<Character>& character)
-{
-    characterProcessor.unregisterCharacter(character);
+    processableElements.append(&processable);
 }
 
 
@@ -146,11 +113,9 @@ void TimeCycleProcessor::processCycle()
     ++currentCycleDate;
     // qDebug() << "Process time-cycle" << currentCycleDate.toString();
 
-    // Process characters.
-    characterProcessor.process(currentCycleDate);
-
-    // Process buildings.
-    buildingProcessor.process(currentCycleDate);
+    for (auto processableElement : processableElements) {
+        processableElement->process(currentCycleDate);
+    }
 
 #ifdef DEBUG_TOOLS
     if (timer.hasExpired(10)) {

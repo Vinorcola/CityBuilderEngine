@@ -10,7 +10,7 @@
 
 City::City(const Conf& conf, CityLoader& loader) :
     TITLE(loader.getTitle()),
-    processor(population, loader.getStartDate()),
+    processor(loader.getStartDate()),
     population(),
     map(conf, loader, population, population),
     budget(loader.getInitialBudget())
@@ -36,6 +36,9 @@ City::City(const Conf& conf, CityLoader& loader) :
             Direction::West // TODO: Set direction in YAML file.
         );
     }
+
+    processor.registerProcessable(map);
+    processor.registerProcessable(population);
 }
 
 

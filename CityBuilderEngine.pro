@@ -19,7 +19,6 @@ SOURCES += \
     src/engine/map/dynamicElement/character/StudentCharacter.cpp \
     src/engine/map/dynamicElement/character/WanderingCharacter.cpp \
     src/engine/map/dynamicElement/DynamicElementFactory.cpp \
-    src/engine/map/dynamicElement/DynamicElementHandler.cpp \
     src/engine/map/dynamicElement/DynamicElementRegistry.cpp \
     src/engine/map/dynamicElement/MotionHandler.cpp \
     src/engine/map/path/closestPath/ClosestPathFinder.cpp \
@@ -49,15 +48,12 @@ SOURCES += \
     src/engine/map/staticElement/natureElement/NatureElement.cpp \
     src/engine/map/staticElement/natureElement/NatureElementSearchEngine.cpp \
     src/engine/map/staticElement/StaticElementFactory.cpp \
-    src/engine/map/staticElement/StaticElementHandler.cpp \
     src/engine/map/staticElement/StaticElementRegistry.cpp \
     src/engine/map/Map.cpp \
     src/engine/map/MapArea.cpp \
     src/engine/map/MapCoordinates.cpp \
     src/engine/map/MapSize.cpp \
     src/engine/processing/AbstractProcessable.cpp \
-    src/engine/processing/BuildingProcessor.cpp \
-    src/engine/processing/CharacterProcessor.cpp \
     src/engine/processing/CycleDate.cpp \
     src/engine/processing/TimeCycleProcessor.cpp \
     src/exceptions/BadConfigurationException.cpp \
@@ -117,7 +113,6 @@ HEADERS += \
     src/engine/map/dynamicElement/CharacterDisposerInterface.hpp \
     src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp \
     src/engine/map/dynamicElement/DynamicElementFactory.hpp \
-    src/engine/map/dynamicElement/DynamicElementHandler.hpp \
     src/engine/map/dynamicElement/DynamicElementRegistry.hpp \
     src/engine/map/dynamicElement/MotionHandler.hpp \
     src/engine/map/path/closestPath/ClosestPathFinder.hpp \
@@ -151,15 +146,12 @@ HEADERS += \
     src/engine/map/staticElement/natureElement/NatureElement.hpp \
     src/engine/map/staticElement/natureElement/NatureElementSearchEngine.hpp \
     src/engine/map/staticElement/StaticElementFactory.hpp \
-    src/engine/map/staticElement/StaticElementHandler.hpp \
     src/engine/map/staticElement/StaticElementRegistry.hpp \
     src/engine/map/Map.hpp \
     src/engine/map/MapArea.hpp \
     src/engine/map/MapCoordinates.hpp \
     src/engine/map/MapSize.hpp \
     src/engine/processing/AbstractProcessable.hpp \
-    src/engine/processing/BuildingProcessor.hpp \
-    src/engine/processing/CharacterProcessor.hpp \
     src/engine/processing/CycleDate.hpp \
     src/engine/processing/TimeCycleProcessor.hpp \
     src/engine/state/BuildingState.hpp \

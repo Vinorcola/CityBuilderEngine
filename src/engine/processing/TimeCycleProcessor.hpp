@@ -2,13 +2,12 @@
 #define TIMECYCLEPROCESSOR_HPP
 
 #include <QtCore/QBasicTimer>
+#include <QtCore/QList>
 #include <QtCore/QObject>
 
-#include "src/engine/processing/BuildingProcessor.hpp"
-#include "src/engine/processing/CharacterProcessor.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 
-class AbstractProcessableBuilding;
+class AbstractProcessable;
 class Character;
 
 /**
@@ -24,21 +23,8 @@ class TimeCycleProcessor : public QObject
 {
         Q_OBJECT
 
-    private:
-        const int CYCLES_BETWEEN_BUILDING_PROCESSES;
-        bool paused;
-        qreal speedRatio;
-        QBasicTimer clock;
-        CycleDate currentCycleDate;
-        BuildingProcessor buildingProcessor;
-        CharacterProcessor characterProcessor;
-
     public:
-        TimeCycleProcessor(
-            AbstractProcessable& workerHandler,
-            const CycleDate& startingDate,
-            const qreal speedRatio = 1.0
-        );
+        TimeCycleProcessor(const CycleDate& startingDate, const qreal speedRatio = 1.0);
 
         qreal getSpeedRatio() const;
 
@@ -51,30 +37,7 @@ class TimeCycleProcessor : public QObject
          */
         const CycleDate& getCurrentDate() const;
 
-        /**
-         * @brief Register a map entry point to be process each time cycle.
-         */
-        void registerMapEntryPoint(const QSharedPointer<AbstractProcessableBuilding>& entryPoint);
-
-        /**
-         * @brief Register a building to be process each time cycle.
-         */
-        void registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
-
-        /**
-         * @brief Register a character to be process each time cycle.
-         */
-        void registerCharacter(const QSharedPointer<Character>& character);
-
-        /**
-         * @brief Unregister a building from processor.
-         */
-        void unregisterBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
-
-        /**
-         * @brief Unregister a character from processor.
-         */
-        void unregisterCharacter(const QSharedPointer<Character>& character);
+        void registerProcessable(AbstractProcessable& processable);
 
         /**
          * @brief Pause (or resume) the time-cycle processor.
@@ -116,6 +79,13 @@ class TimeCycleProcessor : public QObject
          * @brief Process a cycle.
          */
         void processCycle();
+
+    private:
+        bool paused;
+        qreal speedRatio;
+        QBasicTimer clock;
+        CycleDate currentCycleDate;
+        QList<AbstractProcessable*> processableElements;
 };
 
 #endif // TIMECYCLEPROCESSOR_HPP
