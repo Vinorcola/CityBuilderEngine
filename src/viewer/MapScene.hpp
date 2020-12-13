@@ -27,7 +27,7 @@ class MapSize;
 class NatureElement;
 class RoadPathGeneratorInterface;
 class SelectionElement;
-class Tile;
+class TileView;
 struct BuildingState;
 struct CharacterState;
 struct MapState;
@@ -47,7 +47,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         ImageLibrary imageLibrary;
         Positioning positioning;
         DialogDisplayer& dialogDisplayer;
-        QHash<QString, owner<Tile*>> tiles;
+        QHash<QString, owner<TileView*>> tiles;
         QHash<qintptr, owner<BuildingView*>> buildings;
         QHash<qintptr, owner<CharacterView*>> characters;
         QHash<QString, BuildingView*> buildingLocationCache; ///< A cache where key is a MapCoordinates has value.
@@ -66,7 +66,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         );
         ~MapScene();
 
-        virtual Tile& getTileAt(const MapCoordinates& location) const override;
+        virtual TileView& getTileAt(const MapCoordinates& location) const override;
 
     public slots:
         /**

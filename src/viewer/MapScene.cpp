@@ -22,7 +22,7 @@
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/image/NatureElementImage.hpp"
-#include "src/viewer/Tile.hpp"
+#include "src/viewer/TileView.hpp"
 
 
 
@@ -64,7 +64,7 @@ MapScene::MapScene(
         int adjust(line > mapState.size.width() ? 1 : 2);
         while (column < (mapState.size.width() - line + adjust) / 2) {
             MapCoordinates coordinates(column, line + column);
-            auto tile(new Tile(
+            auto tile(new TileView(
                 positioning,
                 coordinates,
                 *new StaticElement(positioning, MapSize(), grassImage.getImage())
@@ -104,7 +104,7 @@ MapScene::~MapScene()
 
 
 
-Tile& MapScene::getTileAt(const MapCoordinates& location) const
+TileView& MapScene::getTileAt(const MapCoordinates& location) const
 {
     for (auto tile : tiles) {
         if (tile->getCoordinates() == location) {

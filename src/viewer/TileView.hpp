@@ -1,5 +1,5 @@
-#ifndef TILE_HPP
-#define TILE_HPP
+#ifndef TILEVIEW_HPP
+#define TILEVIEW_HPP
 
 #include <QtWidgets/QGraphicsItem>
 
@@ -15,7 +15,7 @@ class StaticElement;
  *
  * The tile will hold a nature element, optionaly a building and several characters.
  */
-class Tile : public QGraphicsItem
+class TileView : public QGraphicsItem
 {
     private:
         MapCoordinates location;
@@ -23,7 +23,7 @@ class Tile : public QGraphicsItem
         optional<QGraphicsItem*> staticElement; ///< The static element (building or nature element).
 
     public:
-        Tile(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement);
+        TileView(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement);
 
         const MapCoordinates& getCoordinates() const;
 
@@ -31,7 +31,7 @@ class Tile : public QGraphicsItem
         void dropStaticElement();
 
         void registerDynamicElement(QGraphicsItem* element);
-        void moveDynamicElementTo(QGraphicsItem* element, Tile& other);
+        void moveDynamicElementTo(QGraphicsItem* element, TileView& other);
         void unregisterDynamicElement(QGraphicsItem* element);
 
         virtual QRectF boundingRect() const override;
@@ -39,4 +39,4 @@ class Tile : public QGraphicsItem
         virtual QPainterPath shape() const override;
 };
 
-#endif // TILE_HPP
+#endif // TILEVIEW_HPP

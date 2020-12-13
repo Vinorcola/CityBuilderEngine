@@ -6,7 +6,7 @@
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/Positioning.hpp"
-#include "src/viewer/Tile.hpp"
+#include "src/viewer/TileView.hpp"
 
 
 

@@ -10,7 +10,7 @@
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/image/ImageSequence.hpp"
-#include "src/viewer/Tile.hpp"
+#include "src/viewer/TileView.hpp"
 
 
 

@@ -9,7 +9,7 @@ class ImageLibrary;
 class DynamicElement;
 class MapCoordinates;
 class Positioning;
-class Tile;
+class TileView;
 class TileLocatorInterface;
 struct CharacterState;
 
@@ -24,7 +24,7 @@ class CharacterView
     private:
         const Positioning& positioning;
         const TileLocatorInterface& tileLocator;
-        Tile* currentTile;
+        TileView* currentTile;
         const CharacterImage& image;
         owner<DynamicElement*> graphicElement;
         int currentStateVersion;

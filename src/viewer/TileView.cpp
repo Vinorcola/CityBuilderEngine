@@ -1,10 +1,10 @@
-#include "Tile.hpp"
+#include "TileView.hpp"
 
 #include "src/viewer/Positioning.hpp"
 
 
 
-Tile::Tile(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement) :
+TileView::TileView(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement) :
     QGraphicsItem(),
     location(location),
     groundElement(groundElement),
@@ -17,14 +17,14 @@ Tile::Tile(const Positioning& positioning, const MapCoordinates& location, QGrap
 
 
 
-const MapCoordinates& Tile::getCoordinates() const
+const MapCoordinates& TileView::getCoordinates() const
 {
     return location;
 }
 
 
 
-void Tile::setStaticElement(QGraphicsItem* staticElement)
+void TileView::setStaticElement(QGraphicsItem* staticElement)
 {
     if (this->staticElement) {
         staticElement->setParentItem(nullptr);
@@ -38,7 +38,7 @@ void Tile::setStaticElement(QGraphicsItem* staticElement)
 
 
 
-void Tile::dropStaticElement()
+void TileView::dropStaticElement()
 {
     staticElement->setParentItem(nullptr);
     staticElement = nullptr;
@@ -48,7 +48,7 @@ void Tile::dropStaticElement()
 
 
 
-void Tile::registerDynamicElement(QGraphicsItem* element)
+void TileView::registerDynamicElement(QGraphicsItem* element)
 {
     element->setParentItem(this);
     element->setVisible(true);
@@ -56,21 +56,21 @@ void Tile::registerDynamicElement(QGraphicsItem* element)
 
 
 
-void Tile::moveDynamicElementTo(QGraphicsItem* element, Tile& other)
+void TileView::moveDynamicElementTo(QGraphicsItem* element, TileView& other)
 {
     element->setParentItem(&other);
 }
 
 
 
-void Tile::unregisterDynamicElement(QGraphicsItem* element)
+void TileView::unregisterDynamicElement(QGraphicsItem* element)
 {
     element->setParentItem(nullptr);
 }
 
 
 
-QRectF Tile::boundingRect() const
+QRectF TileView::boundingRect() const
 {
     if (staticElement) {
         return staticElement->boundingRect();
@@ -81,14 +81,14 @@ QRectF Tile::boundingRect() const
 
 
 
-void Tile::paint(QPainter* /*painter*/, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/)
+void TileView::paint(QPainter* /*painter*/, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/)
 {
     // Nothing to paint here. It is the last child element of the stack that will be painted.
 }
 
 
 
-QPainterPath Tile::shape() const
+QPainterPath TileView::shape() const
 {
     if (staticElement) {
         return staticElement->shape();

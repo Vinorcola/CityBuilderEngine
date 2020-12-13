@@ -94,7 +94,7 @@ SOURCES += \
     src/viewer/image/NatureElementImage.cpp \
     src/viewer/MapScene.cpp \
     src/viewer/Positioning.cpp \
-    src/viewer/Tile.cpp \
+    src/viewer/TileView.cpp \
     src/main.cpp
 
 HEADERS += \
@@ -204,7 +204,7 @@ HEADERS += \
     src/viewer/image/NatureElementImage.hpp \
     src/viewer/MapScene.hpp \
     src/viewer/Positioning.hpp \
-    src/viewer/Tile.hpp \
+    src/viewer/TileView.hpp \
     src/defines.hpp
 
 DISTFILES += \

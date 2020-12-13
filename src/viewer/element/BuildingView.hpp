@@ -10,7 +10,7 @@ class BuildingAreaPartImage;
 class ImageLibrary;
 class MapSize;
 class Positioning;
-class Tile;
+class TileView;
 class TileLocatorInterface;
 
 /**
@@ -28,7 +28,7 @@ class BuildingView
             private:
                 const TileLocatorInterface& tileLocator;
                 MapSize size;
-                Tile& tile;
+                TileView& tile;
                 const BuildingAreaPartImage& image;
                 StaticElement graphicElement;
                 int animationIndex;
