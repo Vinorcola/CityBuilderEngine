@@ -4,8 +4,8 @@
 #include <QtCore/QList>
 
 #include "src/engine/city/PopulationHandler.hpp"
-#include "src/engine/element/dynamic/DynamicElementHandler.hpp"
-#include "src/engine/element/static/StaticElementHandler.hpp"
+#include "src/engine/map/dynamicElement/DynamicElementHandler.hpp"
+#include "src/engine/map/staticElement/StaticElementHandler.hpp"
 #include "src/engine/map/Map.hpp"
 #include "src/engine/processing/TimeCycleProcessor.hpp"
 #include "src/engine/state/CityState.hpp"

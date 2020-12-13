@@ -1,7 +1,7 @@
 #include "TimeCycleProcessor.hpp"
 
-#include "src/engine/element/dynamic/character/Character.hpp"
-#include "src/engine/element/static/building/AbstractProcessableBuilding.hpp"
+#include "src/engine/map/dynamicElement/character/Character.hpp"
+#include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/defines.hpp"
 

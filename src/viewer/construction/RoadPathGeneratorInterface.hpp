@@ -3,7 +3,7 @@
 
 #include <QtCore/QList>
 
-#include "src/engine/element/static/path/PathInterface.hpp"
+#include "src/engine/map/path/PathInterface.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
 
 class RoadPathGeneratorInterface
