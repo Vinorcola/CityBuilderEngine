@@ -101,7 +101,7 @@ class CycleDate
         int getYear() const;
         int getMonth() const;
         bool isFirstCycleOfMonth() const;
-        bool isBuildingCycle(int cyclesBetweenBuildingProcesses) const;
+        bool isBuildingCycle() const;
 
         // DEBUG //
         QString toString() const;

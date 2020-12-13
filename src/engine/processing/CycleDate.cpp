@@ -6,6 +6,7 @@
 
 const int CYCLES_PER_MONTH(20 * CYCLES_PER_SECOND);
 const int BUILDING_CYCLES_PER_MONTH(20 * BUILDING_CYCLES_PER_SECOND);
+const int CYCLES_BETWEEN_BUILDING_PROCESSES(CYCLES_PER_SECOND / BUILDING_CYCLES_PER_SECOND);
 const int MONTHS_PER_YEAR(12);
 
 
@@ -288,9 +289,9 @@ bool CycleDate::isFirstCycleOfMonth() const
 
 
 
-bool CycleDate::isBuildingCycle(int cyclesBetweenBuildingProcesses) const
+bool CycleDate::isBuildingCycle() const
 {
-    return (cycles % cyclesBetweenBuildingProcesses) == 0;
+    return (cycles % CYCLES_BETWEEN_BUILDING_PROCESSES) == 0;
 }
 
 

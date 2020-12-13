@@ -4,8 +4,6 @@
 #include "src/global/pointer/SmartPointerUtils.hpp"
 #include "src/defines.hpp"
 
-const int CYCLES_BETWEEN_BUILDING_PROCESSES(CYCLES_PER_SECOND / BUILDING_CYCLES_PER_SECOND);
-
 
 
 BuildingProcessor::BuildingProcessor(AbstractProcessable& workerHandler) :
@@ -53,7 +51,7 @@ void BuildingProcessor::process(const CycleDate& date)
     }
 
     // Other buildings are processed only on a building time cycle.
-    if (!date.isBuildingCycle(CYCLES_BETWEEN_BUILDING_PROCESSES)) {
+    if (!date.isBuildingCycle()) {
         return;
     }
 

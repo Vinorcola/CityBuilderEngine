@@ -9,6 +9,7 @@
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/staticElement/building/CivilianEntryPoint.hpp"
 #include "src/engine/map/staticElement/StaticElementRegistry.hpp"
+#include "src/engine/processing/AbstractProcessable.hpp"
 
 class Conf;
 class CityLoader;
@@ -19,7 +20,7 @@ class MapState;
 /**
  * @brief The city map.
  */
-class Map : public MapDetailsInterface
+class Map : public AbstractProcessable, public MapDetailsInterface
 {
     public:
         explicit Map(
@@ -37,6 +38,8 @@ class Map : public MapDetailsInterface
         virtual bool isLocationTraversable(const MapCoordinates& location) const override;
         virtual bool hasRoadAtLocation(const MapCoordinates& location) const override;
         virtual bool canConstructRoadAtLocation(const MapCoordinates& location) const override;
+
+        virtual void process(const CycleDate& date);
 
     private:
         const QSize size;

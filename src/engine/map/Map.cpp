@@ -3,6 +3,7 @@
 #include "src/engine/loader/CityLoader.hpp"
 #include "src/engine/map/MapArea.hpp"
 #include "src/engine/map/MapCoordinates.hpp"
+#include "src/engine/processing/CycleDate.hpp"
 #include "src/engine/state/MapState.hpp"
 #include "src/global/conf/Conf.hpp"
 
@@ -79,4 +80,16 @@ bool Map::hasRoadAtLocation(const MapCoordinates& location) const
 bool Map::canConstructRoadAtLocation(const MapCoordinates& location) const
 {
     // TODO
+}
+
+
+
+void Map::process(const CycleDate& date)
+{
+    // Note: order is important: dynamic elements, entry points & static elements.
+    dynamicElements.process(date);
+    civilianEntryPoint->process(date);
+    if (date.isBuildingCycle()) {
+        staticElements.process(date);
+    }
 }
