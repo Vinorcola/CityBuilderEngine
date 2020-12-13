@@ -30,6 +30,10 @@ class StaticElementRegistry : public AbstractProcessable
             CivilianEntryPoint& civilianEntryPoint
         );
 
+        // Search engines.
+        const BuildingSearchEngine& getBuildingSearchEngine() const;
+
+        // Element registration.
         void generateBuilding(const BuildingInformation& conf, const MapArea& area, Direction orientation);
         void generateProcessableBuilding(
             const BuildingInformation& conf,

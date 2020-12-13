@@ -25,7 +25,14 @@ StaticElementRegistry::StaticElementRegistry(
     natureElements(),
     processableElements()
 {
+    // IMPORTANT: characterGenerator is not initialized yet within constructor scope!
+}
 
+
+
+const BuildingSearchEngine& StaticElementRegistry::getBuildingSearchEngine() const
+{
+    return buildingSearchEngine;
 }
 
 

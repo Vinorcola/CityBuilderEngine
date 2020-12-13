@@ -17,8 +17,8 @@ City::State::State(const QString& title, int initialBudget) :
 
 
 City::City(const Conf& conf, CityLoader& loader) :
-    map(loader.getMapSize()),
     population(),
+    map(conf, loader, population, population),
     processor(population, loader.getStartDate()),
     staticElements(
         population,

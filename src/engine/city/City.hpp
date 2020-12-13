@@ -25,8 +25,8 @@ class City
         };
 
     private:
-        Map map;
         PopulationHandler population;
+        Map map;
         TimeCycleProcessor processor;
         StaticElementHandler staticElements;
         DynamicElementHandler dynamicElements;

@@ -21,7 +21,7 @@ CivilianEntryPoint::CivilianEntryPoint(
     nextImmigrantGenerationCountDown(),
     immigrantRequestQueue()
 {
-
+    // IMPORTANT: characterFactory is not initialized yet within constructor scope!
 }
 
 
@@ -32,6 +32,7 @@ QSharedPointer<CivilianEntryPoint> CivilianEntryPoint::Create(
     const MapCoordinates& location,
     const CharacterInformation& immigrantConf
 ) {
+    // IMPORTANT: characterFactory is not initialized yet within constructor scope!
     auto entryPoint(new CivilianEntryPoint(characterFactory, conf, location, immigrantConf));
     QSharedPointer<CivilianEntryPoint> pointer(entryPoint);
     entryPoint->selfReference = pointer;
