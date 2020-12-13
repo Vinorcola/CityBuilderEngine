@@ -4,8 +4,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
-#include "src/engine/state/CityState.hpp"
-#include "src/engine/state/State.hpp"
+#include "src/global/state/CityState.hpp"
+#include "src/global/state/State.hpp"
 #include "src/viewer/construction/AreaCheckerInterface.hpp"
 #include "src/viewer/construction/RoadPathGeneratorInterface.hpp"
 #include "src/defines.hpp"

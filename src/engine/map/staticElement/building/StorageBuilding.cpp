@@ -3,8 +3,8 @@
 #include <QtGlobal>
 
 #include "src/engine/map/dynamicElement/character/DeliveryManCharacter.hpp"
-#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/state/BuildingState.hpp"
 
 
 

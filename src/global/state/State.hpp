@@ -3,10 +3,10 @@
 
 #include <QtCore/QList>
 
-#include "src/engine/state/BuildingState.hpp"
-#include "src/engine/state/CharacterState.hpp"
-#include "src/engine/state/CityState.hpp"
-#include "src/engine/state/NatureElementState.hpp"
+#include "src/global/state/BuildingState.hpp"
+#include "src/global/state/CharacterState.hpp"
+#include "src/global/state/CityState.hpp"
+#include "src/global/state/NatureElementState.hpp"
 
 struct State
 {

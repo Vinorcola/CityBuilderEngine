@@ -5,8 +5,6 @@
 #include "src/engine/city/WorkingPlaceRegistryInterface.hpp"
 #include "src/engine/map/staticElement/building/CivilianEntryPoint.hpp"
 #include "src/engine/map/staticElement/natureElement/NatureElement.hpp"
-#include "src/engine/state/BuildingState.hpp"
-#include "src/engine/state/NatureElementState.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 

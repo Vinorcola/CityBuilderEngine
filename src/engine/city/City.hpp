@@ -6,9 +6,9 @@
 #include "src/engine/city/PopulationHandler.hpp"
 #include "src/engine/map/Map.hpp"
 #include "src/engine/processing/TimeCycleProcessor.hpp"
+#include "src/global/state/CityState.hpp"
 
 class CityLoader;
-class CityState;
 class Conf;
 
 class City

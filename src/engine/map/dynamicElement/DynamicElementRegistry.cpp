@@ -4,7 +4,6 @@
 
 #include "src/engine/map/dynamicElement/character/Character.hpp"
 #include "src/engine/map/dynamicElement/DynamicElementFactory.hpp"
-#include "src/engine/state/CharacterState.hpp"
 
 
 

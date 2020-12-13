@@ -1,6 +1,6 @@
 #include "CharacterView.hpp"
 
-#include "src/engine/state/CharacterState.hpp"
+#include "src/global/state/CharacterState.hpp"
 #include "src/viewer/element/graphics/DynamicElement.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
 #include "src/viewer/image/CharacterImage.hpp"

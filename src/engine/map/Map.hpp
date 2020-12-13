@@ -10,7 +10,7 @@
 #include "src/engine/map/staticElement/building/CivilianEntryPoint.hpp"
 #include "src/engine/map/staticElement/StaticElementRegistry.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
-#include "src/engine/state/MapState.hpp"
+#include "src/global/state/MapState.hpp"
 
 class CityLoader;
 class Conf;

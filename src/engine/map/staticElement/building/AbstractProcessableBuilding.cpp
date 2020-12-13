@@ -1,7 +1,7 @@
 #include "AbstractProcessableBuilding.hpp"
 
-#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/state/BuildingState.hpp"
 
 
 

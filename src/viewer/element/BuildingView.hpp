@@ -1,7 +1,7 @@
 #ifndef BUILDINGVIEW_HPP
 #define BUILDINGVIEW_HPP
 
-#include "src/engine/state/BuildingState.hpp"
+#include "src/global/state/BuildingState.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/defines.hpp"
 

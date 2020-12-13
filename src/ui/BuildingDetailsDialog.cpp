@@ -3,9 +3,9 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QVBoxLayout>
 
-#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/ItemInformation.hpp"
+#include "src/global/state/BuildingState.hpp"
 
 
 

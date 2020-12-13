@@ -2,8 +2,8 @@
 
 #include <cassert>
 
-#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/state/BuildingState.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
 #include "src/viewer/image/BuildingAreaPartImage.hpp"

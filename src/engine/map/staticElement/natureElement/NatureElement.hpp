@@ -4,7 +4,7 @@
 #include <QtCore/QObject>
 
 #include "src/engine/map/MapArea.hpp"
-#include "src/engine/state/NatureElementState.hpp"
+#include "src/global/state/NatureElementState.hpp"
 
 class NatureElementInformation;
 

@@ -9,7 +9,7 @@
 #include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/engine/map/dynamicElement/DynamicElementFactory.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
-#include "src/engine/state/CharacterState.hpp"
+#include "src/global/state/CharacterState.hpp"
 
 class Character;
 

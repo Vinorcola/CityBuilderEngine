@@ -9,8 +9,8 @@
 #include "src/engine/map/staticElement/natureElement/NatureElementSearchEngine.hpp"
 #include "src/engine/map/staticElement/StaticElementFactory.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
-#include "src/engine/state/BuildingState.hpp"
-#include "src/engine/state/NatureElementState.hpp"
+#include "src/global/state/BuildingState.hpp"
+#include "src/global/state/NatureElementState.hpp"
 
 class AbstractBuilding;
 class CharacterInformation;

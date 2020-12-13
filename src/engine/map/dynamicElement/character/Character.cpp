@@ -2,8 +2,8 @@
 
 #include "src/engine/map/dynamicElement/MotionHandler.hpp"
 #include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
-#include "src/engine/state/CharacterState.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
+#include "src/global/state/CharacterState.hpp"
 
 
 

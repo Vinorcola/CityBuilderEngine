@@ -154,12 +154,6 @@ HEADERS += \
     src/engine/processing/AbstractProcessable.hpp \
     src/engine/processing/CycleDate.hpp \
     src/engine/processing/TimeCycleProcessor.hpp \
-    src/engine/state/BuildingState.hpp \
-    src/engine/state/CharacterState.hpp \
-    src/engine/state/CityState.hpp \
-    src/engine/state/MapState.hpp \
-    src/engine/state/NatureElementState.hpp \
-    src/engine/state/State.hpp \
     src/exceptions/BadConfigurationException.hpp \
     src/exceptions/EngineException.hpp \
     src/exceptions/Exception.hpp \
@@ -178,6 +172,12 @@ HEADERS += \
     src/global/conf/ModelReader.hpp \
     src/global/conf/NatureElementInformation.hpp \
     src/global/pointer/SmartPointerUtils.hpp \
+    src/global/state/BuildingState.hpp \
+    src/global/state/CharacterState.hpp \
+    src/global/state/CityState.hpp \
+    src/global/state/MapState.hpp \
+    src/global/state/NatureElementState.hpp \
+    src/global/state/State.hpp \
     src/global/BuildingStatus.hpp \
     src/global/Direction.hpp \
     src/global/yamlLibraryEnhancement.hpp \

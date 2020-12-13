@@ -6,9 +6,9 @@
 #include "src/engine/map/dynamicElement/CharacterGeneratorInterface.hpp"
 #include "src/engine/map/path/PathInterface.hpp"
 #include "src/engine/map/staticElement/natureElement/NatureElementSearchEngine.hpp"
-#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/pointer/SmartPointerUtils.hpp"
+#include "src/global/state/BuildingState.hpp"
 
 
 
