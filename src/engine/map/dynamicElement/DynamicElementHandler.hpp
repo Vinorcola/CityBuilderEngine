@@ -46,7 +46,7 @@ class DynamicElementHandler : public CharacterGeneratorInterface, public Charact
         virtual QWeakPointer<Character> generateMiner(
             const CharacterInformation& conf,
             QSharedPointer<AbstractProcessableBuilding> issuer,
-            owner<PathInterface*> path
+            QSharedPointer<PathInterface> path
         ) override;
         virtual QWeakPointer<Character> generateStudent(
             const CharacterInformation& conf,

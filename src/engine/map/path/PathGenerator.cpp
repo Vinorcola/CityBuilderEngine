@@ -15,37 +15,49 @@ PathGenerator::PathGenerator(const MapDetailsInterface& mapDetails) :
 
 
 
-optional<owner<PathInterface*>> PathGenerator::generateWanderingPath(
+QSharedPointer<PathInterface> PathGenerator::generateWanderingPath(
     const MapCoordinates& origin,
     const int wanderingCredits
 ) const {
 
-    return new RandomRoadPath(mapDetails, origin, wanderingCredits);
+    return QSharedPointer<PathInterface>(new RandomRoadPath(
+        mapDetails,
+        origin,
+        wanderingCredits
+    ));
 }
 
 
 
-optional<owner<PathInterface*>> PathGenerator::generateShortestPathTo(
+QSharedPointer<PathInterface> PathGenerator::generateShortestPathTo(
     const MapCoordinates& origin,
     const MapCoordinates& destination
 ) const {
 
-    return new TargetedPath(mapDetails, false, shortestPathFinder.getShortestPath(origin, destination, false));
+    return QSharedPointer<PathInterface>(new TargetedPath(
+        mapDetails,
+        false,
+        shortestPathFinder.getShortestPath(origin, destination, false)
+    ));
 }
 
 
 
-optional<owner<PathInterface*>> PathGenerator::generateShortestRoadPathTo(
+QSharedPointer<PathInterface> PathGenerator::generateShortestRoadPathTo(
     const MapCoordinates& origin,
     const MapCoordinates& destination
 ) const {
 
-    return new TargetedPath(mapDetails, true, shortestPathFinder.getShortestPath(origin, destination, true));
+    return QSharedPointer<PathInterface>(new TargetedPath(
+        mapDetails,
+        true,
+        shortestPathFinder.getShortestPath(origin, destination, true)
+    ));
 }
 
 
 
-optional<owner<PathInterface*>> PathGenerator::generatePreferedShortestPathTo(
+QSharedPointer<PathInterface> PathGenerator::generatePreferedShortestPathTo(
     const MapCoordinates& origin,
     const MapCoordinates& destination,
     bool restrictedToRoads
@@ -65,7 +77,7 @@ optional<owner<PathInterface*>> PathGenerator::generatePreferedShortestPathTo(
 
 
 
-optional<owner<PathInterface*>> PathGenerator::generateShortestPathToClosestMatch(
+QSharedPointer<PathInterface> PathGenerator::generateShortestPathToClosestMatch(
     const MapCoordinates& origin,
     std::function<bool (const MapCoordinates&)> match
 ) const {
@@ -75,7 +87,7 @@ optional<owner<PathInterface*>> PathGenerator::generateShortestPathToClosestMatc
         return nullptr;
     }
 
-    return new TargetedPath(mapDetails, false, path);
+    return QSharedPointer<PathInterface>(new TargetedPath(mapDetails, false, path));
 }
 
 

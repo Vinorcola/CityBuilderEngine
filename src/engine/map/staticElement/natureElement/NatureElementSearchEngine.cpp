@@ -28,7 +28,7 @@ void NatureElementSearchEngine::registerRawMaterial(const NatureElementInformati
 
 
 
-optional<owner<PathInterface*>> NatureElementSearchEngine::getPathToClosestRawMaterial(
+QSharedPointer<PathInterface> NatureElementSearchEngine::getPathToClosestRawMaterial(
     const NatureElementInformation& conf,
     const MapCoordinates& origin
 ) const

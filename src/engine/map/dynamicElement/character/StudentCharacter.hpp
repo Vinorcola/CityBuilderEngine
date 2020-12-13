@@ -17,7 +17,7 @@ class StudentCharacter : public Character
             const CharacterInformation& conf,
             const QSharedPointer<AbstractProcessableBuilding>& issuer,
             const QWeakPointer<AbstractProcessableBuilding>& target,
-            owner<PathInterface*> path
+            QSharedPointer<PathInterface> path
         );
 
         virtual void process(const CycleDate& date) override;

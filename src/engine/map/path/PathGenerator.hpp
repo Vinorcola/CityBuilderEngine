@@ -4,11 +4,9 @@
 #include "src/engine/map/path/closestPath/ClosestPathFinder.hpp"
 #include "src/engine/map/path/shortestPath/ShortestPathFinder.hpp"
 #include "src/engine/map/path/PathGeneratorInterface.hpp"
-#include "src/defines.hpp"
 
 class MapCoordinates;
 class MapDetailsInterface;
-class PathInterface;
 
 class PathGenerator : public PathGeneratorInterface
 {
@@ -20,28 +18,28 @@ class PathGenerator : public PathGeneratorInterface
     public:
         explicit PathGenerator(const MapDetailsInterface& mapDetails);
 
-        virtual optional<owner<PathInterface*>> generateWanderingPath(
+        virtual QSharedPointer<PathInterface> generateWanderingPath(
             const MapCoordinates& origin,
             const int wanderingCredits
         ) const override;
 
-        virtual optional<owner<PathInterface*>> generateShortestPathTo(
+        virtual QSharedPointer<PathInterface> generateShortestPathTo(
             const MapCoordinates& origin,
             const MapCoordinates& destination
         ) const override;
 
-        virtual optional<owner<PathInterface*>> generateShortestRoadPathTo(
+        virtual QSharedPointer<PathInterface> generateShortestRoadPathTo(
             const MapCoordinates& origin,
             const MapCoordinates& destination
         ) const override;
 
-        virtual optional<owner<PathInterface*>> generatePreferedShortestPathTo(
+        virtual QSharedPointer<PathInterface> generatePreferedShortestPathTo(
             const MapCoordinates& origin,
             const MapCoordinates& destination,
             bool restrictedToRoads
         ) const override;
 
-        virtual optional<owner<PathInterface*>> generateShortestPathToClosestMatch(
+        virtual QSharedPointer<PathInterface> generateShortestPathToClosestMatch(
             const MapCoordinates& origin,
             std::function<bool(const MapCoordinates&)> match
         ) const override;

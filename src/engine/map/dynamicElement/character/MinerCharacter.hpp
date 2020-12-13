@@ -1,10 +1,7 @@
 #ifndef MINERCHARACTER_HPP
 #define MINERCHARACTER_HPP
 
-#include <QtCore/QPointer>
-
 #include "src/engine/map/dynamicElement/character/Character.hpp"
-#include "src/defines.hpp"
 
 class MinerCharacter : public Character
 {
@@ -17,7 +14,7 @@ class MinerCharacter : public Character
             const PathGeneratorInterface& pathGenerator,
             const CharacterInformation& conf,
             const QSharedPointer<AbstractProcessableBuilding>& issuer,
-            owner<PathInterface*> path
+            QSharedPointer<PathInterface> path
         );
 
         void goHome();

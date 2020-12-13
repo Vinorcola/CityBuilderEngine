@@ -1,22 +1,14 @@
 #ifndef CHARACTERGENERATORINTERFACE_HPP
 #define CHARACTERGENERATORINTERFACE_HPP
 
+#include <QtCore/QSharedPointer>
 #include <QtCore/QWeakPointer>
-
-#include "src/defines.hpp"
 
 class Character;
 class CharacterInformation;
-class DeliveryManCharacter;
-class ImmigrantCharacter;
 class ItemInformation;
-class MapCoordinates;
-class MinerCharacter;
-class NatureElement;
 class PathInterface;
 class AbstractProcessableBuilding;
-class StudentCharacter;
-class WanderingCharacter;
 
 class CharacterGeneratorInterface
 {
@@ -39,7 +31,7 @@ class CharacterGeneratorInterface
         virtual QWeakPointer<Character> generateMiner(
             const CharacterInformation& conf,
             QSharedPointer<AbstractProcessableBuilding> issuer,
-            owner<PathInterface*> path
+            QSharedPointer<PathInterface> path
         ) = 0;
 
         virtual QWeakPointer<Character> generateStudent(

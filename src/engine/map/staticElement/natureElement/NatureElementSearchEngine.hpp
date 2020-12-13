@@ -3,6 +3,7 @@
 
 #include <QtCore/QHash>
 #include <QtCore/QSet>
+#include <QtCore/QSharedPointer>
 #include <QtCore/QString>
 
 #include "src/defines.hpp"
@@ -26,7 +27,7 @@ class NatureElementSearchEngine
 
         void registerRawMaterial(const NatureElementInformation& conf, const MapArea& area);
 
-        optional<owner<PathInterface*>> getPathToClosestRawMaterial(
+        QSharedPointer<PathInterface> getPathToClosestRawMaterial(
             const NatureElementInformation& conf,
             const MapCoordinates& origin
         ) const;

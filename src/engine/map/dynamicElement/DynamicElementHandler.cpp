@@ -73,7 +73,7 @@ QWeakPointer<Character> DynamicElementHandler::generateImmigrant(
 QWeakPointer<Character> DynamicElementHandler::generateMiner(
     const CharacterInformation& conf,
     QSharedPointer<AbstractProcessableBuilding> issuer,
-    owner<PathInterface*> path
+    QSharedPointer<PathInterface> path
 ) {
     QSharedPointer<Character> character(new MinerCharacter(*this, pathGenerator, conf, issuer, path));
     currentState.characters.insert(character.get(), character);

@@ -1,28 +1,18 @@
 #include "MotionHandler.hpp"
 
 #include "src/engine/map/path/PathInterface.hpp"
-#include "src/exceptions/UnexpectedException.hpp"
 
 
 
 MotionHandler::MotionHandler(const qreal speed, const MapCoordinates& initialLocation) :
     speed(speed),
-    path(nullptr),
+    path(),
     location(initialLocation),
     movingFrom(initialLocation),
     movingTo(),
     direction(Direction::West)
 {
 
-}
-
-
-
-MotionHandler::~MotionHandler()
-{
-    if (path) {
-        delete path;
-    }
 }
 
 
@@ -50,23 +40,20 @@ MapCoordinates MotionHandler::getCurrentTileCoordinates() const
 
 bool MotionHandler::isPathObsolete() const
 {
-    return path != nullptr && path->isObsolete();
+    return !path.isNull() && path->isObsolete();
 }
 
 
 
 bool MotionHandler::isPathCompleted() const
 {
-    return path != nullptr && path->isCompleted() && location == movingTo;
+    return !path.isNull() && path->isCompleted() && location == movingTo;
 }
 
 
 
-void MotionHandler::takePath(owner<PathInterface*> path)
+void MotionHandler::takePath(QSharedPointer<PathInterface> path)
 {
-    if (this->path) {
-        delete this->path;
-    }
     this->path = path;
     movingFrom = location;
     movingTo = path->getNextTargetCoordinates();
@@ -81,10 +68,7 @@ void MotionHandler::takePath(owner<PathInterface*> path)
 
 void MotionHandler::stop()
 {
-    if (path) {
-        delete path;
-        path = nullptr;
-    }
+    path.reset();
     movingFrom = location;
     movingTo = {};
 }
@@ -93,6 +77,10 @@ void MotionHandler::stop()
 
 bool MotionHandler::move()
 {
+    if (path.isNull()) {
+        return false;
+    }
+
     if (location == movingTo) {
         // We use `movingTo` rather than `location` to set the coordinates of `movingFrom`, because `movingTo` is sure
         // to be rounded coordinates when `location` is not.

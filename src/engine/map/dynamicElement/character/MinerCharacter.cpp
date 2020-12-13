@@ -12,7 +12,7 @@ MinerCharacter::MinerCharacter(
     const PathGeneratorInterface& pathGenerator,
     const CharacterInformation& conf,
     const QSharedPointer<AbstractProcessableBuilding>& issuer,
-    owner<PathInterface*> path
+    QSharedPointer<PathInterface> path
 ) :
     Character(characterManager, pathGenerator, conf, issuer),
     goingHome(false)

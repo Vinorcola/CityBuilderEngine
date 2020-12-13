@@ -11,7 +11,7 @@ StudentCharacter::StudentCharacter(
     const CharacterInformation& conf,
     const QSharedPointer<AbstractProcessableBuilding>& issuer,
     const QWeakPointer<AbstractProcessableBuilding>& target,
-    owner<PathInterface*> path
+    QSharedPointer<PathInterface> path
 ) :
     Character(characterManager, pathGenerator, conf, issuer),
     target(target)

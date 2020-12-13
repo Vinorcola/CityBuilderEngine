@@ -1,12 +1,10 @@
 #ifndef MOTIONHANDLER_HPP
 #define MOTIONHANDLER_HPP
 
-#include <QtCore/QList>
-#include <QtCore/QPointer>
+#include <QtCore/QSharedPointer>
 
 #include "src/engine/map/MapCoordinates.hpp"
 #include "src/global/Direction.hpp"
-#include "src/defines.hpp"
 
 class PathInterface;
 
@@ -17,7 +15,7 @@ class MotionHandler
 {
     private:
         const qreal speed;
-        owner<PathInterface*> path;///< The path to follow.
+        QSharedPointer<PathInterface> path;///< The path to follow.
         MapCoordinates location;///< The current coordinates of the element.
         MapCoordinates movingFrom;///< The coordinates of the tile the element is moving from.
         MapCoordinates movingTo;///< The coordinates of the tile the element is moving to.
@@ -32,19 +30,13 @@ class MotionHandler
          */
         MotionHandler(const qreal speed, const MapCoordinates& initialLocation);
 
-        ~MotionHandler();
-
         const MapCoordinates& getCurrentLocation() const;
-
         Direction getCurrentDirection() const;
-
         MapCoordinates getCurrentTileCoordinates() const;
-
         bool isPathObsolete() const;
-
         bool isPathCompleted() const;
 
-        void takePath(owner<PathInterface*> path);
+        void takePath(QSharedPointer<PathInterface> path);
 
         /**
          * @brief Stop the motion and reset any data about the motion.
@@ -65,7 +57,6 @@ class MotionHandler
          * @return `true` if the location has changed.
          */
         bool moveToTarget();
-
         void updateDirection();
 };
 
