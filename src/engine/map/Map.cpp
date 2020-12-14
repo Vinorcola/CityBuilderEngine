@@ -48,6 +48,9 @@ Map::Map(
         ++line;
         column = -line / 2;
     }
+    for (auto tile : tiles) {
+        tile->pickRelatives(tiles);
+    }
 }
 
 
