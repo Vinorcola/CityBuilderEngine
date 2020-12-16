@@ -2,6 +2,7 @@
 
 #include "src/engine/map/path/RandomRoadPath.hpp"
 #include "src/engine/map/path/TargetedPath.hpp"
+#include "src/global/geometry/DynamicElementCoordinates.hpp"
 
 
 
@@ -16,7 +17,7 @@ PathGenerator::PathGenerator(const MapDetailsInterface& mapDetails) :
 
 
 QSharedPointer<PathInterface> PathGenerator::generateWanderingPath(
-    const MapCoordinates& origin,
+    const TileCoordinates& origin,
     const int wanderingCredits
 ) const {
 
@@ -30,8 +31,8 @@ QSharedPointer<PathInterface> PathGenerator::generateWanderingPath(
 
 
 QSharedPointer<PathInterface> PathGenerator::generateShortestPathTo(
-    const MapCoordinates& origin,
-    const MapCoordinates& destination
+    const TileCoordinates& origin,
+    const TileCoordinates& destination
 ) const {
 
     return QSharedPointer<PathInterface>(new TargetedPath(
@@ -43,9 +44,20 @@ QSharedPointer<PathInterface> PathGenerator::generateShortestPathTo(
 
 
 
+QSharedPointer<PathInterface> PathGenerator::generateShortestPathTo(
+    const DynamicElementCoordinates& origin,
+    const TileCoordinates& destination
+) const {
+
+    // TODO: To correct later.
+    return generateShortestPathTo(origin.associatedTileCoordinates(), destination);
+}
+
+
+
 QSharedPointer<PathInterface> PathGenerator::generateShortestRoadPathTo(
-    const MapCoordinates& origin,
-    const MapCoordinates& destination
+    const TileCoordinates& origin,
+    const TileCoordinates& destination
 ) const {
 
     return QSharedPointer<PathInterface>(new TargetedPath(
@@ -57,9 +69,20 @@ QSharedPointer<PathInterface> PathGenerator::generateShortestRoadPathTo(
 
 
 
+QSharedPointer<PathInterface> PathGenerator::generateShortestRoadPathTo(
+    const DynamicElementCoordinates& origin,
+    const TileCoordinates& destination
+) const {
+
+    // TODO: To correct later.
+    return generateShortestRoadPathTo(origin.associatedTileCoordinates(), destination);
+}
+
+
+
 QSharedPointer<PathInterface> PathGenerator::generatePreferedShortestPathTo(
-    const MapCoordinates& origin,
-    const MapCoordinates& destination,
+    const TileCoordinates& origin,
+    const TileCoordinates& destination,
     bool restrictedToRoads
 ) const {
 
@@ -78,8 +101,8 @@ QSharedPointer<PathInterface> PathGenerator::generatePreferedShortestPathTo(
 
 
 QSharedPointer<PathInterface> PathGenerator::generateShortestPathToClosestMatch(
-    const MapCoordinates& origin,
-    std::function<bool (const MapCoordinates&)> match
+    const TileCoordinates& origin,
+    std::function<bool (const TileCoordinates&)> match
 ) const {
 
     auto path(closestPathFinder.getShortestPathToClosestMatch(origin, match));
@@ -92,9 +115,9 @@ QSharedPointer<PathInterface> PathGenerator::generateShortestPathToClosestMatch(
 
 
 
-QList<MapCoordinates> PathGenerator::generateShortestPathForRoad(
-    const MapCoordinates& origin,
-    const MapCoordinates& destination
+QList<TileCoordinates> PathGenerator::generateShortestPathForRoad(
+    const TileCoordinates& origin,
+    const TileCoordinates& destination
 ) const {
 
     return shortestPathFinder.getShortestRoadablePath(origin, destination);

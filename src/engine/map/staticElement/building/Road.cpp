@@ -2,7 +2,7 @@
 
 
 
-Road::Road(const BuildingInformation& conf, const MapArea& area, Direction orientation) :
+Road::Road(const BuildingInformation& conf, const TileArea& area, Direction orientation) :
     AbstractBuilding(conf, area, orientation)
 {
 

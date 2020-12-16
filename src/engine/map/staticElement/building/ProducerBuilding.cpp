@@ -16,9 +16,9 @@ ProducerBuilding::ProducerBuilding(
     const NatureElementSearchEngine& searchEngine,
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) :
     AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     searchEngine(searchEngine),
@@ -37,9 +37,9 @@ QSharedPointer<AbstractProcessableBuilding> ProducerBuilding::Create(
     const NatureElementSearchEngine& searchEngine,
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) {
     auto producer(new ProducerBuilding(searchEngine, characterFactory, conf, area, orientation, entryPoint));
     QSharedPointer<AbstractProcessableBuilding> pointer(producer);

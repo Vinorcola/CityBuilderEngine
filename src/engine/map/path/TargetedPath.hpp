@@ -4,7 +4,7 @@
 #include <QtCore/QList>
 
 #include "src/engine/map/path/PathInterface.hpp"
-#include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 
 class MapDetailsInterface;
 
@@ -13,23 +13,23 @@ class TargetedPath : public PathInterface
     private:
         const MapDetailsInterface& mapDetails;
         const bool restrictedToRoads;
-        QList<MapCoordinates> path;
-        bool obsolete;
+        QList<TileCoordinates> path;
+        mutable bool obsolete;
 
     public:
         TargetedPath(
             const MapDetailsInterface& mapDetails,
             const bool restrictedToRoads,
-            const QList<MapCoordinates>& path
+            const QList<TileCoordinates>& path
         );
 
         virtual bool isObsolete() const override;
-
         virtual bool isCompleted() const override;
 
-        virtual MapCoordinates getNextTargetCoordinates() override;
+        virtual bool isNextTargetCoordinatesValid() const override;
+        virtual TileCoordinates getNextValidTargetCoordinates() override;
 
-        const QList<MapCoordinates>& toCoordinatesList() const;
+        const QList<TileCoordinates>& toCoordinatesList() const;
 };
 
 #endif // TARGETEDPATH_HPP

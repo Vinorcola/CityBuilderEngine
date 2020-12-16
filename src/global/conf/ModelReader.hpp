@@ -1,9 +1,8 @@
 #ifndef MODELREADER_HPP
 #define MODELREADER_HPP
 
+#include <QtCore/QPoint>
 #include <QtCore/QString>
-
-#include "src/engine/map/MapCoordinates.hpp"
 
 class BuildingInformation;
 class CharacterInformation;
@@ -39,8 +38,6 @@ class ModelReader
 
         QString getString(const char key[]) const;
         QString getOptionalString(const char key[], const QString& defaultValue) const;
-
-        MapCoordinates getMapCoordinates(const char key[]) const;
 
         QPoint getPoint(const char key[]) const;
         QPoint getOptionalPoint(const char key[], const QPoint& defaultValue) const;

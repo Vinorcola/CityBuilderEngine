@@ -1,15 +1,17 @@
 #include "MotionHandler.hpp"
 
+#include <QtCore/QtMath>
+
 #include "src/engine/map/path/PathInterface.hpp"
 
 
 
-MotionHandler::MotionHandler(const qreal speed, const MapCoordinates& initialLocation) :
+MotionHandler::MotionHandler(const qreal speed, const DynamicElementCoordinates& initialLocation) :
     speed(speed),
     path(),
     location(initialLocation),
-    movingFrom(initialLocation),
-    movingTo(),
+    movingFrom(initialLocation.associatedTileCoordinates()),
+    movingTo(initialLocation.associatedTileCoordinates()),
     direction(Direction::West)
 {
 
@@ -17,7 +19,7 @@ MotionHandler::MotionHandler(const qreal speed, const MapCoordinates& initialLoc
 
 
 
-const MapCoordinates& MotionHandler::getCurrentLocation() const
+const DynamicElementCoordinates& MotionHandler::getCurrentLocation() const
 {
     return location;
 }
@@ -31,9 +33,9 @@ Direction MotionHandler::getCurrentDirection() const
 
 
 
-MapCoordinates MotionHandler::getCurrentTileCoordinates() const
+TileCoordinates MotionHandler::getCurrentTileCoordinates() const
 {
-    return location.getRounded();
+    return location.associatedTileCoordinates();
 }
 
 
@@ -47,7 +49,7 @@ bool MotionHandler::isPathObsolete() const
 
 bool MotionHandler::isPathCompleted() const
 {
-    return !path.isNull() && path->isCompleted() && location == movingTo;
+    return !path.isNull() && path->isCompleted() && location == movingTo.toDynamicElementCoordinates();
 }
 
 
@@ -55,11 +57,21 @@ bool MotionHandler::isPathCompleted() const
 void MotionHandler::takePath(QSharedPointer<PathInterface> path)
 {
     this->path = path;
-    movingFrom = location;
-    movingTo = path->getNextTargetCoordinates();
-    if (movingTo == movingFrom) {
-        // Some path may include the current location as the first step, we switch directly to the next step.
-        movingTo = path->getNextTargetCoordinates();
+    movingFrom = location.associatedTileCoordinates();
+    if (path->isNextTargetCoordinatesValid()) {
+        movingTo = path->getNextValidTargetCoordinates();
+        if (movingTo == movingFrom) {
+            // Some path may include the current location as the first step, we switch directly to the next step.
+            if (path->isNextTargetCoordinatesValid()) {
+                movingTo = path->getNextValidTargetCoordinates();
+            }
+            else {
+                movingTo = movingFrom;
+            }
+        }
+    }
+    else {
+        movingTo = movingFrom;
     }
     updateDirection();
 }
@@ -69,8 +81,8 @@ void MotionHandler::takePath(QSharedPointer<PathInterface> path)
 void MotionHandler::stop()
 {
     path.reset();
-    movingFrom = location;
-    movingTo = {};
+    movingFrom = location.associatedTileCoordinates();
+    movingTo = location.associatedTileCoordinates();
 }
 
 
@@ -81,15 +93,20 @@ bool MotionHandler::move()
         return false;
     }
 
-    if (location == movingTo) {
+    if (location == movingTo.toDynamicElementCoordinates()) {
         // We use `movingTo` rather than `location` to set the coordinates of `movingFrom`, because `movingTo` is sure
         // to be rounded coordinates when `location` is not.
         movingFrom = movingTo;
-        movingTo = path->getNextTargetCoordinates();
+        if (path->isNextTargetCoordinatesValid()) {
+            movingTo = path->getNextValidTargetCoordinates();
+        }
+        else {
+            movingTo = movingFrom;
+        }
         updateDirection();
     }
 
-    if (!movingTo.isValid()) {
+    if (movingTo == movingFrom) {
         return false;
     }
 
@@ -101,21 +118,21 @@ bool MotionHandler::move()
 bool MotionHandler::moveToTarget()
 {
     bool hasMoved(false);
-    if (movingTo.getX() > location.getX()) {
-        location.setX(qMin(location.getX() + speed, movingTo.getX()));
+    if (movingTo.x() > location.x()) {
+        location = { qMin(location.x() + speed, static_cast<qreal>(movingTo.x())), location.y() };
         hasMoved = true;
     }
-    else if (movingTo.getX() < location.getX()) {
-        location.setX(qMax(location.getX() - speed, movingTo.getX()));
+    else if (movingTo.x() < location.x()) {
+        location = { qMax(location.x() - speed, static_cast<qreal>(movingTo.x())), location.y() };
         hasMoved = true;
     }
 
-    if (movingTo.getY() > location.getY()) {
-        location.setY(qMin(location.getY() + speed, movingTo.getY()));
+    if (movingTo.y() > location.y()) {
+        location = { location.x(), qMin(location.y() + speed, static_cast<qreal>(movingTo.y())) };
         hasMoved = true;
     }
-    else if (movingTo.getY() < location.getY()) {
-        location.setY(qMax(location.getY() - speed, movingTo.getY()));
+    else if (movingTo.y() < location.y()) {
+        location = { location.x(), qMax(location.y() - speed, static_cast<qreal>(movingTo.y())) };
         hasMoved = true;
     }
 
@@ -126,6 +143,9 @@ bool MotionHandler::moveToTarget()
 
 void MotionHandler::updateDirection()
 {
+    // TODO: To correct
+    direction = Direction::West;
+    /*
     if (movingFrom.getTop() == movingTo) {
         direction = Direction::Top;
     }
@@ -149,5 +169,5 @@ void MotionHandler::updateDirection()
     }
     else if (movingFrom.getWest() == movingTo) {
         direction = Direction::West;
-    }
+    }*/
 }

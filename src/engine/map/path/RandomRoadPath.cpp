@@ -1,6 +1,7 @@
 #include "RandomRoadPath.hpp"
 
-#include <QRandomGenerator>
+#include <QtCore/QList>
+#include <QtCore/QRandomGenerator>
 
 #include "src/engine/map/path/MapDetailsInterface.hpp"
 
@@ -8,12 +9,12 @@
 
 RandomRoadPath::RandomRoadPath(
     const MapDetailsInterface& mapDetails,
-    const MapCoordinates& initialLocation,
+    const TileCoordinates& initialLocation,
     const int wanderingCredits
 ) :
     mapDetails(mapDetails),
-    previousLocation(),
-    currentLocation(initialLocation.getRounded()),
+    previousLocation(initialLocation),
+    currentLocation(initialLocation),
     wanderingCredits(wanderingCredits)
 {
 
@@ -35,12 +36,16 @@ bool RandomRoadPath::isCompleted() const
 
 
 
-MapCoordinates RandomRoadPath::getNextTargetCoordinates()
+bool RandomRoadPath::isNextTargetCoordinatesValid() const
+{
+    return wanderingCredits <= 0;
+}
+
+
+
+TileCoordinates RandomRoadPath::getNextValidTargetCoordinates()
 {
     auto nextLocation(getNextRandomCoordinates());
-    if (!nextLocation.isValid()) {
-        return nextLocation;
-    }
 
     previousLocation = currentLocation;
     currentLocation = nextLocation;
@@ -51,20 +56,15 @@ MapCoordinates RandomRoadPath::getNextTargetCoordinates()
 
 
 
-MapCoordinates RandomRoadPath::getNextRandomCoordinates() const
+TileCoordinates RandomRoadPath::getNextRandomCoordinates() const
 {
-    if (wanderingCredits <= 0) {
-        // Wandering credits expired.
-        return {};
-    }
-
-    QList<MapCoordinates> neighbours({
-        currentLocation.getNorth(),
-        currentLocation.getEast(),
-        currentLocation.getSouth(),
-        currentLocation.getWest(),
+    QList<TileCoordinates> neighbours({
+        { currentLocation.x(), currentLocation.y() - 1 }, // North
+        { currentLocation.x(), currentLocation.y() + 1 }, // South
+        { currentLocation.x() + 1, currentLocation.y() }, // East
+        { currentLocation.x() - 1, currentLocation.y() }, // West
     });
-    QList<MapCoordinates> roadNeighbours;
+    QList<TileCoordinates> roadNeighbours;
     for (auto neighbour : neighbours) {
         if (mapDetails.hasRoadAtLocation(neighbour)) {
             roadNeighbours.append(neighbour);
@@ -73,7 +73,7 @@ MapCoordinates RandomRoadPath::getNextRandomCoordinates() const
 
     if (roadNeighbours.size() == 0) {
         // Character is on a single road tile.
-        return {};
+        return currentLocation;
     }
     if (roadNeighbours.size() == 1) {
         // Dead end, must go back.
@@ -81,7 +81,7 @@ MapCoordinates RandomRoadPath::getNextRandomCoordinates() const
     }
 
     // We remove the previous node to avoid going back on a bifurcation.
-    if (previousLocation.isValid()) {
+    if (previousLocation != currentLocation) {
         roadNeighbours.removeOne(previousLocation);
     }
 

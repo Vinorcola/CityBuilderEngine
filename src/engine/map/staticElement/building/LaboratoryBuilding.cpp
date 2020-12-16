@@ -11,9 +11,9 @@
 LaboratoryBuilding::LaboratoryBuilding(
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) :
     AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     characterFactory(characterFactory),
@@ -29,9 +29,9 @@ LaboratoryBuilding::LaboratoryBuilding(
 QSharedPointer<AbstractProcessableBuilding> LaboratoryBuilding::Create(
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) {
     auto laboratory(new LaboratoryBuilding(characterFactory, conf, area, orientation, entryPoint));
     QSharedPointer<AbstractProcessableBuilding> pointer(laboratory);

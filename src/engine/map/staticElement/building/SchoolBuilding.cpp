@@ -4,6 +4,7 @@
 #include "src/engine/map/staticElement/building/BuildingSearchEngine.hpp"
 #include "src/engine/map/staticElement/building/LaboratoryBuilding.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/geometry/DynamicElementCoordinates.hpp"
 
 
 
@@ -11,9 +12,9 @@ SchoolBuilding::SchoolBuilding(
     const BuildingSearchEngine& searchEngine,
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) :
     AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     searchEngine(searchEngine),
@@ -29,9 +30,9 @@ QSharedPointer<AbstractProcessableBuilding> SchoolBuilding::Create(
     const BuildingSearchEngine& searchEngine,
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) {
     auto school(new SchoolBuilding(searchEngine, characterFactory, conf, area, orientation, entryPoint));
     QSharedPointer<AbstractProcessableBuilding> pointer(school);
@@ -50,7 +51,7 @@ void SchoolBuilding::process(const CycleDate& /*date*/)
 
     walkerGeneration.process(getCurrentWorkerQuantity());
     if (walkerGeneration.isReadyToGenerateWalker()) {
-        auto target(searchEngine.findClosestBuilding(conf.getSchoolConf().targetLaboratory, getEntryPoint()));
+        auto target(searchEngine.findClosestBuilding(conf.getSchoolConf().targetLaboratory, getEntryPoint().toDynamicElementCoordinates()));
         if (target) {
             characterFactory.generateStudent(conf.getSchoolConf().student.conf, selfReference, target);
             walkerGeneration.reset();

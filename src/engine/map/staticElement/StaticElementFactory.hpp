@@ -12,11 +12,11 @@ class BuildingSearchEngine;
 class CharacterGeneratorInterface;
 class CharacterInformation;
 class ImmigrantGeneratorInterface;
-class MapArea;
-class MapCoordinates;
 class NatureElementSearchEngine;
 class PopulationRegistryInterface;
 class StorageBuilding;
+class TileArea;
+class TileCoordinates;
 
 class StaticElementFactory
 {
@@ -33,57 +33,57 @@ class StaticElementFactory
 
         QSharedPointer<AbstractProcessableBuilding> generateFarm(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
         QSharedPointer<AbstractProcessableBuilding> generateHouse(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
         QSharedPointer<AbstractProcessableBuilding> generateLaboratory(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
         QSharedPointer<AbstractProcessableBuilding> generateProducer(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
         QSharedPointer<AbstractBuilding> generateRoad(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation
         );
 
         QSharedPointer<AbstractProcessableBuilding> generateSanity(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
         QSharedPointer<AbstractProcessableBuilding> generateSchool(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
         QSharedPointer<StorageBuilding> generateStorage(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
     private:

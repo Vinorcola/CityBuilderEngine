@@ -12,10 +12,10 @@
 CivilianEntryPoint::CivilianEntryPoint(
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapCoordinates& location,
+    const TileCoordinates& location,
     const CharacterInformation& immigrantConf
 ) :
-    AbstractProcessableBuilding(conf, MapArea(location), Direction::West, location),
+    AbstractProcessableBuilding(conf, { location, 1 }, Direction::West, location),
     characterFactory(characterFactory),
     immigrantConf(immigrantConf),
     nextImmigrantGenerationCountDown(),
@@ -29,7 +29,7 @@ CivilianEntryPoint::CivilianEntryPoint(
 QSharedPointer<CivilianEntryPoint> CivilianEntryPoint::Create(
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapCoordinates& location,
+    const TileCoordinates& location,
     const CharacterInformation& immigrantConf
 ) {
     // IMPORTANT: characterFactory is not initialized yet within constructor scope!

@@ -4,7 +4,7 @@
 
 
 
-AbstractBuilding::AbstractBuilding(const BuildingInformation& conf, const MapArea& area, Direction orientation) :
+AbstractBuilding::AbstractBuilding(const BuildingInformation& conf, const TileArea& area, Direction orientation) :
     conf(conf),
     area(area),
     orientation(orientation),

@@ -39,7 +39,7 @@ const BuildingSearchEngine& StaticElementRegistry::getBuildingSearchEngine() con
 
 void StaticElementRegistry::generateBuilding(
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation
 ) {
     QSharedPointer<AbstractBuilding> building;
@@ -61,9 +61,9 @@ void StaticElementRegistry::generateBuilding(
 
 void StaticElementRegistry::generateProcessableBuilding(
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) {
     QSharedPointer<AbstractProcessableBuilding> building;
     switch (conf.getType()) {
@@ -113,7 +113,7 @@ void StaticElementRegistry::generateProcessableBuilding(
 
 
 
-void StaticElementRegistry::generateNatureElement(const NatureElementInformation& conf, const MapArea& area)
+void StaticElementRegistry::generateNatureElement(const NatureElementInformation& conf, const TileArea& area)
 {
     QSharedPointer<NatureElement> natureElement(new NatureElement(conf, area));
     natureElements.insert(natureElement.get(), natureElement);

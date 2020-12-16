@@ -3,8 +3,8 @@
 
 #include <QtCore/QList>
 
-class MapCoordinates;
 class MapDetailsInterface;
+class TileCoordinates;
 
 /**
  * @brief An A* algorithm executor for finding the shortest path between a current location and a destination.
@@ -17,15 +17,15 @@ class ShortestPathFinder
     public:
         explicit ShortestPathFinder(const MapDetailsInterface& mapDetails);
 
-        QList<MapCoordinates> getShortestPath(
-            const MapCoordinates& origin,
-            const MapCoordinates& destination,
+        QList<TileCoordinates> getShortestPath(
+            const TileCoordinates& origin,
+            const TileCoordinates& destination,
             const bool restrictedToRoads
         ) const;
 
-        QList<MapCoordinates> getShortestRoadablePath(
-            const MapCoordinates& origin,
-            const MapCoordinates& destination
+        QList<TileCoordinates> getShortestRoadablePath(
+            const TileCoordinates& origin,
+            const TileCoordinates& destination
         ) const;
 };
 

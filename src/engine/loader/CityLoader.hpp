@@ -4,7 +4,7 @@
 #include <QtCore/QList>
 #include <yaml-cpp/node/node.h>
 
-#include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 
 class CycleDate;
 class QString;
@@ -21,12 +21,12 @@ class CityLoader
         struct Building {
             Building(YAML::Node node);
             QString type;
-            MapCoordinates location;
+            TileCoordinates location;
         };
         struct NatureElement {
             NatureElement(YAML::Node node);
             QString type;
-            MapCoordinates location;
+            TileCoordinates location;
         };
 
     private:
@@ -40,7 +40,7 @@ class CityLoader
         int getInitialBudget() const;
 
         QSize getMapSize() const;
-        MapCoordinates getMapEntryPoint() const;
+        TileCoordinates getMapEntryPoint() const;
         QList<Building> getInitialBuildings() const;
         QList<NatureElement> getInitialNatureElements() const;
 };

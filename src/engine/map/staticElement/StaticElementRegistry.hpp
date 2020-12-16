@@ -36,14 +36,14 @@ class StaticElementRegistry : public AbstractProcessable
         const BuildingSearchEngine& getBuildingSearchEngine() const;
 
         // Element registration.
-        void generateBuilding(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        void generateBuilding(const BuildingInformation& conf, const TileArea& area, Direction orientation);
         void generateProcessableBuilding(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
-        void generateNatureElement(const NatureElementInformation& conf, const MapArea& area);
+        void generateNatureElement(const NatureElementInformation& conf, const TileArea& area);
 
         // States.
         QList<BuildingState> getBuildingsState() const;

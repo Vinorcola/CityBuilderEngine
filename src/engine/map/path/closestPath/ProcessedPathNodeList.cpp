@@ -18,7 +18,7 @@ ProcessedPathNodeList::~ProcessedPathNodeList()
 
 
 
-bool ProcessedPathNodeList::isNodeForLocationAlreadyProcessed(const MapCoordinates& location) const
+bool ProcessedPathNodeList::isNodeForLocationAlreadyProcessed(const TileCoordinates& location) const
 {
     for (auto node : list) {
         if (node->getLocation() == location) {

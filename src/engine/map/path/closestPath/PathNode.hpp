@@ -1,30 +1,30 @@
 #ifndef PATHNODE_HPP
 #define PATHNODE_HPP
 
-#include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 
 class PathNode
 {
     private:
-        const MapCoordinates location;
+        const TileCoordinates location;
         const qreal costFromOrigin;
 
     public:
-        explicit PathNode(const MapCoordinates& location, const qreal costFromOrigin = 0.0);
+        explicit PathNode(const TileCoordinates& location, const qreal costFromOrigin = 0.0);
 
-        const MapCoordinates& getLocation() const;
+        const TileCoordinates& getLocation() const;
 
         qreal getCostFromOrigin() const;
 
         /**
          * @brief Get the list of neighbours' coordinates to this node.
          */
-        QList<MapCoordinates> getNeighbours() const;
+        QList<TileCoordinates> getNeighbours() const;
 
         /**
          * @brief Get the list of diagonal neighbours' coordinates to this node.
          */
-        QList<MapCoordinates> getDiagonalNeighbours() const;
+        QList<TileCoordinates> getDiagonalNeighbours() const;
 };
 
 #endif // PATHNODE_HPP

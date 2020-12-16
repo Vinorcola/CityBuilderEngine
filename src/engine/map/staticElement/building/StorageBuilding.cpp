@@ -10,9 +10,9 @@
 
 StorageBuilding::StorageBuilding(
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) :
     AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     stock()
@@ -24,9 +24,9 @@ StorageBuilding::StorageBuilding(
 
 QSharedPointer<StorageBuilding> StorageBuilding::Create(
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) {
     auto storage(new StorageBuilding(conf, area, orientation, entryPoint));
     QSharedPointer<StorageBuilding> pointer(storage);

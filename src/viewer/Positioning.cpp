@@ -7,8 +7,9 @@
 #include <QtGui/QPainterPath>
 #include <QtGui/QPolygonF>
 
-#include "src/engine/map/MapCoordinates.hpp"
-#include "src/engine/map/MapSize.hpp"
+#include "src/global/geometry/DynamicElementCoordinates.hpp"
+#include "src/global/geometry/TileAreaSize.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 
 
 
@@ -22,20 +23,17 @@ Positioning::Positioning(const QSize& tileSize) :
 
 
 
-QPoint Positioning::getTilePosition(const MapCoordinates& location) const
+QPoint Positioning::getTilePosition(const TileCoordinates& location) const
 {
-    const int X(location.getX());
-    const int Y(location.getY());
-
     return {
-        (Y + X) * halfTileSizeAsInt.width(),
-        (Y - X) * halfTileSizeAsInt.height(),
+        (location.y() + location.x()) * halfTileSizeAsInt.width(),
+        (location.y() - location.x()) * halfTileSizeAsInt.height(),
     };
 }
 
 
 
-QPoint Positioning::getStaticElementPositionInTile(const MapSize& elementSize, const int imageHeight) const
+QPoint Positioning::getStaticElementPositionInTile(const TileAreaSize& elementSize, const int imageHeight) const
 {
     assert(elementSize.isSquare());
 
@@ -43,14 +41,18 @@ QPoint Positioning::getStaticElementPositionInTile(const MapSize& elementSize, c
     // element size, since we must align it with the bottom tile of it's area.
     return {
         0,
-        (elementSize.getHeight() + 1) * halfTileSizeAsInt.height() - imageHeight,
+        (elementSize.width() + 1) * halfTileSizeAsInt.height() - imageHeight,
     };
 }
 
 
 
-QPoint Positioning::getStaticElementPositionInTile(const MapSize& elementSize, const int imageHeight, const QPoint& tileOffset) const
-{
+QPoint Positioning::getStaticElementPositionInTile(
+    const TileAreaSize& elementSize,
+    const int imageHeight,
+    const QPoint& tileOffset
+) const {
+
     assert(elementSize.isSquare());
 
     // A static element is attached to the tile located at the left corner of it's area. But we have to apply the given
@@ -61,16 +63,16 @@ QPoint Positioning::getStaticElementPositionInTile(const MapSize& elementSize, c
 
     return {
         xOffset,
-        yOffset + (elementSize.getHeight() + 1) * halfTileSizeAsInt.height() - imageHeight,
+        yOffset + (elementSize.width() + 1) * halfTileSizeAsInt.height() - imageHeight,
     };
 }
 
 
 
-QPainterPath Positioning::getTileAreaPainterPath(const MapSize& areaSize) const
+QPainterPath Positioning::getTileAreaPainterPath(const TileAreaSize& areaSize) const
 {
-    const qreal WIDTH_RATIO(areaSize.getWidth());
-    const qreal HEIGHT_RATIO(areaSize.getHeight());
+    const qreal WIDTH_RATIO(areaSize.width());
+    const qreal HEIGHT_RATIO(areaSize.height());
 
     QPainterPath path;
     path.moveTo(
@@ -100,10 +102,10 @@ QPainterPath Positioning::getTileAreaPainterPath(const MapSize& areaSize) const
 
 
 
-QPolygonF Positioning::getTileAreaPolygon(const MapSize& areaSize) const
+QPolygonF Positioning::getTileAreaPolygon(const TileAreaSize& areaSize) const
 {
-    const qreal WIDTH_RATIO(areaSize.getWidth());
-    const qreal HEIGHT_RATIO(areaSize.getHeight());
+    const qreal WIDTH_RATIO(areaSize.width());
+    const qreal HEIGHT_RATIO(areaSize.height());
 
     QPolygonF polygon;
     polygon.append(QPointF(
@@ -133,10 +135,10 @@ QPolygonF Positioning::getTileAreaPolygon(const MapSize& areaSize) const
 
 
 
-QRectF Positioning::getBoundingRect(const MapSize& areaSize) const
+QRectF Positioning::getBoundingRect(const TileAreaSize& areaSize) const
 {
-    const qreal WIDTH_RATIO(areaSize.getWidth());
-    const qreal HEIGHT_RATIO(areaSize.getHeight());
+    const qreal WIDTH_RATIO(areaSize.width());
+    const qreal HEIGHT_RATIO(areaSize.height());
 
     return {
         QPointF(
@@ -152,11 +154,11 @@ QRectF Positioning::getBoundingRect(const MapSize& areaSize) const
 
 
 
-QPointF Positioning::getDynamicElementPositionInTile(const MapCoordinates& elementLocation) const
+QPointF Positioning::getDynamicElementPositionInTile(const DynamicElementCoordinates& elementLocation) const
 {
-    const auto TILE_COORDINATES(elementLocation.getRounded());
-    const qreal X_DIFF(elementLocation.getX() - TILE_COORDINATES.getX());
-    const qreal Y_DIFF(elementLocation.getY() - TILE_COORDINATES.getY());
+    const auto TILE_COORDINATES(elementLocation.associatedTileCoordinates());
+    const qreal X_DIFF(elementLocation.x() - static_cast<qreal>(TILE_COORDINATES.x()));
+    const qreal Y_DIFF(elementLocation.y() - static_cast<qreal>(TILE_COORDINATES.y()));
 
     return {
         X_DIFF * tileSizeAsFloat.width() / 2.0 + Y_DIFF * tileSizeAsFloat.width() / 2.0,
@@ -166,7 +168,7 @@ QPointF Positioning::getDynamicElementPositionInTile(const MapCoordinates& eleme
 
 
 
-MapCoordinates Positioning::getMapCoordinatesFromMouseCoordinates(const QPointF& mouseCoordinates) const
+TileCoordinates Positioning::getTileCoordinatesFromMouseCoordinates(const QPointF& mouseCoordinates) const
 {
     const int X(qFloor(mouseCoordinates.x() / 2.0));
     const int Y(qFloor(mouseCoordinates.y()));

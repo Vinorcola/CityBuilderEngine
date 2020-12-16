@@ -4,7 +4,7 @@
 
 
 
-TileView::TileView(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement) :
+TileView::TileView(const Positioning& positioning, const TileCoordinates& location, QGraphicsItem& groundElement) :
     QGraphicsItem(),
     location(location),
     groundElement(groundElement),
@@ -17,7 +17,7 @@ TileView::TileView(const Positioning& positioning, const MapCoordinates& locatio
 
 
 
-const MapCoordinates& TileView::getCoordinates() const
+const TileCoordinates& TileView::coordinates() const
 {
     return location;
 }

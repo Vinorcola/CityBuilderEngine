@@ -5,8 +5,8 @@
 
 #include "src/defines.hpp"
 
-class MapCoordinates;
 class AStarNode;
+class TileCoordinates;
 
 /**
  * @brief An list for keeping nodes to be processed by the A* algorithm.
@@ -25,7 +25,7 @@ class UnprocessedAStarNodeList
 
         void insertNodeToProcess(owner<AStarNode*> node);
 
-        AStarNode* findClosestToDestinationAtLocation(const MapCoordinates& location) const;
+        AStarNode* findClosestToDestinationAtLocation(const TileCoordinates& location) const;
 
         owner<AStarNode*> takeClosestToDestination();
 };

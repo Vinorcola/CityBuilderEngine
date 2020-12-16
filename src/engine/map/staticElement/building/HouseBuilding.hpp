@@ -23,9 +23,9 @@ class HouseBuilding : public AbstractProcessableBuilding
             ImmigrantGeneratorInterface& immigrantGenerator,
             PopulationRegistryInterface& populationRegister,
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
     public:
@@ -33,9 +33,9 @@ class HouseBuilding : public AbstractProcessableBuilding
             ImmigrantGeneratorInterface& immigrantGenerator,
             PopulationRegistryInterface& populationRegister,
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
         virtual void process(const CycleDate& date) override;

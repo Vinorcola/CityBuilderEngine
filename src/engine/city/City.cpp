@@ -18,9 +18,9 @@ City::City(const Conf& conf, CityLoader& loader) :
         auto& natureElementConf(conf.getNatureElementConf(natureElementInfo.type));
         map.createNatureElement(
             natureElementConf,
-            MapArea(
+            TileArea(
                 natureElementInfo.location,
-                MapSize(1) // For now, only single tile nature elements are supported.
+                TileAreaSize(1) // For now, only single tile nature elements are supported.
             )
         );
     }
@@ -48,23 +48,23 @@ TimeCycleProcessor& City::getProcessor()
 
 
 
-void City::createBuilding(const BuildingInformation& conf, const MapCoordinates& leftCorner, Direction orientation)
+void City::createBuilding(const BuildingInformation& conf, const TileCoordinates& leftCorner, Direction orientation)
 {
     map.createBuilding(conf, leftCorner, orientation);
 }
 
 
 
-bool City::isAreaConstructible(const MapArea& area) const
+bool City::isAreaConstructible(const TileArea& area) const
 {
     return map.isAreaConstructible(area);
 }
 
 
 
-QList<MapCoordinates> City::getShortestPathForRoad(const MapCoordinates& origin, const MapCoordinates& target) const
+QList<TileCoordinates> City::getShortestPathForRoad(const TileCoordinates& origin, const TileCoordinates& target) const
 {
-    return map.getPathGenerator().generateShortestPathForRoad(origin, target);
+    return map.getShortestPathForRoad(origin, target);
 }
 
 

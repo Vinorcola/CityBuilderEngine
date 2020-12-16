@@ -1,10 +1,12 @@
 #include "AStarNode.hpp"
 
+#include <QtCore/QList>
+
 
 
 AStarNode::AStarNode(
-    const MapCoordinates& location,
-    const MapCoordinates& destination,
+    const TileCoordinates& location,
+    const TileCoordinates& destination,
     const qreal cost,
     const bool useDiagonals
 ) :
@@ -12,10 +14,10 @@ AStarNode::AStarNode(
     costFromOrigin(cost),
     theoreticalBestDistanceToDestination(
         useDiagonals ?
-            location.getChebyshevDistanceTo(destination) :
-            location.getManhattanDistanceTo(destination)
+            location.chebyshevDistanceTo(destination) :
+            location.manhattanDistanceTo(destination)
     ),
-    straightDistanceToDestination(location.getStraightDistanceTo(destination))
+    straightDistanceToDestination(location.straightDistanceTo(destination))
 {
 
 }
@@ -31,7 +33,7 @@ void AStarNode::updateCostIfBetter(const qreal cost)
 
 
 
-const MapCoordinates& AStarNode::getLocation() const
+const TileCoordinates& AStarNode::getLocation() const
 {
     return location;
 }
@@ -52,26 +54,26 @@ qreal AStarNode::getCostFromOrigin() const
 
 
 
-QList<MapCoordinates> AStarNode::getNeighbours() const
+QList<TileCoordinates> AStarNode::getNeighbours() const
 {
-    QList<MapCoordinates> list;
-    list.append(location.getNorth());
-    list.append(location.getEast());
-    list.append(location.getSouth());
-    list.append(location.getWest());
+    QList<TileCoordinates> list;
+    list.append({ location.x(), location.y() - 1 }); // North
+    list.append({ location.x(), location.y() + 1 }); // South
+    list.append({ location.x() + 1, location.y() }); // East
+    list.append({ location.x() - 1, location.y() }); // West
 
     return list;
 }
 
 
 
-QList<MapCoordinates> AStarNode::getDiagonalNeighbours() const
+QList<TileCoordinates> AStarNode::getDiagonalNeighbours() const
 {
-    QList<MapCoordinates> list;
-    list.append(location.getTop());
-    list.append(location.getRight());
-    list.append(location.getBottom());
-    list.append(location.getLeft());
+    QList<TileCoordinates> list;
+    list.append({ location.x() + 1, location.y() - 1 }); // Top
+    list.append({ location.x() - 1, location.y() + 1 }); // Bottom
+    list.append({ location.x() - 1, location.y() - 1}); // Left
+    list.append({ location.x() + 1, location.y() + 1}); // Right
 
     return list;
 }

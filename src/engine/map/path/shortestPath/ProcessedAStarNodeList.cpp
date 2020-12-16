@@ -19,7 +19,7 @@ ProcessedAStarNodeList::~ProcessedAStarNodeList()
 
 
 
-bool ProcessedAStarNodeList::isNodeForLocationAlreadyProcessed(const MapCoordinates& location) const
+bool ProcessedAStarNodeList::isNodeForLocationAlreadyProcessed(const TileCoordinates& location) const
 {
     for (auto node : list) {
         if (node->getLocation() == location) {

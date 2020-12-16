@@ -3,8 +3,6 @@
 #include <QtCore/QDebug>
 
 #include "src/engine/loader/CityLoader.hpp"
-#include "src/engine/map/MapArea.hpp"
-#include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/map/Tile.hpp"
 #include "src/engine/processing/CycleDate.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
@@ -62,9 +60,9 @@ Map::~Map()
 
 
 
-const PathGenerator& Map::getPathGenerator() const
+QList<TileCoordinates> Map::getShortestPathForRoad(const TileCoordinates& origin, const TileCoordinates& target) const
 {
-    return pathGenerator;
+    return pathGenerator.generateShortestPathForRoad(origin, target);
 }
 
 
@@ -97,9 +95,9 @@ QList<CharacterState> Map::getCharactersState() const
 
 
 
-void Map::createBuilding(const BuildingInformation& conf, const MapCoordinates& leftCorner, Direction orientation)
+void Map::createBuilding(const BuildingInformation& conf, const TileCoordinates& leftCorner, Direction orientation)
 {
-    MapArea area(leftCorner, conf.getSize(orientation));
+    TileArea area(leftCorner, conf.getSize(orientation));
     if (!isAreaConstructible(area)) {
         qDebug() << "WARNING: Try to create a building on an occupied area " + area.toString() + ". Skipping the creation.";
         return;
@@ -113,54 +111,54 @@ void Map::createBuilding(const BuildingInformation& conf, const MapCoordinates& 
     }
 
     for (auto location : area) {
-        tiles.value(location.getHash())->registerBuildingConstruction(conf);
+        tiles.value(location.hash())->registerBuildingConstruction(conf);
     }
 }
 
 
 
-void Map::createNatureElement(const NatureElementInformation& conf, const MapArea& area)
+void Map::createNatureElement(const NatureElementInformation& conf, const TileArea& area)
 {
     staticElements.generateNatureElement(conf, area);
     for (auto location : area) {
-        tiles.value(location.getHash())->registerNatureElement(conf);
+        tiles.value(location.hash())->registerNatureElement(conf);
     }
 }
 
 
 
-bool Map::isLocationValid(const MapCoordinates& coordinates) const
+bool Map::isLocationValid(const TileCoordinates& coordinates) const
 {
-    return tiles.contains(coordinates.getHash());
+    return tiles.contains(coordinates.hash());
 }
 
 
 
-bool Map::isAreaValid(const MapArea& area) const
+bool Map::isAreaValid(const TileArea& area) const
 {
-    auto size(area.getSize());
-    if (size.isSquare() && size.getHeight() == 1) {
-        return isLocationValid(area.getLeft());
+    auto size(area.size());
+    if (size.isSquare() && size.height() == 1) {
+        return isLocationValid(area.leftCorner());
     }
 
     return (
-        isLocationValid(area.getLeft()) &&
-        isLocationValid(area.getRight()) &&
-        isLocationValid(area.getTop()) &&
-        isLocationValid(area.getBottom())
+        isLocationValid(area.leftCorner()) &&
+        isLocationValid(area.resolveRightCorner()) &&
+        isLocationValid(area.resolveTopCorner()) &&
+        isLocationValid(area.resolveBottomCorner())
     );
 }
 
 
 
-bool Map::isAreaConstructible(const MapArea& area) const
+bool Map::isAreaConstructible(const TileArea& area) const
 {
     if (!isAreaValid(area)) {
         return false;
     }
 
     for (auto location : area) {
-        if (!tiles.value(location.getHash())->isConstructible()) {
+        if (!tiles.value(location.hash())->isConstructible()) {
             return false;
         }
     }
@@ -170,35 +168,35 @@ bool Map::isAreaConstructible(const MapArea& area) const
 
 
 
-bool Map::isLocationTraversable(const MapCoordinates& location) const
+bool Map::isLocationTraversable(const TileCoordinates& location) const
 {
-    if (!tiles.contains(location.getHash())) {
+    if (!tiles.contains(location.hash())) {
         return false;
     }
 
-    return tiles.value(location.getHash())->isTraversable();
+    return tiles.value(location.hash())->isTraversable();
 }
 
 
 
-bool Map::hasRoadAtLocation(const MapCoordinates& location) const
+bool Map::hasRoadAtLocation(const TileCoordinates& location) const
 {
-    if (!tiles.contains(location.getHash())) {
+    if (!tiles.contains(location.hash())) {
         return false;
     }
 
-    return tiles.value(location.getHash())->isRoad();
+    return tiles.value(location.hash())->isRoad();
 }
 
 
 
-bool Map::canConstructRoadAtLocation(const MapCoordinates& location) const
+bool Map::canConstructRoadAtLocation(const TileCoordinates& location) const
 {
-    if (!tiles.contains(location.getHash())) {
+    if (!tiles.contains(location.hash())) {
         return false;
     }
 
-    auto tile(tiles.value(location.getHash()));
+    auto tile(tiles.value(location.hash()));
 
     return tile->isConstructible() || tile->isRoad();
 }
@@ -217,42 +215,41 @@ void Map::process(const CycleDate& date)
 
 
 
-MapCoordinates Map::getBestBuildingEntryPoint(const MapArea& area) const
+TileCoordinates Map::getBestBuildingEntryPoint(const TileArea& area) const
 {
     // Fetch a location around the area, starting at the coordinates at north of left point, and turning clockwise
     // around the area.
 
-    auto left(area.getLeft());
-    auto right(area.getRight());
+    auto left(area.leftCorner());
+    auto right(area.resolveRightCorner());
     int moveX(1);
     int moveY(0);
 
-    MapCoordinates coordinates(left.getNorth());
-    while (!tiles.value(coordinates.getHash())->isRoad()) {
-        coordinates.setX(coordinates.getX() + moveX);
-        coordinates.setY(coordinates.getY() + moveY);
+    TileCoordinates coordinates(left.x() - 1, left.y());// North of left corner coordinates.
+    while (!tiles.value(coordinates.hash())->isRoad()) {
+        coordinates = { coordinates.x() + moveX, coordinates.y() + moveY };
 
-        if (moveX == 1 && coordinates.getX() > right.getX()) {
+        if (moveX == 1 && coordinates.x() > right.x()) {
             // Overstep top corner.
             moveX = 0;
             moveY = 1;
-            coordinates.setY(coordinates.getY() + moveY);
+            coordinates = { coordinates.x(), coordinates.y() + moveY };
         }
-        else if (moveY == 1 && coordinates.getY() > right.getY()) {
+        else if (moveY == 1 && coordinates.y() > right.y()) {
             // Overstep right corner.
             moveX = -1;
             moveY = 0;
-            coordinates.setX(coordinates.getX() + moveX);
+            coordinates = { coordinates.x() + moveX, coordinates.y() };
         }
-        else if (moveX == -1 && coordinates.getX() < left.getX()) {
+        else if (moveX == -1 && coordinates.x() < left.x()) {
             // Overstep bottom corner.
             moveX = 0;
             moveY = -1;
-            coordinates.setY(coordinates.getY() + moveY);
+            coordinates = { coordinates.x(), coordinates.y() + moveY };
         }
-        else if (moveY == -1 && coordinates.getY() < left.getY()) {
+        else if (moveY == -1 && coordinates.y() < left.y()) {
             // Overstep left corner. No road nodefound.
-            return MapCoordinates();
+            return TileCoordinates();
         }
     }
 

@@ -7,9 +7,9 @@
 
 AbstractProcessableBuilding::AbstractProcessableBuilding(
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ):
     AbstractBuilding(conf, area, orientation),
     entryPoint(entryPoint),
@@ -28,7 +28,7 @@ QWeakPointer<AbstractProcessableBuilding> AbstractProcessableBuilding::getSelfRe
 
 
 
-const MapCoordinates& AbstractProcessableBuilding::getEntryPoint() const
+const TileCoordinates& AbstractProcessableBuilding::getEntryPoint() const
 {
     return entryPoint;
 }

@@ -10,9 +10,9 @@
 SanityBuilding::SanityBuilding(
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) :
     AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     characterFactory(characterFactory),
@@ -27,9 +27,9 @@ SanityBuilding::SanityBuilding(
 QSharedPointer<AbstractProcessableBuilding> SanityBuilding::Create(
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) {
     auto sanity(new SanityBuilding(characterFactory, conf, area, orientation, entryPoint));
     QSharedPointer<AbstractProcessableBuilding> pointer(sanity);

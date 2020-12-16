@@ -5,8 +5,8 @@
 
 #include "src/defines.hpp"
 
-class MapCoordinates;
 class AStarNode;
+class TileCoordinates;
 
 /**
  * @brief A list of nodes already processed by the A* algorithm.
@@ -21,7 +21,7 @@ class ProcessedAStarNodeList
 
         ~ProcessedAStarNodeList();
 
-        bool isNodeForLocationAlreadyProcessed(const MapCoordinates& location) const;
+        bool isNodeForLocationAlreadyProcessed(const TileCoordinates& location) const;
 
         void markNodeAsProcessed(owner<const AStarNode*> node);
 };

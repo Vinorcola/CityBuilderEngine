@@ -20,32 +20,33 @@ ShortestPathFinder::ShortestPathFinder(const MapDetailsInterface& mapDetails) :
 
 
 
-QList<MapCoordinates> ShortestPathFinder::getShortestPath(
-    const MapCoordinates& origin,
-    const MapCoordinates& destination,
+QList<TileCoordinates> ShortestPathFinder::getShortestPath(
+    const TileCoordinates& origin,
+    const TileCoordinates& destination,
     const bool restrictedToRoads
 ) const {
 
-    QList<MapCoordinates> path;
+    QList<TileCoordinates> path;
     ProcessedAStarNodeList closedPathNodes;
     UnprocessedAStarNodeList openedPathNodes;
     QHash<AStarNode*, AStarNode*> parents;
 
     // Initialize.
-    if (origin.isRounded()) {
+    // TODO: Handle DynamicElementCoordinates origin.
+//    if (origin.isRounded()) {
         openedPathNodes.insertNodeToProcess(new AStarNode(origin, destination, 0.0, !restrictedToRoads));
-    }
-    else {
-        // We get here the both nodes around the origin coordinates and initialize them with cost according to origin.
-        for (auto originRoundedCoordinates : origin.getClosestRounded()) {
-            openedPathNodes.insertNodeToProcess(new AStarNode(
-                originRoundedCoordinates,
-                destination,
-                originRoundedCoordinates.getManhattanDistanceTo(origin),
-                !restrictedToRoads
-            ));
-        }
-    }
+//    }
+//    else {
+//        // We get here the both nodes around the origin coordinates and initialize them with cost according to origin.
+//        for (auto originRoundedCoordinates : origin.getClosestRounded()) {
+//            openedPathNodes.insertNodeToProcess(new AStarNode(
+//                originRoundedCoordinates,
+//                destination,
+//                originRoundedCoordinates.getManhattanDistanceTo(origin),
+//                !restrictedToRoads
+//            ));
+//        }
+//    }
 
     while (openedPathNodes.hasNodeToProcess()) {
         auto current(openedPathNodes.takeClosestToDestination());
@@ -123,12 +124,12 @@ QList<MapCoordinates> ShortestPathFinder::getShortestPath(
 
 
 
-QList<MapCoordinates> ShortestPathFinder::getShortestRoadablePath(
-    const MapCoordinates& origin,
-    const MapCoordinates& destination
+QList<TileCoordinates> ShortestPathFinder::getShortestRoadablePath(
+    const TileCoordinates& origin,
+    const TileCoordinates& destination
 ) const {
 
-    QList<MapCoordinates> path;
+    QList<TileCoordinates> path;
     ProcessedAStarNodeList closedPathNodes;
     UnprocessedAStarNodeList openedPathNodes;
     QHash<AStarNode*, AStarNode*> parents;

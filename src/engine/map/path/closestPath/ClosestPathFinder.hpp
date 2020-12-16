@@ -4,8 +4,8 @@
 #include <functional>
 #include <QtCore/QList>
 
-class MapCoordinates;
 class MapDetailsInterface;
+class TileCoordinates;
 
 class ClosestPathFinder
 {
@@ -15,9 +15,9 @@ class ClosestPathFinder
     public:
         explicit ClosestPathFinder(const MapDetailsInterface& mapDetails);
 
-        QList<MapCoordinates> getShortestPathToClosestMatch(
-            const MapCoordinates& origin,
-            std::function<bool(const MapCoordinates&)> match
+        QList<TileCoordinates> getShortestPathToClosestMatch(
+            const TileCoordinates& origin,
+            std::function<bool(const TileCoordinates&)> match
         ) const;
 };
 

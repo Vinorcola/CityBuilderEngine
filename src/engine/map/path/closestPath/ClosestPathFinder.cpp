@@ -7,7 +7,7 @@
 #include "src/engine/map/path/closestPath/ProcessedPathNodeList.hpp"
 #include "src/engine/map/path/closestPath/UnprocessedPathNodeList.hpp"
 #include "src/engine/map/path/MapDetailsInterface.hpp"
-#include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 
 const qreal DIAGONAL_LENGTH(sqrt(2.0));
 
@@ -21,29 +21,30 @@ ClosestPathFinder::ClosestPathFinder(const MapDetailsInterface& mapDetails) :
 
 
 
-QList<MapCoordinates> ClosestPathFinder::getShortestPathToClosestMatch(
-    const MapCoordinates& origin,
-    std::function<bool(const MapCoordinates&)> match
+QList<TileCoordinates> ClosestPathFinder::getShortestPathToClosestMatch(
+    const TileCoordinates& origin,
+    std::function<bool(const TileCoordinates&)> match
 ) const {
 
-    QList<MapCoordinates> path;
+    QList<TileCoordinates> path;
     ProcessedPathNodeList closedPathNodes;
     UnprocessedPathNodeList openedPathNodes;
     QHash<PathNode*, PathNode*> parents;
 
     // Initialize.
-    if (origin.isRounded()) {
+    // TODO: Handle DynamicElementCoordinates origin.
+//    if (origin.isRounded()) {
         openedPathNodes.insertNodeToProcess(new PathNode(origin));
-    }
-    else {
-        // We get here the both nodes around the origin coordinates and initialize them with cost according to origin.
-        for (auto originRoundedCoordinates : origin.getClosestRounded()) {
-            openedPathNodes.insertNodeToProcess(new PathNode(
-                originRoundedCoordinates,
-                originRoundedCoordinates.getManhattanDistanceTo(origin)
-            ));
-        }
-    }
+//    }
+//    else {
+//        // We get here the both nodes around the origin coordinates and initialize them with cost according to origin.
+//        for (auto originRoundedCoordinates : origin.getClosestRounded()) {
+//            openedPathNodes.insertNodeToProcess(new PathNode(
+//                originRoundedCoordinates,
+//                originRoundedCoordinates.getManhattanDistanceTo(origin)
+//            ));
+//        }
+//    }
 
     while (openedPathNodes.hasNodeToProcess()) {
         auto current(openedPathNodes.takeClosestToDestination());

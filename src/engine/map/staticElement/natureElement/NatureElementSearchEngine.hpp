@@ -8,28 +8,28 @@
 
 #include "src/defines.hpp"
 
-class MapArea;
-class MapCoordinates;
 class NatureElementInformation;
-class PathInterface;
 class PathGeneratorInterface;
+class PathInterface;
+class TileArea;
+class TileCoordinates;
 
-using MapCoordinatesList = QSet<QString>;
+using TileCoordinatesList = QSet<QString>;
 
 class NatureElementSearchEngine
 {
     private:
         const PathGeneratorInterface& pathGenerator;
-        QHash<const NatureElementInformation*, MapCoordinatesList> rawMaterialCoordinates;
+        QHash<const NatureElementInformation*, TileCoordinatesList> rawMaterialCoordinates;
 
     public:
         explicit NatureElementSearchEngine(const PathGeneratorInterface& pathGenerator);
 
-        void registerRawMaterial(const NatureElementInformation& conf, const MapArea& area);
+        void registerRawMaterial(const NatureElementInformation& conf, const TileArea& area);
 
         QSharedPointer<PathInterface> getPathToClosestRawMaterial(
             const NatureElementInformation& conf,
-            const MapCoordinates& origin
+            const TileCoordinates& origin
         ) const;
 };
 

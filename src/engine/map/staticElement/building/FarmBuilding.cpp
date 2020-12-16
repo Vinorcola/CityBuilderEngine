@@ -14,9 +14,9 @@
 FarmBuilding::FarmBuilding(
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) :
     AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     GROWING_INTERVAL(0.9 * (conf.getMaxWorkers() * CycleDate::getBuildingCyclesPerYear())),
@@ -32,9 +32,9 @@ FarmBuilding::FarmBuilding(
 QSharedPointer<AbstractProcessableBuilding> FarmBuilding::Create(
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) {
     auto farm(new FarmBuilding(characterFactory, conf, area, orientation, entryPoint));
     QSharedPointer<AbstractProcessableBuilding> pointer(farm);

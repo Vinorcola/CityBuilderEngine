@@ -3,7 +3,7 @@
 
 #include <QtCore/QHash>
 
-#include "src/engine/map/MapArea.hpp"
+#include "src/global/geometry/TileArea.hpp"
 #include "src/global/BuildingStatus.hpp"
 #include "src/global/Direction.hpp"
 #include "src/defines.hpp"
@@ -52,7 +52,7 @@ struct BuildingState
     BuildingState(
         qintptr id,
         const BuildingInformation& type,
-        const MapArea& area,
+        const TileArea& area,
         Direction orientation,
         BuildingStatus status,
         int workers,
@@ -111,7 +111,7 @@ struct BuildingState
     static BuildingState CreateFarmState(
         qintptr id,
         const BuildingInformation& type,
-        const MapArea& area,
+        const TileArea& area,
         Direction orientation,
         BuildingStatus status,
         int workers,
@@ -127,7 +127,7 @@ struct BuildingState
     static BuildingState CreateHouseState(
         qintptr id,
         const BuildingInformation& type,
-        const MapArea& area,
+        const TileArea& area,
         Direction orientation,
         BuildingStatus status,
         int workers,
@@ -143,7 +143,7 @@ struct BuildingState
     static BuildingState CreateProducerState(
         qintptr id,
         const BuildingInformation& type,
-        const MapArea& area,
+        const TileArea& area,
         Direction orientation,
         BuildingStatus status,
         int workers,
@@ -159,7 +159,7 @@ struct BuildingState
     static BuildingState CreateStorageState(
         qintptr id,
         const BuildingInformation& type,
-        const MapArea& area,
+        const TileArea& area,
         Direction orientation,
         BuildingStatus status,
         int workers,
@@ -190,7 +190,7 @@ struct BuildingState
 
     qintptr id;
     const BuildingInformation& type;
-    MapArea area;
+    TileArea area;
     Direction orientation;
     BuildingStatus status;
     int workers;

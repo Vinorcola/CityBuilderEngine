@@ -43,7 +43,7 @@ void UnprocessedAStarNodeList::insertNodeToProcess(owner<AStarNode*> node)
 
 
 
-AStarNode* UnprocessedAStarNodeList::findClosestToDestinationAtLocation(const MapCoordinates& location) const
+AStarNode* UnprocessedAStarNodeList::findClosestToDestinationAtLocation(const TileCoordinates& location) const
 {
     for (auto node : list) {
         if (node->getLocation() == location) {

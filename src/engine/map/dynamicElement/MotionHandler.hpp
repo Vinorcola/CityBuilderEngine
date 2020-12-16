@@ -3,7 +3,8 @@
 
 #include <QtCore/QSharedPointer>
 
-#include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/geometry/DynamicElementCoordinates.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 #include "src/global/Direction.hpp"
 
 class PathInterface;
@@ -16,9 +17,9 @@ class MotionHandler
     private:
         const qreal speed;
         QSharedPointer<PathInterface> path;///< The path to follow.
-        MapCoordinates location;///< The current coordinates of the element.
-        MapCoordinates movingFrom;///< The coordinates of the tile the element is moving from.
-        MapCoordinates movingTo;///< The coordinates of the tile the element is moving to.
+        DynamicElementCoordinates location;///< The current coordinates of the element.
+        TileCoordinates movingFrom;///< The coordinates of the tile the element is moving from.
+        TileCoordinates movingTo;///< The coordinates of the tile the element is moving to.
         Direction direction;///< The direction the character is going to.
 
     public:
@@ -28,11 +29,11 @@ class MotionHandler
          * @param speed                The speed of the character.
          * @param initialLocation      The initial location of the character.
          */
-        MotionHandler(const qreal speed, const MapCoordinates& initialLocation);
+        MotionHandler(const qreal speed, const DynamicElementCoordinates& initialLocation);
 
-        const MapCoordinates& getCurrentLocation() const;
+        const DynamicElementCoordinates& getCurrentLocation() const;
         Direction getCurrentDirection() const;
-        MapCoordinates getCurrentTileCoordinates() const;
+        TileCoordinates getCurrentTileCoordinates() const;
         bool isPathObsolete() const;
         bool isPathCompleted() const;
 

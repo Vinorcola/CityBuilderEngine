@@ -4,6 +4,7 @@
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/geometry/TileArea.hpp"
 #include "src/viewer/construction/AreaCheckerInterface.hpp"
 #include "src/viewer/construction/RoadPathGeneratorInterface.hpp"
 #include "src/viewer/image/BuildingAreaPartImage.hpp"
@@ -19,7 +20,7 @@ ConstructionCursor::Cursor::Cursor(
     Direction orientation,
     const QList<const BuildingAreaInformation::AreaPart*>& areaInformation,
     const BuildingImage& buildingImage,
-    const MapSize& buildingSize
+    const TileAreaSize& buildingSize
 ) :
     QGraphicsItem(parent),
     buildingGraphics(),
@@ -80,7 +81,7 @@ void ConstructionCursor::Cursor::paint(QPainter* /*painter*/, const QStyleOption
 ConstructionCursor::RoadPath::RoadPath(
     const Positioning& positioning,
     QGraphicsItem* parent,
-    const MapCoordinates& origin,
+    const TileCoordinates& origin,
     const QPixmap& image
 ) :
     positioning(positioning),
@@ -102,28 +103,27 @@ ConstructionCursor::RoadPath::~RoadPath()
 
 
 
-void ConstructionCursor::RoadPath::refreshPath(const QList<MapCoordinates>& path)
+void ConstructionCursor::RoadPath::refreshPath(const QList<TileCoordinates>& path)
 {
     resetPath();
     for (auto coordinates : path) {
         this->path.append(coordinates);
         auto roadItem(new QGraphicsPixmapItem(image, parent));
-        auto position(positioning.getTilePosition(coordinates));
-        roadItem->setPos(position);
+        roadItem->setPos(positioning.getTilePosition(coordinates));
         graphics.append(roadItem);
     }
 }
 
 
 
-const MapCoordinates& ConstructionCursor::RoadPath::getOrigin() const
+const TileCoordinates& ConstructionCursor::RoadPath::getOrigin() const
 {
     return origin;
 }
 
 
 
-const QList<MapCoordinates>& ConstructionCursor::RoadPath::getPath() const
+const QList<TileCoordinates>& ConstructionCursor::RoadPath::getPath() const
 {
     return path;
 }
@@ -154,7 +154,7 @@ ConstructionCursor::ConstructionCursor(
     buildingImage(buildingImage),
     selectionType(buildingConf.getType() == BuildingInformation::Type::Road ? SelectionType::Road : SelectionType::Single),
     orientation(buildingConf.getAvailableOrientations().first()),
-    coveredArea({0, 0}, buildingConf.getSize(orientation)),
+    coveredArea({ 0, 0 }, buildingConf.getSize(orientation)),
     cursor(new Cursor(
         this,
         positioning,
@@ -180,7 +180,7 @@ ConstructionCursor::~ConstructionCursor()
 
 
 
-void ConstructionCursor::displayAtLocation(const MapCoordinates& location)
+void ConstructionCursor::displayAtLocation(const TileCoordinates& location)
 {
     setVisible(true);
     cursor->setPos(positioning.getTilePosition(location));
@@ -210,9 +210,9 @@ void ConstructionCursor::rotateBuilding()
         buildingImage,
         buildingConf.getSize(orientation)
     );
-    cursor->setPos(positioning.getTilePosition(coveredArea.getLeft()));
+    cursor->setPos(positioning.getTilePosition(coveredArea.leftCorner()));
 
-    coveredArea = MapArea(coveredArea.getLeft(), buildingConf.getSize(orientation));
+    coveredArea = TileArea(coveredArea.leftCorner(), buildingConf.getSize(orientation));
     refresh();
 }
 
@@ -225,7 +225,7 @@ void ConstructionCursor::refresh()
     cursor->updateStatus(isCoveredAreaFree);
 
     if (roadPath) {
-        roadPath->refreshPath(roadPathGenerator.getShortestPathForRoad(roadPath->getOrigin(), coveredArea.getLeft()));
+        roadPath->refreshPath(roadPathGenerator.getShortestPathForRoad(roadPath->getOrigin(), coveredArea.leftCorner()));
     }
 }
 
@@ -260,7 +260,7 @@ void ConstructionCursor::mousePressEvent(QGraphicsSceneMouseEvent* event)
         roadPath = new RoadPath(
             positioning,
             this,
-            coveredArea.getLeft(),
+            coveredArea.leftCorner(),
             buildingImage.getAreaPartImage(orientation, 0).getInactiveImage().getPixmap()
         );
     }
@@ -283,7 +283,7 @@ void ConstructionCursor::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
                         break;
 
                     case SelectionType::Single:
-                        emit construct(buildingConf, {coveredArea.getLeft()}, orientation);
+                        emit construct(buildingConf, { coveredArea.leftCorner() }, orientation);
                         break;
                 }
             }

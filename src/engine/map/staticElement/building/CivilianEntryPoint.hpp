@@ -5,7 +5,6 @@
 
 #include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/map/staticElement/building/ImmigrantGeneratorInterface.hpp"
-#include "src/engine/map/MapCoordinates.hpp"
 
 class CharacterGeneratorInterface;
 class CharacterInformation;
@@ -31,7 +30,7 @@ class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantG
         CivilianEntryPoint(
             CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
-            const MapCoordinates& location,
+            const TileCoordinates& location,
             const CharacterInformation& immigrantConf
         );
 
@@ -39,7 +38,7 @@ class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantG
         static QSharedPointer<CivilianEntryPoint> Create(
             CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
-            const MapCoordinates& location,
+            const TileCoordinates& location,
             const CharacterInformation& immigrantConf
         );
 

@@ -7,7 +7,7 @@
 TargetedPath::TargetedPath(
     const MapDetailsInterface& mapDetails,
     const bool restrictedToRoads,
-    const QList<MapCoordinates>& path
+    const QList<TileCoordinates>& path
 ) :
     mapDetails(mapDetails),
     restrictedToRoads(restrictedToRoads),
@@ -33,28 +33,35 @@ bool TargetedPath::isCompleted() const
 
 
 
-MapCoordinates TargetedPath::getNextTargetCoordinates()
+bool TargetedPath::isNextTargetCoordinatesValid() const
 {
-    if (path.isEmpty()) {
-        return {};
+    if (obsolete || path.isEmpty()) {
+        return false;
     }
 
-    auto nextLocation(path.takeFirst());
+    auto nextLocation(path.first());
     if (!mapDetails.isLocationTraversable(nextLocation)) {
         obsolete = true;
-        return {};
+        return false;
     }
     if (restrictedToRoads && !mapDetails.hasRoadAtLocation(nextLocation)) {
         obsolete = true;
-        return {};
+        return false;
     }
 
-    return nextLocation;
+    return true;
 }
 
 
 
-const QList<MapCoordinates>& TargetedPath::toCoordinatesList() const
+TileCoordinates TargetedPath::getNextValidTargetCoordinates()
+{
+    return path.takeFirst();
+}
+
+
+
+const QList<TileCoordinates>& TargetedPath::toCoordinatesList() const
 {
     return path;
 }

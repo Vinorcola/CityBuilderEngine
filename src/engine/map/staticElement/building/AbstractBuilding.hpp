@@ -1,7 +1,7 @@
 #ifndef ABSTRACTBUILDING_HPP
 #define ABSTRACTBUILDING_HPP
 
-#include "src/engine/map/MapArea.hpp"
+#include "src/global/geometry/TileArea.hpp"
 #include "src/global/Direction.hpp"
 
 class BuildingInformation;
@@ -17,12 +17,12 @@ class AbstractBuilding
 {
     protected:
         const BuildingInformation& conf;
-        const MapArea area;
+        const TileArea area;
         const Direction orientation;
         int stateVersion; ///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
 
     public:
-        AbstractBuilding(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        AbstractBuilding(const BuildingInformation& conf, const TileArea& area, Direction orientation);
         virtual ~AbstractBuilding();
 
         const BuildingInformation& getConf() const;

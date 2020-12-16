@@ -6,15 +6,15 @@
 #include <QtWidgets/QGraphicsPixmapItem>
 #include <QtWidgets/QGraphicsPolygonItem>
 
-#include "src/engine/map/MapArea.hpp"
 #include "src/global/conf/BuildingAreaInformation.hpp"
+#include "src/global/geometry/TileArea.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 #include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
 class AreaCheckerInterface;
 class BuildingImage;
 class BuildingInformation;
-class MapCoordinates;
 class Positioning;
 class RoadPathGeneratorInterface;
 
@@ -41,7 +41,7 @@ class ConstructionCursor : public QGraphicsObject
                     Direction orientation,
                     const QList<const BuildingAreaInformation::AreaPart*>& areaInformation,
                     const BuildingImage& buildingImage,
-                    const MapSize& buildingSize
+                    const TileAreaSize& buildingSize
                 );
                 ~Cursor();
 
@@ -56,23 +56,23 @@ class ConstructionCursor : public QGraphicsObject
                 const Positioning& positioning;
                 QGraphicsItem* parent;
                 const QPixmap& image;
-                const MapCoordinates origin;
-                QList<MapCoordinates> path;
+                const TileCoordinates origin;
+                QList<TileCoordinates> path;
                 QList<owner<QGraphicsPixmapItem*>> graphics;
 
             public:
                 RoadPath(
                     const Positioning& positioning,
                     QGraphicsItem* parent,
-                    const MapCoordinates& origin,
+                    const TileCoordinates& origin,
                     const QPixmap& image
                 );
                 ~RoadPath();
 
-                void refreshPath(const QList<MapCoordinates>& path);
+                void refreshPath(const QList<TileCoordinates>& path);
 
-                const MapCoordinates& getOrigin() const;
-                const QList<MapCoordinates>& getPath() const;
+                const TileCoordinates& getOrigin() const;
+                const QList<TileCoordinates>& getPath() const;
 
             private:
                 void resetPath();
@@ -86,7 +86,7 @@ class ConstructionCursor : public QGraphicsObject
         const BuildingImage& buildingImage;
         SelectionType selectionType;
         Direction orientation;
-        MapArea coveredArea;
+        TileArea coveredArea;
         bool isCoveredAreaFree;
         owner<Cursor*> cursor;
         optional<owner<RoadPath*>> roadPath;
@@ -101,7 +101,7 @@ class ConstructionCursor : public QGraphicsObject
         );
         virtual ~ConstructionCursor();
 
-        void displayAtLocation(const MapCoordinates& location);
+        void displayAtLocation(const TileCoordinates& location);
         void rotateBuilding();
         void refresh();
 
@@ -110,7 +110,7 @@ class ConstructionCursor : public QGraphicsObject
 
     signals:
         void cancel();
-        void construct(const BuildingInformation& buildingConf, QList<MapCoordinates> locations, Direction direction);
+        void construct(const BuildingInformation& buildingConf, QList<TileCoordinates> locations, Direction direction);
 
     protected:
         virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;

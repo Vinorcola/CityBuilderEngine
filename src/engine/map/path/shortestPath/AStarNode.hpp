@@ -1,7 +1,7 @@
 #ifndef ASTARNODE_HPP
 #define ASTARNODE_HPP
 
-#include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 
 /**
  * @brief A node for the path finder algorithm.
@@ -12,15 +12,15 @@
 class AStarNode
 {
     private:
-        const MapCoordinates location;
+        const TileCoordinates location;
         qreal costFromOrigin;
         const qreal theoreticalBestDistanceToDestination;
         const qreal straightDistanceToDestination;
 
     public:
         AStarNode(
-            const MapCoordinates& location,
-            const MapCoordinates& destination,
+            const TileCoordinates& location,
+            const TileCoordinates& destination,
             const qreal cost,
             const bool useDiagonals
         );
@@ -33,7 +33,7 @@ class AStarNode
         /**
          * @brief Return the location of the node.
          */
-        const MapCoordinates& getLocation() const;
+        const TileCoordinates& getLocation() const;
 
         /**
          * @brief Indicate if this node is at the destination's coordinates.
@@ -48,12 +48,12 @@ class AStarNode
         /**
          * @brief Get the list of neighbours' coordinates to this node.
          */
-        QList<MapCoordinates> getNeighbours() const;
+        QList<TileCoordinates> getNeighbours() const;
 
         /**
          * @brief Get the list of diagonal neighbours' coordinates to this node.
          */
-        QList<MapCoordinates> getDiagonalNeighbours() const;
+        QList<TileCoordinates> getDiagonalNeighbours() const;
 
         /**
          * @brief Indicate if this node is closer to the destination compared to the other node.

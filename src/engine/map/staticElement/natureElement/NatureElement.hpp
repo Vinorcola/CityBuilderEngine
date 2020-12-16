@@ -3,7 +3,6 @@
 
 #include <QtCore/QObject>
 
-#include "src/engine/map/MapArea.hpp"
 #include "src/global/state/NatureElementState.hpp"
 
 class NatureElementInformation;
@@ -14,7 +13,7 @@ class NatureElement
         NatureElementState state;
 
     public:
-        NatureElement(const NatureElementInformation& conf, const MapArea& area);
+        NatureElement(const NatureElementInformation& conf, const TileArea& area);
 
         NatureElementState getState() const;
 };

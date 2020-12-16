@@ -4,18 +4,17 @@
 #include <QtCore/QWeakPointer>
 
 #include "src/engine/map/staticElement/building/AbstractBuilding.hpp"
-#include "src/engine/map/MapCoordinates.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 #include "src/global/BuildingStatus.hpp"
 
 class BuildingInformation;
 class Character;
-class MapAreea;
 
 class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProcessable
 {
     private:
-        MapCoordinates entryPoint;
+        TileCoordinates entryPoint;
         int currentWorkerQuantity;
 
     protected:
@@ -24,14 +23,14 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
     protected:
         AbstractProcessableBuilding(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
     public:
         QWeakPointer<AbstractProcessableBuilding> getSelfReference() const;
-        const MapCoordinates& getEntryPoint() const;
+        const TileCoordinates& getEntryPoint() const;
         bool isActive() const;
 
         void assignWorkers(int workerQuantity);

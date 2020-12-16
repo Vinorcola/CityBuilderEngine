@@ -3,7 +3,7 @@
 
 #include <QtWidgets/QGraphicsItem>
 
-#include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 #include "src/defines.hpp"
 
 class DynamicElement;
@@ -18,14 +18,14 @@ class StaticElement;
 class TileView : public QGraphicsItem
 {
     private:
-        MapCoordinates location;
+        TileCoordinates location;
         QGraphicsItem& groundElement; ///< The ground nature element (grass for example).
         optional<QGraphicsItem*> staticElement; ///< The static element (building or nature element).
 
     public:
-        TileView(const Positioning& positioning, const MapCoordinates& location, QGraphicsItem& groundElement);
+        TileView(const Positioning& positioning, const TileCoordinates& location, QGraphicsItem& groundElement);
 
-        const MapCoordinates& getCoordinates() const;
+        const TileCoordinates& coordinates() const;
 
         void setStaticElement(QGraphicsItem* staticElement);
         void dropStaticElement();

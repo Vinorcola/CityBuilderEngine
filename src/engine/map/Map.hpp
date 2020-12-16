@@ -15,8 +15,6 @@
 
 class CityLoader;
 class Conf;
-class MapArea;
-class MapCoordinates;
 class Tile;
 
 /**
@@ -33,7 +31,7 @@ class Map : public AbstractProcessable, public MapDetailsInterface
         );
         ~Map();
 
-        const PathGenerator& getPathGenerator() const;
+        QList<TileCoordinates> getShortestPathForRoad(const TileCoordinates& origin, const TileCoordinates& target) const;
 
         // States.
         MapState getState() const;
@@ -42,21 +40,21 @@ class Map : public AbstractProcessable, public MapDetailsInterface
         QList<CharacterState> getCharactersState() const;
 
         // Elements
-        void createBuilding(const BuildingInformation& conf, const MapCoordinates& leftCorner, Direction orientation);
-        void createNatureElement(const NatureElementInformation& conf, const MapArea& area);
+        void createBuilding(const BuildingInformation& conf, const TileCoordinates& leftCorner, Direction orientation);
+        void createNatureElement(const NatureElementInformation& conf, const TileArea& area);
 
         // Map details
-        bool isLocationValid(const MapCoordinates& coordinates) const;
-        bool isAreaValid(const MapArea& area) const;
-        bool isAreaConstructible(const MapArea& area) const;
-        virtual bool isLocationTraversable(const MapCoordinates& location) const override;
-        virtual bool hasRoadAtLocation(const MapCoordinates& location) const override;
-        virtual bool canConstructRoadAtLocation(const MapCoordinates& location) const override;
+        bool isLocationValid(const TileCoordinates& coordinates) const;
+        bool isAreaValid(const TileArea& area) const;
+        bool isAreaConstructible(const TileArea& area) const;
+        virtual bool isLocationTraversable(const TileCoordinates& location) const override;
+        virtual bool hasRoadAtLocation(const TileCoordinates& location) const override;
+        virtual bool canConstructRoadAtLocation(const TileCoordinates& location) const override;
 
         virtual void process(const CycleDate& date) override;
 
     private:
-        MapCoordinates getBestBuildingEntryPoint(const MapArea& area) const;
+        TileCoordinates getBestBuildingEntryPoint(const TileArea& area) const;
 
     private:
         const QSize size;

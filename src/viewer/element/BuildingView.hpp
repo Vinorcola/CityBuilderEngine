@@ -1,6 +1,7 @@
 #ifndef BUILDINGVIEW_HPP
 #define BUILDINGVIEW_HPP
 
+#include "src/global/geometry/TileAreaSize.hpp"
 #include "src/global/state/BuildingState.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/defines.hpp"
@@ -8,10 +9,10 @@
 class AbstractBuilding;
 class BuildingAreaPartImage;
 class ImageLibrary;
-class MapSize;
 class Positioning;
-class TileView;
+class TileCoordinates;
 class TileLocatorInterface;
+class TileView;
 
 /**
  * @brief Handles the graphical representation of a building.
@@ -27,7 +28,7 @@ class BuildingView
         {
             private:
                 const TileLocatorInterface& tileLocator;
-                MapSize size;
+                TileAreaSize size;
                 TileView& tile;
                 const BuildingAreaPartImage& image;
                 StaticElement graphicElement;
@@ -37,8 +38,8 @@ class BuildingView
                 AreaPart(
                     const Positioning& positioning,
                     const TileLocatorInterface& tileLocator,
-                    const MapCoordinates& leftCorner,
-                    const MapSize& size,
+                    const TileCoordinates& leftCorner,
+                    const TileAreaSize& size,
                     const BuildingAreaPartImage& image
                 );
                 ~AreaPart();

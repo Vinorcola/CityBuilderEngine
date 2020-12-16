@@ -1,7 +1,7 @@
 #ifndef TILEACCESSORINTERFACE_HPP
 #define TILEACCESSORINTERFACE_HPP
 
-class MapCoordinates;
+class TileCoordinates;
 class TileView;
 
 class TileLocatorInterface
@@ -10,7 +10,7 @@ class TileLocatorInterface
         /**
          * @brief Return the tile at the given location.
          */
-        virtual TileView& getTileAt(const MapCoordinates& location) const = 0;
+        virtual TileView& getTileAt(const TileCoordinates& location) const = 0;
 };
 
 #endif // TILEACCESSORINTERFACE_HPP

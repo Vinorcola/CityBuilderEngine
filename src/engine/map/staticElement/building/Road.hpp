@@ -11,7 +11,7 @@
 class Road : public AbstractBuilding
 {
     public:
-        Road(const BuildingInformation& conf, const MapArea& area, Direction orientation);
+        Road(const BuildingInformation& conf, const TileArea& area, Direction orientation);
 };
 
 #endif // ROAD_HPP

@@ -15,17 +15,17 @@ class StorageBuilding : public AbstractProcessableBuilding
     private:
         StorageBuilding(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
     public:
         static QSharedPointer<StorageBuilding> Create(
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
         int storableQuantity(const ItemInformation& itemConf, const int maxQuantity = 1) const;

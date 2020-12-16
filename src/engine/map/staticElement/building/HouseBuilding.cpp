@@ -13,9 +13,9 @@ HouseBuilding::HouseBuilding(
     ImmigrantGeneratorInterface& immigrantGenerator,
     PopulationRegistryInterface& populationRegister,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) :
     AbstractProcessableBuilding(conf, area, orientation, entryPoint),
     immigrantGenerator(immigrantGenerator),
@@ -32,9 +32,9 @@ QSharedPointer<AbstractProcessableBuilding> HouseBuilding::Create(
     ImmigrantGeneratorInterface& immigrantGenerator,
     PopulationRegistryInterface& populationRegister,
     const BuildingInformation& conf,
-    const MapArea& area,
+    const TileArea& area,
     Direction orientation,
-    const MapCoordinates& entryPoint
+    const TileCoordinates& entryPoint
 ) {
     auto house(new HouseBuilding(immigrantGenerator, populationRegister, conf, area, orientation, entryPoint));
     QSharedPointer<AbstractProcessableBuilding> pointer(house);

@@ -1,7 +1,7 @@
 #ifndef CHARACTERSTATE_HPP
 #define CHARACTERSTATE_HPP
 
-#include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/geometry/DynamicElementCoordinates.hpp"
 #include "src/global/Direction.hpp"
 
 class CharacterInformation;
@@ -11,7 +11,7 @@ struct CharacterState
     CharacterState(
         qintptr id,
         const CharacterInformation& type,
-        const MapCoordinates& position,
+        const DynamicElementCoordinates& position,
         Direction direction,
         int stateVersion
     ) :
@@ -42,7 +42,7 @@ struct CharacterState
 
     qintptr id;
     const CharacterInformation& type;
-    MapCoordinates position;
+    DynamicElementCoordinates position;
     Direction direction;
 
     int stateVersion; ///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.

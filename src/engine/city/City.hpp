@@ -17,10 +17,10 @@ class City
         City(const Conf& conf, CityLoader& loader);
 
         TimeCycleProcessor& getProcessor();
-        void createBuilding(const BuildingInformation& conf, const MapCoordinates& leftCorner, Direction orientation);
+        void createBuilding(const BuildingInformation& conf, const TileCoordinates& leftCorner, Direction orientation);
 
-        bool isAreaConstructible(const MapArea& area) const;
-        QList<MapCoordinates> getShortestPathForRoad(const MapCoordinates& origin, const MapCoordinates& target) const;
+        bool isAreaConstructible(const TileArea& area) const;
+        QList<TileCoordinates> getShortestPathForRoad(const TileCoordinates& origin, const TileCoordinates& target) const;
 
         MapState getMapState() const;
         CityState getCurrentState() const;

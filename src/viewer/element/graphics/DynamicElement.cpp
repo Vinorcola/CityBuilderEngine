@@ -5,7 +5,11 @@
 
 
 
-DynamicElement::DynamicElement(const Positioning& positioning, const Image& elementImage, const MapCoordinates& location) :
+DynamicElement::DynamicElement(
+    const Positioning& positioning,
+    const Image& elementImage,
+    const DynamicElementCoordinates& location
+) :
     QGraphicsItem(),
     imageItem(elementImage.getPixmap(), this)
 {

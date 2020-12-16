@@ -50,9 +50,6 @@ SOURCES += \
     src/engine/map/staticElement/StaticElementFactory.cpp \
     src/engine/map/staticElement/StaticElementRegistry.cpp \
     src/engine/map/Map.cpp \
-    src/engine/map/MapArea.cpp \
-    src/engine/map/MapCoordinates.cpp \
-    src/engine/map/MapSize.cpp \
     src/engine/map/Tile.cpp \
     src/engine/processing/AbstractProcessable.cpp \
     src/engine/processing/CycleDate.cpp \
@@ -61,7 +58,6 @@ SOURCES += \
     src/exceptions/EngineException.cpp \
     src/exceptions/Exception.cpp \
     src/exceptions/FileNotFoundException.cpp \
-    src/exceptions/InvalidMapElementException.cpp \
     src/exceptions/NotImplementedException.cpp \
     src/exceptions/OutOfRangeException.cpp \
     src/exceptions/UnexpectedException.cpp \
@@ -74,6 +70,10 @@ SOURCES += \
     src/global/conf/ItemInformation.cpp \
     src/global/conf/ModelReader.cpp \
     src/global/conf/NatureElementInformation.cpp \
+    src/global/geometry/DynamicElementCoordinates.cpp \
+    src/global/geometry/TileArea.cpp \
+    src/global/geometry/TileAreaSize.cpp \
+    src/global/geometry/TileCoordinates.cpp \
     src/global/BuildingStatus.cpp \
     src/global/Direction.cpp \
     src/ui/controlPanel/BuildingButton.cpp \
@@ -149,9 +149,6 @@ HEADERS += \
     src/engine/map/staticElement/StaticElementFactory.hpp \
     src/engine/map/staticElement/StaticElementRegistry.hpp \
     src/engine/map/Map.hpp \
-    src/engine/map/MapArea.hpp \
-    src/engine/map/MapCoordinates.hpp \
-    src/engine/map/MapSize.hpp \
     src/engine/map/Tile.hpp \
     src/engine/processing/AbstractProcessable.hpp \
     src/engine/processing/CycleDate.hpp \
@@ -160,7 +157,6 @@ HEADERS += \
     src/exceptions/EngineException.hpp \
     src/exceptions/Exception.hpp \
     src/exceptions/FileNotFoundException.hpp \
-    src/exceptions/InvalidMapElementException.hpp \
     src/exceptions/NotImplementedException.hpp \
     src/exceptions/OutOfRangeException.hpp \
     src/exceptions/UnexpectedException.hpp \
@@ -173,6 +169,11 @@ HEADERS += \
     src/global/conf/ItemInformation.hpp \
     src/global/conf/ModelReader.hpp \
     src/global/conf/NatureElementInformation.hpp \
+    src/global/geometry/DynamicElementCoordinates.hpp \
+    src/global/geometry/GraphicalCoordinates.hpp \
+    src/global/geometry/TileArea.hpp \
+    src/global/geometry/TileAreaSize.hpp \
+    src/global/geometry/TileCoordinates.hpp \
     src/global/pointer/SmartPointerUtils.hpp \
     src/global/state/BuildingState.hpp \
     src/global/state/CharacterState.hpp \

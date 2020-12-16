@@ -21,18 +21,18 @@ class LaboratoryBuilding : public AbstractProcessableBuilding
         LaboratoryBuilding(
             CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
     public:
         static QSharedPointer<AbstractProcessableBuilding> Create(
             CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
-            const MapArea& area,
+            const TileArea& area,
             Direction orientation,
-            const MapCoordinates& entryPoint
+            const TileCoordinates& entryPoint
         );
 
         virtual void process(const CycleDate& date) override;

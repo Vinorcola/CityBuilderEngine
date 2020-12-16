@@ -5,8 +5,8 @@
 
 #include "src/defines.hpp"
 
-class MapCoordinates;
 class PathNode;
+class TileCoordinates;
 
 /**
  * @brief A list of nodes already processed by the path algorithm.
@@ -21,7 +21,7 @@ class ProcessedPathNodeList
 
         ~ProcessedPathNodeList();
 
-        bool isNodeForLocationAlreadyProcessed(const MapCoordinates& location) const;
+        bool isNodeForLocationAlreadyProcessed(const TileCoordinates& location) const;
 
         void markNodeAsProcessed(owner<const PathNode*> node);
 };

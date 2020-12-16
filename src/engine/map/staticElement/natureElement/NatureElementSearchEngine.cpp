@@ -1,7 +1,7 @@
 #include "NatureElementSearchEngine.hpp"
 
 #include "src/engine/map/path/PathGeneratorInterface.hpp"
-#include "src/engine/map/MapArea.hpp"
+#include "src/global/geometry/TileArea.hpp"
 
 
 
@@ -14,7 +14,7 @@ NatureElementSearchEngine::NatureElementSearchEngine(const PathGeneratorInterfac
 
 
 
-void NatureElementSearchEngine::registerRawMaterial(const NatureElementInformation& conf, const MapArea& area)
+void NatureElementSearchEngine::registerRawMaterial(const NatureElementInformation& conf, const TileArea& area)
 {
     if (!rawMaterialCoordinates.contains(&conf)) {
         rawMaterialCoordinates[&conf] = {};
@@ -22,7 +22,7 @@ void NatureElementSearchEngine::registerRawMaterial(const NatureElementInformati
 
     auto& coordinatesSet(rawMaterialCoordinates[&conf]);
     for (auto coordinates : area) {
-        coordinatesSet << coordinates.getHash();
+        coordinatesSet << coordinates.hash();
     }
 }
 
@@ -30,7 +30,7 @@ void NatureElementSearchEngine::registerRawMaterial(const NatureElementInformati
 
 QSharedPointer<PathInterface> NatureElementSearchEngine::getPathToClosestRawMaterial(
     const NatureElementInformation& conf,
-    const MapCoordinates& origin
+    const TileCoordinates& origin
 ) const
 {
     if (!rawMaterialCoordinates.contains(&conf)) {
@@ -46,8 +46,8 @@ QSharedPointer<PathInterface> NatureElementSearchEngine::getPathToClosestRawMate
 
     return pathGenerator.generateShortestPathToClosestMatch(
         origin,
-        [&coordinatesSet](const MapCoordinates& location) {
-            return coordinatesSet.contains(location.getHash());
+        [&coordinatesSet](const TileCoordinates& location) {
+            return coordinatesSet.contains(location.hash());
         }
     );
 }

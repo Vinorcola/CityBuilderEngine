@@ -42,7 +42,7 @@ void UnprocessedPathNodeList::insertNodeToProcess(owner<PathNode*> node)
 
 
 
-bool UnprocessedPathNodeList::hasNodeAtLocation(const MapCoordinates& location) const
+bool UnprocessedPathNodeList::hasNodeAtLocation(const TileCoordinates& location) const
 {
     for (auto node : list) {
         if (node->getLocation() == location) {

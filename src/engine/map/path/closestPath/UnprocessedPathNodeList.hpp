@@ -5,7 +5,7 @@
 
 #include "src/defines.hpp"
 
-class MapCoordinates;
+class TileCoordinates;
 class PathNode;
 
 /**
@@ -25,7 +25,7 @@ class UnprocessedPathNodeList
 
         void insertNodeToProcess(owner<PathNode*> node);
 
-        bool hasNodeAtLocation(const MapCoordinates& location) const;
+        bool hasNodeAtLocation(const TileCoordinates& location) const;
 
         owner<PathNode*> takeClosestToDestination();
 };

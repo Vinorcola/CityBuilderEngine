@@ -8,8 +8,8 @@
 class AbstractProcessableBuilding;
 class BuildingInformation;
 class ItemInformation;
-class MapCoordinates;
 class StorageBuilding;
+class TileCoordinates;
 
 using BuildingList = QList<QWeakPointer<AbstractProcessableBuilding>>;
 using StorageBuildingList = QList<QWeakPointer<StorageBuilding>>;
@@ -39,11 +39,11 @@ class BuildingSearchEngine
 
         QSharedPointer<optional<AbstractProcessableBuilding>> findClosestBuilding(
             const BuildingInformation& buildingConf,
-            const MapCoordinates& origin
+            const DynamicElementCoordinates& origin
         ) const;
         QSharedPointer<optional<StorageBuilding>> findClosestStorageThatCanStore(
             const ItemInformation& itemConf,
-            const MapCoordinates& origin
+            const DynamicElementCoordinates& origin
         ) const;
 };
 

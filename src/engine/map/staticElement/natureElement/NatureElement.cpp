@@ -2,7 +2,7 @@
 
 
 
-NatureElement::NatureElement(const NatureElementInformation& conf, const MapArea& area) :
+NatureElement::NatureElement(const NatureElementInformation& conf, const TileArea& area) :
     state(reinterpret_cast<qintptr>(this), conf, area)
 {
 

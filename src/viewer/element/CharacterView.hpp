@@ -5,12 +5,12 @@
 
 class Character;
 class CharacterImage;
-class ImageLibrary;
 class DynamicElement;
-class MapCoordinates;
+class DynamicElementCoordinates;
+class ImageLibrary;
 class Positioning;
-class TileView;
 class TileLocatorInterface;
+class TileView;
 struct CharacterState;
 
 /**
@@ -43,7 +43,7 @@ class CharacterView
         void destroy();
 
     private:
-        void move(const MapCoordinates& newLocation);
+        void move(const DynamicElementCoordinates& newLocation);
         void advanceAnimation();
 };
 
