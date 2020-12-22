@@ -84,13 +84,13 @@ void Tile::pickRelatives(const QHash<QString, Tile*>& tiles)
     if (tiles.contains(north)) {
         _relatives.straightNeighbours.append(tiles.value(north));
     }
-    auto south(TileCoordinates::resolveHash(_coordinates.x(), _coordinates.y() + 1));
-    if (tiles.contains(south)) {
-        _relatives.straightNeighbours.append(tiles.value(south));
-    }
     auto east(TileCoordinates::resolveHash(_coordinates.x() + 1, _coordinates.y()));
     if (tiles.contains(east)) {
         _relatives.straightNeighbours.append(tiles.value(east));
+    }
+    auto south(TileCoordinates::resolveHash(_coordinates.x(), _coordinates.y() + 1));
+    if (tiles.contains(south)) {
+        _relatives.straightNeighbours.append(tiles.value(south));
     }
     auto west(TileCoordinates::resolveHash(_coordinates.x() - 1, _coordinates.y()));
     if (tiles.contains(west)) {
@@ -100,6 +100,10 @@ void Tile::pickRelatives(const QHash<QString, Tile*>& tiles)
     if (tiles.contains(top)) {
         _relatives.diagonalNeighbours.append(tiles.value(top));
     }
+    auto right(TileCoordinates::resolveHash(_coordinates.x() + 1, _coordinates.y() + 1));
+    if (tiles.contains(right)) {
+        _relatives.diagonalNeighbours.append(tiles.value(right));
+    }
     auto bottom(TileCoordinates::resolveHash(_coordinates.x() - 1, _coordinates.y() + 1));
     if (tiles.contains(bottom)) {
         _relatives.diagonalNeighbours.append(tiles.value(bottom));
@@ -107,10 +111,6 @@ void Tile::pickRelatives(const QHash<QString, Tile*>& tiles)
     auto left(TileCoordinates::resolveHash(_coordinates.x() - 1, _coordinates.y() - 1));
     if (tiles.contains(left)) {
         _relatives.diagonalNeighbours.append(tiles.value(left));
-    }
-    auto right(TileCoordinates::resolveHash(_coordinates.x() + 1, _coordinates.y() + 1));
-    if (tiles.contains(right)) {
-        _relatives.diagonalNeighbours.append(tiles.value(right));
     }
 }
 
