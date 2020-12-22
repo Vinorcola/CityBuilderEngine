@@ -34,7 +34,7 @@ bool RandomRoadPath::isCompleted() const
 
 bool RandomRoadPath::isNextTileValid() const
 {
-    return !obsolete && wanderingCredits <= 0;
+    return !obsolete && wanderingCredits > 0;
 }
 
 
