@@ -14,21 +14,35 @@ template<class T> using owner = T;
  */
 template<class T> using optional = T;
 
-// <--- Add/Remove start between the slahes to switch.
 
-// Normal mode.
+
+/**
+ * The default quantity of processing cycles per seconds.
+ */
 #define CYCLES_PER_SECOND 30
+
+/**
+ * A quantity of processing cycles specific for buildings.
+ */
 #define BUILDING_CYCLES_PER_SECOND 1
+
+
+
+// *** Debug feature toggle *** //
+
+/**
+ * If define, activate some debug tools.
+ */
 #define DEBUG_TOOLS
 
-/*/
+/**
+ * If define, dynamic elements move very slowly.
+ */
+//#define SLOW_MOTION
 
-// Developping mode.
-#define CYCLES_PER_SECOND 2
-#define BUILDING_CYCLES_PER_SECOND 1
-#define DEBUG_TOOLS
-#define SLOW_MOTION
-
-//*/
+/**
+ * If define, display tiles' coordinates.
+ */
+//#define DISPLAY_COORDINATES
 
 #endif // DEFINES_HPP

@@ -21,6 +21,9 @@ class TileView : public QGraphicsItem
         TileCoordinates location;
         QGraphicsItem& groundElement; ///< The ground nature element (grass for example).
         optional<QGraphicsItem*> staticElement; ///< The static element (building or nature element).
+#ifdef DISPLAY_COORDINATES
+        QGraphicsSimpleTextItem* coordinatesElement;
+#endif
 
     public:
         TileView(const Positioning& positioning, const TileCoordinates& location, QGraphicsItem& groundElement);

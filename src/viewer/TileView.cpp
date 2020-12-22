@@ -9,10 +9,17 @@ TileView::TileView(const Positioning& positioning, const TileCoordinates& locati
     location(location),
     groundElement(groundElement),
     staticElement(nullptr)
+#ifdef DISPLAY_COORDINATES
+    ,coordinatesElement(new QGraphicsSimpleTextItem(location.hash(), this))
+#endif
 {
     setAcceptHoverEvents(true);
     setPos(positioning.getTilePosition(location));
     groundElement.setParentItem(this);
+#ifdef DISPLAY_COORDINATES
+    coordinatesElement->setZValue(2.0);
+    coordinatesElement->setPos(29 - coordinatesElement->boundingRect().width() / 2, 6);
+#endif
 }
 
 
