@@ -46,6 +46,10 @@ Map::~Map()
 
 QList<TileCoordinates> Map::getShortestPathForRoad(const TileCoordinates& origin, const TileCoordinates& target) const
 {
+    if (!isLocationValid(target)) {
+        return {};
+    }
+
     auto pathTiles(pathGenerator.generateShortestPathForRoad(
         *tiles.value(origin.hash()),
         *tiles.value(target.hash())
