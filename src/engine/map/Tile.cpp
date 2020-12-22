@@ -150,16 +150,8 @@ Tile::PathFinding::PathFinding(const TileCoordinates& coordinates) :
 
 
 
-void Tile::PathFinding::reset(qreal initialCost)
+void Tile::PathFinding::resetDestinationCost(const PathFinding& destination, bool allowDiagonals)
 {
-    costFromOrigin = initialCost;
-}
-
-
-
-void Tile::PathFinding::resetWithDestination(bool allowDiagonals, const Tile::PathFinding& destination, qreal initialCost)
-{
-    costFromOrigin = initialCost;
     theoreticalBestDistanceToDestination = allowDiagonals ?
         coordinates.chebyshevDistanceTo(destination.coordinates) :
         coordinates.manhattanDistanceTo(destination.coordinates);

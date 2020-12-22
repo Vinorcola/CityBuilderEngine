@@ -21,9 +21,8 @@ SOURCES += \
     src/engine/map/dynamicElement/DynamicElementFactory.cpp \
     src/engine/map/dynamicElement/DynamicElementRegistry.cpp \
     src/engine/map/dynamicElement/MotionHandler.cpp \
-    src/engine/map/path/algorithm/PathConstructor.cpp \
     src/engine/map/path/algorithm/PathFinder.cpp \
-    src/engine/map/path/algorithm/UnprocessedTileList.cpp \
+    src/engine/map/path/algorithm/RegisteredTileBag.cpp \
     src/engine/map/path/PathGenerator.cpp \
     src/engine/map/path/RandomRoadPath.cpp \
     src/engine/map/path/TargetedPath.cpp \
@@ -111,9 +110,8 @@ HEADERS += \
     src/engine/map/dynamicElement/DynamicElementFactory.hpp \
     src/engine/map/dynamicElement/DynamicElementRegistry.hpp \
     src/engine/map/dynamicElement/MotionHandler.hpp \
-    src/engine/map/path/algorithm/PathConstructor.hpp \
     src/engine/map/path/algorithm/PathFinder.hpp \
-    src/engine/map/path/algorithm/UnprocessedTileList.hpp \
+    src/engine/map/path/algorithm/RegisteredTileBag.hpp \
     src/engine/map/path/PathGenerator.hpp \
     src/engine/map/path/PathGeneratorInterface.hpp \
     src/engine/map/path/PathInterface.hpp \

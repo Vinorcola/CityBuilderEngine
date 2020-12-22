@@ -9,9 +9,9 @@
 #include "src/defines.hpp"
 
 class BuildingInformation;
-class ClosestPathFinder;
 class NatureElementInformation;
 class PathFinder;
+class RegisteredTileBag;
 
 class Tile
 {
@@ -65,12 +65,12 @@ class Tile
          */
         class PathFinding {
             friend PathFinder;
+            friend RegisteredTileBag;
             friend Tile;
 
             private:
                 PathFinding(const TileCoordinates& coordinates);
-                void reset(qreal initialCost = 0.0);
-                void resetWithDestination(bool allowDiagonals, const PathFinding& destination, qreal initialCost = 0.0);
+                void resetDestinationCost(const PathFinding& destination, bool allowDiagonals);
                 bool isDestination() const;
 
                 const TileCoordinates& coordinates;

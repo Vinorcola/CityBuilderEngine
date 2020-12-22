@@ -4,6 +4,7 @@
 
 #include "src/engine/map/path/PathInterface.hpp"
 #include "src/engine/map/Tile.hpp"
+#include "src/exceptions/UnexpectedException.hpp"
 
 
 
@@ -67,7 +68,7 @@ void MotionHandler::takePath(QSharedPointer<PathInterface> path)
                 movingTo = &path->getNextTile();
             }
         }
-        updateDirection();
+        direction = resolveDirection();
     }
 }
 
@@ -89,7 +90,7 @@ bool MotionHandler::move()
         if (path->isNextTileValid()) {
             movingTo = &path->getNextTile();
         }
-        updateDirection();
+        direction = resolveDirection();
     }
 
     if (!movingTo) {
@@ -128,41 +129,42 @@ bool MotionHandler::moveToTarget()
 
 
 
-void MotionHandler::updateDirection()
+Direction MotionHandler::resolveDirection()
 {
     if (!movingTo) {
-        return;
+        return direction;
     }
 
     if (movingFrom->coordinates().x() < movingTo->coordinates().x()) {
         if (movingFrom->coordinates().y() < movingTo->coordinates().y()) {
-            direction = Direction::Right;
+            return Direction::Right;
         }
         else if (movingFrom->coordinates().y() == movingTo->coordinates().y()) {
-            direction = Direction::East;
+            return Direction::East;
         }
         else {
-            direction = Direction::Top;
+            return Direction::Top;
         }
     }
     else if (movingFrom->coordinates().x() == movingTo->coordinates().x()) {
-
         if (movingFrom->coordinates().y() < movingTo->coordinates().y()) {
-            direction = Direction::South;
+            return Direction::South;
         }
         else {
-            direction = Direction::North;
+            return Direction::North;
         }
     }
     else {
         if (movingFrom->coordinates().y() < movingTo->coordinates().y()) {
-            direction = Direction::Bottom;
+            return Direction::Bottom;
         }
         else if (movingFrom->coordinates().y() == movingTo->coordinates().y()) {
-            direction = Direction::West;
+            return Direction::West;
         }
         else {
-            direction = Direction::Left;
+            return Direction::Left;
         }
     }
+
+    throw UnexpectedException("Could not resolve direction of a motion from " + movingFrom->coordinates().hash() + " to " + movingTo->coordinates().hash());
 }

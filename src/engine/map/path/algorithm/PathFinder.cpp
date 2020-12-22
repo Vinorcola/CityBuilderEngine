@@ -3,8 +3,7 @@
 #include <cmath>
 #include <QtCore/QSet>
 
-#include "src/engine/map/path/algorithm/PathConstructor.hpp"
-#include "src/engine/map/path/algorithm/UnprocessedTileList.hpp"
+#include "src/engine/map/path/algorithm/RegisteredTileBag.hpp"
 #include "src/engine/map/Tile.hpp"
 
 const qreal DIAGONAL_LENGTH(sqrt(2.0));
@@ -16,61 +15,36 @@ QList<const Tile*> PathFinder::getShortestPath(
     const Tile& destination,
     const bool restrictedToRoads
 ) {
-    UnprocessedTileList openedPathTiles;
-    QSet<const Tile*> closedTiles;
-    PathConstructor parents;
+    origin.pathFindingData().resetDestinationCost(destination.pathFindingData(), !restrictedToRoads);
+    RegisteredTileBag tilesToProcess(origin);
+    QSet<const Tile*> processedTiles;
 
-    origin.pathFindingData().resetWithDestination(!restrictedToRoads, destination.pathFindingData());
-    openedPathTiles.insertTileToProcess(origin);
-
-    while (openedPathTiles.hasTileToProcess()) {
-        auto& current(openedPathTiles.takeClosestToDestination());
-        closedTiles.insert(&current);
+    while (tilesToProcess.hasTileToProcess()) {
+        auto& current(tilesToProcess.takeClosestToDestination());
+        processedTiles.insert(&current);
 
         if (current.pathFindingData().isDestination()) {
-            return parents.constructPath(current, true);
+            return tilesToProcess.constructFinalPath(current, true);
         }
 
-        qreal neighboursCostFromOrigin(current.pathFindingData().costFromOrigin + 1.0);
         for (auto neighbour : current.relatives().straightNeighbours) {
-            if (!closedTiles.contains(neighbour) &&
+            if (!processedTiles.contains(neighbour) &&
                 neighbour->isTraversable() &&
                 (!restrictedToRoads || neighbour->isRoad())
             ) {
-                if (parents.contains(*neighbour)) {
-                    if (neighboursCostFromOrigin < neighbour->pathFindingData().costFromOrigin) {
-                        neighbour->pathFindingData().costFromOrigin = neighboursCostFromOrigin;
-                        openedPathTiles.reorderTileToProcess(*neighbour);
-                        parents.registerTile(*neighbour, current);
-                    }
-                }
-                else {
-                    neighbour->pathFindingData().resetWithDestination(!restrictedToRoads, destination.pathFindingData(), neighboursCostFromOrigin);
-                    openedPathTiles.insertTileToProcess(*neighbour);
-                    parents.registerTile(*neighbour, current);
-                }
+                neighbour->pathFindingData().resetDestinationCost(destination.pathFindingData(), !restrictedToRoads);
+                tilesToProcess.registerTile(*neighbour, current, 1.0);
             }
         }
 
         if (!restrictedToRoads) {
-            neighboursCostFromOrigin = current.pathFindingData().costFromOrigin + DIAGONAL_LENGTH;
             for (auto neighbour : current.relatives().diagonalNeighbours) {
-                if (!closedTiles.contains(neighbour) &&
+                if (!processedTiles.contains(neighbour) &&
                     neighbour->isTraversable() &&
                     (!restrictedToRoads || neighbour->isRoad())
                 ) {
-                    if (parents.contains(*neighbour)) {
-                        if (neighboursCostFromOrigin < neighbour->pathFindingData().costFromOrigin) {
-                            neighbour->pathFindingData().costFromOrigin = neighboursCostFromOrigin;
-                            openedPathTiles.reorderTileToProcess(*neighbour);
-                            parents.registerTile(*neighbour, current);
-                        }
-                    }
-                    else {
-                        neighbour->pathFindingData().resetWithDestination(!restrictedToRoads, destination.pathFindingData(), neighboursCostFromOrigin);
-                        openedPathTiles.insertTileToProcess(*neighbour);
-                        parents.registerTile(*neighbour, current);
-                    }
+                    neighbour->pathFindingData().resetDestinationCost(destination.pathFindingData(), !restrictedToRoads);
+                    tilesToProcess.registerTile(*neighbour, current, DIAGONAL_LENGTH);
                 }
             }
         }
@@ -83,38 +57,24 @@ QList<const Tile*> PathFinder::getShortestPath(
 
 QList<const Tile*> PathFinder::getShortestRoadablePath(const Tile& origin, const Tile& destination)
 {
-    UnprocessedTileList openedPathTiles;
-    QSet<const Tile*> closedTiles;
-    PathConstructor parents;
+    origin.pathFindingData().resetDestinationCost(destination.pathFindingData(), false);
+    RegisteredTileBag tilesToProcess(origin);
+    QSet<const Tile*> processedTiles;
 
-    origin.pathFindingData().resetWithDestination(false, destination.pathFindingData());
-    openedPathTiles.insertTileToProcess(origin);
-
-    while (openedPathTiles.hasTileToProcess()) {
-        auto& current(openedPathTiles.takeClosestToDestination());
-        closedTiles.insert(&current);
+    while (tilesToProcess.hasTileToProcess()) {
+        auto& current(tilesToProcess.takeClosestToDestination());
+        processedTiles.insert(&current);
 
         if (current.pathFindingData().isDestination()) {
-            return parents.constructPath(current, true);
+            return tilesToProcess.constructFinalPath(current, true);
         }
 
-        qreal neighboursCostFromOrigin(current.pathFindingData().costFromOrigin + 1.0);
         for (auto neighbour : current.relatives().straightNeighbours) {
-            if (!closedTiles.contains(neighbour) &&
+            if (!processedTiles.contains(neighbour) &&
                 (neighbour->isConstructible() || neighbour->isRoad())
             ) {
-                if (parents.contains(*neighbour)) {
-                    if (neighboursCostFromOrigin < neighbour->pathFindingData().costFromOrigin) {
-                        neighbour->pathFindingData().costFromOrigin = neighboursCostFromOrigin;
-                        openedPathTiles.reorderTileToProcess(*neighbour);
-                        parents.registerTile(*neighbour, current);
-                    }
-                }
-                else {
-                    neighbour->pathFindingData().resetWithDestination(false, destination.pathFindingData(), neighboursCostFromOrigin);
-                    openedPathTiles.insertTileToProcess(*neighbour);
-                    parents.registerTile(*neighbour, current);
-                }
+                neighbour->pathFindingData().resetDestinationCost(destination.pathFindingData(), false);
+                tilesToProcess.registerTile(*neighbour, current, 1.0);
             }
         }
     }
@@ -126,58 +86,30 @@ QList<const Tile*> PathFinder::getShortestRoadablePath(const Tile& origin, const
 
 QList<const Tile*> PathFinder::getShortestPathToClosestMatch(const Tile& origin, TileMatcher match)
 {
-    UnprocessedTileList openedPathTiles;
-    QSet<const Tile*> closedTiles;
-    PathConstructor parents;
+    RegisteredTileBag tilesToProcess(origin);
+    QSet<const Tile*> processedTiles;
 
-    origin.pathFindingData().reset();
-    openedPathTiles.insertTileToProcess(origin);
-
-    while (openedPathTiles.hasTileToProcess()) {
-        auto& current(openedPathTiles.takeClosestToDestination());
-        closedTiles.insert(&current);
+    while (tilesToProcess.hasTileToProcess()) {
+        auto& current(tilesToProcess.takeClosestToDestination());
+        processedTiles.insert(&current);
 
         if (match(current)) {
-            return parents.constructPath(current, current.isTraversable());
+            return tilesToProcess.constructFinalPath(current, current.isTraversable());
         }
 
-        qreal neighboursCostFromOrigin(current.pathFindingData().costFromOrigin + 1.0);
         for (auto neighbour : current.relatives().straightNeighbours) {
-            if (!closedTiles.contains(neighbour) &&
-                neighbour->isTraversable()
+            if (!processedTiles.contains(neighbour) &&
+                (neighbour->isTraversable() || match(*neighbour))
             ) {
-                if (parents.contains(*neighbour)) {
-                    if (neighboursCostFromOrigin < neighbour->pathFindingData().costFromOrigin) {
-                        neighbour->pathFindingData().costFromOrigin = neighboursCostFromOrigin;
-                        openedPathTiles.reorderTileToProcess(*neighbour);
-                        parents.registerTile(*neighbour, current);
-                    }
-                }
-                else {
-                    neighbour->pathFindingData().reset(neighboursCostFromOrigin);
-                    openedPathTiles.insertTileToProcess(*neighbour);
-                    parents.registerTile(*neighbour, current);
-                }
+                tilesToProcess.registerTile(*neighbour, current, 1.0);
             }
         }
 
-        neighboursCostFromOrigin = current.pathFindingData().costFromOrigin + DIAGONAL_LENGTH;
         for (auto neighbour : current.relatives().diagonalNeighbours) {
-            if (!closedTiles.contains(neighbour) &&
-                neighbour->isTraversable()
+            if (!processedTiles.contains(neighbour) &&
+                (neighbour->isTraversable() || match(*neighbour))
             ) {
-                if (parents.contains(*neighbour)) {
-                    if (neighboursCostFromOrigin < neighbour->pathFindingData().costFromOrigin) {
-                        neighbour->pathFindingData().costFromOrigin = neighboursCostFromOrigin;
-                        openedPathTiles.reorderTileToProcess(*neighbour);
-                        parents.registerTile(*neighbour, current);
-                    }
-                }
-                else {
-                    neighbour->pathFindingData().reset(neighboursCostFromOrigin);
-                    openedPathTiles.insertTileToProcess(*neighbour);
-                    parents.registerTile(*neighbour, current);
-                }
+                tilesToProcess.registerTile(*neighbour, current, DIAGONAL_LENGTH);
             }
         }
     }

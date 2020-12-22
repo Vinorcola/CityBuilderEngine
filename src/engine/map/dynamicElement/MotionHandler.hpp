@@ -51,7 +51,7 @@ class MotionHandler
          * @return `true` if the location has changed.
          */
         bool moveToTarget();
-        void updateDirection();
+        Direction resolveDirection();
 };
 
 #endif // MOTIONHANDLER_HPP
