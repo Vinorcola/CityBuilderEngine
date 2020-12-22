@@ -10,7 +10,7 @@
 TileCoordinates::TileCoordinates(int x, int y) :
     _x(x),
     _y(y),
-    _hash(QString::number(x) + ';' + QString::number(y))
+    _hash(resolveHash(_x, _y))
 {
 
 }
@@ -18,9 +18,7 @@ TileCoordinates::TileCoordinates(int x, int y) :
 
 
 TileCoordinates::TileCoordinates(const TileCoordinates& other, const QPoint& offset) :
-    _x(other.x() + offset.x()),
-    _y(other.y() + offset.y()),
-    _hash(QString::number(_x) + ';' + QString::number(_y))
+    TileCoordinates(other.x() + offset.x(), other.y() + offset.y())
 {
 
 }
@@ -69,7 +67,7 @@ DynamicElementCoordinates TileCoordinates::toDynamicElementCoordinates() const
 
 
 
-int TileCoordinates::manhattanDistanceTo(const TileCoordinates& other) const
+qreal TileCoordinates::manhattanDistanceTo(const TileCoordinates& other) const
 {
     return qAbs(_x - other._x) + qAbs(_y - other._y);
 }
@@ -78,7 +76,7 @@ int TileCoordinates::manhattanDistanceTo(const TileCoordinates& other) const
 
 qreal TileCoordinates::chebyshevDistanceTo(const TileCoordinates& other) const
 {
-    return qMax(qFabs(_x - other._x), qFabs(_y - other._y));
+    return qMax(qAbs(_x - other._x), qAbs(_y - other._y));
 }
 
 
@@ -106,4 +104,11 @@ TileCoordinates::TileCoordinates() :
 bool TileCoordinates::isValid() const
 {
     return !_hash.isEmpty();
+}
+
+
+
+QString TileCoordinates::resolveHash(int x, int y)
+{
+    return QString::number(x) + ';' + QString::number(y);
 }

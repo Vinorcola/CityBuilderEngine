@@ -18,9 +18,9 @@ ProducerBuilding::ProducerBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) :
-    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
     searchEngine(searchEngine),
     characterFactory(characterFactory),
     minerGeneration(conf.getMaxWorkers(), conf.getProducerConf().miner.generationInterval),
@@ -39,9 +39,9 @@ QSharedPointer<AbstractProcessableBuilding> ProducerBuilding::Create(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    auto producer(new ProducerBuilding(searchEngine, characterFactory, conf, area, orientation, entryPoint));
+    auto producer(new ProducerBuilding(searchEngine, characterFactory, conf, area, orientation, entryPointTile));
     QSharedPointer<AbstractProcessableBuilding> pointer(producer);
     producer->selfReference = pointer;
 
@@ -122,7 +122,7 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& /*date*/)
 
     minerGeneration.process(getCurrentWorkerQuantity());
     if (minerGeneration.isReadyToGenerateWalker()) {
-        auto path(searchEngine.getPathToClosestRawMaterial(conf.getProducerConf().rawMaterialConf, getEntryPoint()));
+        auto path(searchEngine.getPathToClosestRawMaterial(conf.getProducerConf().rawMaterialConf, getEntryPointTile()));
         if (path) {
             auto miner(characterFactory.generateMiner(conf.getProducerConf().miner.conf, selfReference, path));
             miners.insert(miner.toStrongRef().get(), miner);

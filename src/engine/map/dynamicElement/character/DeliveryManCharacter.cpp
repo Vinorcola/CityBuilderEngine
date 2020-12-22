@@ -67,8 +67,8 @@ void DeliveryManCharacter::goHome()
     if (issuer) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(
-            motionHandler.getCurrentLocation(),
-            issuer->getEntryPoint()
+            motionHandler.getCurrentTile(),
+            issuer->getEntryPointTile()
         ));
     }
 }
@@ -78,10 +78,13 @@ void DeliveryManCharacter::goHome()
 void DeliveryManCharacter::process(const CycleDate& date)
 {
     if (target.isNull()) {
-        auto storage(searchEngine.findClosestStorageThatCanStore(transportedItemConf, motionHandler.getCurrentLocation()));
+        auto storage(searchEngine.findClosestStorageThatCanStore(transportedItemConf, motionHandler.getCurrentTile()));
         if (storage) {
             target = storage;
-            motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(motionHandler.getCurrentLocation(), storage->getEntryPoint()));
+            motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(
+                motionHandler.getCurrentTile(),
+                storage->getEntryPointTile()
+            ));
         }
     }
 

@@ -16,7 +16,7 @@ ImmigrantCharacter::ImmigrantCharacter(
     Character(characterManager, pathGenerator, conf, issuer),
     target(target)
 {
-    motionHandler.takePath(pathGenerator.generateShortestPathTo(issuer->getEntryPoint(), target->getEntryPoint()));
+    motionHandler.takePath(pathGenerator.generateShortestPathTo(issuer->getEntryPointTile(), target->getEntryPointTile()));
 }
 
 

@@ -2,33 +2,28 @@
 #define RANDOMROADPATH_HPP
 
 #include "src/engine/map/path/PathInterface.hpp"
-#include "src/global/geometry/TileCoordinates.hpp"
 
-class MapDetailsInterface;
+class Tile;
 
 class RandomRoadPath : public PathInterface
 {
     private:
-        const MapDetailsInterface& mapDetails;
-        TileCoordinates previousLocation;
-        TileCoordinates currentLocation;
+        const Tile* previousTile;
+        const Tile* currentTile;
         int wanderingCredits;
+        bool obsolete;
 
     public:
-        RandomRoadPath(
-            const MapDetailsInterface& mapDetails,
-            const TileCoordinates& initialLocation,
-            const int wanderingCredits
-        );
+        RandomRoadPath(const Tile& initialLocation, const int wanderingCredits);
 
         virtual bool isObsolete() const override;
         virtual bool isCompleted() const override;
 
-        virtual bool isNextTargetCoordinatesValid() const override;
-        virtual TileCoordinates getNextValidTargetCoordinates() override;
+        virtual bool isNextTileValid() const override;
+        virtual const Tile& getNextTile() override;
 
     private:
-        TileCoordinates getNextRandomCoordinates() const;
+        optional<const Tile*> getNextRandomTile() const;
 };
 
 #endif // RANDOMROADPATH_HPP

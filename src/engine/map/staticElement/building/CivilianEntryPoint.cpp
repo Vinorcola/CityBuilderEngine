@@ -12,16 +12,19 @@
 CivilianEntryPoint::CivilianEntryPoint(
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const TileCoordinates& location,
+    const TileArea& area,
+    Direction orientation,
+    const Tile& entryPointTile,
     const CharacterInformation& immigrantConf
 ) :
-    AbstractProcessableBuilding(conf, { location, 1 }, Direction::West, location),
+    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
     characterFactory(characterFactory),
     immigrantConf(immigrantConf),
     nextImmigrantGenerationCountDown(),
     immigrantRequestQueue()
 {
     // IMPORTANT: characterFactory is not initialized yet within constructor scope!
+    setupNextImmigrantGenerationDate();
 }
 
 
@@ -29,11 +32,13 @@ CivilianEntryPoint::CivilianEntryPoint(
 QSharedPointer<CivilianEntryPoint> CivilianEntryPoint::Create(
     CharacterGeneratorInterface& characterFactory,
     const BuildingInformation& conf,
-    const TileCoordinates& location,
+    const TileArea& area,
+    Direction orientation,
+    const Tile& entryPointTile,
     const CharacterInformation& immigrantConf
 ) {
     // IMPORTANT: characterFactory is not initialized yet within constructor scope!
-    auto entryPoint(new CivilianEntryPoint(characterFactory, conf, location, immigrantConf));
+    auto entryPoint(new CivilianEntryPoint(characterFactory, conf, area, orientation, entryPointTile, immigrantConf));
     QSharedPointer<CivilianEntryPoint> pointer(entryPoint);
     entryPoint->selfReference = pointer;
 
@@ -72,14 +77,8 @@ void CivilianEntryPoint::process(const CycleDate& /*date*/)
 
 void CivilianEntryPoint::setupNextImmigrantGenerationDate()
 {
-    if (immigrantRequestQueue.isEmpty()) {
-        return;
-    }
-
-    if (nextImmigrantGenerationCountDown <= 0) {
-        nextImmigrantGenerationCountDown = QRandomGenerator::global()->bounded(
-            MIN_IMMIGRANT_GENERATION_INTERVAL,
-            MAX_IMMIGRANT_GENERATION_INTERVAL + 1
-        );
-    }
+    nextImmigrantGenerationCountDown = QRandomGenerator::global()->bounded(
+        MIN_IMMIGRANT_GENERATION_INTERVAL,
+        MAX_IMMIGRANT_GENERATION_INTERVAL + 1
+    );
 }

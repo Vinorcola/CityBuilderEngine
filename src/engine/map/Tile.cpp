@@ -6,18 +6,19 @@
 
 
 Tile::Tile(int x, int y) :
-    coordinates(x, y),
-    hash(hashCoordinates(x, y)),
-    status()
+    _coordinates(x, y),
+    status(),
+    _relatives(),
+    pathFinding(_coordinates)
 {
 
 }
 
 
 
-const QString& Tile::getHash() const
+const TileCoordinates& Tile::coordinates() const
 {
-    return hash;
+    return _coordinates;
 }
 
 
@@ -70,54 +71,61 @@ void Tile::registerNatureElement(const NatureElementInformation& conf)
 
 
 
+const Tile::Relatives& Tile::relatives() const
+{
+    return _relatives;
+}
+
+
+
 void Tile::pickRelatives(const QHash<QString, Tile*>& tiles)
 {
-    auto north(hashCoordinates(coordinates.x(), coordinates.y() - 1));
+    auto north(TileCoordinates::resolveHash(_coordinates.x(), _coordinates.y() - 1));
     if (tiles.contains(north)) {
-        relatives.north = tiles.value(north);
+        _relatives.straightNeighbours.append(tiles.value(north));
     }
-    auto south(hashCoordinates(coordinates.x(), coordinates.y() + 1));
+    auto south(TileCoordinates::resolveHash(_coordinates.x(), _coordinates.y() + 1));
     if (tiles.contains(south)) {
-        relatives.south = tiles.value(south);
+        _relatives.straightNeighbours.append(tiles.value(south));
     }
-    auto east(hashCoordinates(coordinates.x() + 1, coordinates.y()));
+    auto east(TileCoordinates::resolveHash(_coordinates.x() + 1, _coordinates.y()));
     if (tiles.contains(east)) {
-        relatives.east = tiles.value(east);
+        _relatives.straightNeighbours.append(tiles.value(east));
     }
-    auto west(hashCoordinates(coordinates.x() - 1, coordinates.y()));
+    auto west(TileCoordinates::resolveHash(_coordinates.x() - 1, _coordinates.y()));
     if (tiles.contains(west)) {
-        relatives.west = tiles.value(west);
+        _relatives.straightNeighbours.append(tiles.value(west));
     }
-    auto top(hashCoordinates(coordinates.x() + 1, coordinates.y() - 1));
+    auto top(TileCoordinates::resolveHash(_coordinates.x() + 1, _coordinates.y() - 1));
     if (tiles.contains(top)) {
-        relatives.top = tiles.value(top);
+        _relatives.diagonalNeighbours.append(tiles.value(top));
     }
-    auto bottom(hashCoordinates(coordinates.x() - 1, coordinates.y() + 1));
+    auto bottom(TileCoordinates::resolveHash(_coordinates.x() - 1, _coordinates.y() + 1));
     if (tiles.contains(bottom)) {
-        relatives.bottom = tiles.value(bottom);
+        _relatives.diagonalNeighbours.append(tiles.value(bottom));
     }
-    auto left(hashCoordinates(coordinates.x() - 1, coordinates.y() - 1));
+    auto left(TileCoordinates::resolveHash(_coordinates.x() - 1, _coordinates.y() - 1));
     if (tiles.contains(left)) {
-        relatives.left = tiles.value(left);
+        _relatives.diagonalNeighbours.append(tiles.value(left));
     }
-    auto right(hashCoordinates(coordinates.x() + 1, coordinates.y() + 1));
+    auto right(TileCoordinates::resolveHash(_coordinates.x() + 1, _coordinates.y() + 1));
     if (tiles.contains(right)) {
-        relatives.right = tiles.value(right);
+        _relatives.diagonalNeighbours.append(tiles.value(right));
     }
 }
 
 
 
-QString Tile::hashCoordinates(int x, int y)
+Tile::PathFinding& Tile::pathFindingData() const
 {
-    return QString::number(x) + ';' + QString::number(y);
+    return pathFinding;
 }
 
 
 
-QString Tile::hashCoordinates(QPoint coordinates)
+qreal Tile::bestTheoreticalCost() const
 {
-    return hashCoordinates(coordinates.x(), coordinates.y());
+    return pathFinding.costFromOrigin + pathFinding.theoreticalBestDistanceToDestination;
 }
 
 
@@ -132,15 +140,34 @@ Tile::Status::Status() :
 
 
 
-Tile::Relatives::Relatives() :
-    north(nullptr),
-    south(nullptr),
-    east(nullptr),
-    west(nullptr),
-    top(nullptr),
-    bottom(nullptr),
-    left(nullptr),
-    right(nullptr)
+Tile::PathFinding::PathFinding(const TileCoordinates& coordinates) :
+    coordinates(coordinates),
+    costFromOrigin(0),
+    theoreticalBestDistanceToDestination(0)
 {
 
+}
+
+
+
+void Tile::PathFinding::reset(qreal initialCost)
+{
+    costFromOrigin = initialCost;
+}
+
+
+
+void Tile::PathFinding::resetWithDestination(bool allowDiagonals, const Tile::PathFinding& destination, qreal initialCost)
+{
+    costFromOrigin = initialCost;
+    theoreticalBestDistanceToDestination = allowDiagonals ?
+        coordinates.chebyshevDistanceTo(destination.coordinates) :
+        coordinates.manhattanDistanceTo(destination.coordinates);
+}
+
+
+
+bool Tile::PathFinding::isDestination() const
+{
+    return theoreticalBestDistanceToDestination == 0;
 }

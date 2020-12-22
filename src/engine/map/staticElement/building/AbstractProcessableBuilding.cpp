@@ -9,10 +9,10 @@ AbstractProcessableBuilding::AbstractProcessableBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
-):
+    const Tile& entryPointTile
+) :
     AbstractBuilding(conf, area, orientation),
-    entryPoint(entryPoint),
+    entryPointTile(entryPointTile),
     currentWorkerQuantity(0),
     selfReference(nullptr)
 {
@@ -28,9 +28,9 @@ QWeakPointer<AbstractProcessableBuilding> AbstractProcessableBuilding::getSelfRe
 
 
 
-const TileCoordinates& AbstractProcessableBuilding::getEntryPoint() const
+const Tile& AbstractProcessableBuilding::getEntryPointTile() const
 {
-    return entryPoint;
+    return entryPointTile;
 }
 
 

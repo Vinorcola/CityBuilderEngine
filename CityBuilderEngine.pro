@@ -21,14 +21,10 @@ SOURCES += \
     src/engine/map/dynamicElement/DynamicElementFactory.cpp \
     src/engine/map/dynamicElement/DynamicElementRegistry.cpp \
     src/engine/map/dynamicElement/MotionHandler.cpp \
-    src/engine/map/path/closestPath/ClosestPathFinder.cpp \
-    src/engine/map/path/closestPath/PathNode.cpp \
-    src/engine/map/path/closestPath/ProcessedPathNodeList.cpp \
-    src/engine/map/path/closestPath/UnprocessedPathNodeList.cpp \
-    src/engine/map/path/shortestPath/AStarNode.cpp \
-    src/engine/map/path/shortestPath/ProcessedAStarNodeList.cpp \
-    src/engine/map/path/shortestPath/ShortestPathFinder.cpp \
-    src/engine/map/path/shortestPath/UnprocessedAStarNodeList.cpp \
+    src/engine/map/path/algorithm/ClosestPathFinder.cpp \
+    src/engine/map/path/algorithm/PathConstructor.cpp \
+    src/engine/map/path/algorithm/ShortestPathFinder.cpp \
+    src/engine/map/path/algorithm/UnprocessedTileList.cpp \
     src/engine/map/path/PathGenerator.cpp \
     src/engine/map/path/RandomRoadPath.cpp \
     src/engine/map/path/TargetedPath.cpp \
@@ -116,15 +112,10 @@ HEADERS += \
     src/engine/map/dynamicElement/DynamicElementFactory.hpp \
     src/engine/map/dynamicElement/DynamicElementRegistry.hpp \
     src/engine/map/dynamicElement/MotionHandler.hpp \
-    src/engine/map/path/closestPath/ClosestPathFinder.hpp \
-    src/engine/map/path/closestPath/PathNode.hpp \
-    src/engine/map/path/closestPath/ProcessedPathNodeList.hpp \
-    src/engine/map/path/closestPath/UnprocessedPathNodeList.hpp \
-    src/engine/map/path/shortestPath/AStarNode.hpp \
-    src/engine/map/path/shortestPath/ProcessedAStarNodeList.hpp \
-    src/engine/map/path/shortestPath/ShortestPathFinder.hpp \
-    src/engine/map/path/shortestPath/UnprocessedAStarNodeList.hpp \
-    src/engine/map/path/MapDetailsInterface.hpp \
+    src/engine/map/path/algorithm/ClosestPathFinder.hpp \
+    src/engine/map/path/algorithm/PathConstructor.hpp \
+    src/engine/map/path/algorithm/ShortestPathFinder.hpp \
+    src/engine/map/path/algorithm/UnprocessedTileList.hpp \
     src/engine/map/path/PathGenerator.hpp \
     src/engine/map/path/PathGeneratorInterface.hpp \
     src/engine/map/path/PathInterface.hpp \

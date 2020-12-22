@@ -16,7 +16,7 @@ WanderingCharacter::WanderingCharacter(
     Character(characterManager, pathGenerator, conf, issuer),
     goingHome(false)
 {
-    motionHandler.takePath(pathGenerator.generateWanderingPath(issuer->getEntryPoint(), conf.getWanderingCredits()));
+    motionHandler.takePath(pathGenerator.generateWanderingPath(issuer->getEntryPointTile(), conf.getWanderingCredits()));
 }
 
 
@@ -27,8 +27,8 @@ void WanderingCharacter::goHome()
     if (issuer) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestRoadPathTo(
-            motionHandler.getCurrentLocation(),
-            issuer->getEntryPoint()
+            motionHandler.getCurrentTile(),
+            issuer->getEntryPointTile()
         ));
     }
 }

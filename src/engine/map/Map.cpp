@@ -5,6 +5,7 @@
 #include "src/engine/loader/CityLoader.hpp"
 #include "src/engine/map/Tile.hpp"
 #include "src/engine/processing/CycleDate.hpp"
+#include "src/exceptions/NotImplementedException.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
@@ -18,37 +19,20 @@ Map::Map(
     WorkingPlaceRegistryInterface& workingPlaceRegistry
 ) :
     size(loader.getMapSize()),
-    tiles(),
+    tiles(generateTiles(size)),
     civilianEntryPoint(CivilianEntryPoint::Create(
         dynamicElements,
         conf.getBuildingConf("mapEntryPoint"),
-        loader.getMapEntryPoint(),
+        { loader.getMapEntryPoint(), 1 },
+        Direction::West,
+        *tiles.value(loader.getMapEntryPoint().hash()),
         conf.getCharacterConf("immigrant")
     )),
-    pathGenerator(*this),
+    pathGenerator(),
     staticElements(dynamicElements, populationRegistry, workingPlaceRegistry, pathGenerator, *civilianEntryPoint.get()),
     dynamicElements(pathGenerator, staticElements.getBuildingSearchEngine())
 {
-    // Create the tiles and their graphics item.
-    int line(0);
-    int column(0);
-    while (line < size.height()) {
-        // NOTE: Because we divide by 2 and casting as integer, we deliberately remove floating precision. However, the
-        // adjustment needs to be 1 higher when "mapSize.width() - line" become negative. This is because -0.5 is cast
-        // to 0 insted of -1.
-        int adjust(line > size.width() ? 1 : 2);
-        while (column < (size.width() - line + adjust) / 2) {
-            auto tile(new Tile(column, line + column));
-            tiles.insert(tile->getHash(), tile);
 
-            ++column;
-        }
-        ++line;
-        column = -line / 2;
-    }
-    for (auto tile : tiles) {
-        tile->pickRelatives(tiles);
-    }
 }
 
 
@@ -62,7 +46,17 @@ Map::~Map()
 
 QList<TileCoordinates> Map::getShortestPathForRoad(const TileCoordinates& origin, const TileCoordinates& target) const
 {
-    return pathGenerator.generateShortestPathForRoad(origin, target);
+    auto pathTiles(pathGenerator.generateShortestPathForRoad(
+        *tiles.value(origin.hash()),
+        *tiles.value(target.hash())
+    ));
+
+    QList<TileCoordinates> path;
+    for (auto tile : pathTiles) {
+        path.append(tile->coordinates());
+    }
+
+    return path;
 }
 
 
@@ -107,7 +101,12 @@ void Map::createBuilding(const BuildingInformation& conf, const TileCoordinates&
         staticElements.generateBuilding(conf, area, orientation);
     }
     else {
-        staticElements.generateProcessableBuilding(conf, area, orientation, getBestBuildingEntryPoint(area));
+        try {
+            staticElements.generateProcessableBuilding(conf, area, orientation, getBestBuildingEntryPoint(area));
+        }
+        catch (NotImplementedException) {
+            qDebug() << "WARNING: For now, buildings must be linked to a road at their construction. Skipping the creation.";
+        }
     }
 
     for (auto location : area) {
@@ -168,41 +167,6 @@ bool Map::isAreaConstructible(const TileArea& area) const
 
 
 
-bool Map::isLocationTraversable(const TileCoordinates& location) const
-{
-    if (!tiles.contains(location.hash())) {
-        return false;
-    }
-
-    return tiles.value(location.hash())->isTraversable();
-}
-
-
-
-bool Map::hasRoadAtLocation(const TileCoordinates& location) const
-{
-    if (!tiles.contains(location.hash())) {
-        return false;
-    }
-
-    return tiles.value(location.hash())->isRoad();
-}
-
-
-
-bool Map::canConstructRoadAtLocation(const TileCoordinates& location) const
-{
-    if (!tiles.contains(location.hash())) {
-        return false;
-    }
-
-    auto tile(tiles.value(location.hash()));
-
-    return tile->isConstructible() || tile->isRoad();
-}
-
-
-
 void Map::process(const CycleDate& date)
 {
     // Note: order is important: dynamic elements, entry points & static elements.
@@ -215,43 +179,77 @@ void Map::process(const CycleDate& date)
 
 
 
-TileCoordinates Map::getBestBuildingEntryPoint(const TileArea& area) const
+Tile& Map::getBestBuildingEntryPoint(const TileArea& area) const
 {
     // Fetch a location around the area, starting at the coordinates at north of left point, and turning clockwise
     // around the area.
 
-    auto left(area.leftCorner());
+    auto& left(area.leftCorner());
     auto right(area.resolveRightCorner());
+    // Init with coordinates of northern tile from left corner.
+    int x(left.x());
+    int y(left.y() - 1);
     int moveX(1);
     int moveY(0);
+    auto tile(tiles.value(TileCoordinates::resolveHash(x, y)));
 
-    TileCoordinates coordinates(left.x() - 1, left.y());// North of left corner coordinates.
-    while (!tiles.value(coordinates.hash())->isRoad()) {
-        coordinates = { coordinates.x() + moveX, coordinates.y() + moveY };
+    while (!tile || !tile->isRoad()) {
+        x += moveX;
+        y += moveY;
 
-        if (moveX == 1 && coordinates.x() > right.x()) {
+        if (moveX == 1 && x > right.x()) {
             // Overstep top corner.
             moveX = 0;
             moveY = 1;
-            coordinates = { coordinates.x(), coordinates.y() + moveY };
+            ++y;
         }
-        else if (moveY == 1 && coordinates.y() > right.y()) {
+        else if (moveY == 1 && y > right.y()) {
             // Overstep right corner.
             moveX = -1;
             moveY = 0;
-            coordinates = { coordinates.x() + moveX, coordinates.y() };
+            --x;
         }
-        else if (moveX == -1 && coordinates.x() < left.x()) {
+        else if (moveX == -1 && x < left.x()) {
             // Overstep bottom corner.
             moveX = 0;
             moveY = -1;
-            coordinates = { coordinates.x(), coordinates.y() + moveY };
+            --y;
         }
-        else if (moveY == -1 && coordinates.y() < left.y()) {
+        else if (moveY == -1 && y < left.y()) {
             // Overstep left corner. No road nodefound.
-            return TileCoordinates();
+            throw NotImplementedException("Building need to have a valid entry point.");
         }
+
+        tile = tiles.value(TileCoordinates::resolveHash(x, y));
     }
 
-    return coordinates;
+    return *tile;
+}
+
+
+
+QHash<QString, owner<Tile*> > Map::generateTiles(const QSize& size)
+{
+    QHash<QString, owner<Tile*>> tiles;
+    int line(0);
+    int column(0);
+    while (line < size.height()) {
+        // NOTE: Because we divide by 2 and casting as integer, we deliberately remove floating precision. However, the
+        // adjustment needs to be 1 higher when "mapSize.width() - line" become negative. This is because -0.5 is cast
+        // to 0 insted of -1.
+        int adjust(line > size.width() ? 1 : 2);
+        while (column < (size.width() - line + adjust) / 2) {
+            auto tile(new Tile(column, line + column));
+            tiles.insert(TileCoordinates::resolveHash(column, line + column), tile);
+
+            ++column;
+        }
+        ++line;
+        column = -line / 2;
+    }
+    for (auto tile : tiles) {
+        tile->pickRelatives(tiles);
+    }
+
+    return tiles;
 }

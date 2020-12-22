@@ -12,9 +12,9 @@ StorageBuilding::StorageBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) :
-    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
     stock()
 {
 
@@ -26,9 +26,9 @@ QSharedPointer<StorageBuilding> StorageBuilding::Create(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    auto storage(new StorageBuilding(conf, area, orientation, entryPoint));
+    auto storage(new StorageBuilding(conf, area, orientation, entryPointTile));
     QSharedPointer<StorageBuilding> pointer(storage);
     storage->selfReference = pointer;
 

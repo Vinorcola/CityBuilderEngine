@@ -15,8 +15,8 @@ class ImmigrantGeneratorInterface;
 class NatureElementSearchEngine;
 class PopulationRegistryInterface;
 class StorageBuilding;
+class Tile;
 class TileArea;
-class TileCoordinates;
 
 class StaticElementFactory
 {
@@ -35,28 +35,28 @@ class StaticElementFactory
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
         QSharedPointer<AbstractProcessableBuilding> generateHouse(
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
         QSharedPointer<AbstractProcessableBuilding> generateLaboratory(
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
         QSharedPointer<AbstractProcessableBuilding> generateProducer(
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
         QSharedPointer<AbstractBuilding> generateRoad(
@@ -69,21 +69,21 @@ class StaticElementFactory
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
         QSharedPointer<AbstractProcessableBuilding> generateSchool(
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
         QSharedPointer<StorageBuilding> generateStorage(
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
     private:

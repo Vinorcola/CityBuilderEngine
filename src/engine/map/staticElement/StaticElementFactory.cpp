@@ -34,9 +34,9 @@ QSharedPointer<AbstractProcessableBuilding> StaticElementFactory::generateFarm(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    return FarmBuilding::Create(characterGenerator, conf, area, orientation, entryPoint);
+    return FarmBuilding::Create(characterGenerator, conf, area, orientation, entryPointTile);
 }
 
 
@@ -45,9 +45,9 @@ QSharedPointer<AbstractProcessableBuilding> StaticElementFactory::generateHouse(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    return HouseBuilding::Create(immigrantGenerator, populationRegister, conf, area, orientation, entryPoint);
+    return HouseBuilding::Create(immigrantGenerator, populationRegister, conf, area, orientation, entryPointTile);
 }
 
 
@@ -56,9 +56,9 @@ QSharedPointer<AbstractProcessableBuilding> StaticElementFactory::generateLabora
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    return LaboratoryBuilding::Create(characterGenerator, conf, area, orientation, entryPoint);
+    return LaboratoryBuilding::Create(characterGenerator, conf, area, orientation, entryPointTile);
 }
 
 
@@ -67,9 +67,9 @@ QSharedPointer<AbstractProcessableBuilding> StaticElementFactory::generateProduc
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    return ProducerBuilding::Create(natureElementSearchEngine, characterGenerator, conf, area, orientation, entryPoint);
+    return ProducerBuilding::Create(natureElementSearchEngine, characterGenerator, conf, area, orientation, entryPointTile);
 }
 
 
@@ -88,9 +88,9 @@ QSharedPointer<AbstractProcessableBuilding> StaticElementFactory::generateSanity
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    return SanityBuilding::Create(characterGenerator, conf, area, orientation, entryPoint);
+    return SanityBuilding::Create(characterGenerator, conf, area, orientation, entryPointTile);
 }
 
 
@@ -99,9 +99,9 @@ QSharedPointer<AbstractProcessableBuilding> StaticElementFactory::generateSchool
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    return SchoolBuilding::Create(buildingSearchEngine, characterGenerator, conf, area, orientation, entryPoint);
+    return SchoolBuilding::Create(buildingSearchEngine, characterGenerator, conf, area, orientation, entryPointTile);
 }
 
 
@@ -110,7 +110,7 @@ QSharedPointer<StorageBuilding> StaticElementFactory::generateStorage(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    return StorageBuilding::Create(conf, area, orientation, entryPoint);
+    return StorageBuilding::Create(conf, area, orientation, entryPointTile);
 }

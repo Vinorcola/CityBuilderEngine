@@ -16,9 +16,9 @@ FarmBuilding::FarmBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) :
-    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
     GROWING_INTERVAL(0.9 * (conf.getMaxWorkers() * CycleDate::getBuildingCyclesPerYear())),
     characterFactory(characterFactory),
     growingCountDown(GROWING_INTERVAL),
@@ -34,9 +34,9 @@ QSharedPointer<AbstractProcessableBuilding> FarmBuilding::Create(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    auto farm(new FarmBuilding(characterFactory, conf, area, orientation, entryPoint));
+    auto farm(new FarmBuilding(characterFactory, conf, area, orientation, entryPointTile));
     QSharedPointer<AbstractProcessableBuilding> pointer(farm);
     farm->selfReference = pointer;
 

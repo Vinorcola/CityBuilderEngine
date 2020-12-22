@@ -15,9 +15,9 @@ HouseBuilding::HouseBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) :
-    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
     immigrantGenerator(immigrantGenerator),
     populationRegister(populationRegister),
     inhabitants(0),
@@ -34,9 +34,9 @@ QSharedPointer<AbstractProcessableBuilding> HouseBuilding::Create(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    auto house(new HouseBuilding(immigrantGenerator, populationRegister, conf, area, orientation, entryPoint));
+    auto house(new HouseBuilding(immigrantGenerator, populationRegister, conf, area, orientation, entryPointTile));
     QSharedPointer<AbstractProcessableBuilding> pointer(house);
     house->selfReference = pointer;
 

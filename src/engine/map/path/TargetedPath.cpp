@@ -1,15 +1,12 @@
 #include "TargetedPath.hpp"
 
-#include "src/engine/map/path/MapDetailsInterface.hpp"
+#include <cassert>
+
+#include "src/engine/map/Tile.hpp"
 
 
 
-TargetedPath::TargetedPath(
-    const MapDetailsInterface& mapDetails,
-    const bool restrictedToRoads,
-    const QList<TileCoordinates>& path
-) :
-    mapDetails(mapDetails),
+TargetedPath::TargetedPath(bool restrictedToRoads, const QList<const Tile*>& path) :
     restrictedToRoads(restrictedToRoads),
     path(path),
     obsolete(false)
@@ -33,18 +30,18 @@ bool TargetedPath::isCompleted() const
 
 
 
-bool TargetedPath::isNextTargetCoordinatesValid() const
+bool TargetedPath::isNextTileValid() const
 {
     if (obsolete || path.isEmpty()) {
         return false;
     }
 
-    auto nextLocation(path.first());
-    if (!mapDetails.isLocationTraversable(nextLocation)) {
+    auto nextTile(path.first());
+    if (!nextTile->isTraversable()) {
         obsolete = true;
         return false;
     }
-    if (restrictedToRoads && !mapDetails.hasRoadAtLocation(nextLocation)) {
+    if (restrictedToRoads && !nextTile->isRoad()) {
         obsolete = true;
         return false;
     }
@@ -54,14 +51,9 @@ bool TargetedPath::isNextTargetCoordinatesValid() const
 
 
 
-TileCoordinates TargetedPath::getNextValidTargetCoordinates()
+const Tile& TargetedPath::getNextTile()
 {
-    return path.takeFirst();
-}
+    assert(!path.isEmpty());
 
-
-
-const QList<TileCoordinates>& TargetedPath::toCoordinatesList() const
-{
-    return path;
+    return *path.takeFirst();
 }

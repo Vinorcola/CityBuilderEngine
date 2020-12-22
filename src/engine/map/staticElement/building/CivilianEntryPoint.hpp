@@ -30,7 +30,9 @@ class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantG
         CivilianEntryPoint(
             CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
-            const TileCoordinates& location,
+            const TileArea& area,
+            Direction orientation,
+            const Tile& entryPointTile,
             const CharacterInformation& immigrantConf
         );
 
@@ -38,7 +40,9 @@ class CivilianEntryPoint : public AbstractProcessableBuilding, public ImmigrantG
         static QSharedPointer<CivilianEntryPoint> Create(
             CharacterGeneratorInterface& characterFactory,
             const BuildingInformation& conf,
-            const TileCoordinates& location,
+            const TileArea& area,
+            Direction orientation,
+            const Tile& entryPointTile,
             const CharacterInformation& immigrantConf
         );
 

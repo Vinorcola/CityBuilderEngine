@@ -63,7 +63,7 @@ void StaticElementRegistry::generateProcessableBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPoint
 ) {
     QSharedPointer<AbstractProcessableBuilding> building;
     switch (conf.getType()) {

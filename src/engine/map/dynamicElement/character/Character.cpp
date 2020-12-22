@@ -17,7 +17,7 @@ Character::Character(
     characterManager(characterManager),
     pathGenerator(pathGenerator),
     conf(conf),
-    motionHandler(conf.getSpeed(), issuer->getEntryPoint().toDynamicElementCoordinates()),
+    motionHandler(conf.getSpeed(), issuer->getEntryPointTile()),
     issuer(issuer),
     stateVersion(0)
 {

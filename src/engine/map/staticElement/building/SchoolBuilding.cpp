@@ -14,9 +14,9 @@ SchoolBuilding::SchoolBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) :
-    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
     searchEngine(searchEngine),
     characterFactory(characterFactory),
     walkerGeneration(conf.getMaxWorkers(), conf.getSchoolConf().student.generationInterval)
@@ -32,9 +32,9 @@ QSharedPointer<AbstractProcessableBuilding> SchoolBuilding::Create(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    auto school(new SchoolBuilding(searchEngine, characterFactory, conf, area, orientation, entryPoint));
+    auto school(new SchoolBuilding(searchEngine, characterFactory, conf, area, orientation, entryPointTile));
     QSharedPointer<AbstractProcessableBuilding> pointer(school);
     school->selfReference = pointer;
 
@@ -51,7 +51,7 @@ void SchoolBuilding::process(const CycleDate& /*date*/)
 
     walkerGeneration.process(getCurrentWorkerQuantity());
     if (walkerGeneration.isReadyToGenerateWalker()) {
-        auto target(searchEngine.findClosestBuilding(conf.getSchoolConf().targetLaboratory, getEntryPoint().toDynamicElementCoordinates()));
+        auto target(searchEngine.findClosestBuilding(conf.getSchoolConf().targetLaboratory, getEntryPointTile()));
         if (target) {
             characterFactory.generateStudent(conf.getSchoolConf().student.conf, selfReference, target);
             walkerGeneration.reset();

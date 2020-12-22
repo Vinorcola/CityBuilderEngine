@@ -10,11 +10,12 @@
 
 class BuildingInformation;
 class Character;
+class Tile;
 
 class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProcessable
 {
     private:
-        TileCoordinates entryPoint;
+        const Tile& entryPointTile;
         int currentWorkerQuantity;
 
     protected:
@@ -25,12 +26,12 @@ class AbstractProcessableBuilding : public AbstractBuilding, public AbstractProc
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
     public:
         QWeakPointer<AbstractProcessableBuilding> getSelfReference() const;
-        const TileCoordinates& getEntryPoint() const;
+        const Tile& getEntryPointTile() const;
         bool isActive() const;
 
         void assignWorkers(int workerQuantity);

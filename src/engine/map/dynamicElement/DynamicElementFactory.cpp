@@ -74,7 +74,7 @@ QSharedPointer<Character> DynamicElementFactory::generateStudent(
         conf,
         issuer,
         target,
-        pathGenerator.generateShortestRoadPathTo(issuer->getEntryPoint(), target->getEntryPoint())
+        pathGenerator.generateShortestRoadPathTo(issuer->getEntryPointTile(), target->getEntryPointTile())
     ));
 }
 

@@ -1,88 +1,52 @@
 #include "PathGenerator.hpp"
 
+#include "src/engine/map/path/algorithm/ClosestPathFinder.hpp"
+#include "src/engine/map/path/algorithm/ShortestPathFinder.hpp"
 #include "src/engine/map/path/RandomRoadPath.hpp"
 #include "src/engine/map/path/TargetedPath.hpp"
 #include "src/global/geometry/DynamicElementCoordinates.hpp"
 
 
 
-PathGenerator::PathGenerator(const MapDetailsInterface& mapDetails) :
-    mapDetails(mapDetails),
-    closestPathFinder(mapDetails),
-    shortestPathFinder(mapDetails)
-{
-
-}
-
-
-
 QSharedPointer<PathInterface> PathGenerator::generateWanderingPath(
-    const TileCoordinates& origin,
+    const Tile& origin,
     const int wanderingCredits
 ) const {
 
-    return QSharedPointer<PathInterface>(new RandomRoadPath(
-        mapDetails,
-        origin,
-        wanderingCredits
-    ));
+    return QSharedPointer<PathInterface>(new RandomRoadPath(origin, wanderingCredits));
 }
 
 
 
 QSharedPointer<PathInterface> PathGenerator::generateShortestPathTo(
-    const TileCoordinates& origin,
-    const TileCoordinates& destination
+    const Tile& origin,
+    const Tile& destination
 ) const {
 
     return QSharedPointer<PathInterface>(new TargetedPath(
-        mapDetails,
         false,
-        shortestPathFinder.getShortestPath(origin, destination, false)
+        ShortestPathFinder::getShortestPath(origin, destination, false)
     ));
 }
 
 
 
-QSharedPointer<PathInterface> PathGenerator::generateShortestPathTo(
-    const DynamicElementCoordinates& origin,
-    const TileCoordinates& destination
-) const {
-
-    // TODO: To correct later.
-    return generateShortestPathTo(origin.associatedTileCoordinates(), destination);
-}
-
-
-
 QSharedPointer<PathInterface> PathGenerator::generateShortestRoadPathTo(
-    const TileCoordinates& origin,
-    const TileCoordinates& destination
+    const Tile& origin,
+    const Tile& destination
 ) const {
 
     return QSharedPointer<PathInterface>(new TargetedPath(
-        mapDetails,
         true,
-        shortestPathFinder.getShortestPath(origin, destination, true)
+        ShortestPathFinder::getShortestPath(origin, destination, true)
     ));
-}
-
-
-
-QSharedPointer<PathInterface> PathGenerator::generateShortestRoadPathTo(
-    const DynamicElementCoordinates& origin,
-    const TileCoordinates& destination
-) const {
-
-    // TODO: To correct later.
-    return generateShortestRoadPathTo(origin.associatedTileCoordinates(), destination);
 }
 
 
 
 QSharedPointer<PathInterface> PathGenerator::generatePreferedShortestPathTo(
-    const TileCoordinates& origin,
-    const TileCoordinates& destination,
+    const Tile& origin,
+    const Tile& destination,
     bool restrictedToRoads
 ) const {
 
@@ -92,7 +56,7 @@ QSharedPointer<PathInterface> PathGenerator::generatePreferedShortestPathTo(
     }
 
     if (restrictedToRoads) {
-        return nullptr;
+        return {};
     }
 
     return generateShortestPathTo(origin, destination);
@@ -101,24 +65,24 @@ QSharedPointer<PathInterface> PathGenerator::generatePreferedShortestPathTo(
 
 
 QSharedPointer<PathInterface> PathGenerator::generateShortestPathToClosestMatch(
-    const TileCoordinates& origin,
-    std::function<bool (const TileCoordinates&)> match
+    const Tile& origin,
+    TileMatcher match
 ) const {
 
-    auto path(closestPathFinder.getShortestPathToClosestMatch(origin, match));
+    auto path(ClosestPathFinder::getShortestPathToClosestMatch(origin, match));
     if (path.isEmpty()) {
         return nullptr;
     }
 
-    return QSharedPointer<PathInterface>(new TargetedPath(mapDetails, false, path));
+    return QSharedPointer<PathInterface>(new TargetedPath(false, path));
 }
 
 
 
-QList<TileCoordinates> PathGenerator::generateShortestPathForRoad(
-    const TileCoordinates& origin,
-    const TileCoordinates& destination
+QList<const Tile*> PathGenerator::generateShortestPathForRoad(
+    const Tile& origin,
+    const Tile& destination
 ) const {
 
-    return shortestPathFinder.getShortestRoadablePath(origin, destination);
+    return ShortestPathFinder::getShortestRoadablePath(origin, destination);
 }

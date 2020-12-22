@@ -5,19 +5,26 @@
 #include <QtCore/QPoint>
 #include <QtCore/QString>
 
+#include "src/global/geometry/TileCoordinates.hpp"
 #include "src/defines.hpp"
 
 class BuildingInformation;
+class ClosestPathFinder;
 class NatureElementInformation;
+class ShortestPathFinder;
 
 class Tile
 {
         Q_DISABLE_COPY_MOVE(Tile)
 
+    private:
+        class PathFinding;
+        struct Relatives;
+
     public:
         Tile(int x, int y);
 
-        const QString& getHash() const;
+        const TileCoordinates& coordinates() const;
 
         // Status.
         bool isConstructible() const;
@@ -27,10 +34,12 @@ class Tile
         void registerNatureElement(const NatureElementInformation& conf);
 
         // Relatives.
+        const Relatives& relatives() const;
         void pickRelatives(const QHash<QString, Tile*>& tiles);
 
-        static QString hashCoordinates(int x, int y);
-        static QString hashCoordinates(QPoint coordinates);
+        // Path finding.
+        PathFinding& pathFindingData() const;
+        qreal bestTheoreticalCost() const;
 
     private:
         struct Status {
@@ -41,27 +50,40 @@ class Tile
             Status();
         };
         struct Relatives {
-            optional<Tile*> north;
-            optional<Tile*> south;
-            optional<Tile*> east;
-            optional<Tile*> west;
-            optional<Tile*> top;
-            optional<Tile*> bottom;
-            optional<Tile*> left;
-            optional<Tile*> right;
-
-            Relatives();
+            QList<const Tile*> straightNeighbours;
+            QList<const Tile*> diagonalNeighbours;
         };
-        struct PathFinding {
-            int costFromOrigin;
-            int theoreticalBestDistanceToDestination;
+        /**
+         * @brief Data needed for the path finding algorithm.
+         *
+         * This data should not be used or interfered from outside the path finding algorithm. As this data does not
+         * impact the representation of the tile, it is made mutable to allow its modification even with a const
+         * reference to the tile.
+         *
+         * In a previous implementation, this data were in a different class, but the path finding algorithm was
+         * constantly allocating & deallocating memory. For performance matter, we attach it to the tile object.
+         */
+        class PathFinding {
+            friend ClosestPathFinder;
+            friend ShortestPathFinder;
+            friend Tile;
+
+            private:
+                PathFinding(const TileCoordinates& coordinates);
+                void reset(qreal initialCost = 0.0);
+                void resetWithDestination(bool allowDiagonals, const PathFinding& destination, qreal initialCost = 0.0);
+                bool isDestination() const;
+
+                const TileCoordinates& coordinates;
+                qreal costFromOrigin;
+                qreal theoreticalBestDistanceToDestination;
+                optional<Tile*> parent;
         };
 
-        QPoint coordinates;
-        QString hash;
+        TileCoordinates _coordinates;
         Status status;
-        Relatives relatives;
-        PathFinding pathFinding;
+        Relatives _relatives;
+        mutable PathFinding pathFinding;
 };
 
 #endif // TILE_HPP

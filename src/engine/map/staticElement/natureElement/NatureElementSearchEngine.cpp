@@ -1,6 +1,7 @@
 #include "NatureElementSearchEngine.hpp"
 
 #include "src/engine/map/path/PathGeneratorInterface.hpp"
+#include "src/engine/map/Tile.hpp"
 #include "src/global/geometry/TileArea.hpp"
 
 
@@ -30,7 +31,7 @@ void NatureElementSearchEngine::registerRawMaterial(const NatureElementInformati
 
 QSharedPointer<PathInterface> NatureElementSearchEngine::getPathToClosestRawMaterial(
     const NatureElementInformation& conf,
-    const TileCoordinates& origin
+    const Tile& origin
 ) const
 {
     if (!rawMaterialCoordinates.contains(&conf)) {
@@ -46,8 +47,8 @@ QSharedPointer<PathInterface> NatureElementSearchEngine::getPathToClosestRawMate
 
     return pathGenerator.generateShortestPathToClosestMatch(
         origin,
-        [&coordinatesSet](const TileCoordinates& location) {
-            return coordinatesSet.contains(location.hash());
+        [&coordinatesSet](const Tile& tile) {
+            return coordinatesSet.contains(tile.coordinates().hash());
         }
     );
 }

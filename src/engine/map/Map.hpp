@@ -5,7 +5,6 @@
 #include <QtCore/QSize>
 
 #include "src/engine/map/dynamicElement/DynamicElementRegistry.hpp"
-#include "src/engine/map/path/MapDetailsInterface.hpp"
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/staticElement/building/CivilianEntryPoint.hpp"
 #include "src/engine/map/staticElement/StaticElementRegistry.hpp"
@@ -20,7 +19,7 @@ class Tile;
 /**
  * @brief The city map.
  */
-class Map : public AbstractProcessable, public MapDetailsInterface
+class Map : public AbstractProcessable
 {
     public:
         explicit Map(
@@ -47,14 +46,12 @@ class Map : public AbstractProcessable, public MapDetailsInterface
         bool isLocationValid(const TileCoordinates& coordinates) const;
         bool isAreaValid(const TileArea& area) const;
         bool isAreaConstructible(const TileArea& area) const;
-        virtual bool isLocationTraversable(const TileCoordinates& location) const override;
-        virtual bool hasRoadAtLocation(const TileCoordinates& location) const override;
-        virtual bool canConstructRoadAtLocation(const TileCoordinates& location) const override;
 
         virtual void process(const CycleDate& date) override;
 
     private:
-        TileCoordinates getBestBuildingEntryPoint(const TileArea& area) const;
+        Tile& getBestBuildingEntryPoint(const TileArea& area) const;
+        static QHash<QString, owner<Tile*>> generateTiles(const QSize& size);
 
     private:
         const QSize size;

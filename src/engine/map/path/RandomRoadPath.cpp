@@ -3,19 +3,15 @@
 #include <QtCore/QList>
 #include <QtCore/QRandomGenerator>
 
-#include "src/engine/map/path/MapDetailsInterface.hpp"
+#include "src/engine/map/Tile.hpp"
 
 
 
-RandomRoadPath::RandomRoadPath(
-    const MapDetailsInterface& mapDetails,
-    const TileCoordinates& initialLocation,
-    const int wanderingCredits
-) :
-    mapDetails(mapDetails),
-    previousLocation(initialLocation),
-    currentLocation(initialLocation),
-    wanderingCredits(wanderingCredits)
+RandomRoadPath::RandomRoadPath(const Tile& initialLocation, const int wanderingCredits) :
+    previousTile(&initialLocation),
+    currentTile(&initialLocation),
+    wanderingCredits(wanderingCredits),
+    obsolete(false)
 {
 
 }
@@ -24,7 +20,7 @@ RandomRoadPath::RandomRoadPath(
 
 bool RandomRoadPath::isObsolete() const
 {
-    return false;
+    return obsolete;
 }
 
 
@@ -36,44 +32,43 @@ bool RandomRoadPath::isCompleted() const
 
 
 
-bool RandomRoadPath::isNextTargetCoordinatesValid() const
+bool RandomRoadPath::isNextTileValid() const
 {
-    return wanderingCredits <= 0;
+    return !obsolete && wanderingCredits <= 0;
 }
 
 
 
-TileCoordinates RandomRoadPath::getNextValidTargetCoordinates()
+const Tile& RandomRoadPath::getNextTile()
 {
-    auto nextLocation(getNextRandomCoordinates());
+    auto nextTile(getNextRandomTile());
 
-    previousLocation = currentLocation;
-    currentLocation = nextLocation;
-    --wanderingCredits;
+    previousTile = currentTile;
+    if (!nextTile) {
+        obsolete = true;
+    }
+    else {
+        currentTile = nextTile;
+        --wanderingCredits;
+    }
 
-    return currentLocation;
+    return *currentTile;
 }
 
 
 
-TileCoordinates RandomRoadPath::getNextRandomCoordinates() const
+optional<const Tile*> RandomRoadPath::getNextRandomTile() const
 {
-    QList<TileCoordinates> neighbours({
-        { currentLocation.x(), currentLocation.y() - 1 }, // North
-        { currentLocation.x(), currentLocation.y() + 1 }, // South
-        { currentLocation.x() + 1, currentLocation.y() }, // East
-        { currentLocation.x() - 1, currentLocation.y() }, // West
-    });
-    QList<TileCoordinates> roadNeighbours;
-    for (auto neighbour : neighbours) {
-        if (mapDetails.hasRoadAtLocation(neighbour)) {
+    QList<const Tile*> roadNeighbours;
+    for (auto neighbour : currentTile->relatives().straightNeighbours) {
+        if (neighbour->isRoad()) {
             roadNeighbours.append(neighbour);
         }
     }
 
     if (roadNeighbours.size() == 0) {
         // Character is on a single road tile.
-        return currentLocation;
+        return nullptr;
     }
     if (roadNeighbours.size() == 1) {
         // Dead end, must go back.
@@ -81,8 +76,8 @@ TileCoordinates RandomRoadPath::getNextRandomCoordinates() const
     }
 
     // We remove the previous node to avoid going back on a bifurcation.
-    if (previousLocation != currentLocation) {
-        roadNeighbours.removeOne(previousLocation);
+    if (previousTile != currentTile) {
+        roadNeighbours.removeOne(previousTile);
     }
 
     if (roadNeighbours.size() == 1) {

@@ -13,9 +13,9 @@ LaboratoryBuilding::LaboratoryBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) :
-    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
     characterFactory(characterFactory),
     workingCountDown(0),
     scientistGeneration(conf.getMaxWorkers(), conf.getLaboratoryConf().emittedScientist.generationInterval),
@@ -31,9 +31,9 @@ QSharedPointer<AbstractProcessableBuilding> LaboratoryBuilding::Create(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    auto laboratory(new LaboratoryBuilding(characterFactory, conf, area, orientation, entryPoint));
+    auto laboratory(new LaboratoryBuilding(characterFactory, conf, area, orientation, entryPointTile));
     QSharedPointer<AbstractProcessableBuilding> pointer(laboratory);
     laboratory->selfReference = pointer;
 

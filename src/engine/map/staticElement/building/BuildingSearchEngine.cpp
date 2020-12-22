@@ -32,7 +32,7 @@ void BuildingSearchEngine::registerStorageBuilding(const QSharedPointer<StorageB
 
 QSharedPointer<optional<AbstractProcessableBuilding>> BuildingSearchEngine::findClosestBuilding(
     const BuildingInformation& buildingConf,
-    const DynamicElementCoordinates& /*origin*/
+    const Tile& /*origin*/
 ) const {
 
     if (!buildingsPerType.contains(&buildingConf)) {
@@ -54,7 +54,7 @@ QSharedPointer<optional<AbstractProcessableBuilding>> BuildingSearchEngine::find
 
 QSharedPointer<optional<StorageBuilding>> BuildingSearchEngine::findClosestStorageThatCanStore(
     const ItemInformation& itemConf,
-    const DynamicElementCoordinates& /*origin*/
+    const Tile& /*origin*/
 ) const {
 
     for (auto& buildingRef : storageBuildings) {

@@ -3,7 +3,7 @@
 
 #include "src/defines.hpp"
 
-class TileCoordinates;
+class Tile;
 
 /**
  * @brief An interface representing a path that can be followed by a charater.
@@ -21,8 +21,8 @@ class PathInterface
         virtual bool isObsolete() const = 0;
         virtual bool isCompleted() const = 0;
 
-        virtual bool isNextTargetCoordinatesValid() const = 0;
-        virtual TileCoordinates getNextValidTargetCoordinates() = 0;
+        virtual bool isNextTileValid() const = 0;
+        virtual const Tile& getNextTile() = 0;
 };
 
 #endif // PATHINTERFACE_HPP

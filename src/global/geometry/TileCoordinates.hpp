@@ -24,13 +24,15 @@ class TileCoordinates
         DynamicElementCoordinates toDynamicElementCoordinates() const;
 
         // Distances.
-        int manhattanDistanceTo(const TileCoordinates& other) const;
+        qreal manhattanDistanceTo(const TileCoordinates& other) const;
         qreal chebyshevDistanceTo(const TileCoordinates& other) const;
         qreal straightDistanceTo(const TileCoordinates& other) const;
 
         // Invalid coordinates (try to see if we can avoid this).
         TileCoordinates();
         bool isValid() const;
+
+        static QString resolveHash(int x, int y);
 
     private:
         int _x;

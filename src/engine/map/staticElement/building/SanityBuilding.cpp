@@ -12,9 +12,9 @@ SanityBuilding::SanityBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) :
-    AbstractProcessableBuilding(conf, area, orientation, entryPoint),
+    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
     characterFactory(characterFactory),
     walkerGeneration(conf.getMaxWorkers(), conf.getSanityConf().walker.generationInterval),
     walker()
@@ -29,9 +29,9 @@ QSharedPointer<AbstractProcessableBuilding> SanityBuilding::Create(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const TileCoordinates& entryPoint
+    const Tile& entryPointTile
 ) {
-    auto sanity(new SanityBuilding(characterFactory, conf, area, orientation, entryPoint));
+    auto sanity(new SanityBuilding(characterFactory, conf, area, orientation, entryPointTile));
     QSharedPointer<AbstractProcessableBuilding> pointer(sanity);
     sanity->selfReference = pointer;
 

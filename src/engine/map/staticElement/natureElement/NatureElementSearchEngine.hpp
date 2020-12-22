@@ -11,8 +11,8 @@
 class NatureElementInformation;
 class PathGeneratorInterface;
 class PathInterface;
+class Tile;
 class TileArea;
-class TileCoordinates;
 
 using TileCoordinatesList = QSet<QString>;
 
@@ -29,7 +29,7 @@ class NatureElementSearchEngine
 
         QSharedPointer<PathInterface> getPathToClosestRawMaterial(
             const NatureElementInformation& conf,
-            const TileCoordinates& origin
+            const Tile& origin
         ) const;
 };
 

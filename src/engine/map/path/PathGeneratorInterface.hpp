@@ -4,11 +4,10 @@
 #include <functional>
 #include <QtCore/QSharedPointer>
 
-class DynamicElementCoordinates;
 class PathInterface;
-class TileCoordinates;
+class Tile;
 
-using TileCoordinatesMatcher = std::function<bool(const TileCoordinates&)>;
+using TileMatcher = std::function<bool(const Tile&)>;
 
 class PathGeneratorInterface
 {
@@ -19,7 +18,7 @@ class PathGeneratorInterface
          * @brief Generate a path for a wandering character.
          */
         virtual QSharedPointer<PathInterface> generateWanderingPath(
-            const TileCoordinates& origin,
+            const Tile& origin,
             const int wanderingCredits
         ) const = 0;
 
@@ -27,24 +26,16 @@ class PathGeneratorInterface
          * @brief Generate the shortest path from origin to target.
          */
         virtual QSharedPointer<PathInterface> generateShortestPathTo(
-            const TileCoordinates& origin,
-            const TileCoordinates& destination
-        ) const = 0;
-        virtual QSharedPointer<PathInterface> generateShortestPathTo(
-            const DynamicElementCoordinates& origin,
-            const TileCoordinates& destination
+            const Tile& origin,
+            const Tile& destination
         ) const = 0;
 
         /**
          * @brief Generate the shortest path from origin to target by using roads only.
          */
         virtual QSharedPointer<PathInterface> generateShortestRoadPathTo(
-            const TileCoordinates& origin,
-            const TileCoordinates& destination
-        ) const = 0;
-        virtual QSharedPointer<PathInterface> generateShortestRoadPathTo(
-            const DynamicElementCoordinates& origin,
-            const TileCoordinates& destination
+            const Tile& origin,
+            const Tile& destination
         ) const = 0;
 
         /**
@@ -53,8 +44,8 @@ class PathGeneratorInterface
          * If the `restrictedToRoads` attribute is `true` and no road path is found, then no path will be returned.
          */
         virtual QSharedPointer<PathInterface> generatePreferedShortestPathTo(
-            const TileCoordinates& origin,
-            const TileCoordinates& destination,
+            const Tile& origin,
+            const Tile& destination,
             bool restrictedToRoads
         ) const = 0;
 
@@ -62,8 +53,8 @@ class PathGeneratorInterface
          * @brief Generate shortest path to the closest location matching the given `match` criteria.
          */
         virtual QSharedPointer<PathInterface> generateShortestPathToClosestMatch(
-            const TileCoordinates& origin,
-            TileCoordinatesMatcher match
+            const Tile& origin,
+            TileMatcher match
         ) const = 0;
 };
 

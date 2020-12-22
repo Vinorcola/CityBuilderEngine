@@ -17,7 +17,7 @@ class StorageBuilding : public AbstractProcessableBuilding
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
     public:
@@ -25,7 +25,7 @@ class StorageBuilding : public AbstractProcessableBuilding
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
         int storableQuantity(const ItemInformation& itemConf, const int maxQuantity = 1) const;

@@ -23,7 +23,7 @@ class SanityBuilding : public AbstractProcessableBuilding
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
     public:
@@ -32,7 +32,7 @@ class SanityBuilding : public AbstractProcessableBuilding
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPointTile
         );
 
         virtual void process(const CycleDate& date) override;

@@ -28,8 +28,8 @@ void MinerCharacter::goHome()
     if (issuer) {
         goingHome = true;
         motionHandler.takePath(pathGenerator.generateShortestPathTo(
-            motionHandler.getCurrentLocation(),
-            issuer->getEntryPoint()
+            motionHandler.getCurrentTile(),
+            issuer->getEntryPointTile()
         ));
     }
 }

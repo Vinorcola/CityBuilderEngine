@@ -39,11 +39,11 @@ class BuildingSearchEngine
 
         QSharedPointer<optional<AbstractProcessableBuilding>> findClosestBuilding(
             const BuildingInformation& buildingConf,
-            const DynamicElementCoordinates& origin
+            const Tile& origin
         ) const;
         QSharedPointer<optional<StorageBuilding>> findClosestStorageThatCanStore(
             const ItemInformation& itemConf,
-            const DynamicElementCoordinates& origin
+            const Tile& origin
         ) const;
 };
 

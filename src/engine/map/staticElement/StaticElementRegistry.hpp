@@ -41,7 +41,7 @@ class StaticElementRegistry : public AbstractProcessable
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
-            const TileCoordinates& entryPoint
+            const Tile& entryPoint
         );
         void generateNatureElement(const NatureElementInformation& conf, const TileArea& area);
 
