@@ -1,7 +1,6 @@
 #include "PathGenerator.hpp"
 
-#include "src/engine/map/path/algorithm/ClosestPathFinder.hpp"
-#include "src/engine/map/path/algorithm/ShortestPathFinder.hpp"
+#include "src/engine/map/path/algorithm/PathFinder.hpp"
 #include "src/engine/map/path/RandomRoadPath.hpp"
 #include "src/engine/map/path/TargetedPath.hpp"
 #include "src/global/geometry/DynamicElementCoordinates.hpp"
@@ -25,7 +24,7 @@ QSharedPointer<PathInterface> PathGenerator::generateShortestPathTo(
 
     return QSharedPointer<PathInterface>(new TargetedPath(
         false,
-        ShortestPathFinder::getShortestPath(origin, destination, false)
+        PathFinder::getShortestPath(origin, destination, false)
     ));
 }
 
@@ -38,7 +37,7 @@ QSharedPointer<PathInterface> PathGenerator::generateShortestRoadPathTo(
 
     return QSharedPointer<PathInterface>(new TargetedPath(
         true,
-        ShortestPathFinder::getShortestPath(origin, destination, true)
+        PathFinder::getShortestPath(origin, destination, true)
     ));
 }
 
@@ -69,7 +68,7 @@ QSharedPointer<PathInterface> PathGenerator::generateShortestPathToClosestMatch(
     TileMatcher match
 ) const {
 
-    auto path(ClosestPathFinder::getShortestPathToClosestMatch(origin, match));
+    auto path(PathFinder::getShortestPathToClosestMatch(origin, match));
     if (path.isEmpty()) {
         return nullptr;
     }
@@ -84,5 +83,5 @@ QList<const Tile*> PathGenerator::generateShortestPathForRoad(
     const Tile& destination
 ) const {
 
-    return ShortestPathFinder::getShortestRoadablePath(origin, destination);
+    return PathFinder::getShortestRoadablePath(origin, destination);
 }

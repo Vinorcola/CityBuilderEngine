@@ -11,7 +11,7 @@
 class BuildingInformation;
 class ClosestPathFinder;
 class NatureElementInformation;
-class ShortestPathFinder;
+class PathFinder;
 
 class Tile
 {
@@ -64,8 +64,7 @@ class Tile
          * constantly allocating & deallocating memory. For performance matter, we attach it to the tile object.
          */
         class PathFinding {
-            friend ClosestPathFinder;
-            friend ShortestPathFinder;
+            friend PathFinder;
             friend Tile;
 
             private:
