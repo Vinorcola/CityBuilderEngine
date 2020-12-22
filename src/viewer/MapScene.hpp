@@ -5,29 +5,22 @@
 #include <QtCore/QHash>
 #include <QtWidgets/QGraphicsScene>
 
-#include "src/engine/map/MapCoordinates.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 #include "src/global/Direction.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/Positioning.hpp"
 #include "src/defines.hpp"
 
-class AbstractBuilding;
 class AreaCheckerInterface;
 class BuildingInformation;
 class BuildingView;
-class Character;
 class CharacterView;
 class Conf;
 class ConstructionCursor;
 class DialogDisplayer;
-class DynamicElement;
-class Map;
-class MapSize;
-class NatureElement;
 class RoadPathGeneratorInterface;
-class SelectionElement;
-class Tile;
+class TileView;
 struct BuildingState;
 struct CharacterState;
 struct MapState;
@@ -47,13 +40,13 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         ImageLibrary imageLibrary;
         Positioning positioning;
         DialogDisplayer& dialogDisplayer;
-        QHash<QString, owner<Tile*>> tiles;
+        QHash<QString, owner<TileView*>> tiles;
         QHash<qintptr, owner<BuildingView*>> buildings;
         QHash<qintptr, owner<CharacterView*>> characters;
         QHash<QString, BuildingView*> buildingLocationCache; ///< A cache where key is a MapCoordinates has value.
         optional<owner<ConstructionCursor*>> selectionElement;
         QBasicTimer animationClock;
-        MapCoordinates currentTileLocation;
+        TileCoordinates currentTileLocation;
 
     public:
         MapScene(
@@ -66,7 +59,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
         );
         ~MapScene();
 
-        virtual Tile& getTileAt(const MapCoordinates& location) const override;
+        virtual TileView& getTileAt(const TileCoordinates& location) const override;
 
     public slots:
         /**
@@ -99,7 +92,7 @@ class MapScene : public QGraphicsScene, public TileLocatorInterface
          */
         void buildingCreationRequested(
             const BuildingInformation& elementConf,
-            MapCoordinates leftCorner,
+            TileCoordinates leftCorner,
             Direction orientation
         );
 

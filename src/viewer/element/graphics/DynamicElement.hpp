@@ -4,8 +4,8 @@
 #include <QtWidgets/QGraphicsItem>
 #include <QtWidgets/QGraphicsPixmapItem>
 
+class DynamicElementCoordinates;
 class Image;
-class MapCoordinates;
 class Positioning;
 
 class DynamicElement : public QGraphicsItem
@@ -14,10 +14,13 @@ class DynamicElement : public QGraphicsItem
         QGraphicsPixmapItem imageItem;
 
     public:
-        DynamicElement(const Positioning& positioning, const Image& elementImage, const MapCoordinates& location);
+        DynamicElement(
+            const Positioning& positioning,
+            const Image& elementImage,
+            const DynamicElementCoordinates& location
+        );
 
         void setImage(const Image& image);
-
         void updateLocation(const QPointF& positionOnTile);
 
         virtual QRectF boundingRect() const override;

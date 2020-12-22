@@ -4,7 +4,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QWidget>
 
-#include "src/engine/state/CityState.hpp"
+#include "src/global/state/CityState.hpp"
 
 class InformationWidget : public QWidget
 {

@@ -4,8 +4,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
-#include "src/engine/state/CityState.hpp"
-#include "src/engine/state/State.hpp"
+#include "src/global/state/CityState.hpp"
+#include "src/global/state/State.hpp"
 #include "src/viewer/construction/AreaCheckerInterface.hpp"
 #include "src/viewer/construction/RoadPathGeneratorInterface.hpp"
 #include "src/defines.hpp"
@@ -13,9 +13,9 @@
 class BuildingInformation;
 class City;
 class Conf;
-class MapArea;
-class MapState;
 class QSize;
+class TileArea;
+struct MapState;
 
 class Engine : public QObject, public AreaCheckerInterface, public RoadPathGeneratorInterface
 {
@@ -31,13 +31,13 @@ class Engine : public QObject, public AreaCheckerInterface, public RoadPathGener
 
         void loadCity(const QString& cityFilePath);
 
-        const MapState& getMapState() const;
+        MapState getMapState() const;
         State getCurrentState() const;
 
-        virtual bool isConstructible(const MapArea& area) const override;
-        virtual QList<MapCoordinates> getShortestPathForRoad(
-            const MapCoordinates& origin,
-            const MapCoordinates& target
+        virtual bool isConstructible(const TileArea& area) const override;
+        virtual QList<TileCoordinates> getShortestPathForRoad(
+            const TileCoordinates& origin,
+            const TileCoordinates& target
         ) const override;
 
     public slots:
@@ -71,7 +71,7 @@ class Engine : public QObject, public AreaCheckerInterface, public RoadPathGener
          * @param orientation The orientation of the building.
          * @throw UnexpectedException Try to create a static element of type None.
          */
-        void createBuilding(const BuildingInformation& type, const MapCoordinates& leftCorner, Direction orientation);
+        void createBuilding(const BuildingInformation& type, const TileCoordinates& leftCorner, Direction orientation);
 
     signals:
         void stateUpdated(State);

@@ -133,7 +133,7 @@ class BuildingInformation
         Type getType() const;
         const QString& getTitle() const;
         const BuildingAreaInformation& getAreaDescription() const;
-        MapSize getSize(Direction orientation) const;
+        TileAreaSize getSize(Direction orientation) const;
         int getMaxWorkers() const;
 
         // Graphics information.

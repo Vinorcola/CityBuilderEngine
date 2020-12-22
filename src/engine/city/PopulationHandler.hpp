@@ -5,6 +5,7 @@
 #include <QtCore/QSharedPointer>
 
 #include "src/engine/city/PopulationRegistryInterface.hpp"
+#include "src/engine/city/WorkingPlaceRegistryInterface.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
 
 class AbstractProcessableBuilding;
@@ -12,7 +13,7 @@ class AbstractProcessableBuilding;
 /**
  * @brief Handles the population and the worker distribution.
  */
-class PopulationHandler : public AbstractProcessable, public PopulationRegistryInterface
+class PopulationHandler : public AbstractProcessable, public PopulationRegistryInterface, public WorkingPlaceRegistryInterface
 {
     private:
         int previousPopulation;
@@ -28,8 +29,8 @@ class PopulationHandler : public AbstractProcessable, public PopulationRegistryI
         virtual void registerPopulation(int quantity) override;
         virtual void unregisterPopulation(int quantity) override;
 
-        void registerWorkingPlace(const QSharedPointer<AbstractProcessableBuilding>& building);
-        void unregisterWorkingPlace(const QSharedPointer<AbstractProcessableBuilding>& building);
+        virtual void registerWorkingPlace(const QSharedPointer<AbstractProcessableBuilding>& building) override;
+        virtual void unregisterWorkingPlace(const QSharedPointer<AbstractProcessableBuilding>& building) override;
 
         virtual void process(const CycleDate& date) override;
 

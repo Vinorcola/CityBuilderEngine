@@ -4,7 +4,6 @@
 
 #include "src/engine/city/City.hpp"
 #include "src/engine/loader/CityLoader.hpp"
-#include "src/engine/state/State.hpp"
 
 
 
@@ -42,7 +41,7 @@ void Engine::loadCity(const QString& cityFilePath)
 
 
 
-const MapState& Engine::getMapState() const
+MapState Engine::getMapState() const
 {
     assert(city != nullptr);
 
@@ -65,7 +64,7 @@ State Engine::getCurrentState() const
 
 
 
-bool Engine::isConstructible(const MapArea& area) const
+bool Engine::isConstructible(const TileArea& area) const
 {
     assert(city != nullptr);
 
@@ -74,7 +73,7 @@ bool Engine::isConstructible(const MapArea& area) const
 
 
 
-QList<MapCoordinates> Engine::getShortestPathForRoad(const MapCoordinates& origin, const MapCoordinates& target) const
+QList<TileCoordinates> Engine::getShortestPathForRoad(const TileCoordinates& origin, const TileCoordinates& target) const
 {
     assert(city != nullptr);
 
@@ -119,7 +118,7 @@ void Engine::forceNextProcess()
 
 
 
-void Engine::createBuilding(const BuildingInformation& type, const MapCoordinates& leftCorner, Direction orientation)
+void Engine::createBuilding(const BuildingInformation& type, const TileCoordinates& leftCorner, Direction orientation)
 {
     assert(city != nullptr);
 

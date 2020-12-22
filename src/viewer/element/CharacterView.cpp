@@ -1,12 +1,12 @@
 #include "CharacterView.hpp"
 
-#include "src/engine/state/CharacterState.hpp"
+#include "src/global/state/CharacterState.hpp"
 #include "src/viewer/element/graphics/DynamicElement.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/Positioning.hpp"
-#include "src/viewer/Tile.hpp"
+#include "src/viewer/TileView.hpp"
 
 
 
@@ -18,7 +18,7 @@ CharacterView::CharacterView(
 ) :
     positioning(positioning),
     tileLocator(tileLocator),
-    currentTile(&tileLocator.getTileAt(state.position)),
+    currentTile(&tileLocator.getTileAt(state.position.associatedTileCoordinates())),
     image(imageLibrary.getCharacterImage(state.type)),
     graphicElement(new DynamicElement(
         positioning,
@@ -60,10 +60,10 @@ void CharacterView::destroy()
 
 
 
-void CharacterView::move(const MapCoordinates& newLocation)
+void CharacterView::move(const DynamicElementCoordinates& newLocation)
 {
-    auto& previousTileLocation(currentTile->getCoordinates());
-    auto newTileLocation(newLocation.getRounded());
+    auto& previousTileLocation(currentTile->coordinates());
+    auto newTileLocation(newLocation.associatedTileCoordinates());
 
     if (newTileLocation != previousTileLocation) {
         // Move character to another tile.

@@ -114,17 +114,6 @@ QString ModelReader::getOptionalString(const char key[], const QString& defaultV
 
 
 
-MapCoordinates ModelReader::getMapCoordinates(const char key[]) const
-{
-    if (!node[key]) {
-        throw BadConfigurationException(generateErrorMessage(key, "some map coordinates"));
-    }
-
-    return node[key].as<MapCoordinates>();
-}
-
-
-
 QPoint ModelReader::getPoint(const char key[]) const
 {
     if (!node[key]) {

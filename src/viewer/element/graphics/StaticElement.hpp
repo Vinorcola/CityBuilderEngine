@@ -6,8 +6,8 @@
 #include "src/defines.hpp"
 
 class Image;
-class MapSize;
 class Positioning;
+class TileAreaSize;
 
 class StaticElement : public QGraphicsPixmapItem
 {
@@ -16,12 +16,12 @@ class StaticElement : public QGraphicsPixmapItem
         optional<QGraphicsPixmapItem*> animationItem;
 
     public:
-        StaticElement(const Positioning& positioning, const MapSize& elementSize, const Image& elementImage);
+        StaticElement(const Positioning& positioning, const TileAreaSize& elementSize, const Image& elementImage);
 
         void setAnimationImage(const Image& image);
         void dropAnimationImage();
 
-        virtual QPainterPath shape() const;
+        virtual QPainterPath shape() const override;
 };
 
 #endif // STATICELEMENT_HPP

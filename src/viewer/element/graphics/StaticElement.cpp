@@ -1,12 +1,15 @@
 #include "StaticElement.hpp"
 
-#include "src/engine/map/MapSize.hpp"
 #include "src/viewer/image/Image.hpp"
 #include "src/viewer/Positioning.hpp"
 
 
 
-StaticElement::StaticElement(const Positioning& positioning, const MapSize& elementSize, const Image& elementImage) :
+StaticElement::StaticElement(
+    const Positioning& positioning,
+    const TileAreaSize& elementSize,
+    const Image& elementImage
+) :
     QGraphicsPixmapItem(elementImage.getPixmap()),
     shapePath(positioning.getTileAreaPainterPath(elementSize)),
     animationItem(nullptr)

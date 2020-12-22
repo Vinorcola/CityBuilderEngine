@@ -2,9 +2,10 @@
 #define BUILDINGAREAINFORMATION_HPP
 
 #include <QtCore/QHash>
+#include <QtCore/QPoint>
 
-#include "src/engine/map/MapCoordinates.hpp"
-#include "src/engine/map/MapSize.hpp"
+#include "src/global/geometry/TileAreaSize.hpp"
+#include "src/global/geometry/TileCoordinates.hpp"
 #include "src/global/BuildingStatus.hpp"
 #include "src/global/Direction.hpp"
 #include "src/defines.hpp"
@@ -41,14 +42,14 @@ class BuildingAreaInformation
 
         struct AreaPart {
             QPoint position;
-            MapSize size;
+            TileAreaSize size;
             Type type;
             int altitude;
             Graphics graphics;
 
             AreaPart(
                 const QPoint& position,
-                const MapSize& size,
+                const TileAreaSize& size,
                 const QString& graphicsBasePath,
                 YAML::Node manifestNode,
                 Type type = Type::Classic,
@@ -57,7 +58,7 @@ class BuildingAreaInformation
         };
 
     private:
-        QHash<Direction, MapSize> sizes;
+        QHash<Direction, owner<TileAreaSize*>> sizes;////< Note: We have to use pointers because QHash require an emtpy constructor.
         QHash<Direction, QList<owner<const AreaPart*>>> area;
 
     public:
@@ -67,10 +68,10 @@ class BuildingAreaInformation
         QList<Direction> getAvailableOrientations() const;
         QList<const AreaPart*> getAreaParts(Direction orientation) const;
 
-        MapSize getSize(Direction orientation) const;
+        TileAreaSize getSize(Direction orientation) const;
 
     private:
-        static MapSize resolveSize(const QList<const AreaPart*>& areaParts);
+        static owner<TileAreaSize*> resolveSize(const QList<const AreaPart*>& areaParts);
 };
 
 #endif // BUILDINGAREAINFORMATION_HPP

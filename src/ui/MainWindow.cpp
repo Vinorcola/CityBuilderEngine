@@ -8,6 +8,7 @@
 
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/Conf.hpp"
+#include "src/global/state/MapState.hpp"
 #include "src/ui/controlPanel/ControlPanel.hpp"
 #include "src/ui/InformationWidget.hpp"
 #include "src/viewer/MapScene.hpp"

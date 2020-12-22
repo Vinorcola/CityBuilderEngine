@@ -2,27 +2,27 @@
 
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 
-#include "src/engine/state/MapState.hpp"
-#include "src/engine/state/State.hpp"
-#include "src/engine/processing/TimeCycleProcessor.hpp"
-#include "src/engine/state/NatureElementState.hpp"
 #include "src/exceptions/OutOfRangeException.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/CharacterInformation.hpp"
 #include "src/global/conf/Conf.hpp"
 #include "src/global/conf/NatureElementInformation.hpp"
+#include "src/global/geometry/TileAreaSize.hpp"
+#include "src/global/state/MapState.hpp"
+#include "src/global/state/NatureElementState.hpp"
+#include "src/global/state/State.hpp"
 #include "src/ui/BuildingDetailsDialog.hpp"
 #include "src/ui/DialogDisplayer.hpp"
 #include "src/viewer/construction/ConstructionCursor.hpp"
 #include "src/viewer/element/graphics/DynamicElement.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
-#include "src/viewer/element/CharacterView.hpp"
 #include "src/viewer/element/BuildingView.hpp"
+#include "src/viewer/element/CharacterView.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/CharacterImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/image/NatureElementImage.hpp"
-#include "src/viewer/Tile.hpp"
+#include "src/viewer/TileView.hpp"
 
 
 
@@ -46,7 +46,7 @@ MapScene::MapScene(
     buildingLocationCache(),
     selectionElement(nullptr),
     animationClock(),
-    currentTileLocation()
+    currentTileLocation(0, 0)
 {
     setBackgroundBrush(QBrush(Qt::black));
 
@@ -63,15 +63,15 @@ MapScene::MapScene(
         // to 0 insted of -1.
         int adjust(line > mapState.size.width() ? 1 : 2);
         while (column < (mapState.size.width() - line + adjust) / 2) {
-            MapCoordinates coordinates(column, line + column);
-            auto tile(new Tile(
+            TileCoordinates coordinates(column, line + column);
+            auto tile(new TileView(
                 positioning,
                 coordinates,
-                *new StaticElement(positioning, MapSize(), grassImage.getImage())
+                *new StaticElement(positioning, TileAreaSize(1), grassImage.getImage())
             ));
 
             addItem(tile);
-            tiles.insert(coordinates.getHash(), tile);
+            tiles.insert(coordinates.hash(), tile);
 
             ++column;
         }
@@ -104,15 +104,13 @@ MapScene::~MapScene()
 
 
 
-Tile& MapScene::getTileAt(const MapCoordinates& location) const
+TileView& MapScene::getTileAt(const TileCoordinates& location) const
 {
-    for (auto tile : tiles) {
-        if (tile->getCoordinates() == location) {
-            return *tile;
-        }
+    if (!tiles.contains(location.hash())) {
+        throw OutOfRangeException("Unable to find tile located at " + location.hash());
     }
 
-    throw OutOfRangeException("Unable to find tile located at " + location.toString());
+    return *tiles.value(location.hash());
 }
 
 
@@ -137,7 +135,7 @@ void MapScene::requestBuildingPositioning(const BuildingInformation& elementConf
     connect(
         selectionElement,
         &ConstructionCursor::construct,
-        [this](const BuildingInformation& buildingConf, QList<MapCoordinates> locations, Direction direction) {
+        [this](const BuildingInformation& buildingConf, QList<TileCoordinates> locations, Direction direction) {
             for (auto location : locations) {
                 emit buildingCreationRequested(buildingConf, location, direction);
             }
@@ -161,7 +159,7 @@ void MapScene::registerNewBuilding(const BuildingState& buildingState)
     auto buildingView(new BuildingView(positioning, *this, imageLibrary, buildingState));
     buildings.insert(buildingState.id, buildingView);
     for (auto coordinates : buildingState.area) {
-        buildingLocationCache.insert(coordinates.getHash(), buildingView);
+        buildingLocationCache.insert(coordinates.hash(), buildingView);
     }
     if (selectionElement) {
         selectionElement->refresh();
@@ -182,12 +180,12 @@ void MapScene::registerNewCharacter(const CharacterState& characterState)
 
 void MapScene::registerNewNatureElement(const NatureElementState& natureElementState)
 {
-    auto& tile(getTileAt(natureElementState.area.getLeft()));
+    auto& tile(getTileAt(natureElementState.area.leftCorner()));
     auto& natureElementImage(imageLibrary.getNatureElementImage(natureElementState.type));
 
     tile.setStaticElement(new StaticElement(
         positioning,
-        natureElementState.area.getSize(),
+        natureElementState.area.size(),
         natureElementImage.getImage()
     ));
     // TODO: Deletion of nature elements is not handled. We should handle it the same way as buildings since the player
@@ -250,7 +248,7 @@ void MapScene::timerEvent(QTimerEvent* /*event*/)
 void MapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     if (!selectionElement && event->button() == Qt::RightButton) {
-        auto buildingView(buildingLocationCache.value(currentTileLocation.getHash()));
+        auto buildingView(buildingLocationCache.value(currentTileLocation.hash()));
         if (buildingView && buildingView->getCurrentState().type.getType() != BuildingInformation::Type::Road) {
             displayBuildingDetailsDialog(buildingView->getCurrentState());
             return;
@@ -264,7 +262,7 @@ void MapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    auto newMapCoordinates(positioning.getMapCoordinatesFromMouseCoordinates(event->scenePos()));
+    auto newMapCoordinates(positioning.getTileCoordinatesFromMouseCoordinates(event->scenePos()));
     if (newMapCoordinates != currentTileLocation) {
         currentTileLocation = newMapCoordinates;
         if (selectionElement) {

@@ -6,42 +6,21 @@
 
 
 
-City::State::State(const QString& title, int initialBudget) :
-    title(title),
-    budget(initialBudget)
-{
-
-}
-
-
-
 City::City(const Conf& conf, CityLoader& loader) :
-    map(loader.getMapSize()),
+    TITLE(loader.getTitle()),
+    processor(loader.getStartDate()),
     population(),
-    processor(population, loader.getStartDate()),
-    staticElements(
-        population,
-        processor,
-        map,
-        dynamicElements,
-        conf,
-        loader.getMapEntryPoint()
-    ),
-    dynamicElements(
-        processor,
-        staticElements.getPathGenerator(),
-        staticElements.getBuildingSearchEngine()
-    ),
-    currentState(loader.getTitle(), loader.getInitialBudget())
+    map(conf, loader, population, population),
+    budget(loader.getInitialBudget())
 {
     // Load nature elements.
     for (const auto& natureElementInfo : loader.getInitialNatureElements()) {
         auto& natureElementConf(conf.getNatureElementConf(natureElementInfo.type));
-        staticElements.createNatureElement(
+        map.createNatureElement(
             natureElementConf,
-            MapArea(
+            TileArea(
                 natureElementInfo.location,
-                MapSize(1) // For now, only single tile nature elements are supported.
+                TileAreaSize(1) // For now, only single tile nature elements are supported.
             )
         );
     }
@@ -49,12 +28,15 @@ City::City(const Conf& conf, CityLoader& loader) :
     // Load buildings.
     for (const auto& buildingInfo : loader.getInitialBuildings()) {
         auto& buildingConf(conf.getBuildingConf(buildingInfo.type));
-        staticElements.createBuilding(
+        map.createBuilding(
             buildingConf,
             buildingInfo.location,
             Direction::West // TODO: Set direction in YAML file.
         );
     }
+
+    processor.registerProcessable(map);
+    processor.registerProcessable(population);
 }
 
 
@@ -66,28 +48,28 @@ TimeCycleProcessor& City::getProcessor()
 
 
 
-void City::createBuilding(const BuildingInformation& conf, const MapCoordinates& leftCorner, Direction orientation)
+void City::createBuilding(const BuildingInformation& conf, const TileCoordinates& leftCorner, Direction orientation)
 {
-    staticElements.createBuilding(conf, leftCorner, orientation);
+    map.createBuilding(conf, leftCorner, orientation);
 }
 
 
 
-bool City::isAreaConstructible(const MapArea& area) const
+bool City::isAreaConstructible(const TileArea& area) const
 {
-    return staticElements.isAreaConstructible(area);
+    return map.isAreaConstructible(area);
 }
 
 
 
-QList<MapCoordinates> City::getShortestPathForRoad(const MapCoordinates& origin, const MapCoordinates& target) const
+QList<TileCoordinates> City::getShortestPathForRoad(const TileCoordinates& origin, const TileCoordinates& target) const
 {
-    return staticElements.getPathGenerator().generateShortestPathForRoad(origin, target);
+    return map.getShortestPathForRoad(origin, target);
 }
 
 
 
-const MapState& City::getMapState() const
+MapState City::getMapState() const
 {
     return map.getState();
 }
@@ -99,7 +81,7 @@ CityState City::getCurrentState() const
     auto& date(processor.getCurrentDate());
 
     return {
-        currentState.budget,
+        budget,
         population.getCurrentPopulation(),
         { date.getYear(), date.getMonth() },
     };
@@ -109,19 +91,19 @@ CityState City::getCurrentState() const
 
 QList<BuildingState> City::getBuildingsState() const
 {
-    return staticElements.getBuildingsState();
+    return map.getBuildingsState();
 }
 
 
 
 QList<NatureElementState> City::getNatureElementsState() const
 {
-    return staticElements.getNatureElementsState();
+    return map.getNatureElementsState();
 }
 
 
 
 QList<CharacterState> City::getCharactersState() const
 {
-    return dynamicElements.getCharactersState();
+    return map.getCharactersState();
 }

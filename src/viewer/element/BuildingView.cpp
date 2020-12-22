@@ -2,23 +2,24 @@
 
 #include <cassert>
 
-#include "src/engine/state/BuildingState.hpp"
 #include "src/global/conf/BuildingInformation.hpp"
+#include "src/global/geometry/TileArea.hpp"
+#include "src/global/state/BuildingState.hpp"
 #include "src/viewer/element/graphics/StaticElement.hpp"
 #include "src/viewer/element/TileLocatorInterface.hpp"
 #include "src/viewer/image/BuildingAreaPartImage.hpp"
 #include "src/viewer/image/BuildingImage.hpp"
 #include "src/viewer/image/ImageLibrary.hpp"
 #include "src/viewer/image/ImageSequence.hpp"
-#include "src/viewer/Tile.hpp"
+#include "src/viewer/TileView.hpp"
 
 
 
 BuildingView::AreaPart::AreaPart(
     const Positioning& positioning,
     const TileLocatorInterface& tileLocator,
-    const MapCoordinates& leftCorner,
-    const MapSize& size,
+    const TileCoordinates& leftCorner,
+    const TileAreaSize& size,
     const BuildingAreaPartImage& image
 ) :
     tileLocator(tileLocator),
@@ -74,19 +75,12 @@ void BuildingView::AreaPart::updateStatus(BuildingStatus status)
 
 void BuildingView::AreaPart::maskCoveredTiles()
 {
-    if (size.getWidth() > 1) {
-        MapArea area(tile.getCoordinates(), size);
-        auto left(area.getLeft());
-        auto right(area.getRight());
-        auto current(left.getEast());
-
-        while (current.getY() <= right.getY()) {
-            while (current.getX() <= right.getX()) {
-                tileLocator.getTileAt(current).setVisible(false);
-                current = current.getEast();
-            }
-            current.setX(left.getX());
-            current = current.getSouth();
+    if (size.width() > 1) {
+        TileArea area(tile.coordinates(), size);
+        auto iterator(area.beginAfterLeftCorner()), end(area.end());
+        while (iterator != end) {
+            tileLocator.getTileAt(*iterator).setVisible(false);
+            ++iterator;
         }
     }
 }
@@ -95,19 +89,12 @@ void BuildingView::AreaPart::maskCoveredTiles()
 
 void BuildingView::AreaPart::revealCoveredTiles()
 {
-    if (size.getWidth() > 1) {
-        MapArea area(tile.getCoordinates(), size);
-        auto left(area.getLeft());
-        auto right(area.getRight());
-        auto current(left.getEast());
-
-        while (current.getY() <= right.getY()) {
-            while (current.getX() <= right.getX()) {
-                tileLocator.getTileAt(current).setVisible(true);
-                current = current.getEast();
-            }
-            current.setX(left.getX());
-            current = current.getSouth();
+    if (size.width() > 1) {
+        TileArea area(tile.coordinates(), size);
+        auto iterator(area.beginAfterLeftCorner()), end(area.end());
+        while (iterator != end) {
+            tileLocator.getTileAt(*iterator).setVisible(true);
+            ++iterator;
         }
     }
 }
@@ -129,7 +116,7 @@ BuildingView::BuildingView(
         areaParts.append(new AreaPart(
             positioning,
             tileLocator,
-            { state.area.getLeft(), areaPartConf->position },
+            { state.area.leftCorner(), areaPartConf->position },
             areaPartConf->size,
             buildingImage.getAreaPartImage(state.orientation, areaPartIndex)
         ));

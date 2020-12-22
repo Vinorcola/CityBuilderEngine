@@ -19,7 +19,7 @@ BuildingAreaInformation::Graphics::~Graphics()
 
 BuildingAreaInformation::AreaPart::AreaPart(
     const QPoint& position,
-    const MapSize& size,
+    const TileAreaSize& size,
     const QString& graphicsBasePath,
     YAML::Node imageNode,
     BuildingAreaInformation::Type type,
@@ -69,11 +69,11 @@ BuildingAreaInformation::BuildingAreaInformation(const QString& configDirectoryP
         QList<const AreaPart*> areaParts;
         areaParts.append(new AreaPart(
             {0, 0},
-            MapSize(model.getInt("size")),
+            TileAreaSize(model.getInt("size")),
             graphicsBasePath,
             graphicsManifestRootNode["building"]
         ));
-        sizes.insert(Direction::West, MapSize(model.getInt("size")));
+        sizes.insert(Direction::West, new TileAreaSize(model.getInt("size")));
         area.insert(Direction::West, areaParts);
     }
     else {
@@ -85,7 +85,7 @@ BuildingAreaInformation::BuildingAreaInformation(const QString& configDirectoryP
                 auto index(areaParts.length());
                 areaParts.append(new AreaPart(
                     partModel["position"].as<QPoint>(),
-                    MapSize(partModel["size"].as<int>()),
+                    TileAreaSize(partModel["size"].as<int>()),
                     graphicsBasePath,
                     graphicsManifestRootNode["building"][index]
                 ));
@@ -102,7 +102,7 @@ BuildingAreaInformation::BuildingAreaInformation(const QString& configDirectoryP
                     auto index(areaParts.length());
                     areaParts.append(new AreaPart(
                         partModel["position"].as<QPoint>(),
-                        MapSize(partModel["size"].as<int>()),
+                        TileAreaSize(partModel["size"].as<int>()),
                         graphicsBasePath,
                         graphicsManifestRootNode["building"][orientationKey][index]
                     ));
@@ -118,6 +118,7 @@ BuildingAreaInformation::BuildingAreaInformation(const QString& configDirectoryP
 
 BuildingAreaInformation::~BuildingAreaInformation()
 {
+    qDeleteAll(sizes);
     for (auto& areaParts : area) {
         qDeleteAll(areaParts);
     }
@@ -139,28 +140,28 @@ QList<const BuildingAreaInformation::AreaPart*> BuildingAreaInformation::getArea
 
 
 
-MapSize BuildingAreaInformation::getSize(Direction orientation) const
+TileAreaSize BuildingAreaInformation::getSize(Direction orientation) const
 {
-    return sizes.value(orientation);
+    return *sizes.value(orientation);
 }
 
 
 
-MapSize BuildingAreaInformation::resolveSize(const QList<const BuildingAreaInformation::AreaPart*>& areaParts)
+owner<TileAreaSize*> BuildingAreaInformation::resolveSize(const QList<const BuildingAreaInformation::AreaPart*>& areaParts)
 {
     int maxX(0);
     int maxY(0);
 
     for (auto areaPart : areaParts) {
-        int x(areaPart->position.x() + areaPart->size.getWidth());
+        int x(areaPart->position.x() + areaPart->size.width());
         if (x > maxX) {
             maxX = x;
         }
-        int y(areaPart->position.y() + areaPart->size.getHeight());
+        int y(areaPart->position.y() + areaPart->size.height());
         if (y > maxY) {
             maxY = y;
         }
     }
 
-    return MapSize(maxX, maxY);
+    return new TileAreaSize(maxX, maxY);
 }

@@ -3,17 +3,16 @@
 
 #include <QtCore/QList>
 
-#include "src/engine/element/static/path/PathInterface.hpp"
-#include "src/engine/map/MapCoordinates.hpp"
+class TileCoordinates;
 
 class RoadPathGeneratorInterface
 {
     public:
         virtual ~RoadPathGeneratorInterface() {};
 
-        virtual QList<MapCoordinates> getShortestPathForRoad(
-            const MapCoordinates& origin,
-            const MapCoordinates& target
+        virtual QList<TileCoordinates> getShortestPathForRoad(
+            const TileCoordinates& origin,
+            const TileCoordinates& target
         ) const = 0;
 };
 

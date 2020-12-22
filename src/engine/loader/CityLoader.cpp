@@ -10,7 +10,7 @@
 
 CityLoader::Building::Building(YAML::Node node) :
     type(node["type"].as<QString>()),
-    location(node["position"].as<MapCoordinates>())
+    location(node["position"]["x"].as<int>(), node["position"]["y"].as<int>())
 {
 
 }
@@ -19,7 +19,7 @@ CityLoader::Building::Building(YAML::Node node) :
 
 CityLoader::NatureElement::NatureElement(YAML::Node node) :
     type(node["type"].as<QString>()),
-    location(node["position"].as<MapCoordinates>())
+    location(node["position"]["x"].as<int>(), node["position"]["y"].as<int>())
 {
 
 }
@@ -66,9 +66,12 @@ QSize CityLoader::getMapSize() const
 
 
 
-MapCoordinates CityLoader::getMapEntryPoint() const
+TileCoordinates CityLoader::getMapEntryPoint() const
 {
-    return rootNode["map"]["entryPoint"].as<MapCoordinates>();
+    return {
+        rootNode["map"]["entryPoint"]["x"].as<int>(),
+        rootNode["map"]["entryPoint"]["y"].as<int>(),
+    };
 }
 
 
