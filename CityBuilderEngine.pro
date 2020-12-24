@@ -29,10 +29,12 @@ SOURCES += \
     src/engine/map/staticElement/building/behavior/WalkerGenerationBehavior.cpp \
     src/engine/map/staticElement/building/AbstractBuilding.cpp \
     src/engine/map/staticElement/building/AbstractProcessableBuilding.cpp \
+    src/engine/map/staticElement/building/AbstractStoringBuilding.cpp \
     src/engine/map/staticElement/building/BuildingSearchEngine.cpp \
     src/engine/map/staticElement/building/CivilianEntryPoint.cpp \
     src/engine/map/staticElement/building/FarmBuilding.cpp \
     src/engine/map/staticElement/building/HouseBuilding.cpp \
+    src/engine/map/staticElement/building/IndustrialBuilding.cpp \
     src/engine/map/staticElement/building/LaboratoryBuilding.cpp \
     src/engine/map/staticElement/building/ProducerBuilding.cpp \
     src/engine/map/staticElement/building/Road.cpp \
@@ -120,11 +122,13 @@ HEADERS += \
     src/engine/map/staticElement/building/behavior/WalkerGenerationBehavior.hpp \
     src/engine/map/staticElement/building/AbstractBuilding.hpp \
     src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp \
+    src/engine/map/staticElement/building/AbstractStoringBuilding.hpp \
     src/engine/map/staticElement/building/BuildingSearchEngine.hpp \
     src/engine/map/staticElement/building/CivilianEntryPoint.hpp \
     src/engine/map/staticElement/building/FarmBuilding.hpp \
     src/engine/map/staticElement/building/HouseBuilding.hpp \
     src/engine/map/staticElement/building/ImmigrantGeneratorInterface.hpp \
+    src/engine/map/staticElement/building/IndustrialBuilding.hpp \
     src/engine/map/staticElement/building/LaboratoryBuilding.hpp \
     src/engine/map/staticElement/building/ProducerBuilding.hpp \
     src/engine/map/staticElement/building/Road.hpp \

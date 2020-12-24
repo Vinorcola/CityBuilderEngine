@@ -3,6 +3,14 @@ graphics:
     tileHeight: 30
 
 buildings:
+    armory:
+        type: industrial
+        title: Armory
+        size: 2
+        rawMaterial: bronze
+        production: armor
+        productionInterval: 120
+        workers: 18
     college:
         type: school
         title: College
@@ -287,6 +295,9 @@ controlPanel:
           - title: Mint
             type: button
             building: mint
+          - title: Armory
+            type: button
+            building: armory
       - title: Storage
         type: panel
         content:

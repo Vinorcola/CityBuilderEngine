@@ -3,6 +3,7 @@
 #include "src/engine/map/staticElement/building/CivilianEntryPoint.hpp"
 #include "src/engine/map/staticElement/building/FarmBuilding.hpp"
 #include "src/engine/map/staticElement/building/HouseBuilding.hpp"
+#include "src/engine/map/staticElement/building/IndustrialBuilding.hpp"
 #include "src/engine/map/staticElement/building/LaboratoryBuilding.hpp"
 #include "src/engine/map/staticElement/building/ProducerBuilding.hpp"
 #include "src/engine/map/staticElement/building/Road.hpp"
@@ -48,6 +49,17 @@ QSharedPointer<AbstractProcessableBuilding> StaticElementFactory::generateHouse(
     const Tile& entryPointTile
 ) {
     return HouseBuilding::Create(immigrantGenerator, populationRegister, conf, area, orientation, entryPointTile);
+}
+
+
+
+QSharedPointer<AbstractStoringBuilding> StaticElementFactory::generateIndustrial(
+    const BuildingInformation& conf,
+    const TileArea& area,
+    Direction orientation,
+    const Tile& entryPointTile
+) {
+    return IndustrialBuilding::Create(characterGenerator, conf, area, orientation, entryPointTile);
 }
 
 
@@ -106,7 +118,7 @@ QSharedPointer<AbstractProcessableBuilding> StaticElementFactory::generateSchool
 
 
 
-QSharedPointer<StorageBuilding> StaticElementFactory::generateStorage(
+QSharedPointer<AbstractStoringBuilding> StaticElementFactory::generateStorage(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,

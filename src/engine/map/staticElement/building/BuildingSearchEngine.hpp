@@ -2,17 +2,16 @@
 #define BUILDINGSEARCHENGINE_HPP
 
 #include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
-#include "src/engine/map/staticElement/building/StorageBuilding.hpp"
 #include "src/defines.hpp"
 
 class AbstractProcessableBuilding;
+class AbstractStoringBuilding;
 class BuildingInformation;
 class ItemInformation;
-class StorageBuilding;
 class TileCoordinates;
 
 using BuildingList = QList<QWeakPointer<AbstractProcessableBuilding>>;
-using StorageBuildingList = QList<QWeakPointer<StorageBuilding>>;
+using StoringBuildingList = QList<QWeakPointer<AbstractStoringBuilding>>;
 
 /**
  * @brief A search engine for buildings.
@@ -29,19 +28,19 @@ class BuildingSearchEngine
 {
     private:
         QHash<const BuildingInformation*, BuildingList> buildingsPerType;
-        StorageBuildingList storageBuildings;
+        StoringBuildingList storingBuildings;
 
     public:
         BuildingSearchEngine();
 
         void registerBuilding(const QSharedPointer<AbstractProcessableBuilding>& building);
-        void registerStorageBuilding(const QSharedPointer<StorageBuilding>& building);
+        void registerStoringBuilding(const QSharedPointer<AbstractStoringBuilding>& building);
 
         QSharedPointer<optional<AbstractProcessableBuilding>> findClosestBuilding(
             const BuildingInformation& buildingConf,
             const Tile& origin
         ) const;
-        QSharedPointer<optional<StorageBuilding>> findClosestStorageThatCanStore(
+        QSharedPointer<optional<AbstractStoringBuilding>> findClosestStorageThatCanStore(
             const ItemInformation& itemConf,
             const Tile& origin
         ) const;

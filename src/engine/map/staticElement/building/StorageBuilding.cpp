@@ -14,7 +14,7 @@ StorageBuilding::StorageBuilding(
     Direction orientation,
     const Tile& entryPointTile
 ) :
-    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
+    AbstractStoringBuilding(conf, area, orientation, entryPointTile),
     stock()
 {
 
@@ -22,14 +22,14 @@ StorageBuilding::StorageBuilding(
 
 
 
-QSharedPointer<StorageBuilding> StorageBuilding::Create(
+QSharedPointer<AbstractStoringBuilding> StorageBuilding::Create(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
     const Tile& entryPointTile
 ) {
     auto storage(new StorageBuilding(conf, area, orientation, entryPointTile));
-    QSharedPointer<StorageBuilding> pointer(storage);
+    QSharedPointer<AbstractStoringBuilding> pointer(storage);
     storage->selfReference = pointer;
 
     return pointer;
@@ -37,14 +37,21 @@ QSharedPointer<StorageBuilding> StorageBuilding::Create(
 
 
 
-int StorageBuilding::storableQuantity(const ItemInformation& /*itemConf*/, const int maxQuantity) const
+bool StorageBuilding::require(const ItemInformation& /*itemConf*/) const
+{
+    return false;
+}
+
+
+
+int StorageBuilding::storableQuantity(const ItemInformation& /*itemConf*/) const
 {
     int currentStoredQuantity(0);
     for (auto itemQuantity : stock) {
         currentStoredQuantity += itemQuantity;
     }
 
-    return qMin(conf.getStorageConf().maxQuantity - currentStoredQuantity, maxQuantity);
+    return conf.getStorageConf().maxQuantity - currentStoredQuantity;
 }
 
 
@@ -58,12 +65,12 @@ void StorageBuilding::process(const CycleDate& /*date*/)
 
 bool StorageBuilding::processInteraction(const CycleDate& /*date*/, Character& actor)
 {
-    auto deliveryCharacter(dynamic_cast<DeliveryManCharacter*>(&actor));
-    if (deliveryCharacter) {
-        auto& item(deliveryCharacter->getTransportedItemConf());
-        auto quantity(storableQuantity(item, deliveryCharacter->getTransportedQuantity()));
+    auto deliveryMan(dynamic_cast<DeliveryManCharacter*>(&actor));
+    if (deliveryMan) {
+        auto& item(deliveryMan->getTransportedItemConf());
+        auto quantity(qMin(storableQuantity(item), deliveryMan->getTransportedQuantity()));
         if (quantity > 0) {
-            deliveryCharacter->unload(quantity);
+            deliveryMan->unload(quantity);
             store(item, quantity);
 
             return true;

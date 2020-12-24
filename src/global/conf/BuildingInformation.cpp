@@ -18,6 +18,7 @@ BuildingInformation::BuildingInformation(const QString& configDirectoryPath, con
     common(configDirectoryPath, model),
     farm(nullptr),
     house(nullptr),
+    industrial(nullptr),
     producer(nullptr),
     sanity(nullptr),
     school(nullptr),
@@ -35,6 +36,9 @@ BuildingInformation::~BuildingInformation()
     }
     if (house) {
         delete house;
+    }
+    if (industrial) {
+        delete industrial;
     }
     if (laboratory) {
         delete laboratory;
@@ -126,6 +130,17 @@ const BuildingInformation::House& BuildingInformation::getHouseConf() const
 
 
 
+const BuildingInformation::Industrial& BuildingInformation::getIndustrialConf() const
+{
+    if (industrial == nullptr) {
+        throw UnexpectedException("This building conf does not have industrial information.");
+    }
+
+    return *industrial;
+}
+
+
+
 const BuildingInformation::Laboratory& BuildingInformation::getLaboratoryConf() const
 {
     if (laboratory == nullptr) {
@@ -192,6 +207,10 @@ void BuildingInformation::loadSpecificConf(const ModelReader& model)
             house = new House(model);
             break;
 
+        case Type::Industrial:
+            industrial = new Industrial(model);
+            break;
+
         case Type::Laboratory:
             laboratory = new Laboratory(model);
             break;
@@ -223,6 +242,7 @@ BuildingInformation::Type BuildingInformation::resolveType(const QString& type)
 {
     if (type == "farm")          return Type::Farm;
     if (type == "house")         return Type::House;
+    if (type == "industrial")    return Type::Industrial;
     if (type == "laboratory")    return Type::Laboratory;
     if (type == "mapEntryPoint") return Type::MapEntryPoint;
     if (type == "producer")      return Type::Producer;
@@ -274,6 +294,19 @@ BuildingInformation::Farm::Farm(const ModelReader& model) :
 BuildingInformation::House::House(const ModelReader& model) :
     populationPerImmigrant(model.getInt("populationPerImmigrant")),
     populationCapacity(model.getInt("populationCapacity"))
+{
+
+}
+
+
+
+BuildingInformation::Industrial::Industrial(const ModelReader& model) :
+    rawMaterialConf(model.getItemConf("rawMaterial")),
+    requiredQuantityForProduction(model.getOptionalInt("rawMaterialQuantity", 1)),
+    maxRawMaterialStock(model.getOptionalInt("maxRawMaterialStock", 4)),
+    producedItemConf(model.getItemConf("production")),
+    productionInterval(model.getInt("productionInterval") * BUILDING_CYCLES_PER_SECOND),
+    deliveryManConf(model.getOptionalCharacterConf("deliveryMan", "deliveryMan"))
 {
 
 }

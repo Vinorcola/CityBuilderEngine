@@ -1,10 +1,12 @@
 #include "BuildingSearchEngine.hpp"
 
+#include "src/engine/map/staticElement/building/AbstractStoringBuilding.hpp"
+
 
 
 BuildingSearchEngine::BuildingSearchEngine() :
     buildingsPerType(),
-    storageBuildings()
+    storingBuildings()
 {
 
 }
@@ -23,9 +25,9 @@ void BuildingSearchEngine::registerBuilding(const QSharedPointer<AbstractProcess
 
 
 
-void BuildingSearchEngine::registerStorageBuilding(const QSharedPointer<StorageBuilding>& building)
+void BuildingSearchEngine::registerStoringBuilding(const QSharedPointer<AbstractStoringBuilding>& building)
 {
-    storageBuildings.append(building);
+    storingBuildings.append(building);
 }
 
 
@@ -52,12 +54,12 @@ QSharedPointer<optional<AbstractProcessableBuilding>> BuildingSearchEngine::find
 
 
 
-QSharedPointer<optional<StorageBuilding>> BuildingSearchEngine::findClosestStorageThatCanStore(
+QSharedPointer<optional<AbstractStoringBuilding> > BuildingSearchEngine::findClosestStorageThatCanStore(
     const ItemInformation& itemConf,
     const Tile& /*origin*/
 ) const {
 
-    for (auto& buildingRef : storageBuildings) {
+    for (auto& buildingRef : storingBuildings) {
         auto building(buildingRef.toStrongRef());
         if (building && building->storableQuantity(itemConf) > 0) {
             return building;

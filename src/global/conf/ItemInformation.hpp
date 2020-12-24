@@ -17,9 +17,9 @@ class ItemInformation
 
     public:
         ItemInformation(const QString& key, const YAML::Node& model);
+        bool operator!=(const ItemInformation& other) const;
 
         const QString& getKey() const;
-
         const QString& getTitle() const;
 
         static void checkModel(const QString& key, const YAML::Node& model);

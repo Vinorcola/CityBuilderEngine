@@ -27,13 +27,14 @@ class BuildingInformation
         enum class Type {
             Farm,
             House,
+            Industrial,
             Laboratory,
             MapEntryPoint,
             Producer,
             Road,
             Sanity,
             School,
-            Storage
+            Storage,
         };
 
         struct Common {
@@ -66,6 +67,17 @@ class BuildingInformation
             int populationCapacity;
 
             explicit House(const ModelReader& model);
+        };
+
+        struct Industrial {
+            const ItemInformation& rawMaterialConf;
+            int requiredQuantityForProduction;
+            int maxRawMaterialStock;
+            const ItemInformation& producedItemConf;
+            int productionInterval;
+            const CharacterInformation& deliveryManConf;
+
+            explicit Industrial(const ModelReader& model);
         };
 
         struct Laboratory {
@@ -116,6 +128,7 @@ class BuildingInformation
         Common common;
         optional<Farm*> farm;
         optional<House*> house;
+        optional<Industrial*> industrial;
         optional<Laboratory*> laboratory;
         optional<Producer*> producer;
         optional<Sanity*> sanity;
@@ -143,6 +156,7 @@ class BuildingInformation
         // Specific information.
         const Farm& getFarmConf() const;
         const House& getHouseConf() const;
+        const Industrial& getIndustrialConf() const;
         const Laboratory& getLaboratoryConf() const;
         const Producer& getProducerConf() const;
         const Sanity& getSanityConf() const;

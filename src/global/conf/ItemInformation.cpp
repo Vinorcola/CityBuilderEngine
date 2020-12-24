@@ -14,6 +14,15 @@ ItemInformation::ItemInformation(const QString& key, const YAML::Node& model) :
 
 }
 
+
+
+bool ItemInformation::operator!=(const ItemInformation& other) const
+{
+    return this != &other;
+}
+
+
+
 const QString& ItemInformation::getKey() const
 {
     return key;

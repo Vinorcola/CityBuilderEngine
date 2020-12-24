@@ -7,6 +7,7 @@
 
 class AbstractBuilding;
 class AbstractProcessableBuilding;
+class AbstractStoringBuilding;
 class BuildingInformation;
 class BuildingSearchEngine;
 class CharacterGeneratorInterface;
@@ -39,6 +40,13 @@ class StaticElementFactory
         );
 
         QSharedPointer<AbstractProcessableBuilding> generateHouse(
+            const BuildingInformation& conf,
+            const TileArea& area,
+            Direction orientation,
+            const Tile& entryPointTile
+        );
+
+        QSharedPointer<AbstractStoringBuilding> generateIndustrial(
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
@@ -79,7 +87,7 @@ class StaticElementFactory
             const Tile& entryPointTile
         );
 
-        QSharedPointer<StorageBuilding> generateStorage(
+        QSharedPointer<AbstractStoringBuilding> generateStorage(
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,

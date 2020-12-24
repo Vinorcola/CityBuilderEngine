@@ -3,11 +3,11 @@
 
 #include <QtCore/QHash>
 
-#include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
+#include "src/engine/map/staticElement/building/AbstractStoringBuilding.hpp"
 
 class ItemInformation;
 
-class StorageBuilding : public AbstractProcessableBuilding
+class StorageBuilding : public AbstractStoringBuilding
 {
     private:
         QHash<const ItemInformation*, int> stock;
@@ -21,14 +21,15 @@ class StorageBuilding : public AbstractProcessableBuilding
         );
 
     public:
-        static QSharedPointer<StorageBuilding> Create(
+        static QSharedPointer<AbstractStoringBuilding> Create(
             const BuildingInformation& conf,
             const TileArea& area,
             Direction orientation,
             const Tile& entryPointTile
         );
 
-        int storableQuantity(const ItemInformation& itemConf, const int maxQuantity = 1) const;
+        virtual bool require(const ItemInformation& itemConf) const override;
+        virtual int storableQuantity(const ItemInformation& itemConf) const override;
 
         virtual void process(const CycleDate& date) override;
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;

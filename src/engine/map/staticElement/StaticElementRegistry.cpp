@@ -3,6 +3,7 @@
 #include <cassert>
 
 #include "src/engine/city/WorkingPlaceRegistryInterface.hpp"
+#include "src/engine/map/staticElement/building/AbstractStoringBuilding.hpp"
 #include "src/engine/map/staticElement/building/CivilianEntryPoint.hpp"
 #include "src/engine/map/staticElement/natureElement/NatureElement.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
@@ -63,39 +64,46 @@ void StaticElementRegistry::generateProcessableBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
     Direction orientation,
-    const Tile& entryPoint
+    const Tile& entryPointTile
 ) {
     QSharedPointer<AbstractProcessableBuilding> building;
     switch (conf.getType()) {
         case BuildingInformation::Type::Farm:
-            building = factory.generateFarm(conf, area, orientation, entryPoint);
+            building = factory.generateFarm(conf, area, orientation, entryPointTile);
             break;
 
         case BuildingInformation::Type::House:
-            building = factory.generateHouse(conf, area, orientation, entryPoint);
+            building = factory.generateHouse(conf, area, orientation, entryPointTile);
             break;
 
+        case BuildingInformation::Type::Industrial: {
+            auto industrialBuilding(factory.generateIndustrial(conf, area, orientation, entryPointTile));
+            building = industrialBuilding;
+            buildingSearchEngine.registerStoringBuilding(industrialBuilding);
+            break;
+        }
+
         case BuildingInformation::Type::Laboratory:
-            building = factory.generateLaboratory(conf, area, orientation, entryPoint);
+            building = factory.generateLaboratory(conf, area, orientation, entryPointTile);
             buildingSearchEngine.registerBuilding(building);
             break;
 
         case BuildingInformation::Type::Producer:
-            building = factory.generateProducer(conf, area, orientation, entryPoint);
+            building = factory.generateProducer(conf, area, orientation, entryPointTile);
             break;
 
         case BuildingInformation::Type::Sanity:
-            building = factory.generateSanity(conf, area, orientation, entryPoint);
+            building = factory.generateSanity(conf, area, orientation, entryPointTile);
             break;
 
         case BuildingInformation::Type::School:
-            building = factory.generateSchool(conf, area, orientation, entryPoint);
+            building = factory.generateSchool(conf, area, orientation, entryPointTile);
             break;
 
         case BuildingInformation::Type::Storage: {
-            auto storageBuilding(factory.generateStorage(conf, area, orientation, entryPoint));
+            auto storageBuilding(factory.generateStorage(conf, area, orientation, entryPointTile));
             building = storageBuilding;
-            buildingSearchEngine.registerStorageBuilding(storageBuilding);
+            buildingSearchEngine.registerStoringBuilding(storageBuilding);
             break;
         }
 
