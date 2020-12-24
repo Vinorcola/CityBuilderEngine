@@ -70,6 +70,7 @@ class Tile
 
             private:
                 PathFinding(const TileCoordinates& coordinates);
+                void resetDestinationCost();
                 void resetDestinationCost(const PathFinding& destination, bool allowDiagonals);
                 bool isDestination() const;
 

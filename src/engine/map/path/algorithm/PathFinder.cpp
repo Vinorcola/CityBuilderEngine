@@ -86,6 +86,7 @@ QList<const Tile*> PathFinder::getShortestRoadablePath(const Tile& origin, const
 
 QList<const Tile*> PathFinder::getShortestPathToClosestMatch(const Tile& origin, TileMatcher match)
 {
+    origin.pathFindingData().resetDestinationCost();
     RegisteredTileBag tilesToProcess(origin);
     QSet<const Tile*> processedTiles;
 
@@ -101,6 +102,7 @@ QList<const Tile*> PathFinder::getShortestPathToClosestMatch(const Tile& origin,
             if (!processedTiles.contains(neighbour) &&
                 (neighbour->isTraversable() || match(*neighbour))
             ) {
+                neighbour->pathFindingData().resetDestinationCost();
                 tilesToProcess.registerTile(*neighbour, current, 1.0);
             }
         }
@@ -109,6 +111,7 @@ QList<const Tile*> PathFinder::getShortestPathToClosestMatch(const Tile& origin,
             if (!processedTiles.contains(neighbour) &&
                 (neighbour->isTraversable() || match(*neighbour))
             ) {
+                neighbour->pathFindingData().resetDestinationCost();
                 tilesToProcess.registerTile(*neighbour, current, DIAGONAL_LENGTH);
             }
         }

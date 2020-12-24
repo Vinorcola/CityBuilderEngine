@@ -150,6 +150,13 @@ Tile::PathFinding::PathFinding(const TileCoordinates& coordinates) :
 
 
 
+void Tile::PathFinding::resetDestinationCost()
+{
+    theoreticalBestDistanceToDestination = 0.0;
+}
+
+
+
 void Tile::PathFinding::resetDestinationCost(const PathFinding& destination, bool allowDiagonals)
 {
     theoreticalBestDistanceToDestination = allowDiagonals ?
