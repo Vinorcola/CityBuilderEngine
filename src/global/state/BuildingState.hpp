@@ -29,6 +29,17 @@ struct HouseState
     int inhabitants;
 };
 
+struct IndustrialState
+{
+    IndustrialState(int rawMaterialStock, int productionPercent) :
+        rawMaterialStock(rawMaterialStock),
+        productionPercent(productionPercent)
+    {}
+
+    int rawMaterialStock;
+    int productionPercent;
+};
+
 struct ProducerState
 {
     ProducerState(int rawMaterialStock) :
@@ -66,6 +77,7 @@ struct BuildingState
         workers(workers),
         farm(nullptr),
         house(nullptr),
+        industrial(nullptr),
         producer(nullptr),
         storage(nullptr),
         stateVersion(stateVersion)
@@ -80,6 +92,7 @@ struct BuildingState
         workers(other.workers),
         farm(nullptr),
         house(nullptr),
+        industrial(nullptr),
         producer(nullptr),
         storage(nullptr),
         stateVersion(other.stateVersion)
@@ -89,6 +102,9 @@ struct BuildingState
         }
         if (other.house) {
             house = new HouseState(*other.house);
+        }
+        if (other.industrial) {
+            industrial = new IndustrialState(*other.industrial);
         }
         if (other.producer) {
             producer = new ProducerState(*other.producer);
@@ -140,6 +156,23 @@ struct BuildingState
         return state;
     }
 
+    static BuildingState CreateIndustrialState(
+        qintptr id,
+        const BuildingInformation& type,
+        const TileArea& area,
+        Direction orientation,
+        BuildingStatus status,
+        int workers,
+        int stateVersion,
+        int rawMaterialStock,
+        int productionPercent
+    ) {
+        BuildingState state(id, type, area, orientation, status, workers, stateVersion);
+        state.industrial = new IndustrialState(rawMaterialStock, productionPercent);
+
+        return state;
+    }
+
     static BuildingState CreateProducerState(
         qintptr id,
         const BuildingInformation& type,
@@ -180,6 +213,9 @@ struct BuildingState
         if (house) {
             delete house;
         }
+        if (industrial) {
+            delete industrial;
+        }
         if (producer) {
             delete producer;
         }
@@ -196,6 +232,7 @@ struct BuildingState
     int workers;
     optional<owner<FarmState*>> farm;
     optional<owner<HouseState*>> house;
+    optional<owner<IndustrialState*>> industrial;
     optional<owner<ProducerState*>> producer;
     optional<owner<StorageState*>> storage;
 

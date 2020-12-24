@@ -36,10 +36,13 @@ class IndustrialBuilding : public AbstractStoringBuilding
 
         void handleProduction();
 
+        virtual BuildingState getCurrentState() const override;
+
     protected:
         virtual BuildingStatus getCurrentStatus() const override;
 
     private:
+        const int PRODUCTION_INTERVAL;
         CharacterGeneratorInterface& characterGenerator;
         int rawMaterialStock;
         QWeakPointer<Character> deliveryMan;

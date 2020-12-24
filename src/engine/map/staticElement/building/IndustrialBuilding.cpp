@@ -5,6 +5,7 @@
 #include "src/global/conf/BuildingInformation.hpp"
 #include "src/global/conf/ItemInformation.hpp"
 #include "src/global/pointer/SmartPointerUtils.hpp"
+#include "src/global/state/BuildingState.hpp"
 
 
 
@@ -52,19 +53,14 @@ void IndustrialBuilding::process(const CycleDate& /*date*/)
         return;
     }
 
-    if (productionCountDown > 0) {
-        // On-going production.
-        productionCountDown -= getCurrentWorkerQuantity();
-        notifyViewDataChange();
+    if (rawMaterialStock >= conf.getIndustrialConf().requiredQuantityForProduction) {
+        if (productionCountDown > 0) {
+            productionCountDown -= getCurrentWorkerQuantity();
+            notifyViewDataChange();
+        }
         if (productionCountDown <= 0) {
             handleProduction();
         }
-        return;
-    }
-
-    if (rawMaterialStock >= conf.getIndustrialConf().requiredQuantityForProduction) {
-        // Production is ready, but delivery man was outside.
-        handleProduction();
     }
 }
 
@@ -106,10 +102,11 @@ IndustrialBuilding::IndustrialBuilding(
     const Tile& entryPointTile
 ) :
     AbstractStoringBuilding(conf, area, orientation, entryPointTile),
+    PRODUCTION_INTERVAL(conf.getIndustrialConf().productionInterval * conf.getMaxWorkers()),
     characterGenerator(characterGenerator),
     rawMaterialStock(0),
     deliveryMan(),
-    productionCountDown(conf.getIndustrialConf().productionInterval * conf.getMaxWorkers())
+    productionCountDown(PRODUCTION_INTERVAL)
 {
 
 }
@@ -125,9 +122,30 @@ void IndustrialBuilding::handleProduction()
             conf.getIndustrialConf().producedItemConf,
             1
         );
-        productionCountDown = conf.getIndustrialConf().productionInterval * conf.getMaxWorkers();
+        rawMaterialStock -= conf.getIndustrialConf().requiredQuantityForProduction;
+        productionCountDown = PRODUCTION_INTERVAL;
         notifyViewDataChange();
     }
+}
+
+
+
+BuildingState IndustrialBuilding::getCurrentState() const
+{
+    return BuildingState::CreateIndustrialState(
+        reinterpret_cast<qintptr>(this),
+        conf,
+        area,
+        orientation,
+        getCurrentStatus(),
+        getCurrentWorkerQuantity(),
+        stateVersion,
+        rawMaterialStock,
+        static_cast<int>(
+            100.0 *
+            static_cast<qreal>(PRODUCTION_INTERVAL - productionCountDown) / static_cast<qreal>(PRODUCTION_INTERVAL)
+        )
+    );
 }
 
 
