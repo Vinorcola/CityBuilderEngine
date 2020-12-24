@@ -94,6 +94,40 @@ bool IndustrialBuilding::processInteraction(const CycleDate& /*date*/, Character
 
 
 
+BuildingState IndustrialBuilding::getCurrentState() const
+{
+    return BuildingState::CreateIndustrialState(
+        reinterpret_cast<qintptr>(this),
+        conf,
+        area,
+        orientation,
+        getCurrentStatus(),
+        getCurrentWorkerQuantity(),
+        stateVersion,
+        rawMaterialStock,
+        static_cast<int>(
+            100.0 *
+            static_cast<qreal>(PRODUCTION_INTERVAL - productionCountDown) / static_cast<qreal>(PRODUCTION_INTERVAL)
+        )
+    );
+}
+
+
+
+BuildingStatus IndustrialBuilding::getCurrentStatus() const
+{
+    if (!isActive()) {
+        return BuildingStatus::Inactive;
+    }
+    if (rawMaterialStock > 0) {
+        return BuildingStatus::Working;
+    }
+
+    return BuildingStatus::Active;
+}
+
+
+
 IndustrialBuilding::IndustrialBuilding(
     CharacterGeneratorInterface& characterGenerator,
     const BuildingInformation& conf,
@@ -126,38 +160,4 @@ void IndustrialBuilding::handleProduction()
         productionCountDown = PRODUCTION_INTERVAL;
         notifyViewDataChange();
     }
-}
-
-
-
-BuildingState IndustrialBuilding::getCurrentState() const
-{
-    return BuildingState::CreateIndustrialState(
-        reinterpret_cast<qintptr>(this),
-        conf,
-        area,
-        orientation,
-        getCurrentStatus(),
-        getCurrentWorkerQuantity(),
-        stateVersion,
-        rawMaterialStock,
-        static_cast<int>(
-            100.0 *
-            static_cast<qreal>(PRODUCTION_INTERVAL - productionCountDown) / static_cast<qreal>(PRODUCTION_INTERVAL)
-        )
-    );
-}
-
-
-
-BuildingStatus IndustrialBuilding::getCurrentStatus() const
-{
-    if (!isActive()) {
-        return BuildingStatus::Inactive;
-    }
-    if (rawMaterialStock > 0) {
-        return BuildingStatus::Working;
-    }
-
-    return BuildingStatus::Active;
 }

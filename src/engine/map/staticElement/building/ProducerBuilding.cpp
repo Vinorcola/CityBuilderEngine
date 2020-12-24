@@ -12,27 +12,6 @@
 
 
 
-ProducerBuilding::ProducerBuilding(
-    const NatureElementSearchEngine& searchEngine,
-    CharacterGeneratorInterface& characterFactory,
-    const BuildingInformation& conf,
-    const TileArea& area,
-    Direction orientation,
-    const Tile& entryPointTile
-) :
-    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
-    searchEngine(searchEngine),
-    characterFactory(characterFactory),
-    minerGeneration(conf.getMaxWorkers(), conf.getProducerConf().miner.generationInterval),
-    miners(),
-    rawMaterialStock(0),
-    deliveryMan()
-{
-
-}
-
-
-
 QSharedPointer<AbstractProcessableBuilding> ProducerBuilding::Create(
     const NatureElementSearchEngine& searchEngine,
     CharacterGeneratorInterface& characterFactory,
@@ -58,7 +37,16 @@ void ProducerBuilding::process(const CycleDate& date)
 
     cleanInvalids(miners);
     handleMinerGeneration(date);
-    handleProduction();
+
+    if (rawMaterialStock >= conf.getProducerConf().requiredQuantityForProduction) {
+        if (productionCountDown > 0) {
+            productionCountDown -= getCurrentWorkerQuantity();
+            notifyViewDataChange();
+        }
+        if (productionCountDown <= 0) {
+            handleProduction();
+        }
+    }
 }
 
 
@@ -94,7 +82,11 @@ BuildingState ProducerBuilding::getCurrentState() const
         getCurrentStatus(),
         getCurrentWorkerQuantity(),
         stateVersion,
-        rawMaterialStock
+        rawMaterialStock,
+        static_cast<int>(
+            100.0 *
+            static_cast<qreal>(PRODUCTION_INTERVAL - productionCountDown) / static_cast<qreal>(PRODUCTION_INTERVAL)
+        )
     );
 }
 
@@ -110,6 +102,29 @@ BuildingStatus ProducerBuilding::getCurrentStatus() const
     }
 
     return BuildingStatus::Active;
+}
+
+
+
+ProducerBuilding::ProducerBuilding(
+    const NatureElementSearchEngine& searchEngine,
+    CharacterGeneratorInterface& characterFactory,
+    const BuildingInformation& conf,
+    const TileArea& area,
+    Direction orientation,
+    const Tile& entryPointTile
+) :
+    AbstractProcessableBuilding(conf, area, orientation, entryPointTile),
+    PRODUCTION_INTERVAL(conf.getProducerConf().productionInterval * conf.getMaxWorkers()),
+    searchEngine(searchEngine),
+    characterFactory(characterFactory),
+    minerGeneration(conf.getMaxWorkers(), conf.getProducerConf().miner.generationInterval),
+    miners(),
+    rawMaterialStock(0),
+    deliveryMan(),
+    productionCountDown(PRODUCTION_INTERVAL)
+{
+
 }
 
 
@@ -145,14 +160,15 @@ bool ProducerBuilding::canGenerateNewMiner() const
 
 void ProducerBuilding::handleProduction()
 {
-    if (!deliveryMan && rawMaterialStock >= conf.getProducerConf().rawMaterialQuantityToProduce) {
+    if (!deliveryMan) {
         deliveryMan = characterFactory.generateDeliveryMan(
             conf.getProducerConf().deliveryManConf,
             selfReference,
             conf.getProducerConf().producedItemConf,
             1
         );
-        rawMaterialStock -= conf.getProducerConf().rawMaterialQuantityToProduce;
+        rawMaterialStock -= conf.getProducerConf().requiredQuantityForProduction;
+        productionCountDown = PRODUCTION_INTERVAL;
         notifyViewDataChange();
     }
 }

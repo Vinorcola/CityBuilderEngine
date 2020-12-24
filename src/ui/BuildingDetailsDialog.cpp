@@ -30,6 +30,7 @@ BuildingDetailsDialog::BuildingDetailsDialog(const BuildingState& state) :
     }
     else if (state.producer) {
         stockDetails->setText("Stock: " + QString::number(state.producer->rawMaterialStock) + " " + state.type.getProducerConf().producedItemConf.getTitle());
+        productionDetails->setText("Production: " + QString::number(state.producer->productionPercent) + "%");
     }
 
     // Layout

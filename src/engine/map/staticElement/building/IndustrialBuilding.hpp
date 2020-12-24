@@ -25,6 +25,11 @@ class IndustrialBuilding : public AbstractStoringBuilding
         virtual void process(const CycleDate& date) override;
         virtual bool processInteraction(const CycleDate& date, Character& actor) override;
 
+        virtual BuildingState getCurrentState() const override;
+
+    protected:
+        virtual BuildingStatus getCurrentStatus() const override;
+
     private:
         IndustrialBuilding(
             CharacterGeneratorInterface& characterGenerator,
@@ -35,11 +40,6 @@ class IndustrialBuilding : public AbstractStoringBuilding
         );
 
         void handleProduction();
-
-        virtual BuildingState getCurrentState() const override;
-
-    protected:
-        virtual BuildingStatus getCurrentStatus() const override;
 
     private:
         const int PRODUCTION_INTERVAL;

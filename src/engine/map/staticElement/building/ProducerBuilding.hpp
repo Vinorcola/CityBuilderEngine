@@ -15,24 +15,6 @@ class NatureElementSearchEngine;
 
 class ProducerBuilding : public AbstractProcessableBuilding
 {
-    private:
-        const NatureElementSearchEngine& searchEngine;
-        CharacterGeneratorInterface& characterFactory;
-        WalkerGenerationBehavior minerGeneration;
-        QHash<Character*, QWeakPointer<Character>> miners;
-        int rawMaterialStock;
-        QWeakPointer<Character> deliveryMan;
-
-    private:
-        ProducerBuilding(
-            const NatureElementSearchEngine& searchEngine,
-            CharacterGeneratorInterface& characterFactory,
-            const BuildingInformation& conf,
-            const TileArea& area,
-            Direction orientation,
-            const Tile& entryPointTile
-        );
-
     public:
         static QSharedPointer<AbstractProcessableBuilding> Create(
             const NatureElementSearchEngine& searchEngine,
@@ -52,6 +34,15 @@ class ProducerBuilding : public AbstractProcessableBuilding
         virtual BuildingStatus getCurrentStatus() const override;
 
     private:
+        ProducerBuilding(
+            const NatureElementSearchEngine& searchEngine,
+            CharacterGeneratorInterface& characterFactory,
+            const BuildingInformation& conf,
+            const TileArea& area,
+            Direction orientation,
+            const Tile& entryPointTile
+        );
+
         void handleMinerGeneration(const CycleDate& date);
 
         /**
@@ -60,6 +51,16 @@ class ProducerBuilding : public AbstractProcessableBuilding
         bool canGenerateNewMiner() const;
 
         void handleProduction();
+
+    private:
+        const int PRODUCTION_INTERVAL;
+        const NatureElementSearchEngine& searchEngine;
+        CharacterGeneratorInterface& characterFactory;
+        WalkerGenerationBehavior minerGeneration;
+        QHash<Character*, QWeakPointer<Character>> miners;
+        int rawMaterialStock;
+        QWeakPointer<Character> deliveryMan;
+        int productionCountDown;
 };
 
 #endif // PRODUCERBUILDING_HPP

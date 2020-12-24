@@ -9,7 +9,7 @@ buildings:
         size: 2
         rawMaterial: bronze
         production: armor
-        productionInterval: 120
+        productionInterval: 60
         workers: 18
     college:
         type: school
@@ -24,6 +24,7 @@ buildings:
         size: 2
         rawMaterialItem: copper
         producedItem: bronze
+        productionInterval: 10
         minerCharacter: copperMiner
         workers: 15
     fountain:
@@ -76,6 +77,7 @@ buildings:
         size: 2
         rawMaterialItem: silver
         producedItem: wood # NOT the good value. For testing only.
+        productionInterval: 10
         minerCharacter: silverMiner
         rawMaterialQuantityToProduce: 200
         workers: 15
@@ -153,6 +155,7 @@ buildings:
         size: 2
         rawMaterialItem: wood
         producedItem: wood
+        productionInterval: 2
         minerCharacter: lumberjack
         workers: 12
     watchpost:

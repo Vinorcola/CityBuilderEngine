@@ -93,8 +93,9 @@ class BuildingInformation
             const NatureElementInformation& rawMaterialConf;
             WalkerGeneration miner;
             int miningQuantity;
-            int rawMaterialQuantityToProduce;
-            int maxStoredRawMaterialQuantity;
+            int requiredQuantityForProduction;
+            int maxRawMaterialStock;
+            int productionInterval;
             const CharacterInformation& deliveryManConf;
 
             explicit Producer(const ModelReader& model);

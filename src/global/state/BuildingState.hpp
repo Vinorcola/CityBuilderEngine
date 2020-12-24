@@ -29,24 +29,15 @@ struct HouseState
     int inhabitants;
 };
 
-struct IndustrialState
+struct ProducerState
 {
-    IndustrialState(int rawMaterialStock, int productionPercent) :
+    ProducerState(int rawMaterialStock, int productionPercent) :
         rawMaterialStock(rawMaterialStock),
         productionPercent(productionPercent)
     {}
 
     int rawMaterialStock;
     int productionPercent;
-};
-
-struct ProducerState
-{
-    ProducerState(int rawMaterialStock) :
-        rawMaterialStock(rawMaterialStock)
-    {}
-
-    int rawMaterialStock;
 };
 
 struct StorageState
@@ -104,7 +95,7 @@ struct BuildingState
             house = new HouseState(*other.house);
         }
         if (other.industrial) {
-            industrial = new IndustrialState(*other.industrial);
+            industrial = new ProducerState(*other.industrial);
         }
         if (other.producer) {
             producer = new ProducerState(*other.producer);
@@ -168,7 +159,7 @@ struct BuildingState
         int productionPercent
     ) {
         BuildingState state(id, type, area, orientation, status, workers, stateVersion);
-        state.industrial = new IndustrialState(rawMaterialStock, productionPercent);
+        state.industrial = new ProducerState(rawMaterialStock, productionPercent);
 
         return state;
     }
@@ -181,10 +172,11 @@ struct BuildingState
         BuildingStatus status,
         int workers,
         int stateVersion,
-        int rawMaterialStock
+        int rawMaterialStock,
+        int productionPercent
     ) {
         BuildingState state(id, type, area, orientation, status, workers, stateVersion);
-        state.producer = new ProducerState(rawMaterialStock);
+        state.producer = new ProducerState(rawMaterialStock, productionPercent);
 
         return state;
     }
@@ -232,7 +224,7 @@ struct BuildingState
     int workers;
     optional<owner<FarmState*>> farm;
     optional<owner<HouseState*>> house;
-    optional<owner<IndustrialState*>> industrial;
+    optional<owner<ProducerState*>> industrial; // Note, we use the producer state which contains the same needed attributes for industrial buildings.
     optional<owner<ProducerState*>> producer;
     optional<owner<StorageState*>> storage;
 
