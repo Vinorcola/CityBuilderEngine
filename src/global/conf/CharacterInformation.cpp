@@ -28,6 +28,7 @@ CharacterInformation::CharacterInformation(const QString& configDirectoryPath, c
     speed(model.getReal("speed") / CYCLES_PER_SECOND),
 #endif
     wanderingCredits(model.getOptionalInt("wanderingCredits", 0)),
+    actionInterval(model.getOptionalInt("actionInterval", 0) * CYCLES_PER_SECOND),
     graphics()
 {
     QString basePath(configDirectoryPath + "/images/dynamic/character/" + key + "/");
@@ -79,16 +80,14 @@ int CharacterInformation::getWanderingCredits() const
 
 
 
-const CharacterInformation::Graphics& CharacterInformation::getGraphicsData() const
+int CharacterInformation::getActionInterval() const
 {
-    return graphics;
+    return actionInterval;
 }
 
 
 
-void CharacterInformation::checkModel(const QString& key, const YAML::Node& model)
+const CharacterInformation::Graphics& CharacterInformation::getGraphicsData() const
 {
-    if (!model["type"]) {
-        throw BadConfigurationException("Missing \"type\" parameter in configuration for node \"" + key + "\".");
-    }
+    return graphics;
 }

@@ -5,9 +5,6 @@
 
 class MinerCharacter : public Character
 {
-    private:
-        bool goingHome;
-
     public:
         MinerCharacter(
             CharacterDisposerInterface& characterManager,
@@ -20,6 +17,10 @@ class MinerCharacter : public Character
         void goHome();
 
         virtual void process(const CycleDate& date) override;
+
+    private:
+        bool goingHome;
+        int workingCountDown;
 };
 
 #endif // MINERCHARACTER_HPP

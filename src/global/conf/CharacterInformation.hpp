@@ -30,27 +30,18 @@ class CharacterInformation
         QString title;
         qreal speed;
         int wanderingCredits;
+        int actionInterval;
         Graphics graphics;
 
     public:
         CharacterInformation(const QString& configDirectoryPath, const ModelReader& model);
 
         const QString& getKey() const;
-
         const QString& getTitle() const;
-
         qreal getSpeed() const;
-
         int getWanderingCredits() const;
-
+        int getActionInterval() const;
         const Graphics& getGraphicsData() const;
-
-        /**
-         * @brief Check if the model is valid.
-         *
-         * @throws BadConfigurationException Thrown if the model is invalid.
-         */
-        static void checkModel(const QString& key, const YAML::Node& model);
 };
 
 #endif // CHARACTERINFORMATION_HPP

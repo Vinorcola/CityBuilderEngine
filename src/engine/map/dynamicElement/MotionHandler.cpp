@@ -51,7 +51,9 @@ bool MotionHandler::isPathObsolete() const
 
 bool MotionHandler::isPathCompleted() const
 {
-    return !path.isNull() && path->isCompleted() && location == movingTo->coordinates().toDynamicElementCoordinates();
+    return !path.isNull() && path->isCompleted() && (
+        !movingTo || location == movingTo->coordinates().toDynamicElementCoordinates()
+    );
 }
 
 

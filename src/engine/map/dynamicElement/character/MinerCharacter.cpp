@@ -4,6 +4,7 @@
 #include "src/engine/map/path/PathGenerator.hpp"
 #include "src/engine/map/staticElement/building/AbstractProcessableBuilding.hpp"
 #include "src/engine/map/staticElement/natureElement/NatureElement.hpp"
+#include "src/global/conf/CharacterInformation.hpp"
 
 
 
@@ -15,7 +16,8 @@ MinerCharacter::MinerCharacter(
     QSharedPointer<PathInterface> path
 ) :
     Character(characterManager, pathGenerator, conf, issuer),
-    goingHome(false)
+    goingHome(false),
+    workingCountDown(conf.getActionInterval())
 {
     motionHandler.takePath(path);
 }
@@ -49,8 +51,11 @@ void MinerCharacter::process(const CycleDate& date)
             characterManager.clearCharacter(*this);
         }
         else {
-            // TODO: Interaction with nature element.
-            goHome();
+            --workingCountDown;
+            if (workingCountDown <= 0) {
+                workingCountDown = conf.getActionInterval();
+                goHome();
+            }
         }
     }
 }
