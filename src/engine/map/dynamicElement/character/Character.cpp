@@ -42,7 +42,14 @@ const QWeakPointer<AbstractProcessableBuilding>& Character::getIssuer() const
 
 CharacterState Character::getCurrentState() const
 {
-    return { reinterpret_cast<qintptr>(this), conf, motionHandler.getCurrentLocation(), motionHandler.getCurrentDirection(), stateVersion };
+    return {
+        reinterpret_cast<qintptr>(this),
+        conf,
+        motionHandler.getCurrentLocation(),
+        motionHandler.getCurrentDirection(),
+        getCurrentStatus(),
+        stateVersion
+    };
 }
 
 
@@ -59,4 +66,11 @@ void Character::process(const CycleDate& /*date*/)
 void Character::notifyViewDataChange()
 {
     ++stateVersion;
+}
+
+
+
+CharacterStatus Character::getCurrentStatus() const
+{
+    return CharacterStatus::Walking;
 }

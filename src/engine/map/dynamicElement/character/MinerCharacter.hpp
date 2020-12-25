@@ -21,10 +21,14 @@ class MinerCharacter : public Character
 
         virtual void process(const CycleDate& date) override;
 
+    protected:
+        virtual CharacterStatus getCurrentStatus() const override;
+
     private:
         const NatureElementSearchEngine& searchEngine;
         bool goingHome;
         int workingCountDown;
+        CharacterStatus status;
 };
 
 #endif // MINERCHARACTER_HPP

@@ -2,6 +2,7 @@
 #define CHARACTERSTATE_HPP
 
 #include "src/global/geometry/DynamicElementCoordinates.hpp"
+#include "src/global/CharacterStatus.hpp"
 #include "src/global/Direction.hpp"
 
 class CharacterInformation;
@@ -13,12 +14,14 @@ struct CharacterState
         const CharacterInformation& type,
         const DynamicElementCoordinates& position,
         Direction direction,
+        CharacterStatus status,
         int stateVersion
     ) :
         id(id),
         type(type),
         position(position),
         direction(direction),
+        status(status),
         stateVersion(stateVersion)
     {}
 
@@ -27,6 +30,7 @@ struct CharacterState
         type(other.type),
         position(other.position),
         direction(other.direction),
+        status(other.status),
         stateVersion(other.stateVersion)
     {}
 
@@ -44,6 +48,7 @@ struct CharacterState
     const CharacterInformation& type;
     DynamicElementCoordinates position;
     Direction direction;
+    CharacterStatus status;
 
     int stateVersion; ///< We use an int for the versionning of the view. Note that an overflow is not dramatic since we always compare versions using equality.
 };

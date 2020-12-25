@@ -23,7 +23,8 @@ MinerCharacter::MinerCharacter(
     Character(characterManager, pathGenerator, conf, issuer),
     searchEngine(searchEngine),
     goingHome(false),
-    workingCountDown(conf.getActionInterval())
+    workingCountDown(conf.getActionInterval()),
+    status(CharacterStatus::Walking)
 {
     motionHandler.takePath(path);
 }
@@ -79,8 +80,10 @@ void MinerCharacter::process(const CycleDate& date)
                     return;
                 }
                 naturalResource->startInteraction();
+                status = CharacterStatus::Working;
             }
             --workingCountDown;
+            notifyViewDataChange(); // The view data change is necessary to update the animation.
             // TODO: It may happen that the target has been destroyed while the miner is working. Maybe we should handle
             // that case too, reset the working count down and find another target.
             if (workingCountDown <= 0) {
@@ -94,7 +97,15 @@ void MinerCharacter::process(const CycleDate& date)
                 }
                 workingCountDown = conf.getActionInterval();
                 goHome();
+                status = CharacterStatus::WalkingLoaded;
             }
         }
     }
+}
+
+
+
+CharacterStatus MinerCharacter::getCurrentStatus() const
+{
+    return status;
 }
