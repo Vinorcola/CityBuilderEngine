@@ -29,14 +29,14 @@ QSharedPointer<AbstractProcessableBuilding> ProducerBuilding::Create(
 
 
 
-void ProducerBuilding::process(const CycleDate& date)
+void ProducerBuilding::process(const CycleDate& /*date*/)
 {
     if (!isActive()) {
         return;
     }
 
     cleanInvalids(miners);
-    handleMinerGeneration(date);
+    handleMinerGeneration();
 
     if (rawMaterialStock >= conf.getProducerConf().requiredQuantityForProduction) {
         if (productionCountDown > 0) {
@@ -129,7 +129,7 @@ ProducerBuilding::ProducerBuilding(
 
 
 
-void ProducerBuilding::handleMinerGeneration(const CycleDate& /*date*/)
+void ProducerBuilding::handleMinerGeneration()
 {
     if (!canGenerateNewMiner()) {
         return;
@@ -153,7 +153,16 @@ void ProducerBuilding::handleMinerGeneration(const CycleDate& /*date*/)
 
 bool ProducerBuilding::canGenerateNewMiner() const
 {
-    return miners.size() < conf.getProducerConf().miner.maxSimultaneous;
+    if (miners.size() >= conf.getProducerConf().miner.maxSimultaneous) {
+        return false;
+    }
+
+    auto expectedQuantity(rawMaterialStock + (miners.size() + 1) * conf.getProducerConf().miningQuantity);
+    if (expectedQuantity > conf.getProducerConf().maxRawMaterialStock) {
+        return false;
+    }
+
+    return true;
 }
 
 

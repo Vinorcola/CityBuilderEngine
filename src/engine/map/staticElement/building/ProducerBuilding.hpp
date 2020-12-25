@@ -43,7 +43,7 @@ class ProducerBuilding : public AbstractProcessableBuilding
             const Tile& entryPointTile
         );
 
-        void handleMinerGeneration(const CycleDate& date);
+        void handleMinerGeneration();
 
         /**
          * @brief Indicate if a new miner can be generated.
