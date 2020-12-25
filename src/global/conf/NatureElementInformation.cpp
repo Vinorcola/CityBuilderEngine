@@ -60,6 +60,7 @@ NatureElementInformation::Type NatureElementInformation::resolveType(const QStri
 {
     if (type == "copper") return Type::Copper;
     if (type == "grass")  return Type::Grass;
+    if (type == "quarry") return Type::Quarry;
     if (type == "silver") return Type::Silver;
     if (type == "wood")   return Type::Wood;
 

@@ -13,8 +13,9 @@ class NatureElementInformation
         enum class Type {
             Copper,
             Grass,
+            Quarry,
             Silver,
-            Wood
+            Wood,
         };
 
     private:

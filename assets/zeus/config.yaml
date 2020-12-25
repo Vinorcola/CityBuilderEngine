@@ -71,6 +71,19 @@ buildings:
         type: mapEntryPoint
         title: Map Entry Point
         size: 1
+    masonryShop:
+        type: producer
+        title: Masonry Shop
+        size: 2
+        rawMaterialItem: quarry
+        producedItem: marble
+        productionInterval: 120
+        minerCharacter: stonecutter
+        maxSimultaneousMiners: 1
+        miningQuantity: 8
+        rawMaterialQuantityToProduce: 1
+        maxStoredRawMaterialQuantity: 8
+        workers: 15
     mint:
         type: producer
         title: Mint
@@ -212,6 +225,10 @@ characters:
         title: Silver miner
         speed: 2.0
         actionInterval: 20
+    stonecutter:
+        title: Stonecutter
+        speed: 2.0
+        actionInterval: 40
     superintendent:
         title: Superintendent
         speed: 2.0
@@ -268,6 +285,9 @@ natureElements:
     grass:
         title: Grass
         traversable: true
+    quarry:
+        title: Quarry
+        traversable: true
     silver:
         title: Silver
         traversable: false
@@ -301,6 +321,9 @@ controlPanel:
           - title: Mint
             type: button
             building: mint
+          - title: Masonry Shop
+            type: button
+            building: masonryShop
           - title: Armory
             type: button
             building: armory
