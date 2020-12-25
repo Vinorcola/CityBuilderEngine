@@ -6,12 +6,24 @@
 
 
 
-TargetedPath::TargetedPath(bool restrictedToRoads, const QList<const Tile*>& path) :
+TargetedPath::TargetedPath(
+    bool restrictedToRoads,
+    const QList<const Tile*>& path,
+    QWeakPointer<AbstractStaticElement> target
+) :
     restrictedToRoads(restrictedToRoads),
     path(path),
+    _target(target),
     obsolete(false)
 {
 
+}
+
+
+
+QWeakPointer<AbstractStaticElement> TargetedPath::target() const
+{
+    return _target;
 }
 
 

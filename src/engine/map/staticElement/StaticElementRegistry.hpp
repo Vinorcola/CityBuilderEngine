@@ -34,6 +34,7 @@ class StaticElementRegistry : public AbstractProcessable
 
         // Search engines.
         const BuildingSearchEngine& getBuildingSearchEngine() const;
+        const NatureElementSearchEngine& getNatureElementSearchEngine() const;
 
         // Element registration.
         void generateBuilding(const BuildingInformation& conf, const TileArea& area, Direction orientation);

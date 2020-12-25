@@ -68,15 +68,11 @@ const Tile& RegisteredTileBag::takeClosestToDestination()
 
 
 
-QList<const Tile*> RegisteredTileBag::constructFinalPath(const Tile& finalTile, bool includeFinalTile)
+QList<const Tile*> RegisteredTileBag::constructFinalPath(const Tile& finalTile)
 {
     QList<const Tile*> path;
 
-    if (includeFinalTile) {
-        path.prepend(&finalTile);
-    }
-
-    const Tile* tile(predecessors.value(&finalTile));
+    const Tile* tile(&finalTile);
     while (tile) {
         path.prepend(tile);
         tile = predecessors.value(tile);

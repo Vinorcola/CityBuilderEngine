@@ -13,11 +13,13 @@
 DynamicElementFactory::DynamicElementFactory(
     CharacterDisposerInterface& characterDisposer,
     const PathGeneratorInterface& pathGenerator,
-    const BuildingSearchEngine& buildingSearchEngine
+    const BuildingSearchEngine& buildingSearchEngine,
+    const NatureElementSearchEngine& natureElementSearchEngine
 ) :
     characterDisposer(characterDisposer),
     pathGenerator(pathGenerator),
-    buildingSearchEngine(buildingSearchEngine)
+    buildingSearchEngine(buildingSearchEngine),
+    natureElementSearchEngine(natureElementSearchEngine)
 {
 
 }
@@ -58,7 +60,14 @@ QSharedPointer<Character> DynamicElementFactory::generateMiner(
     QSharedPointer<AbstractProcessableBuilding> issuer,
     QSharedPointer<PathInterface> path
 ) {
-    return QSharedPointer<Character>(new MinerCharacter(characterDisposer, pathGenerator, conf, issuer, path));
+    return QSharedPointer<Character>(new MinerCharacter(
+        characterDisposer,
+        pathGenerator,
+        natureElementSearchEngine,
+        conf,
+        issuer,
+        path
+    ));
 }
 
 

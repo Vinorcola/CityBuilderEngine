@@ -24,7 +24,7 @@ QList<const Tile*> PathFinder::getShortestPath(
         processedTiles.insert(&current);
 
         if (current.pathFindingData().isDestination()) {
-            return tilesToProcess.constructFinalPath(current, true);
+            return tilesToProcess.constructFinalPath(current);
         }
 
         for (auto neighbour : current.relatives().straightNeighbours) {
@@ -66,7 +66,7 @@ QList<const Tile*> PathFinder::getShortestRoadablePath(const Tile& origin, const
         processedTiles.insert(&current);
 
         if (current.pathFindingData().isDestination()) {
-            return tilesToProcess.constructFinalPath(current, true);
+            return tilesToProcess.constructFinalPath(current);
         }
 
         for (auto neighbour : current.relatives().straightNeighbours) {
@@ -95,12 +95,12 @@ QList<const Tile*> PathFinder::getShortestPathToClosestMatch(const Tile& origin,
         processedTiles.insert(&current);
 
         if (match(current)) {
-            return tilesToProcess.constructFinalPath(current, current.isTraversable());
+            return tilesToProcess.constructFinalPath(current);
         }
 
         for (auto neighbour : current.relatives().straightNeighbours) {
             if (!processedTiles.contains(neighbour) &&
-                (neighbour->isTraversable() || match(*neighbour))
+                (neighbour->isTraversable() || match(*neighbour)) // The target may not be traversable but we still want to process it.
             ) {
                 neighbour->pathFindingData().resetDestinationCost();
                 tilesToProcess.registerTile(*neighbour, current, 1.0);
@@ -109,7 +109,7 @@ QList<const Tile*> PathFinder::getShortestPathToClosestMatch(const Tile& origin,
 
         for (auto neighbour : current.relatives().diagonalNeighbours) {
             if (!processedTiles.contains(neighbour) &&
-                (neighbour->isTraversable() || match(*neighbour))
+                (neighbour->isTraversable() || match(*neighbour)) // The target may not be traversable but we still want to process it.
             ) {
                 neighbour->pathFindingData().resetDestinationCost();
                 tilesToProcess.registerTile(*neighbour, current, DIAGONAL_LENGTH);

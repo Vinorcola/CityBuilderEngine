@@ -38,6 +38,13 @@ const BuildingSearchEngine& StaticElementRegistry::getBuildingSearchEngine() con
 
 
 
+const NatureElementSearchEngine& StaticElementRegistry::getNatureElementSearchEngine() const
+{
+    return natureElementSearchEngine;
+}
+
+
+
 void StaticElementRegistry::generateBuilding(
     const BuildingInformation& conf,
     const TileArea& area,
@@ -125,7 +132,7 @@ void StaticElementRegistry::generateNatureElement(const NatureElementInformation
 {
     QSharedPointer<NatureElement> natureElement(new NatureElement(conf, area));
     natureElements.insert(natureElement.get(), natureElement);
-    natureElementSearchEngine.registerRawMaterial(conf, area);
+    natureElementSearchEngine.registerNaturalResource(natureElement);
 
     // Note: For now, we do not have processable nature elements. But trees will typically become processable in order
     // to grow after cutting.

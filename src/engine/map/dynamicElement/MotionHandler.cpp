@@ -3,6 +3,7 @@
 #include <QtCore/QtMath>
 
 #include "src/engine/map/path/PathInterface.hpp"
+#include "src/engine/map/path/TargetedPath.hpp"
 #include "src/engine/map/Tile.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
 
@@ -58,11 +59,27 @@ bool MotionHandler::isPathCompleted() const
 
 
 
+QWeakPointer<AbstractStaticElement> MotionHandler::target() const
+{
+    if (path.isNull()) {
+        return {};
+    }
+
+    auto targetedPath(path.dynamicCast<TargetedPath>());
+    if (targetedPath.isNull()) {
+        return {};
+    }
+
+    return targetedPath->target();
+}
+
+
+
 void MotionHandler::takePath(QSharedPointer<PathInterface> path)
 {
     this->path = path;
     movingTo = nullptr;
-    if (path->isNextTileValid()) {
+    if (!path.isNull() && path->isNextTileValid()) {
         movingTo = &path->getNextTile();
         if (movingTo == movingFrom) {
             // Some path may include the current location as the first step, we switch directly to the next step.

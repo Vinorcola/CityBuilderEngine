@@ -20,7 +20,8 @@ class DynamicElementRegistry : public AbstractProcessable, public CharacterDispo
     public:
         explicit DynamicElementRegistry(
             const PathGeneratorInterface& pathGenerator,
-            const BuildingSearchEngine& buildingSearchEngine
+            const BuildingSearchEngine& buildingSearchEngine,
+            const NatureElementSearchEngine& natureElementSearchEngine
         );
 
         virtual QWeakPointer<Character> generateDeliveryMan(

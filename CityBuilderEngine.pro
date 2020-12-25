@@ -137,6 +137,7 @@ HEADERS += \
     src/engine/map/staticElement/building/StorageBuilding.hpp \
     src/engine/map/staticElement/natureElement/NatureElement.hpp \
     src/engine/map/staticElement/natureElement/NatureElementSearchEngine.hpp \
+    src/engine/map/staticElement/AbstractStaticElement.hpp \
     src/engine/map/staticElement/StaticElementFactory.hpp \
     src/engine/map/staticElement/StaticElementRegistry.hpp \
     src/engine/map/Map.hpp \
