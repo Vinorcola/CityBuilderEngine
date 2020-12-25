@@ -75,12 +75,13 @@ QSharedPointer<PathInterface> PathGenerator::generateShortestPathToClosestMatch(
     }
 
     auto target(getTarget(*path.last()));
+    auto targetTile(path.last());
     if (!path.last()->isTraversable()) {
         // The target may not be traversable, we remove it from the path.
         path.removeLast();
     }
 
-    return QSharedPointer<PathInterface>(new TargetedPath(false, path, target));
+    return QSharedPointer<PathInterface>(new TargetedPath(false, path, target, targetTile));
 }
 
 
