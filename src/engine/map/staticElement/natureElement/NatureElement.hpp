@@ -3,19 +3,30 @@
 
 #include <QtCore/QObject>
 
-#include "src/global/state/NatureElementState.hpp"
+#include "src/engine/map/staticElement/AbstractStaticElement.hpp"
+#include "src/global/geometry/TileArea.hpp"
 
 class NatureElementInformation;
+struct NatureElementState;
 
-class NatureElement
+class NatureElement : public AbstractStaticElement
 {
-    private:
-        NatureElementState state;
-
     public:
         NatureElement(const NatureElementInformation& conf, const TileArea& area);
 
+        const NatureElementInformation& getConf() const;
+        const TileArea& getArea() const;
+
+        void startInteraction();
+        void endInteraction();
+        bool isBusy() const;
+
         NatureElementState getState() const;
+
+    private:
+        const NatureElementInformation& conf;
+        TileArea area;
+        bool busy;
 };
 
 #endif // NATUREELEMENT_HPP

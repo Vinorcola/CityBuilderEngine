@@ -3,6 +3,7 @@
 
 #include "src/engine/map/dynamicElement/MotionHandler.hpp"
 #include "src/engine/processing/AbstractProcessable.hpp"
+#include "src/global/CharacterStatus.hpp"
 #include "src/defines.hpp"
 
 class AbstractProcessableBuilding;
@@ -56,6 +57,8 @@ class Character : public AbstractProcessable
 
     protected:
         void notifyViewDataChange();
+
+        virtual CharacterStatus getCurrentStatus() const;
 };
 
 #endif // CHARACTER_HPP

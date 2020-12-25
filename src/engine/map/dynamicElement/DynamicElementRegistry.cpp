@@ -9,9 +9,10 @@
 
 DynamicElementRegistry::DynamicElementRegistry(
     const PathGeneratorInterface& pathGenerator,
-    const BuildingSearchEngine& buildingSearchEngine
+    const BuildingSearchEngine& buildingSearchEngine,
+    const NatureElementSearchEngine& natureElementSearchEngine
 ) :
-    factory(*this, pathGenerator, buildingSearchEngine),
+    factory(*this, pathGenerator, buildingSearchEngine, natureElementSearchEngine),
     characters(),
     waitingForRegistrationList(),
     waitingForUnregistrationList()

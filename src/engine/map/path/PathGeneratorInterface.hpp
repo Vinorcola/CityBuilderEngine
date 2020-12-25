@@ -3,11 +3,13 @@
 
 #include <functional>
 #include <QtCore/QSharedPointer>
+#include <QtCore/QWeakPointer>
 
+class AbstractStaticElement;
 class PathInterface;
 class Tile;
 
-using TileMatcher = std::function<bool(const Tile&)>;
+using TargetFetcher = std::function<QWeakPointer<AbstractStaticElement>(const Tile&)>;
 
 class PathGeneratorInterface
 {
@@ -50,11 +52,11 @@ class PathGeneratorInterface
         ) const = 0;
 
         /**
-         * @brief Generate shortest path to the closest location matching the given `match` criteria.
+         * @brief Generate shortest path to the closest location having a target by using the given target fetcher.
          */
         virtual QSharedPointer<PathInterface> generateShortestPathToClosestMatch(
             const Tile& origin,
-            TileMatcher match
+            TargetFetcher getTarget
         ) const = 0;
 };
 

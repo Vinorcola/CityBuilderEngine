@@ -6,6 +6,7 @@
 #include "src/global/geometry/DynamicElementCoordinates.hpp"
 #include "src/global/Direction.hpp"
 
+class AbstractStaticElement;
 class PathInterface;
 class Tile;
 
@@ -36,6 +37,7 @@ class MotionHandler
         Direction getCurrentDirection() const;
         bool isPathObsolete() const;
         bool isPathCompleted() const;
+        QWeakPointer<AbstractStaticElement> target() const;
 
         void takePath(QSharedPointer<PathInterface> path);
 
@@ -51,7 +53,7 @@ class MotionHandler
          * @return `true` if the location has changed.
          */
         bool moveToTarget();
-        Direction resolveDirection();
+        Direction resolveDirection() const;
 };
 
 #endif // MOTIONHANDLER_HPP

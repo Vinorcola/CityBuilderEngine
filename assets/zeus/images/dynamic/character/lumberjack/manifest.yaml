@@ -1,201 +1,604 @@
 character:
-    east:
-      - file: 1.png
-        position: { x: 21, y: -17 }
-      - file: 2.png
-        position: { x: 21, y: -17 }
-      - file: 3.png
-        position: { x: 22, y: -17 }
-      - file: 4.png
-        position: { x: 23, y: -17 }
-      - file: 5.png
-        position: { x: 24, y: -17 }
-      - file: 6.png
-        position: { x: 22, y: -16 }
-      - file: 7.png
-        position: { x: 21, y: -16 }
-      - file: 8.png
-        position: { x: 22, y: -16 }
-      - file: 9.png
-        position: { x: 23, y: -17 }
-      - file: 10.png
-        position: { x: 23, y: -17 }
-      - file: 11.png
-        position: { x: 22, y: -17 }
-      - file: 12.png
-        position: { x: 21, y: -17 }
-    right:
-      - file: 1.png
-        position: { x: 21, y: -16 }
-      - file: 2.png
-        position: { x: 21, y: -16 }
-      - file: 3.png
-        position: { x: 22, y: -16 }
-      - file: 4.png
-        position: { x: 20, y: -16 }
-      - file: 5.png
-        position: { x: 16, y: -16 }
-      - file: 6.png
-        position: { x: 14, y: -16 }
-      - file: 7.png
-        position: { x: 14, y: -16 }
-      - file: 8.png
-        position: { x: 14, y: -16 }
-      - file: 9.png
-        position: { x: 16, y: -16 }
-      - file: 10.png
-        position: { x: 20, y: -16 }
-      - file: 11.png
-        position: { x: 24, y: -16 }
-      - file: 12.png
-        position: { x: 22, y: -16 }
-    south:
-      - file: 1.png
-        position: { x: 22, y: -15 }
-      - file: 2.png
-        position: { x: 20, y: -16 }
-      - file: 3.png
-        position: { x: 18, y: -16 }
-      - file: 4.png
-        position: { x: 16, y: -16 }
-      - file: 5.png
-        position: { x: 16, y: -16 }
-      - file: 6.png
-        position: { x: 16, y: -15 }
-      - file: 7.png
-        position: { x: 16, y: -15 }
-      - file: 8.png
-        position: { x: 16, y: -15 }
-      - file: 9.png
-        position: { x: 16, y: -16 }
-      - file: 10.png
-        position: { x: 16, y: -16 }
-      - file: 11.png
-        position: { x: 18, y: -16 }
-      - file: 12.png
-        position: { x: 21, y: -16 }
-    bottom:
-      - file: 1.png
-        position: { x: 18, y: -15 }
-      - file: 2.png
-        position: { x: 19, y: -15 }
-      - file: 3.png
-        position: { x: 19, y: -15 }
-      - file: 4.png
-        position: { x: 20, y: -16 }
-      - file: 5.png
-        position: { x: 20, y: -16 }
-      - file: 6.png
-        position: { x: 20, y: -16 }
-      - file: 7.png
-        position: { x: 20, y: -15 }
-      - file: 8.png
-        position: { x: 20, y: -16 }
-      - file: 9.png
-        position: { x: 19, y: -16 }
-      - file: 10.png
-        position: { x: 20, y: -16 }
-      - file: 11.png
-        position: { x: 19, y: -15 }
-      - file: 12.png
-        position: { x: 19, y: -15 }
-    west:
-      - file: 1.png
-        position: { x: 22, y: -15 }
-      - file: 2.png
-        position: { x: 24, y: -16 }
-      - file: 3.png
-        position: { x: 26, y: -16 }
-      - file: 4.png
-        position: { x: 24, y: -16 }
-      - file: 5.png
-        position: { x: 23, y: -16 }
-      - file: 6.png
-        position: { x: 22, y: -15 }
-      - file: 7.png
-        position: { x: 22, y: -15 }
-      - file: 8.png
-        position: { x: 22, y: -15 }
-      - file: 9.png
-        position: { x: 23, y: -16 }
-      - file: 10.png
-        position: { x: 24, y: -16 }
-      - file: 11.png
-        position: { x: 26, y: -16 }
-      - file: 12.png
-        position: { x: 24, y: -16 }
-    left:
-      - file: 1.png
-        position: { x: 15, y: -16 }
-      - file: 2.png
-        position: { x: 15, y: -16 }
-      - file: 3.png
-        position: { x: 18, y: -16 }
-      - file: 4.png
-        position: { x: 22, y: -16 }
-      - file: 5.png
-        position: { x: 25, y: -16 }
-      - file: 6.png
-        position: { x: 24, y: -16 }
-      - file: 7.png
-        position: { x: 22, y: -16 }
-      - file: 8.png
-        position: { x: 23, y: -16 }
-      - file: 9.png
-        position: { x: 25, y: -16 }
-      - file: 10.png
-        position: { x: 22, y: -16 }
-      - file: 11.png
-        position: { x: 18, y: -16 }
-      - file: 12.png
-        position: { x: 15, y: -16 }
-    north:
-      - file: 1.png
-        position: { x: 17, y: -17 }
-      - file: 2.png
-        position: { x: 17, y: -17 }
-      - file: 3.png
-        position: { x: 18, y: -17 }
-      - file: 4.png
-        position: { x: 19, y: -17 }
-      - file: 5.png
-        position: { x: 20, y: -17 }
-      - file: 6.png
-        position: { x: 22, y: -16 }
-      - file: 7.png
-        position: { x: 24, y: -16 }
-      - file: 8.png
-        position: { x: 22, y: -16 }
-      - file: 9.png
-        position: { x: 20, y: -17 }
-      - file: 10.png
-        position: { x: 19, y: -17 }
-      - file: 11.png
-        position: { x: 18, y: -17 }
-      - file: 12.png
-        position: { x: 17, y: -17 }
-    top:
-      - file: 1.png
-        position: { x: 20, y: -17 }
-      - file: 2.png
-        position: { x: 21, y: -17 }
-      - file: 3.png
-        position: { x: 21, y: -17 }
-      - file: 4.png
-        position: { x: 21, y: -17 }
-      - file: 5.png
-        position: { x: 22, y: -17 }
-      - file: 6.png
-        position: { x: 22, y: -17 }
-      - file: 7.png
-        position: { x: 22, y: -17 }
-      - file: 8.png
-        position: { x: 22, y: -17 }
-      - file: 9.png
-        position: { x: 22, y: -17 }
-      - file: 10.png
-        position: { x: 21, y: -17 }
-      - file: 11.png
-        position: { x: 21, y: -17 }
-      - file: 12.png
-        position: { x: 20, y: -17 }
+    walking:
+        east:
+          - file: walking/east/1.png
+            position: { x: 21, y: -17 }
+          - file: walking/east/2.png
+            position: { x: 21, y: -17 }
+          - file: walking/east/3.png
+            position: { x: 22, y: -17 }
+          - file: walking/east/4.png
+            position: { x: 23, y: -17 }
+          - file: walking/east/5.png
+            position: { x: 24, y: -17 }
+          - file: walking/east/6.png
+            position: { x: 22, y: -16 }
+          - file: walking/east/7.png
+            position: { x: 21, y: -16 }
+          - file: walking/east/8.png
+            position: { x: 22, y: -16 }
+          - file: walking/east/9.png
+            position: { x: 23, y: -17 }
+          - file: walking/east/10.png
+            position: { x: 23, y: -17 }
+          - file: walking/east/11.png
+            position: { x: 22, y: -17 }
+          - file: walking/east/12.png
+            position: { x: 21, y: -17 }
+        right:
+          - file: walking/right/1.png
+            position: { x: 21, y: -16 }
+          - file: walking/right/2.png
+            position: { x: 21, y: -16 }
+          - file: walking/right/3.png
+            position: { x: 22, y: -16 }
+          - file: walking/right/4.png
+            position: { x: 20, y: -16 }
+          - file: walking/right/5.png
+            position: { x: 16, y: -16 }
+          - file: walking/right/6.png
+            position: { x: 14, y: -16 }
+          - file: walking/right/7.png
+            position: { x: 14, y: -16 }
+          - file: walking/right/8.png
+            position: { x: 14, y: -16 }
+          - file: walking/right/9.png
+            position: { x: 16, y: -16 }
+          - file: walking/right/10.png
+            position: { x: 20, y: -16 }
+          - file: walking/right/11.png
+            position: { x: 24, y: -16 }
+          - file: walking/right/12.png
+            position: { x: 22, y: -16 }
+        south:
+          - file: walking/south/1.png
+            position: { x: 22, y: -15 }
+          - file: walking/south/2.png
+            position: { x: 20, y: -16 }
+          - file: walking/south/3.png
+            position: { x: 18, y: -16 }
+          - file: walking/south/4.png
+            position: { x: 16, y: -16 }
+          - file: walking/south/5.png
+            position: { x: 16, y: -16 }
+          - file: walking/south/6.png
+            position: { x: 16, y: -15 }
+          - file: walking/south/7.png
+            position: { x: 16, y: -15 }
+          - file: walking/south/8.png
+            position: { x: 16, y: -15 }
+          - file: walking/south/9.png
+            position: { x: 16, y: -16 }
+          - file: walking/south/10.png
+            position: { x: 16, y: -16 }
+          - file: walking/south/11.png
+            position: { x: 18, y: -16 }
+          - file: walking/south/12.png
+            position: { x: 21, y: -16 }
+        bottom:
+          - file: walking/bottom/1.png
+            position: { x: 18, y: -15 }
+          - file: walking/bottom/2.png
+            position: { x: 19, y: -15 }
+          - file: walking/bottom/3.png
+            position: { x: 19, y: -15 }
+          - file: walking/bottom/4.png
+            position: { x: 20, y: -16 }
+          - file: walking/bottom/5.png
+            position: { x: 20, y: -16 }
+          - file: walking/bottom/6.png
+            position: { x: 20, y: -16 }
+          - file: walking/bottom/7.png
+            position: { x: 20, y: -15 }
+          - file: walking/bottom/8.png
+            position: { x: 20, y: -16 }
+          - file: walking/bottom/9.png
+            position: { x: 19, y: -16 }
+          - file: walking/bottom/10.png
+            position: { x: 20, y: -16 }
+          - file: walking/bottom/11.png
+            position: { x: 19, y: -15 }
+          - file: walking/bottom/12.png
+            position: { x: 19, y: -15 }
+        west:
+          - file: walking/west/1.png
+            position: { x: 22, y: -15 }
+          - file: walking/west/2.png
+            position: { x: 24, y: -16 }
+          - file: walking/west/3.png
+            position: { x: 26, y: -16 }
+          - file: walking/west/4.png
+            position: { x: 24, y: -16 }
+          - file: walking/west/5.png
+            position: { x: 23, y: -16 }
+          - file: walking/west/6.png
+            position: { x: 22, y: -15 }
+          - file: walking/west/7.png
+            position: { x: 22, y: -15 }
+          - file: walking/west/8.png
+            position: { x: 22, y: -15 }
+          - file: walking/west/9.png
+            position: { x: 23, y: -16 }
+          - file: walking/west/10.png
+            position: { x: 24, y: -16 }
+          - file: walking/west/11.png
+            position: { x: 26, y: -16 }
+          - file: walking/west/12.png
+            position: { x: 24, y: -16 }
+        left:
+          - file: walking/left/1.png
+            position: { x: 15, y: -16 }
+          - file: walking/left/2.png
+            position: { x: 15, y: -16 }
+          - file: walking/left/3.png
+            position: { x: 18, y: -16 }
+          - file: walking/left/4.png
+            position: { x: 22, y: -16 }
+          - file: walking/left/5.png
+            position: { x: 25, y: -16 }
+          - file: walking/left/6.png
+            position: { x: 24, y: -16 }
+          - file: walking/left/7.png
+            position: { x: 22, y: -16 }
+          - file: walking/left/8.png
+            position: { x: 23, y: -16 }
+          - file: walking/left/9.png
+            position: { x: 25, y: -16 }
+          - file: walking/left/10.png
+            position: { x: 22, y: -16 }
+          - file: walking/left/11.png
+            position: { x: 18, y: -16 }
+          - file: walking/left/12.png
+            position: { x: 15, y: -16 }
+        north:
+          - file: walking/north/1.png
+            position: { x: 17, y: -17 }
+          - file: walking/north/2.png
+            position: { x: 17, y: -17 }
+          - file: walking/north/3.png
+            position: { x: 18, y: -17 }
+          - file: walking/north/4.png
+            position: { x: 19, y: -17 }
+          - file: walking/north/5.png
+            position: { x: 20, y: -17 }
+          - file: walking/north/6.png
+            position: { x: 22, y: -16 }
+          - file: walking/north/7.png
+            position: { x: 24, y: -16 }
+          - file: walking/north/8.png
+            position: { x: 22, y: -16 }
+          - file: walking/north/9.png
+            position: { x: 20, y: -17 }
+          - file: walking/north/10.png
+            position: { x: 19, y: -17 }
+          - file: walking/north/11.png
+            position: { x: 18, y: -17 }
+          - file: walking/north/12.png
+            position: { x: 17, y: -17 }
+        top:
+          - file: walking/top/1.png
+            position: { x: 20, y: -17 }
+          - file: walking/top/2.png
+            position: { x: 21, y: -17 }
+          - file: walking/top/3.png
+            position: { x: 21, y: -17 }
+          - file: walking/top/4.png
+            position: { x: 21, y: -17 }
+          - file: walking/top/5.png
+            position: { x: 22, y: -17 }
+          - file: walking/top/6.png
+            position: { x: 22, y: -17 }
+          - file: walking/top/7.png
+            position: { x: 22, y: -17 }
+          - file: walking/top/8.png
+            position: { x: 22, y: -17 }
+          - file: walking/top/9.png
+            position: { x: 22, y: -17 }
+          - file: walking/top/10.png
+            position: { x: 21, y: -17 }
+          - file: walking/top/11.png
+            position: { x: 21, y: -17 }
+          - file: walking/top/12.png
+            position: { x: 20, y: -17 }
+    walkingLoaded:
+        east:
+          - file: walkingLoaded/east/1.png
+            position: { x: 0, y: -17 }
+          - file: walkingLoaded/east/2.png
+            position: { x: 0, y: -18 }
+          - file: walkingLoaded/east/3.png
+            position: { x: 1, y: -18 }
+          - file: walkingLoaded/east/4.png
+            position: { x: 1, y: -18 }
+          - file: walkingLoaded/east/5.png
+            position: { x: 1, y: -18 }
+          - file: walkingLoaded/east/6.png
+            position: { x: 0, y: -18 }
+          - file: walkingLoaded/east/7.png
+            position: { x: 0, y: -17 }
+          - file: walkingLoaded/east/8.png
+            position: { x: 0, y: -18 }
+          - file: walkingLoaded/east/9.png
+            position: { x: 1, y: -18 }
+          - file: walkingLoaded/east/10.png
+            position: { x: 1, y: -18 }
+          - file: walkingLoaded/east/11.png
+            position: { x: 1, y: -18 }
+          - file: walkingLoaded/east/12.png
+            position: { x: 0, y: -18 }
+        right:
+          - file: walkingLoaded/right/1.png
+            position: { x: -10, y: -14 }
+          - file: walkingLoaded/right/2.png
+            position: { x: -9, y: -14 }
+          - file: walkingLoaded/right/3.png
+            position: { x: -9, y: -15 }
+          - file: walkingLoaded/right/4.png
+            position: { x: -9, y: -15 }
+          - file: walkingLoaded/right/5.png
+            position: { x: -9, y: -15 }
+          - file: walkingLoaded/right/6.png
+            position: { x: -9, y: -14 }
+          - file: walkingLoaded/right/7.png
+            position: { x: -10, y: -14 }
+          - file: walkingLoaded/right/8.png
+            position: { x: -9, y: -14 }
+          - file: walkingLoaded/right/9.png
+            position: { x: -9, y: -15 }
+          - file: walkingLoaded/right/10.png
+            position: { x: -9, y: -15 }
+          - file: walkingLoaded/right/11.png
+            position: { x: -9, y: -15 }
+          - file: walkingLoaded/right/12.png
+            position: { x: -9, y: -14 }
+        south:
+          - file: walkingLoaded/south/1.png
+            position: { x: 1, y: -10 }
+          - file: walkingLoaded/south/2.png
+            position: { x: 1, y: -11 }
+          - file: walkingLoaded/south/3.png
+            position: { x: 1, y: -12 }
+          - file: walkingLoaded/south/4.png
+            position: { x: 1, y: -12 }
+          - file: walkingLoaded/south/5.png
+            position: { x: 1, y: -12 }
+          - file: walkingLoaded/south/6.png
+            position: { x: 1, y: -11 }
+          - file: walkingLoaded/south/7.png
+            position: { x: 1, y: -10 }
+          - file: walkingLoaded/south/8.png
+            position: { x: 1, y: -11 }
+          - file: walkingLoaded/south/9.png
+            position: { x: 1, y: -12 }
+          - file: walkingLoaded/south/10.png
+            position: { x: 1, y: -12 }
+          - file: walkingLoaded/south/11.png
+            position: { x: 1, y: -12 }
+          - file: walkingLoaded/south/12.png
+            position: { x: 1, y: -11 }
+        bottom:
+          - file: walkingLoaded/bottom/1.png
+            position: { x: 21, y: -10 }
+          - file: walkingLoaded/bottom/2.png
+            position: { x: 21, y: -10 }
+          - file: walkingLoaded/bottom/3.png
+            position: { x: 22, y: -10 }
+          - file: walkingLoaded/bottom/4.png
+            position: { x: 22, y: -11 }
+          - file: walkingLoaded/bottom/5.png
+            position: { x: 22, y: -10 }
+          - file: walkingLoaded/bottom/6.png
+            position: { x: 21, y: -10 }
+          - file: walkingLoaded/bottom/7.png
+            position: { x: 21, y: -10 }
+          - file: walkingLoaded/bottom/8.png
+            position: { x: 22, y: -10 }
+          - file: walkingLoaded/bottom/9.png
+            position: { x: 22, y: -10 }
+          - file: walkingLoaded/bottom/10.png
+            position: { x: 22, y: -11 }
+          - file: walkingLoaded/bottom/11.png
+            position: { x: 22, y: -10 }
+          - file: walkingLoaded/bottom/12.png
+            position: { x: 21, y: -10 }
+        west:
+          - file: walkingLoaded/west/1.png
+            position: { x: 20, y: -10 }
+          - file: walkingLoaded/west/2.png
+            position: { x: 20, y: -11 }
+          - file: walkingLoaded/west/3.png
+            position: { x: 20, y: -12 }
+          - file: walkingLoaded/west/4.png
+            position: { x: 20, y: -12 }
+          - file: walkingLoaded/west/5.png
+            position: { x: 20, y: -12 }
+          - file: walkingLoaded/west/6.png
+            position: { x: 20, y: -11 }
+          - file: walkingLoaded/west/7.png
+            position: { x: 20, y: -10 }
+          - file: walkingLoaded/west/8.png
+            position: { x: 20, y: -11 }
+          - file: walkingLoaded/west/9.png
+            position: { x: 20, y: -12 }
+          - file: walkingLoaded/west/10.png
+            position: { x: 20, y: -12 }
+          - file: walkingLoaded/west/11.png
+            position: { x: 20, y: -12 }
+          - file: walkingLoaded/west/12.png
+            position: { x: 20, y: -11 }
+        left:
+          - file: walkingLoaded/left/1.png
+            position: { x: 18, y: -14 }
+          - file: walkingLoaded/left/2.png
+            position: { x: 19, y: -14 }
+          - file: walkingLoaded/left/3.png
+            position: { x: 19, y: -15 }
+          - file: walkingLoaded/left/4.png
+            position: { x: 20, y: -15 }
+          - file: walkingLoaded/left/5.png
+            position: { x: 19, y: -15 }
+          - file: walkingLoaded/left/6.png
+            position: { x: 19, y: -14 }
+          - file: walkingLoaded/left/7.png
+            position: { x: 18, y: -14 }
+          - file: walkingLoaded/left/8.png
+            position: { x: 18, y: -14 }
+          - file: walkingLoaded/left/9.png
+            position: { x: 19, y: -15 }
+          - file: walkingLoaded/left/10.png
+            position: { x: 20, y: -15 }
+          - file: walkingLoaded/left/11.png
+            position: { x: 19, y: -15 }
+          - file: walkingLoaded/left/12.png
+            position: { x: 18, y: -14 }
+        north:
+          - file: walkingLoaded/north/1.png
+            position: { x: 18, y: -17 }
+          - file: walkingLoaded/north/2.png
+            position: { x: 19, y: -18 }
+          - file: walkingLoaded/north/3.png
+            position: { x: 19, y: -18 }
+          - file: walkingLoaded/north/4.png
+            position: { x: 19, y: -18 }
+          - file: walkingLoaded/north/5.png
+            position: { x: 19, y: -18 }
+          - file: walkingLoaded/north/6.png
+            position: { x: 19, y: -18 }
+          - file: walkingLoaded/north/7.png
+            position: { x: 18, y: -17 }
+          - file: walkingLoaded/north/8.png
+            position: { x: 19, y: -18 }
+          - file: walkingLoaded/north/9.png
+            position: { x: 19, y: -18 }
+          - file: walkingLoaded/north/10.png
+            position: { x: 19, y: -18 }
+          - file: walkingLoaded/north/11.png
+            position: { x: 19, y: -18 }
+          - file: walkingLoaded/north/12.png
+            position: { x: 19, y: -18 }
+        top:
+          - file: walkingLoaded/top/1.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/2.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/3.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/4.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/5.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/6.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/7.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/8.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/9.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/10.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/11.png
+            position: { x: 22, y: -19 }
+          - file: walkingLoaded/top/12.png
+            position: { x: 22, y: -19 }
+    working:
+        east:
+          - file: working/east/1.png
+            position: { x: 23, y: -13 }
+          - file: working/east/2.png
+            position: { x: 23, y: -13 }
+          - file: working/east/3.png
+            position: { x: 23, y: -13 }
+          - file: working/east/4.png
+            position: { x: 23, y: -13 }
+          - file: working/east/5.png
+            position: { x: 23, y: -14 }
+          - file: working/east/6.png
+            position: { x: 20, y: -14 }
+          - file: working/east/7.png
+            position: { x: 10, y: -15 }
+          - file: working/east/8.png
+            position: { x: 7, y: -16 }
+          - file: working/east/9.png
+            position: { x: 12, y: -15 }
+          - file: working/east/10.png
+            position: { x: 23, y: -14 }
+          - file: working/east/11.png
+            position: { x: 23, y: -13 }
+          - file: working/east/12.png
+            position: { x: 23, y: -13 }
+        right:
+          - file: working/right/1.png
+            position: { x: 22, y: -11 }
+          - file: working/right/2.png
+            position: { x: 22, y: -11 }
+          - file: working/right/3.png
+            position: { x: 22, y: -11 }
+          - file: working/right/4.png
+            position: { x: 22, y: -12 }
+          - file: working/right/5.png
+            position: { x: 16, y: -14 }
+          - file: working/right/6.png
+            position: { x: 7, y: -15 }
+          - file: working/right/7.png
+            position: { x: 6, y: -20 }
+          - file: working/right/8.png
+            position: { x: 6, y: -24 }
+          - file: working/right/9.png
+            position: { x: 3, y: -15 }
+          - file: working/right/10.png
+            position: { x: 10, y: -14 }
+          - file: working/right/11.png
+            position: { x: 22, y: -12 }
+          - file: working/right/12.png
+            position: { x: 22, y: -11 }
+        south:
+          - file: working/south/1.png
+            position: { x: 22, y: -9 }
+          - file: working/south/2.png
+            position: { x: 22, y: -10 }
+          - file: working/south/3.png
+            position: { x: 21, y: -11 }
+          - file: working/south/4.png
+            position: { x: 11, y: -13 }
+          - file: working/south/5.png
+            position: { x: 4, y: -14 }
+          - file: working/south/6.png
+            position: { x: 5, y: -22 }
+          - file: working/south/7.png
+            position: { x: 11, y: -28 }
+          - file: working/south/8.png
+            position: { x: 17, y: -30 }
+          - file: working/south/9.png
+            position: { x: 4, y: -23 }
+          - file: working/south/10.png
+            position: { x: 1, y: -15 }
+          - file: working/south/11.png
+            position: { x: 9, y: -12 }
+          - file: working/south/12.png
+            position: { x: 22, y: -10 }
+        bottom:
+          - file: working/bottom/1.png
+            position: { x: 19, y: -10 }
+          - file: working/bottom/2.png
+            position: { x: 14, y: -11 }
+          - file: working/bottom/3.png
+            position: { x: 6, y: -12 }
+          - file: working/bottom/4.png
+            position: { x: 2, y: -14 }
+          - file: working/bottom/5.png
+            position: { x: 3, y: -20 }
+          - file: working/bottom/6.png
+            position: { x: 14, y: -28 }
+          - file: working/bottom/7.png
+            position: { x: 22, y: -31 }
+          - file: working/bottom/8.png
+            position: { x: 24, y: -31 }
+          - file: working/bottom/9.png
+            position: { x: 21, y: -28 }
+          - file: working/bottom/10.png
+            position: { x: 6, y: -19 }
+          - file: working/bottom/11.png
+            position: { x: 2, y: -15 }
+          - file: working/bottom/12.png
+            position: { x: 6, y: -12 }
+        west:
+          - file: working/west/1.png
+            position: { x: 21, y: -9 }
+          - file: working/west/2.png
+            position: { x: 24, y: -10 }
+          - file: working/west/3.png
+            position: { x: 25, y: -11 }
+          - file: working/west/4.png
+            position: { x: 25, y: -13 }
+          - file: working/west/5.png
+            position: { x: 25, y: -14 }
+          - file: working/west/6.png
+            position: { x: 25, y: -22 }
+          - file: working/west/7.png
+            position: { x: 25, y: -28 }
+          - file: working/west/8.png
+            position: { x: 25, y: -30 }
+          - file: working/west/9.png
+            position: { x: 25, y: -23 }
+          - file: working/west/10.png
+            position: { x: 25, y: -15 }
+          - file: working/west/11.png
+            position: { x: 25, y: -12 }
+          - file: working/west/12.png
+            position: { x: 25, y: -10 }
+        left:
+          - file: working/left/1.png
+            position: { x: 13, y: -11 }
+          - file: working/left/2.png
+            position: { x: 12, y: -11 }
+          - file: working/left/3.png
+            position: { x: 14, y: -11 }
+          - file: working/left/4.png
+            position: { x: 23, y: -12 }
+          - file: working/left/5.png
+            position: { x: 24, y: -14 }
+          - file: working/left/6.png
+            position: { x: 24, y: -15 }
+          - file: working/left/7.png
+            position: { x: 24, y: -20 }
+          - file: working/left/8.png
+            position: { x: 24, y: -24 }
+          - file: working/left/9.png
+            position: { x: 24, y: -15 }
+          - file: working/left/10.png
+            position: { x: 24, y: -14 }
+          - file: working/left/11.png
+            position: { x: 24, y: -12 }
+          - file: working/left/12.png
+            position: { x: 15, y: -11 }
+        north:
+          - file: working/north/1.png
+            position: { x: 12, y: -13 }
+          - file: working/north/2.png
+            position: { x: 9, y: -13 }
+          - file: working/north/3.png
+            position: { x: 6, y: -13 }
+          - file: working/north/4.png
+            position: { x: 8, y: -13 }
+          - file: working/north/5.png
+            position: { x: 18, y: -14 }
+          - file: working/north/6.png
+            position: { x: 25, y: -14 }
+          - file: working/north/7.png
+            position: { x: 25, y: -15 }
+          - file: working/north/8.png
+            position: { x: 26, y: -16 }
+          - file: working/north/9.png
+            position: { x: 25, y: -15 }
+          - file: working/north/10.png
+            position: { x: 24, y: -14 }
+          - file: working/north/11.png
+            position: { x: 11, y: -13 }
+          - file: working/north/12.png
+            position: { x: 10, y: -13 }
+        top:
+          - file: working/top/1.png
+            position: { x: 24, y: -16 }
+          - file: working/top/2.png
+            position: { x: 26, y: -15 }
+          - file: working/top/3.png
+            position: { x: 26, y: -15 }
+          - file: working/top/4.png
+            position: { x: 26, y: -15 }
+          - file: working/top/5.png
+            position: { x: 26, y: -14 }
+          - file: working/top/6.png
+            position: { x: 25, y: -14 }
+          - file: working/top/7.png
+            position: { x: 23, y: -15 }
+          - file: working/top/8.png
+            position: { x: 18, y: -15 }
+          - file: working/top/9.png
+            position: { x: 24, y: -14 }
+          - file: working/top/10.png
+            position: { x: 26, y: -14 }
+          - file: working/top/11.png
+            position: { x: 26, y: -15 }
+          - file: working/top/12.png
+            position: { x: 26, y: -15 }

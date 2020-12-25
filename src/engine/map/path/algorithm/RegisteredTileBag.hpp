@@ -20,7 +20,7 @@ class RegisteredTileBag
         void registerTile(const Tile& tile, const Tile& predecessor, qreal costFromPredecessor);
         const Tile& takeClosestToDestination();
 
-        QList<const Tile*> constructFinalPath(const Tile& finalTile, bool includeFinalTile);
+        QList<const Tile*> constructFinalPath(const Tile& finalTile);
 
     private:
         std::list<const Tile*> byBestCostTiles; ///< A list of tiles ordered by they theoretical best cost to destination.

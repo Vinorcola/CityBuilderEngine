@@ -30,7 +30,7 @@ Map::Map(
     )),
     pathGenerator(),
     staticElements(dynamicElements, populationRegistry, workingPlaceRegistry, pathGenerator, *civilianEntryPoint.get()),
-    dynamicElements(pathGenerator, staticElements.getBuildingSearchEngine())
+    dynamicElements(pathGenerator, staticElements.getBuildingSearchEngine(), staticElements.getNatureElementSearchEngine())
 {
 
 }

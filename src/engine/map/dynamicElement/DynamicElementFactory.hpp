@@ -9,6 +9,7 @@ class Character;
 class CharacterDisposerInterface;
 class CharacterInformation;
 class ItemInformation;
+class NatureElementSearchEngine;
 class PathGeneratorInterface;
 class PathInterface;
 
@@ -20,7 +21,8 @@ class DynamicElementFactory
         DynamicElementFactory(
             CharacterDisposerInterface& characterDisposer,
             const PathGeneratorInterface& pathGenerator,
-            const BuildingSearchEngine& buildingSearchEngine
+            const BuildingSearchEngine& buildingSearchEngine,
+            const NatureElementSearchEngine& natureElementSearchEngine
         );
 
         QSharedPointer<Character> generateDeliveryMan(
@@ -57,6 +59,7 @@ class DynamicElementFactory
         CharacterDisposerInterface& characterDisposer;
         const PathGeneratorInterface& pathGenerator;
         const BuildingSearchEngine& buildingSearchEngine;
+        const NatureElementSearchEngine& natureElementSearchEngine;
 };
 
 #endif // DYNAMICELEMENTFACTORY_HPP

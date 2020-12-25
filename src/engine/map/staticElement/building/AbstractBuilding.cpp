@@ -5,6 +5,7 @@
 
 
 AbstractBuilding::AbstractBuilding(const BuildingInformation& conf, const TileArea& area, Direction orientation) :
+    AbstractStaticElement(),
     conf(conf),
     area(area),
     orientation(orientation),

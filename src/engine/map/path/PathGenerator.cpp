@@ -3,6 +3,7 @@
 #include "src/engine/map/path/algorithm/PathFinder.hpp"
 #include "src/engine/map/path/RandomRoadPath.hpp"
 #include "src/engine/map/path/TargetedPath.hpp"
+#include "src/engine/map/Tile.hpp"
 #include "src/global/geometry/DynamicElementCoordinates.hpp"
 
 
@@ -65,15 +66,22 @@ QSharedPointer<PathInterface> PathGenerator::generatePreferedShortestPathTo(
 
 QSharedPointer<PathInterface> PathGenerator::generateShortestPathToClosestMatch(
     const Tile& origin,
-    TileMatcher match
+    TargetFetcher getTarget
 ) const {
 
-    auto path(PathFinder::getShortestPathToClosestMatch(origin, match));
+    auto path(PathFinder::getShortestPathToClosestMatch(origin, getTarget));
     if (path.isEmpty()) {
-        return nullptr;
+        return {};
     }
 
-    return QSharedPointer<PathInterface>(new TargetedPath(false, path));
+    auto target(getTarget(*path.last()));
+    auto targetTile(path.last());
+    if (!path.last()->isTraversable()) {
+        // The target may not be traversable, we remove it from the path.
+        path.removeLast();
+    }
+
+    return QSharedPointer<PathInterface>(new TargetedPath(false, path, target, targetTile));
 }
 
 

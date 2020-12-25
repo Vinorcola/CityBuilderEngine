@@ -3,6 +3,9 @@
 #include <QtCore/QtMath>
 
 #include "src/engine/map/path/PathInterface.hpp"
+#include "src/engine/map/path/TargetedPath.hpp"
+#include "src/engine/map/staticElement/building/AbstractBuilding.hpp"
+#include "src/engine/map/staticElement/natureElement/NatureElement.hpp"
 #include "src/engine/map/Tile.hpp"
 #include "src/exceptions/UnexpectedException.hpp"
 
@@ -51,7 +54,25 @@ bool MotionHandler::isPathObsolete() const
 
 bool MotionHandler::isPathCompleted() const
 {
-    return !path.isNull() && path->isCompleted() && location == movingTo->coordinates().toDynamicElementCoordinates();
+    return !path.isNull() && path->isCompleted() && (
+        !movingTo || location == movingTo->coordinates().toDynamicElementCoordinates()
+    );
+}
+
+
+
+QWeakPointer<AbstractStaticElement> MotionHandler::target() const
+{
+    if (path.isNull()) {
+        return {};
+    }
+
+    auto targetedPath(path.dynamicCast<TargetedPath>());
+    if (targetedPath.isNull()) {
+        return {};
+    }
+
+    return targetedPath->target();
 }
 
 
@@ -60,7 +81,7 @@ void MotionHandler::takePath(QSharedPointer<PathInterface> path)
 {
     this->path = path;
     movingTo = nullptr;
-    if (path->isNextTileValid()) {
+    if (!path.isNull() && path->isNextTileValid()) {
         movingTo = &path->getNextTile();
         if (movingTo == movingFrom) {
             // Some path may include the current location as the first step, we switch directly to the next step.
@@ -129,25 +150,44 @@ bool MotionHandler::moveToTarget()
 
 
 
-Direction MotionHandler::resolveDirection()
+Direction MotionHandler::resolveDirection() const
 {
+    TileCoordinates next;
     if (!movingTo) {
-        return direction;
+        // Check if the path is completed and ends with a target. If so, take the direction of the target.
+        if (path.isNull() || !path->isCompleted()) {
+            return direction;
+        }
+
+        auto targetedPath(path.dynamicCast<TargetedPath>());
+        if (targetedPath.isNull()) {
+            return direction;
+        }
+
+        auto target(targetedPath->target().toStrongRef());
+        if (target.isNull()) {
+            return direction;
+        }
+
+        next = targetedPath->targetTile().coordinates();
+    }
+    else {
+        next = movingTo->coordinates();
     }
 
-    if (movingFrom->coordinates().x() < movingTo->coordinates().x()) {
-        if (movingFrom->coordinates().y() < movingTo->coordinates().y()) {
+    if (movingFrom->coordinates().x() < next.x()) {
+        if (movingFrom->coordinates().y() < next.y()) {
             return Direction::Right;
         }
-        else if (movingFrom->coordinates().y() == movingTo->coordinates().y()) {
+        else if (movingFrom->coordinates().y() == next.y()) {
             return Direction::East;
         }
         else {
             return Direction::Top;
         }
     }
-    else if (movingFrom->coordinates().x() == movingTo->coordinates().x()) {
-        if (movingFrom->coordinates().y() < movingTo->coordinates().y()) {
+    else if (movingFrom->coordinates().x() == next.x()) {
+        if (movingFrom->coordinates().y() < next.y()) {
             return Direction::South;
         }
         else {
@@ -155,10 +195,10 @@ Direction MotionHandler::resolveDirection()
         }
     }
     else {
-        if (movingFrom->coordinates().y() < movingTo->coordinates().y()) {
+        if (movingFrom->coordinates().y() < next.y()) {
             return Direction::Bottom;
         }
-        else if (movingFrom->coordinates().y() == movingTo->coordinates().y()) {
+        else if (movingFrom->coordinates().y() == next.y()) {
             return Direction::West;
         }
         else {
@@ -166,5 +206,5 @@ Direction MotionHandler::resolveDirection()
         }
     }
 
-    throw UnexpectedException("Could not resolve direction of a motion from " + movingFrom->coordinates().hash() + " to " + movingTo->coordinates().hash());
+    throw UnexpectedException("Could not resolve direction of a motion from " + movingFrom->coordinates().hash() + " to " + next.hash());
 }

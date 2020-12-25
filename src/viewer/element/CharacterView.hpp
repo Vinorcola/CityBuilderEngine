@@ -1,6 +1,7 @@
 #ifndef CHARACTERVIEW_HPP
 #define CHARACTERVIEW_HPP
 
+#include "src/global/CharacterStatus.hpp"
 #include "src/defines.hpp"
 
 class Character;
@@ -21,15 +22,6 @@ struct CharacterState;
  */
 class CharacterView
 {
-    private:
-        const Positioning& positioning;
-        const TileLocatorInterface& tileLocator;
-        TileView* currentTile;
-        const CharacterImage& image;
-        owner<DynamicElement*> graphicElement;
-        int currentStateVersion;
-        int animationIndex;
-
     public:
         CharacterView(
             const Positioning& positioning,
@@ -44,7 +36,16 @@ class CharacterView
 
     private:
         void move(const DynamicElementCoordinates& newLocation);
-        void advanceAnimation();
+        void advanceAnimation(CharacterStatus status);
+
+    private:
+        const Positioning& positioning;
+        const TileLocatorInterface& tileLocator;
+        TileView* currentTile;
+        const CharacterImage& image;
+        owner<DynamicElement*> graphicElement;
+        int currentStateVersion;
+        int animationIndex;
 };
 
 #endif // CHARACTERVIEW_HPP

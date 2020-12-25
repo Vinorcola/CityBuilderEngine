@@ -31,7 +31,7 @@ class PathGenerator : public PathGeneratorInterface
 
         virtual QSharedPointer<PathInterface> generateShortestPathToClosestMatch(
             const Tile& origin,
-            TileMatcher match
+            TargetFetcher getTarget
         ) const override;
 
         QList<const Tile*> generateShortestPathForRoad(

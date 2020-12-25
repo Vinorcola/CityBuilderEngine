@@ -1,6 +1,7 @@
 #ifndef ABSTRACTBUILDING_HPP
 #define ABSTRACTBUILDING_HPP
 
+#include "src/engine/map/staticElement/AbstractStaticElement.hpp"
 #include "src/global/geometry/TileArea.hpp"
 #include "src/global/Direction.hpp"
 
@@ -13,7 +14,7 @@ struct BuildingState;
  * A static element is an element that do not move. It covers an area of the map. This area will be blocked to other static
  * elements (two static elements cannot share a piece of area).
  */
-class AbstractBuilding
+class AbstractBuilding : public AbstractStaticElement
 {
     protected:
         const BuildingInformation& conf;

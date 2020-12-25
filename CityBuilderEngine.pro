@@ -71,6 +71,7 @@ SOURCES += \
     src/global/geometry/TileAreaSize.cpp \
     src/global/geometry/TileCoordinates.cpp \
     src/global/BuildingStatus.cpp \
+    src/global/CharacterStatus.cpp \
     src/global/Direction.cpp \
     src/ui/controlPanel/BuildingButton.cpp \
     src/ui/controlPanel/ControlPanel.cpp \
@@ -137,6 +138,7 @@ HEADERS += \
     src/engine/map/staticElement/building/StorageBuilding.hpp \
     src/engine/map/staticElement/natureElement/NatureElement.hpp \
     src/engine/map/staticElement/natureElement/NatureElementSearchEngine.hpp \
+    src/engine/map/staticElement/AbstractStaticElement.hpp \
     src/engine/map/staticElement/StaticElementFactory.hpp \
     src/engine/map/staticElement/StaticElementRegistry.hpp \
     src/engine/map/Map.hpp \
@@ -173,6 +175,7 @@ HEADERS += \
     src/global/state/NatureElementState.hpp \
     src/global/state/State.hpp \
     src/global/BuildingStatus.hpp \
+    src/global/CharacterStatus.hpp \
     src/global/Direction.hpp \
     src/global/yamlLibraryEnhancement.hpp \
     src/ui/controlPanel/BuildingButton.hpp \

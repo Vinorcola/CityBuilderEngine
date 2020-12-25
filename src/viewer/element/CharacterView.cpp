@@ -22,7 +22,7 @@ CharacterView::CharacterView(
     image(imageLibrary.getCharacterImage(state.type)),
     graphicElement(new DynamicElement(
         positioning,
-        image.getAnimationImage(0, state.direction),
+        image.getAnimationImage(state.status, 0, state.direction),
         state.position
     )),
     currentStateVersion(state.stateVersion),
@@ -44,8 +44,8 @@ void CharacterView::update(const CharacterState& state)
 {
     if (state.stateVersion != currentStateVersion) {
         move(state.position);
-        advanceAnimation();
-        graphicElement->setImage(image.getAnimationImage(animationIndex, state.direction));
+        advanceAnimation(state.status);
+        graphicElement->setImage(image.getAnimationImage(state.status, animationIndex, state.direction));
 
         currentStateVersion = state.stateVersion;
     }
@@ -77,7 +77,7 @@ void CharacterView::move(const DynamicElementCoordinates& newLocation)
 
 
 
-void CharacterView::advanceAnimation()
+void CharacterView::advanceAnimation(CharacterStatus status)
 {
-    animationIndex = (animationIndex + 1) % image.getAnimationSequenceLength();
+    animationIndex = (animationIndex + 1) % image.getAnimationSequenceLength(status);
 }

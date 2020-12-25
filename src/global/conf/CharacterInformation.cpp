@@ -12,8 +12,10 @@
 
 CharacterInformation::Graphics::~Graphics()
 {
-    for (auto animationImages : walkingAnimation) {
-        qDeleteAll(animationImages);
+    for (auto animation : animations) {
+        for (auto orientedAnimation : animation) {
+            qDeleteAll(orientedAnimation);
+        }
     }
 }
 
@@ -28,24 +30,46 @@ CharacterInformation::CharacterInformation(const QString& configDirectoryPath, c
     speed(model.getReal("speed") / CYCLES_PER_SECOND),
 #endif
     wanderingCredits(model.getOptionalInt("wanderingCredits", 0)),
+    actionInterval(model.getOptionalInt("actionInterval", 0) * CYCLES_PER_SECOND),
     graphics()
 {
     QString basePath(configDirectoryPath + "/images/dynamic/character/" + key + "/");
     QString manifestPath(basePath + "manifest.yaml");
     YAML::Node manifestRoot(YAML::LoadFile(manifestPath.toStdString()));
 
-    for (auto node : manifestRoot["character"]) {
-        QString key(node.first.as<QString>());
-        QString animationPath(basePath + key + "/");
-        auto direction(resolveDirection(key));
-        QList<const ImageSequenceInformation*> images;
-        for (auto imageNode : node.second) {
-            images.append(new ImageSequenceInformation(
-                animationPath + imageNode["file"].as<QString>(),
-                imageNode["position"].as<QPoint>()
-            ));
+    if (manifestRoot["character"]["east"]) {
+        // Config node as direction property, so there is only the walking animation.
+        OrientedAnimation animation;
+        for (auto node : manifestRoot["character"]) {
+            auto direction(resolveDirection(node.first.as<QString>()));
+            QList<const ImageSequenceInformation*> images;
+            for (auto imageNode : node.second) {
+                images.append(new ImageSequenceInformation(
+                    basePath + imageNode["file"].as<QString>(),
+                    imageNode["position"].as<QPoint>()
+                ));
+            }
+            animation.insert(direction, images);
         }
-        graphics.walkingAnimation.insert(direction, images);
+        graphics.animations.insert(CharacterStatus::Walking, animation);
+    }
+    else {
+        for (auto statusNode : manifestRoot["character"]) {
+            auto status(resolveCharacterStatus(statusNode.first.as<QString>()));
+            OrientedAnimation animation;
+            for (auto node : statusNode.second) {
+                auto direction(resolveDirection(node.first.as<QString>()));
+                QList<const ImageSequenceInformation*> images;
+                for (auto imageNode : node.second) {
+                    images.append(new ImageSequenceInformation(
+                        basePath + imageNode["file"].as<QString>(),
+                        imageNode["position"].as<QPoint>()
+                    ));
+                }
+                animation.insert(direction, images);
+            }
+            graphics.animations.insert(status, animation);
+        }
     }
 }
 
@@ -79,16 +103,14 @@ int CharacterInformation::getWanderingCredits() const
 
 
 
-const CharacterInformation::Graphics& CharacterInformation::getGraphicsData() const
+int CharacterInformation::getActionInterval() const
 {
-    return graphics;
+    return actionInterval;
 }
 
 
 
-void CharacterInformation::checkModel(const QString& key, const YAML::Node& model)
+const CharacterInformation::Graphics& CharacterInformation::getGraphicsData() const
 {
-    if (!model["type"]) {
-        throw BadConfigurationException("Missing \"type\" parameter in configuration for node \"" + key + "\".");
-    }
+    return graphics;
 }

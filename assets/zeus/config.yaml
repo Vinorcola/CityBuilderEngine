@@ -189,6 +189,7 @@ characters:
     copperMiner:
         title: Copper miner
         speed: 2.0
+        actionInterval: 20
     deliveryMan:
         title: Delivery man
         speed: 2.0
@@ -202,6 +203,7 @@ characters:
     lumberjack:
         title: Lumberjack
         speed: 2.0
+        actionInterval: 12
     philosopher:
         title: Philosopher
         speed: 2.0
@@ -209,6 +211,7 @@ characters:
     silverMiner:
         title: Silver miner
         speed: 2.0
+        actionInterval: 20
     superintendent:
         title: Superintendent
         speed: 2.0
