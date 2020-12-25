@@ -5,6 +5,7 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
+#include "src/global/CharacterStatus.hpp"
 #include "src/global/Direction.hpp"
 #include "src/defines.hpp"
 
@@ -14,26 +15,19 @@ namespace YAML {
     class Node;
 }
 
+using OrientedAnimation = QHash<Direction, QList<owner<const ImageSequenceInformation*>>>;
+
 class CharacterInformation
 {
         Q_DISABLE_COPY_MOVE(CharacterInformation)
 
     public:
         struct Graphics {
-            QHash<Direction, QList<owner<const ImageSequenceInformation*>>> walkingAnimation;
+            QHash<CharacterStatus, OrientedAnimation> animations;
 
             ~Graphics();
         };
 
-    private:
-        QString key;
-        QString title;
-        qreal speed;
-        int wanderingCredits;
-        int actionInterval;
-        Graphics graphics;
-
-    public:
         CharacterInformation(const QString& configDirectoryPath, const ModelReader& model);
 
         const QString& getKey() const;
@@ -42,6 +36,14 @@ class CharacterInformation
         int getWanderingCredits() const;
         int getActionInterval() const;
         const Graphics& getGraphicsData() const;
+
+    private:
+        QString key;
+        QString title;
+        qreal speed;
+        int wanderingCredits;
+        int actionInterval;
+        Graphics graphics;
 };
 
 #endif // CHARACTERINFORMATION_HPP
