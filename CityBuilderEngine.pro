@@ -204,12 +204,6 @@ HEADERS += \
     src/viewer/TileView.hpp \
     src/defines.hpp
 
-DISTFILES += \
-    assets/conf.yaml \
-    assets/save/testing-a.yaml \
-    assets/save/testing-b.yaml \
-    README.md
-
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += yaml-cpp
 

@@ -6,6 +6,10 @@ City Builder Engine is writen in C++ (C++14) and uses the Qt framework (5.15).
 
 **/!\ WARNING:** The project is far from being playable for now. It is under development. You are welcome to participate.
 
+## Snapshot
+
+[[https://github.com/Vinorcola/CityBuilderEngine/blob/master/assets/doc/snapshot.gif|alt=Game snapshot video]]
+
 ## Architecture
 
 For the moment, City Builder Engine development is focussed on the map engine and viewer. No real care are being made for the UI interface yet. This mater will come later, when the map engine will be elaborated enough.
