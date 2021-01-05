@@ -8,7 +8,7 @@ City Builder Engine is writen in C++ (C++14) and uses the Qt framework (5.15).
 
 ## Snapshot
 
-[[https://github.com/Vinorcola/CityBuilderEngine/blob/master/assets/doc/snapshot.gif|alt=Game snapshot video]]
+![Game snpashot video](assets/doc/snapshot.gif)
 
 ## Architecture
 
