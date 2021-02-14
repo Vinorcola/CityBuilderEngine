@@ -55,15 +55,12 @@ MapScene::MapScene(
     auto& grassImage(imageLibrary.getNatureElementImage(grassConf));
 
     // Create the tiles and their graphics item.
-    int line(0);
-    int column(0);
-    while (line < mapState.size.height()) {
-        // NOTE: Because we divide by 2 and casting as integer, we deliberately remove floating precision. However, the
-        // adjustment needs to be 1 higher when "mapSize.width() - line" become negative. This is because -0.5 is cast
-        // to 0 insted of -1.
-        int adjust(line > mapState.size.width() ? 1 : 2);
-        while (column < (mapState.size.width() - line + adjust) / 2) {
-            TileCoordinates coordinates(column, line + column);
+    for (int x = 0; x < mapState.size.height(); x++)
+    {
+        for (int y = 0; y < mapState.size.width(); y++)
+        {
+            TileCoordinates coordinates(x,y);
+
             auto tile(new TileView(
                 positioning,
                 coordinates,
@@ -72,12 +69,9 @@ MapScene::MapScene(
 
             addItem(tile);
             tiles.insert(coordinates.hash(), tile);
-
-            ++column;
         }
-        ++line;
-        column = -line / 2;
     }
+
 
     // Load existing elements.
     for (auto buildingState : initialState.buildings) {
